@@ -1,0 +1,49 @@
+html {
+  body {
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/30
+     * @lastTime    2021/7/30
+     * @description ant-modal标题
+     */
+    
+    .ant-modal-title {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 22px;
+      color: rgba(38, 38, 38, 1);
+      
+      &::before {
+        display: inline-block;
+        width: 3px;
+        height: 16px;
+        margin-right: 8px;
+        content: "";
+        background-color: #309cfe;
+      }
+    }
+    
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/5/25
+     * @lastTime    2021/5/25
+     * @description ant-modal底部按钮
+     */
+    
+    .modal-footer {
+      text-align: center;
+      
+      .ant-btn {
+        padding: 0 30px;
+        margin-right: 50px;
+        border-radius: 4px;
+        
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}

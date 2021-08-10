@@ -1,0 +1,363 @@
+html {
+  body {
+    .ant-layout {
+      background: @white;
+    }
+    
+    .ant-drawer.drawer-sider {
+      .sider {
+        box-shadow: none;
+      }
+      
+      &.dark {
+        .ant-drawer-content {
+          background-color: rgb(0, 21, 41);
+        }
+      }
+      
+      &.light {
+        box-shadow: none;
+        
+        .ant-drawer-content {
+          background-color: #fff;
+        }
+      }
+      
+      .ant-drawer-body {
+        padding: 0;
+      }
+    }
+    
+    .ant-layout-header {
+      .wd-pro-header-loading {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.5);
+        
+        .ant-spin-spinning {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
+  
+    .@{wd-prefix-pro} {
+      &-basic-layout {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        min-height: 100vh;
+      }
+    
+      &-fixed-header {
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 9;
+        width: 100%;
+        transition: width 0.2s;
+      
+        &.ant-header-side-opened {
+          width: 100%;
+        }
+      
+        &.ant-header-side-closed {
+          width: 100%;
+        }
+      }
+    
+      &-global-header {
+        position: relative;
+        box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+        transition: background 0.3s, width 0.2s;
+      
+        &-main {
+          display: flex;
+          align-items: center;
+          height: 100%;
+          padding: 0 16px;
+        }
+      
+        &-main-left {
+          display: flex;
+          min-width: 192px;
+        }
+      
+        &-logo {
+          position: relative;
+          min-width: 165px;
+          height: 100%;
+          overflow: hidden;
+        
+          img,
+          svg {
+            display: inline-block;
+            height: 32px;
+            vertical-align: middle;
+          }
+        
+          h1 {
+            display: inline-block;
+            margin: 0 0 0 12px;
+            font-size: 16px;
+            font-weight: 400;
+            color: #fff;
+            vertical-align: top;
+          }
+        }
+      
+        &-collapsed-button {
+          display: flex;
+          align-items: center;
+          margin-left: 16px;
+          font-size: 20px;
+        }
+      
+        &-right {
+          display: flex;
+          float: right;
+          height: 48px;
+          margin-left: auto;
+          overflow: hidden;
+        }
+      
+        &-menu {
+          flex: 1 1 0%;
+        }
+      
+        &-account-avatar {
+          margin: 12px 8px 12px 0;
+          color: #1890ff;
+          vertical-align: top;
+          background: hsla(0, 0%, 100%, .85);
+        }
+      
+        &-account-name {
+          vertical-align: unset;
+        }
+      
+        &.dark {
+          background: #001529;
+        
+          .wd-pro-global-header-account-name {
+            color: @white;
+          }
+        
+          .user-wrapper {
+            .wd-pro-components-global-header-index-action {
+              color: rgba(255, 255, 255, 0.85);
+            
+              a {
+                color: rgba(255, 255, 255, 0.85);
+              }
+            
+              &:hover {
+                background: rgba(255, 255, 255, 0.16);
+              }
+            }
+          }
+        }
+      
+        &.light {
+          background-color: #fff;
+        
+          .wd-pro-global-header-logo {
+            h1 {
+              color: #002140;
+            }
+          }
+        
+          .wd-pro-global-header-account-name {
+            color: inherit;
+          }
+        }
+      }
+    
+      &-sider {
+        position: relative;
+        z-index: 10;
+        box-shadow: 2px 0 8px 0 rgb(29 35 41 / 5%);
+      
+        &-logo {
+          position: relative;
+          display: flex;
+          align-items: center;
+          padding: 16px;
+          line-height: 32px;
+          cursor: pointer;
+        
+          &.light {
+            h1 {
+              color: #002140;
+            }
+          }
+        
+          a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 32px;
+          }
+        
+          h1, img {
+            display: inline-block;
+            height: 32px;
+            vertical-align: middle;
+          }
+        
+          img {
+            transition: height .2s;
+          }
+        
+          h1 {
+            margin: 0 0 0 12px;
+            overflow: hidden;
+            font-size: 18px;
+            line-height: 32px;
+            color: #fff;
+            animation: fade-in;
+            animation-duration: .2s;
+          }
+        }
+      
+        &-menu {
+          &::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+          }
+        
+          &::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, .12);
+            border-radius: 3px;
+            -webkit-box-shadow: inset 0 0 5px rgb(0 21 41 / 5%);
+          }
+        
+          &::-webkit-scrollbar-track {
+            background: hsla(0, 0%, 100%, .15);
+            border-radius: 3px;
+            -webkit-box-shadow: inset 0 0 5px rgb(37 37 37 / 5%);
+          }
+        }
+      
+        &-links {
+          position: relative;
+          width: 100%;
+          height: 40px;
+          padding: 0 16px;
+          margin-top: 4px;
+          margin-bottom: 4px;
+          overflow: hidden;
+          font-size: 14px;
+          line-height: 40px;
+          color: hsla(0, 0%, 100%, .65);
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          cursor: pointer;
+          background: #001529;
+          border-top: 1px solid rgba(0, 0, 0, .25);
+          transition: color .3s cubic-bezier(.645, .045, .355, 1), border-color .3s cubic-bezier(.645, .045, .355, 1), background .3s cubic-bezier(.645, .045, .355, 1), padding .15s cubic-bezier(.645, .045, .355, 1);
+        }
+      
+        &-fixed {
+          position: fixed;
+          top: 0;
+          left: 0;
+          height: 100%;
+          padding-top: 49px;
+        }
+      
+        &.ant-layout-sider-collapsed .wd-pro-sider-logo {
+          padding: 16px 8px;
+        }
+      
+        &.light {
+          background-color: @white;
+          box-shadow: 2px 0px 8px 0px rgba(29, 35, 41, 0.05);
+        
+          .ant-menu-sub.ant-menu-inline {
+            background: @white;
+          }
+        
+          .wd-pro-sider-links {
+            color: rgba(0, 0, 0, .85);
+            background: #ffffff;
+            border-top: 1px solid #f0f0f0;
+          }
+        
+          .wd-pro-sider-logo {
+            background: @white;
+          }
+        
+          .ant-menu-light {
+            border-right-color: transparent;
+          }
+        }
+      
+        .ant-menu-inline-collapsed .ant-menu-submenu-title {
+          width: 48px;
+          padding: 0 16px !important;
+        }
+      
+        .ant-layout-sider-children {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+        
+          .wd-pro-sider-loading {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.5);
+          
+            .ant-spin-spinning {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+            }
+          }
+        
+          .ant-menu-inline-collapsed {
+            width: 48px;
+          }
+        }
+      
+        .ant-menu-item .customicon, .ant-menu-submenu-title .customicon {
+          transition: none;
+        }
+      }
+    
+      &-dropdown-action {
+        display: inline-block;
+        height: 48px;
+        line-height: 48px;
+        vertical-align: top;
+        cursor: pointer;
+      
+        &.wd-pro-dropdown {
+          padding: 0 12px;
+        }
+      }
+    
+      &-dropdown {
+        display: flex;
+        align-items: center;
+      
+        & > span {
+          font-size: 16px !important;
+          transform: none !important;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,963 @@
+import {
+  defineComponent,
+  reactive,
+  onBeforeUnmount,
+  ref,
+  watch,
+  onMounted,
+  computed,
+  getCurrentInstance
+} from 'vue'
+import { cloneDeep } from 'lodash-es'
+import { Table as T } from 'ant-design-vue'
+import {
+  LoadingOutlined,
+  ReloadOutlined,
+  FullscreenOutlined,
+  FullscreenExitOutlined,
+  InfoCircleOutlined
+} from '@ant-design/icons-vue'
+import Nodata from '/@/assets/public_image/nodata.png'
+import { getRandomNumber, getSortIndex, hanndleField, isArray, isObject } from '/@/utils/util'
+import { stateTypes } from './types'
+import DraggableResizable from '../DraggableResizable'
+import TableSearch from './components/TableSearch'
+import ActionColumns from './components/ActionColumns'
+import ActionSize from './components/ActionSize'
+import styles from './style.module.less'
+
+const proTableSlots = [ 'search', 'headerTitle', 'toolBarBtn', 'titleTip' ]
+
+const defaultEmpty = () => (
+  <div style="text-align: center">
+    <img style={{ width: '125px' }} src={Nodata} alt="" />
+    <p style={{ color: '#666666', fontSize: '15px' }}>暂时没有数据哦~</p>
+  </div>
+)
+const defaultPageConfig = {
+  showQuickJumper: true,
+  showSizeChanger: true,
+  size: 'normal',
+  pageSizeOptions: [ '10', '20', '50', '100' ],
+  showTotal: (total) => `共${total < 10 ? 1 : Math.ceil(total / 10)}页 ${total}条记录`
+}
+const defaultOptions = {
+  reload: true,
+  density: true,
+  setting: true,
+  fullScreen: true
+}
+const WProTable = defineComponent({
+  components: {
+    DraggableResizable
+  },
+  props: Object.assign({}, T.props, {
+    request: {
+      type: Function,
+      required: false
+    },
+    params: {
+      type: Object,
+      required: false
+    },
+    search: {
+      type: Object,
+      required: false
+    },
+    actionRef: {
+      type: Function,
+      required: false
+    },
+    toolBarBtn: {
+      type: Object,
+      required: false,
+      default: () => {
+        return []
+      }
+    },
+    tableClassName: {
+      type: String,
+      required: false
+    },
+    tableStyle: {
+      type: Object,
+      required: false,
+      default: () => {
+        return {}
+      }
+    },
+    options: {
+      type: Object || Boolean,
+      required: false
+    },
+    showIndex: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    headerTitle: {
+      type: Function || String,
+      required: false
+    },
+    titleTip: {
+      type: Function || String,
+      required: false
+    },
+    titleTipText: {
+      type: String,
+      required: false,
+      default: '这是一个标题提示'
+    },
+    showPagination: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    size: {
+      type: String,
+      required: false,
+      default: 'middle'
+    },
+    align: {
+      type: String,
+      required: false,
+      default: 'left'
+    },
+    bordered: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    draggabled: {
+      type: Boolean,
+      required: false
+    },
+    automaticScroll: {
+      type: Boolean,
+      required: false
+    },
+    neverScroll: {
+      type: Boolean,
+      required: false
+    }
+  }),
+  setup(props: any, { emit, slots }) {
+    const { proxy }: any = getCurrentInstance()
+    const tableClassName = 'wd-pro-table'
+    const draggingMap: any = {}
+    const defaultConfig: any = {
+      pagination: defaultPageConfig,
+      transformCellText: ({ text, column }) => {
+        const { value, success } = hanndleField(text, column.customize)
+        return column.ellipsis ?
+          tooltipSlot(value, success, column)
+          :
+          value
+      }
+    }
+    let originColums: any = cloneDeep(props.columns).map(item => {
+      return {
+        ...item,
+        align: item.align || props.align,
+        uuid: getRandomNumber().uuid(15)
+      }
+    })
+    const state: stateTypes = reactive({
+      table: null,
+      searchData: [],
+      originProps: cloneDeep(props),
+      pagination: {
+        current: 1,
+        pageSize: 10,
+        total: 0,
+        ...defaultPageConfig
+      },
+      tableParameters: {},
+      dataSource: [],
+      tableId: getRandomNumber().uuid(15),
+      tableKey: getRandomNumber().uuid(15),
+      fullScreen: false,
+      columns: cloneDeep(originColums).filter(item => item.checked || item.checked === undefined),
+      actionColums: cloneDeep(originColums),
+      scrollFixed: false,
+      tableLoading: false,
+      size: props.size || 'middle',
+      options: defaultOptions,
+      tableSlots: {},
+      draggingState: draggingMap
+    })
+    const innerWidth = ref(window.innerWidth)
+    state.columns.forEach(col => {
+      draggingMap[col.dataIndex || col.key] = col.width
+    })
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/14
+     * @lastTime    2021/7/14
+     * @description ant-table重新渲染表头
+     */
+    const resizeableTitle = (titleprops, { ...restProps }) => {
+      let thDom: any = null
+      const { children } = restProps[0]
+      const { key } = titleprops
+      const col = state.columns.find(col => {
+        const k = col.dataIndex || col.key
+        return k === key
+      })
+      if (!col || !col.width || col.dataIndex === 'action' || !props.draggabled) {
+        if (col && col.dataIndex === 'action' && !props.neverScroll) {
+          if (props.automaticScroll) {
+            if (props.scroll?.x) {
+              col.width = col.width || 100
+              col.fixed = 'right'
+            } else {
+              const originCol = originColums.find(col => {
+                const k = col.dataIndex || col.key
+                return k === key
+              })
+              col.width = originCol.width || ''
+              col.fixed = originCol.fixed || ''
+            }
+          } else {
+            if (props.scroll?.x && col && col.dataIndex === 'action') {
+              col.width = col.width || 100
+              col.fixed = 'right'
+            } else if (innerWidth.value < 1540 && col && col.dataIndex === 'action') {
+              col.width = col.width || 100
+              col.fixed = 'right'
+            } else {
+              const originCol = originColums.find(col => {
+                const k = col.dataIndex || col.key
+                return k === key
+              })
+              col.width = originCol.width || ''
+              col.fixed = originCol.fixed || ''
+            }
+          }
+        } else {
+          if (innerWidth.value < 992 && col && !col.width && !col.ellipsis) {
+            col.ellipsis = true
+          }
+        }
+        return <th {...titleprops}>{children}</th>
+      }
+      const onDrag = x => {
+        state.draggingState[key] = 0
+        col.width = Math.max(x, 30)
+      }
+      const onDragstop = () => {
+        state.draggingState[key] = thDom.getBoundingClientRect().width
+      }
+      return (
+        <th {...titleprops} ref={r => { thDom = r }} width={col.width} class="resize-table-th">
+          {children}
+          <DraggableResizable
+            key={col.key}
+            class="table-draggable-handle"
+            w={10}
+            x={state.draggingState[key] || col.width}
+            z={1}
+            axis="x"
+            draggable={true}
+            resizable={false}
+            onDragging={onDrag}
+            onDragstop={onDragstop}
+          />
+        </th>
+      )
+    }
+    const components = {
+      header: {
+        cell: resizeableTitle
+      }
+    }
+    onMounted(() => {
+      document.addEventListener('fullscreenchange', fullScreenListener)
+      document.addEventListener('webkitfullscreenchange', fullScreenListener)
+      document.addEventListener('mozfullscreenchange', fullScreenListener)
+      document.addEventListener('msfullscreenchange', fullScreenListener)
+      window.addEventListener('resize', getWidth)
+      if (props.request && props.search.showSearch) tableLoadData()
+      if (props.actionRef) getProTable()
+    })
+    onBeforeUnmount(() => {
+      document.removeEventListener('fullscreenchange', fullScreenListener)
+      document.removeEventListener('webkitfullscreenchange', fullScreenListener)
+      document.removeEventListener('mozfullscreenchange', fullScreenListener)
+      document.removeEventListener('msfullscreenchange', fullScreenListener)
+      window.removeEventListener('resize', getWidth)
+    })
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/15
+     * @lastTime    2021/7/15
+     * @description 初始化是否展示序号
+     */
+    const handleShowIndex = (params) => {
+      if (params.showIndex && originColums.every(item => item.dataIndex !== 'sortIndex')) {
+        const firstColumsItem = originColums[0]
+        originColums.unshift({
+          title: '序号',
+          fixed: firstColumsItem.fixed,
+          width: 60,
+          dataIndex: 'sortIndex'
+        })
+      } else if (!params.showIndex && originColums.some(item => item.dataIndex === 'sortIndex')) {
+        originColums = originColums.filter(item => item.dataIndex !== 'sortIndex')
+      }
+      originColums = originColums.map(item => {
+        return {
+          ...item,
+          align: item.align || props.align,
+          uuid: getRandomNumber().uuid(15)
+        }
+      })
+      state.columns = cloneDeep(originColums)
+        .filter(item => item.checked || item.checked === undefined)
+      state.actionColums = cloneDeep(originColums)
+    }
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/15
+     * @lastTime    2021/7/15
+     * @description 初始化toolbar工具
+     */
+    const handleOptions = (params) => {
+      let options = params.options
+      if (options === false) {
+        state.options = {}
+      } else {
+        if (!isObject(options)) options = {}
+        state.options = {
+          ...defaultOptions,
+          ...options
+        }
+      }
+    }
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/21
+     * @lastTime    2021/7/21
+     * @description 表格搜索serch type: columns 初始化data值
+     */
+    const handleSearchData = (params) => {
+      let searchData = params.data || []
+      if (params.search && params.search.type === 'columns') {
+        searchData = []
+        params.columns.map(item => {
+          if (item.searchConfig) searchData.push(item.searchConfig)
+          return item
+        })
+      }
+      state.searchData = cloneDeep(searchData)
+    }
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/16
+     * @lastTime    2021/7/16
+     * @description 获取pro-table内部方法
+     */
+    const getProTable = () => {
+      props.actionRef({
+        reload: () => tableLoadData(),
+        reloadAndRest: () => tableLoadData({ current: 1, pageSize: state.pagination.pageSize })
+      })
+    }
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/15
+     * @lastTime    2021/7/15
+     * @description 表格request
+     */
+    const tableLoadData = async (info: any = {}) => {
+      const { pagination, filters, sorter, params = {} } = info
+      const defaultParams = {}
+      if (props.search) {
+        switch (props.search.type) {
+          case 'dataSouce':
+            props.search.data.map(item => {
+              let defaultValue = item.defaultValue
+              const valueUndefined = [ 'select' ]
+              const valueNull = [ 'date', 'time', 'dateRange' ]
+              if (!defaultValue && valueUndefined.includes(item.valueType)) {
+                defaultValue = undefined
+              } else if (!defaultValue && valueNull.includes(item.valueType)) {
+                defaultValue = null
+              } else if (!defaultValue) {
+                defaultValue = ''
+              }
+              if (item.name === 'dateRange') {
+                defaultParams[item.rangeStartName || 'start'] = defaultValue ? [ 0 ] : null
+                defaultParams[item.rangeEndName || 'end'] = defaultValue ? [ 1 ] : null
+              } else {
+                defaultParams[item.name] = defaultValue
+              }
+              return item
+            })
+            break
+        }
+      }
+      state.tableLoading = true
+      emit('loadingChange', state.tableLoading)
+      const parameter = {
+        pageNum: (pagination && pagination.current) ||
+          props.showPagination && state.pagination.current,
+        pageSize: (pagination && pagination.pageSize) ||
+          props.showPagination && state.pagination.pageSize,
+        ...props.params,
+        ...defaultParams,
+        ...params
+      }
+      const result = await props.request(parameter, sorter, filters)
+      if (result) {
+        state.tableKey = getRandomNumber().uuid(15)
+        state.dataSource = getSortIndex(result.data, pagination)
+        state.pagination.current = parameter.pageNum
+        state.pagination.pageSize = parameter.pageSize
+        state.pagination.total = result.total
+      } else {
+        proxy.$message.error(result.msg)
+      }
+      state.tableLoading = false
+      emit('loadingChange', state.tableLoading)
+    }
+    watch(innerWidth, (value) => {
+      innerWidth.value = value
+    })
+    watch(() => props.params, (val) => {
+      if (props.request && !props.search.showSearch) tableLoadData({ params: val })
+    }, {
+      deep: true,
+      immediate: true
+    })
+    watch(() => props, (newProps) => {
+      handleShowIndex(newProps)
+      handleOptions(newProps)
+      handleSearchData(newProps)
+      const tableSlots = {}
+      const propsPagination = { ...newProps.pagination }
+      Object.keys(slots).map(item => {
+        if (!proTableSlots.includes(item)) {
+          tableSlots[item] = slots[item]
+        }
+        return item
+      })
+      delete propsPagination.current
+      delete propsPagination.pageSize
+      state.tableSlots = tableSlots
+      state.pagination = {
+        ...state.pagination,
+        ...propsPagination
+      }
+    }, {
+      deep: true,
+      immediate: true
+    })
+    const toolBarStyle = computed(() => {
+      const style: any = props.search ? { paddingTop: '0' } : {}
+      if (innerWidth.value < 992) style.flexWrap = 'wrap'
+      return style
+    })
+    const toolBarItemStyle = computed(() => {
+      if (innerWidth.value < 992) return {
+        width: '100%'
+      }
+      return undefined
+    })
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/14
+     * @lastTime    2021/7/14
+     * @description 表格属性自适应
+     */
+    const changeProps = computed(() => {
+      const publicConfig = cloneDeep(defaultConfig)
+      publicConfig.pagination = {
+        ...publicConfig.pagination,
+        ...defaultPageConfig,
+        ...props.pagination
+      }
+      const dataSource = getSortIndex(props.dataSource, props.pagination)
+      let scroll = props.scroll ?
+        props.scroll
+        :
+        innerWidth.value < 1540 ?
+          { x: props.columns.length * 140 }
+          :
+          null
+      if (props.automaticScroll) {
+        if (!props.scroll?.y) {
+          scroll = innerWidth.value < 1540 ?
+            { y: 235 }
+            :
+            { y: 400 }
+        }
+      }
+      if (props.neverScroll && innerWidth.value > 992) {
+        scroll = null
+      }
+      const tableProps = {
+        ...props,
+        ...publicConfig,
+        dataSource
+      }
+      if (scroll) tableProps.scroll = scroll
+      delete tableProps.onChange
+      delete tableProps.onExpand
+      delete tableProps.onExpandedRowsChange
+      return tableProps
+    })
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/14
+     * @lastTime    2021/7/14
+     * @description 监听屏幕宽度
+     */
+    const getWidth = () => {
+      innerWidth.value = window.innerWidth
+    }
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/14
+     * @lastTime    2021/7/14
+     * @description 监听是否全屏
+     */
+    const fullScreenListener = (e) => {
+      if (e.target.id === state.tableId) {
+        state.fullScreen = !state.fullScreen
+      }
+    }
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/14
+     * @lastTime    2021/7/14
+     * @description change表格size
+     */
+    const changeTableSize = (key) => {
+      state.size = key
+      emit('sizeChange', key)
+    }
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/14
+     * @lastTime    2021/7/14
+     * @description 表格列设置-是否展示
+     */
+    const onColumnsChange = (info) => {
+      const columns: any = []
+      if (isArray(info)) {
+        originColums.map(item => {
+          info.map(el => {
+            if (el.uuid === item.uuid) {
+              const record = cloneDeep(item)
+              switch (el.fixType) {
+                case 'fixedLeft':
+                  record.fixed = 'left'
+                  break
+                case 'fixedRight':
+                  record.fixed = 'right'
+                  break
+                default:
+                  record.fixed = undefined
+                  break
+              }
+              columns.push(record)
+            }
+            return el
+          })
+          return item
+        })
+        state.columns = cloneDeep(columns)
+        state.actionColums = state.actionColums.map(item => {
+          item.checked = info.map(el => el.uuid).includes(item.uuid)
+          return item
+        })
+        emit('columnsStateChange', cloneDeep(state.actionColums))
+      }
+    }
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/14
+     * @lastTime    2021/7/14
+     * @description 表格列设置-拖拽
+     */
+    const onColumnsDrop = (info) => {
+      const columns: any = []
+      info.map(item => {
+        const columsItem = originColums.find(el => el.uuid === item.uuid)
+        if (columsItem) {
+          switch (item.fixType) {
+            case 'fixedLeft':
+              columsItem.fixed = 'left'
+              break
+            case 'fixedRight':
+              columsItem.fixed = 'right'
+              break
+            default:
+              columsItem.fixed = undefined
+              break
+          }
+          columns.push(columsItem)
+        }
+        return item
+      })
+      state.columns = cloneDeep(columns)
+      state.actionColums = cloneDeep(columns)
+      emit('columnsStateChange', cloneDeep(state.actionColums))
+    }
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/14
+     * @lastTime    2021/7/14
+     * @description 表格列设置-是否固定
+     */
+    const onChangeFixedColums = (info) => {
+      const columns: any = []
+      originColums.map(item => {
+        info.map(el => {
+          if (el.uuid === item.uuid) {
+            const record = cloneDeep(item)
+            switch (el.fixType) {
+              case 'fixedLeft':
+                record.fixed = 'left'
+                break
+              case 'fixedRight':
+                record.fixed = 'right'
+                break
+              default:
+                record.fixed = undefined
+                break
+            }
+            columns.push(record)
+          }
+        })
+        return item
+      })
+      state.columns = cloneDeep(columns)
+      state.actionColums = state.actionColums.map(item => {
+        info.map(el => {
+          if (el.uuid === item.uuid) item.fixType = el.fixType
+        })
+        return item
+      })
+      emit('columnsStateChange', cloneDeep(state.actionColums))
+    }
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/14
+     * @lastTime    2021/7/14
+     * @description 表格列设置-重置
+     */
+    const onResetColums = () => {
+      state.columns = cloneDeep(originColums)
+        .filter(item => item.checked || item.checked === undefined)
+      state.actionColums = cloneDeep(originColums)
+      emit('reset')
+    }
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/14
+     * @lastTime    2021/7/14
+     * @description 切换全屏
+     */
+    const toggleScreen = () => {
+      if (state.fullScreen) {
+        const el: any = document
+        if (el.exitFullscreen) {
+          el.exitFullscreen()
+        } else if (el.webkitCancelFullScreen) {
+          el.webkitCancelFullScreen()
+        } else if (el.mozCancelFullScreen) {
+          el.mozCancelFullScreen()
+        } else if (el.msExitFullscreen) {
+          el.msExitFullscreen()
+        }
+        if (state.table) state.table.classList.remove('wd-pro-full-screen')
+      } else {
+        const el: any = state.table
+        el.classList.add('wd-pro-full-screen')
+        if (el.requestFullscreen) {
+          el.requestFullscreen()
+          return true
+        } else if (el.webkitRequestFullScreen) {
+          el.webkitRequestFullScreen()
+          return true
+        } else if (el.mozRequestFullScreen) {
+          el.mozRequestFullScreen()
+          return true
+        } else if (el.msRequestFullscreen) {
+          el.msRequestFullscreen()
+          return true
+        }
+        proxy.$message.warn('对不起，您的浏览器不支持全屏模式')
+        el.classList.remove('wd-pro-full-screen')
+        return false
+      }
+    }
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/21
+     * @lastTime    2021/7/21
+     * @description 判断是否展示头部
+     */
+    const handleShowProTool = () => {
+      return Object.keys(state.options).length > 0 ||
+        slots.headerTitle ||
+        props.headerTitle ||
+        props.titleTip ||
+        (props.toolBarBtn && props.toolBarBtn.length > 0)
+    }
+    const changeTableParams = (params, reset) => {
+      if (props.request) {
+        if (props.search.type === 'slots') {
+          if (reset) {
+            emit('searchReset')
+            if (props.search.showSearch) {
+              tableLoadData({ params: props.params })
+            }
+          }
+        } else {
+          tableLoadData({ params })
+        }
+      } else {
+        emit('search', params)
+      }
+    }
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/14
+     * @lastTime    2021/7/14
+     * @description ant-table原始方法
+     */
+    const changePage = (pagination, filters, sorter) => {
+      if (props.request) {
+        tableLoadData({ pagination, filters, sorter })
+      } else {
+        emit('change', pagination, filters, sorter)
+      }
+    }
+    const expandedRowsChange = (expandedRows) => {
+      emit('expandedRowsChange', expandedRows)
+    }
+    const expand = (expanded, record) => {
+      emit('expand', expanded, record)
+    }
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/14
+     * @lastTime    2021/7/14
+     * @description 表格刷新
+     */
+    const refresh = () => {
+      if (props.request) {
+        tableLoadData()
+      } else {
+        emit('refresh')
+      }
+    }
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/14
+     * @lastTime    2021/7/14
+     * @description 表格字段溢出提示
+     */
+    const tooltipSlot = (value, success, record) => {
+      let show = value
+      if (success && record.copyable) {
+        show =
+          <a-typography-paragraph style={{ margin: '0', width: '100%', padding: '0' }} copyable>
+            <a-tooltip title={value} placement="topLeft">
+              <div class={styles[`${tableClassName}-ellipsis`]}>
+                {value}
+              </div>
+            </a-tooltip>
+          </a-typography-paragraph>
+      } else if (success && !record.copyable) {
+        show = <a-tooltip title={value} placement="topLeft">
+          {value}
+        </a-tooltip>
+      }
+      return show
+    }
+    const toolBarLeft = () => (
+      <div
+        class={styles[`${tableClassName}-list-toolbar-left`]}
+        style={{ ...toolBarItemStyle.value, flexWrap: 'wrap' }}
+      >
+        <div
+          class={styles[`${tableClassName}-list-toolbar-title`]}
+          style={innerWidth.value < 992 ? { width: '100%' } : undefined}
+        >
+          {
+            props.headerTitle ? props.headerTitle() : slots.headerTitle ? slots.headerTitle() : null
+          }
+          {
+            props.titleTip || props.titleTip === '' ?
+              <span class={styles[`${tableClassName}-list-toolbar-tip-icon`]}>
+                <a-tooltip title={props.titleTipText}>
+                  {
+                    props.titleTip ?
+                      props.titleTip()
+                      :
+                      slots.titleTip ?
+                        slots.titleTip()
+                        : <InfoCircleOutlined />
+                  }
+                </a-tooltip>
+              </span>
+              :
+              null
+          }
+        </div>
+        {
+          props.toolBarBtn && props.toolBarBtn.length > 0 ?
+            <div
+              class={styles[`${tableClassName}-list-toolbar-btns`]}
+              style={innerWidth.value < 992 ? { width: '100%', marginTop: '16px', marginLeft: 0 } : undefined}
+            >
+              <a-space>
+                {
+                  props.toolBarBtn.map(item => item())
+                }
+              </a-space>
+            </div>
+            :
+            slots.toolBarBtn ?
+              <div
+                class={styles[`${tableClassName}-list-toolbar-btns`]}
+                style={innerWidth.value < 992 ? { width: '100%', marginTop: '16px', marginLeft: 0 } : undefined}
+              >
+                <a-space>
+                  {
+                    slots.toolBarBtn()
+                  }
+                </a-space>
+              </div>
+              :
+              null
+        }
+      </div>
+    )
+    const toolBarRight = () => (
+      <div
+        class={styles[`${tableClassName}-list-toolbar-right`]}
+        style={{ ...toolBarItemStyle.value, marginTop: '16px' }}
+      >
+        {
+          state.options.reload ?
+            <a-tooltip title="刷新">
+              {
+                typeof state.options.reload === 'function' ?
+                  state.options.reload()
+                  :
+                  changeProps.value.loading ?
+                    <LoadingOutlined class={styles[`${tableClassName}-list-toolbar-setting-items`]} />
+                    :
+                    <ReloadOutlined class={styles[`${tableClassName}-list-toolbar-setting-items`]}
+                      onClick={refresh} />
+              }
+            </a-tooltip>
+            :
+            null
+        }
+        {
+          state.options.density ?
+            <ActionSize
+              size={state.size}
+              class={styles[`${tableClassName}-list-toolbar-setting-items`]}
+              onInput={changeTableSize}
+            />
+            :
+            null
+        }
+        {
+          state.options.setting ?
+            <a-tooltip title="列配置">
+              <ActionColumns
+                columns={state.actionColums}
+                scroll={changeProps.value.scroll || false}
+                class={styles[`${tableClassName}-list-toolbar-setting-items`]}
+                onChange={onColumnsChange}
+                onDrop={onColumnsDrop}
+                onReset={onResetColums}
+                onChangeFixed={onChangeFixedColums}
+                v-slots={state.tableSlots}
+              />
+            </a-tooltip>
+            :
+            null
+        }
+        {
+          state.options.fullScreen ?
+            typeof state.options.fullScreen === 'function' ?
+              state.options.fullScreen()
+              :
+              <a-tooltip title="全屏">
+                {
+                  state.fullScreen ?
+                    <FullscreenExitOutlined class={styles[`${tableClassName}-list-toolbar-setting-items`]}
+                      onClick={toggleScreen} />
+                    :
+                    <FullscreenOutlined class={styles[`${tableClassName}-list-toolbar-setting-items`]}
+                      onClick={toggleScreen} />
+                }
+              </a-tooltip>
+            :
+            null
+        }
+      </div>
+    )
+    return () => (
+      <div
+        id={state.tableId}
+        ref={e => state.table = e}
+        style={props.tableStyle || null}
+        class={changeProps.value.scroll ? [ styles[tableClassName], props.tableClassName ] : [
+          styles[tableClassName],
+          styles[`${tableClassName}-no-scroll`],
+          props.tableClassName
+        ]}
+      >
+        {
+          props.search ?
+            <TableSearch
+              {...props.search}
+              data={props.search.type === 'dataSouce' || props.search.type === 'columns' ? state.searchData : slots.search ? slots.search() : null}
+              onTableSearch={changeTableParams}
+            />
+            :
+            null
+        }
+        {
+          handleShowProTool() ?
+            <div
+              style={toolBarStyle.value}
+              class={styles[`${tableClassName}-list-toolbar`]}
+            >
+              {toolBarLeft()}
+              {Object.keys(state.options).length > 0 ? toolBarRight() : null}
+            </div>
+            :
+            null
+        }
+        <a-config-provider renderEmpty={defaultEmpty}>
+          <a-table
+            key={state.tableKey}
+            {...changeProps.value}
+            size={state.size}
+            dataSource={props.request ? state.dataSource : changeProps.value.dataSource}
+            loading={props.request ? state.tableLoading : changeProps.value.loading}
+            pagination={props.showPagination ? props.request ? state.pagination : changeProps.value.pagination : false}
+            columns={state.columns}
+            components={components}
+            onChange={changePage}
+            onExpandedRowsChange={expandedRowsChange}
+            onExpand={expand}
+            v-slots={state.tableSlots}
+          />
+        </a-config-provider>
+      </div>
+    )
+  }
+})
+export default WProTable

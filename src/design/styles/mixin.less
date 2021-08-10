@@ -1,0 +1,44 @@
+/*一些less函数*/
+
+.reset() {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  border: 0;
+  outline: 0;
+}
+
+.clearfix() {
+  *zoom: 1;
+  &::before,
+  &::after {
+    display: table;
+    content: "";
+  }
+  &::after {
+    height: 0;
+    clear: both;
+    font-size: 0;
+    visibility: hidden;
+  }
+}
+
+.centerContent() {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 999;
+  transform: translate(-50%, -50%);
+}
+
+.relative() {
+  position: relative;
+}
+
+.overHidden() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

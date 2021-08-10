@@ -1,0 +1,10 @@
+import { getThemeVariables } from 'ant-design-vue/dist/theme'
+import { resolve } from 'path'
+
+export function generateModifyVars(dark = false) {
+  const modifyVars = getThemeVariables({ dark })
+  return {
+    ...modifyVars,
+    hack: `${modifyVars.hack} @import (reference) "${resolve('src/design/styles/config.less')}";`
+  }
+}

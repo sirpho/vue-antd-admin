@@ -1,0 +1,51 @@
+{
+  "id": "2718382",
+  "name": "pro-admin",
+  "font_family": "iconfont",
+  "css_prefix_text": "wd-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "12683594",
+      "name": "数据",
+      "font_class": "icon_huabanfuben",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "755620",
+      "name": "组件",
+      "font_class": "zujian",
+      "unicode": "e657",
+      "unicode_decimal": 58967
+    },
+    {
+      "icon_id": "7474673",
+      "name": "个人资料",
+      "font_class": "gerenziliao",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "20240556",
+      "name": "菜单管理",
+      "font_class": "caidanguanli",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "20853360",
+      "name": "系统配置",
+      "font_class": "xitongpeizhi",
+      "unicode": "e6a9",
+      "unicode_decimal": 59049
+    },
+    {
+      "icon_id": "20889194",
+      "name": "通用功能",
+      "font_class": "tongyonggongneng",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    }
+  ]
+}

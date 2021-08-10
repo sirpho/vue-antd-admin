@@ -1,0 +1,7 @@
+export { default as WProTable } from '/@/components/WProTable'
+export { default as WResult } from '/@/components/WResult'
+export { default as WBackTop } from '/@/components/WBackTop'
+export { default as WInputSearch } from '/@/components/WInputSearch'
+export { default as WModal } from '/@/components/WModal'
+export { default as WPageLoading } from '/@/components/WPageLoading'
+export { default as WPageWrapper } from '/@/components/WPageWrapper'

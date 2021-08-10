@@ -1,0 +1,52 @@
+@import "./normalize";
+@import "./mixin";
+@import "./color";
+@import "./ant/index";
+
+html,
+body,
+#app {
+  height: 100%;
+  .reset();
+}
+
+html {
+  body {
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/5/20
+     * @lastTime    2021/5/20
+     * @description 清楚浮动
+     */
+    
+    .clearfix {
+      .clearfix();
+    }
+  }
+}
+
+@media (max-width: @screen-xs) {
+  .ant-table {
+    width: 100%;
+    overflow-x: auto;
+    
+    &-thead > tr,
+    &-tbody > tr {
+      > th,
+      > td {
+        white-space: pre;
+        
+        > span {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+// 兼容IE11
+@media screen and(-ms-high-contrast: active), (-ms-high-contrast: none) {
+  body .ant-design-pro > .ant-layout {
+    min-height: 100vh;
+  }
+}
