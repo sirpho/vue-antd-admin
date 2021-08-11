@@ -15,7 +15,7 @@ export function configPwaConfig(env: ViteEnv) {
     // vite-plugin-pwa
     const pwaPlugin = VitePWA({
       manifest: {
-        name: title || 'wd-pro-admin',
+        name: title || 'Wd Pro Admin',
         short_name: shortName || 'wd_pro_admin',
         icons: [
           {

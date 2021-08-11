@@ -3,14 +3,15 @@
  * @description 登录、获取用户信息、退出登录、清除accessToken逻辑，不建议修改
  */
 import { MutationTree, ActionTree } from 'vuex'
+import { message, notification } from 'ant-design-vue'
+import config from '/config/config'
 import { getUserInfo, login, logout } from '/@/services/user'
 import {
   getAccessToken,
   removeAccessToken,
   setAccessToken
 } from '/@/utils/accessToken'
-import config from '/config/config'
-import { message, notification } from 'ant-design-vue'
+import { timeFix } from '/@/utils/util'
 
 interface UserState {
   accessToken: string;
@@ -18,15 +19,17 @@ interface UserState {
   avatar: string;
 }
 
-const { title, tokenName } = config.defaultSettings
+const { tokenName } = config.defaultSettings
 
 const state = (): UserState => ({
   accessToken: getAccessToken(),
+  userInfo: {},
   username: '',
   avatar: ''
 })
 const getters = {
   accessToken: (state): string => state.accessToken,
+  userInfo: (state): string => state.userInfo,
   username: (state): string => state.username,
   avatar: (state): string => state.avatar
 }
@@ -40,6 +43,15 @@ const mutations: MutationTree<any> = {
   setAccessToken(state: UserState, accessToken: string) {
     state.accessToken = accessToken
     setAccessToken(accessToken)
+  },
+  /**
+   * @author gx12358 2539306317@qq.com
+   * @description 设置userInfo
+   * @param {*} state
+   * @param {*} userInfo
+   */
+  setUserInfo(state: UserState, userInfo: any) {
+    state.userInfo = userInfo
   },
   /**
    * @author gx12358 2539306317@qq.com
@@ -82,21 +94,6 @@ const actions: ActionTree<UserState, any> = {
     const accessToken = data[tokenName]
     if (accessToken) {
       commit('setAccessToken', accessToken)
-      const hour = new Date().getHours()
-      const thisTime =
-        hour < 8
-          ? '早上好'
-          : hour <= 11
-          ? '上午好'
-          : hour <= 13
-            ? '中午好'
-            : hour < 18
-              ? '下午好'
-              : '晚上好'
-      notification.success({
-        message: `欢迎登录${title}`,
-        description: `${thisTime}！`
-      })
     } else {
       message.error(`登录接口异常，未正确返回${tokenName}...`)
     }
@@ -113,13 +110,18 @@ const actions: ActionTree<UserState, any> = {
       message.error(`验证失败，请重新登录...`)
       return false
     }
-    const { username, avatar, roles, ability } = data
+    const { username, avatar, roles, ability, nickName } = data
     if (username && roles && Array.isArray(roles)) {
       dispatch('acl/setRole', roles, { root: true })
       if (ability && ability.length > 0)
         dispatch('acl/setAbility', ability, { root: true })
       commit('setUsername', username)
       commit('setAvatar', avatar)
+      commit('setUserInfo', data)
+      notification.success({
+        message: `欢迎登录${nickName}`,
+        description: `${timeFix()}！`
+      })
     } else {
       message.error('用户信息接口异常')
     }

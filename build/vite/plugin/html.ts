@@ -26,7 +26,7 @@ export function configHtmlPlugin(_: ViteEnv, isBuild: boolean) {
     inject: {
       // Inject data into ejs template
       injectData: {
-        VUE_APP_TITLE: title || 'wd-pro-admin',
+        VUE_APP_TITLE: title || 'Wd Pro Admin',
         injectScript: useCdn ? cdnConf.js : [],
         injectLink: useCdn ? cdnConf.css : [],
       },

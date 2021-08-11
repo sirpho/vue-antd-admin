@@ -1,17 +1,15 @@
 <template>
-  <div class="wd-pro-main-content">
-    <page-transition
-      :disabled="animate.disabled"
-      :animate="animate.name"
-      :direction="animate.direction"
-    >
-      <router-view v-if="isRouterAlive">
-        <template #default="{ Component }">
-          <component :is="Component" />
-        </template>
-      </router-view>
-    </page-transition>
-  </div>
+  <RouterView>
+    <template #default="{ Component }">
+      <page-transition
+        :disabled="animate.disabled"
+        :animate="animate.name"
+        :direction="animate.direction"
+      >
+        <component v-if="isRouterAlive" :is="Component" />
+      </page-transition>
+    </template>
+  </RouterView>
 </template>
 
 <script lang="ts">
@@ -45,22 +43,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="less">
-.wd-pro-main-content {
-  position: relative;
-  min-height: calc(
-    100vh - 65px - 20px - 20px - 20px -
-    20px
-  ) !important;
-  padding: 20px;
-  background: #fff;
-  
-  .error-container {
-    height: calc(
-      100vh - 65px - 20px - 20px - 20px -
-      20px - 20px - 20px
-    ) !important;
-  }
-}
-</style>

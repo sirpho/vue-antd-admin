@@ -4,11 +4,11 @@ import config from '/config/config'
 
 const { tokenName } = config.defaultSettings
 
-export function resultSuccess<T = Recordable>(result: T, { message = 'ok' } = {}) {
+export function resultSuccess<T = Recordable>(result: T, { msg = 'ok' } = {}) {
   return {
     code: 0,
     result,
-    message,
+    msg,
     type: 'success'
   }
 }
@@ -17,7 +17,7 @@ export function resultPageSuccess<T = any>(
   page: number,
   pageSize: number,
   list: T[],
-  { message = 'ok' } = {}
+  { msg = 'ok' } = {}
 ) {
   const pageData = pagination(page, pageSize, list)
 
@@ -26,15 +26,15 @@ export function resultPageSuccess<T = any>(
       items: pageData,
       total: list.length
     }),
-    message
+    msg
   }
 }
 
-export function resultError(message = 'Request failed', { code = -1, result = null } = {}) {
+export function resultError(msg = 'Request failed', { code = -1, result = null } = {}) {
   return {
     code,
     result,
-    message,
+    msg,
     type: 'error'
   }
 }
@@ -61,4 +61,39 @@ export interface requestParams {
  */
 export function getRequestToken({ headers }: requestParams): string | undefined {
   return headers?.[tokenName.toLowerCase()]
+}
+
+const responseBody = {
+  msg: '',
+  data: null,
+  code: 0
+}
+
+export const builder = (data, msg?, code?) => {
+  code = code || 0
+  msg = msg || 'success'
+  responseBody.data = data
+  if (msg !== undefined && msg !== null) {
+    responseBody.msg = msg
+  }
+  if (code !== undefined && code !== 0) {
+    responseBody.code = code
+  }
+  return {
+    code,
+    msg,
+    data
+  }
+}
+
+export const getQueryParameters = (options: any) => {
+  const url = options.url || ''
+  const search = url.split('?')[1]
+  if (!search) {
+    return {}
+  }
+  return JSON.parse('{"' + decodeURIComponent(search)
+    .replace(/"/g, '\\"')
+    .replace(/&/g, '","')
+    .replace(/=/g, '":"') + '"}')
 }

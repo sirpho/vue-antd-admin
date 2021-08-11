@@ -1,3 +1,8 @@
+import moment from 'moment'
+import 'moment/dist/locale/zh-cn'
+
+moment.locale('zh-cn')
+
 import {
   WResult,
   WProTable,
@@ -10,6 +15,9 @@ import {
 import { WScrollbars, WProLayout, CustomIcon } from '/@/components/export'
 
 import {
+  List,
+  Statistic,
+  PageHeader,
   TimePicker,
   Typography,
   Space,
@@ -64,6 +72,9 @@ const ant = {
     app.component('w-page-loading', WPageLoading)
     app.component('w-input-search', WInputSearch)
     app.component('w-result', WResult)
+    app.use(List)
+    app.use(PageHeader)
+    app.use(Statistic)
     app.use(TimePicker)
     app.use(Typography)
     app.use(Space)

@@ -19,8 +19,15 @@ const {
 
 NProgress.configure({ showSpinner: false })
 router.beforeEach(async (to, _, next) => {
-  if (store.getters['settings/showProgressBar']) NProgress.start()
   message.destroy()
+  if (store.getters['settings/showProgressBar']) NProgress.start()
+  if (
+    store.getters['routes/routerLoadList'].every(item => item !== to.path) &&
+    routesWhiteList.indexOf(to.path) === -1
+  ) {
+    store.dispatch('routes/setRouterLoadList', to.path)
+    store.dispatch('routes/toggleRouterLoading', true)
+  }
   let hasToken = store.getters['user/accessToken']
   if (!loginInterception) hasToken = true
   if (hasToken) {
@@ -83,4 +90,7 @@ router.afterEach((to) => {
   const { meta }: any = to
   document.title = getPageTitle(meta.title || '')
   NProgress.done()
+  setTimeout(() => {
+    store.dispatch('routes/toggleRouterLoading', false)
+  }, 200)
 })

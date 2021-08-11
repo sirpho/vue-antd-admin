@@ -9,6 +9,8 @@ import { getFirstLastChild } from '/@/utils/routeConvert'
 import { getLevelData } from '/@/utils/util'
 
 const state = () => ({
+  routerLoading: false,
+  routerLoadList: [],
   meunLoading: false,
   routes: [],
   partialRoutes: []
@@ -16,11 +18,19 @@ const state = () => ({
 const getters = {
   routes: (state) => state.routes,
   meunLoading: (state) => state.meunLoading,
+  routerLoading: (state) => state.routerLoading,
+  routerLoadList: (state) => state.routerLoadList,
   partialRoutes: (state) => state.partialRoutes
 }
 const mutations = {
   setMeunLoading(state, type) {
     state.meunLoading = type
+  },
+  setRouterLoadList(state, path) {
+    state.routerLoadList.push(path)
+  },
+  toggleRouterLoading: (state, loading) => {
+    state.routerLoading = loading
   },
   setRoutes(state, routes) {
     state.routes = routes
@@ -38,6 +48,12 @@ const actions = {
    */
   async setMeunLoading({ commit }, state) {
     commit('setMeunLoading', state)
+  },
+  toggleRouterLoading({ commit }, loading) {
+    commit('toggleRouterLoading', loading)
+  },
+  setRouterLoadList({ commit }, path) {
+    commit('setRouterLoadList', path)
   },
   /**
    * @author gx12358 2539306317@qq.com

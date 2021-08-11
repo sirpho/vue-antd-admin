@@ -1,5 +1,5 @@
 {
-  "name": "wd-admin-pro",
+  "name": "Wd Pro Admin",
   "version": "1.0.0",
   "scripts": {
     "bootstrap": "yarn install",
@@ -31,6 +31,8 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@antv/data-set": "^0.11.8",
+    "@antv/g2": "^4.1.23",
     "animate.css": "^4.1.1",
     "ant-design-vue": "2.2.2",
     "axios": "^0.21.1",

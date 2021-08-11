@@ -1,13 +1,14 @@
 <template>
   <w-pro-layout
     :menus="menus"
+    :loading="loading"
     :collapsed="collapsed"
     :device="device"
     v-bind:settings="settings"
     @handleCollapse="toggleCollapse"
     @menuHeaderClick="menuHeaderClick"
   >
-    <w-content :animate="animate" :isRouterAlive="isRouterAlive" />
+    <w-pro-content :animate="animate" :isRouterAlive="isRouterAlive" />
   </w-pro-layout>
 </template>
 <script lang="ts">
@@ -23,7 +24,7 @@ import {
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { convertRoutes } from '/@/utils/routeConvert'
-import WContent from './ContentView.vue'
+import WProContent from './ContentView.vue'
 
 interface stateTypes {
   menus: any[];
@@ -32,7 +33,7 @@ interface stateTypes {
 
 export default defineComponent({
   components: {
-    WContent
+    WProContent
   },
   setup() {
     const store = useStore()
@@ -63,6 +64,7 @@ export default defineComponent({
     }
     provide('reload', reload)
     return {
+      loading: computed(() => store.getters['routes/routerLoading']),
       layout: computed(() => store.getters['settings/layout']),
       collapsed: computed(() => store.getters['settings/collapse']),
       device: computed(() => store.getters['settings/device']),

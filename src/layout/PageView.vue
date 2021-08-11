@@ -13,6 +13,7 @@
 import { defineComponent, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
+import { getRandomNumber } from '/@/utils/util'
 
 export default defineComponent({
   name: 'PageView',
@@ -20,10 +21,12 @@ export default defineComponent({
     const route = useRoute()
     const store = useStore()
     const keepAlive = ref(false)
+    const uuid = ref(getRandomNumber().uuid(15))
     const { meta } = route
     watch(
       () => route,
       () => {
+        uuid.value = getRandomNumber().uuid(15)
         if (!store.getters['settings/showTabsBar'] && !meta.keepAlive) {
           keepAlive.value = false
         } else {

@@ -16,7 +16,7 @@
             <div class="wd-pro-multi-tab-content">
               {{ item.meta.title }}
               <ReloadOutlined
-                v-if="tabActive === item.fullPath"
+                v-if="tabActive === (item.fullPath || item.path)"
                 class="wd-pro-multi-tab-reload-btn"
                 style="margin-right: 0"
                 :spin="reloadSpin"
@@ -152,7 +152,7 @@ export default defineComponent({
           matched: matched,
           meta: { ...tag.meta }
         })
-        if (isActive(tag)) state.tabActive = tag.fullPath
+        if (isActive(tag)) state.tabActive = tag.fullPath || tag.path
       }
     }
     onMounted(() => {

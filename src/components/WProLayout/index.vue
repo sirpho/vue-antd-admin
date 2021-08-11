@@ -122,7 +122,12 @@
         <div v-if="loading" style="padding-top: 100px; text-align: center">
           <a-spin size="large" :spinning="loading" />
         </div>
-        <slot v-else></slot>
+        <div
+          v-else
+          :class="menuList.length > 0  ? 'wd-pro-main-content' : [ 'wd-pro-main-content', 'wd-pro-main-content-warp' ]"
+        >
+          <slot></slot>
+        </div>
       </a-layout-content>
     </a-layout>
   </a-layout>

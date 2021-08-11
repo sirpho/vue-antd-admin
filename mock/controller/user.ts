@@ -8,7 +8,6 @@ const accessTokens = {
 }
 
 export default [
-  // mock user login
   {
     url: '/mock-server/login',
     method: 'post',
@@ -86,9 +85,11 @@ export default [
           roles,
           ability,
           username,
+          nickName: 'gx12358',
           'avatar|1': [
             'https://i.gtimg.cn/club/item/face/img/2/15922_100.gif',
-            'https://i.gtimg.cn/club/item/face/img/8/15918_100.gif'
+            'https://i.gtimg.cn/club/item/face/img/8/15918_100.gif',
+            'https://zbbf9-hw.ahtv.cn/ahtv-obs/20210811/a8247f9a-1e29-8482-3902-5b50573e15e2.jpg'
           ]
         }
       }
@@ -102,11 +103,11 @@ export default [
       const { userName } = request.query
       const token = getRequestToken(request)
       if (!token) return resultError('Invalid token')
-      const checkUser = accessTokens[userName];
+      const checkUser = accessTokens[userName]
       if (!checkUser) {
-        return resultError('Invalid token!');
+        return resultError('Invalid token!')
       }
-      return resultSuccess(undefined, { message: 'Token has been destroyed' })
+      return resultSuccess(undefined, { msg: 'Token has been destroyed' })
     }
   }
 ] as MockMethod[]

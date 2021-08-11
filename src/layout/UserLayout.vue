@@ -12,7 +12,7 @@
 import { defineComponent, ref } from 'vue'
 export default defineComponent({
   setup() {
-    const title = ref('wd-admin-pro')
+    const title = ref('Wd Pro Admin')
     return {
       title
     }

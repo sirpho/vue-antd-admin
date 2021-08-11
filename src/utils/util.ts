@@ -1,6 +1,12 @@
 import moment from 'moment'
 import global from '/@/common/global'
 
+export function timeFix() {
+  const time = new Date()
+  const hour = time.getHours()
+  return hour < 9 ? '早上好' : hour <= 11 ? '上午好' : hour <= 13 ? '中午好' : hour < 20 ? '下午好' : '晚上好'
+}
+
 /**
  * 触发 window.resize
  */
@@ -250,6 +256,7 @@ export function getSortIndex(data: any[] = [], pageConfig = {} as {
   children?: string;
 }) {
   const { current = 1, pageSize = 10, children = 'children' } = pageConfig
+
   function getChildSortIndex(parentSort, data) {
     return data.map((item, index) => {
       const sortIndex = `${parentSort}-${index + 1}`
@@ -261,6 +268,7 @@ export function getSortIndex(data: any[] = [], pageConfig = {} as {
       }
     })
   }
+
   return deepCopy(data).map((item: any, index: number) => {
     const sortIndex = current ? (current - 1) * pageSize + (index + 1) : index + 1
     if (item[children]) item[children] = getChildSortIndex(sortIndex, item[children])
@@ -484,7 +492,13 @@ export function getLevelData(data, filed = 'children') {
  * @param {*} children 孩子节点字段 默认 'children'
  * @param {*} rootId 根Id 默认 0
  */
-export function treeData(source: any[], id: string, parentId?: string, children?: string, rootId?: number) {
+export function treeData(
+  source: any[],
+  id: string,
+  parentId?: string,
+  children?: string,
+  rootId?: number
+) {
   id = id || 'id'
   parentId = parentId || 'parentId'
   children = children || 'children'
@@ -503,6 +517,10 @@ export function mGetDate() {
   const month = date.getMonth() + 1
   const d = new Date(year, month, 0)
   return d.getDate()
+}
+
+export function momentFromNow(time) {
+  return moment(time).fromNow()
 }
 
 export function handleTimeShow(date: string) {

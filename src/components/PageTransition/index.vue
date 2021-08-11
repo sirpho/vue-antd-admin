@@ -82,14 +82,21 @@ export default defineComponent({
 <style lang="less">
 .page-toggle-enter-active{
   position: absolute !important;
-  width: calc(100% - 40px) !important;
-  animation-duration: 0.8s !important;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  animation-duration: .2s !important;
 }
 
 .page-toggle-leave-active{
   position: absolute !important;
-  width: calc(100% - 40px) !important;
-  animation-duration: 0.8s !important;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  animation-duration: .2s !important;
 }
 
 .page-toggle-enter{

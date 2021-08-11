@@ -11,8 +11,8 @@ const defaultSettings: settingConfig = {
   //放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录。
   assetsDir: 'assets',
   //标题 （包括初次加载雪花屏的标题 页面的标题 浏览器的标题）
-  title: 'wd-pro-admin',
-  //标题 （包括初次加载雪花屏的标题 页面的标题 浏览器的标题）
+  title: 'Wd Pro Admin',
+  //短标题
   shortName: 'wd_pro_admin',
   //标题分隔符
   titleSeparator: ' - ',

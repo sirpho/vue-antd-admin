@@ -72,7 +72,7 @@ export const basicRoutes: AppRouteModule[] = [
   {
     path: '/workplace',
     name: 'Workplace',
-    component: () => import('/@/views/workplace/index.vue'),
+    component: () => import('/@/views/dashboard/workplace/index.vue'),
     meta: {
       homePage: true,
       sideMenuHidden: true,
@@ -93,16 +93,14 @@ export const asyncRoutes: AppRouteModule[] = [
         redirect: '/index/workplace',
         meta: {
           title: '首页',
-          icon: 'home-4-line',
           affix: true
         },
         children: [
           {
             path: '/index/workplace',
-            component: () => import('/@/views/workplace/index.vue'),
+            component: () => import('/@/views/dashboard/workplace/index.vue'),
             meta: {
               title: '工作台',
-              icon: 'home-4-line',
               affix: true
             }
           }
