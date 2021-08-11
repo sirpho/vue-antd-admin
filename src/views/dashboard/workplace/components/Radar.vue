@@ -47,7 +47,7 @@ export default defineComponent({
     }
     const renderRadar = (dv) => {
       state.chart = new Chart({
-        container: 'container',
+        container: 'radar-container',
         autoFit: true,
         padding: [ 35, 30, 16, 30 ] as [ number, number, number, number ],
         height: 343

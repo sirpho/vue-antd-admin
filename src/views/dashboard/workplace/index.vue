@@ -141,7 +141,6 @@
             :bordered="false"
           >
             <Radar :data="radarData" :max="radarMaxCount" />
-            <div style="min-height: 400px;" id="container"></div>
           </a-card>
           <a-card :loading="loading" title="团队" :bordered="false">
             <div :class="$style.members">
