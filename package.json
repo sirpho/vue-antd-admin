@@ -1,5 +1,5 @@
 {
-  "name": "Wd Pro Admin",
+  "name": "wd-pro-admin",
   "version": "1.0.0",
   "scripts": {
     "bootstrap": "yarn install",
