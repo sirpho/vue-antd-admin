@@ -6,7 +6,8 @@
       align="center"
       :actionRef="info => tableRef = info"
       :search="{
-        type: 'slots'
+        type: 'slots',
+        showSearch: true
       }"
       :params="tableParameters"
       :columns="columns"

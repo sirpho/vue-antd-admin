@@ -10,6 +10,10 @@ const TableSearch = defineComponent({
       type: String,
       required: true
     },
+    loading: {
+      type: Boolean,
+      required: false
+    },
     data: {
       type: Array,
       required: false,
@@ -208,8 +212,8 @@ const TableSearch = defineComponent({
       if (props.type === 'dataSouce' || props.type === 'columns') {
         const record: any = props.data.find((item: any) => item.valueType === 'dateRange')
         if (record) {
-          params[record.rangeStartName || 'start'] = params.dateRange?[0] : null
-          params[record.rangeEndName || 'end' ] = params.dateRange?[1] : null
+          params[record.rangeStartName || 'start'] = params.dateRange ? [ 0 ] : null
+          params[record.rangeEndName || 'end'] = params.dateRange ? [ 1 ] : null
         }
         delete params.dateRange
       } else {
@@ -322,13 +326,19 @@ const TableSearch = defineComponent({
     const optionRender = () => props.showSearch || props.showReset ? <a-space>
       {
         props.showReset ?
-          <a-button onClick={resetTableParams}>{ props.resetText }</a-button>
+          <a-button onClick={resetTableParams}>{props.resetText}</a-button>
           :
           null
       }
       {
         props.showSearch ?
-          <a-button type="primary" onClick={() => searchTableParams(false)}>{ props.searchText }</a-button>
+          <a-button
+            loading={props.loading}
+            type="primary"
+            onClick={() => searchTableParams(false)}
+          >
+            {props.searchText}
+          </a-button>
           :
           null
       }
@@ -341,7 +351,8 @@ const TableSearch = defineComponent({
             showAdvanced ?
               <a onClick={() => changeAdvanced(!advanced)}>
                 {advanced ? '收起' : '展开'}
-                {props.collapseRender ? props.collapseRender() : advanced ? <UpOutlined /> : <DownOutlined />}
+                {props.collapseRender ? props.collapseRender() : advanced ? <UpOutlined /> :
+                  <DownOutlined />}
               </a>
               :
               null

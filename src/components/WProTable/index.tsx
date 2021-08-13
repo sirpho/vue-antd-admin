@@ -585,7 +585,7 @@ const WProTable = defineComponent({
     const onColumnsDrop = (info) => {
       const columns: any = []
       info.map(item => {
-        const columsItem = originColums.find(el => el.uuid === item.uuid)
+        const columsItem = cloneDeep(originColums).find(el => el.uuid === item.uuid)
         if (columsItem) {
           switch (item.fixType) {
             case 'fixedLeft':
@@ -613,28 +613,53 @@ const WProTable = defineComponent({
      * @description 表格列设置-是否固定
      */
     const onChangeFixedColums = (info) => {
+      let leftColumns: any = []
+      let noColumns: any = []
+      let rightColumns: any = []
       const columns: any = []
-      originColums.map(item => {
+      info.map(item => {
+        const columsItem = cloneDeep(originColums).find(el => el.uuid === item.uuid)
+        if (columsItem) columns.push(columsItem)
+        return item
+      })
+      columns.map(item => {
         info.map(el => {
           if (el.uuid === item.uuid) {
             const record = cloneDeep(item)
             switch (el.fixType) {
               case 'fixedLeft':
-                record.fixed = 'left'
+                leftColumns.push(cloneDeep(record))
                 break
               case 'fixedRight':
-                record.fixed = 'right'
+                rightColumns.push(cloneDeep(record))
                 break
               default:
-                record.fixed = undefined
+                noColumns.push(cloneDeep(record))
                 break
             }
-            columns.push(record)
           }
         })
         return item
       })
-      state.columns = cloneDeep(columns)
+      leftColumns = leftColumns.map(item => {
+        return {
+          ...item,
+          fixed: 'left'
+        }
+      })
+      noColumns = noColumns.map(item => {
+        return {
+          ...item,
+          fixed: undefined
+        }
+      })
+      rightColumns = rightColumns.map(item => {
+        return {
+          ...item,
+          fixed: 'right'
+        }
+      })
+      state.columns = cloneDeep([ ...leftColumns, ...noColumns, ...rightColumns ])
       state.actionColums = state.actionColums.map(item => {
         info.map(el => {
           if (el.uuid === item.uuid) item.fixType = el.fixType
@@ -713,9 +738,9 @@ const WProTable = defineComponent({
         if (props.search.type === 'slots') {
           if (reset) {
             emit('searchReset')
-            if (props.search.showSearch) {
-              tableLoadData({ params: props.params })
-            }
+          }
+          if (props.search.showSearch) {
+            tableLoadData({ params: props.params })
           }
         } else {
           tableLoadData({ params })
@@ -923,6 +948,7 @@ const WProTable = defineComponent({
           props.search ?
             <TableSearch
               {...props.search}
+              loading={props.request ? state.tableLoading : changeProps.value.loading}
               data={props.search.type === 'dataSouce' || props.search.type === 'columns' ? state.searchData : slots.search ? slots.search() : null}
               onTableSearch={changeTableParams}
             />

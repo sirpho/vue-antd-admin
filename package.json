@@ -34,7 +34,7 @@
     "@antv/data-set": "^0.11.8",
     "@antv/g2": "^4.1.23",
     "animate.css": "^4.1.1",
-    "ant-design-vue": "2.2.2",
+    "ant-design-vue": "2.2.6",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "chalk": "^4.1.2",

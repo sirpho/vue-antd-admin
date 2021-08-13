@@ -88,7 +88,7 @@ const ActionColumns = defineComponent({
         return {
           ...item,
           title: item.title || '',
-          slots: { title: 'titleName'},
+          slots: { title: 'titleName' },
           key: `0-${index}`,
           children: []
         }
@@ -103,7 +103,8 @@ const ActionColumns = defineComponent({
       }
       // 固定在左侧
       state.leftColumnsData = state.treeColumnsData.filter(item => item.fixType === 'fixedLeft')
-      state.leftCheckedKeys = state.leftColumnsData.filter(item => item.checked).map(item => item.key)
+      state.leftCheckedKeys = state.leftColumnsData.filter(item => item.checked)
+        .map(item => item.key)
       if (state.leftColumnsData.length === 0) {
         state.fixType = state.fixType.filter(item => item !== 'fixedLeft')
       } else {
@@ -111,13 +112,18 @@ const ActionColumns = defineComponent({
       }
       // 固定在右侧
       state.rightColumnsData = state.treeColumnsData.filter(item => item.fixType === 'fixedRight')
-      state.rightCheckedKeys = state.rightColumnsData.filter(item => item.checked).map(item => item.key)
+      state.rightCheckedKeys = state.rightColumnsData.filter(item => item.checked)
+        .map(item => item.key)
       if (state.rightColumnsData.length === 0) {
         state.fixType = state.fixType.filter(item => item !== 'fixedRight')
       } else {
         if (state.fixType.every(item => item !== 'fixedRight')) state.fixType.push('fixedRight')
       }
-      state.treeCheckKeys = [ ...state.leftCheckedKeys, ...state.checkedKeys, ...state.rightCheckedKeys ]
+      state.treeCheckKeys = [
+        ...state.leftCheckedKeys,
+        ...state.checkedKeys,
+        ...state.rightCheckedKeys
+      ]
     }
     watch(() => state.treeCheckKeys, (val) => {
       state.checkAll = val.length === state.treeColumnsData.length
@@ -148,7 +154,11 @@ const ActionColumns = defineComponent({
         state.leftCheckedKeys = state.leftColumnsData.map(item => item.key)
         state.checkedKeys = state.columnsData.map(item => item.key)
         state.rightCheckedKeys = state.rightColumnsData.map(item => item.key)
-        state.treeCheckKeys = [ ...state.leftCheckedKeys, ...state.checkedKeys, ...state.rightCheckedKeys ]
+        state.treeCheckKeys = [
+          ...state.leftCheckedKeys,
+          ...state.checkedKeys,
+          ...state.rightCheckedKeys
+        ]
       } else {
         state.leftCheckedKeys = []
         state.checkedKeys = []
@@ -163,7 +173,7 @@ const ActionColumns = defineComponent({
      * @lastTime    2021/7/14
      * @description 列拖拽
      */
-    const popoverDrop = (info) => {
+    const popoverDrop = (info, type) => {
       if (info.dropToGap && info.dragNode && info.node) {
         const dropKey = info.node.eventKey
         const dragKey = info.dragNode.eventKey
@@ -179,7 +189,18 @@ const ActionColumns = defineComponent({
             }
           })
         }
-        const data = [ ...state.columnsData ]
+        let data = []
+        switch (type) {
+          case 'fixedLeft':
+            data = [ ...state.leftColumnsData ]
+            break
+          case 'nofixed':
+            data = [ ...state.columnsData ]
+            break
+          case 'fixedRight':
+            data = [ ...state.rightColumnsData ]
+            break
+        }
         let dragObj: any = {}
         loop(data, dragKey, (item, index, arr) => {
           arr.splice(index, 1)
@@ -207,8 +228,22 @@ const ActionColumns = defineComponent({
             ar.splice(i + 1, 0, dragObj)
           }
         }
-        state.columnsData = data
-        state.treeColumnsData = [ ...state.leftColumnsData, ...state.columnsData, ...state.rightColumnsData ]
+        switch (type) {
+          case 'fixedLeft':
+            state.leftColumnsData = data
+            break
+          case 'nofixed':
+            state.columnsData = data
+            break
+          case 'fixedRight':
+            state.rightColumnsData = data
+            break
+        }
+        state.treeColumnsData = [
+          ...state.leftColumnsData,
+          ...state.columnsData,
+          ...state.rightColumnsData
+        ]
         changeColumns('drop')
       }
     }
@@ -231,7 +266,11 @@ const ActionColumns = defineComponent({
           state.rightCheckedKeys = info
           break
       }
-      state.treeCheckKeys = [ ...state.leftCheckedKeys, ...state.checkedKeys, ...state.rightCheckedKeys ]
+      state.treeCheckKeys = [
+        ...state.leftCheckedKeys,
+        ...state.checkedKeys,
+        ...state.rightCheckedKeys
+      ]
       changeColumns('change')
     }
     /**
@@ -251,7 +290,8 @@ const ActionColumns = defineComponent({
             return item
           })
           state.leftColumnsData = leftColumnsData
-          state.leftCheckedKeys = state.leftColumnsData.filter(item => item.checked).map(item => item.key)
+          state.leftCheckedKeys = state.leftColumnsData.filter(item => item.checked)
+            .map(item => item.key)
           break
         case 'fixedRight':
           const rightIds = [ ...state.rightColumnsData.map(item => item.uuid), record.uuid ]
@@ -261,13 +301,15 @@ const ActionColumns = defineComponent({
             return item
           })
           state.rightColumnsData = rightColumnsData
-          state.rightCheckedKeys = state.rightColumnsData.filter(item => item.checked).map(item => item.key)
+          state.rightCheckedKeys = state.rightColumnsData.filter(item => item.checked)
+            .map(item => item.key)
           break
       }
       switch (originType) {
         case 'fixedLeft':
           state.leftColumnsData = state.leftColumnsData.filter(item => item.uuid !== record.uuid)
-          state.leftCheckedKeys = state.leftColumnsData.filter(item => item.checked).map(item => item.key)
+          state.leftCheckedKeys = state.leftColumnsData.filter(item => item.checked)
+            .map(item => item.key)
           if (state.leftColumnsData.length === 0) state.fixType = state.fixType.filter(item => item !== originType)
           break
         case 'nofixed':
@@ -277,7 +319,8 @@ const ActionColumns = defineComponent({
           break
         case 'fixedRight':
           state.rightColumnsData = state.rightColumnsData.filter(item => item.uuid !== record.uuid)
-          state.rightCheckedKeys = state.rightColumnsData.filter(item => item.checked).map(item => item.key)
+          state.rightCheckedKeys = state.rightColumnsData.filter(item => item.checked)
+            .map(item => item.key)
           if (state.rightColumnsData.length === 0) state.fixType = state.fixType.filter(item => item !== originType)
           break
       }
@@ -293,12 +336,14 @@ const ActionColumns = defineComponent({
       switch (type) {
         case 'fixedLeft':
           state.leftColumnsData = state.leftColumnsData.filter(item => item.uuid !== record.uuid)
-          state.leftCheckedKeys = state.leftColumnsData.filter(item => item.checked).map(item => item.key)
+          state.leftCheckedKeys = state.leftColumnsData.filter(item => item.checked)
+            .map(item => item.key)
           if (state.leftColumnsData.length === 0) state.fixType = state.fixType.filter(item => item !== type)
           break
         case 'fixedRight':
           state.rightColumnsData = state.rightColumnsData.filter(item => item.uuid !== record.uuid)
-          state.rightCheckedKeys = state.rightColumnsData.filter(item => item.checked).map(item => item.key)
+          state.rightCheckedKeys = state.rightColumnsData.filter(item => item.checked)
+            .map(item => item.key)
           if (state.rightColumnsData.length === 0) state.fixType = state.fixType.filter(item => item !== type)
           break
       }
@@ -330,9 +375,12 @@ const ActionColumns = defineComponent({
      * @description 将列是否固定属性回调给父组件
      */
     const changeColumnsType = () => {
-      const leftIds = state.leftColumnsData.filter(item => state.leftCheckedKeys.includes(item.key)).map(item => item.uuid)
-      const ids = state.columnsData.filter(item => state.checkedKeys.includes(item.key)).map(item => item.uuid)
-      const rightIds = state.rightColumnsData.filter(item => state.rightCheckedKeys.includes(item.key)).map(item => item.uuid)
+      const leftIds = state.leftColumnsData.filter(item => state.leftCheckedKeys.includes(item.key))
+        .map(item => item.uuid)
+      const ids = state.columnsData.filter(item => state.checkedKeys.includes(item.key))
+        .map(item => item.uuid)
+      const rightIds = state.rightColumnsData.filter(item => state.rightCheckedKeys.includes(item.key))
+        .map(item => item.uuid)
       const checkedColumns = state.treeColumnsData.map(item => {
         if (leftIds.includes(item.uuid)) item.fixType = 'fixedLeft'
         if (ids.includes(item.uuid)) item.fixType = 'nofixed'
@@ -340,52 +388,6 @@ const ActionColumns = defineComponent({
         return item
       })
       emit('changeFixed', checkedColumns)
-    }
-    /**
-     * @Author      gx12358
-     * @DateTime    2021/7/14
-     * @lastTime    2021/7/14
-     * @description 判断固定、不固定按钮是否可点击
-     */
-    const judgeFixedState = (record, type, originType?) => {
-      let checkedState = true
-      let orderState = true
-      let previousIndex = 0
-      const currentIndex = state.treeColumnsData.findIndex(item => item.uuid === record.uuid)
-      switch (type) {
-        case 'fixedLeft':
-          checkedState = state.checkedKeys.includes(record.key)
-          previousIndex = state.leftColumnsData.length === 0 ?
-            -1
-            :
-            state.treeColumnsData.findIndex(item =>
-              item.uuid === state.leftColumnsData[state.leftColumnsData.length -1].uuid)
-          orderState = previousIndex === currentIndex - 1
-          break
-        case 'nofixed':
-          if (originType === 'fixedLeft') {
-            checkedState = state.leftCheckedKeys.includes(record.key)
-            orderState = state.leftColumnsData.findIndex(item =>
-              item.uuid === record.uuid) === state.leftColumnsData.length - 1
-          } else if (originType === 'fixedRight') {
-            checkedState = state.rightCheckedKeys.includes(record.key)
-            orderState = state.rightColumnsData.findIndex(item =>
-              item.uuid === record.uuid) === 0
-          }
-          break
-        case 'fixedRight':
-          checkedState = state.checkedKeys.includes(record.key)
-          previousIndex = state.rightColumnsData.length === 0 ?
-            state.treeColumnsData.length
-            :
-            state.treeColumnsData.findIndex(item => item.uuid === state.rightColumnsData[0].uuid)
-          orderState = currentIndex === previousIndex - 1
-          break
-      }
-      return props.scroll &&
-        !!record.width &&
-        orderState &&
-        checkedState
     }
     const popoverTitle = () => (
       <div class={styles['popover-title']}>
@@ -403,7 +405,6 @@ const ActionColumns = defineComponent({
     )
     const treeTitleSlots = (record) => {
       const columnsItem = props.columns.find(item => item.uuid === record.uuid)
-      // @ts-ignore
       return record.title || (slots[columnsItem.slots.title] ? slots[columnsItem.slots.title]() : '')
     }
     const TreeTitle = (record, type) => (
@@ -415,13 +416,16 @@ const ActionColumns = defineComponent({
         </div>
         {
           props.scroll ?
-            <span class={[ styles['title-actions'], 'w-pro-table-column-setting-list-item-option' ]}>
+            <span class={[
+              styles['title-actions'],
+              'w-pro-table-column-setting-list-item-option'
+            ]}>
               {
                 type === 'nofixed' ?
-                  <span class={judgeFixedState(record, 'fixedLeft') ? null : styles.disabled}>
+                  <span>
                     <a-tooltip title="固定在列首">
                       <VerticalAlignTopOutlined
-                        onClick={() => judgeFixedState(record, 'fixedLeft') ? addFixed('fixedLeft', record, type) : null}
+                        onClick={() => addFixed('fixedLeft', record, type)}
                       />
                     </a-tooltip>
                   </span>
@@ -430,10 +434,10 @@ const ActionColumns = defineComponent({
               }
               {
                 type === 'fixedLeft' || type === 'fixedRight' ?
-                  <span class={judgeFixedState(record, 'nofixed', type) ? null : styles.disabled}>
+                  <span>
                     <a-tooltip title="不固定">
                       <VerticalAlignMiddleOutlined
-                        onClick={() => judgeFixedState(record, 'nofixed', type) ? cancelFixed(type, record) : null}
+                        onClick={() => cancelFixed(type, record)}
                       />
                     </a-tooltip>
                   </span>
@@ -442,10 +446,10 @@ const ActionColumns = defineComponent({
               }
               {
                 type === 'nofixed' ?
-                  <span class={judgeFixedState(record, 'fixedRight') ? null : styles.disabled}>
+                  <span>
                     <a-tooltip title="固定在列尾">
                       <VerticalAlignBottomOutlined
-                        onClick={() => judgeFixedState(record, 'fixedRight') ? addFixed('fixedRight', record, type) : null}
+                        onClick={() => addFixed('fixedRight', record, type)}
                       />
                     </a-tooltip>
                   </span>
@@ -468,10 +472,12 @@ const ActionColumns = defineComponent({
                   固定在左侧
                 </div>
                 <a-tree
+                  draggable
                   checkable
                   checkedKeys={state.leftCheckedKeys}
                   tree-data={state.leftColumnsData}
                   style={{ width: '100%' }}
+                  onDrop={info => popoverDrop(info, 'fixedLeft')}
                   onCheck={info => popoverCheck(info, 'fixedLeft')}
                   v-slots={{
                     titleName: (e) => TreeTitle(e, 'fixedLeft')
@@ -498,7 +504,7 @@ const ActionColumns = defineComponent({
                   checkedKeys={state.checkedKeys}
                   tree-data={state.columnsData}
                   style={{ width: '100%' }}
-                  onDrop={info => popoverDrop(info)}
+                  onDrop={info => popoverDrop(info, 'nofixed')}
                   onCheck={info => popoverCheck(info, 'nofixed')}
                   v-slots={{
                     titleName: (e) => TreeTitle(e, 'nofixed')
@@ -515,10 +521,12 @@ const ActionColumns = defineComponent({
                   固定在右侧
                 </div>
                 <a-tree
+                  draggable
                   checkable
                   checkedKeys={state.rightCheckedKeys}
                   tree-data={state.rightColumnsData}
                   style={{ width: '100%' }}
+                  onDrop={info => popoverDrop(info, 'fixedRight')}
                   onCheck={info => popoverCheck(info, 'fixedRight')}
                   v-slots={{
                     titleName: (e) => TreeTitle(e, 'fixedRight')
