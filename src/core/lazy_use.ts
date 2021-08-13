@@ -10,7 +10,9 @@ import {
   WModal,
   WInputSearch,
   WPageLoading,
-  WPageWrapper
+  WPageWrapper,
+  WSkeleton,
+  WProSkeleton,
 } from '/@/components'
 import { WScrollbars, WProLayout, CustomIcon } from '/@/components/export'
 
@@ -72,6 +74,8 @@ const ant = {
     app.component('w-page-loading', WPageLoading)
     app.component('w-input-search', WInputSearch)
     app.component('w-result', WResult)
+    app.component('w-skeleton', WSkeleton)
+    app.component('w-pro-skeleton', WProSkeleton)
     app.use(List)
     app.use(PageHeader)
     app.use(Statistic)

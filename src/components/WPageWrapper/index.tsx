@@ -4,9 +4,11 @@ export default defineComponent({
   setup(_, { slots }) {
     return () => (
       <div class="wd-pro-page-wrapper">
-        {
-          slots.default ? slots.default() : null
-        }
+        <div class="wd-pro-grid-content">
+          {
+            slots.default ? slots.default() : null
+          }
+        </div>
       </div>
     )
 

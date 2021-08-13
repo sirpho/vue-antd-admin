@@ -16,6 +16,7 @@
         selectedRowKeys: selectedRowKeys,
         onChange: onSelectChange
       }"
+      :scroll="{ x: 1850 }"
       @reset="onReset"
       @searchReset="onSearchReset"
     >

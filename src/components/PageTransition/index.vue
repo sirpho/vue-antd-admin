@@ -86,6 +86,7 @@ export default defineComponent({
   right: 0;
   bottom: 0;
   left: 0;
+  background: transparent;
   animation-duration: .2s !important;
 }
 
@@ -95,7 +96,7 @@ export default defineComponent({
   right: 0;
   bottom: 0;
   left: 0;
-  opacity: 0;
+  background: transparent;
   animation-duration: .2s !important;
 }
 

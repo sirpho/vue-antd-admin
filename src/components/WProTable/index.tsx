@@ -444,6 +444,7 @@ const WProTable = defineComponent({
       })
       delete propsPagination.current
       delete propsPagination.pageSize
+      state.size = newProps.size
       state.tableSlots = tableSlots
       state.pagination = {
         ...state.pagination,
