@@ -146,6 +146,7 @@ import {
 } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
+import { cloneDeep } from 'lodash-es'
 import {
   convertRoutes,
   getFirstLastChild,
@@ -196,6 +197,7 @@ export default defineComponent({
           linkPath
         }
       })
+      store.dispatch('routes/setHeaderRoutes', cloneDeep(state.headerList))
       handleLayouts()
     })
     onBeforeUnmount(() => {
@@ -215,33 +217,30 @@ export default defineComponent({
       return '48px'
     })
     const handleSideList = () => {
-      const currentPath = getLastFirstChild(routes.children, route.fullPath)
-      if (currentPath) {
-        const currentRouters = routes.children.find(
-          (item) => item.path === currentPath
-        )
-        state.menuList = currentRouters.children || []
+      if (
+        store.getters['settings/layout'] === 'side' ||
+        store.getters['settings/device'] === 'mobile'
+      ) {
+        state.menuList = routes.children || []
       } else {
-        state.menuList = []
+        const currentPath = getLastFirstChild(routes.children, route.fullPath)
+        if (currentPath) {
+          const currentRouters = routes.children.find(
+            (item) => item.path === currentPath
+          )
+          state.menuList = currentRouters.children || []
+        } else {
+          state.menuList = []
+        }
+        store.dispatch('routes/setSiderRoutes', cloneDeep(state.menuList))
       }
     }
-    watch(
-      () => route.fullPath,
-      () => {
-        if (
-          store.getters['settings/layout'] === 'side' ||
-          store.getters['settings/device'] === 'mobile'
-        ) {
-          state.menuList = routes.children || []
-        } else {
-          handleSideList()
-        }
-      },
-      {
-        deep: true,
-        immediate: true
-      }
-    )
+    watch(() => route.fullPath, () => {
+      handleSideList()
+    }, {
+      deep: true,
+      immediate: true
+    })
     const handleLayouts = () => {
       const clientWidth = document.body.getBoundingClientRect().width
       if (width.value !== clientWidth) {

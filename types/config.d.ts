@@ -14,6 +14,8 @@ export interface settingConfig {
   shortName: string;
   titleSeparator: string;
   titleReverse: boolean;
+  waterMark: boolean;
+  waterMarkTitle: string;
   useCdn: boolean;
   devPort: number;
   copyright: string;

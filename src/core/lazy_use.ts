@@ -13,6 +13,7 @@ import {
   WPageWrapper,
   WSkeleton,
   WProSkeleton,
+  WProWatermark,
 } from '/@/components'
 import { WScrollbars, WProLayout, CustomIcon } from '/@/components/export'
 
@@ -76,6 +77,7 @@ const ant = {
     app.component('w-result', WResult)
     app.component('w-skeleton', WSkeleton)
     app.component('w-pro-skeleton', WProSkeleton)
+    app.component('w-pro-watermark', WProWatermark)
     app.use(List)
     app.use(PageHeader)
     app.use(Statistic)

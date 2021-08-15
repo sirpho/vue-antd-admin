@@ -1,90 +1,91 @@
 <template>
-  <div :class="$style.workplace">
-    <a-page-header title="工作台" :backIcon="false">
-      <template #extra>
+  <w-page-wrapper>
+    <div :class="$style.workplace">
+      <a-page-header title="工作台" :backIcon="false">
+        <template #extra>
         <span :class="$style.refresh" @click="reloadCurrentPage">
           <RedoOutlined />&nbsp;刷新
         </span>
-      </template>
-      <div class="wd-pro-page-container-row">
-        <div class="wd-pro-page-container-content">
-          <div :class="$style.avatar">
-            <a-avatar size="large" :src="userInfo.avatar">
-              <template #icon>
-                <a-spin>
-                  <template #indicator>
-                    <LoadingOutlined />
-                  </template>
-                </a-spin>
+        </template>
+        <div class="wd-pro-page-container-row">
+          <div class="wd-pro-page-container-content">
+            <div :class="$style.avatar">
+              <a-avatar size="large" :src="userInfo.avatar">
+                <template #icon>
+                  <a-spin>
+                    <template #indicator>
+                      <LoadingOutlined />
+                    </template>
+                  </a-spin>
+                </template>
+              </a-avatar>
+            </div>
+            <div :class="$style.content">
+              <div :class="$style['content-title']">
+                {{ timeFix }}，{{ userInfo.nickName }}<span :class="$style['welcome-text']">，{{ welcome }}</span>
+              </div>
+              <div>前端工程师 | （REACT，VUE，UNIAPP）平台</div>
+            </div>
+          </div>
+          <div class="wd-pro-page-container-extraContent">
+            <div :class="$style['extra-content']">
+              <div :class="$style['stat-item']">
+                <a-statistic title="项目数" :value="3" />
+              </div>
+              <div :class="$style['stat-item']">
+                <a-statistic title="项目访问" :value="2223" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </a-page-header>
+      <div style="margin: 24px">
+        <a-row :gutter="24">
+          <a-col :xl="16" :lg="24" :md="24" :sm="24" :xs="24">
+            <a-card
+              :class="$style['project-list']"
+              :loading="loading"
+              style="margin-bottom: 24px;"
+              :bordered="false"
+              title="进行中的项目"
+            >
+              <template #extra>
+                <a href="/">全部项目</a>
               </template>
-            </a-avatar>
-          </div>
-          <div :class="$style.content">
-            <div :class="$style['content-title']">
-              {{ timeFix }}，{{ userInfo.nickName }}<span :class="$style['welcome-text']">，{{ welcome }}</span>
-            </div>
-            <div>前端工程师 | （REACT，VUE，UNIAPP）平台</div>
-          </div>
-        </div>
-        <div class="wd-pro-page-container-extraContent">
-          <div :class="$style['extra-content']">
-            <div :class="$style['stat-item']">
-              <a-statistic title="项目数" :value="3" />
-            </div>
-            <div :class="$style['stat-item']">
-              <a-statistic title="项目访问" :value="2223" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </a-page-header>
-    <div style="margin: 24px">
-      <a-row :gutter="24">
-        <a-col :xl="16" :lg="24" :md="24" :sm="24" :xs="24">
-          <a-card
-            :class="$style['project-list']"
-            :loading="loading"
-            style="margin-bottom: 24px;"
-            :bordered="false"
-            title="进行中的项目"
-          >
-            <template #extra>
-              <a href="/">全部项目</a>
-            </template>
-            <div>
-              <a-card-grid class="project-card-grid" :key="i" v-for="(item, i) in notice">
-                <a-card :bordered="false" :body-style="{ padding: 0 }">
-                  <a-card-meta>
+              <div>
+                <a-card-grid class="project-card-grid" :key="i" v-for="(item, i) in notice">
+                  <a-card :bordered="false" :body-style="{ padding: 0 }">
+                    <a-card-meta>
+                      <template #title>
+                        <div :class="$style['card-title']">
+                          <a-avatar size="small" :src="item.logo" />
+                          <a :href="item.href">{{ item.title }}</a>
+                        </div>
+                      </template>
+                      <template #description>
+                        <div :class="$style['card-description']">
+                          {{ item.description }}
+                        </div>
+                      </template>
+                    </a-card-meta>
+                    <div :class="$style['project-item']">
+                      <a :href="item.memberLink">{{ item.member || '' }}</a>
+                      <span :class="$style.datetime">9小时前</span>
+                    </div>
+                  </a-card>
+                </a-card-grid>
+              </div>
+            </a-card>
+            <a-card :loading="dynamicLoading" title="全部动态" :bordered="false">
+              <a-list :class="$style['activities-list']">
+                <a-list-item :key="index" v-for="(item, index) in activities">
+                  <a-list-item-meta>
+                    <template #avatar>
+                      <a-avatar :src="item.user.avatar" />
+                    </template>
                     <template #title>
-                      <div :class="$style['card-title']">
-                        <a-avatar size="small" :src="item.logo" />
-                        <a :href="item.href">{{ item.title }}</a>
-                      </div>
-                    </template>
-                    <template #description>
-                      <div :class="$style['card-description']">
-                        {{ item.description }}
-                      </div>
-                    </template>
-                  </a-card-meta>
-                  <div :class="$style['project-item']">
-                    <a :href="item.memberLink">{{ item.member || '' }}</a>
-                    <span :class="$style.datetime">9小时前</span>
-                  </div>
-                </a-card>
-              </a-card-grid>
-            </div>
-          </a-card>
-          <a-card :loading="dynamicLoading" title="动态" :bordered="false">
-            <a-list :class="$style['activities-list']">
-              <a-list-item :key="index" v-for="(item, index) in activities">
-                <a-list-item-meta>
-                  <template #avatar>
-                    <a-avatar :src="item.user.avatar" />
-                  </template>
-                  <template #title>
-                    <a class="username">{{ item.user.name }}</a>&nbsp;
-                    <span class="event">
+                      <a class="username">{{ item.user.name }}</a>&nbsp;
+                      <span class="event">
                       <template
                         :key="index"
                         v-for="(key, index) in item.template.split(/@\{([^{}]*)\}/gi)"
@@ -97,67 +98,68 @@
                         <template v-else>{{ key }}</template>
                       </template>
                     </span>
-                  </template>
-                  <template #description>
-                    <span :class="$style.datetime">{{ momentFromNow(item.updatedAt) }}</span>
-                  </template>
-                </a-list-item-meta>
-              </a-list-item>
-            </a-list>
-          </a-card>
-        </a-col>
-        <a-col
-          style="padding: 0 12px"
-          :xl="8"
-          :lg="24"
-          :md="24"
-          :sm="24"
-          :xs="24"
-        >
-          <a-card
-            title="快速开始 / 便捷导航"
-            style="margin-bottom: 24px"
-            :bordered="false"
+                    </template>
+                    <template #description>
+                      <span :class="$style.datetime">{{ momentFromNow(item.updatedAt) }}</span>
+                    </template>
+                  </a-list-item-meta>
+                </a-list-item>
+              </a-list>
+            </a-card>
+          </a-col>
+          <a-col
+            style="padding: 0 12px"
+            :xl="8"
+            :lg="24"
+            :md="24"
+            :sm="24"
+            :xs="24"
           >
-            <div :class="$style['item-group']">
-              <a>操作一</a>
-              <a>操作二</a>
-              <a>操作三</a>
-              <a>操作四</a>
-              <a>操作五</a>
-              <a>操作六</a>
-              <a-button size="small" type="primary" ghost>
-                <template #icon>
-                  <PlusOutlined />
-                </template>
-                添加
-              </a-button>
-            </div>
-          </a-card>
-          <a-card
-            title="XX 指数"
-            style="margin-bottom: 24px"
-            :loading="radarLoading"
-            :bordered="false"
-          >
-            <Radar :data="radarData" :max="radarMaxCount" />
-          </a-card>
-          <a-card :loading="loading" title="团队" :bordered="false">
-            <div :class="$style.members">
-              <a-row>
-                <a-col :span="12" v-for="(item, index) in notice" :key="index">
-                  <a>
-                    <a-avatar size="small" :src="item.logo" />
-                    <span :class="$style.member">{{ item.title }}</span>
-                  </a>
-                </a-col>
-              </a-row>
-            </div>
-          </a-card>
-        </a-col>
-      </a-row>
+            <a-card
+              title="快速开始 / 便捷导航"
+              style="margin-bottom: 24px"
+              :bordered="false"
+            >
+              <div :class="$style['item-group']">
+                <a>操作一</a>
+                <a>操作二</a>
+                <a>操作三</a>
+                <a>操作四</a>
+                <a>操作五</a>
+                <a>操作六</a>
+                <a-button size="small" type="primary" ghost>
+                  <template #icon>
+                    <PlusOutlined />
+                  </template>
+                  添加
+                </a-button>
+              </div>
+            </a-card>
+            <a-card
+              title="XX 指数"
+              style="margin-bottom: 24px"
+              :loading="radarLoading"
+              :bordered="false"
+            >
+              <Radar :data="radarData" :max="radarMaxCount" />
+            </a-card>
+            <a-card :loading="loading" title="团队" :bordered="false">
+              <div :class="$style.members">
+                <a-row>
+                  <a-col :span="12" v-for="(item, index) in notice" :key="index">
+                    <a>
+                      <a-avatar size="small" :src="item.logo" />
+                      <span :class="$style.member">{{ item.title }}</span>
+                    </a>
+                  </a-col>
+                </a-row>
+              </div>
+            </a-card>
+          </a-col>
+        </a-row>
+      </div>
     </div>
-  </div>
+  </w-page-wrapper>
 </template>
 
 <script lang="ts">

@@ -18,6 +18,10 @@ const defaultSettings: settingConfig = {
   titleSeparator: ' - ',
   //标题是否反转 如果为false:"page - title"，如果为ture:"title - page"
   titleReverse: false,
+  //是否开启水印
+  waterMark: true,
+  //水印字符
+  waterMarkTitle: 'Wd Pro Admin',
   //开启cdn
   useCdn: true,
   //开发环境端口号
