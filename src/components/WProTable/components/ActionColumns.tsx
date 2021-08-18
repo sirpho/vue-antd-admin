@@ -1,4 +1,4 @@
-import { defineComponent, reactive, watch, onMounted } from 'vue'
+import { defineComponent, reactive, watch, onMounted, PropType } from 'vue'
 import {
   SettingOutlined,
   VerticalAlignTopOutlined,
@@ -35,7 +35,10 @@ const ActionColumns = defineComponent({
       }
     },
     scroll: {
-      type: Object || Boolean,
+      type: [ Object, Boolean ] as PropType<{
+        x?: boolean | number | string;
+        y?: boolean | number | string;
+      } | boolean>,
       required: false
     },
     visibleColumns: {
@@ -189,7 +192,7 @@ const ActionColumns = defineComponent({
             }
           })
         }
-        let data = []
+        let data: any = []
         switch (type) {
           case 'fixedLeft':
             data = [ ...state.leftColumnsData ]
@@ -404,8 +407,8 @@ const ActionColumns = defineComponent({
       </div>
     )
     const treeTitleSlots = (record) => {
-      const columnsItem = props.columns.find(item => item.uuid === record.uuid)
-      return record.title || (slots[columnsItem.slots.title] ? slots[columnsItem.slots.title]() : '')
+      const columnsItem: any = props.columns.find(item => item.uuid === record.uuid)
+      return record.title || (slots[columnsItem.slots.title] ? slots[columnsItem.slots.title]!() : '')
     }
     const TreeTitle = (record, type) => (
       <div class={styles['tree-title']}>
@@ -414,52 +417,49 @@ const ActionColumns = defineComponent({
             treeTitleSlots(record)
           }
         </div>
-        {
-          props.scroll ?
-            <span class={[
-              styles['title-actions'],
-              'w-pro-table-column-setting-list-item-option'
-            ]}>
-              {
-                type === 'nofixed' ?
-                  <span>
-                    <a-tooltip title="固定在列首">
-                      <VerticalAlignTopOutlined
-                        onClick={() => addFixed('fixedLeft', record, type)}
-                      />
-                    </a-tooltip>
-                  </span>
-                  :
-                  null
-              }
-              {
-                type === 'fixedLeft' || type === 'fixedRight' ?
-                  <span>
-                    <a-tooltip title="不固定">
-                      <VerticalAlignMiddleOutlined
-                        onClick={() => cancelFixed(type, record)}
-                      />
-                    </a-tooltip>
-                  </span>
-                  :
-                  null
-              }
-              {
-                type === 'nofixed' ?
-                  <span>
-                    <a-tooltip title="固定在列尾">
-                      <VerticalAlignBottomOutlined
-                        onClick={() => addFixed('fixedRight', record, type)}
-                      />
-                    </a-tooltip>
-                  </span>
-                  :
-                  null
-              }
+        <span
+          class={[
+            styles['title-actions'],
+            'w-pro-table-column-setting-list-item-option'
+          ]}
+        >
+          {
+            type === 'nofixed' ?
+              <span>
+                <a-tooltip title="固定在列首">
+                  <VerticalAlignTopOutlined
+                    onClick={() => addFixed('fixedLeft', record, type)}
+                  />
+                </a-tooltip>
+              </span>
+              :
+              null
+          }
+          {
+            type === 'fixedLeft' || type === 'fixedRight' ?
+              <span>
+                <a-tooltip title="不固定">
+                  <VerticalAlignMiddleOutlined
+                    onClick={() => cancelFixed(type, record)}
+                  />
+                </a-tooltip>
+              </span>
+              :
+              null
+          }
+          {
+            type === 'nofixed' ?
+              <span>
+                <a-tooltip title="固定在列尾">
+                  <VerticalAlignBottomOutlined
+                    onClick={() => addFixed('fixedRight', record, type)}
+                  />
+                </a-tooltip>
+              </span>
+              :
+              null
+          }
             </span>
-            :
-            null
-        }
       </div>
     )
     const popoverContent = () => {

@@ -9,8 +9,6 @@ export default defineComponent({
     const store = useStore()
     const siderRoutes = computed(() => store.getters['routes/siderRoutes'])
 
-    console.log(siderRoutes.value)
-
     return () => (
       <div class="wd-pro-page-wrapper">
         {

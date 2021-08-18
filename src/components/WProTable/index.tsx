@@ -6,10 +6,11 @@ import {
   watch,
   onMounted,
   computed,
-  getCurrentInstance
+  getCurrentInstance,
+  ComponentInternalInstance,
+  Ref
 } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { Table as T } from 'ant-design-vue'
 import {
   LoadingOutlined,
   ReloadOutlined,
@@ -19,7 +20,9 @@ import {
 } from '@ant-design/icons-vue'
 import Nodata from '/@/assets/public_image/nodata.png'
 import { getRandomNumber, getSortIndex, hanndleField, isArray, isObject } from '/@/utils/util'
-import { stateTypes } from './types'
+import { stateTypes } from './types/state'
+import { OptionConfig, ProTableProps } from './types/table'
+import { proTableProps } from './props'
 import DraggableResizable from '../DraggableResizable'
 import TableSearch from './components/TableSearch'
 import ActionColumns from './components/ActionColumns'
@@ -41,7 +44,7 @@ const defaultPageConfig = {
   pageSizeOptions: [ '10', '20', '50', '100' ],
   showTotal: (total) => `共${total < 10 ? 1 : Math.ceil(total / 10)}页 ${total}条记录`
 }
-const defaultOptions = {
+const defaultOptions: OptionConfig = {
   reload: true,
   density: true,
   setting: true,
@@ -51,101 +54,12 @@ const WProTable = defineComponent({
   components: {
     DraggableResizable
   },
-  props: Object.assign({}, T.props, {
-    request: {
-      type: Function,
-      required: false
-    },
-    params: {
-      type: Object,
-      required: false
-    },
-    search: {
-      type: Object,
-      required: false
-    },
-    actionRef: {
-      type: Function,
-      required: false
-    },
-    toolBarBtn: {
-      type: Object,
-      required: false,
-      default: () => {
-        return []
-      }
-    },
-    tableClassName: {
-      type: String,
-      required: false
-    },
-    tableStyle: {
-      type: Object,
-      required: false,
-      default: () => {
-        return {}
-      }
-    },
-    options: {
-      type: Object || Boolean,
-      required: false
-    },
-    showIndex: {
-      type: Boolean,
-      required: false,
-      default: true
-    },
-    headerTitle: {
-      type: Function || String,
-      required: false
-    },
-    titleTip: {
-      type: Function || String,
-      required: false
-    },
-    titleTipText: {
-      type: String,
-      required: false,
-      default: '这是一个标题提示'
-    },
-    showPagination: {
-      type: Boolean,
-      required: false,
-      default: true
-    },
-    size: {
-      type: String,
-      required: false,
-      default: 'middle'
-    },
-    align: {
-      type: String,
-      required: false,
-      default: 'left'
-    },
-    bordered: {
-      type: Boolean,
-      required: false,
-      default: true
-    },
-    draggabled: {
-      type: Boolean,
-      required: false
-    },
-    automaticScroll: {
-      type: Boolean,
-      required: false
-    },
-    neverScroll: {
-      type: Boolean,
-      required: false
-    }
-  }),
-  setup(props: any, { emit, slots }) {
+  props: proTableProps,
+  setup(props, { emit, slots }) {
     const { proxy }: any = getCurrentInstance()
     const tableClassName = 'wd-pro-table'
-    const draggingMap: any = {}
-    const defaultConfig: any = {
+    const draggingMap: Recordable = {}
+    const defaultConfig = {
       pagination: defaultPageConfig,
       transformCellText: ({ text, column }) => {
         const { value, success } = hanndleField(text, column.customize)
@@ -165,14 +79,12 @@ const WProTable = defineComponent({
     const state: stateTypes = reactive({
       table: null,
       searchData: [],
-      originProps: cloneDeep(props),
       pagination: {
         current: 1,
         pageSize: 10,
         total: 0,
         ...defaultPageConfig
       },
-      tableParameters: {},
       dataSource: [],
       tableId: getRandomNumber().uuid(15),
       tableKey: getRandomNumber().uuid(15),
@@ -186,9 +98,9 @@ const WProTable = defineComponent({
       tableSlots: {},
       draggingState: draggingMap
     })
-    const innerWidth = ref(window.innerWidth)
+    const innerWidth: Ref<number> = ref(window.innerWidth)
     state.columns.forEach(col => {
-      draggingMap[col.dataIndex || col.key] = col.width
+      if (col.dataIndex && col.key) draggingMap[col.dataIndex || col.key] = col.width
     })
     /**
      * @Author      gx12358
@@ -197,7 +109,7 @@ const WProTable = defineComponent({
      * @description ant-table重新渲染表头
      */
     const resizeableTitle = (titleprops, { ...restProps }) => {
-      let thDom: any = null
+      let thDom: Element | null | ComponentInternalInstance = null
       const { children } = restProps[0]
       const { key } = titleprops
       const col = state.columns.find(col => {
@@ -246,7 +158,9 @@ const WProTable = defineComponent({
         col.width = Math.max(x, 30)
       }
       const onDragstop = () => {
-        state.draggingState[key] = thDom.getBoundingClientRect().width
+        if (thDom && thDom['getBoundingClientRect']) {
+          state.draggingState[key] = thDom['getBoundingClientRect']().width
+        }
       }
       return (
         <th {...titleprops} ref={r => { thDom = r }} width={col.width} class="resize-table-th">
@@ -478,14 +392,14 @@ const WProTable = defineComponent({
         ...defaultPageConfig,
         ...props.pagination
       }
-      const dataSource = getSortIndex(props.dataSource, props.pagination)
+      const dataSource: Recordable[] = getSortIndex(props.dataSource, props.pagination)
       let scroll = props.scroll ?
         props.scroll
         :
         innerWidth.value < 1540 ?
           { x: props.columns.length * 140 }
           :
-          null
+          false
       if (props.automaticScroll) {
         if (!props.scroll?.y) {
           scroll = innerWidth.value < 1540 ?
@@ -495,9 +409,9 @@ const WProTable = defineComponent({
         }
       }
       if (props.neverScroll && innerWidth.value > 992) {
-        scroll = null
+        scroll = false
       }
-      const tableProps = {
+      const tableProps: ProTableProps = {
         ...props,
         ...publicConfig,
         dataSource
@@ -698,7 +612,7 @@ const WProTable = defineComponent({
         } else if (el.msExitFullscreen) {
           el.msExitFullscreen()
         }
-        if (state.table) state.table.classList.remove('wd-pro-full-screen')
+        if (state.table) state.table['classList'].remove('wd-pro-full-screen')
       } else {
         const el: any = state.table
         el.classList.add('wd-pro-full-screen')
@@ -839,7 +753,11 @@ const WProTable = defineComponent({
           props.toolBarBtn && props.toolBarBtn.length > 0 ?
             <div
               class={styles[`${tableClassName}-list-toolbar-btns`]}
-              style={innerWidth.value < 992 ? { width: '100%', marginTop: '16px', marginLeft: 0 } : undefined}
+              style={innerWidth.value < 992 ? {
+                width: '100%',
+                marginTop: '16px',
+                marginLeft: 0
+              } : undefined}
             >
               <a-space>
                 {
@@ -851,7 +769,11 @@ const WProTable = defineComponent({
             slots.toolBarBtn ?
               <div
                 class={styles[`${tableClassName}-list-toolbar-btns`]}
-                style={innerWidth.value < 992 ? { width: '100%', marginTop: '16px', marginLeft: 0 } : undefined}
+                style={innerWidth.value < 992 ? {
+                  width: '100%',
+                  marginTop: '16px',
+                  marginLeft: 0
+                } : undefined}
               >
                 <a-space>
                   {

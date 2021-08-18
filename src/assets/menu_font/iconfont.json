@@ -6,11 +6,18 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "12683594",
+      "icon_id": "3879476",
       "name": "数据",
-      "font_class": "icon_huabanfuben",
-      "unicode": "e61b",
-      "unicode_decimal": 58907
+      "font_class": "shuju",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "9512581",
+      "name": "布局",
+      "font_class": "layout",
+      "unicode": "e627",
+      "unicode_decimal": 58919
     },
     {
       "icon_id": "755620",
