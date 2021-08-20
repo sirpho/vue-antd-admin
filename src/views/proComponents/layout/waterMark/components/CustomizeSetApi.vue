@@ -1,0 +1,158 @@
+<template>
+  <a-typography id="watermark-customize-api">
+    <a-typography-title :level="3" :style="{color: '#454d64'}">自定义配置</a-typography-title>
+  </a-typography>
+  <a-typography>
+    <a-typography style="color: #454d64;">
+      这里给出一些通用配置项。如需进一步配置请联系我们。
+    </a-typography>
+  </a-typography>
+  <div style="position: relative;z-index: 99;margin-top: 15px;background-color: rgb(240, 242, 245);border: 1px solid #ebedf1;border-radius: 1px;">
+    <div style="padding: 40px 24px;">
+      <a-card
+        :class="$style['wd-pro-card-contain-card']"
+        title="水印自定义配置器"
+        :headStyle="{ borderBottom: '1px solid #f0f0f0', marginBottom: 0 }"
+        :bodyStyle="{ display: 'flex', padding: 0 }"
+      >
+        <div style="flex-shrink: 0;width: 70%;border-right: 1px solid #f0f0f0;">
+          <a-card :bordered="false">
+            <w-pro-watermark
+              :content="formState.content"
+              :fontColor="formState.fontColor"
+              :fontSize="formState.fontSize"
+              :zIndex="formState.zIndex"
+              :rotate="formState.rotate"
+            >
+              <div :class="$style['customize-set']">
+                <p>
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quisquam aliquid
+                  perferendis, adipisci dolorum officia odio natus facere cumque iusto libero
+                  repellendus praesentium ipsa cupiditate iure autem eos repudiandae delectus
+                  totam?
+                </p>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo praesentium,
+                  aperiam numquam voluptatibus asperiores odio? Doloribus saepe, eligendi facere
+                  inventore culpa, exercitationem explicabo earum laborum deleniti reiciendis
+                  deserunt accusantium ullam.
+                </p>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia voluptas
+                  numquam impedit architecto facilis aliquam at assumenda, nostrum explicabo
+                  accusantium ipsam error provident voluptate molestias magnam quisquam
+                  excepturi illum sit!
+                </p>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, accusantium
+                  quo corporis fugit possimus quaerat ad consequatur veniam voluptatum ut cumque
+                  illo beatae. Magni assumenda eligendi itaque eum voluptate non!
+                </p>
+              </div>
+              <h4>
+                下面是一张zIndex 为 10 的 position 为 relative 图片，
+                <br /> 如果要在图片中展示水印尝试调大右侧的 zIndex 滑块试试。
+              </h4>
+              <img
+                src="https://gw.alipayobjects.com/zos/bmw-prod/d283f09a-64d6-4d59-bfc7-37b49ea0da2b.svg"
+                alt="示例图片"
+                width="600"
+                :style="{ zIndex: 10, maxWidth: '100%', position: 'relative' }"
+              />
+            </w-pro-watermark>
+          </a-card>
+        </div>
+        <div style="width: 100%">
+          <a-card
+            :bordered="false"
+            title="配置面板"
+            :headStyle="{ borderBottom: 0 }"
+          >
+            <a-form layout="vertical" :model="formState">
+              <a-form-item label="水印文字">
+                <a-input v-model:value="formState.content" placeholder="Basic usage" />
+              </a-form-item>
+              <a-form-item label="字体颜色">
+                <w-pro-color v-model:value="formState.fontColor" :predefine="predefineColors" />
+              </a-form-item>
+              <a-form-item label="字体大小">
+                <a-slider v-model:value="formState.fontSize" :min="1" :max="100" />
+              </a-form-item>
+              <a-form-item label="zIndex">
+                <a-slider v-model:value="formState.zIndex" :min="1" :max="100" />
+              </a-form-item>
+              <a-form-item label="旋转角度">
+                <a-slider v-model:value="formState.rotate" :min="-90" :max="90" />
+              </a-form-item>
+            </a-form>
+            <a-divider />
+          </a-card>
+          <a-typography-paragraph style="margin: 0 24px 0 24px;" copyable class="wd-code">
+            <pre>{{ code }}</pre>
+          </a-typography-paragraph>
+        </div>
+      </a-card>
+    </div>
+  </div>
+</template>
+
+<script>
+import { defineComponent, reactive, toRefs } from 'vue'
+import config from '../utils/config'
+
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      code: config.code,
+      predefineColors: [
+        '#ff4500',
+        '#ff8c00',
+        '#ffd700',
+        '#90ee90',
+        '#00ced1',
+        '#1e90ff',
+        '#c71585',
+        'rgba(255, 69, 0, 0.68)',
+        'rgb(255, 120, 0)',
+        'hsv(51, 100, 98)',
+        'hsva(120, 40, 94, 0.5)',
+        'hsl(181, 100%, 37%)',
+        'hsla(209, 100%, 56%, 0.73)',
+        '#c7158577'
+      ],
+      formState: {
+        content: '示例水印',
+        fontColor: 'rgba(0,0,0,.15)',
+        fontSize: '16',
+        zIndex: '9',
+        rotate: '-22',
+      }
+    })
+    
+    return {
+      ...toRefs(state)
+    }
+  }
+})
+</script>
+
+<style lang="less" module>
+.customize-set {
+  p {
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+  
+  h4 {
+    margin-top: 0;
+    margin-bottom: .5em;
+    font-weight: 500;
+    color: rgba(0, 0, 0, .85);
+  }
+  
+  img {
+    vertical-align: middle;
+    border-style: none;
+  }
+}
+</style>

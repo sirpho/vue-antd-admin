@@ -2,7 +2,7 @@ import { computed, defineComponent, ref, watch } from 'vue'
 import config from '/config/config'
 import styles from './style.module.less'
 
-const { waterMarkTitle, waterMark } = config.defaultSettings
+const { waterMarkTitle } = config.defaultSettings
 
 export default defineComponent({
   props: {
@@ -89,9 +89,9 @@ export default defineComponent({
         backgroundSize: `${props.gapX + props.width}px`,
         pointerEvents: 'none',
         backgroundRepeat: 'repeat',
+        backgroundImage: `url(${base64Url.value})`,
         ...props.markStyle,
       }
-      if (waterMark) style.backgroundImage = `url(${base64Url.value})`
       return style
     })
     const getPixelRatio = (context: any) => {
@@ -149,7 +149,7 @@ export default defineComponent({
     watch(
       () => props,
       (newProps) => {
-        if (waterMark) createBase64(newProps)
+        createBase64(newProps)
       },
       {
         deep: true,

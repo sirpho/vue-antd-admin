@@ -33,4 +33,13 @@ for (let i = 0; i < 10; i += 1) {
 
 export default {
   positionData: tableListDataSource,
+  code: `<w-pro-watermark
+  :rotate="-2"
+  content='示例水印'
+  fontColor='#064417'
+  :fontSize="15"
+  :zIndex="18"
+>
+  <div>xxx</div>
+</w-pro-watermark>`
 }

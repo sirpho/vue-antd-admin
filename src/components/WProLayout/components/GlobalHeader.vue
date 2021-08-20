@@ -141,7 +141,7 @@ export default defineComponent({
       height: '48px',
       lineHeight: '48px',
       width: '100%',
-      zIndex: store.getters['settings/layout'] === 'side' ? 9 : 99,
+      zIndex: store.getters['settings/layout'] === 'side' ? 9 : 999,
       right: '0px'
     })
     const visible = ref(true)

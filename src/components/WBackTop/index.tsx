@@ -7,7 +7,7 @@ const WBackTop = defineComponent({
     root: {
       type: String,
       required: false,
-      default: '#wd-pro-admin .wd-pro-scrollbar-wrap'
+      default: '#wd-pro-admin>.wd-pro-scrollbar>.wd-pro-scrollbar-wrap'
     },
     visibilityHeight: {
       type: Number,

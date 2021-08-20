@@ -1,0 +1,58 @@
+.@{wd-prefix-anchor} {
+  position: absolute;
+  top: 20px;
+  right: 0;
+  max-height: calc(90vh - 144px);
+  
+  .@{wd-prefix-anchor}-wrapper {
+    box-sizing: content-box;
+    width: 136px;
+    max-height: calc(90vh - 80px);
+    padding: 0 24px 0 0;
+    margin: 0;
+    overflow: auto;
+    background-color: #fff;
+    
+    .@{wd-prefix-anchor}-ink {
+      position: relative;
+      padding: 4px 0 4px 6px;
+      margin: 0;
+      overflow: hidden;
+      font-size: 13px;
+      line-height: 1.40625;
+      color: #454d64;
+      text-decoration: none;
+      text-indent: 12px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: pointer;
+      
+      &.active {
+        color: #3d62d2;
+        
+        &:hover {
+          color: #3d62d2;
+        }
+        
+        &:before {
+          background: #4569d4;
+        }
+      }
+      
+      &:hover {
+        color: #5a7ad9;
+      }
+      
+      &:before {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        display: inline-block;
+        width: 2px;
+        content: "";
+        background: #ebedf1;
+      }
+    }
+  }
+}

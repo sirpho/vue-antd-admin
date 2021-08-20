@@ -5,7 +5,10 @@ import config from '/config/config'
 const { waterMark } = config.defaultSettings
 
 export default defineComponent({
-  setup(_, { slots }) {
+  props: {
+    contentStyle: Object as PropType<CSSStyleSheet>
+  },
+  setup(props, { slots }) {
     const store = useStore()
     const siderRoutes = computed(() => store.getters['routes/siderRoutes'])
 
@@ -27,7 +30,7 @@ export default defineComponent({
             <div class="wd-pro-grid-content">
               {
                 waterMark ?
-                  <div class="wd-pro-grid-content-children">
+                  <div class="wd-pro-grid-content-children" style={props.contentStyle}>
                     <w-pro-watermark>
                       {
                         slots.default ? slots.default() : null
@@ -35,7 +38,7 @@ export default defineComponent({
                     </w-pro-watermark>
                   </div>
                   :
-                  <div class="wd-pro-grid-content-children">
+                  <div class="wd-pro-grid-content-children" style={props.contentStyle}>
                     {
                       slots.default ? slots.default() : null
                     }

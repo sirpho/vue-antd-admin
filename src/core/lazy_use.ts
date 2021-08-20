@@ -4,6 +4,7 @@ import 'moment/dist/locale/zh-cn'
 moment.locale('zh-cn')
 
 import {
+  WAffix,
   WResult,
   WProTable,
   WBackTop,
@@ -14,6 +15,8 @@ import {
   WSkeleton,
   WProSkeleton,
   WProWatermark,
+  WProColorPicker,
+  WAnchor
 } from '/@/components'
 import { WScrollbars, WProLayout, CustomIcon } from '/@/components/export'
 
@@ -59,7 +62,9 @@ import {
   Card,
   DatePicker,
   Form,
+  Slider,
   Carousel,
+  Anchor,
   BackTop
 } from 'ant-design-vue'
 
@@ -78,6 +83,11 @@ const ant = {
     app.component('w-skeleton', WSkeleton)
     app.component('w-pro-skeleton', WProSkeleton)
     app.component('w-pro-watermark', WProWatermark)
+    app.component('w-pro-color', WProColorPicker)
+    app.component('w-affix', WAffix)
+    app.component('w-anchor', WAnchor)
+    app.use(Slider)
+    app.use(Anchor)
     app.use(List)
     app.use(PageHeader)
     app.use(Statistic)
