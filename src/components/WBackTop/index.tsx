@@ -36,6 +36,9 @@ const WBackTop = defineComponent({
         handleScroll
       )
       window.addEventListener('resize', getWidth)
+      handleScroll({
+        target: document.querySelector(props.root)
+      })
     })
     onUnmounted(() => {
       (document.querySelector(props.root) as HTMLInputElement).removeEventListener(

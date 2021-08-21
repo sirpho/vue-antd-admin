@@ -1,10 +1,11 @@
-import { computed, defineComponent, onMounted, onUnmounted, ref } from 'vue'
+import { computed, defineComponent, onMounted, onUnmounted, reactive, watch } from 'vue'
+import { cloneDeep } from 'lodash-es'
 import styles from './style.module.less'
 
 export default defineComponent({
   props: {
     root: {
-      type: String,
+      type: String as PropType<string>,
       required: false,
       default: '#wd-pro-admin>.wd-pro-scrollbar>.wd-pro-scrollbar-wrap'
     },
@@ -17,20 +18,46 @@ export default defineComponent({
   setup(props) {
     const prefixCls = 'wd-anchor'
 
+    const state = reactive({
+      dataSource: [],
+      offsetTopRange: []
+    })
+
     const root = computed(() => {
       return props.root
     })
 
-    const dataSource = computed(() => {
-      return props.links || []
+    watch(() => props.links, (data) => {
+      state.dataSource = cloneDeep(data)
+    }, {
+      deep: true,
+      immediate: true
     })
+
+    const handleChangeLinks = (data) => {
+      state.offsetTopRange = cloneDeep(data).map((item, index) => {
+        const anchor = document.querySelector(item.link) || { offsetTop: 0 }
+        const afterAnchor = index + 1 === state.dataSource.length ?
+          { offsetTop: 100000 }
+          :
+          document.querySelector(state.dataSource[index + 1].link) || { offsetTop: 0 }
+        return {
+          valueRange: [anchor?.offsetTop || 0 , afterAnchor?.offsetTop || 0]
+        }
+      })
+    }
 
     onMounted(() => {
       (document.querySelector(props.root) as HTMLInputElement).addEventListener(
         'scroll',
         handleScroll
       )
+      handleChangeLinks(state.dataSource)
+      handleScroll({
+        target: document.querySelector(props.root)
+      })
     })
+
     onUnmounted(() => {
       (document.querySelector(props.root) as HTMLInputElement).removeEventListener(
         'scroll',
@@ -40,9 +67,8 @@ export default defineComponent({
 
     const handleScroll = (e) => {
       if (e.target) {
-        dataSource.value.map(item => {
-          const anchor = document.querySelector(item.link) || { offsetTop: 0 }
-          item.active = e.target.scrollTop >= (anchor?.offsetTop || 0)
+        state.dataSource.map((item, index) => {
+          item.active = e.target.scrollTop >= state.offsetTopRange[index].valueRange[0] && e.target.scrollTop < state.offsetTopRange[index].valueRange[1]
           return item
         })
       }
@@ -50,8 +76,8 @@ export default defineComponent({
 
     const goAnchor = (selector) => {
       const anchor = document.querySelector(selector) || { offsetTop: 0 }
-      document.querySelector(root.value)
-        .scrollTo({ top: anchor.offsetTop + 64, behavior: 'smooth' })
+      const targetNode: any = document.querySelector(root.value)
+      targetNode.scrollTo({ top: anchor.offsetTop + 64, behavior: 'smooth' })
     }
 
     return () => (
@@ -59,7 +85,7 @@ export default defineComponent({
         <w-affix>
           <div class={styles[`${prefixCls}-wrapper`]}>
             {
-              dataSource.value.map((item, index) => (
+              state.dataSource.map((item, index) => (
                 <div
                   key={index}
                   class={

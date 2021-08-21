@@ -1,28 +1,38 @@
 import { computed, defineComponent, onMounted, onUnmounted, onUpdated, reactive, ref } from 'vue'
+import type { CSSProperties, PropType } from 'vue';
 import { useStore } from 'vuex'
 import { getTargetRect, getFixedTop, getFixedBottom } from './utils/index'
 import styles from './style.module.less'
 
-const WAffix = defineComponent({
-  props: {
-    root: {
-      type: String,
-      required: false,
-      default: '#wd-pro-admin>.wd-pro-scrollbar>.wd-pro-scrollbar-wrap'
-    },
-    offsetTop: {
-      type: Number,
-      required: false,
-      default: 20
-    }
+export interface AffixState {
+  affixStyle?: CSSProperties;
+  placeholderStyle?: CSSProperties;
+}
+
+const affixProps = {
+  offsetTop: {
+    type: Number as PropType<number>,
+    default: 20
   },
+  offsetBottom: {
+    type: Number as PropType<number>,
+    default: 20
+  },
+  root: {
+    type: Number as PropType<string>,
+    default: '#wd-pro-admin>.wd-pro-scrollbar>.wd-pro-scrollbar-wrap'
+  },
+};
+
+const WAffix = defineComponent({
+  props: affixProps,
   setup(props, { slots }) {
     const defaultClassName = 'wd-affix'
     const store = useStore()
     const className = ref<any>('')
     const placeholderNode = ref<any>(null)
     const fixedNode = ref<any>(null)
-    const state = reactive({
+    const state: AffixState = reactive({
       affixStyle: undefined,
       placeholderStyle: undefined
     })

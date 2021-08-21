@@ -38,11 +38,11 @@ export default defineComponent({
       links: [
         {
           link: '#watermark-customize-api',
-          name: '自定义配置-api'
+          name: '自定义配置'
         },
         {
           link: '#watermark-position-api',
-          name: '前置水印-api'
+          name: '前置水印'
         }
       ]
     }
