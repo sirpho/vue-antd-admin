@@ -21,7 +21,10 @@ export default defineComponent({
     const state = reactive({
       dataSource: [],
       offsetTopRange: []
-    })
+    }) as {
+      dataSource: any[];
+      offsetTopRange: any[];
+    }
 
     const root = computed(() => {
       return props.root
@@ -40,9 +43,9 @@ export default defineComponent({
         const afterAnchor = index + 1 === state.dataSource.length ?
           { offsetTop: 100000 }
           :
-          document.querySelector(state.dataSource[index + 1].link) || { offsetTop: 0 }
+          document.querySelector(state.dataSource[index + 1]['link']) || { offsetTop: 0 }
         return {
-          valueRange: [anchor?.offsetTop || 0 , afterAnchor?.offsetTop || 0]
+          valueRange: [ anchor?.offsetTop || 0, afterAnchor?.offsetTop || 0 ]
         }
       })
     }
@@ -67,8 +70,9 @@ export default defineComponent({
 
     const handleScroll = (e) => {
       if (e.target) {
-        state.dataSource.map((item, index) => {
-          item.active = e.target.scrollTop >= state.offsetTopRange[index].valueRange[0] && e.target.scrollTop < state.offsetTopRange[index].valueRange[1]
+        state.dataSource.map((item: any, index) => {
+          item.active = e.target.scrollTop >= state.offsetTopRange[index]['valueRange'][0] &&
+            e.target.scrollTop < state.offsetTopRange[index]['valueRange'][1]
           return item
         })
       }
@@ -82,10 +86,10 @@ export default defineComponent({
 
     return () => (
       <div class={styles[prefixCls]}>
-        <w-affix>
+        <w-affix offsetTop={68}>
           <div class={styles[`${prefixCls}-wrapper`]}>
             {
-              state.dataSource.map((item, index) => (
+              state.dataSource.map((item: any, index) => (
                 <div
                   key={index}
                   class={

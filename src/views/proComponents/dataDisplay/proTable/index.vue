@@ -46,19 +46,12 @@
         </a-dropdown>
       </template>
       <template #search>
-        <w-input-search
-          v-model:searchValue="tableParameters.title"
-          :actionRef="info => inputSearchRef = info"
+        <a-input
+          v-model:value="tableParameters.title"
           allow-clear
           placeholder="请输入标题"
           style="width: 100%"
-        >
-          <template #enterButton>
-            <a-button>
-              <SearchOutlined />
-            </a-button>
-          </template>
-        </w-input-search>
+        />
         <a-select
           v-model:value="tableParameters.source"
           placeholder="请选择来源"
@@ -95,7 +88,6 @@
 
 <script lang="ts">
 import { defineComponent, getCurrentInstance, reactive, toRefs } from 'vue'
-import { SearchOutlined } from '@ant-design/icons-vue'
 import { getList } from '/@/services/table'
 import { deepCopy, handleSelectPage } from '/@/utils/util'
 import ProTableApi from './components/ProTableApi.vue'
@@ -106,7 +98,6 @@ import config from './utils/config'
 
 export default defineComponent({
   components: {
-    SearchOutlined,
     ProTableApi,
     ProTableSearch,
     ProTableColums
@@ -155,7 +146,7 @@ export default defineComponent({
     }
     const onReset = () => {}
     const onSearchReset = () => {
-      state.inputSearchRef.changeValue('')
+      // state.inputSearchRef.changeValue('')
       state.tableParameters = {
         source: undefined,
         title: ''

@@ -1,5 +1,20 @@
-import { computed, defineComponent, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  onUnmounted,
+  onActivated,
+  reactive,
+  ref,
+  watch,
+  nextTick
+} from 'vue'
 import { VerticalAlignTopOutlined } from '@ant-design/icons-vue'
+import PropTypes from '../_util/vue-types'
+import getScroll from '../_util/getScroll'
+import scrollTo from '../_util/scrollTo'
+import addEventListener from '../_util/Dom/addEventListener'
+import throttleByAnimationFrame from '../_util/throttleByAnimationFrame'
 import styles from './style.module.less'
 
 const WBackTop = defineComponent({
@@ -20,7 +35,8 @@ const WBackTop = defineComponent({
       default: () => {
         return {}
       }
-    }
+    },
+    duration: PropTypes.number.def(450)
   },
   setup(props, { emit, slots }) {
     const className = 'wd-back-top'
@@ -28,23 +44,52 @@ const WBackTop = defineComponent({
     const state = reactive({
       visible: false,
       animated: false,
-      animatedCssName: ''
-    })
-    onMounted(() => {
-      (document.querySelector(props.root) as HTMLInputElement).addEventListener(
-        'scroll',
-        handleScroll
-      )
-      window.addEventListener('resize', getWidth)
+      animatedCssName: '',
+      scrollEvent: null
+    }) as {
+      visible: boolean;
+      animated: boolean;
+      animatedCssName: string;
+      scrollEvent: { remove: () => void } | null;
+    }
+    const bindScrollEvent = () => {
+      const { root } = props
+      const container = (document.querySelector(root) as HTMLInputElement)
+      state.scrollEvent = addEventListener(container, 'scroll', (e: Event) => {
+        handleScroll(e)
+      })
       handleScroll({
-        target: document.querySelector(props.root)
+        target: container
+      })
+    }
+    const scrollRemove = () => {
+      if (state.scrollEvent) {
+        state.scrollEvent.remove()
+      }
+      (handleScroll as any).cancel()
+    }
+    watch(
+      () => props.root,
+      () => {
+        scrollRemove()
+        nextTick(() => {
+          bindScrollEvent()
+        })
+      }
+    )
+    onMounted(() => {
+      nextTick(() => {
+        bindScrollEvent()
+        window.addEventListener('resize', getWidth)
+      })
+    })
+    onActivated(() => {
+      nextTick(() => {
+        bindScrollEvent()
       })
     })
     onUnmounted(() => {
-      (document.querySelector(props.root) as HTMLInputElement).removeEventListener(
-        'scroll',
-        handleScroll
-      )
+      scrollRemove()
       window.removeEventListener('resize', getWidth)
     })
     watch(innerWidth, (value) => {
@@ -67,31 +112,28 @@ const WBackTop = defineComponent({
     const getWidth = () => {
       innerWidth.value = window.innerWidth
     }
-    const handleScroll = (e) => {
-      if (e.target) {
-        if (e.target.scrollTop >= props.visibilityHeight) {
-          state.visible = true
-          state.animatedCssName = 'fadeIn'
-        } else {
-          state.animatedCssName = 'fadeOut'
-          setTimeout(() => {
-            if (e.target.scrollTop < props.visibilityHeight) state.visible = false
-          }, 600)
-        }
-      }
-    }
-    const backTop = () => {
-      (document.querySelector(props.root) as HTMLInputElement).scrollTo({
-        top: 0,
-        behavior: 'smooth'
+    const handleScroll = throttleByAnimationFrame((e: Event | { target: any }) => {
+      const { visibilityHeight } = props
+      const scrollTop = getScroll(e.target, true)
+      state.visible = scrollTop > visibilityHeight
+    })
+    const scrollToTop = (e) => {
+      const { root, duration } = props
+      scrollTo(0, {
+        getContainer: () => (document.querySelector(root) as HTMLInputElement),
+        duration
       })
-      emit('topClick', (document.querySelector(props.root) as HTMLInputElement).scrollTop)
+      emit('click', e)
     }
     const contentSlots = () => <div class={styles[`${className}-icon`]}>
       <VerticalAlignTopOutlined />
     </div>
     return () => state.visible ?
-      <div class={[ styles[className], 'animated', state.animatedCssName ]} onClick={backTop} style={targetStyle.value}>
+      <div
+        class={[ styles[className], 'animated', state.animatedCssName ]}
+        onClick={scrollToTop}
+        style={targetStyle.value}
+      >
         <div class={styles[`${className}-content`]}>
           {
             slots.default ? slots.default() : contentSlots()
