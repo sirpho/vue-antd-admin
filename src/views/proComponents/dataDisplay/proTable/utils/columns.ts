@@ -24,7 +24,8 @@ export default {
       ellipsis: true,
       width: 150,
       copyable: true,
-      key: 'operation',
+      dataIndex: 'action',
+      key: 'action',
       slots: { customRender: 'action' }
     }
   ],

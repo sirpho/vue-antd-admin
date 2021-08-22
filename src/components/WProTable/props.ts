@@ -37,7 +37,8 @@ export const proTableProps = Object.assign({}, T.props, {
   },
   options: {
     type: [ Object, Boolean ] as PropType<OptionConfig | boolean>,
-    required: false
+    required: false,
+    default: true
   },
   showIndex: {
     type: Boolean as PropType<boolean>,
