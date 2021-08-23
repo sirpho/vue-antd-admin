@@ -1,4 +1,7 @@
 <template>
+  <a-typography id="w-skeleton-demo">
+    <a-typography-title :level="2" :style="{color: '#454d64'}">Skeleton</a-typography-title>
+  </a-typography>
   <a-space>
     <w-skeleton :loading="loading" :shape="buttonShape" :active="active" :size="size">
       按钮
@@ -47,7 +50,7 @@
       </a-radio-group>
     </a-form-item>
   </a-form>
-  <a-typography style="margin-top: 15px">
+  <a-typography id="w-skeleton-api" style="margin-top: 15px">
     <a-typography-title :level="2" :style="{color: '#454d64'}">API</a-typography-title>
   </a-typography>
   <a-typography>

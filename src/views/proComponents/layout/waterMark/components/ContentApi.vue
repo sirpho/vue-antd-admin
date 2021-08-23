@@ -1,6 +1,11 @@
 <template>
-  <a-typography>
-    <a-typography-title :level="3" :style="{color: '#454d64'}">文字水印</a-typography-title>
+  <a-typography id="watermark-text">
+    <a-typography-title
+      :level="4"
+      style="font-weight: normal;color: #454d64;"
+    >
+      文字水印
+    </a-typography-title>
   </a-typography>
   <a-typography>
     <a-typography style="color: #454d64;">

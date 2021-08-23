@@ -1,5 +1,5 @@
 <template>
-  <a-typography style="margin-top: 12px">
+  <a-typography id="columns-api" style="margin-top: 12px">
     <a-typography-title style="margin-top: 12px" :level="3" :style="{color: '#454d64'}">
       Columns 列定义（继承antd属性，这里列举新增的属性）
     </a-typography-title>

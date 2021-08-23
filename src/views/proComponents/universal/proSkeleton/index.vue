@@ -1,14 +1,17 @@
 <template>
-  <w-page-wrapper :class="$style['skeleton-block']">
-    <BasicSkelecton />
-    <ListSkelecton />
-    <ResultSkelecton />
-    <DescriptionsSkelecton />
+  <w-page-wrapper :contentStyle="{ position: 'relative' }" :class="$style['skeleton-block']">
+    <w-anchor :links="links" />
+    <div style="padding-right: 208px">
+      <BasicSkelecton />
+      <ListSkelecton />
+      <ResultSkelecton />
+      <DescriptionsSkelecton />
+    </div>
   </w-page-wrapper>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, reactive, toRefs } from 'vue'
 import BasicSkelecton from './components/BasicSkelecton.vue'
 import ListSkelecton from './components/ListSkelecton.vue'
 import ResultSkelecton from './components/ResultSkelecton.vue'
@@ -22,7 +25,44 @@ export default defineComponent({
     DescriptionsSkelecton
   },
   setup() {
-    return {}
+    const state = reactive({
+      links: [
+        {
+          link: '#w-skeleton-demo',
+          name: 'Skeleton'
+        },
+        {
+          link: '#w-skeleton-api',
+          name: 'Skeleton-API'
+        },
+        {
+          link: '#w-pro-skeleton',
+          name: 'ProSkeleton'
+        },
+        {
+          link: '#w-pro-skeleton-list',
+          level: 2,
+          name: 'List'
+        },
+        {
+          link: '#w-pro-skeleton-result',
+          level: 2,
+          name: '结果页'
+        },
+        {
+          link: '#w-pro-skeleton-descriptions',
+          level: 2,
+          name: '详情页'
+        },
+        {
+          link: '#w-pro-skeleton-api',
+          name: 'ProSkeleton-API'
+        }
+      ]
+    })
+    return {
+      ...toRefs(state)
+    }
   }
 })
 </script>

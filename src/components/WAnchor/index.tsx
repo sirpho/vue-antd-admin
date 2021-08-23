@@ -16,7 +16,6 @@ import styles from './style.module.less'
 
 export interface anchorState {
   dataSource: any[];
-  offsetTopRange: any[];
   scrollEvent: { remove: () => void } | null;
 }
 
@@ -38,17 +37,15 @@ const WAnchor = defineComponent({
 
     const state: anchorState = reactive({
       dataSource: [],
-      offsetTopRange: [],
       scrollEvent: null
     })
 
     const bindScrollEvent = () => {
-      const { root, links } = props
+      const { root } = props
       const container = (document.querySelector(root) as HTMLInputElement)
       state.scrollEvent = addEventListener(container, 'scroll', (e: Event) => {
         handleScroll(e)
       })
-      handleChangeLinks(links)
       handleScroll({
         target: container
       })
@@ -78,19 +75,6 @@ const WAnchor = defineComponent({
       }
     )
 
-    const handleChangeLinks = (data) => {
-      state.offsetTopRange = cloneDeep(data).map((item, index) => {
-        const anchor = document.querySelector(item.link) || { offsetTop: 0 }
-        const afterAnchor = index + 1 === state.dataSource.length ?
-          { offsetTop: 100000 }
-          :
-          document.querySelector(state.dataSource[index + 1]['link']) || { offsetTop: 0 }
-        return {
-          valueRange: [ anchor?.offsetTop || 0, afterAnchor?.offsetTop || 0 ]
-        }
-      })
-    }
-
     onMounted(() => {
       nextTick(() => {
         bindScrollEvent()
@@ -108,11 +92,22 @@ const WAnchor = defineComponent({
     const handleScroll = throttleByAnimationFrame((e: Event | { target: any }) => {
       const scrollTop = getScroll(e.target, true)
       state.dataSource.map((item: any, index) => {
-        item.active = scrollTop >= state.offsetTopRange[index]['valueRange'][0] &&
-          scrollTop < state.offsetTopRange[index]['valueRange'][1]
+        const anchor = document.querySelector(item.link) || { offsetTop: 0 }
+        const afterAnchor = index + 1 === state.dataSource.length ?
+          { offsetTop: 100000 }
+          :
+          document.querySelector(state.dataSource[index + 1]['link']) || { offsetTop: 0 }
+        item.active = scrollTop >= anchor.offsetTop &&
+          scrollTop < afterAnchor.offsetTop
         return item
       })
     })
+
+    const handelInkStyle = (level = 1) => {
+      return {
+        paddingLeft: `${level * 6}px`
+      }
+    }
 
     const goAnchor = (selector) => {
       const targetNode = document.querySelector(selector) || { offsetTop: 0 }
@@ -131,6 +126,7 @@ const WAnchor = defineComponent({
               state.dataSource.map((item: any, index) => (
                 <div
                   key={index}
+                  style={handelInkStyle(item.level)}
                   class={
                     item.active ?
                       [ styles[`${prefixCls}-ink`], styles.active ]

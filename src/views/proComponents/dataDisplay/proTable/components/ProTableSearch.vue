@@ -1,5 +1,5 @@
 <template>
-  <a-typography style="margin-top: 12px">
+  <a-typography id="search-api" style="margin-top: 15px">
     <a-typography-title
       style="margin-top: 12px"
       :level="3"
@@ -9,6 +9,7 @@
     </a-typography-title>
   </a-typography>
   <w-pro-table
+    style="margin-top: 15px"
     :showIndex="false"
     :showPagination="false"
     :options="false"
@@ -17,7 +18,40 @@
     :dataSource="searchTableData"
     :row-key="(record) => record.attributes"
   />
-  <a-typography style="margin-top: 12px">
+  <a-typography-title
+    id="search-type-dataSouce"
+    style="margin-top: 15px"
+    :level="4"
+    :style="{color: '#454d64'}"
+  >
+    Pro Table - Search type: dataSouce示例：
+  </a-typography-title>
+  <a-typography-paragraph style="margin-top: 15px" copyable class="wd-code">
+    <pre>{{ searchDataCode }}</pre>
+  </a-typography-paragraph>
+  <a-typography-title
+    id="search-type-slots"
+    style="margin-top: 15px"
+    :level="4"
+    :style="{color: '#454d64'}"
+  >
+    Pro Table - Search type: slots示例：
+  </a-typography-title>
+  <a-typography-paragraph style="margin-top: 15px" copyable class="wd-code">
+    <pre>{{ searchSlotsCode }}</pre>
+  </a-typography-paragraph>
+  <a-typography-title
+    id="search-type-columns"
+    style="margin-top: 15px"
+    :level="4"
+    :style="{color: '#454d64'}"
+  >
+    Pro Table - Search type: columns示例：
+  </a-typography-title>
+  <a-typography-paragraph style="margin-top: 15px" copyable class="wd-code">
+    <pre>{{ searchColumnsCode }}</pre>
+  </a-typography-paragraph>
+  <a-typography id="searchData-api" style="margin-top: 15px">
     <a-typography-title
       style="margin-top: 12px"
       :level="3"
@@ -35,36 +69,6 @@
     :dataSource="searchCommonData"
     :row-key="(record) => record.attributes"
   />
-  <a-typography-title
-    style="margin-top: 12px"
-    :level="4"
-    :style="{color: '#454d64'}"
-  >
-    Pro Table - Search type: dataSouce示例：
-  </a-typography-title>
-  <a-typography-paragraph style="margin-top: 12px" copyable class="wd-code">
-    <pre>{{ searchDataCode }}</pre>
-  </a-typography-paragraph>
-  <a-typography-title
-    style="margin-top: 12px"
-    :level="4"
-    :style="{color: '#454d64'}"
-  >
-    Pro Table - Search type: slots示例：
-  </a-typography-title>
-  <a-typography-paragraph style="margin-top: 12px" copyable class="wd-code">
-    <pre>{{ searchSlotsCode }}</pre>
-  </a-typography-paragraph>
-  <a-typography-title
-    style="margin-top: 12px"
-    :level="4"
-    :style="{color: '#454d64'}"
-  >
-    Pro Table - Search type: columns示例：
-  </a-typography-title>
-  <a-typography-paragraph style="margin-top: 12px" copyable class="wd-code">
-    <pre>{{ searchColumnsCode }}</pre>
-  </a-typography-paragraph>
 </template>
 
 <script lang="ts">

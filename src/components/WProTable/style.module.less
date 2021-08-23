@@ -6,24 +6,26 @@
       display: flex;
     }
     
-    .ant-table-scroll{
-      .ant-table-body{
-        &::-webkit-scrollbar{
+    .ant-table-scroll {
+      .ant-table-body {
+        &::-webkit-scrollbar {
           width: 6px;
           height: 6px;
         }
+        
         &::-webkit-scrollbar-thumb {
-          background-color: rgba(50,50,50,.3);
+          background-color: rgba(50, 50, 50, .3);
           border-radius: 1em;
         }
-        &::-webkit-scrollbar-track{
-          background-color: rgba(50,50,50,.1);
+        
+        &::-webkit-scrollbar-track {
+          background-color: rgba(50, 50, 50, .1);
           border-radius: 1em;
         }
       }
     }
-  
-    .ant-table-row-cell-ellipsis.ant-table-cell-fix-left-last, .ant-table-row-cell-ellipsis.ant-table-cell-fix-right-first{
+    
+    .ant-table-row-cell-ellipsis.ant-table-cell-fix-left-last, .ant-table-row-cell-ellipsis.ant-table-cell-fix-right-first {
       overflow: visible;
     }
   }
@@ -35,6 +37,18 @@
           border-right: 0;
         }
       }
+    }
+  }
+  
+  &-copyable {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  
+    .@{wd-prefix-pro-table}-copyable-icon {
+      margin-left: 8px;
+      color: @primary-color;
+      cursor: pointer;
     }
   }
   

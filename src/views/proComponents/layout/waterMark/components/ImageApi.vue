@@ -1,6 +1,11 @@
 <template>
-  <a-typography style="margin-top: 15px">
-    <a-typography-title :level="3" :style="{color: '#454d64'}">图片水印水印</a-typography-title>
+  <a-typography id="watermark-image" style="margin-top: 15px">
+    <a-typography-title
+      :level="4"
+      style="font-weight: normal;color: #454d64;"
+    >
+      图片水印水印
+    </a-typography-title>
   </a-typography>
   <a-typography>
     <a-typography style="color: #454d64;">

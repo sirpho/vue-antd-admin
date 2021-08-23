@@ -1,5 +1,5 @@
 <template>
-  <a-typography>
+  <a-typography style="margin-top: 15px" id="w-pro-table-api">
     <a-typography-title :level="2" :style="{color: '#454d64'}">API</a-typography-title>
     <a-typography-paragraph>
       w-pro-table 在 antd 的 Table 上进行了一层封装，支持了一些预设，并且封装了一些行为（自适应横向滚动）。这里只列出与 antd Table 不同的 api。
@@ -7,8 +7,13 @@
       target="_blank">参照react-pro-components：pro-table</a>）
     </a-typography-paragraph>
   </a-typography>
-  <a-typography>
-    <a-typography-title :level="3" :style="{color: '#454d64'}">request</a-typography-title>
+  <a-typography style="margin-top: 15px" id="request-api">
+    <a-typography-title
+      :level="4"
+      style="font-weight: normal;color: #454d64;"
+    >
+      request
+    </a-typography-title>
     <a-typography-paragraph>
       <a-typography-text type="danger" code style="font-size: 14px;">request</a-typography-text>
       是 ProTable 最重要的 API，
@@ -33,10 +38,16 @@
       <pre>{{ requestCode }}</pre>
     </a-typography-paragraph>
   </a-typography>
-  <a-typography>
-    <a-typography-title :level="2" :style="{color: '#454d64'}">ProTable</a-typography-title>
+  <a-typography style="margin-top: 15px" id="proTable-api">
+    <a-typography-title
+      :level="4"
+      style="font-weight: normal;color: #454d64;"
+    >
+      ProTable
+    </a-typography-title>
   </a-typography>
   <w-pro-table
+    style="margin-top: 15px"
     :showIndex="false"
     :showPagination="false"
     :options="false"

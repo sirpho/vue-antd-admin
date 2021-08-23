@@ -1,6 +1,11 @@
 <template>
-  <a-typography id="watermark-customize-api">
-    <a-typography-title :level="3" :style="{color: '#454d64'}">自定义配置</a-typography-title>
+  <a-typography id="watermark-customize">
+    <a-typography-title
+      :level="4"
+      style="font-weight: normal;color: #454d64;"
+    >
+      自定义配置
+    </a-typography-title>
   </a-typography>
   <a-typography>
     <a-typography style="color: #454d64;">
@@ -125,10 +130,9 @@ export default defineComponent({
         fontColor: 'rgba(0,0,0,.15)',
         fontSize: '16',
         zIndex: '9',
-        rotate: '-22',
+        rotate: '-22'
       }
     })
-    
     return {
       ...toRefs(state)
     }

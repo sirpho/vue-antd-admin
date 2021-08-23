@@ -216,8 +216,8 @@ const WProTable = defineComponent({
      * @lastTime    2021/7/15
      * @description 初始化是否展示序号
      */
-    const handleShowIndex = (params) => {
-      if (params.showIndex && originColums.every(item => item.dataIndex !== 'sortIndex')) {
+    const handleShowIndex = (value) => {
+      if (value && originColums.every(item => item.dataIndex !== 'sortIndex')) {
         const firstColumsItem = originColums[0]
         originColums.unshift({
           title: '序号',
@@ -225,7 +225,7 @@ const WProTable = defineComponent({
           width: 60,
           dataIndex: 'sortIndex'
         })
-      } else if (!params.showIndex && originColums.some(item => item.dataIndex === 'sortIndex')) {
+      } else if (!value && originColums.some(item => item.dataIndex === 'sortIndex')) {
         originColums = originColums.filter(item => item.dataIndex !== 'sortIndex')
       }
       originColums = originColums.map(item => {
@@ -245,8 +245,7 @@ const WProTable = defineComponent({
      * @lastTime    2021/7/15
      * @description 初始化toolbar工具
      */
-    const handleOptions = (params) => {
-      let options = params.options
+    const handleOptions = (options) => {
       if (options === false) {
         state.options = {}
       } else {
@@ -263,9 +262,9 @@ const WProTable = defineComponent({
      * @lastTime    2021/7/21
      * @description 表格搜索serch type: columns 初始化data值
      */
-    const handleSearchData = (params) => {
-      let searchData = params.data || []
-      if (params.search && params.search.type === 'columns') {
+    const handleSearchData = (searchConfig) => {
+      let searchData = searchConfig ? searchConfig.data : []
+      if (searchConfig && searchConfig.type === 'columns') {
         searchData = []
         params.columns.map(item => {
           if (item.searchConfig) searchData.push(item.searchConfig)
@@ -347,32 +346,57 @@ const WProTable = defineComponent({
     watch(innerWidth, (value) => {
       innerWidth.value = value
     })
+    watch(() => props.size, (value) => {
+      state.size = value
+    }, {
+      deep: true,
+      immediate: true
+    })
+    watch(() => props.showIndex, (value) => {
+      handleShowIndex(value)
+    }, {
+      deep: true,
+      immediate: true
+    })
     watch(() => props.params, (val) => {
       if (props.request && !props.search.showSearch) tableLoadData({ params: val })
     }, {
       deep: true,
       immediate: true
     })
-    watch(() => props, (newProps) => {
-      handleShowIndex(newProps)
-      handleOptions(newProps)
-      handleSearchData(newProps)
+    watch(() => props.pagination, (val) => {
+      const propsPagination = { ...val }
+      delete propsPagination.current
+      delete propsPagination.pageSize
+      state.pagination = {
+        ...state.pagination,
+        ...propsPagination
+      }
+    }, {
+      deep: true,
+      immediate: true
+    })
+    watch(() => props.options, (options) => {
+      handleOptions(options)
+    }, {
+      deep: true,
+      immediate: true
+    })
+    watch(() => props.search, (searchConfig) => {
+      handleSearchData(searchConfig)
+    }, {
+      deep: true,
+      immediate: true
+    })
+    watch(() => props, (_) => {
       const tableSlots = {}
-      const propsPagination = { ...newProps.pagination }
       Object.keys(slots).map(item => {
         if (!proTableSlots.includes(item)) {
           tableSlots[item] = slots[item]
         }
         return item
       })
-      delete propsPagination.current
-      delete propsPagination.pageSize
-      state.size = newProps.size
       state.tableSlots = tableSlots
-      state.pagination = {
-        ...state.pagination,
-        ...propsPagination
-      }
     }, {
       deep: true,
       immediate: true
@@ -880,7 +904,13 @@ const WProTable = defineComponent({
             <TableSearch
               {...props.search}
               loading={props.request ? state.tableLoading : changeProps.value.loading}
-              data={props.search.type === 'dataSouce' || props.search.type === 'columns' ? state.searchData : slots.search ? slots.search() : null}
+              data={
+                props.search.type === 'dataSouce' || props.search.type === 'columns' ?
+                  state.searchData
+                  :
+                  slots.search ?
+                    slots.search() : null
+              }
               onTableSearch={changeTableParams}
             />
             :

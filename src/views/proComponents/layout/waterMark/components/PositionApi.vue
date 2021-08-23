@@ -1,6 +1,11 @@
 <template>
-  <a-typography id="watermark-position-api" style="margin-top: 15px">
-    <a-typography-title :level="3" :style="{color: '#454d64'}">前置水印</a-typography-title>
+  <a-typography id="watermark-position" style="margin-top: 15px">
+    <a-typography-title
+      :level="4"
+      style="font-weight: normal;color: #454d64;"
+    >
+      前置水印
+    </a-typography-title>
   </a-typography>
   <a-typography>
     <a-typography style="color: #454d64;">水印组件默认实现为前置水印，即设想水印会显示在内容的上方，zIndex 默认设置为 9，如果你不希望水印遮挡上层内容，可以调整该值到小于上层内容的 zIndex。</a-typography>
