@@ -1,34 +1,65 @@
-import { computed, defineComponent, onMounted, onUnmounted, reactive, watch } from 'vue'
+import {
+  defineComponent,
+  nextTick,
+  onActivated,
+  onMounted,
+  onUnmounted,
+  reactive,
+  watch
+} from 'vue'
 import { cloneDeep } from 'lodash-es'
+import getScroll from '../_util/getScroll'
+import scrollTo from '../_util/scrollTo'
+import addEventListener from '../_util/Dom/addEventListener'
+import throttleByAnimationFrame from '../_util/throttleByAnimationFrame'
 import styles from './style.module.less'
 
-export default defineComponent({
-  props: {
-    root: {
-      type: String as PropType<string>,
-      required: false,
-      default: '#wd-pro-admin>.wd-pro-scrollbar>.wd-pro-scrollbar-wrap'
-    },
-    links: {
-      type: Array as PropType<any[]>,
-      required: false,
-      default: () => []
-    }
+export interface anchorState {
+  dataSource: any[];
+  offsetTopRange: any[];
+  scrollEvent: { remove: () => void } | null;
+}
+
+const anchorProps = {
+  links: {
+    type: Array as PropType<any[]>,
+    default: () => []
   },
+  root: {
+    type: String as PropType<string>,
+    default: '#wd-pro-admin>.wd-pro-scrollbar>.wd-pro-scrollbar-wrap'
+  }
+}
+
+const WAnchor = defineComponent({
+  props: anchorProps,
   setup(props) {
     const prefixCls = 'wd-anchor'
 
-    const state = reactive({
+    const state: anchorState = reactive({
       dataSource: [],
-      offsetTopRange: []
-    }) as {
-      dataSource: any[];
-      offsetTopRange: any[];
+      offsetTopRange: [],
+      scrollEvent: null
+    })
+
+    const bindScrollEvent = () => {
+      const { root, links } = props
+      const container = (document.querySelector(root) as HTMLInputElement)
+      state.scrollEvent = addEventListener(container, 'scroll', (e: Event) => {
+        handleScroll(e)
+      })
+      handleChangeLinks(links)
+      handleScroll({
+        target: container
+      })
     }
 
-    const root = computed(() => {
-      return props.root
-    })
+    const scrollRemove = () => {
+      if (state.scrollEvent) {
+        state.scrollEvent.remove()
+      }
+      (handleScroll as any).cancel()
+    }
 
     watch(() => props.links, (data) => {
       state.dataSource = cloneDeep(data)
@@ -36,6 +67,16 @@ export default defineComponent({
       deep: true,
       immediate: true
     })
+
+    watch(
+      () => props.root,
+      () => {
+        scrollRemove()
+        nextTick(() => {
+          bindScrollEvent()
+        })
+      }
+    )
 
     const handleChangeLinks = (data) => {
       state.offsetTopRange = cloneDeep(data).map((item, index) => {
@@ -51,37 +92,35 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      (document.querySelector(props.root) as HTMLInputElement).addEventListener(
-        'scroll',
-        handleScroll
-      )
-      handleChangeLinks(state.dataSource)
-      handleScroll({
-        target: document.querySelector(props.root)
+      nextTick(() => {
+        bindScrollEvent()
+      })
+    })
+    onActivated(() => {
+      nextTick(() => {
+        bindScrollEvent()
+      })
+    })
+    onUnmounted(() => {
+      scrollRemove()
+    })
+
+    const handleScroll = throttleByAnimationFrame((e: Event | { target: any }) => {
+      const scrollTop = getScroll(e.target, true)
+      state.dataSource.map((item: any, index) => {
+        item.active = scrollTop >= state.offsetTopRange[index]['valueRange'][0] &&
+          scrollTop < state.offsetTopRange[index]['valueRange'][1]
+        return item
       })
     })
 
-    onUnmounted(() => {
-      (document.querySelector(props.root) as HTMLInputElement).removeEventListener(
-        'scroll',
-        handleScroll
-      )
-    })
-
-    const handleScroll = (e) => {
-      if (e.target) {
-        state.dataSource.map((item: any, index) => {
-          item.active = e.target.scrollTop >= state.offsetTopRange[index]['valueRange'][0] &&
-            e.target.scrollTop < state.offsetTopRange[index]['valueRange'][1]
-          return item
-        })
-      }
-    }
-
     const goAnchor = (selector) => {
-      const anchor = document.querySelector(selector) || { offsetTop: 0 }
-      const targetNode: any = document.querySelector(root.value)
-      targetNode.scrollTo({ top: anchor.offsetTop + 64, behavior: 'smooth' })
+      const targetNode = document.querySelector(selector) || { offsetTop: 0 }
+      const { root } = props
+      scrollTo(targetNode.offsetTop + 64, {
+        getContainer: () => (document.querySelector(root) as HTMLInputElement),
+        duration: 450
+      })
     }
 
     return () => (
@@ -110,3 +149,5 @@ export default defineComponent({
     )
   }
 })
+
+export default WAnchor

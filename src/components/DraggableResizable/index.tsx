@@ -288,8 +288,6 @@ export default defineComponent({
     const style = computed(() => {
       return {
         position: 'absolute',
-        left: `${state.left}px`,
-        top: `${state.top}px`,
         width: computedWidth.value,
         height: computedHeight.value,
         zIndex: state.zIndex,
@@ -857,7 +855,6 @@ export default defineComponent({
     return () => (
       <div
         ref={e => state.root = e}
-        // @ts-ignore
         style={style.value}
         class={
           [

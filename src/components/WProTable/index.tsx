@@ -116,12 +116,17 @@ const WProTable = defineComponent({
         const k = col.dataIndex || col.key
         return k === key
       })
+      const actionCol = state.actionColums.find(col => {
+        const k = col.dataIndex || col.key
+        return k === key
+      })
       if (!col || !col.width || col.dataIndex === 'action' || !props.draggabled) {
         if (col && col.dataIndex === 'action' && !props.neverScroll) {
           if (props.automaticScroll) {
             if (props.scroll?.x) {
               col.width = col.width || 100
               col.fixed = 'right'
+              actionCol.fixed = 'right'
             } else {
               const originCol = originColums.find(col => {
                 const k = col.dataIndex || col.key
@@ -129,14 +134,17 @@ const WProTable = defineComponent({
               })
               col.width = originCol.width || ''
               col.fixed = originCol.fixed || ''
+              actionCol.fixed = originCol.fixed || ''
             }
           } else {
             if (props.scroll?.x && col && col.dataIndex === 'action') {
               col.width = col.width || 100
               col.fixed = 'right'
+              actionCol.fixed = 'right'
             } else if (innerWidth.value < 1540 && col && col.dataIndex === 'action') {
               col.width = col.width || 100
               col.fixed = 'right'
+              actionCol.fixed = 'right'
             } else {
               const originCol = originColums.find(col => {
                 const k = col.dataIndex || col.key
@@ -144,6 +152,7 @@ const WProTable = defineComponent({
               })
               col.width = originCol.width || ''
               col.fixed = originCol.fixed || ''
+              actionCol.fixed = originCol.fixed || ''
             }
           }
         } else {
@@ -714,7 +723,7 @@ const WProTable = defineComponent({
           </a-typography-paragraph>
       } else if (success && !record.copyable) {
         show = <a-tooltip title={value} placement="topLeft">
-          {value}
+          <div class={styles[`${tableClassName}-ellipsis`]}>{value}</div>
         </a-tooltip>
       }
       return show

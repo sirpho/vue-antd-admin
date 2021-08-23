@@ -9,8 +9,8 @@ import {
   ref,
   getCurrentInstance
 } from 'vue'
+import type { CSSProperties } from 'vue'
 import omit from 'omit.js'
-import type { CSSProperties, PropType } from 'vue'
 import {
   addObserveTarget,
   removeObserveTarget,
@@ -37,16 +37,10 @@ export interface AffixState {
 }
 
 const affixProps = {
-  /**
-   * 距离窗口顶部达到指定偏移量后触发
-   */
   zIndex: PropTypes.number,
   offsetTop: PropTypes.number,
   offset: PropTypes.number,
-  /** 距离窗口底部达到指定偏移量后触发 */
   offsetBottom: PropTypes.number,
-  /** 固定状态改变时触发的回调函数 */
-  // onChange?: (affixed?: boolean) => void;
   prefixCls: PropTypes.string,
   onChange: PropTypes.func,
   onTestUpdatePosition: PropTypes.func,
@@ -141,12 +135,10 @@ const WAffix = defineComponent({
         placeholderStyle: undefined
       })
       currentInstance.update()
-      // Test if `updatePosition` called
       if (process.env.NODE_ENV === 'test') {
         emit('testUpdatePosition')
       }
     }
-
     const updatePosition = throttleByAnimationFrame(() => {
       prepareMeasure()
     })
@@ -171,7 +163,6 @@ const WAffix = defineComponent({
       }
       prepareMeasure()
     })
-
     expose({
       updatePosition,
       lazyUpdatePosition
