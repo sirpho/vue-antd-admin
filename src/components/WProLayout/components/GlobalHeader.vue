@@ -1,9 +1,9 @@
 <template>
   <a-layout-header
     :class="[
-        fixedHeader && 'wd-pro-fixed-header',
-        sidebarOpened ? 'ant-header-side-opened' : 'ant-header-side-closed',
-      ]"
+      fixedHeader && 'wd-pro-fixed-header',
+      sidebarOpened ? 'ant-header-side-opened' : 'ant-header-side-closed',
+    ]"
     :style="headerStyle"
   >
     <div v-if="headerLoading" class="wd-pro-header-loading">
@@ -13,19 +13,19 @@
       <div class="wd-pro-global-header-main">
         <template v-if="$slots.headerRender">
           <div
-            v-if="layout === 'side' || device === 'mobile'"
+            v-if="layout === 'side' || isMobile"
             class="wd-pro-global-header-collapsed-button"
           >
             <menu-unfold-outlined @click="handleCollapse" v-if="collapsed" />
             <menu-fold-outlined @click="handleCollapse" v-else />
           </div>
-          <slot name="headerRender" ></slot>
+          <slot name="headerRender"></slot>
         </template>
         <template v-else>
-          <template v-if="device === 'mobile'">
+          <template v-if="isMobile">
             <slot name="headerLogoRender" ></slot>
             <div
-              v-if="layout === 'side' || device === 'mobile'"
+              v-if="layout === 'side' || isMobile"
               class="wd-pro-global-header-collapsed-button"
             >
               <template v-if="$slots.collapsedButtonRender">
@@ -43,7 +43,7 @@
           <div v-else class="wd-pro-global-header-main-left">
             <slot v-if="layout === 'mix'" name="headerLogoRender" ></slot>
             <div
-              v-if="layout === 'side' || device === 'mobile'"
+              v-if="layout === 'side' || isMobile"
               class="wd-pro-global-header-collapsed-button"
             >
               <template v-if="$slots.collapsedButtonRender">
@@ -60,18 +60,19 @@
           </div>
           <div class="wd-pro-global-header-menu">
             <s-menu
-              v-if="device !== 'mobile' && layout === 'mix'"
+              v-if="!isMobile && layout === 'mix'"
               :menu="menus"
               :theme="theme"
               :collapsed="collapsed"
               :iconfontUrl="iconfontUrl"
               mode="horizontal"
+              @menuItemClick="menuItemClick"
             />
           </div>
           <template v-if="$slots.rightContentRender">
             <slot name="rightContentRender" ></slot>
           </template>
-          <right-content v-else :device="device" />
+          <right-content v-else :isMobile="isMobile" />
         </template>
       </div>
     </div>
@@ -128,10 +129,10 @@ export default defineComponent({
       required: false,
       default: false
     },
-    device: {
-      type: String,
+    isMobile: {
+      type: Boolean,
       required: false,
-      default: 'desktop'
+      default: false
     }
   },
   setup(_: any, { emit }) {
@@ -183,6 +184,9 @@ export default defineComponent({
       visible,
       handleCollapse: () => {
         emit('handleCollapse')
+      },
+      menuItemClick: ({ item, key, selectedKeys }) => {
+        emit('menuItemClick', { item, key, selectedKeys })
       }
     }
   }

@@ -1,4 +1,4 @@
-import { computed, defineComponent } from 'vue'
+import { computed, CSSProperties, defineComponent } from 'vue'
 import { useStore } from 'vuex'
 import config from '/config/config'
 
@@ -6,7 +6,7 @@ const { waterMark } = config.defaultSettings
 
 export default defineComponent({
   props: {
-    contentStyle: Object as PropType<CSSStyleSheet>
+    contentStyle: CSSStyleSheet as PropType<CSSProperties>
   },
   setup(props, { slots }) {
     const store = useStore()

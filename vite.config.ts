@@ -1,6 +1,5 @@
 import type { UserConfig, ConfigEnv } from 'vite'
 
-import externalGlobals from 'rollup-plugin-external-globals'
 import { loadEnv } from 'vite'
 import { resolve } from 'path'
 
@@ -58,6 +57,10 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           find: /\/config\//,
           replacement: pathResolve('config') + '/'
         },
+        {
+          find: '@wd-pro/pro-layout',
+          replacement: pathResolve('src/components/WProLayout') + '/'
+        },
         { find: /^~/, replacement: '' }
       ]
     },
@@ -81,15 +84,16 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       chunkSizeWarningLimit: 2000,
       rollupOptions: {
         external: [ 'vue', 'moment', 'vuex', 'vue-router' ],
-        plugins: [
-          externalGlobals({
+        output: {
+          exports: 'named',
+          globals: {
             vue: 'Vue',
             vuex: 'Vuex',
             'vue-router': 'VueRouter',
-            // lodash: '_',
-            moment: 'moment'
-          })
-        ]
+            moment: 'moment',
+            'ant-design-vue': 'antd'
+          }
+        }
       }
     },
     define: {

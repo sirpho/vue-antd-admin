@@ -1,4 +1,4 @@
-import { ref, Ref } from 'vue'
+import { ref } from 'vue'
 
 export const MediaQueryEnum = {
   xs: {
@@ -50,7 +50,21 @@ export const getScreenClassName = () => {
 }
 
 const useMedia = () => {
-  const colSpan: Ref<keyof typeof MediaQueryEnum> = ref(getScreenClassName())
+  const colSpan = ref<string>(getScreenClassName())
+
+  Object.keys(MediaQueryEnum).forEach(key => {
+    const { matchMedia } = MediaQueryEnum[key as MediaQueryKey]
+    const query = window.matchMedia(matchMedia)
+    if (query.matches) {
+      colSpan.value = key
+    }
+    query.onchange = e => {
+      if (e.matches) {
+        colSpan.value = key
+      }
+    }
+  })
+
   return colSpan
 }
 

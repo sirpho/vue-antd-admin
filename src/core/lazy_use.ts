@@ -6,6 +6,7 @@ moment.locale('zh-cn')
 import {
   WAffix,
   WResult,
+  WProLayout,
   WProTable,
   WBackTop,
   WModal,
@@ -18,11 +19,12 @@ import {
   WProColorPicker,
   WAnchor
 } from '/@/components'
-import { WScrollbars, WProLayout, CustomIcon } from '/@/components/export'
+import { WScrollbars, CustomIcon } from '/@/components/export'
 
 import {
   List,
   Statistic,
+  InputNumber,
   PageHeader,
   TimePicker,
   Typography,
@@ -86,6 +88,7 @@ const ant = {
     app.component('w-pro-color', WProColorPicker)
     app.component('w-affix', WAffix)
     app.component('w-anchor', WAnchor)
+    app.use(InputNumber)
     app.use(Slider)
     app.use(Anchor)
     app.use(List)

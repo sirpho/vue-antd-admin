@@ -17,7 +17,7 @@ const themeSetting: themeConfig = {
   //是否显示多标签页
   showTabsBar: true,
   //是否显示全屏组件
-  showFullScreen: true,
+  showFullScreen: false,
   //是否自动隐藏头部
   autoHideHeader: false,
   //页面动画配置

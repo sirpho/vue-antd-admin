@@ -1,3 +1,4 @@
+export { default as WProLayout } from '/@/components/WProLayout'
 export { default as WProTable } from '/@/components/WProTable'
 export { default as WAffix } from '/@/components/WAffix'
 export { default as WAnchor } from '/@/components/WAnchor'

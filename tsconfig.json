@@ -25,6 +25,7 @@
       "/@/*": ["src/*"],
       "/types/*": ["types/*"],
       "/config/*": ["config/*"],
+      "@wd-pro/pro-layout": ["src/components/WProLayout/index.tsx"],
     }
   },
   "include": [

@@ -116,7 +116,7 @@ const WProTable = defineComponent({
         const k = col.dataIndex || col.key
         return k === key
       })
-      const actionCol = state.actionColums.find(col => {
+      const actionCol: any = state.actionColums.find(col => {
         const k = col.dataIndex || col.key
         return k === key
       })
@@ -266,7 +266,7 @@ const WProTable = defineComponent({
       let searchData = searchConfig ? searchConfig.data : []
       if (searchConfig && searchConfig.type === 'columns') {
         searchData = []
-        params.columns.map(item => {
+        props.columns.map(item => {
           if (item.searchConfig) searchData.push(item.searchConfig)
           return item
         })

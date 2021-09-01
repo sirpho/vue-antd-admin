@@ -42,13 +42,10 @@ const state = () => ({
   fixedHeader: layout === 'mix' ? true : fixedHeader,
   fixSiderbar: layout === 'mix' ? true : fixSiderbar,
   keepAlive: false,
-  device: 'desktop',
-  sidebar: !collapse,
   showProgressBar: showProgressBar
 })
 const getters = {
   collapse: (state) => state.collapse,
-  device: (state) => state.device,
   language: (state) => state.language,
   layout: (state) => state.layout,
   logo: (state) => state.logo,
@@ -59,24 +56,16 @@ const getters = {
   fixSiderbar: (state) => state.fixSiderbar,
   autoHideHeader: (state) => state.autoHideHeader,
   showTabsBar: (state) => state.showTabsBar,
-  sidebarOpened: (state) => state.sidebar,
   animate: (state) => state.animate,
   keepAlive: (state) => state.keepAlive
 }
 const mutations = {
-  setSidebar: (state, type) => {
-    state.sidebar = type
-  },
   toggleCollapse(state) {
     state.collapse = !state.collapse
-    state.sidebar = !state.collapse
     localStorage.setItem(
       'wd-pro-admin-collapse',
       `{"collapse":${state.collapse}}`
     )
-  },
-  toggleDevice(state, device) {
-    state.device = device
   },
   changeLayout(state, layout) {
     state.layout = layout
@@ -101,9 +90,6 @@ const actions = {
   },
   toggleCollapse({ commit }) {
     commit('toggleCollapse')
-  },
-  toggleDevice({ commit }, device) {
-    commit('toggleDevice', device)
   },
   changeLayout({ commit }, layout) {
     commit('changeLayout', layout)

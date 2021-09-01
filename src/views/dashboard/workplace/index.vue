@@ -50,7 +50,7 @@
               title="进行中的项目"
             >
               <template #extra>
-                <a href="/">全部项目</a>
+                <a href="#">全部项目</a>
               </template>
               <div>
                 <a-card-grid class="project-card-grid" :key="i" v-for="(item, i) in notice">

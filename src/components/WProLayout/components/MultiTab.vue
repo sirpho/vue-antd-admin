@@ -137,7 +137,7 @@ export default defineComponent({
         tag.name &&
         tag.meta &&
         tag.meta.tagHidden !== true &&
-        tag.meta.sideMenuHidden !== true &&
+        tag.meta.hideInMenu !== true &&
         !routesWhiteList.includes(tag.path)
       ) {
         let matched = [ tag.name ]

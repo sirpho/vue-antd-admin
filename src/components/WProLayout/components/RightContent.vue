@@ -1,5 +1,25 @@
 <template>
-  <template v-if="device === 'desktop'">
+  <template v-if="isMobile">
+    <div style="display: flex;justify-content: flex-end;">
+      <a-dropdown>
+        <span class="wd-pro-dropdown wd-pro-dropdown-action">
+          <a-avatar size="small" :src="avatar" class="wd-pro-global-header-account-avatar" />
+          <span class="wd-pro-global-header-account-name">{{ username }}</span>
+        </span>
+        <template #overlay>
+          <a-menu>
+            <a-menu-item key="3" @click="logout">
+              <a href="javascript:">
+                <LogoutOutlined />
+                <span>退出登录</span>
+              </a>
+            </a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
+    </div>
+  </template>
+  <template v-else>
     <div style="min-width: 208px;">
       <div style="padding-right: 8px">
         <div style="display: flex;justify-content: flex-end;">
@@ -23,26 +43,6 @@
       </div>
     </div>
   </template>
-  <template v-else>
-    <div style="display: flex;justify-content: flex-end;">
-      <a-dropdown>
-        <span class="wd-pro-dropdown wd-pro-dropdown-action">
-          <a-avatar size="small" :src="avatar" class="wd-pro-global-header-account-avatar" />
-          <span class="wd-pro-global-header-account-name">{{ username }}</span>
-        </span>
-        <template #overlay>
-          <a-menu>
-            <a-menu-item key="3" @click="logout">
-              <a href="javascript:">
-                <LogoutOutlined />
-                <span>退出登录</span>
-              </a>
-            </a-menu-item>
-          </a-menu>
-        </template>
-      </a-dropdown>
-    </div>
-  </template>
 </template>
 
 <script lang="ts">
@@ -55,10 +55,10 @@ import config from '/config/config'
 export default defineComponent({
   components: { LogoutOutlined },
   props: {
-    device: {
-      type: String,
+    isMobile: {
+      type: Boolean,
       required: false,
-      default: 'desktop'
+      default: false
     }
   },
   setup() {

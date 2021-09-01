@@ -3,7 +3,7 @@
     :collapsed="collapsed"
     :class="[
       'wd-pro-sider',
-      device === 'desktop' ? null : 'shadow',
+      isMobile ? 'shadow' : null,
       theme,
       fixSiderbar ? 'wd-pro-sider-fixed' : null,
     ]"
@@ -55,6 +55,11 @@ export default defineComponent({
     MenuFoldOutlined
   },
   props: {
+    isMobile: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     mode: {
       type: String,
       required: false,
@@ -90,14 +95,13 @@ export default defineComponent({
       required: true
     }
   },
-  setup(_, { emit }) {
+  setup(props, { emit }) {
     const store = useStore()
     const sideStyle = ref({
       paddingTop:
         store.getters['settings/layout'] === 'side' ||
-        store.getters['settings/device'] === 'mobile'
-          ? '0'
-          : '49px'
+        props.isMobile ?
+          '0' : '49px'
     })
     const onSelect = (obj) => {
       emit('menuSelect', obj)
@@ -110,8 +114,8 @@ export default defineComponent({
       handleCollapse: () => {
         emit('handleCollapse')
       },
-      menuItemClick: () => {
-        emit('menuItemClick')
+      menuItemClick: ({ item, key, selectedKeys }) => {
+        emit('menuItemClick', { item, key, selectedKeys })
       }
     }
   }

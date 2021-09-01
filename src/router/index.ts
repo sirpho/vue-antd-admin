@@ -27,11 +27,18 @@ export const constantRoutes: AppRouteModule[] = [
     path: '/user',
     component: UserLayout,
     redirect: '/user/login',
-    hidden: true,
+    meta: {
+      hideInMenu: true,
+      title: 'user',
+    },
     children: [
       {
         path: '/user/login',
         name: 'Login',
+        meta: {
+          hideInMenu: true,
+          title: 'user',
+        },
         component: () => import('/@/views/User/login/index.vue')
       }
     ]
@@ -41,8 +48,8 @@ export const constantRoutes: AppRouteModule[] = [
     name: 'Exception',
     component: BlankLayout,
     redirect: '/exception/403',
-    hidden: true,
     meta: {
+      hideInMenu: true,
       title: '错误页',
       icon: 'error-warning-line'
     },
@@ -52,6 +59,7 @@ export const constantRoutes: AppRouteModule[] = [
         name: 'Error403',
         component: () => import('/@/views/exception/403/index.vue'),
         meta: {
+          hideInMenu: true,
           title: '403',
           icon: 'error-warning-line'
         }
@@ -61,6 +69,7 @@ export const constantRoutes: AppRouteModule[] = [
         name: 'Error404',
         component: () => import('/@/views/exception/404/index.vue'),
         meta: {
+          hideInMenu: true,
           title: '404',
           icon: 'error-warning-line'
         }
@@ -74,8 +83,8 @@ export const basicRoutes: AppRouteModule[] = [
     name: 'Workplace',
     component: () => import('/@/views/dashboard/workplace/index.vue'),
     meta: {
+      hideInMenu: true,
       homePage: true,
-      sideMenuHidden: true,
       title: '工作台'
     }
   }

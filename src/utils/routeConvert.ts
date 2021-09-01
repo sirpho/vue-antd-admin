@@ -41,7 +41,7 @@ export function getFirstLastChild(data: any[]) {
   return newPath
 }
 
-export function getLastFirstChild(data: any[], path: string) {
+export function getLastFirstChild(data: any[], path: string | undefined) {
   let newPath = ''
   let checkPath = false
   // 获取第一个children的path

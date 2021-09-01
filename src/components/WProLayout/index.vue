@@ -2,7 +2,7 @@
   <a-layout class="wd-pro-basic-layout">
     <template v-if="menuList.length > 0">
       <a-drawer
-        v-if="device === 'mobile'"
+        v-if="isMobile"
         :closable="false"
         :visible="collapsed"
         :width="208"
@@ -12,6 +12,7 @@
       >
         <side-menu
           collapsible
+          :isMobile="isMobile"
           :iconfontUrl="iconfontUrl"
           :sideLoading="meunLoading"
           :collapsed="false"
@@ -29,7 +30,7 @@
               :logo="logo"
               :class="theme"
               :layout="layout"
-              :show-title="device !== 'mobile' && !collapsed"
+              :show-title="!isMobile && !collapsed"
               @menuHeaderClick="menuHeaderClick"
             >
               <template v-if="$slots.headerTitleRender" #headerTitleRender>
@@ -47,6 +48,7 @@
       </a-drawer>
       <side-menu
         v-else
+        :isMobile="isMobile"
         :iconfontUrl="iconfontUrl"
         :sideLoading="meunLoading"
         collapsible
@@ -65,7 +67,7 @@
             :logo="logo"
             :class="theme"
             :layout="layout"
-            :show-title="device !== 'mobile' && !collapsed"
+            :show-title="!isMobile && !collapsed"
             @menuHeaderClick="menuHeaderClick"
           >
             <template v-if="$slots.headerTitleRender" #headerTitleRender>
@@ -88,10 +90,11 @@
         :headerLoading="meunLoading"
         :layout="layout"
         :collapsed="collapsed"
-        :device="device"
+        :isMobile="isMobile"
         :theme="theme"
         :menus="headerList"
         @handleCollapse="handleCollapse"
+        @menuItemClick="headerMenuItemClick"
       >
         <template v-if="$slots.headerRender" #headerRender>
           <slot name="headerRender"></slot>
@@ -102,7 +105,7 @@
             v-else
             :title="title"
             :logo="logo"
-            :show-title="device !== 'mobile'"
+            :show-title="!isMobile"
             @menuHeaderClick="menuHeaderClick"
           >
             <template v-if="$slots.headerTitleRender" #headerTitleRender>
@@ -129,6 +132,13 @@
           <slot></slot>
         </div>
       </a-layout-content>
+      <a-layout-footer style="padding: 0;">
+        <GlobalFooter>
+          <template v-if="$slots.footerRender" #footerRender>
+            <slot name="footerRender"></slot>
+          </template>
+        </GlobalFooter>
+      </a-layout-footer>
     </a-layout>
   </a-layout>
 </template>
@@ -141,23 +151,20 @@ import {
   computed,
   watch,
   onBeforeUnmount,
-  onBeforeMount,
   onMounted
 } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { cloneDeep } from 'lodash-es'
-import {
-  convertRoutes,
-  getFirstLastChild,
-  getLastFirstChild
-} from '/@/utils/routeConvert'
+import { getFirstLastChild, getLastFirstChild } from '/@/utils/routeConvert'
 import { deepCopy } from '/@/utils/util'
+import { basicLayoutProps } from './props'
 import GlobalHeader from './components/GlobalHeader.vue'
+import GlobalFooter from './components/GlobalFooter.vue'
 import LogoContent from './components/LogoContent.vue'
 import SideMenu from './components/SideMenu.vue'
 import MultiTab from './components/MultiTab.vue'
-import { layoutProps } from './utils/config'
+import useMediaQuery from '../_util/useMediaQuery'
 
 export default defineComponent({
   name: 'ProLayout',
@@ -165,26 +172,25 @@ export default defineComponent({
     LogoContent,
     MultiTab,
     GlobalHeader,
+    GlobalFooter,
     SideMenu
   },
-  props: Object.assign({}, layoutProps, {}),
-  setup(_, { attrs, emit }) {
-    const settings: any = attrs.settings
-    const width = ref(0)
+  props: basicLayoutProps,
+  setup(props, { emit }) {
+    const width = ref(document.body.getBoundingClientRect().width)
+    const colSize = useMediaQuery()
     const store = useStore()
     const route = useRoute()
     const state = reactive({
       headerList: [],
-      menuList: []
+      menuList: [],
     })
-    const routes = convertRoutes(
-      store.getters['routes/routes'].find((item) => item.path === '/')
-    )
-    onBeforeMount(() => {
-      window.addEventListener('resize', handleLayouts)
+    const routes = computed(() => {
+      return props.menuData || []
     })
     onMounted(() => {
-      state.headerList = routes.children.map((item) => {
+      window.addEventListener('resize', handleLayouts)
+      state.headerList = routes.value.map((item) => {
         const listItem = deepCopy(item)
         let linkPath = ''
         if (listItem.children) {
@@ -203,29 +209,29 @@ export default defineComponent({
     onBeforeUnmount(() => {
       window.removeEventListener('resize', handleLayouts)
     })
+    const isMobile = computed(
+      () => (colSize.value === 'sm' || colSize.value === 'xs')
+    )
     const contentPaddingLeft = computed(() => {
       if (
         !store.getters['settings/fixSiderbar'] ||
-        store.getters['settings/device'] === 'mobile' ||
+        isMobile.value ||
         state.menuList.length === 0
       ) {
         return '0'
-      }
-      if (store.getters['settings/sidebarOpened']) {
-        return '208px'
       }
       return '48px'
     })
     const handleSideList = () => {
       if (
         store.getters['settings/layout'] === 'side' ||
-        store.getters['settings/device'] === 'mobile'
+        isMobile.value
       ) {
-        state.menuList = routes.children || []
+        state.menuList = routes.value || []
       } else {
-        const currentPath = getLastFirstChild(routes.children, route.fullPath)
+        const currentPath = getLastFirstChild(routes.value, route.fullPath)
         if (currentPath) {
-          const currentRouters = routes.children.find(
+          const currentRouters = routes.value.find(
             (item) => item.path === currentPath
           )
           state.menuList = currentRouters.children || []
@@ -244,24 +250,26 @@ export default defineComponent({
     const handleLayouts = () => {
       const clientWidth = document.body.getBoundingClientRect().width
       if (width.value !== clientWidth) {
-        const isMobile = clientWidth - 1 < 992
-        store.dispatch(
-          'settings/toggleDevice',
-          isMobile ? 'mobile' : 'desktop'
-        )
+        colSize.value = useMediaQuery().value
         width.value = clientWidth
       }
     }
+    const menuItemClick = ({ item, key, selectedKeys }) => {
+      emit('menuItemClick', { item, key, selectedKeys })
+    }
+    const headerMenuItemClick = ({ item, key, selectedKeys }) => {
+      emit('menuItemClick', { item, key, selectedKeys })
+    }
     return {
-      layout: settings.layout,
-      showTabsBar: settings.showTabsBar,
-      theme: settings.theme,
-      fixedHeader: settings.fixedHeader,
-      fixSiderbar: settings.fixSiderbar,
-      sidebarOpened: settings.sidebarOpened,
+      layout: props.layout,
+      showTabsBar: props.showTabsBar,
+      theme: props.theme,
+      fixedHeader: props.fixedHeader,
+      fixSiderbar: props.fixSiderbar,
+      sidebarOpened: props.sidebarOpened,
       meunLoading: computed(() => store.getters['routes/meunLoading']),
       contentPaddingLeft,
-      width,
+      isMobile,
       ...toRefs(state),
       handleCollapse: () => {
         emit('handleCollapse')
@@ -269,9 +277,8 @@ export default defineComponent({
       menuHeaderClick: () => {
         emit('menuHeaderClick')
       },
-      menuItemClick: () => {
-        emit('menuItemClick')
-      }
+      menuItemClick,
+      headerMenuItemClick
     }
   }
 })

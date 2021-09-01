@@ -47,7 +47,6 @@ html {
       
       &-main-content {
         position: relative;
-        min-height: calc(100vh - 48px - 47px);
         
         &.@{wd-prefix-pro}-main-content-warp {
           min-height: calc(100%);
@@ -58,14 +57,19 @@ html {
       &-grid-content {
         width: 100%;
         
-        &-children{
+        &-children {
           padding: 24px;
           background: #ffffff;
         }
       }
-  
+      
       &-watermark-wrapper {
         position: relative;
+      }
+  
+      &-fixed-stuff {
+        flex-shrink: 0;
+        transition: width .2s;
       }
       
       &-basic-layout {
@@ -197,6 +201,30 @@ html {
             color: inherit;
           }
         }
+      }
+      
+      &-global-footer {
+        padding: 0 16px;
+        margin: 48px 0 24px;
+        text-align: center;
+      }
+      
+      &-global-footer-links {
+        margin-bottom: 8px;
+        
+        a {
+          color: rgba(0, 0, 0, .45);
+          transition: all .3s;
+          
+          &:not(:last-child) {
+            margin-right: 40px;
+          }
+        }
+      }
+      
+      &-global-footer-copyright {
+        font-size: 14px;
+        color: @text-color-secondary;
       }
       
       &-sider {

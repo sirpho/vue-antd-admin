@@ -21,8 +21,9 @@ const constantRouterComponents = {
  * @description 本地菜单路由
  */
 const rootRouter: any = {
-  title: '首页',
   path: '/',
+  name: 'index',
+  meta: { title: 'Home' },
   component: 'BasicLayout',
   redirect: '',
   children: []
@@ -90,7 +91,7 @@ export const generator = (routerMap: any[], parent?) => {
     }
     // 隐藏菜单
     if (item.hidden) {
-      currentRouter.hidden = true
+      currentRouter.hideInMenu = true
     }
     // 是否设置了隐藏子菜单
     if (item.hideChildrenInMenu) {
@@ -128,10 +129,12 @@ export function getRootMenu(rows: any[]) {
   })
   rootRouter.children = menus
   rootRouter.children.push({
-    title: '外链地址',
     key: 'externalLink',
     path: '/externalLink',
-    hidden: true
+    meta: {
+      hideInMenu: true,
+      title: '外链地址'
+    }
   })
   rootMenu.push(rootRouter)
   return rootMenu
