@@ -4,7 +4,7 @@ import Layout from 'ant-design-vue/es/layout'
 import { useRouteContext } from './RouteContext'
 import { getMenuFirstChildren } from './utils'
 import PageLoading from './components/PageLoading'
-import MultiTab from './components/MultiTab.vue'
+import MultiTab from './components/MultiTab'
 
 const { Content } = Layout
 
@@ -34,7 +34,9 @@ export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slot
 
   return (
     <Content {...attrs}>
-      <MultiTab loading={props.loading} />
+      {flatMenuData.length > 0 && (
+        <MultiTab loading={props.loading} />
+      )}
       {props.loading ? <PageLoading /> : (
         <div class={classNames.value}>
           {slots.default?.()}

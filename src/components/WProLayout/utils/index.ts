@@ -42,8 +42,7 @@ export function flatMap(menusData: RouteRecord[] | RouteRecordRaw[]): RouteRecor
       if (!finalItem.name || finalItem.meta?.hideInMenu) {
         return null
       }
-      finalItem.originalPath = finalItem.path
-      finalItem.path = getMenuFirstLastChildPath(finalItem.children || [])
+      finalItem.linkPath = getMenuFirstLastChildPath(finalItem.children || [])
 
       if (finalItem.children) {
         delete finalItem.children

@@ -27,11 +27,6 @@ import { getMenuData, clearMenuItem } from '/@/components/WProLayout/utils/getMe
 import { RouteContextProps } from '/@/components/WProLayout/RouteContext'
 import WProContent from './ContentView.vue'
 
-interface stateTypes {
-  menuData: any[];
-  settings: any;
-}
-
 export default defineComponent({
   components: {
     WProContent
@@ -46,7 +41,7 @@ export default defineComponent({
       openKeys: [],
       collapsed: false
     })
-    const state: stateTypes = reactive({
+    const state = reactive({
       menuData,
       layout: computed(() => store.getters['settings/layout']),
       theme: computed(() => store.getters['settings/theme']),

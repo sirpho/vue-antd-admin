@@ -1,7 +1,6 @@
-<script lang="tsx">
 import { computed, CSSProperties, defineComponent, VueElement } from 'vue'
 import { GithubOutlined } from '@ant-design/icons-vue'
-import type { WithFalse } from '../typings'
+import type { WithFalse } from '../../typings'
 
 const layoutLinks = [
   {
@@ -42,7 +41,7 @@ export default defineComponent({
     },
     className: String as PropType<string>
   },
-  setup(props, { slots }) {
+  setup(props ) {
     const handleVisible = computed(() => {
       const { links, copyright } = props
       if (
@@ -54,7 +53,7 @@ export default defineComponent({
       return true
     })
 
-    const DefaultFooter = () => (
+    return () => (
       <>
         {
           handleVisible.value ?
@@ -83,17 +82,5 @@ export default defineComponent({
         }
       </>
     )
-
-    return () => (
-      <>
-        {
-          slots.footerRender ?
-            slots.footerRender()
-            :
-            DefaultFooter()
-        }
-      </>
-    )
   }
 })
-</script>

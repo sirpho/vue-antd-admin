@@ -25,8 +25,8 @@ export const defaultRenderLogoAndTitle = (
   const {
     logo = Logo,
     logoStyle,
-    title,
-    showTitle = true
+    disabledTitle,
+    title
   } = props
   const renderFunction = (props as any)[renderKey || '']
   if (renderFunction === false) {
@@ -34,7 +34,7 @@ export const defaultRenderLogoAndTitle = (
   }
 
   const logoDom = defaultRenderLogo(logo, logoStyle)
-  const titleDom = showTitle ? <h1>{title}</h1> : null
+  const titleDom = <h1>{title}</h1>
 
   if (typeof renderFunction === 'function') {
     return renderFunction(logoDom, props.collapsed ? null : titleDom, props)
@@ -42,7 +42,7 @@ export const defaultRenderLogoAndTitle = (
   return (
     <>
       {logoDom || null}
-      {titleDom}
+      {disabledTitle ? null : titleDom}
     </>
   )
 }
@@ -50,7 +50,7 @@ export const defaultRenderLogoAndTitle = (
 export default defineComponent({
   name: 'LogoContent',
   props: logoContentProps,
-  setup(props ) {
+  setup(props) {
 
     return () => {
       const headerDom = defaultRenderLogoAndTitle(props)
@@ -58,16 +58,16 @@ export default defineComponent({
       return (
         <div
           id="logo"
-          class={
-            [
-              props.layout === 'mix' ? 'wd-pro-global-header-logo' : 'wd-pro-sider-logo',
-              props.theme
-            ]
-          }
-          style={props.showTitle ? undefined : { minWidth: 'auto' }}
+          class={[
+            props.layout === 'side' || props.drawer
+              ? 'wd-pro-sider-logo'
+              : 'wd-pro-global-header-logo',
+            props.theme
+          ]}
+          style={props.disabledTitle ? { minWidth: 'auto' } : undefined}
           onClick={props.onMenuHeaderClick}
         >
-          <a>
+          <a href="#/">
             {headerDom || null}
           </a>
         </div>

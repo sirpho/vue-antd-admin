@@ -4,8 +4,6 @@ import {
   computed,
   unref
 } from 'vue'
-import { useStore } from 'vuex'
-import { cloneDeep } from 'lodash-es'
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue'
 import BaseMenu from './BaseMenu'
 import { siderMenuProps } from './props'
@@ -41,13 +39,12 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
     onOpenKeys
   } = props
 
-  const store = useStore()
-
   const context = useRouteContext()
-  const hasSplitMenu = computed(() => props.layout === 'mix')
+  const hasSplitMenu = computed(() => props.layout === 'mix' && !props.isMobile)
   const hasSide = computed(() => props.layout === 'mix' || props.layout === 'side' || false)
 
   const sTheme = computed(() => (props.layout === 'mix' && 'light') || props.theme)
+  const sSideWidth = computed(() => (props.collapsed ? props.collapsedWidth : props.siderWidth));
   const classNames = computed(() => {
     return [
       'wd-pro-sider',
@@ -62,7 +59,6 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
       const menuData = (hasSide.value &&
         hasSplitMenu.value &&
         getMenuFirstChildren(context.menuData, context.selectedKeys[0])) || []
-      store.dispatch('routes/setSiderRoutes', cloneDeep(menuData))
       return menuData
     }
   )
@@ -102,21 +98,37 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
     />
   )
 
-  const headerDom = layout === 'side' ? <LogoContent {...props} /> : null
+  const headerDom = layout === 'side' || isMobile
+    ? <LogoContent drawer={isMobile} disabledTitle={isMobile ? false : collapsed} {...props} />
+    : null
 
   return (
     <>
       {
         fixSiderbar && (
-          <div class="wd-pro-fixed-stuff" style={{ width: '208px', overflow: 'hidden' }}></div>
+          <div
+            style={{
+              width: `${sSideWidth.value}px`,
+              overflow: 'hidden',
+              flex: `0 0 ${sSideWidth.value}px`,
+              maxWidth: `${sSideWidth.value}px`,
+              minWidth: `${sSideWidth.value}px`,
+              transition: `background-color 0.3s, min-width 0.3s, max-width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1)`,
+            }}
+          />
         )
       }
       <a-layout-sider
+        collapsible
+        trigger={null}
         class={classNames.value}
         style={{
+          overflow: 'hidden',
+          zIndex: fixSiderbar ? 20 : undefined,
           paddingTop:
-            props.layout === 'side' || props.isMobile ? undefined : `${props.headerHeight}px`
+            props.layout === 'side' || props.isMobile ? 0 : `${props.headerHeight}px`
         }}
+        theme={sTheme.value}
         breakpoint={breakpoint || undefined}
         collapsed={collapsed}
         width={siderWidth}
@@ -135,7 +147,14 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
         <div class="wd-pro-sider-menu" style="flex: 1 1 0%; overflow: hidden auto">
           {(menuContentRender && menuContentRender(props, defaultMenuDom)) || defaultMenuDom}
         </div>
-        <div class="wd-pro-sider-links">
+        <div
+          class="wd-pro-sider-links"
+          onClick={() => {
+            if (onCollapse) {
+              onCollapse(!props.collapsed)
+            }
+          }}
+        >
           {collapsedButtonRender !== false ? (
             <>
               {collapsedButtonRender && typeof collapsedButtonRender === 'function'

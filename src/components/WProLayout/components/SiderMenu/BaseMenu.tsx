@@ -155,10 +155,10 @@ export default defineComponent({
     const getMenuItem = (item: MenuDataItem) => {
       const meta = { ...item.meta }
       const target = (meta.target || null) as string | null
-      const hasUrl = isUrl(item.path)
+      const hasUrl = isUrl(item.linkPath || item.path)
       const CustomTag: any = (target && 'a') || RouterLink
-      const parames = { to: item.path || '' }
-      const attrs = hasUrl || target ? { ...item.meta, href: item.path, target } : {}
+      const parames = { to: item.linkPath || item.path || '' }
+      const attrs = hasUrl || target ? { ...item.meta, href: item.linkPath || item.path, target } : {}
 
       const menuTitle = item.meta?.title
       const defaultTitle = item.meta?.icon ? (

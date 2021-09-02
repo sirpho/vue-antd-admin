@@ -18,7 +18,6 @@ const SiderMenuWrapper: FC<SiderMenuWrapperProps> = (props, { attrs }) => {
         {...attrs}
         {...props}
         collapsed={props.isMobile ? false : props.collapsed}
-        splitMenus={false}
       />
     </a-drawer>
   ) : (

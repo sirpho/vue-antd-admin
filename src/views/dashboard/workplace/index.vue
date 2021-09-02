@@ -1,5 +1,5 @@
 <template>
-  <w-page-wrapper>
+  <w-page-wrapper :contentStyle="{ background: 'transparent', padding: 0 }">
     <div :class="$style.workplace">
       <a-page-header title="工作台" :backIcon="false">
         <template #extra>

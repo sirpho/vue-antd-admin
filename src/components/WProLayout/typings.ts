@@ -56,7 +56,7 @@ export interface MenuDataItem {
    * @name 用于标定选中的值，默认是 path
    */
   path: string;
-  originalPath?: string;
+  linkPath?: string;
   name?: string | symbol;
   meta?: MetaRecord;
   /**

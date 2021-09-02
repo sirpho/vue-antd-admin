@@ -3,6 +3,7 @@ import type { UserConfig, ConfigEnv } from 'vite'
 import { loadEnv } from 'vite'
 import { resolve } from 'path'
 
+import externalGlobals from 'rollup-plugin-external-globals'
 import { generateModifyVars } from './build/generate/generateModifyVars'
 import { wrapperEnv } from './build/utils'
 import { createVitePlugins } from './build/vite/plugin'
@@ -84,16 +85,15 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       chunkSizeWarningLimit: 2000,
       rollupOptions: {
         external: [ 'vue', 'moment', 'vuex', 'vue-router' ],
-        output: {
-          exports: 'named',
-          globals: {
+        plugins: [
+          externalGlobals({
             vue: 'Vue',
             vuex: 'Vuex',
             'vue-router': 'VueRouter',
-            moment: 'moment',
-            'ant-design-vue': 'antd'
-          }
-        }
+            // lodash: '_',
+            moment: 'moment'
+          })
+        ]
       }
     },
     define: {

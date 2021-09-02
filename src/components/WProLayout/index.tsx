@@ -15,9 +15,9 @@ import type { CustomRender, WithFalse } from './typings'
 import { WrapContent } from './WrapContent'
 import { basicLayoutProps } from './props'
 import { provideRouteContext, defaultRouteContext, RouteContextProps } from './RouteContext'
-import GlobalHeader from './components/GlobalHeader/index'
+import GlobalHeader from './components/GlobalHeader'
+import GlobalFooter from './components/GlobalFooter'
 import SiderMenuWrapper from './components/SiderMenu'
-import MultiTab from './components/MultiTab.vue'
 import useMediaQuery from '../_util/useMediaQuery'
 import { getPropsSlotfn, getPropsSlot } from './utils'
 import './style.less'
@@ -28,8 +28,8 @@ export default defineComponent({
   name: 'ProLayout',
   inheritAttrs: false,
   components: {
-    MultiTab,
     GlobalHeader,
+    GlobalFooter,
     SiderMenuWrapper
   },
   props: basicLayoutProps,
@@ -118,7 +118,7 @@ export default defineComponent({
       const rightContentRender = getPropsSlot(slots, props, 'rightContentRender')
       const customHeaderRender = getPropsSlot(slots, props, 'headerRender')
       const headerLogoRender = getPropsSlot(slots, props, 'headerLogoRender')
-      // const footerRender = getPropsSlot(slots, props, 'footerRender');
+      const footerRender = getPropsSlot(slots, props, 'footerRender');
       // menu render
       const menuItemRender = getPropsSlotfn(slots, props, 'menuItemRender')
       const subMenuItemRender = getPropsSlotfn(slots, props, 'subMenuItemRender')
@@ -173,6 +173,7 @@ export default defineComponent({
             >
               {slots.default?.()}
             </WrapContent>
+            {footerRender ? footerRender(props) : <GlobalFooter />}
           </a-layout>
         </a-layout>
       )

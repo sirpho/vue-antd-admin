@@ -1,95 +1,4 @@
-<template>
-  <div class="wd-pro-multi-tab">
-    <a-tabs
-      @tab-click="handleTabClick"
-      v-model:activeKey="tabActive"
-      hide-add
-      type="editable-card"
-    >
-      <a-tab-pane
-        v-for="item in visitedRoutes"
-        :key="item.fullPath"
-        :closable="false"
-      >
-        <template #tab>
-          <a-dropdown :trigger="['contextmenu']">
-            <div class="wd-pro-multi-tab-content">
-              {{ item.meta.title }}
-              <ReloadOutlined
-                v-if="tabActive === (item.fullPath || item.path)"
-                class="wd-pro-multi-tab-reload-btn"
-                style="margin-right: 0"
-                :spin="reloadSpin"
-                @click="() => { reloadSpin ? null : reloadPage() }"
-              />
-              <CloseOutlined
-                v-if="visitedRoutes.length > 1 && !isFixed(item)"
-                style="margin-right: 0"
-                class="wd-pro-multi-tab-close-btn"
-                @click="e => handleTabRemove(e, item.fullPath)"
-              />
-            </div>
-            <template #overlay>
-              <a-menu @click="e => handleClick(e, 'tabContextActive')">
-                <a-menu-item
-                  :disabled="tabBarExtraState(1, item.fullPath || item.path)"
-                  key="closeOthersTabs"
-                >
-                  关闭其他
-                </a-menu-item>
-                <a-menu-item
-                  :disabled="tabBarExtraState(2, item.fullPath || item.path)"
-                  key="closeLeftTabs"
-                >
-                  关闭左侧
-                </a-menu-item>
-                <a-menu-item
-                  :disabled="tabBarExtraState(3, item.fullPath || item.path)"
-                  key="closeRightTabs"
-                >
-                  关闭右侧
-                </a-menu-item>
-              </a-menu>
-            </template>
-          </a-dropdown>
-        </template>
-      </a-tab-pane>
-      <template #tabBarExtraContent>
-        <a-dropdown>
-          <template v-slot:overlay>
-            <a-menu @click="e => handleClick(e, 'tabActive')">
-              <a-menu-item
-                :disabled="tabBarExtraState(1, tabActive)"
-                key="closeOthersTabs"
-              >
-                关闭其他
-              </a-menu-item>
-              <a-menu-item
-                :disabled="tabBarExtraState(2, tabActive)"
-                key="closeLeftTabs"
-              >
-                关闭左侧
-              </a-menu-item>
-              <a-menu-item
-                :disabled="tabBarExtraState(3, tabActive)"
-                key="closeRightTabs"
-              >
-                关闭右侧
-              </a-menu-item>
-            </a-menu>
-          </template>
-          <EllipsisOutlined
-            class="wd-pro-multi-tab-dropdown-menu-btn"
-            :rotate="90"
-          />
-        </a-dropdown>
-      </template>
-    </a-tabs>
-  </div>
-</template>
-
-<script lang="ts">
-import { computed, defineComponent, inject, reactive, toRefs, watch, onMounted } from 'vue'
+import { computed, defineComponent, inject, reactive, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { EllipsisOutlined, ReloadOutlined, CloseOutlined } from '@ant-design/icons-vue'
@@ -109,7 +18,7 @@ export default defineComponent({
     const state = reactive({
       affixTabs: [],
       reloadSpin: false,
-      tabActive: null
+      tabActive: ''
     })
     const routes = computed(() => store.getters['routes/routes'])
     const visitedRoutes = computed(() => store.getters['tagsBar/visitedRoutes'])
@@ -231,7 +140,7 @@ export default defineComponent({
           break
       }
     }
-    const tabBarExtraState = (type, path) => {
+    const tabBarExtraState = (type, path: any) => {
       const currentIndex = visitedRoutes.value.findIndex(item => item.fullPath === path)
       let status = false
       switch (type) {
@@ -329,62 +238,102 @@ export default defineComponent({
       if (currentPath !== view.path) router.push(view)
       return view
     }
-  
-    return {
-      visitedRoutes,
-      routes,
-      isFixed,
-      reloadPage,
-      handleClick,
-      handleTabClick,
-      handleTabRemove,
-      tabBarExtraState,
-      ...toRefs(state),
-    }
+
+    const defaultRenderTabMenu = (record) => (
+      <a-menu onClick={e => handleClick(e, 'tabContextActive')}>
+        <a-menu-item
+          disabled={tabBarExtraState(1, record.fullPath || record.path)}
+          key="closeOthersTabs"
+        >
+          关闭其他
+        </a-menu-item>
+        <a-menu-item
+          disabled={tabBarExtraState(2, record.fullPath || record.path)}
+          key="closeLeftTabs"
+        >
+          关闭左侧
+        </a-menu-item>
+        <a-menu-item
+          disabled={tabBarExtraState(3, record.fullPath || record.path)}
+          key="closeRightTabs"
+        >
+          关闭右侧
+        </a-menu-item>
+      </a-menu>
+    )
+
+    const defaultRenderTab = (record) => (
+      <a-dropdown
+        trigger="contextmenu"
+        overlay={defaultRenderTabMenu(record)}
+      >
+        <div class="wd-pro-multi-tab-content">
+          { record.meta.title }
+          {state.tabActive === (record.fullPath || record.path) && (
+            <ReloadOutlined
+              class="wd-pro-multi-tab-reload-btn"
+              style={{ marginRight: 0 }}
+              spin={state.reloadSpin}
+              onClick={() => { state.reloadSpin ? null : reloadPage() }}
+            />
+          )}
+          {(visitedRoutes.value.length > 1 && !isFixed(record)) && (
+            <CloseOutlined
+              class="wd-pro-multi-tab-close-btn"
+              style={{ marginRight: 0 }}
+              onClick={e => handleTabRemove(e, record.fullPath)}
+            />
+          )}
+        </div>
+
+      </a-dropdown>
+    )
+
+    const defaultExtraMenu = () => (
+      <a-menu click={e => handleClick(e, 'tabActive')}>
+        <a-menu-item
+          disabled={tabBarExtraState(1, state.tabActive)}
+          key="closeOthersTabs"
+        >
+          关闭其他
+        </a-menu-item>
+        <a-menu-item
+          disabled={tabBarExtraState(2, state.tabActive)}
+          key="closeLeftTabs"
+        >
+          关闭左侧
+        </a-menu-item>
+        <a-menu-item
+          disabled={tabBarExtraState(3, state.tabActive)}
+          key="closeRightTabs"
+        >
+          关闭右侧
+        </a-menu-item>
+      </a-menu>
+    )
+
+    const tabBarExtraContent = () => (
+      <a-dropdown overlay={defaultExtraMenu}>
+        <EllipsisOutlined class="wd-pro-multi-tab-dropdown-menu-btn" rotate={90} />
+      </a-dropdown>
+    )
+
+    return () => (
+      <div class="wd-pro-multi-tab">
+        <a-tabs
+          onTabClick={handleTabClick}
+          activeKey={state.tabActive}
+          hideAdd
+          type="editable-card"
+          tabBarExtraContent={tabBarExtraContent}
+        >
+          {
+            visitedRoutes.value.map(item => (
+              <a-tab-pane key={item.fullPath} closable={false} tab={defaultRenderTab(item)} />
+            ))
+          }
+        </a-tabs>
+      </div>
+    )
   }
 })
-</script>
-<style lang="less">
-.wd-pro-multi-tab{
-  .ant-tabs{
-    width: 100%;
-    padding-top: 6px;
-    margin: 0px;
-    background: #ffffff;
-  }
-  
-  .ant-tabs-bar{
-    padding-left: 16px;
-    margin: 0;
-  }
-  
-  &-dropdown-menu-btn{
-    padding: 12px;
-    margin-right: 8px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  &-content{
-    display: flex;
-    align-items: center;
-  }
-  
-  &-reload-btn{
-    margin-right: 0;
-    margin-left: 8px;
-    font-size: 12px;
-    color: rgba(0, 0, 0, 0.45);
-    
-    &:hover{
-      color: #1890ff;
-    }
-  }
-  
-  &-close-btn{
-    margin-left: 8px;
-    font-size: 12px;
-    color: rgba(0, 0, 0, 0.45);
-  }
-}
-</style>
