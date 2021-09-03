@@ -27,7 +27,7 @@
               <div>前端工程师 | （REACT，VUE，UNIAPP）平台</div>
             </div>
           </div>
-          <div class="wd-pro-page-container-extraContent">
+          <div :style="isMobile ? { width: '100%', marginTop: '24px' } : undefined" class="wd-pro-page-container-extraContent">
             <div :class="$style['extra-content']">
               <div :class="$style['stat-item']">
                 <a-statistic title="项目数" :value="3" />
@@ -175,6 +175,7 @@ import {
 } from 'vue'
 import { useStore } from 'vuex'
 import { notice, activities, radar } from '/@/services/workplace'
+import useMediaQuery from '/@/components/_util/useMediaQuery'
 import { timeFix, momentFromNow } from '/@/utils/util'
 import Radar from './components/Radar.vue'
 
@@ -194,6 +195,10 @@ export default defineComponent({
   components: { PlusOutlined, RedoOutlined, LoadingOutlined, Radar },
   setup() {
     const store = useStore()
+    const colSize = useMediaQuery()
+    const isMobile = computed(
+      () => (colSize.value === 'sm' || colSize.value === 'xs')
+    )
     const reloadCurrentPage: any = inject('reload')
     const welcome = ref('祝你开心每一天！')
     const state: stateTypes = reactive({
@@ -265,6 +270,7 @@ export default defineComponent({
       })[0]?.value || 0
     }
     return {
+      isMobile,
       userInfo: computed(() => store.getters['user/userInfo']),
       ...toRefs(state),
       welcome,

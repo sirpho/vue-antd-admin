@@ -1,11 +1,14 @@
 import { computed, ExtractPropTypes, FunctionalComponent } from 'vue'
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
-import { anchorProps, handelInkStyle } from './index'
+import { handelInkStyle } from './index'
 import styles from './style.module.less'
 
 const defaultAnchorProps = {
   isMobile: PropTypes.bool,
-  dataSource: anchorProps.links,
+  dataSource: {
+    type: Array as PropType<any[]>,
+    default: () => []
+  },
   prefixCls: PropTypes.string,
   onGoAnchor: {
     type: Function as PropType<(path: string) => void>
