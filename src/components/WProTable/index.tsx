@@ -739,15 +739,15 @@ const WProTable = defineComponent({
       if (success && record.copyable) {
         show =
           <a-typography-paragraph style={{ margin: '0', width: '100%', padding: '0' }} copyable>
-            <a-tooltip title={value} placement="topLeft">
-              <span class={styles[`${tableClassName}-ellipsis`]}>
+            <a-tooltip title={value} placement="top">
+              <div class={styles[`${tableClassName}-ellipsis`]}>
                 {value}
-              </span>
+              </div>
             </a-tooltip>
           </a-typography-paragraph>
       } else if (success && !record.copyable) {
-        show = <a-tooltip title={value} placement="topLeft">
-          <span class={styles[`${tableClassName}-ellipsis`]}>{value}</span>
+        show = <a-tooltip title={value} placement="top">
+          <div class={styles[`${tableClassName}-ellipsis`]}>{value}</div>
         </a-tooltip>
       }
       return show

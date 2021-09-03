@@ -343,10 +343,10 @@ const TableSearch = defineComponent({
           null
       }
     </a-space> : null
-    const advancedSlot = ({ formItemStyle, advanced, showAdvanced = true }) =>
+    const advancedSlot = ({ formItemStyle, advanced, showAdvanced = true, optionButton = true }) =>
       <div style={formItemStyle} class={styles.list_unfold}>
         <a-space size={16}>
-          {optionRender()}
+          {optionButton && optionRender()}
           {
             showAdvanced ?
               <a onClick={() => changeAdvanced(!advanced)}>
@@ -375,8 +375,15 @@ const TableSearch = defineComponent({
             })
           )
           if (
-            (i === formList.length - 1 && ((i + 1) % rowLength.value !== 0) && advanced) ||
-            ((props.showSearch || props.showReset) && i === formList.length - 1)
+            (
+              i === formList.length - 1 &&
+              ((i + 1) % rowLength.value !== 0) &&
+              advanced
+            ) ||
+            (
+              (props.showSearch || props.showReset) &&
+              i === formList.length - 1
+            )
           ) {
             show.push(
               advancedSlot({
@@ -384,6 +391,7 @@ const TableSearch = defineComponent({
                   flex: 1,
                   justifyContent: 'flex-end'
                 },
+                optionButton: !advanced,
                 advanced: true,
                 showAdvanced: i === formList.length - 1 && ((i + 1) % rowLength.value !== 0) && advanced
               })

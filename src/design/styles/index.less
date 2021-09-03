@@ -47,17 +47,9 @@ html {
   .ant-table {
     width: 100%;
     overflow-x: auto;
-    
-    &-thead > tr,
-    &-tbody > tr {
-      > th,
-      > td {
-        white-space: pre;
-        
-        > span {
-          display: block;
-        }
-      }
+  
+    .ant-table-row-cell-ellipsis, .ant-table-row-cell-ellipsis .ant-table-column-title{
+      white-space: normal;
     }
   }
 }
