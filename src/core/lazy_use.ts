@@ -17,7 +17,8 @@ import {
   WProSkeleton,
   WProWatermark,
   WProColorPicker,
-  WAnchor
+  WAnchor,
+  WDocumentation
 } from '/@/components'
 import { WScrollbars, CustomIcon } from '/@/components/export'
 
@@ -88,6 +89,7 @@ const ant = {
     app.component('w-pro-color', WProColorPicker)
     app.component('w-affix', WAffix)
     app.component('w-anchor', WAnchor)
+    app.component('w-doc', WDocumentation)
     app.use(InputNumber)
     app.use(Slider)
     app.use(Anchor)

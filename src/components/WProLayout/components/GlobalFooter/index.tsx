@@ -1,8 +1,22 @@
-import { computed, CSSProperties, defineComponent, VueElement } from 'vue'
+import { defineComponent, PropType, SetupContext, VNodeChild } from 'vue'
 import { GithubOutlined } from '@ant-design/icons-vue'
-import type { WithFalse } from '../../typings'
+import { getPrefixCls } from '/@/components/_util'
+import { WithFalse } from '@wd-pro/pro-layout'
 
-const layoutLinks = [
+export type Links = WithFalse<{
+  key?: string;
+  title: VNodeChild | JSX.Element;
+  href: string;
+  blankTarget?: boolean;
+}[]>;
+
+export interface GlobalFooterProps {
+  links?: Links;
+  copyright?: VNodeChild | JSX.Element;
+  prefixCls?: string;
+}
+
+const defaultLinks = [
   {
     key: 'Ant Design Pro',
     title: 'Ant Design Pro',
@@ -24,63 +38,54 @@ const layoutLinks = [
 ]
 
 export default defineComponent({
+  name: 'GlobalFooter',
   props: {
-    style: CSSStyleSheet as PropType<CSSProperties>,
     links: {
-      type: [ Array ] as PropType<WithFalse<{
-        key?: string;
-        title: VueNode | String;
-        href: string;
-        blankTarget?: boolean;
-      }[]>>,
-      default: layoutLinks
+      type: [ Array, Boolean ] as PropType<Links>,
+      default: defaultLinks
     },
     copyright: {
-      type: [ String, VueElement, Boolean ] as PropType<string | VueNode | boolean>,
-      default: `2021 WD体验技术部出品`
+      type: [ String, Object, Function ] as PropType<VNodeChild | JSX.Element>,
+      default: '2021 WD体验技术部出品'
     },
-    className: String as PropType<string>
+
   },
-  setup(props ) {
-    const handleVisible = computed(() => {
-      const { links, copyright } = props
-      if (
-        (links == null || links === false || (Array.isArray(links) && links.length === 0)) &&
-        (copyright == null || copyright === false)
-      ) {
-        return false
-      }
-      return true
-    })
+  setup(props: GlobalFooterProps, { slots }: SetupContext) {
+    if (
+      (props.links == null ||
+        props.links === false ||
+        (Array.isArray(props.links) && props.links.length === 0)) &&
+      (props.copyright == null || props.copyright === false)
+    ) {
+      return null
+    }
+
+    const baseClassName = getPrefixCls('global-footer')
+
+    const copyright = props.copyright || (slots.copyright && slots.copyright())
 
     return () => (
-      <>
-        {
-          handleVisible.value ?
-            <div class={[ 'wd-pro-global-footer', props.className ]}>
-              {props.links && props.links.length > 0 && (
-                <div class="wd-pro-global-footer-links">
-                  {props.links.map((link) => (
-                    <a
-                      key={link.key}
-                      title={link.key}
-                      target={link.blankTarget ? '_blank' : '_self'}
-                      href={link.href}
-                    >
-                      {link.title}
-                    </a>
-                  ))}
-                </div>
-              )}
-              {
-                props.copyright &&
-                <div class="wd-pro-global-footer-copyright">{props.copyright}</div>
-              }
-            </div>
-            :
-            null
-        }
-      </>
+      <footer class={baseClassName}>
+        {props.links && (
+          <div class={`${baseClassName}-links`}>
+            {props.links.map((link) => (
+              <a
+                key={link.key}
+                title={link.key}
+                target={link.blankTarget ? '_blank' : '_self'}
+                href={link.href}
+              >
+                {link.title}
+              </a>
+            ))}
+          </div>
+        )}
+        {props.copyright && (
+          <div class={`${baseClassName}-copyright`}>
+            {copyright}
+          </div>
+        )}
+      </footer>
     )
   }
 })

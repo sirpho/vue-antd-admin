@@ -1,8 +1,8 @@
 import type { PropType } from 'vue'
-import type { CustomRender, WithFalse } from '../../typings'
-import { defaultSettingProps } from '../../defaultSettings'
-import { PropTypes } from '../../utils'
+import type { CustomRender, WithFalse } from '@wd-pro/pro-layout'
 import { siderMenuProps } from '../SiderMenu/props'
+import { PropTypes } from '../../utils'
+import { defaultSettingProps } from '../../defaultSettings'
 
 export default {
   ...defaultSettingProps,

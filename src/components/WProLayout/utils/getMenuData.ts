@@ -10,7 +10,6 @@ export type MenuData = {
 const formatRelativePath = (
   routes: RouteRecordRaw[],
   breadcrumb: Record<string, any>
-
 ): RouteRecordRaw[] => {
   // 计算路由绝对路径
   return routes.map(route => {

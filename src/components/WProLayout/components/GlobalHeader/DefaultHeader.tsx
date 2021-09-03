@@ -1,19 +1,15 @@
 import type { FunctionalComponent, ExtractPropTypes } from 'vue'
-import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer'
 import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer'
+import { useRouteContext } from '@wd-pro/pro-layout'
 import { globalHeaderProps } from './props'
 import type { SiderMenuProps } from '../SiderMenu/SiderMenu'
-import {
-  defaultRenderCollapsedButton
-} from '../SiderMenu/SiderMenu'
-import {
-  siderMenuProps
-} from '../SiderMenu/props'
+import { defaultRenderCollapsedButton } from '../SiderMenu/SiderMenu'
+import { siderMenuProps } from '../SiderMenu/props'
 import BaseMenu from '../SiderMenu/BaseMenu'
 import DeFaultRightContent from '../RightContent'
 import LogoContent from '../LogoContent'
-import { useRouteContext } from '../../RouteContext'
-import { useRouter } from 'vue-router'
 
 export const defaultHeaderProps = { ...siderMenuProps, ...globalHeaderProps }
 

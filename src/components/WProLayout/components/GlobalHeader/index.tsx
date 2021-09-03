@@ -4,10 +4,10 @@ import {
   toRefs
 } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
+import { flatMap } from '@wd-pro/pro-layout'
+import { useRouteContext } from '@wd-pro/pro-layout'
 import { headerViewProps } from './props'
 import { DefaultHeader } from './DefaultHeader'
-import { useRouteContext } from '../../RouteContext'
-import { flatMap } from '../../utils'
 
 export default defineComponent({
   inheritAttrs: false,

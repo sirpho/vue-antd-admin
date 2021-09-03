@@ -5,16 +5,17 @@ import {
   computed,
   isVNode,
   resolveComponent,
+  ExtractPropTypes,
   ConcreteComponent
 } from 'vue'
 import Menu from 'ant-design-vue/es/menu'
 import { createFromIconfontCN } from '@ant-design/icons-vue'
-import { baseMenuProps } from './props'
 import {
   MenuDataItem,
   CustomRender,
   WithFalse
-} from '../../typings'
+} from '@wd-pro/pro-layout'
+import { baseMenuProps } from './props'
 import { defaultSettings } from '../../defaultSettings'
 import { isImg, isUrl } from '../../utils'
 
@@ -22,6 +23,8 @@ export interface CustomMenuRender {
   menuItemRender?: WithFalse<(args: { item: MenuDataItem; title?: JSX.Element; icon?: JSX.Element }) => CustomRender>;
   subMenuItemRender?: WithFalse<(args: { item: MenuDataItem; children?: CustomRender[] }) => CustomRender>;
 }
+
+export type BaseMenuProps = ExtractPropTypes<typeof baseMenuProps>;
 
 const IconFont: any = (iconfontUrl) => {
   return createFromIconfontCN({

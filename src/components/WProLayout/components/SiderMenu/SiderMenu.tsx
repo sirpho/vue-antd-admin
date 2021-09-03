@@ -5,11 +5,10 @@ import {
   unref
 } from 'vue'
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue'
+import { useRouteContext, CustomRender } from '@wd-pro/pro-layout'
 import BaseMenu from './BaseMenu'
 import { siderMenuProps } from './props'
 import LogoContent from '../LogoContent'
-import { CustomRender } from '../../typings'
-import { useRouteContext } from '../../RouteContext'
 import { getMenuFirstChildren } from '../../utils'
 
 export type SiderMenuProps = Partial<ExtractPropTypes<typeof siderMenuProps>>;

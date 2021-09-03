@@ -18,9 +18,9 @@
         :class="$style['wd-pro-card-contain-card']"
         title="水印自定义配置器"
         :headStyle="{ borderBottom: '1px solid #f0f0f0', marginBottom: 0 }"
-        :bodyStyle="{ display: 'flex', padding: 0 }"
+        :bodyStyle="{ display: 'flex', padding: 0, flexWrap: isMobile ? 'wrap' : '' }"
       >
-        <div style="flex-shrink: 0;width: 70%;border-right: 1px solid #f0f0f0;">
+        <div :style="{ flexShrink: 0, width: isMobile ? '100%' : '70%', borderRight: '1px solid #f0f0f0' }">
           <a-card :bordered="false">
             <w-pro-watermark
               :content="formState.content"
@@ -102,11 +102,19 @@
 </template>
 
 <script>
-import { defineComponent, reactive, toRefs } from 'vue'
+import { computed, defineComponent, reactive, toRefs } from 'vue'
+import useMediaQuery from '/@/components/_util/useMediaQuery'
 import config from '../utils/config'
 
 export default defineComponent({
   setup() {
+
+    const colSize = useMediaQuery()
+
+    const isMobile = computed(
+      () => (colSize.value === 'sm' || colSize.value === 'xs')
+    )
+    
     const state = reactive({
       code: config.code,
       predefineColors: [
@@ -133,7 +141,9 @@ export default defineComponent({
         rotate: '-22'
       }
     })
+    
     return {
+      isMobile,
       ...toRefs(state)
     }
   }

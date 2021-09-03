@@ -23,8 +23,7 @@ import {
 } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import { getMenuData, clearMenuItem } from '/@/components/WProLayout/utils/getMenuData'
-import { RouteContextProps } from '/@/components/WProLayout/RouteContext'
+import { RouteContextProps, getMenuData, clearMenuItem } from '@wd-pro/pro-layout'
 import WProContent from './ContentView.vue'
 
 export default defineComponent({

@@ -1,4 +1,5 @@
 import {
+  computed,
   defineComponent,
   nextTick,
   onActivated,
@@ -7,19 +8,29 @@ import {
   reactive,
   watch
 } from 'vue'
+import { MenuOutlined, CloseOutlined } from '@ant-design/icons-vue'
 import { cloneDeep } from 'lodash-es'
+import { DefaultAnchor } from './DefaultAnchor'
+import useMediaQuery from '../_util/useMediaQuery'
 import getScroll from '../_util/getScroll'
 import scrollTo from '../_util/scrollTo'
 import addEventListener from '../_util/Dom/addEventListener'
 import throttleByAnimationFrame from '../_util/throttleByAnimationFrame'
 import styles from './style.module.less'
 
+export const handelInkStyle = (level = 1, isMobile?) => {
+  return {
+    paddingLeft: `${level * (isMobile ? 24 : 12)}px`
+  }
+}
+
 export interface anchorState {
+  visible: boolean;
   dataSource: any[];
   scrollEvent: { remove: () => void } | null;
 }
 
-const anchorProps = {
+export const anchorProps = {
   links: {
     type: Array as PropType<any[]>,
     default: () => []
@@ -35,7 +46,14 @@ const WAnchor = defineComponent({
   setup(props) {
     const prefixCls = 'wd-anchor'
 
+    const colSize = useMediaQuery()
+
+    const isMobile = computed(
+      () => (colSize.value === 'sm' || colSize.value === 'xs')
+    )
+
     const state: anchorState = reactive({
+      visible: false,
       dataSource: [],
       scrollEvent: null
     })
@@ -103,12 +121,6 @@ const WAnchor = defineComponent({
       })
     })
 
-    const handelInkStyle = (level = 1) => {
-      return {
-        paddingLeft: `${level * 6}px`
-      }
-    }
-
     const goAnchor = (selector) => {
       const targetNode = document.querySelector(selector) || { offsetTop: 0 }
       const { root } = props
@@ -119,29 +131,43 @@ const WAnchor = defineComponent({
     }
 
     return () => (
-      <div class={styles[prefixCls]}>
-        <w-affix offsetTop={68}>
-          <div class={styles[`${prefixCls}-wrapper`]}>
-            {
-              state.dataSource.map((item: any, index) => (
+      <>
+        {
+          isMobile.value ?
+            <a-drawer
+              visible={state.visible}
+              closable={false}
+              placement={'right'}
+              bodyStyle={{ padding: 0 }}
+              onClose={() => state.visible = false}
+              handle={
                 <div
-                  key={index}
-                  style={handelInkStyle(item.level)}
-                  class={
-                    item.active ?
-                      [ styles[`${prefixCls}-ink`], styles.active ]
-                      :
-                      styles[`${prefixCls}-ink`]
-                  }
-                  onClick={() => goAnchor(item.link)}
+                  onClick={() => state.visible = !state.visible}
+                  class={styles[`${prefixCls}-drawer-handle`]}
                 >
-                  {item.name}
+                  {
+                    state.visible
+                      ? <CloseOutlined style={{ fontSize: '20px' }} />
+                      : <MenuOutlined style={{ fontSize: '20px' }} />
+                  }
                 </div>
-              ))
-            }
-          </div>
-        </w-affix>
-      </div>
+              }
+            >
+              <DefaultAnchor
+                prefixCls={prefixCls}
+                isMobile={isMobile.value}
+                dataSource={state.dataSource}
+                onGoAnchor={(path) => goAnchor(path)}
+              />
+            </a-drawer>
+            :
+            <DefaultAnchor
+              prefixCls={prefixCls}
+              dataSource={state.dataSource}
+              onGoAnchor={(path) => goAnchor(path)}
+            />
+        }
+      </>
     )
   }
 })

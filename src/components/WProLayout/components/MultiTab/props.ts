@@ -1,5 +1,4 @@
-import PropTypes from 'ant-design-vue/es/_util/vue-types'
-import { CustomRender, WithFalse } from '../../typings'
+import { CustomRender, WithFalse } from '@wd-pro/pro-layout'
 
 export default {
   affixTabs: {

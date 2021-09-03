@@ -1,4 +1,5 @@
 import { InjectionKey, provide, reactive, Ref } from 'vue'
+import { getPrefixCls } from '/@/components/_util'
 import { createContext, useContext } from './hooks/context'
 import { MenuDataItem, CustomRender } from './typings'
 import { PureSettings } from './defaultSettings'
@@ -47,13 +48,6 @@ export interface RouteContextProps extends Partial<PureSettings>, MenuState {
 
   /* 附加属性 */
   [key: string]: any;
-}
-
-export const defaultPrefixCls = 'wd-pro'
-
-export const getPrefixCls = (suffixCls?: string, customizePrefixCls?: string) => {
-  if (customizePrefixCls) return customizePrefixCls
-  return suffixCls ? `${defaultPrefixCls}-${suffixCls}` : defaultPrefixCls
 }
 
 // set default context

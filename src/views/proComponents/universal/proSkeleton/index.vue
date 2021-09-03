@@ -1,12 +1,11 @@
 <template>
   <w-page-wrapper :contentStyle="{ position: 'relative' }" :class="$style['skeleton-block']">
-    <w-anchor :links="links" />
-    <div style="padding-right: 208px">
+    <w-doc :anchorLinks="links">
       <BasicSkelecton />
       <ListSkelecton />
       <ResultSkelecton />
       <DescriptionsSkelecton />
-    </div>
+    </w-doc>
   </w-page-wrapper>
 </template>
 
@@ -68,12 +67,13 @@ export default defineComponent({
 </script>
 
 <style lang="less" module>
-.skeleton-block{
-  :global{
-    .ant-divider-horizontal.ant-divider-with-text-left::before{
+.skeleton-block {
+  :global {
+    .ant-divider-horizontal.ant-divider-with-text-left::before {
       width: 0;
     }
-    .ant-divider-inner-text{
+    
+    .ant-divider-inner-text {
       padding-left: 0;
     }
   }

@@ -7,7 +7,7 @@ import {
   CustomRender,
   LayoutType,
   WithFalse
-} from '../../typings'
+} from '@wd-pro/pro-layout'
 import { PropTypes } from '../../utils'
 import { defaultSettingProps } from '../../defaultSettings'
 

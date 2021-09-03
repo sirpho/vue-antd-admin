@@ -1,7 +1,7 @@
 import { CSSProperties, defineComponent, ExtractPropTypes } from 'vue'
 import Logo from '/@/assets/logo.png'
+import { CustomRender } from '@wd-pro/pro-layout'
 import logoContentProps from './props'
-import { CustomRender } from '../../typings'
 
 export type LogoContentProps = Partial<ExtractPropTypes<typeof logoContentProps>>;
 

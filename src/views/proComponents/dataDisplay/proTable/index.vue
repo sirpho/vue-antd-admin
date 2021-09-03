@@ -1,7 +1,6 @@
 <template>
   <w-page-wrapper :contentStyle="{ position: 'relative' }">
-    <w-anchor :links="links" />
-    <div style="padding-right: 208px">
+    <w-doc :anchorLinks="links">
       <a-typography id="w-pro-table">
         <a-typography-title :level="2" :style="{color: '#454d64'}">ProTable</a-typography-title>
       </a-typography>
@@ -87,8 +86,8 @@
       <ProTableApi />
       <ProTableSearch />
       <ProTableColums />
-      <w-back-top />
-    </div>
+    </w-doc>
+    <w-back-top />
   </w-page-wrapper>
 </template>
 
