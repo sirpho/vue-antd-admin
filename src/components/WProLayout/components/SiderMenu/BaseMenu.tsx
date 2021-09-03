@@ -158,7 +158,9 @@ export default defineComponent({
       const hasUrl = isUrl(item.linkPath || item.path)
       const CustomTag: any = (target && 'a') || RouterLink
       const parames = { to: item.linkPath || item.path || '' }
-      const attrs = hasUrl || target ? { ...item.meta, href: item.linkPath || item.path, target } : {}
+      const attrs = hasUrl || target
+        ? { ...item.meta, href: item.linkPath || item.path, target }
+        : {}
 
       const menuTitle = item.meta?.title
       const defaultTitle = item.meta?.icon ? (

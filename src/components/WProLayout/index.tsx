@@ -118,7 +118,7 @@ export default defineComponent({
       const rightContentRender = getPropsSlot(slots, props, 'rightContentRender')
       const customHeaderRender = getPropsSlot(slots, props, 'headerRender')
       const headerLogoRender = getPropsSlot(slots, props, 'headerLogoRender')
-      const footerRender = getPropsSlot(slots, props, 'footerRender');
+      const footerRender = getPropsSlot(slots, props, 'footerRender')
       // menu render
       const menuItemRender = getPropsSlotfn(slots, props, 'menuItemRender')
       const subMenuItemRender = getPropsSlotfn(slots, props, 'subMenuItemRender')

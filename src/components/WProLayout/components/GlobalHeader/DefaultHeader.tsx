@@ -13,6 +13,7 @@ import BaseMenu from '../SiderMenu/BaseMenu'
 import DeFaultRightContent from '../RightContent'
 import LogoContent from '../LogoContent'
 import { useRouteContext } from '../../RouteContext'
+import { useRouter } from 'vue-router'
 
 export const defaultHeaderProps = { ...siderMenuProps, ...globalHeaderProps }
 
@@ -68,6 +69,7 @@ export const DefaultHeader: FunctionalComponent<DefaultHeaderProps> = (props) =>
     menuData,
     theme
   } = props
+  const router = useRouter()
   const context = useRouteContext()
   const baseClassName = computed(() => `wd-pro-global-header`)
   const className = computed(() => {
@@ -76,6 +78,16 @@ export const DefaultHeader: FunctionalComponent<DefaultHeaderProps> = (props) =>
       theme
     ]
   })
+
+  const handleChangeKeys = (type: string) => {
+    if (router.currentRoute) {
+      const matched = router.currentRoute.value.matched.concat()
+      if (onSelect && type === 'select') onSelect(matched.filter(r => r.name !== 'index').map(r => r.path))
+      if (onOpenKeys && type === 'openKeys') onOpenKeys(matched
+        .filter(r => r.path !== router.currentRoute.value.path)
+        .map(r => r.path))
+    }
+  }
 
   return (
     <div style={{ height: '100%' }} class={className.value}>
@@ -107,8 +119,8 @@ export const DefaultHeader: FunctionalComponent<DefaultHeaderProps> = (props) =>
                 selectedKeys={context.selectedKeys}
                 class={{ 'top-nav-menu': props.mode === 'horizontal' }}
                 {...{
-                  'onUpdate:openKeys': ($event: string[]) => onOpenKeys && onOpenKeys($event),
-                  'onUpdate:selectedKeys': ($event: string[]) => onSelect && onSelect($event)
+                  'onUpdate:openKeys': () => handleChangeKeys('openKeys'),
+                  'onUpdate:selectedKeys': () => handleChangeKeys('select')
                 }}
               />
             </div>

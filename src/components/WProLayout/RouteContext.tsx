@@ -58,10 +58,7 @@ export const getPrefixCls = (suffixCls?: string, customizePrefixCls?: string) =>
 
 // set default context
 export const defaultRouteContext = reactive({
-  getPrefixCls,
-  locale: (t: string) => t,
-  contentWidth: 'Fluid',
-  hasFooterToolbar: false
+  getPrefixCls
 })
 
 const routeContextInjectKey: InjectionKey<RouteContextProps> = Symbol('route-context')
