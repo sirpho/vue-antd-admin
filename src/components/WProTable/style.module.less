@@ -44,7 +44,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-  
+    
     .@{wd-prefix-pro-table}-copyable-icon {
       margin-left: 8px;
       color: @primary-color;
@@ -53,11 +53,9 @@
   }
   
   &-ellipsis {
-    display: -webkit-box;
     overflow: hidden;
     text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
+    white-space: nowrap;
   }
   
   &-list-toolbar {

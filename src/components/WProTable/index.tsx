@@ -747,7 +747,7 @@ const WProTable = defineComponent({
           </a-typography-paragraph>
       } else if (success && !record.copyable) {
         show = <a-tooltip title={value} placement="top">
-          <div class={styles[`${tableClassName}-ellipsis`]}>{value}</div>
+          {value}
         </a-tooltip>
       }
       return show
