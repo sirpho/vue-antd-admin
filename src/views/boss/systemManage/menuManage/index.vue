@@ -17,7 +17,7 @@
   </w-page-wrapper>
 </template>
 <script lang="ts">
-import { defineComponent ,reactive, toRefs, onMounted, getCurrentInstance } from 'vue'
+import { defineComponent, reactive, toRefs, onMounted, getCurrentInstance } from 'vue'
 import { getRouterList } from '/@/services/router'
 import { treeData } from '/@/utils/util'
 import columns from './utils/columns'

@@ -60,14 +60,7 @@ const WProTable = defineComponent({
     const tableClassName = 'wd-pro-table'
     const draggingMap: Recordable = {}
     const defaultConfig = {
-      pagination: defaultPageConfig,
-      transformCellText: ({ text, column }) => {
-        const { value, success } = hanndleField(text, column.customize)
-        return column.ellipsis ?
-          tooltipSlot(value, success, column)
-          :
-          value
-      }
+      pagination: defaultPageConfig
     }
     let originColums: any = cloneDeep(props.columns).map(item => {
       return {
@@ -334,6 +327,7 @@ const WProTable = defineComponent({
       if (result) {
         state.tableKey = getRandomNumber().uuid(15)
         state.dataSource = getSortIndex(result.data, pagination)
+        hasTableTree(state.dataSource)
         state.pagination.current = parameter.pageNum
         state.pagination.pageSize = parameter.pageSize
         state.pagination.total = result.total
@@ -426,6 +420,7 @@ const WProTable = defineComponent({
         ...props.pagination
       }
       const dataSource: Recordable[] = getSortIndex(props.dataSource, props.pagination)
+      hasTableTree(dataSource)
       let scroll = props.scroll ?
         props.scroll
         :
@@ -455,6 +450,19 @@ const WProTable = defineComponent({
       delete tableProps.onExpandedRowsChange
       return tableProps
     })
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/9/6
+     * @lastTime    2021/9/6
+     * @description 判断table是否是树形结构并将第一个改为原ant-table溢出隐藏结构
+     */
+    const hasTableTree = (data) => {
+      if (data.some(item => item.children && item.children.length > 0)) {
+        state.columns = state.columns.map((item, index) => {
+          return index === 0 ? { ...item, hasTableTree: true } : item
+        })
+      }
+    }
     /**
      * @Author      gx12358
      * @DateTime    2021/7/14
@@ -736,18 +744,31 @@ const WProTable = defineComponent({
      */
     const tooltipSlot = (value, success, record) => {
       let show = value
+      const placement = record.align === 'center' ?
+        'top'
+        :
+        record.align === 'left' || !record.align ?
+          'topLeft'
+          :
+          'topRight'
       if (success && record.copyable) {
         show =
           <a-typography-paragraph style={{ margin: '0', width: '100%', padding: '0' }} copyable>
-            <a-tooltip title={value} placement="top">
+            <a-tooltip title={value} placement={placement}>
               <div class={styles[`${tableClassName}-ellipsis`]}>
                 {value}
               </div>
             </a-tooltip>
           </a-typography-paragraph>
       } else if (success && !record.copyable) {
-        show = <a-tooltip title={value} placement="top">
-          {value}
+        show = <a-tooltip title={value} placement={placement}>
+          {
+            record.hasTableTree ?
+              value :
+              <div class={styles[`${tableClassName}-ellipsis`]}>
+                {value}
+              </div>
+          }
         </a-tooltip>
       }
       return show
@@ -893,11 +914,14 @@ const WProTable = defineComponent({
         id={state.tableId}
         ref={e => state.table = e}
         style={props.tableStyle || null}
-        class={changeProps.value.scroll ? [ styles[tableClassName], props.tableClassName ] : [
-          styles[tableClassName],
-          styles[`${tableClassName}-no-scroll`],
-          props.tableClassName
-        ]}
+        class={
+          {
+            [`${styles[tableClassName]}`]: true,
+            [`${props.tableClassName}`]: props.tableClassName,
+            [`${styles[`${tableClassName}-no-scroll`]}`]: !changeProps.value.scroll,
+            [`${styles[`${tableClassName}-has-table-tree`]}`]: state.columns.some(item => item.hasTableTree)
+          }
+        }
       >
         {
           props.search ?
@@ -938,6 +962,13 @@ const WProTable = defineComponent({
             pagination={props.showPagination ? props.request ? state.pagination : changeProps.value.pagination : false}
             columns={state.columns}
             components={components}
+            transformCellText={({ text, column }) => {
+              const { value, success } = hanndleField(text, column.customize)
+              return column.ellipsis ?
+                tooltipSlot(value, success, column)
+                :
+                value
+            }}
             onChange={changePage}
             onExpandedRowsChange={expandedRowsChange}
             onExpand={expand}

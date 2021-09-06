@@ -2,7 +2,8 @@ export default {
   index: [
     {
       title: '序号',
-      dataIndex: 'sortIndex'
+      dataIndex: 'sortIndex',
+      ellipsis: true
     },
     {
       title: '权限名称',

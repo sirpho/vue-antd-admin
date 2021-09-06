@@ -28,6 +28,12 @@
     .ant-table-row-cell-ellipsis.ant-table-cell-fix-left-last, .ant-table-row-cell-ellipsis.ant-table-cell-fix-right-first {
       overflow: visible;
     }
+  
+    .ant-table-row-cell-ellipsis, .ant-table-row-cell-ellipsis .ant-table-column-title {
+      overflow: unset;
+      text-overflow: unset;
+      white-space: initial;
+    }
   }
   
   &-no-scroll {
@@ -36,6 +42,16 @@
         &:last-child {
           border-right: 0;
         }
+      }
+    }
+  }
+  
+  &-has-table-tree{
+    :global {
+      .ant-table-row-cell-ellipsis, .ant-table-row-cell-ellipsis .ant-table-column-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
   }
@@ -55,6 +71,7 @@
   &-ellipsis {
     overflow: hidden;
     text-overflow: ellipsis;
+    word-break: break-word;
     white-space: nowrap;
   }
   
