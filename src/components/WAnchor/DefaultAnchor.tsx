@@ -1,4 +1,5 @@
 import { computed, ExtractPropTypes, FunctionalComponent } from 'vue'
+import { useStore } from 'vuex'
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
 import { handelInkStyle } from './index'
 import styles from './style.module.less'
@@ -25,6 +26,8 @@ export const DefaultAnchor: FunctionalComponent<DefaultAnchorProps> = (props) =>
     isMobile
   } = props
 
+  const store = useStore()
+  const fixedMultiTab = computed(() => store.getters['settings/fixedMultiTab'])
   const baseClassName = computed(() => {
     return {
       [styles[prefixCls]]: true,
@@ -59,7 +62,7 @@ export const DefaultAnchor: FunctionalComponent<DefaultAnchorProps> = (props) =>
       {
         isMobile
           ? linksRender()
-          : <w-affix offsetTop={68}>{linksRender()}</w-affix>
+          : <w-affix offsetTop={fixedMultiTab.value ? 68 + 42 : 68}>{linksRender()}</w-affix>
       }
     </div>
   )

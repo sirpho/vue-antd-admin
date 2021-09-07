@@ -14,6 +14,7 @@ export default defineComponent({
   },
   setup(props) {
     const {
+      loading,
       isFixedMultiTab
     } = toRefs(props)
     const $route = useRoute()
@@ -334,7 +335,12 @@ export default defineComponent({
     return () => (
       <>
         {props.isFixedMultiTab && (
-          <div class="wd-pro-multi-tab-fixed"></div>
+          <div
+            class={{
+              ['wd-pro-multi-tab-fixed']: true,
+              ['wd-pro-multi-tab-fixed-loading']: loading.value
+            }}
+          />
         )}
         <div
           style={{
@@ -346,7 +352,8 @@ export default defineComponent({
           class={{
             ['wd-pro-multi-tab']: true,
             ['wd-pro-multi-tab-wrap']: props.isFixedMultiTab,
-            ['wd-pro-multi-tab-wrap-fixed']: props.isFixedMultiTab
+            ['wd-pro-multi-tab-wrap-fixed']: props.isFixedMultiTab,
+            ['wd-pro-multi-tab-wrap-loading']: loading.value
           }}
         >
           <a-tabs
