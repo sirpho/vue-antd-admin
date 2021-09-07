@@ -14,6 +14,7 @@ export default defineComponent({
   },
   setup(props) {
     const {
+      isMobile,
       loading,
       isFixedMultiTab
     } = toRefs(props)
@@ -29,7 +30,9 @@ export default defineComponent({
     const routes = computed(() => store.getters['routes/routes'])
     const visitedRoutes = computed(() => store.getters['tagsBar/visitedRoutes'])
     const needFixedMultiTab = computed(() => isFixedMultiTab.value)
-    const needSettingWidth = computed(() => needFixedMultiTab.value)
+    const needSettingWidth = computed(
+      () => needFixedMultiTab.value && !isMobile.value
+    )
     const width = computed(() => {
       return needSettingWidth.value
         ? `calc(100% - ${props.collapsed ? props.collapsedWidth : props.siderWidth}px)`

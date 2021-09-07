@@ -8,6 +8,7 @@ import {
   reactive,
   watch
 } from 'vue'
+import { useStore } from 'vuex'
 import { MenuOutlined, CloseOutlined } from '@ant-design/icons-vue'
 import { cloneDeep } from 'lodash-es'
 import config from '/config/config'
@@ -48,9 +49,15 @@ export const anchorProps = {
 const WAnchor = defineComponent({
   props: anchorProps,
   setup(props) {
+    const store = useStore()
+
     const prefixCls = 'wd-anchor'
 
     const colSize = useMediaQuery()
+
+    const fixedMultiTab = computed(() => store.getters['settings/fixedMultiTab'])
+
+    const defaultOffsetTop = computed(() => fixedMultiTab.value ? 48 + 62 : 48)
 
     const isMobile = computed(
       () => (colSize.value === 'sm' || colSize.value === 'xs')
@@ -118,8 +125,8 @@ const WAnchor = defineComponent({
           const anchor = document.querySelector(item.link)
           const afterAnchor = index + 1 === state.dataSource.length ?
             null : document.querySelector(state.dataSource[index + 1]['link'])
-          item.active = scrollTop >= handleOffsetTop(anchor).top - 48 &&
-            scrollTop < (afterAnchor ? handleOffsetTop(afterAnchor).top - 48 : 10000)
+          item.active = scrollTop >= handleOffsetTop(anchor).top - defaultOffsetTop.value &&
+            scrollTop < (afterAnchor ? handleOffsetTop(afterAnchor).top - defaultOffsetTop.value : 10000)
           return item
         })
       })
@@ -128,7 +135,7 @@ const WAnchor = defineComponent({
     const goAnchor = (selector) => {
       const targetNode = document.querySelector(selector) || { offsetTop: 0 }
       const { root } = props
-      scrollTo(handleOffsetTop(targetNode).top - 48, {
+      scrollTo(handleOffsetTop(targetNode).top - defaultOffsetTop.value, {
         getContainer: () => (document.querySelector(root) as HTMLInputElement),
         duration: 450
       })
@@ -159,6 +166,7 @@ const WAnchor = defineComponent({
             >
               <DefaultAnchor
                 prefixCls={prefixCls}
+                isfixedMultiTab={fixedMultiTab.value}
                 isMobile={isMobile.value}
                 dataSource={state.dataSource}
                 onGoAnchor={(path) => goAnchor(path)}
@@ -167,6 +175,7 @@ const WAnchor = defineComponent({
             :
             <DefaultAnchor
               prefixCls={prefixCls}
+              isfixedMultiTab={fixedMultiTab.value}
               dataSource={state.dataSource}
               onGoAnchor={(path) => goAnchor(path)}
             />

@@ -1,9 +1,9 @@
 import { CSSProperties } from 'vue'
+import { MenuTheme } from '/types/config'
 import { CustomMenuRender } from './BaseMenu'
 import { SiderProps, MenuMode } from './typings'
 import {
   MenuDataItem,
-  MenuTheme,
   CustomRender,
   LayoutType,
   WithFalse

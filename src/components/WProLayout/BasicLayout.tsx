@@ -167,6 +167,7 @@ export default defineComponent({
           <a-layout style={genLayoutStyle}>
             {headerDom.value}
             <WrapContent
+              isMobile={isMobile.value}
               isChildrenLayout={props.isChildrenLayout}
               loading={props.loading}
               isFixedMultiTab={props.fixedMultiTab}

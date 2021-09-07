@@ -12,6 +12,7 @@ export interface WrapContentProps {
   style?: CSSProperties;
   class?: string | string[] | any;
   loading?: boolean;
+  isMobile: boolean;
   collapsed?: boolean;
   isFixedMultiTab?: boolean;
   isChildrenLayout?: boolean;
@@ -39,6 +40,7 @@ export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slot
     <Content {...attrs}>
       {flatMenuData.length > 0 && (
         <MultiTab
+          isMobile={props.isMobile}
           loading={props.loading}
           isFixedMultiTab={props.isFixedMultiTab}
           siderWidth={props.siderWidth}
