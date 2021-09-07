@@ -39,7 +39,7 @@ export default defineComponent({
     )
     const width = computed(() => {
       return layout.value === 'side' && needSettingWidth.value
-        ? `calc(100% - ${props.collapsed ? 48 : props.siderWidth}px)`
+        ? `calc(100% - ${props.collapsed ? props.collapsedWidth : props.siderWidth}px)`
         : '100%'
     })
     const right = computed(() => (needFixedHeader.value ? 0 : undefined))
@@ -47,9 +47,9 @@ export default defineComponent({
     const renderContent = () => {
       const defaultDom = (
         <DefaultHeader
+          {...props}
           theme={theme.value as 'light' | 'dark'}
           mode="horizontal"
-          {...props}
           onCollapse={onCollapse.value}
           menuData={clearMenuData.value}
         />

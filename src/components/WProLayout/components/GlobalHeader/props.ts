@@ -12,7 +12,7 @@ export const globalHeaderProps = {
   autoHideHeader: PropTypes.looseBool,
   collapsed: PropTypes.looseBool,
   isMobile: PropTypes.looseBool,
-  siderWidth: PropTypes.number.def(208),
+  siderWidth: siderMenuProps.siderWidth,
   headerTheme: {
     type: String as PropType<Theme>,
     default: 'dark'
@@ -33,7 +33,10 @@ export const globalHeaderProps = {
   collapsedButtonRender: siderMenuProps.collapsedButtonRender,
   matchMenuKeys: siderMenuProps.matchMenuKeys,
   headerRender: {
-    type: [ Object, Function ] as PropType<WithFalse<(props: any, defaultDom: CustomRender) => CustomRender>>,
+    type: [ Object, Function ] as PropType<WithFalse<(
+      props: any,
+      defaultDom: CustomRender
+    ) => CustomRender>>,
     default: () => undefined
   },
   onCollapse: siderMenuProps.onCollapse,
@@ -45,11 +48,17 @@ export const globalHeaderProps = {
 export const headerViewProps = {
   ...globalHeaderProps,
   headerRender: {
-    type: [ Object, Function ] as PropType<WithFalse<(props: any, defaultDom: CustomRender) => CustomRender>>,
+    type: [ Object, Function ] as PropType<WithFalse<(
+      props: any,
+      defaultDom: CustomRender
+    ) => CustomRender>>,
     default: () => undefined
   },
   headerTitleRender: {
-    type: [ Object, Function ] as PropType<WithFalse<(props: any, defaultDom: CustomRender) => CustomRender>>,
+    type: [ Object, Function ] as PropType<WithFalse<(
+      props: any,
+      defaultDom: CustomRender
+    ) => CustomRender>>,
     default: () => undefined
   },
   headerContentRender: {
@@ -57,6 +66,7 @@ export const headerViewProps = {
     default: () => undefined
   },
   hasSiderMenu: PropTypes.looseBool,
-  siderWidth: PropTypes.number.def(208)
+  collapsedWidth: siderMenuProps.collapsedWidth,
+  siderWidth: siderMenuProps.siderWidth
 }
 

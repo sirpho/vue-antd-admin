@@ -18,6 +18,8 @@ export { WrapContent } from './WrapContent'
 export type { DefaultHeaderProps } from './components/GlobalHeader/DefaultHeader'
 export type { GlobalFooterProps } from './components/GlobalFooter'
 
+export type { ProSettings } from './defaultSettings'
+
 export { default } from './BasicLayout'
 
 export type { BasicLayoutProps } from './BasicLayout'

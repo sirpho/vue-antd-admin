@@ -44,12 +44,11 @@ export default defineComponent({
       menuData,
       layout: computed(() => store.getters['settings/layout']),
       theme: computed(() => store.getters['settings/theme']),
+      fixedMultiTab: computed(() => store.getters['settings/fixedMultiTab']),
       fixedHeader: computed(() => store.getters['settings/fixedHeader']),
       fixSiderbar: computed(() => store.getters['settings/fixSiderbar']),
       showTabsBar: computed(() => store.getters['settings/showTabsBar']),
-      autoHideHeader: computed(
-        () => store.getters['settings/autoHideHeader']
-      )
+      autoHideHeader: computed(() => store.getters['settings/autoHideHeader'])
     })
     watchEffect(() => {
       if (router.currentRoute) {

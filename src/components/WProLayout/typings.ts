@@ -2,10 +2,6 @@ export type WithFalse<T> = T | false;
 
 import type { Slot, VNode, VNodeChild } from 'vue'
 
-export type Theme = 'dark' | 'light';
-
-export type MenuTheme = Theme;
-
 export type LayoutType = 'side' | 'mix';
 
 export type TargetType = '_blank' | '_self' | unknown;

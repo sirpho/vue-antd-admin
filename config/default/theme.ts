@@ -8,6 +8,12 @@ const themeSetting: themeConfig = {
   layout: 'mix',
   // 主题 light/dark
   theme: 'light',
+  // logo标题
+  title: 'Wd Pro Admin',
+  // 头部菜单高度
+  headerHeight: 48,
+  // 头部菜单是否固定
+  fixedMultiTab: true,
   // 头部菜单是否固定
   fixedHeader: false,
   // 侧边栏菜单是否固定

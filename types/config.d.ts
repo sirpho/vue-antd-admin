@@ -1,3 +1,5 @@
+import { MenuTheme } from '@wd-pro/pro-layout'
+
 export interface configSeting {
   theme: themeConfig;
   proxy: any;
@@ -45,16 +47,24 @@ export interface networkConfig {
   successCode: Array<number>;
 }
 
+export type Theme = 'dark' | 'light';
+
+export type MenuTheme = Theme;
+
 export interface themeConfig {
-  layout: string;
-  theme: string;
-  animate: themeAnimateSeting;
+  theme: MenuTheme | undefined;
+  layout: 'side' | 'mix';
+  fixedMultiTab: boolean;
   fixedHeader: boolean;
   fixSiderbar: boolean;
   showProgressBar: boolean;
   showTabsBar: boolean;
-  showFullScreen: boolean;
+  showFullScreen?: boolean;
+  headerHeight?: number;
   autoHideHeader: boolean;
+  title: string;
+  iconfontUrl?: string;
+  animate?: object;
 }
 
 export interface customizeConfig {

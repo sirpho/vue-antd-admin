@@ -169,6 +169,9 @@ export default defineComponent({
             <WrapContent
               isChildrenLayout={props.isChildrenLayout}
               loading={props.loading}
+              isFixedMultiTab={props.fixedMultiTab}
+              siderWidth={props.siderWidth}
+              collapsed={props.collapsed}
               style={props.disableContentMargin ? undefined : props.contentStyle}
             >
               {slots.default?.()}

@@ -12,8 +12,11 @@ export interface WrapContentProps {
   style?: CSSProperties;
   class?: string | string[] | any;
   loading?: boolean;
+  collapsed?: boolean;
+  isFixedMultiTab?: boolean;
   isChildrenLayout?: boolean;
   location?: string | string[] | any;
+  siderWidth?: number;
   contentHeight?: number;
 }
 
@@ -35,7 +38,12 @@ export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slot
   return (
     <Content {...attrs}>
       {flatMenuData.length > 0 && (
-        <MultiTab loading={props.loading} />
+        <MultiTab
+          loading={props.loading}
+          isFixedMultiTab={props.isFixedMultiTab}
+          siderWidth={props.siderWidth}
+          collapsed={props.collapsed}
+        />
       )}
       <PageLoading style={{ display: props.loading ? 'block' : 'none'}} />
       <div class={classNames.value} style={{ display: props.loading ? 'none' : 'block'}}>

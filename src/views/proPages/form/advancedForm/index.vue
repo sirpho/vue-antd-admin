@@ -270,6 +270,7 @@
         <a-button type="primary" @click="submitForm">提交</a-button>
       </div>
     </div>
+    <w-back-top />
   </w-page-wrapper>
 </template>
 

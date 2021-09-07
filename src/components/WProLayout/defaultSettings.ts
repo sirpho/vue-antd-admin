@@ -1,5 +1,5 @@
 import type { PropType, ExtractPropTypes } from 'vue'
-import type { MenuTheme } from './typings'
+import type { themeConfig } from '/types/config'
 
 export interface RenderSetting {
   headerRender?: false;
@@ -8,37 +8,19 @@ export interface RenderSetting {
   headerLogoRender?: false;
 }
 
-export interface RenderSetting {
-  headerRender?: false;
-  footerRender?: false;
-  menuRender?: false;
-  headerLogoRender?: false;
-}
+export type ProSettings = themeConfig & RenderSetting;
 
-export interface PureSettings {
-  theme: MenuTheme | undefined;
-  layout: 'side' | 'mix';
-  fixedHeader: boolean;
-  fixSiderbar: boolean;
-  showProgressBar: boolean;
-  showTabsBar: boolean;
-  showFullScreen?: boolean;
-  headerHeight?: number;
-  autoHideHeader: boolean;
-  title: string;
-  iconfontUrl: string;
-  animate?: object;
-}
-
-export type ProSettings = PureSettings & RenderSetting;
-
-export const defaultSettings = {
+export const defaultSettings: themeConfig = {
   //布局种类 side/mix
   layout: 'mix',
   // 主题 light/dark
   theme: 'light',
+  // logo标题
   title: 'Wd Pro Admin',
+  // 头部菜单高度
   headerHeight: 48,
+  // 头部菜单是否固定
+  fixedMultiTab: false,
   // 头部菜单是否固定
   fixedHeader: false,
   // 侧边栏菜单是否固定
@@ -62,47 +44,51 @@ export const defaultSettings = {
 
 export const defaultSettingProps = {
   theme: {
-    type: String as PropType<PureSettings['theme']>,
+    type: String as PropType<themeConfig['theme']>,
     default: defaultSettings.theme
   },
   layout: {
-    type: String as PropType<PureSettings['layout']>,
+    type: String as PropType<themeConfig['layout']>,
     default: defaultSettings.layout
   },
+  fixedMultiTab: {
+    type: Boolean as PropType<themeConfig['fixedMultiTab']>,
+    default: defaultSettings.fixedMultiTab
+  },
   fixedHeader: {
-    type: Boolean as PropType<PureSettings['fixedHeader']>,
+    type: Boolean as PropType<themeConfig['fixedHeader']>,
     default: defaultSettings.fixedHeader
   },
   fixSiderbar: {
-    type: Boolean as PropType<PureSettings['fixSiderbar']>,
+    type: Boolean as PropType<themeConfig['fixSiderbar']>,
     default: defaultSettings.fixSiderbar
   },
   showTabsBar: {
-    type: Boolean as PropType<PureSettings['showTabsBar']>,
+    type: Boolean as PropType<themeConfig['showTabsBar']>,
     default: defaultSettings.showTabsBar
   },
   showFullScreen: {
-    type: Boolean as PropType<PureSettings['showFullScreen']>,
+    type: Boolean as PropType<themeConfig['showFullScreen']>,
     default: defaultSettings.showFullScreen
   },
   autoHideHeader: {
-    type: Boolean as PropType<PureSettings['autoHideHeader']>,
+    type: Boolean as PropType<themeConfig['autoHideHeader']>,
     default: defaultSettings.autoHideHeader
   },
   headerHeight: {
-    type: Number as PropType<PureSettings['headerHeight']>,
+    type: Number as PropType<themeConfig['headerHeight']>,
     default: defaultSettings.headerHeight
   },
   title: {
-    type: String as PropType<PureSettings['title']>,
+    type: String as PropType<themeConfig['title']>,
     default: () => defaultSettings.title
   },
   iconfontUrl: {
-    type: String as PropType<PureSettings['iconfontUrl']>,
+    type: String as PropType<themeConfig['iconfontUrl']>,
     default: () => defaultSettings.iconfontUrl
   },
   animate: {
-    type: Boolean as PropType<PureSettings['animate']>,
+    type: Boolean as PropType<themeConfig['animate']>,
     default: defaultSettings.animate
   }
 }

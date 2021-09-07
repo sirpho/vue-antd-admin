@@ -1,16 +1,21 @@
-import { computed, defineComponent, inject, reactive, watch, onMounted } from 'vue'
+import { computed, defineComponent, inject, reactive, watch, onMounted, toRefs } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { EllipsisOutlined, ReloadOutlined, CloseOutlined } from '@ant-design/icons-vue'
 import config from '/config/config'
+import defaultmultiTabProps from './props'
 
 export default defineComponent({
+  props: defaultmultiTabProps,
   components: {
     EllipsisOutlined,
     ReloadOutlined,
     CloseOutlined
   },
-  setup() {
+  setup(props) {
+    const {
+      isFixedMultiTab
+    } = toRefs(props)
     const $route = useRoute()
     const router = useRouter()
     const store = useStore()
@@ -22,6 +27,14 @@ export default defineComponent({
     })
     const routes = computed(() => store.getters['routes/routes'])
     const visitedRoutes = computed(() => store.getters['tagsBar/visitedRoutes'])
+    const needFixedMultiTab = computed(() => isFixedMultiTab.value)
+    const needSettingWidth = computed(() => needFixedMultiTab.value)
+    const width = computed(() => {
+      return needSettingWidth.value
+        ? `calc(100% - ${props.collapsed ? props.collapsedWidth : props.siderWidth}px)`
+        : '100%'
+    })
+    const right = computed(() => (needFixedMultiTab.value ? 0 : undefined))
     const reloadCurrentPage: any = inject('reload')
     /**
      * @Author      gx12358
@@ -268,7 +281,7 @@ export default defineComponent({
         overlay={defaultRenderTabMenu(record)}
       >
         <div class="wd-pro-multi-tab-content">
-          { record.meta.title }
+          {record.meta.title}
           {state.tabActive === (record.fullPath || record.path) && (
             <ReloadOutlined
               class="wd-pro-multi-tab-reload-btn"
@@ -319,21 +332,38 @@ export default defineComponent({
     )
 
     return () => (
-      <div class="wd-pro-multi-tab">
-        <a-tabs
-          onTabClick={handleTabClick}
-          activeKey={state.tabActive}
-          hideAdd
-          type="editable-card"
-          tabBarExtraContent={tabBarExtraContent}
+      <>
+        {props.isFixedMultiTab && (
+          <div class="wd-pro-multi-tab-fixed"></div>
+        )}
+        <div
+          style={{
+            margin: 0,
+            width: width.value,
+            right: right.value,
+            zIndex: 100
+          }}
+          class={{
+            ['wd-pro-multi-tab']: true,
+            ['wd-pro-multi-tab-wrap']: props.isFixedMultiTab,
+            ['wd-pro-multi-tab-wrap-fixed']: props.isFixedMultiTab
+          }}
         >
-          {
-            visitedRoutes.value.map(item => (
-              <a-tab-pane key={item.fullPath} closable={false} tab={defaultRenderTab(item)} />
-            ))
-          }
-        </a-tabs>
-      </div>
+          <a-tabs
+            onTabClick={handleTabClick}
+            activeKey={state.tabActive}
+            hideAdd
+            type="editable-card"
+            tabBarExtraContent={tabBarExtraContent}
+          >
+            {
+              visitedRoutes.value.map(item => (
+                <a-tab-pane key={item.fullPath} closable={false} tab={defaultRenderTab(item)} />
+              ))
+            }
+          </a-tabs>
+        </div>
+      </>
     )
   }
 })
