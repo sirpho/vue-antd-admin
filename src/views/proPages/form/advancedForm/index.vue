@@ -433,7 +433,7 @@ export default defineComponent({
     const scrollToField = (fieldKey: string) => {
       const labelNode = document.documentElement.querySelector(`label[title="${state.fieldLabels[fieldKey]}"]`) as HTMLInputElement
       if (labelNode) {
-        scrollTo(handleOffsetTop(labelNode).top - 48, {
+        scrollTo(handleOffsetTop(labelNode).top - 48 - 62, {
           getContainer: () => (document.querySelector(viewScrollRoot) as HTMLInputElement),
           duration: 450
         })
