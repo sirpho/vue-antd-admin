@@ -93,24 +93,24 @@ instance.interceptors.response.use(
   },
   (error) => {
     if (loadingInstance) loadingInstance.close()
-    const { response, message } = error
+    const { response } = error
+    let errorMessage = error.message || ''
     if (error.response && error.response.data) {
       const { status, data } = response
-      handleCode(status, data.msg || message)
+      handleCode(status, data.msg || errorMessage)
       return Promise.reject(error)
     } else {
-      let { message } = error
-      if (message === 'Network Error') {
-        message = '后端接口连接异常'
+      if (errorMessage === 'Network Error') {
+        errorMessage = '后端接口连接异常'
       }
-      if (message.includes('timeout')) {
-        message = '后端接口请求超时'
+      if (errorMessage.includes('timeout')) {
+        errorMessage = '后端接口请求超时'
       }
-      if (message.includes('Request failed with status code')) {
-        const code = message.substr(message.length - 3)
-        message = '后端接口' + code + '异常'
+      if (errorMessage.includes('Request failed with status code')) {
+        const code = errorMessage.substr(errorMessage.length - 3)
+        errorMessage = '后端接口' + code + '异常'
       }
-      message.error(message || `后端接口未知异常`)
+      message.error(errorMessage || `后端接口未知异常`)
       return Promise.reject(error)
     }
   }

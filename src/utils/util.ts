@@ -940,3 +940,25 @@ export function toChinesNum(num: number) {
   return overWan ? getWan(overWan) + '万' + getWan(noWan) : getWan(num)
 }
 
+export function handleOffsetTop(targetNode: HTMLInputElement) {
+  let totalLeft = 0
+  let totalTop = 0
+  if (!targetNode) return { left: totalLeft, top: totalTop }
+  let parentNode = <HTMLElement>targetNode.offsetParent
+  //首先把自己本身的相加
+  totalLeft += targetNode.offsetLeft
+  totalTop += targetNode.offsetTop
+  //现在开始一级一级往上查找，只要没有遇到body，我们就把父级参照物的边框和偏移相加
+  while (parentNode) {
+    if (navigator.userAgent.indexOf('MSIE 8.0') === -1) {
+      //不是IE8我们才进行累加父级参照物的边框
+      totalTop += parentNode.clientTop
+      totalLeft += parentNode.clientLeft
+    }
+    //把父级参照物的偏移相加
+    totalTop += parentNode.offsetTop
+    totalLeft += parentNode.offsetLeft
+    parentNode = <HTMLElement>parentNode.offsetParent
+  }
+  return { left: totalLeft, top: totalTop }
+}

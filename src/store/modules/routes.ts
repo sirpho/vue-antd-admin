@@ -13,14 +13,10 @@ const state = () => ({
   routerLoadList: [],
   meunLoading: false,
   routes: [],
-  headerRoutes: [],
-  siderRoutes: [],
   partialRoutes: []
 })
 const getters = {
   routes: (state) => state.routes,
-  siderRoutes: (state) => state.siderRoutes,
-  headerRoutes: (state) => state.headerRoutes,
   meunLoading: (state) => state.meunLoading,
   routerLoading: (state) => state.routerLoading,
   routerLoadList: (state) => state.routerLoadList,
@@ -39,12 +35,6 @@ const mutations = {
   setRoutes(state, routes) {
     state.routes = routes
   },
-  setHeaderRoutes(state, routes) {
-    state.headerRoutes = routes
-  },
-  setSiderRoutes(state, routes) {
-    state.siderRoutes = routes
-  },
   setPartialRoutes(state, routes) {
     state.partialRoutes = routes
   }
@@ -61,9 +51,6 @@ const actions = {
   },
   async setHeaderRoutes({ commit }, data) {
     commit('setHeaderRoutes', data)
-  },
-  async setSiderRoutes({ commit }, data) {
-    commit('setSiderRoutes', data)
   },
   toggleRouterLoading({ commit }, loading) {
     commit('toggleRouterLoading', loading)

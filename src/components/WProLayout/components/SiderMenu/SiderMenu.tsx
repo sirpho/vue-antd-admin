@@ -123,7 +123,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
         class={classNames.value}
         style={{
           overflow: 'hidden',
-          zIndex: fixSiderbar ? 20 : undefined,
+          zIndex: fixSiderbar ? 100 : undefined,
           paddingTop:
             props.layout === 'side' || props.isMobile ? 0 : `${props.headerHeight}px`
         }}

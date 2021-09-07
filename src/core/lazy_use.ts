@@ -24,6 +24,7 @@ import { WScrollbars, CustomIcon } from '/@/components/export'
 
 import {
   List,
+  Descriptions,
   Statistic,
   InputNumber,
   PageHeader,
@@ -68,7 +69,9 @@ import {
   Slider,
   Carousel,
   Anchor,
-  BackTop
+  BackTop,
+  Result,
+  Popconfirm
 } from 'ant-design-vue'
 
 const ant = {
@@ -90,6 +93,9 @@ const ant = {
     app.component('w-affix', WAffix)
     app.component('w-anchor', WAnchor)
     app.component('w-doc', WDocumentation)
+    app.use(Result)
+    app.use(Popconfirm)
+    app.use(Descriptions)
     app.use(InputNumber)
     app.use(Slider)
     app.use(Anchor)

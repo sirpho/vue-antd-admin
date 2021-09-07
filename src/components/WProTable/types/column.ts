@@ -87,6 +87,7 @@ export type ProSearchConfig<Entity = Record<string, any>,
 };
 
 export interface ProColumns extends ColumnProps {
+  hasTableTree?: boolean;
   /** 表单搜索配置 */
   searchConfig?: ProSearchConfig;
   /** 是否缩略 */

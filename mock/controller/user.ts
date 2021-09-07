@@ -82,6 +82,7 @@ export default [
         code: 200,
         msg: 'success',
         data: {
+          userId: 926,
           roles,
           ability,
           username,

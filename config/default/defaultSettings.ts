@@ -22,6 +22,8 @@ const defaultSettings: settingConfig = {
   waterMark: true,
   //水印字符
   waterMarkTitle: 'Wd Pro Admin',
+  //滚动区域选择器
+  viewScrollRoot: '#wd-pro-admin>.wd-pro-scrollbar>.wd-pro-scrollbar-wrap',
   //开启cdn
   useCdn: true,
   //开发环境端口号

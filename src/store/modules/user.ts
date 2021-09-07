@@ -13,8 +13,18 @@ import {
 } from '/@/utils/accessToken'
 import { timeFix } from '/@/utils/util'
 
+export interface UserInfoItem {
+  userId?: number;
+  roles?: string[];
+  ability?: string[];
+  username?: string;
+  nickName?: string;
+  avatar?: string;
+}
+
 interface UserState {
   accessToken: string;
+  userInfo: UserInfoItem;
   username: string;
   avatar: string;
 }

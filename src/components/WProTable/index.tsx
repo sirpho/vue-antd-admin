@@ -193,7 +193,7 @@ const WProTable = defineComponent({
       document.addEventListener('mozfullscreenchange', fullScreenListener)
       document.addEventListener('msfullscreenchange', fullScreenListener)
       window.addEventListener('resize', getWidth)
-      if (props.request && props.search.showSearch) tableLoadData()
+      if (props.request) tableLoadData()
       if (props.actionRef) getProTable()
     })
     onBeforeUnmount(() => {
@@ -353,7 +353,7 @@ const WProTable = defineComponent({
       immediate: true
     })
     watch(() => props.params, (val) => {
-      if (props.request && !props.search.showSearch) tableLoadData({ params: val })
+      if (props.request && props.search && !props.search.showSearch) tableLoadData({ params: val })
     }, {
       deep: true,
       immediate: true
@@ -843,7 +843,7 @@ const WProTable = defineComponent({
     const toolBarRight = () => (
       <div
         class={styles[`${tableClassName}-list-toolbar-right`]}
-        style={{ ...toolBarItemStyle.value, marginTop: '16px' }}
+        style={{ ...toolBarItemStyle.value }}
       >
         {
           state.options.reload ?
@@ -855,8 +855,10 @@ const WProTable = defineComponent({
                   changeProps.value.loading ?
                     <LoadingOutlined class={styles[`${tableClassName}-list-toolbar-setting-items`]} />
                     :
-                    <ReloadOutlined class={styles[`${tableClassName}-list-toolbar-setting-items`]}
-                      onClick={refresh} />
+                    <ReloadOutlined
+                      class={styles[`${tableClassName}-list-toolbar-setting-items`]}
+                      onClick={refresh}
+                    />
               }
             </a-tooltip>
             :

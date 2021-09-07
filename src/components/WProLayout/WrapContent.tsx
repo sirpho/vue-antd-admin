@@ -37,11 +37,10 @@ export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slot
       {flatMenuData.length > 0 && (
         <MultiTab loading={props.loading} />
       )}
-      {props.loading ? <PageLoading /> : (
-        <div class={classNames.value}>
-          {slots.default?.()}
-        </div>
-      )}
+      <PageLoading style={{ display: props.loading ? 'block' : 'none'}} />
+      <div class={classNames.value} style={{ display: props.loading ? 'none' : 'block'}}>
+        {slots.default?.()}
+      </div>
     </Content>
   )
 }

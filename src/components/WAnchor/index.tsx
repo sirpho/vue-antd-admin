@@ -10,6 +10,7 @@ import {
 } from 'vue'
 import { MenuOutlined, CloseOutlined } from '@ant-design/icons-vue'
 import { cloneDeep } from 'lodash-es'
+import config from '/config/config'
 import { DefaultAnchor } from './DefaultAnchor'
 import useMediaQuery from '../_util/useMediaQuery'
 import getScroll from '../_util/getScroll'
@@ -17,6 +18,9 @@ import scrollTo from '../_util/scrollTo'
 import addEventListener from '../_util/Dom/addEventListener'
 import throttleByAnimationFrame from '../_util/throttleByAnimationFrame'
 import styles from './style.module.less'
+import { handleOffsetTop } from '/@/utils/util'
+
+const { viewScrollRoot } = config.defaultSettings
 
 export const handelInkStyle = (level = 1, isMobile?) => {
   return {
@@ -37,7 +41,7 @@ export const anchorProps = {
   },
   root: {
     type: String as PropType<string>,
-    default: '#wd-pro-admin>.wd-pro-scrollbar>.wd-pro-scrollbar-wrap'
+    default: viewScrollRoot || '#wd-pro-admin>.wd-pro-scrollbar>.wd-pro-scrollbar-wrap'
   }
 }
 
@@ -109,22 +113,22 @@ const WAnchor = defineComponent({
 
     const handleScroll = throttleByAnimationFrame((e: Event | { target: any }) => {
       const scrollTop = getScroll(e.target, true)
-      state.dataSource.map((item: any, index) => {
-        const anchor = document.querySelector(item.link) || { offsetTop: 0 }
-        const afterAnchor = index + 1 === state.dataSource.length ?
-          { offsetTop: 100000 }
-          :
-          document.querySelector(state.dataSource[index + 1]['link']) || { offsetTop: 0 }
-        item.active = scrollTop >= anchor.offsetTop &&
-          scrollTop < afterAnchor.offsetTop
-        return item
+      setTimeout(() => {
+        state.dataSource.map((item: any, index) => {
+          const anchor = document.querySelector(item.link)
+          const afterAnchor = index + 1 === state.dataSource.length ?
+            null : document.querySelector(state.dataSource[index + 1]['link'])
+          item.active = scrollTop >= handleOffsetTop(anchor).top - 48 &&
+            scrollTop < (afterAnchor ? handleOffsetTop(afterAnchor).top - 48 : 10000)
+          return item
+        })
       })
     })
 
     const goAnchor = (selector) => {
       const targetNode = document.querySelector(selector) || { offsetTop: 0 }
       const { root } = props
-      scrollTo(targetNode.offsetTop + 64, {
+      scrollTo(handleOffsetTop(targetNode).top - 48, {
         getContainer: () => (document.querySelector(root) as HTMLInputElement),
         duration: 450
       })

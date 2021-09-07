@@ -16,6 +16,7 @@ export interface settingConfig {
   titleReverse: boolean;
   waterMark: boolean;
   waterMarkTitle: string;
+  viewScrollRoot: string;
   useCdn: boolean;
   devPort: number;
   copyright: string;

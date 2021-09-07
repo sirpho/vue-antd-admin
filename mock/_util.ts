@@ -4,12 +4,11 @@ import config from '/config/config'
 
 const { tokenName } = config.defaultSettings
 
-export function resultSuccess<T = Recordable>(result: T, { msg = 'ok' } = {}) {
+export function resultSuccess<T = Recordable>(result: T, { msg = 'success' } = {}) {
   return {
-    code: 0,
+    code: 200,
     result,
-    msg,
-    type: 'success'
+    msg
   }
 }
 
@@ -34,8 +33,7 @@ export function resultError(msg = 'Request failed', { code = -1, result = null }
   return {
     code,
     result,
-    msg,
-    type: 'error'
+    msg
   }
 }
 
@@ -55,6 +53,12 @@ export interface requestParams {
   query: any;
 }
 
+export interface resultParams {
+  data?: any;
+  code?: number;
+  msg?: string;
+}
+
 /**
  * @description 本函数用于从request数据中获取token，请根据项目的实际情况修改
  *
@@ -63,22 +67,9 @@ export function getRequestToken({ headers }: requestParams): string | undefined 
   return headers?.[tokenName.toLowerCase()]
 }
 
-const responseBody = {
-  msg: '',
-  data: null,
-  code: 0
-}
-
-export const builder = (data, msg?, code?) => {
-  code = code || 0
-  msg = msg || 'success'
-  responseBody.data = data
-  if (msg !== undefined && msg !== null) {
-    responseBody.msg = msg
-  }
-  if (code !== undefined && code !== 0) {
-    responseBody.code = code
-  }
+export const builder = (token, { data = null, code, msg }: resultParams) => {
+  code = token ? code || 200 : 401
+  msg = token ? msg || code === 200 ? 'success' : 'Request failed' : 'Request failed'
   return {
     code,
     msg,

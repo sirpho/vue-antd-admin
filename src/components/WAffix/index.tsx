@@ -7,7 +7,7 @@ import {
   reactive,
   watch,
   ref,
-  getCurrentInstance
+  getCurrentInstance, onActivated
 } from 'vue'
 import type { CSSProperties } from 'vue'
 import omit from 'omit.js'
@@ -193,6 +193,9 @@ const WAffix = defineComponent({
           updatePosition()
         })
       }
+    })
+    onActivated(() => {
+      updatePosition()
     })
     onUpdated(() => {
       measure()
