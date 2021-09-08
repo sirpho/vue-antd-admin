@@ -1,11 +1,11 @@
 import { computed, ExtractPropTypes, FunctionalComponent } from 'vue'
-import PropTypes from 'ant-design-vue/es/_util/vue-types'
+import PropTypes from '/@/hooks/vue-types'
 import { handelInkStyle } from './index'
 import styles from './style.module.less'
 
 const defaultAnchorProps = {
-  isMobile: PropTypes.bool,
-  isfixedMultiTab: PropTypes.bool,
+  isMobile: PropTypes.looseBool,
+  isfixedMultiTab: PropTypes.looseBool,
   dataSource: {
     type: Array as PropType<any[]>,
     default: () => []

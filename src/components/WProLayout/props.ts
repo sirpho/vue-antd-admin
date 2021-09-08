@@ -1,4 +1,4 @@
-import PropTypes from 'ant-design-vue/es/_util/vue-types'
+import PropTypes from '/@/hooks/vue-types'
 import { defaultSettingProps } from './defaultSettings'
 import { MenuDataItem } from './typings'
 import { globalHeaderProps, headerViewProps } from './components/GlobalHeader/props'

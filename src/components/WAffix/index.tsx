@@ -7,10 +7,14 @@ import {
   reactive,
   watch,
   ref,
-  getCurrentInstance, onActivated
+  getCurrentInstance,
+  onActivated,
+  ExtractPropTypes
 } from 'vue'
 import type { CSSProperties } from 'vue'
 import omit from 'omit.js'
+import config from '/config/config'
+import PropTypes from '/@/hooks/vue-types'
 import {
   addObserveTarget,
   removeObserveTarget,
@@ -18,9 +22,9 @@ import {
   getFixedTop,
   getFixedBottom
 } from './utils/index'
-import PropTypes from '../_util/vue-types'
 import throttleByAnimationFrame from '../_util/throttleByAnimationFrame'
 import styles from './style.module.less'
+import { getPrefixCls } from '/@/components/_util'
 
 enum AffixStatus {
   None,
@@ -36,6 +40,8 @@ export interface AffixState {
   timeout: any;
 }
 
+const { defaultSettings } = config
+
 const affixProps = {
   zIndex: PropTypes.number,
   offsetTop: PropTypes.number,
@@ -44,16 +50,20 @@ const affixProps = {
   prefixCls: PropTypes.string,
   onChange: PropTypes.func,
   onTestUpdatePosition: PropTypes.func,
-  root: {
-    type: String as PropType<string>,
-    default: '#wd-pro-admin>.wd-pro-scrollbar>.wd-pro-scrollbar-wrap'
-  }
+  root: PropTypes.string.def(defaultSettings.viewScrollRoot)
 }
 
+export type AffixProps = Partial<ExtractPropTypes<typeof affixProps>>;
+
 const WAffix = defineComponent({
+  name: 'WAffix',
   props: affixProps,
+  emits: [ 'change', 'testUpdatePosition' ],
   setup(props, { slots, emit, expose }) {
-    const defaultClassName = 'wd-affix'
+    const prefixCls = getPrefixCls({
+      suffixCls: 'affix',
+      defaultPrefixCls: 'wd'
+    })
     const className = ref<any>('')
     const placeholderNode = ref()
     const fixedNode = ref()
@@ -88,21 +98,25 @@ const WAffix = defineComponent({
         status: AffixStatus.None
       } as AffixState
       const targetRect = getTargetRect(targetNode)
-      const placeholderReact = getTargetRect(placeholderNode.value as HTMLElement)
+      const placeholderReact = getTargetRect(placeholderNode.value)
+      const placeholderChildReact = getTargetRect(
+        placeholderNode.value.childNodes?.[0].childNodes?.[1] as HTMLElement ||
+        placeholderReact.value
+      )
       const fixedTop = getFixedTop(placeholderReact, targetRect, offsetTop.value)
       const fixedBottom = getFixedBottom(placeholderReact, targetRect, offsetBottom.value)
       if (fixedTop !== undefined) {
         newState.affixStyle = {
           position: 'fixed',
           top: fixedTop,
-          width: placeholderReact.width + 'px',
-          height: placeholderReact.height + 'px'
+          width: placeholderChildReact.width + 'px',
+          height: placeholderChildReact.height + 'px'
         }
         newState.placeholderStyle = {
-          width: placeholderReact.width + 'px',
-          height: placeholderReact.height + 'px'
+          width: placeholderChildReact.width + 'px',
+          height: placeholderChildReact.height + 'px'
         }
-        className.value = styles[`${defaultClassName}`]
+        className.value = styles[`${prefixCls}`]
       } else if (fixedBottom !== undefined) {
         newState.affixStyle = {
           position: 'fixed',
@@ -114,7 +128,7 @@ const WAffix = defineComponent({
           width: placeholderReact.width + 'px',
           height: placeholderReact.height + 'px'
         }
-        className.value = styles[`${defaultClassName}`]
+        className.value = styles[`${prefixCls}`]
       } else {
         newState.affixStyle = undefined
         newState.placeholderStyle = undefined

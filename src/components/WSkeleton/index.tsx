@@ -1,38 +1,14 @@
-import { computed, defineComponent, ref, watch, Ref } from 'vue'
+import { computed, defineComponent, ref, watch, Ref, ExtractPropTypes } from 'vue'
+import wSkeletonProps from './props'
 import styles from './style.module.less'
 
 const button = [ 'circle', 'round', 'default' ]
 const avatar = [ 'circle', 'square' ]
 
+export type WSkeletonProps = Partial<ExtractPropTypes<typeof wSkeletonProps>>;
+
 export default defineComponent({
-  props: {
-    type: {
-      type: String,
-      required: true,
-      default: 'button'
-    },
-    loading: {
-      type: Boolean
-    },
-    active: {
-      type: Boolean,
-      default: false
-    },
-    size: {
-      type: String || Number,
-      default: 'default'
-    },
-    shape: {
-      type: String,
-      default: 'default'
-    },
-    width: {
-      type: String || Number
-    },
-    propsStyle: {
-      type: Object
-    }
-  },
+  props: wSkeletonProps,
   setup(props, { slots }) {
     const defaultClassName = 'wd-skeleton'
     const active: Ref<String> = ref(props.type)
@@ -74,7 +50,7 @@ export default defineComponent({
             style = {
               width: `${props.size}px`,
               height: `${props.size}px`,
-              lineHeight: `${props.size}px`,
+              lineHeight: `${props.size}px`
             }
             break
           case 'input':
@@ -102,7 +78,11 @@ export default defineComponent({
         style={{ ...props.propsStyle, ...handelSize.value }}
         class={
           props.shape ?
-            [ styles[`${defaultClassName}-${active.value}`], handelSizeClass.value, handelShape.value ]
+            [
+              styles[`${defaultClassName}-${active.value}`],
+              handelSizeClass.value,
+              handelShape.value
+            ]
             :
             [ styles[`${defaultClassName}-${active.value}`], handelSizeClass.value ]
         }

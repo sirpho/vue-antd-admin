@@ -1,5 +1,5 @@
 import { computed, defineComponent, ExtractPropTypes } from 'vue'
-import PropTypes from 'ant-design-vue/es/_util/vue-types'
+import PropTypes from '/@/hooks/vue-types'
 import { getPrefixCls } from '/@/components/_util'
 import useMediaQuery from '/@/components/_util/useMediaQuery'
 
@@ -17,7 +17,9 @@ export default defineComponent({
   name: 'WDocumentation',
   props: documentationProps,
   setup(props, { slots }) {
-    const prefixCls = getPrefixCls('documentation')
+    const prefixCls = getPrefixCls({
+      suffixCls: 'documentation'
+    })
 
     const colSize = useMediaQuery()
 

@@ -1,3 +1,4 @@
+import type { ExtractPropTypes } from 'vue'
 import {
   computed,
   defineComponent,
@@ -10,36 +11,23 @@ import {
   nextTick
 } from 'vue'
 import { VerticalAlignTopOutlined } from '@ant-design/icons-vue'
-import PropTypes from '../_util/vue-types'
+import backTopProps from './props'
+import { getPrefixCls } from '../_util'
 import getScroll from '../_util/getScroll'
 import scrollTo from '../_util/scrollTo'
 import addEventListener from '../_util/Dom/addEventListener'
 import throttleByAnimationFrame from '../_util/throttleByAnimationFrame'
 import styles from './style.module.less'
 
+export type BackTopProps = Partial<ExtractPropTypes<typeof backTopProps>>;
+
 const WBackTop = defineComponent({
-  props: {
-    root: {
-      type: String,
-      required: false,
-      default: '#wd-pro-admin>.wd-pro-scrollbar>.wd-pro-scrollbar-wrap'
-    },
-    visibilityHeight: {
-      type: Number,
-      required: false,
-      default: 100
-    },
-    targetStyle: {
-      type: Object,
-      required: false,
-      default: () => {
-        return {}
-      }
-    },
-    duration: PropTypes.number.def(450)
-  },
+  props: backTopProps,
   setup(props, { emit, slots }) {
-    const className = 'wd-back-top'
+    const prefixCls = getPrefixCls({
+      suffixCls: 'back-top',
+      defaultPrefixCls: 'wd'
+    })
     const innerWidth = ref(window.innerWidth)
     const state = reactive({
       visible: false,
@@ -125,19 +113,17 @@ const WBackTop = defineComponent({
       })
       emit('click', e)
     }
-    const contentSlots = () => <div class={styles[`${className}-icon`]}>
+    const contentSlots = () => <div class={styles[`${prefixCls}-icon`]}>
       <VerticalAlignTopOutlined />
     </div>
     return () => state.visible ?
       <div
-        class={[ styles[className], 'animated', state.animatedCssName ]}
+        class={[ styles[prefixCls], 'animated', state.animatedCssName ]}
         onClick={scrollToTop}
         style={targetStyle.value}
       >
-        <div class={styles[`${className}-content`]}>
-          {
-            slots.default ? slots.default() : contentSlots()
-          }
+        <div class={styles[`${prefixCls}-content`]}>
+          {slots.default?.() || contentSlots()}
         </div>
       </div>
       :

@@ -1,5 +1,5 @@
 export interface TableFormDateType {
-  key: string;
+  key?: string;
   workId?: string;
   name?: string;
   department?: string;

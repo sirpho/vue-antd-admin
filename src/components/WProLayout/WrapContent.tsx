@@ -1,12 +1,9 @@
 import { FunctionalComponent, computed, toRefs, CSSProperties } from 'vue'
 import 'ant-design-vue/es/layout/style'
-import Layout from 'ant-design-vue/es/layout'
 import { useRouteContext } from './RouteContext'
 import { getMenuFirstChildren } from './utils'
-import PageLoading from './components/PageLoading'
 import MultiTab from './components/MultiTab'
-
-const { Content } = Layout
+import PageLoading from './components/PageLoading'
 
 export interface WrapContentProps {
   style?: CSSProperties;
@@ -28,7 +25,9 @@ export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slot
   const context = useRouteContext()
   const flatMenuData = getMenuFirstChildren(context.menuData, context.selectedKeys[0])
   const { getPrefixCls } = toRefs(useRouteContext())
-  const prefixCls = getPrefixCls.value('main-content')
+  const prefixCls = getPrefixCls.value({
+    suffixCls: 'main-content'
+  })
   const classNames = computed(() => {
     return {
       [`${prefixCls}`]: true,
@@ -37,7 +36,7 @@ export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slot
   })
 
   return (
-    <Content {...attrs}>
+    <a-layout-content {...attrs}>
       {flatMenuData.length > 0 && (
         <MultiTab
           isMobile={props.isMobile}
@@ -51,7 +50,7 @@ export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slot
       <div class={classNames.value} style={{ display: props.loading ? 'none' : 'block'}}>
         {slots.default?.()}
       </div>
-    </Content>
+    </a-layout-content>
   )
 }
 

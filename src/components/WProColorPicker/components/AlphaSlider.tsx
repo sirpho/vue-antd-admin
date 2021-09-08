@@ -7,12 +7,12 @@ export default defineComponent({
   props: {
     color: {
       type: Object as PropType<Color>,
-      required: true,
+      required: true
     },
     vertical: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   setup(props) {
     const defaultClassName = 'wd-pro-color'
@@ -78,13 +78,19 @@ export default defineComponent({
         left = Math.max(thumb.value.offsetWidth / 2, left)
         left = Math.min(left, rect.width - thumb.value.offsetWidth / 2)
 
-        props.color.set('alpha', Math.round((left - thumb.value.offsetWidth / 2) / (rect.width - thumb.value.offsetWidth) * 100))
+        props.color.set(
+          'alpha',
+          Math.round((left - thumb.value.offsetWidth / 2) / (rect.width - thumb.value.offsetWidth) * 100)
+        )
       } else {
         let top = event.clientY - rect.top
         top = Math.max(thumb.value.offsetHeight / 2, top)
         top = Math.min(top, rect.height - thumb.value.offsetHeight / 2)
 
-        props.color.set('alpha', Math.round((top - thumb.value.offsetHeight / 2) / (rect.height - thumb.value.offsetHeight) * 100))
+        props.color.set(
+          'alpha',
+          Math.round((top - thumb.value.offsetHeight / 2) / (rect.height - thumb.value.offsetHeight) * 100)
+        )
       }
     }
 
@@ -102,7 +108,7 @@ export default defineComponent({
         },
         end: event => {
           handleDrag(event)
-        },
+        }
       }
 
       draggable(bar.value, dragConfig)

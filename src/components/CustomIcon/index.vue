@@ -19,7 +19,7 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-[class*="ri"]{
+[class*="ri"] {
   font-size: 16px;
   vertical-align: -1px;
 }

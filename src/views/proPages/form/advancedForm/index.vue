@@ -284,6 +284,7 @@ import { getAdvancedForm, getAdvancedFormTable } from '/@/services/form'
 import config from '/config/config'
 import { handleOffsetTop, hanndleField } from '/@/utils/util'
 import scrollTo from '/@/components/_util/scrollTo'
+import { TableFormDateType } from './props'
 import columns from './utils/columns'
 import { fieldLabels, rules } from './utils/config'
 
@@ -292,9 +293,9 @@ const { viewScrollRoot } = config.defaultSettings
 interface advanceState {
   columns: any;
   errorFields: ErrorField[];
-  tableData: any;
-  addTableData: any;
-  editableData: any;
+  tableData: TableFormDateType[];
+  addTableData: TableFormDateType[];
+  editableData: TableFormDateType;
   tableLoading: boolean;
   errorVisible: boolean;
   pageConfig: any;

@@ -51,7 +51,7 @@ export default defineComponent({
 
       top = Math.max(0, top)
       top = Math.min(top, rect.height)
-      
+
       cursorLeft.value = left
       cursorTop.value = top
       props.color.set({

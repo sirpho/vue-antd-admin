@@ -1,8 +1,8 @@
 import { InjectionKey, provide, reactive, Ref } from 'vue'
-import { getPrefixCls } from '/@/components/_util'
-import { createContext, useContext } from './hooks/context'
+import { themeConfig } from '/types/config'
+import { getPrefixCls } from '../_util'
 import { MenuDataItem, CustomRender } from './typings'
-import { PureSettings } from './defaultSettings'
+import { createContext, useContext } from './hooks/context'
 
 export interface Route {
   path: string;
@@ -33,7 +33,7 @@ export interface MenuState {
   setOpenKeys?: (key: string[]) => void;
 }
 
-export interface RouteContextProps extends Partial<PureSettings>, MenuState {
+export interface RouteContextProps extends Partial<themeConfig>, MenuState {
   breadcrumb?: BreadcrumbListReturn;
   menuData: MenuDataItem[];
   isMobile?: boolean;

@@ -1,10 +1,9 @@
 import { PropType } from 'vue'
 
 export const isValidComponentSize = (val: string) =>
-  ['', 'large', 'medium', 'small', 'mini'].includes(val)
+  [ '', 'large', 'medium', 'small', 'mini' ].includes(val)
 
 declare type ComponentSize = 'large' | 'medium' | 'small' | 'mini'
-
 
 export const proColorProps = {
   value: {
@@ -12,7 +11,7 @@ export const proColorProps = {
   },
   showAlpha: {
     type: Boolean as PropType<boolean>,
-    default: false,
+    default: false
   },
   colorFormat: {
     type: String as PropType<string>
@@ -22,12 +21,12 @@ export const proColorProps = {
   },
   size: {
     type: String as PropType<ComponentSize>,
-    validator: isValidComponentSize,
+    validator: isValidComponentSize
   },
   popperClass: {
-    type: String as PropType<string>,
+    type: String as PropType<string>
   },
   predefine: {
-    type: Array as PropType<any[]>,
-  },
+    type: Array as PropType<any[]>
+  }
 }
