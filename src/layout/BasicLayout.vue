@@ -5,6 +5,7 @@
     v-model:selectedKeys="baseState.selectedKeys"
     v-model:openKeys="baseState.openKeys"
     v-bind="state"
+    @reloadPage="handleReloadPage"
     @handleCollapse="toggleCollapse"
     @menuHeaderClick="menuHeaderClick"
   >
@@ -18,7 +19,6 @@ import {
   reactive,
   watchEffect,
   computed,
-  provide,
   nextTick
 } from 'vue'
 import { useRouter } from 'vue-router'
@@ -59,13 +59,12 @@ export default defineComponent({
           .map(r => r.path)
       }
     })
-    const reload = () => {
+    const handleReloadPage = () => {
       isRouterAlive.value = false
       nextTick(() => {
         isRouterAlive.value = true
       })
     }
-    provide('reload', reload)
     return {
       loading: computed(() => store.getters['routes/routerLoading']),
       layout: computed(() => store.getters['settings/layout']),
@@ -74,6 +73,7 @@ export default defineComponent({
       isRouterAlive,
       state,
       baseState,
+      handleReloadPage,
       toggleCollapse: () => {
         store.dispatch('settings/toggleCollapse')
       },

@@ -18,7 +18,9 @@ import {
   WProWatermark,
   WProColorPicker,
   WAnchor,
-  WDocumentation
+  WDocumentation,
+  WTagSelect,
+  WTagSelectOption
 } from '/@/components'
 import { WScrollbars, CustomIcon } from '/@/components/export'
 
@@ -93,6 +95,8 @@ const ant = {
     app.component('w-affix', WAffix)
     app.component('w-anchor', WAnchor)
     app.component('w-doc', WDocumentation)
+    app.component('w-tag-select', WTagSelect)
+    app.component('w-tag-select-option', WTagSelectOption)
     app.use(Result)
     app.use(Popconfirm)
     app.use(Descriptions)

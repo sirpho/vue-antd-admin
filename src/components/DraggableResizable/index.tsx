@@ -1,4 +1,12 @@
-import { defineComponent, reactive, onMounted, onBeforeUnmount, computed, watch } from 'vue'
+import {
+  defineComponent,
+  reactive,
+  onMounted,
+  onBeforeUnmount,
+  computed,
+  watch,
+  CSSProperties
+} from 'vue'
 import {
   eventsTypes,
   userSelectTypes,
@@ -292,7 +300,7 @@ export default defineComponent({
         height: computedHeight.value,
         zIndex: state.zIndex,
         ...(state.dragging && props.disableUserSelect ? userSelectNone : userSelectAuto)
-      }
+      } as CSSProperties
     })
 
     const actualHandles = computed(() => {

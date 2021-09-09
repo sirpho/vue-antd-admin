@@ -60,7 +60,9 @@ export default defineComponent({
       return null
     }
 
-    const baseClassName = getPrefixCls('global-footer')
+    const baseClassName = getPrefixCls({
+      suffixCls: 'global-footer'
+    })
 
     const copyright = props.copyright || (slots.copyright && slots.copyright())
 

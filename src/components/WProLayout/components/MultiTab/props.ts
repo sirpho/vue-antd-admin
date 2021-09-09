@@ -8,5 +8,8 @@ export default {
   collapsed: baseMenuProps.collapsed,
   siderWidth: siderMenuProps.siderWidth,
   collapsedWidth: siderMenuProps.collapsedWidth,
-  isFixedMultiTab: defaultSettingProps.fixedMultiTab
+  isFixedMultiTab: defaultSettingProps.fixedMultiTab,
+  onReloadPage: {
+    type: Function as PropType<() => void>
+  }
 }

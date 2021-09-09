@@ -39,6 +39,7 @@ export default defineComponent({
     'update:selected-keys',
     'collapse',
     'openKeys',
+    'reloadPage',
     'select',
     'menuHeaderClick',
     'menuClick'
@@ -97,6 +98,10 @@ export default defineComponent({
     }
     const onMenuClick = (args: any) => {
       emit('menuClick', args)
+    }
+
+    const onReloadPage = () => {
+      emit('reloadPage')
     }
 
     const routeContext = reactive<RouteContextProps>({
@@ -174,6 +179,7 @@ export default defineComponent({
               siderWidth={props.siderWidth}
               collapsed={props.collapsed}
               style={props.disableContentMargin ? undefined : props.contentStyle}
+              onReloadPage={onReloadPage}
             >
               {slots.default?.()}
             </WrapContent>

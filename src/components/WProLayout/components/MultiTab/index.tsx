@@ -1,12 +1,22 @@
-import { computed, defineComponent, inject, reactive, watch, onMounted, toRefs } from 'vue'
+import {
+  computed,
+  defineComponent,
+  reactive,
+  watch,
+  onMounted,
+  toRefs,
+  ExtractPropTypes
+} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { EllipsisOutlined, ReloadOutlined, CloseOutlined } from '@ant-design/icons-vue'
 import config from '/config/config'
-import defaultmultiTabProps from './props'
+import multiTabProps from './props'
+
+export type MultiTabProps = Partial<ExtractPropTypes<typeof multiTabProps>>;
 
 export default defineComponent({
-  props: defaultmultiTabProps,
+  props: multiTabProps,
   components: {
     EllipsisOutlined,
     ReloadOutlined,
@@ -16,7 +26,8 @@ export default defineComponent({
     const {
       isMobile,
       loading,
-      isFixedMultiTab
+      isFixedMultiTab,
+      onReloadPage
     } = toRefs(props)
     const $route = useRoute()
     const router = useRouter()
@@ -39,7 +50,6 @@ export default defineComponent({
         : '100%'
     })
     const right = computed(() => (needFixedMultiTab.value ? 0 : undefined))
-    const reloadCurrentPage: any = inject('reload')
     /**
      * @Author      gx12358
      * @DateTime    2021/8/6
@@ -183,7 +193,7 @@ export default defineComponent({
      */
     const reloadPage = () => {
       state.reloadSpin = true
-      reloadCurrentPage()
+      onReloadPage.value && onReloadPage.value()
       setTimeout(() => {
         state.reloadSpin = false
       }, 500)

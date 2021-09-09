@@ -101,7 +101,7 @@ const WAffix = defineComponent({
       const placeholderReact = getTargetRect(placeholderNode.value)
       const placeholderChildReact = getTargetRect(
         placeholderNode.value.childNodes?.[0].childNodes?.[1] as HTMLElement ||
-        placeholderReact.value
+        placeholderNode.value
       )
       const fixedTop = getFixedTop(placeholderReact, targetRect, offsetTop.value)
       const fixedBottom = getFixedBottom(placeholderReact, targetRect, offsetBottom.value)

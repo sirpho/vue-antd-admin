@@ -47,10 +47,10 @@ function dynamicImport(
 ) {
   const keys = Object.keys(dynamicViewsModules)
   const matchKeys = keys.filter((key: string) => {
-    let k = key.replace('../views', '');
-    const lastIndex = k.lastIndexOf('.');
-    k = k.substring(0, lastIndex);
-    return k === `/${component}`;
+    let k = key.replace('../views', '')
+    const lastIndex = k.lastIndexOf('.')
+    k = k.substring(0, lastIndex)
+    return k === `/${component}`
   })
   if (matchKeys?.length === 1) {
     const matchKey = matchKeys[0]
@@ -138,26 +138,6 @@ export function getRootMenu(rows: any[]) {
   })
   rootMenu.push(rootRouter)
   return rootMenu
-}
-
-export function getFirstLastChild(data: any[]) {
-  let newPath
-  // 获取第一个children的path
-  const getRoutePath = function (newdata: any, path: string) {
-    let firstPath = ''
-    if (newdata.children && newdata.children.length > 0) {
-      firstPath = getRoutePath(newdata.children[0], `${path}/${newdata.key}`)
-    } else {
-      firstPath = `${path}/${newdata.key}`
-    }
-    return firstPath
-  }
-  if (data[0].children && data[0].children.length > 0) {
-    newPath = getRoutePath(data[0].children[0], `/${data[0].key}`)
-  } else {
-    newPath = data[0].key
-  }
-  return newPath
 }
 
 /**
