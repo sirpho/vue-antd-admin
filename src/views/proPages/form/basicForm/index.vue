@@ -14,7 +14,7 @@
         />
       </a-form-item>
       <a-form-item label="起止日期" v-bind="validateInfos.date">
-        <a-range-picker style="width: 328px;" v-model:value="formState.date" />
+        <a-range-picker show-time style="width: 328px;" v-model:value="formState.date" />
       </a-form-item>
       <a-form-item label="目标描述" v-bind="validateInfos.goal">
         <a-textarea
@@ -132,16 +132,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, toRaw } from 'vue'
+import { defineComponent, reactive, toRefs, toRaw, onMounted } from 'vue'
 import { QuestionCircleOutlined } from '@ant-design/icons-vue'
+import { getBasicForm } from '/@/services/form'
 import { Form } from 'ant-design-vue'
+import { hanndleField } from '/@/utils/util'
+import moment, { Moment } from 'moment'
 
 const useForm = Form.useForm
+
+interface basicFormModel {
+  title: string;
+  date: Moment[],
+  goal: string;
+  standard: string;
+  client: string;
+  weight: number;
+  publicType: string;
+  publicUsers: string | undefined;
+}
 
 export default defineComponent({
   components: { QuestionCircleOutlined },
   setup() {
-    const state = reactive({
+    const state: {
+      formState: basicFormModel
+    } = reactive({
       formState: {
         title: '',
         date: [],
@@ -178,6 +194,27 @@ export default defineComponent({
           message: '请输入衡量标准',
         },
       ]
+    })
+    onMounted(async () => {
+      const response = await getBasicForm()
+      if (response) {
+        for (let i in response.data) {
+          switch (i) {
+            case 'weight':
+              state.formState[i] = response.data[i] || 0
+              break
+            case 'publicUsers':
+              state.formState[i] = response.data[i] || undefined
+              break
+            default:
+              state.formState[i] = hanndleField(response.data[i], '').value
+              break
+          }
+        }
+        state.formState.date = response.data.startTime
+          ? [ moment(response.data.startTime), moment(response.data.endTime) ]
+          : []
+      }
     })
     const { resetFields, validate, validateInfos } = useForm(state.formState, rulesRef);
     const onSubmit = () => {

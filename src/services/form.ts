@@ -1,8 +1,27 @@
 import request from '/@/utils/request'
 
-export function getBasicForm(data) {
+export interface basicFormParameters {
+  title: string;
+  startTime: string;
+  endTime: string;
+  goal: string;
+  standard: string;
+  client?: string;
+  weight?: number;
+  publicType?: string;
+  publicUsers?: string;
+}
+
+export function getBasicForm() {
   return request({
     url: '/basicForm',
+    method: 'post'
+  })
+}
+
+export function updateBasicForm(data: basicFormParameters) {
+  return request({
+    url: '/update/basicForm',
     method: 'post',
     data
   })
