@@ -43,22 +43,21 @@ const WTagSelect = defineComponent({
     const getAllTags = computed(() => {
       const childrenArray: any = getChildrenSlots.value
       const checkedTags = childrenArray
-        .filter((child) => isTagSelectOption(
-          child.type === 'Symbol(Fragment)' && childrenArray.length === 0
-            ? child.children
-            : child
-        ))
+        .filter((child) => isTagSelectOption(child))
         .map((child: any) => child.props.value)
       return checkedTags || []
     })
 
-    const getChildrenSlots: any = computed(() => (
-      slots.default?.().length === 1 &&
-      String(slots.default?.()[0].type) === String(Symbol('Fragment'))
-        ? slots.default?.()[0].children
-        : slots.default?.()) || [])
+    const getChildrenSlots: any = computed(() => slots.default?.().length === 1 &&
+      (
+        String(slots.default?.()[0].type) === String(Symbol('Fragment')) ||
+        String(slots.default?.()[0].type) === String(Symbol())
+      )
+        ? slots.default?.()[0].children || []
+        : slots.default?.() || []
+    )
 
-    const checkedAll = computed(() => getAllTags.value.length === state.value?.length)
+    const checkedAll = computed(() => getAllTags.value.length === (state.value?.length || []))
 
     const actionsText = computed(() => {
       const {
@@ -113,9 +112,11 @@ const WTagSelect = defineComponent({
     return () => (
       <div class={cls.value} style={props.style}>
         {props.hideCheckAll ? null : (
-          <a-checkable-tag checked={checkedAll.value}
+          <a-checkable-tag
+            checked={checkedAll.value}
             key="tag-select-__all__"
-            onChange={onSelectAll}>
+            onChange={onSelectAll}
+          >
             {actionsText.value.selectAllText}
           </a-checkable-tag>
         )}

@@ -10,13 +10,20 @@ body {
         padding-bottom: 0;
         margin-bottom: 0;
         border: none;
-      }
-      
-      &:last-child {
+        
         :global {
+          
           .ant-form-item {
             display: block;
-            margin-right: 0;
+  
+            &:last-child {
+              margin-right: 0;
+            }
+  
+            .ant-form-item-label{
+              float: left;
+              margin-right: 8px;
+            }
           }
         }
       }
