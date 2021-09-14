@@ -1,16 +1,35 @@
-.form-list-row {
-  width: 100%;
-  padding-bottom: 11px;
-  margin-bottom: 16px;
-  border-bottom: 1px dashed #f0f0f0;
-  
-  :global {
-    .ant-form-item-label {
-      flex: 0 0 auto;
-      margin-right: 24px;
-      font-size: 14px;
-      color: rgba(0, 0, 0, .85);
-      text-align: right;
+body {
+  .page-list-search {
+    .form-list-row {
+      width: 100%;
+      padding-bottom: 16px;
+      margin-bottom: 16px;
+      border-bottom: 1px dashed #f0f0f0;
+      
+      &.form-list-row-last {
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: none;
+      }
+      
+      &:last-child {
+        :global {
+          .ant-form-item {
+            display: block;
+            margin-right: 0;
+          }
+        }
+      }
+      
+      :global {
+        .ant-form-item-label {
+          flex: 0 0 auto;
+          margin-right: 24px;
+          font-size: 14px;
+          color: rgba(0, 0, 0, .85);
+          text-align: right;
+        }
+      }
     }
   }
 }

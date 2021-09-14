@@ -108,8 +108,8 @@ export default [
     method: 'post',
     response: (request: requestParams) => {
       const token = getRequestToken(request)
-      let { count } = request.query
-      count = count * 1 || 20
+      const { pageSize } = request.query
+      const count = pageSize * 1 || 20
       return builder(token, {
         data: cloneDeep(fakeList(count))
       })

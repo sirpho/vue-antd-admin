@@ -14,7 +14,8 @@ export const tagSelectProps = {
   actionsText: Object as PropType<actionsTextItem>,
   value: Array as PropType<(string | number)[]>,
   defaultValue: Array as PropType<(string | number)[]>,
-  onChange: Function as PropType<(value: string | number, state: boolean) => void>
+  onChange: Function as PropType<(value: string | number, state: boolean) => void>,
+  'onUpdate:value': PropTypes.func,
 }
 
 export const tagSelectOptionProps = {

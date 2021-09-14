@@ -42,7 +42,7 @@ export default defineComponent({
       }
     })
     const getTableData = async () => {
-      const response = await getRouterList()
+      const response: any = await getRouterList()
       if (response && response.code === 200) {
         const tableData = treeData(response.data || [], 'menuId')
         state.tableData = tableData

@@ -4,9 +4,11 @@
       <div :class="$style['search-header-content']">
         <a-input-search
           style="max-width: 550px"
+          allow-clear
           v-model:value="searchValue"
           placeholder="请输入"
           size="large"
+          @search="changeSearch"
         >
           <template #enterButton>
             <a-button type="primary">搜索</a-button>
@@ -15,16 +17,17 @@
       </div>
     </div>
     <div :class="$style['search-content-warp']">
-      <a-tabs v-model:activeKey="tabActiveKey">
+      <a-tabs v-model:activeKey="tabActiveKey" @change="handleTabChange">
         <a-tab-pane v-for="item in tabList" :key="item.key" :tab="item.tab">
           <a-card :bordered="false">
-            <Articles v-if="item.key === 'articles'" />
-            <Projects v-if="item.key === 'projects'" />
-            <Applications v-if="item.key === 'applications'" />
+            <Articles ref="articles" v-if="item.key === 'articles'" />
+            <Projects ref="projects" v-if="item.key === 'projects'" />
+            <Applications ref="applications" v-if="item.key === 'applications'" />
           </a-card>
         </a-tab-pane>
       </a-tabs>
     </div>
+    <w-back-top />
   </w-page-wrapper>
 </template>
 
@@ -56,6 +59,9 @@ export default defineComponent({
     Applications
   },
   setup() {
+    const articles = ref()
+    const projects = ref()
+    const applications = ref()
     const searchValue = ref('')
     const tabActiveKey: Ref<string> = ref('')
     onMounted(() => {
@@ -63,10 +69,34 @@ export default defineComponent({
         tabActiveKey.value = 'articles'
       }, 200)
     })
+    const getDefaultResults = (key: string, title?: string) => {
+      switch (key) {
+        case 'articles':
+          articles.value?.onActiveLoad(title)
+          break
+        case 'projects':
+          projects.value?.onActiveLoad(title)
+          break
+        case 'applications':
+          applications.value?.onActiveLoad(title)
+          break
+      }
+    }
+    const changeSearch = () => {
+      getDefaultResults(tabActiveKey.value, searchValue.value)
+    }
+    const handleTabChange = (key: string) => {
+      getDefaultResults(key)
+    }
     return {
+      articles,
+      projects,
+      applications,
       tabActiveKey,
       tabList,
       searchValue,
+      changeSearch,
+      handleTabChange
     }
   }
 })

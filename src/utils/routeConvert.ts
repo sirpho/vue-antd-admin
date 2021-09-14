@@ -40,37 +40,3 @@ export function getFirstLastChild(data: any[]) {
   }
   return newPath
 }
-
-export function getLastFirstChild(data: any[], path: string | undefined) {
-  let newPath = ''
-  let checkPath = false
-  // 获取第一个children的path
-  const getRoutePath = function (newdata: any[], acttivePath: string) {
-    let childrenPath = ''
-    newdata.map((item: any) => {
-      if (!checkPath) {
-        if (item.path === path) {
-          childrenPath = acttivePath
-        } else if (item.children && item.children.length > 0) {
-          childrenPath = getRoutePath(item.children, acttivePath)
-        }
-        if (childrenPath) {
-          checkPath = true
-        }
-      }
-      return item
-    })
-    return childrenPath
-  }
-  data.map((item: any) => {
-    if (!checkPath) {
-      if (item.path === path) {
-        newPath = item.path
-      } else if (item.children && item.children.length > 0) {
-        newPath = getRoutePath(item.children, item.path)
-      }
-    }
-    return item
-  })
-  return newPath
-}

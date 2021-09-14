@@ -23,7 +23,8 @@ export interface TagSelectOptionProps {
 const WTagSelect = defineComponent({
   name: 'WTagSelect',
   props: tagSelectProps,
-  setup(props, { slots }) {
+  emits: [ 'change', 'update:value' ],
+  setup(props, { slots, emit }) {
     const expand = ref(false)
 
     const state = reactive({
@@ -90,6 +91,8 @@ const WTagSelect = defineComponent({
       if (checked) {
         checkedTags = getAllTags.value
       }
+      emit('update:value', checkedTags)
+      emit('change', checkedTags)
       setValue(checkedTags)
     }
 
@@ -103,6 +106,8 @@ const WTagSelect = defineComponent({
         checkedTags.splice(index, 1)
       }
       setValue(checkedTags)
+      emit('update:value', checkedTags)
+      emit('change', checkedTags)
     }
 
     return () => (

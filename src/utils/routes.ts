@@ -155,7 +155,9 @@ export function buildtree(list: any[], arr: any[], parentId: string | number) {
         icon: item.icon,
         iconType: item.iconType,
         hidden: item.visible === '1',
-        path: item.path && item.path.length > 0 ? item.path : undefined,
+        path: item.path && item.path.length > 0
+          ? item.path
+          : undefined,
         component: item.component,
         redirect: item.redirect,
         fixed: item.fixed,

@@ -1,4 +1,5 @@
 import request from '/@/utils/request'
+import { stringify } from 'qs'
 
 export type Member = {
   avatar: string;
@@ -7,7 +8,11 @@ export type Member = {
 }
 
 export interface Params {
-  count: number;
+  query: {
+    pageNum: number;
+    pageSize: number;
+  };
+  data: any;
 }
 
 export interface ListItemDataType {
@@ -34,10 +39,10 @@ export interface ListItemDataType {
   members: Member[];
 }
 
-export function queryFakeList(params: Params): Promise<{ data: { list: ListItemDataType[] } }> {
+export function queryFakeList(params: Params): Promise<{ data: ListItemDataType[] }> {
   return request({
-    url: '/fake_list',
+    url: `/fake_list?${stringify(params.query)}`,
     method: 'post',
-    params
+    data: params.data
   })
 }
