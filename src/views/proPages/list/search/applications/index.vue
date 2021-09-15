@@ -149,8 +149,8 @@ import {
   ShareAltOutlined,
   EllipsisOutlined
 } from '@ant-design/icons-vue'
-import type { ListItemDataType } from '/@/services/list'
-import { queryFakeList } from '/@/services/list'
+import type { ListItemDataType } from '/@/services/list/search'
+import { queryFakeList } from '/@/services/list/search'
 import { formItemLayout } from '../utils/config'
 
 interface articleStateType {
@@ -188,7 +188,20 @@ export default defineComponent({
       onActiveLoad()
     })
     const onActiveLoad = (title?: string) => {
+      if (state.listSource.length === 0) {
+        state.loading = true
+        setTimeout(() => {
+          getFakeList(title)
+        }, 500)
+      }
+    }
+    const refresh = (title?: string) => {
       state.listSource = []
+      state.listParams = {
+        category: [],
+        author: undefined,
+        rate: undefined
+      }
       state.loading = true
       setTimeout(() => {
         getFakeList(title)
@@ -209,9 +222,6 @@ export default defineComponent({
       }
       state.loading = false
     }
-    const setOwner = () => {
-      state.listParams.owner = [ 'wzj' ]
-    }
     const changeSearch = () => {
       onActiveLoad()
     }
@@ -224,7 +234,7 @@ export default defineComponent({
     return {
       ...toRefs(state),
       formItemLayout,
-      setOwner,
+      refresh,
       formatWan,
       changeSearch,
       onActiveLoad

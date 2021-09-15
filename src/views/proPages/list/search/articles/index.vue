@@ -75,7 +75,7 @@
         :data-source="listSource"
       >
         <template #loadMore>
-          <div v-if="!loading" :style="{ textAlign: 'center', marginTop: '16px' }">
+          <div v-if="!loading || loadingMore" :style="{ textAlign: 'center', marginTop: '16px' }">
             <a-button @click="loadMore">
               <span v-if="loadingMore">
                 <LoadingOutlined /> 加载中...
@@ -125,8 +125,8 @@
 <script lang="ts">
 import { defineComponent, onActivated, onMounted, reactive, toRefs } from 'vue'
 import { StarOutlined, LikeOutlined, MessageOutlined, LoadingOutlined } from '@ant-design/icons-vue'
-import type { ListItemDataType } from '/@/services/list'
-import { queryFakeList } from '/@/services/list'
+import type { ListItemDataType } from '/@/services/list/search'
+import { queryFakeList } from '/@/services/list/search'
 import ArticleListContent from './components/ArticleListContent.vue'
 import { owners, formItemLayout } from '../utils/config'
 
@@ -171,6 +171,20 @@ export default defineComponent({
       onActiveLoad()
     })
     const onActiveLoad = (title?: string) => {
+      if (state.listSource.length === 0) {
+        state.loading = true
+        state.listParams = {
+          category: [],
+          owner: [ 'wjh', 'zxx' ],
+          user: undefined,
+          rate: undefined
+        }
+        setTimeout(() => {
+          getFakeList(title)
+        }, 500)
+      }
+    }
+    const refresh = (title?: string) => {
       state.listSource = []
       state.loading = true
       setTimeout(() => {
@@ -213,6 +227,7 @@ export default defineComponent({
       ...toRefs(state),
       owners,
       formItemLayout,
+      refresh,
       setOwner,
       loadMore,
       changeSearch,

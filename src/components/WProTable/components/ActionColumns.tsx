@@ -548,7 +548,9 @@ const ActionColumns = defineComponent({
           trigger="click"
           get-popup-container={() => state.root}
         >
-          <SettingOutlined />
+          <a-tooltip title="列配置">
+            <SettingOutlined />
+          </a-tooltip>
         </a-popover>
       </div>
     )

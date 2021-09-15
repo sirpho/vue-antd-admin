@@ -79,10 +79,10 @@ const TableSearch = defineComponent({
     const getWidth = () => {
       innerWidth.value = window.innerWidth
     }
-    const hanldeFormList = (params) => {
+    const hanldeFormList = (data) => {
       const formList: any = []
-      if (params.type === 'dataSouce' || params.type === 'columns') {
-        params.data.map(item => {
+      if (props.type === 'dataSouce' || props.type === 'columns') {
+        data.map(item => {
           let defaultValue = item.defaultValue
           const valueUndefined = [ 'select' ]
           const valueNull = [ 'date', 'time', 'dateRange' ]
@@ -100,44 +100,50 @@ const TableSearch = defineComponent({
           formList.push(cloneDeep(item))
           return item
         })
-      } else if (params.type === 'slots') {
-        params.data.map(item => {
+      } else if (props.type === 'slots') {
+        data.map(item => {
           formList.push(item)
           return item
         })
       }
-      state.advanced = params.defaultCollapsed
-      state.searchType = params.type
       state.formList = formList
     }
     watch(innerWidth, (value) => { innerWidth.value = value})
-    watch(() => props, (newProps) => {
-      hanldeFormList(newProps)
+    watch(() => props.data, (dataSource) => {
+      hanldeFormList(dataSource)
+    }, {
+      deep: true,
+      immediate: true
+    })
+    watch(() => props.defaultCollapsed, (value) => {
+      state.advanced = state.advanced || value
+    }, {
+      deep: true,
+      immediate: true
+    })
+    watch(() => props.type, (value) => {
+      state.searchType = value
     }, {
       deep: true,
       immediate: true
     })
     const rowLength = computed(() => {
-      return innerWidth.value > 1540 ?
-        5
-        :
-        innerWidth.value >= 1341 && innerWidth.value <= 1540 ?
-          3
-          :
-          innerWidth.value >= 992 && innerWidth.value < 1540 ?
-            2
-            :
-            1
+      return innerWidth.value > 1540
+        ? 5
+        : innerWidth.value >= 1341 && innerWidth.value <= 1540
+          ? 3
+          : innerWidth.value >= 992 && innerWidth.value < 1540
+            ? 2
+            : 1
     })
     const changeAdvanced = (status) => { state.advanced = status }
     const getStyleWidth = (index, rowLength, rowWidth) => {
-      return (index + 1) % rowLength === 0 ?
-        {
+      return (index + 1) % rowLength === 0
+        ? {
           ...rowWidth,
           marginRight: 0
         }
-        :
-        {
+        : {
           ...rowWidth,
           marginRight: '2%'
         }
@@ -152,25 +158,30 @@ const TableSearch = defineComponent({
           if (!props.showSearch) changeTableParams()
           break
         case 'date':
-          modelRef[record.name] = val ? moment(val).format(record.format || 'YYYY-MM-DD') :
-            record.defaultValue || null
+          modelRef[record.name] = val
+            ? moment(val).format(record.format || 'YYYY-MM-DD')
+            : record.defaultValue || null
           if (!props.showSearch) changeTableParams()
           break
         case 'dateMonth':
-          modelRef[record.name] = val ? moment(val).format('YYYY-MM') :
-            record.defaultValue || null
+          modelRef[record.name] = val
+            ? moment(val).format('YYYY-MM')
+            : record.defaultValue || null
           if (!props.showSearch) changeTableParams()
           break
         case 'dateRange':
-          modelRef[record.name] = val && val.length > 0 ? [
-            moment(val[0]).format(record.format || 'YYYY-MM-DD HH:mm:ss'),
-            moment(val[1]).format(record.format || 'YYYY-MM-DD HH:mm:ss')
-          ] : record.defaultValue || null
+          modelRef[record.name] = val && val.length > 0
+            ? [
+              moment(val[0]).format(record.format || 'YYYY-MM-DD'),
+              moment(val[1]).format(record.format || 'YYYY-MM-DD')
+            ]
+            : record.defaultValue || null
           if (!props.showSearch) changeTableParams(val, record)
           break
         case 'time':
-          modelRef[record.name] = val ? moment(val).format(record.format || 'HH:mm:ss') :
-            record.defaultValue || null
+          modelRef[record.name] = val
+            ? moment(val).format(record.format || 'HH:mm:ss')
+            : record.defaultValue || null
           if (!props.showSearch) changeTableParams()
           break
       }
@@ -343,20 +354,17 @@ const TableSearch = defineComponent({
           null
       }
     </a-space> : null
-    const advancedSlot = ({ formItemStyle, advanced, showAdvanced = true, optionButton = true }) =>
+    const advancedSlot = ({ formItemStyle, advanced, showAdvanced = true }) =>
       <div style={formItemStyle} class={styles.list_unfold}>
         <a-space size={16}>
-          {optionButton && optionRender()}
-          {
-            showAdvanced ?
-              <a onClick={() => changeAdvanced(!advanced)}>
-                {advanced ? '收起' : '展开'}
-                {props.collapseRender ? props.collapseRender() : advanced ? <UpOutlined /> :
-                  <DownOutlined />}
-              </a>
-              :
-              null
-          }
+          {optionRender()}
+          {showAdvanced && (
+            <a onClick={() => changeAdvanced(!advanced)}>
+              {advanced ? '收起' : '展开'}
+              {props.collapseRender ? props.collapseRender() : advanced ? <UpOutlined /> :
+                <DownOutlined />}
+            </a>
+          )}
         </a-space>
       </div>
     const formRowSlot = () => {
@@ -367,36 +375,22 @@ const TableSearch = defineComponent({
       }
       for (let i = 0; i < formList.length; i += 1) {
         const formItemStyle = getStyleWidth(i, rowLength.value, rowWidth)
-        if (formList.length <= rowLength.value || advanced) {
+        if ((formList.length < rowLength.value) || advanced) {
           show.push(
             formItemSlot({
               formItemStyle,
               items: formList[i]
             })
           )
-          if (
-            (
-              i === formList.length - 1 &&
-              ((i + 1) % rowLength.value !== 0) &&
+          if ((i === formList.length - 1) && advanced) show.push(
+            advancedSlot({
+              formItemStyle: {
+                flex: 1,
+                justifyContent: 'flex-end'
+              },
               advanced
-            ) ||
-            (
-              (props.showSearch || props.showReset) &&
-              i === formList.length - 1
-            )
-          ) {
-            show.push(
-              advancedSlot({
-                formItemStyle: {
-                  flex: 1,
-                  justifyContent: 'flex-end'
-                },
-                optionButton: !advanced,
-                advanced: true,
-                showAdvanced: i === formList.length - 1 && ((i + 1) % rowLength.value !== 0) && advanced
-              })
-            )
-          }
+            })
+          )
         } else {
           if (i < rowLength.value - 1) {
             show.push(
@@ -438,19 +432,21 @@ const TableSearch = defineComponent({
           <div class={styles.table_search_block}>
             {formRowSlot()}
           </div>
-          {
-            state.advanced && ((state.formList.length) % rowLength.value === 0) ?
-              <div class={styles.list_shrink}>
-                <a-space size={16}>
-                  {optionRender()}
-                  <a onClick={() => changeAdvanced(false)}>
-                    收起 {props.collapseRender ? props.collapseRender() : <UpOutlined />}
-                  </a>
-                </a-space>
-              </div>
-              :
-              null
-          }
+          {/*{*/}
+          {/*  state.advanced && ((state.formList.length) % rowLength.value === 0) ?*/}
+          {/*    <div class={styles.list_shrink}>*/}
+          {/*      <span>{rowLength.value}</span>*/}
+          {/*      <span>{state.formList.length}</span>*/}
+          {/*      <a-space size={16}>*/}
+          {/*        {optionRender()}*/}
+          {/*        <a onClick={() => changeAdvanced(false)}>*/}
+          {/*          收起 {props.collapseRender ? props.collapseRender() : <UpOutlined />}*/}
+          {/*        </a>*/}
+          {/*      </a-space>*/}
+          {/*    </div>*/}
+          {/*    :*/}
+          {/*    null*/}
+          {/*}*/}
         </a-form>
       </div>
     )

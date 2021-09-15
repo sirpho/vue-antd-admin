@@ -73,7 +73,8 @@ import {
   Anchor,
   BackTop,
   Result,
-  Popconfirm
+  Popconfirm,
+  Badge
 } from 'ant-design-vue'
 
 const ant = {
@@ -98,6 +99,7 @@ const ant = {
     app.component('w-tag-select', WTagSelect)
     app.component('w-tag-select-option', WTagSelectOption)
     app.use(Result)
+    app.use(Badge)
     app.use(Popconfirm)
     app.use(Descriptions)
     app.use(InputNumber)

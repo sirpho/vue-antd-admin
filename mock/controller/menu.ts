@@ -388,6 +388,24 @@ const data = [
     perms: '',
     target: '',
     visible: '0'
+  },
+  {
+    checked: false,
+    children: [],
+    component: 'proPages/list/tableList/index',
+    createTime: '2020-06-30 22:48:57',
+    hiddenChildren: false,
+    hiddenHeader: false,
+    menuId: 22,
+    menuKey: 'tableList',
+    menuName: '查询表格',
+    menuType: 'C',
+    orderNum: '2',
+    params: {},
+    parentId: 20,
+    perms: '',
+    target: '',
+    visible: '0'
   }
 ]
 

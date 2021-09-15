@@ -205,6 +205,17 @@ const WProTable = defineComponent({
     })
     /**
      * @Author      gx12358
+     * @DateTime    2021/9/15
+     * @lastTime    2021/9/15
+     * @description columns变化
+     */
+    const handleChanheColums = () => {
+      state.columns = cloneDeep(originColums)
+        .filter(item => item.checked || item.checked === undefined)
+      state.actionColums = cloneDeep(originColums)
+    }
+    /**
+     * @Author      gx12358
      * @DateTime    2021/7/15
      * @lastTime    2021/7/15
      * @description 初始化是否展示序号
@@ -214,6 +225,8 @@ const WProTable = defineComponent({
         const firstColumsItem = originColums[0]
         originColums.unshift({
           title: '序号',
+          originAlign: '',
+          align: props.align,
           fixed: firstColumsItem.fixed,
           width: 60,
           dataIndex: 'sortIndex'
@@ -221,16 +234,7 @@ const WProTable = defineComponent({
       } else if (!value && originColums.some(item => item.dataIndex === 'sortIndex')) {
         originColums = originColums.filter(item => item.dataIndex !== 'sortIndex')
       }
-      originColums = originColums.map(item => {
-        return {
-          ...item,
-          align: item.align || props.align,
-          uuid: getRandomNumber().uuid(15)
-        }
-      })
-      state.columns = cloneDeep(originColums)
-        .filter(item => item.checked || item.checked === undefined)
-      state.actionColums = cloneDeep(originColums)
+      handleChanheColums()
     }
     /**
      * @Author      gx12358
@@ -275,6 +279,7 @@ const WProTable = defineComponent({
     const getProTable = () => {
       props.actionRef({
         reload: () => tableLoadData(),
+        loadingOperation: () => changeTabelLoading(),
         reloadAndRest: () => tableLoadData({ current: 1, pageSize: state.pagination.pageSize })
       })
     }
@@ -323,8 +328,23 @@ const WProTable = defineComponent({
         ...defaultParams,
         ...params
       }
+      if (sorter && sorter.order) {
+        state.columns = state.columns.map(item => {
+          if (item.dataIndex === sorter.columnKey) {
+            item.sortOrder = sorter.order
+          } else {
+            item.sortOrder = false
+          }
+          return item
+        })
+      } else if (sorter) {
+        state.columns = state.columns.map(item => {
+          if (item.dataIndex === sorter.columnKey) item.sortOrder = false
+          return item
+        })
+      }
       const result = await props.request(parameter, sorter, filters)
-      if (result) {
+      if (result && result.success) {
         state.tableKey = getRandomNumber().uuid(15)
         state.dataSource = getSortIndex(result.data, pagination)
         hasTableTree(state.dataSource)
@@ -332,7 +352,7 @@ const WProTable = defineComponent({
         state.pagination.pageSize = parameter.pageSize
         state.pagination.total = result.total
       } else {
-        proxy.$message.error(result.msg)
+        proxy.$message.error(result.msg || '系统错误，请稍后再试！')
       }
       state.tableLoading = false
       emit('loadingChange', state.tableLoading)
@@ -340,8 +360,28 @@ const WProTable = defineComponent({
     watch(innerWidth, (value) => {
       innerWidth.value = value
     })
+    watch(() => props.columns, (val) => {
+      originColums = cloneDeep(val)
+      handleChanheColums()
+    }, {
+      deep: true,
+      immediate: true
+    })
     watch(() => props.size, (value) => {
       state.size = value
+    }, {
+      deep: true,
+      immediate: true
+    })
+    watch(() => props.align, (value) => {
+      originColums = originColums.map(item => {
+        item.originAlign = item.originAlign || item.originAlign === ''
+          ? item.originAlign
+          : (item.align || '')
+        item.align = item.originAlign || value
+        return item
+      })
+      handleChanheColums()
     }, {
       deep: true,
       immediate: true
@@ -481,6 +521,11 @@ const WProTable = defineComponent({
     const fullScreenListener = (e) => {
       if (e.target.id === state.tableId) {
         state.fullScreen = !state.fullScreen
+      }
+    }
+    const changeTabelLoading = (loading) => {
+      if (props.request) {
+        state.tableLoading = loading
       }
     }
     /**
@@ -630,9 +675,7 @@ const WProTable = defineComponent({
      * @description 表格列设置-重置
      */
     const onResetColums = () => {
-      state.columns = cloneDeep(originColums)
-        .filter(item => item.checked || item.checked === undefined)
-      state.actionColums = cloneDeep(originColums)
+      handleChanheColums()
       emit('reset')
     }
     /**
@@ -783,7 +826,13 @@ const WProTable = defineComponent({
           style={innerWidth.value < 992 ? { width: '100%' } : undefined}
         >
           {
-            props.headerTitle ? props.headerTitle() : slots.headerTitle ? slots.headerTitle() : null
+            props.headerTitle
+              ? typeof props.headerTitle === 'string'
+                ? props.headerTitle
+                : props.headerTitle()
+              : slots.headerTitle
+                ? slots.headerTitle()
+                : null
           }
           {
             props.titleTip || props.titleTip === '' ?
@@ -876,18 +925,16 @@ const WProTable = defineComponent({
         }
         {
           state.options.setting ?
-            <a-tooltip title="列配置">
-              <ActionColumns
-                columns={state.actionColums}
-                scroll={changeProps.value.scroll || false}
-                class={styles[`${tableClassName}-list-toolbar-setting-items`]}
-                onChange={onColumnsChange}
-                onDrop={onColumnsDrop}
-                onReset={onResetColums}
-                onChangeFixed={onChangeFixedColums}
-                v-slots={state.tableSlots}
-              />
-            </a-tooltip>
+            <ActionColumns
+              columns={state.actionColums}
+              scroll={changeProps.value.scroll || false}
+              class={styles[`${tableClassName}-list-toolbar-setting-items`]}
+              onChange={onColumnsChange}
+              onDrop={onColumnsDrop}
+              onReset={onResetColums}
+              onChangeFixed={onChangeFixedColums}
+              v-slots={state.tableSlots}
+            />
             :
             null
         }

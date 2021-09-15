@@ -25,6 +25,12 @@
             <Applications ref="applications" v-if="item.key === 'applications'" />
           </a-card>
         </a-tab-pane>
+        <template #tabBarExtraContent>
+          <RedoOutlined
+            @click="refreshData(tabActiveKey)"
+            style="font-size: 18px;color: #8c8c8c;cursor: pointer;"
+          />
+        </template>
       </a-tabs>
     </div>
     <w-back-top />
@@ -33,6 +39,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { RedoOutlined } from '@ant-design/icons-vue'
 import Articles from './articles/index.vue'
 import Projects from './projects/index.vue'
 import Applications from './applications/index.vue'
@@ -56,7 +63,8 @@ export default defineComponent({
   components: {
     Projects,
     Articles,
-    Applications
+    Applications,
+    RedoOutlined
   },
   setup() {
     const articles = ref()
@@ -82,6 +90,19 @@ export default defineComponent({
           break
       }
     }
+    const refreshData = (key: string, title?: string) => {
+      switch (key) {
+        case 'articles':
+          articles.value?.refresh(title)
+          break
+        case 'projects':
+          projects.value?.refresh(title)
+          break
+        case 'applications':
+          applications.value?.refresh(title)
+          break
+      }
+    }
     const changeSearch = () => {
       getDefaultResults(tabActiveKey.value, searchValue.value)
     }
@@ -96,6 +117,7 @@ export default defineComponent({
       tabList,
       searchValue,
       changeSearch,
+      refreshData,
       handleTabChange
     }
   }

@@ -67,14 +67,16 @@ export function getRequestToken({ headers }: requestParams): string | undefined 
   return headers?.[tokenName.toLowerCase()]
 }
 
-export const builder = (token, { data = null, code, msg }: resultParams) => {
+export const builder = (token, { data = null, code, msg }: resultParams = {}) => {
   code = token ? code || 200 : 401
   msg = token ? msg || code === 200 ? 'success' : 'Request failed' : 'Request failed'
-  return {
+  const result = {
     code,
     msg,
     data
   }
+  if (!data) delete result.data
+  return result
 }
 
 export const getQueryParameters = (options: any) => {

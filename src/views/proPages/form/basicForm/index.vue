@@ -179,20 +179,20 @@ export default defineComponent({
       date: [
         {
           required: true,
-          message: '请选择起止日期',
-        },
+          message: '请选择起止日期'
+        }
       ],
       goal: [
         {
           required: true,
-          message: '请输入目标描述',
-        },
+          message: '请输入目标描述'
+        }
       ],
       standard: [
         {
           required: true,
-          message: '请输入衡量标准',
-        },
+          message: '请输入衡量标准'
+        }
       ]
     })
     onMounted(async () => {
@@ -216,15 +216,15 @@ export default defineComponent({
           : []
       }
     })
-    const { resetFields, validate, validateInfos } = useForm(state.formState, rulesRef);
+    const { resetFields, validate, validateInfos } = useForm(state.formState, rulesRef)
     const onSubmit = () => {
       validate()
         .then(() => {
-          console.log(toRaw(state.formState));
+          console.log(toRaw(state.formState))
         })
         .catch(err => {
-          console.log('error', err);
-        });
+          console.log('error', err)
+        })
     }
     return {
       ...toRefs(state),

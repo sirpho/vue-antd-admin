@@ -38,7 +38,7 @@ export default defineComponent({
     const changeProps = computed(() => {
       const newProps: any = {
         ...props,
-        centered: true
+        centered: props.fixHeight
       }
       if (props.isFail) newProps.centered = false
       if (props.spinning) newProps.maskClosable = false

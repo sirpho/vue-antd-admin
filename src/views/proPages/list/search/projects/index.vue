@@ -97,8 +97,8 @@
 <script lang="ts">
 import { defineComponent, onActivated, onMounted, reactive, toRefs } from 'vue'
 import moment from 'moment'
-import type { ListItemDataType } from '/@/services/list'
-import { queryFakeList } from '/@/services/list'
+import type { ListItemDataType } from '/@/services/list/search'
+import { queryFakeList } from '/@/services/list/search'
 import AvatarList from './components/AvatarList.vue'
 import { formItemLayout } from '../utils/config'
 
@@ -121,7 +121,6 @@ export default defineComponent({
       },
       listParams: {
         category: [],
-        owner: [ 'wjh', 'zxx' ],
         user: undefined,
         rate: undefined
       },
@@ -135,7 +134,20 @@ export default defineComponent({
       onActiveLoad()
     })
     const onActiveLoad = (title?: string) => {
+      if (state.listSource.length === 0) {
+        state.loading = true
+        setTimeout(() => {
+          getFakeList(title)
+        }, 500)
+      }
+    }
+    const refresh = (title?: string) => {
       state.listSource = []
+      state.listParams = {
+        category: [],
+        user: undefined,
+        rate: undefined
+      }
       state.loading = true
       setTimeout(() => {
         getFakeList(title)
@@ -163,6 +175,7 @@ export default defineComponent({
     return {
       ...toRefs(state),
       formItemLayout,
+      refresh,
       changeSearch,
       onActiveLoad,
       timeFromNow
