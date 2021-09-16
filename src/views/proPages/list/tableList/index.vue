@@ -5,7 +5,7 @@
       row-key="key"
       align="center"
       :showIndex="false"
-      :search="{ type: 'columns', showSearch: true, showReset: true }"
+      :search="{ type: 'columns' }"
       :actionRef="info => tableRef = info"
       :columns="columns"
       :request="(params, sort, filter) => getTableList(params, sort, filter)"
@@ -42,7 +42,7 @@
       <template #action="{ record }">
         <a key="config" style="margin-right: 15px;" @click="updateTableRule(record)">配置</a>
         <a key="config" style="margin-right: 15px;" @click="removeTableConfirm(record)">删除</a>
-        <a key="subscribeAlert">订阅警报</a>
+        <a key="subscribeAlert" href="https://procomponents.ant.design/" target="_blank">订阅警报</a>
       </template>
     </w-pro-table>
     <OperationModal ref="operation" @handleOk="tableRef.reload()" />
@@ -106,7 +106,6 @@ export default defineComponent({
       })
     }
     const handleTableAdd = () => {
-      console.log(state.selectedRowItems)
       operation.value?.open()
     }
     const updateTableRule = async (record) => {
@@ -119,19 +118,19 @@ export default defineComponent({
         okText: '确定',
         cancelText: '取消',
         class: 'wd-pro-confirm-delete',
-        onOk () {
+        onOk() {
           removeTableRule(record)
         }
       })
     }
     const removeTableRule = async (record) => {
       tableRef.value.loadingOperation(true)
-      const response = await removeRule({
+      const response: any = await removeRule({
         key: record.key
       })
       if (response) {
         proxy.$message.success('操作成功！')
-        await tableRef.value.reload()
+        await tableRef.value.reload({ removeTotal: 1 })
       } else {
         proxy.$message.error((response && response.msg) || '系统错误，请稍后再试！')
       }
@@ -145,7 +144,7 @@ export default defineComponent({
       onSelectChange,
       handleTableAdd,
       updateTableRule,
-      removeTableConfirm,
+      removeTableConfirm
     }
   }
 })

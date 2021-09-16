@@ -86,7 +86,7 @@ export default defineComponent({
       this.fetchData()
     },
     async fetchData() {
-      const { data, totalCount } = await getIconList(this.queryForm)
+      const { data, totalCount }: any = await getIconList(this.queryForm)
       this.queryIcon = data
       this.total = totalCount
     },

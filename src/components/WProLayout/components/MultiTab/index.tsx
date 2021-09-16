@@ -36,7 +36,8 @@ export default defineComponent({
     const state = reactive({
       affixTabs: [],
       reloadSpin: false,
-      tabActive: ''
+      tabActive: '',
+      tabContextActive: ''
     })
     const routes = computed(() => store.getters['routes/routes'])
     const visitedRoutes = computed(() => store.getters['tagsBar/visitedRoutes'])
@@ -167,6 +168,9 @@ export default defineComponent({
           break
       }
     }
+    const dropdownVisible = (path) => {
+      state.tabContextActive = path
+    }
     const tabBarExtraState = (type, path: any) => {
       const currentIndex = visitedRoutes.value.findIndex(item => item.fullPath === path)
       let status = false
@@ -259,10 +263,10 @@ export default defineComponent({
      */
     const toThisTag = (stateType) => {
       const currentPath = stateType === 'tabActive' ? $route.fullPath : state[stateType]
-      const view = visitedRoutes.value.find(
-        (item) => item.fullPath === currentPath
+      const view = visitedRoutes.value.find((item) =>
+        item.fullPath === currentPath
       )
-      if (currentPath !== view.path) router.push(view)
+      if (currentPath !== view?.path || '') router.push(view)
       return view
     }
 
@@ -292,7 +296,8 @@ export default defineComponent({
     const defaultRenderTab = (record) => (
       <a-dropdown
         trigger="contextmenu"
-        overlay={defaultRenderTabMenu(record)}
+        overlay={_ => defaultRenderTabMenu(record)}
+        onVisibleChange={_ => dropdownVisible(record.fullPath)}
       >
         <div class="wd-pro-multi-tab-content">
           {record.meta.title}

@@ -1,6 +1,6 @@
 import { MockMethod } from 'vite-plugin-mock'
 import { cloneDeep } from 'lodash-es'
-import { getRequestToken, requestParams, builder } from '../_util'
+import { getRequestToken, requestParams, builder } from '../../_util'
 
 const advancedTableData = [
   {

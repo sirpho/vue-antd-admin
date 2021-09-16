@@ -1,3 +1,8 @@
+export type ReturnValue<T extends any[]> = {
+  run: (...args: T) => void;
+  cancel: () => void;
+};
+
 export interface prefixCls {
   suffixCls?: string;
   customizePrefixCls?: string;

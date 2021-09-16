@@ -1,5 +1,5 @@
 import { MockMethod } from 'vite-plugin-mock'
-import { builder, getRequestToken, requestParams } from '../_util'
+import { builder, getRequestToken, requestParams } from '../../_util'
 import { cloneDeep } from 'lodash-es'
 
 export default [

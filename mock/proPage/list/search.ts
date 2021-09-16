@@ -1,6 +1,6 @@
 import { MockMethod } from 'vite-plugin-mock'
 import { cloneDeep } from 'lodash-es'
-import { builder, getRequestToken, requestParams } from '../_util'
+import { builder, getRequestToken, requestParams } from '../../_util'
 
 export type Member = {
   avatar: string;

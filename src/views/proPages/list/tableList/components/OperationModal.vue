@@ -2,7 +2,7 @@
   <w-modal
     :title="modalTitle"
     width="850px"
-    :fixHeight="formType === 1"
+    :fixHeight="false"
     :visible="visible"
     :isFail="isFail"
     :spinning="spinning"

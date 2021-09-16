@@ -1,5 +1,5 @@
 import { MockMethod } from 'vite-plugin-mock'
-import { builder, getRequestToken, requestParams } from '../_util'
+import { builder, getRequestToken, requestParams } from '../../_util'
 import moment from 'moment'
 
 const momentFiled = [ 'updatedAt', 'createdAt' ]
@@ -187,8 +187,8 @@ export default [
       const token = getRequestToken(request)
       const { key } =request.body
       return builder(token, {
-        data: tableListDataSource.find(item => item.key = key),
-        code: tableListDataSource.some(item => item.key = key) ? 200 : 500,
+        data: tableListDataSource.find(item => item.key === key),
+        code: tableListDataSource.some(item => item.key === key) ? 200 : 500,
         msg: '请传入正确的key值！'
       })
     }

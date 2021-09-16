@@ -89,7 +89,9 @@ export default defineComponent({
             <div class={styles[`${modalClassName}-skeleton`]}>
               <a-skeleton loading={props.skeletonLoading} active />
               <a-skeleton loading={props.skeletonLoading} active />
-              <a-skeleton loading={props.skeletonLoading} active />
+              {props.fixHeight && (
+                <a-skeleton loading={props.skeletonLoading} active />
+              )}
             </div>
           ) : props.isFail ? (
             <a-empty

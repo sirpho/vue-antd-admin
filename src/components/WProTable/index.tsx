@@ -19,7 +19,14 @@ import {
   InfoCircleOutlined
 } from '@ant-design/icons-vue'
 import Nodata from '/@/assets/public_image/nodata.png'
-import { getRandomNumber, getSortIndex, hanndleField, isArray, isObject } from '/@/utils/util'
+import {
+  getRandomNumber,
+  getSortIndex,
+  handleCurrentPage,
+  hanndleField,
+  isArray,
+  isObject
+} from '/@/utils/util'
 import { stateTypes } from './types/state'
 import { OptionConfig, ProTableProps } from './types/table'
 import { proTableProps } from './props'
@@ -278,8 +285,8 @@ const WProTable = defineComponent({
      */
     const getProTable = () => {
       props.actionRef({
-        reload: () => tableLoadData(),
-        loadingOperation: () => changeTabelLoading(),
+        reload: (info) => tableLoadData(info),
+        loadingOperation: (loading) => changeTabelLoading(loading),
         reloadAndRest: () => tableLoadData({ current: 1, pageSize: state.pagination.pageSize })
       })
     }
@@ -290,35 +297,42 @@ const WProTable = defineComponent({
      * @description 表格request
      */
     const tableLoadData = async (info: any = {}) => {
-      const { pagination, filters, sorter, params = {} } = info
+      const { pagination, filters, sorter, params = {}, removeTotal = 0 } = info
       const defaultParams = {}
       if (props.search) {
-        switch (props.search.type) {
-          case 'dataSouce':
-            props.search.data.map(item => {
-              let defaultValue = item.defaultValue
-              const valueUndefined = [ 'select' ]
-              const valueNull = [ 'date', 'time', 'dateRange' ]
-              if (!defaultValue && valueUndefined.includes(item.valueType)) {
-                defaultValue = undefined
-              } else if (!defaultValue && valueNull.includes(item.valueType)) {
-                defaultValue = null
-              } else if (!defaultValue) {
-                defaultValue = ''
-              }
-              if (item.name === 'dateRange') {
-                defaultParams[item.rangeStartName || 'start'] = defaultValue ? [ 0 ] : null
-                defaultParams[item.rangeEndName || 'end'] = defaultValue ? [ 1 ] : null
-              } else {
-                defaultParams[item.name] = defaultValue
-              }
-              return item
-            })
-            break
+        if (props.search.type === 'dataSouce' || props.search.type === 'columns') {
+          state.searchData.map(item => {
+            let defaultValue = item.defaultValue
+            const valueUndefined = [ 'select' ]
+            const valueNull = [ 'date', 'time', 'dateRange' ]
+            if (!defaultValue && valueUndefined.includes(item.valueType)) {
+              defaultValue = undefined
+            } else if (!defaultValue && valueNull.includes(item.valueType)) {
+              defaultValue = null
+            } else if (!defaultValue) {
+              defaultValue = ''
+            }
+            if (item.name === 'dateRange') {
+              defaultParams[item.rangeStartName || 'start'] = defaultValue ? [ 0 ] : null
+              defaultParams[item.rangeEndName || 'end'] = defaultValue ? [ 1 ] : null
+            } else {
+              defaultParams[item.name] = defaultValue
+            }
+            return item
+          })
         }
       }
       state.tableLoading = true
       emit('loadingChange', state.tableLoading)
+      if (pagination && pagination.current) {
+        pagination.current = handleCurrentPage(pagination, removeTotal)
+      } else if (props.showPagination && state.pagination.current) {
+        state.pagination.current = handleCurrentPage({
+          current: state.pagination.current,
+          pageSize: state.pagination.pageSize,
+          total: state.pagination.total,
+        }, removeTotal)
+      }
       const parameter = {
         pageNum: (pagination && pagination.current) ||
           props.showPagination && state.pagination.current,
@@ -363,6 +377,15 @@ const WProTable = defineComponent({
     watch(() => props.columns, (val) => {
       originColums = cloneDeep(val)
       handleChanheColums()
+      let searchData: any = []
+      if (props.search && props.search.type === 'columns') {
+        searchData = []
+        props.columns.map(item => {
+          if (item.searchConfig) searchData.push(item.searchConfig)
+          return item
+        })
+      }
+      state.searchData = cloneDeep(searchData)
     }, {
       deep: true,
       immediate: true

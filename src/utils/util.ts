@@ -288,8 +288,8 @@ export function getSortIndex(data: any[] = [], pageConfig = {} as {
  */
 export function handleCurrentPage(pageConfig = {} as {
   current: number;
-  pageSize: number;
-  total: number;
+  pageSize: number | undefined;
+  total: number | undefined;
 }, number) {
   const { pageSize = 10, total = 0 } = pageConfig
   let { current = 1 } = pageConfig
