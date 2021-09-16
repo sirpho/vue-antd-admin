@@ -365,7 +365,7 @@ export default defineComponent({
             margin: 0,
             width: width.value,
             right: right.value,
-            zIndex: 100
+            zIndex: 99
           }}
           class={{
             ['wd-pro-multi-tab']: true,
