@@ -153,14 +153,14 @@
     <template #footer>
       <div class="modal-footer">
         <a-button
-          v-if="stepCurrent > 0"
+          v-if="stepCurrent > 0 && formType === 1"
           key="back"
           @click="() => { stepCurrent -= 1 }"
         >
           上一步
         </a-button>
         <a-button
-          v-if="stepCurrent < 2"
+          v-if="stepCurrent < 2 && formType === 1"
           type="primary"
           key="back"
           @click="stepConfim"
@@ -212,7 +212,6 @@ export default defineComponent({
     const { proxy }: any = getCurrentInstance()
     const state = reactive({
       isFail: false,
-      isFail: false,
       visible: false,
       spinning: false,
       skeletonLoading: false,
@@ -220,7 +219,7 @@ export default defineComponent({
       formType: 0,
       stepCurrent: 0
     })
-    const formState = reactive({
+    const formState: any = reactive({
       name: '',
       desc: ''
     })
@@ -256,7 +255,7 @@ export default defineComponent({
       state.formType = 1
       state.visible = true
       state.skeletonLoading = true
-      const response = await getRuleInfo({
+      const response: any = await getRuleInfo({
         key
       })
       if (response) {
