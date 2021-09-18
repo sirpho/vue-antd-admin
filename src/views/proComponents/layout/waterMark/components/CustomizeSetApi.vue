@@ -12,7 +12,7 @@
       这里给出一些通用配置项。如需进一步配置请联系我们。
     </a-typography>
   </a-typography>
-  <div style="position: relative;z-index: 99;margin-top: 15px;background-color: rgb(240, 242, 245);border: 1px solid #ebedf1;border-radius: 1px;">
+  <div style="position: relative;z-index: 90;margin-top: 15px;background-color: rgb(240, 242, 245);border: 1px solid #ebedf1;border-radius: 1px;">
     <div style="padding: 40px 24px;">
       <a-card
         :class="$style['wd-pro-card-contain-card']"

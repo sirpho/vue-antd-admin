@@ -406,6 +406,24 @@ const data = [
     perms: '',
     target: '',
     visible: '0'
+  },
+  {
+    checked: false,
+    children: [],
+    component: 'proPages/list/basicList/index',
+    createTime: '2020-06-30 22:48:57',
+    hiddenChildren: false,
+    hiddenHeader: false,
+    menuId: 23,
+    menuKey: 'basicList',
+    menuName: '标准表格',
+    menuType: 'C',
+    orderNum: '3',
+    params: {},
+    parentId: 20,
+    perms: '',
+    target: '',
+    visible: '0'
   }
 ]
 

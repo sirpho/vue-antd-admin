@@ -10,7 +10,7 @@
   <a-typography>
     <a-typography style="color: #454d64;">水印组件默认实现为前置水印，即设想水印会显示在内容的上方，zIndex 默认设置为 9，如果你不希望水印遮挡上层内容，可以调整该值到小于上层内容的 zIndex。</a-typography>
   </a-typography>
-  <div style="position: relative;z-index: 99;margin-top: 15px;">
+  <div style="position: relative;z-index: 90;margin-top: 15px;">
     <w-pro-watermark content="gx12358">
       <w-pro-table
         :showIndex="false"

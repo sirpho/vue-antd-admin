@@ -70,7 +70,7 @@ export function getRequestToken({ headers }: requestParams): string | undefined 
 export const builder = (token, { data = null, code, msg }: resultParams = {}) => {
   code = token ? code || 200 : 401
   msg = token ? msg || code === 200 ? 'success' : 'Request failed' : 'Request failed'
-  const result = {
+  const result: Result = {
     code,
     msg,
     data

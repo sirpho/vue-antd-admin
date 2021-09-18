@@ -25,7 +25,7 @@ export function rule(
     /** 页面的容量 */
     pageSize?: number;
   }
-): Promise<{ data: TableListItem[]; total?: number; success?: boolean; }> {
+): Promise<{ data: TableListItem[]; total?: number; }> {
   return request({
     url: '/rule_list',
     method: 'post',

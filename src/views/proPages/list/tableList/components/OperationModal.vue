@@ -198,10 +198,10 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRaw, getCurrentInstance, toRefs } from 'vue'
+import moment from 'moment'
 import { Form } from 'ant-design-vue'
 import { getRuleInfo, addRule, updateRule } from '/@/services/list/table'
 import { rules, dispatchRules, formItemLayout } from '../utils/config'
-import moment from 'moment'
 import { hanndleField } from '/@/utils/util'
 
 const useForm = Form.useForm
