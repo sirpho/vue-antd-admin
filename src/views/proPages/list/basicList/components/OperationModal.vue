@@ -28,8 +28,9 @@
             placeholder="请选择管理员"
             allow-clear
           >
-            <a-select-option value="xiao">付晓晓</a-select-option>
-            <a-select-option value="mao">周毛毛</a-select-option>
+            <a-select-option :key="item" :value="item" v-for="item in user">
+              {{ item }}
+            </a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item label="产品描述" v-bind="validateInfos.subDescription">
@@ -74,12 +75,18 @@
 </template>
 
 <script lang="ts">
-import moment from "moment"
+import moment from 'moment'
 import { defineComponent, reactive, toRaw, getCurrentInstance, toRefs } from 'vue'
 import { Form } from 'ant-design-vue'
+import type { BasicListItemDataType } from '/@/services/list/basic'
 import { getBasicListInfo, updateBasicList, addBasicList } from '/@/services/list/basic'
 import { hanndleField } from '/@/utils/util'
-import { rules } from '../utils/config'
+import { rules, formItemLayout, user } from '../utils/config'
+
+interface infoParamsItem {
+  done: boolean;
+  current: Partial<BasicListItemDataType> | undefined;
+}
 
 const useForm = Form.useForm
 
@@ -92,7 +99,10 @@ export default defineComponent({
       visible: false,
       spinning: false,
       skeletonLoading: false,
-      infoParams: {}
+      infoParams: {
+        done: false,
+        current: undefined
+      } as infoParamsItem
     })
     const formState: any = reactive({
       title: '',
@@ -109,17 +119,19 @@ export default defineComponent({
       state.spinning = false
       state.visible = false
       state.skeletonLoading = false
-      state.infoParams = {}
+      state.infoParams = {
+        done: false,
+        current: undefined
+      }
       resetFields()
     }
-    const open = (infoParams) => {
+    const open = () => {
       state.visible = true
-      state.infoParams = infoParams
     }
-    const edit = async (id, infoParams) => {
+    const edit = async (id: string, infoParams: Partial<BasicListItemDataType> | undefined) => {
       state.visible = true
       state.skeletonLoading = true
-      state.infoParams = infoParams
+      state.infoParams.current = infoParams
       const response: any = await getBasicListInfo({
         id
       })
@@ -149,6 +161,8 @@ export default defineComponent({
         .then(async () => {
           let response
           state.spinning = true
+          const params = toRaw(formState)
+          params.createdAt = moment(params.createdAt).format('YYYY-MM-DD HH:mm:ss')
           if (formState.id) {
             response = await updateBasicList(toRaw(formState))
           } else {
@@ -170,8 +184,10 @@ export default defineComponent({
     }
     return {
       ...toRefs(state),
+      user,
       formState,
       validateInfos,
+      formItemLayout,
       open,
       edit,
       handleOk,

@@ -132,9 +132,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, toRaw, onMounted } from 'vue'
+import { defineComponent, reactive, toRefs, toRaw, onActivated } from 'vue'
 import { QuestionCircleOutlined } from '@ant-design/icons-vue'
-import { getBasicForm } from '/@/services/form'
+import { getBasicForm } from '/@/services/form/basic'
 import { Form } from 'ant-design-vue'
 import { hanndleField } from '/@/utils/util'
 import moment, { Moment } from 'moment'
@@ -195,7 +195,7 @@ export default defineComponent({
         }
       ]
     })
-    onMounted(async () => {
+    onActivated(async () => {
       const response = await getBasicForm()
       if (response) {
         for (let i in response.data) {

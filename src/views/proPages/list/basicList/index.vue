@@ -34,7 +34,7 @@
         :bordered="false"
       >
         <template #extra>
-          <div :class="$style.extraContent">
+          <a-space :size="16">
             <a-radio-group v-model:value="listParams.status" @change="changeSearch">
               <a-radio-button value="all">全部</a-radio-button>
               <a-radio-button value="normal">等待中</a-radio-button>
@@ -43,14 +43,17 @@
               <a-radio-button value="success">成功</a-radio-button>
             </a-radio-group>
             <a-input-search
-              :class="$style.extraContentSearch"
               v-model:value="listParams.title"
               placeholder="请输入"
               allow-clear
               enter-button
               @search="changeSearch"
             />
-          </div>
+            <RedoOutlined
+              @click="getListData"
+              style="font-size: 18px;color: #8c8c8c;cursor: pointer;"
+            />
+          </a-space>
         </template>
         <a-list
           size="large"
@@ -62,10 +65,10 @@
           <template #renderItem="{ item }">
             <a-list-item>
               <template #actions>
-                <a key="edit">编辑</a>
+                <a key="edit" @click="$refs.operation.edit(item.id, item)">编辑</a>
                 <a-dropdown>
                   <template #overlay>
-                    <a-menu>
+                    <a-menu @click="({ key }) => editAndDelete(key, item)">
                       <a-menu-item key="edit">编辑</a-menu-item>
                       <a-menu-item key="delete">删除</a-menu-item>
                     </a-menu>
@@ -108,32 +111,37 @@
       </a-card>
     </div>
   </w-page-wrapper>
-  <a-button type="dashed" style="width: 100%;margin-bottom: 8px">
+  <a-button type="dashed" style="width: 100%;margin-bottom: 8px" @click="$refs.operation.open()">
     <PlusOutlined />
     添加
   </a-button>
+  <OperationModal ref="operation" @handleOk="getListData" />
 </template>
 
 <script lang="ts">
 import {
-  computed,
+  computed, createVNode,
   defineComponent,
   getCurrentInstance,
-  onMounted,
-  reactive,
+  onActivated,
+  reactive, ref,
   toRefs
 } from 'vue'
-import { PlusOutlined, DownOutlined } from '@ant-design/icons-vue'
+import { PlusOutlined, DownOutlined, ExclamationCircleOutlined, RedoOutlined } from '@ant-design/icons-vue'
 import type { BasicListItemDataType } from '/@/services/list/basic'
-import { getBasicList } from '/@/services/list/basic'
+import { getBasicList, removeBasicList } from '/@/services/list/basic'
+import OperationModal from './components/OperationModal.vue'
 
 export default defineComponent({
   components: {
+    RedoOutlined,
     PlusOutlined,
-    DownOutlined
+    DownOutlined,
+    OperationModal
   },
   setup() {
     const { proxy }: any = getCurrentInstance()
+    const operation = ref()
     const state = reactive({
       loading: false,
       list: [],
@@ -161,7 +169,7 @@ export default defineComponent({
         }
       }
     })
-    onMounted(() => {
+    onActivated(() => {
       getListData()
     })
     const getListData = async () => {
@@ -181,10 +189,39 @@ export default defineComponent({
     const changeSearch = () => {
       getListData()
     }
+    const editAndDelete = (key: string | number, currentItem: BasicListItemDataType) => {
+      if (key === 'edit') operation.value?.edit(currentItem.id, currentItem);
+      else if (key === 'delete') {
+        proxy.$antdconfirm({
+          title: '确定要删除吗?',
+          icon: createVNode(ExclamationCircleOutlined),
+          okText: '确定',
+          cancelText: '取消',
+          class: 'wd-pro-confirm-delete',
+          onOk() {
+            deleteItem(currentItem.id)
+          }
+        })
+      }
+    }
+    const deleteItem = async (id: string) => {
+      state.loading = true
+      const response: any = await removeBasicList({ id })
+      if (response) {
+        proxy.$message.success('操作成功！')
+        await getListData()
+      } else {
+        proxy.$message.error((response && response.msg) || '系统错误，请稍后再试！')
+      }
+      state.loading = false
+    }
     return {
       ...toRefs(state),
+      operation,
       paginationProps,
-      changeSearch
+      changeSearch,
+      getListData,
+      editAndDelete
     }
   }
 })

@@ -7,11 +7,11 @@ export const proTableProps = Object.assign({}, T.props, {
   request: {
     type: Object as PropType<requsetConfig>,
     required: false,
-    default: null,
+    default: null
   },
   params: {
     type: Object as PropType<Recordable>,
-    required: false,
+    required: false
   },
   search: {
     type: Object as PropType<searchPorps>,
@@ -22,7 +22,7 @@ export const proTableProps = Object.assign({}, T.props, {
     required: false
   },
   toolBarBtn: {
-    type: [Array] as PropType<(() => VNodeChild | JSX.Element)[]>,
+    type: [ Array ] as PropType<(() => VNodeChild | JSX.Element)[]>,
     required: false,
     default: () => []
   },
@@ -46,7 +46,7 @@ export const proTableProps = Object.assign({}, T.props, {
     default: true
   },
   headerTitle: {
-    type: [String, Function] as PropType<string | (() => VNodeChild | JSX.Element)>,
+    type: [ String, Function ] as PropType<string | (() => VNodeChild | JSX.Element)>,
     required: false
   },
   titleTip: {

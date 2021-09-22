@@ -12,24 +12,9 @@ export interface basicFormParameters {
   publicUsers?: string;
 }
 
-export function getBasicForm() {
-  return request({
-    url: '/basicForm',
-    method: 'post'
-  })
-}
-
 export function updateBasicForm(data: basicFormParameters) {
   return request({
     url: '/update/basicForm',
-    method: 'post',
-    data
-  })
-}
-
-export function getStepForm(data) {
-  return request({
-    url: '/stepForm',
     method: 'post',
     data
   })

@@ -187,7 +187,7 @@ import { defineComponent, reactive, toRefs, onActivated, computed } from 'vue'
 import { useStore } from 'vuex'
 import { cloneDeep } from 'lodash-es'
 import { Form } from 'ant-design-vue'
-import { getStepForm } from '/@/services/form'
+import { getStepForm } from '/@/services/form/step'
 import { hanndleField } from '/@/utils/util'
 
 const useForm = Form.useForm

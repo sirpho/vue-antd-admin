@@ -46,7 +46,7 @@ export function getBasicList(
 }
 
 export function getBasicListInfo(
-  params: ParamsType
+  params: Partial<BasicListItemDataType>
 ): Promise<{ data: BasicListItemDataType; }> {
   return request({
     url: '/basic_list_info',
@@ -56,20 +56,20 @@ export function getBasicListInfo(
 }
 
 export function updateBasicList(
-  params: ParamsType
+  params: Partial<BasicListItemDataType>
 ) {
   return request({
-    url: '/rule',
+    url: '/post_basic_list',
     method: 'PUT',
     data: params
   })
 }
 
 export function addBasicList(
-  params: ParamsType
+  params: Partial<BasicListItemDataType>
 ) {
   return request({
-    url: '/rule',
+    url: '/post_basic_list',
     method: 'POST',
     data: params
   })
@@ -79,7 +79,7 @@ export function removeBasicList(
   params: ParamsType
 ) {
   return request({
-    url: '/rule',
+    url: '/post_basic_list',
     method: 'DELETE',
     data: params
   })

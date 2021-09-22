@@ -9,7 +9,7 @@ type Member = {
   id: string;
 };
 
-type BasicListItemDataType = {
+type CardListItemDataType = {
   id: string;
   owner: string;
   title: string;
@@ -81,11 +81,11 @@ const user = [
   '仲尼'
 ]
 
-function basicList(count: number): BasicListItemDataType[] {
-  const list: BasicListItemDataType[] = []
+function basicList(count: number): CardListItemDataType[] {
+  const list: CardListItemDataType[] = []
   for (let i = 0; i < count; i += 1) {
     list.push({
-      id: `basic-list-${i}`,
+      id: `card-list-${i}`,
       owner: user[i % 10],
       title: titles[i % 8],
       avatar: avatars[i % 8],
@@ -135,7 +135,7 @@ function basicList(count: number): BasicListItemDataType[] {
   return list
 }
 
-let sourceData: BasicListItemDataType[] = basicList(100)
+const sourceData: CardListItemDataType[] = basicList(100)
 
 function getBasicList(params) {
 
@@ -169,36 +169,9 @@ function getBasicList(params) {
   }
 }
 
-function postBasicList(body, type) {
-  const { id } = body
-
-  switch (type) {
-    case 'delete':
-      sourceData = sourceData.filter((item) => item.id !== id)
-      break
-    case 'update':
-      sourceData = sourceData.map((item) => {
-        if (item.id === id) {
-          return { ...item, ...body }
-        }
-        return item
-      })
-      break
-    case 'add':
-      sourceData.unshift({
-        ...body,
-        id: `basic-list-${sourceData.length}`,
-        createdAt: moment(new Date().getTime()).format('YYYY-MM-DD HH:mm:ss')
-      })
-      break
-    default:
-      break
-  }
-}
-
 export default [
   {
-    url: '/mock-server/get_basic_list',
+    url: '/mock-server/card_fake_list',
     timeout: 200,
     method: 'post',
     response: (request: requestParams) => {
@@ -206,50 +179,6 @@ export default [
       return builder(token, {
         data: cloneDeep(getBasicList(request.body))
       })
-    }
-  },
-  {
-    url: '/mock-server/basic_list_info',
-    timeout: 200,
-    method: 'post',
-    response: (request: requestParams) => {
-      const token = getRequestToken(request)
-      const { id } = request.body
-      return builder(token, {
-        data: sourceData.find(item => item.id === id),
-        code: sourceData.some(item => item.id === id) ? 200 : 500,
-        msg: '请传入正确的key值！'
-      })
-    }
-  },
-  {
-    url: '/mock-server/post_basic_list',
-    timeout: 200,
-    method: 'post',
-    response: (request: requestParams) => {
-      const token = getRequestToken(request)
-      postBasicList(request.body, 'add')
-      return builder(token)
-    }
-  },
-  {
-    url: '/mock-server/post_basic_list',
-    timeout: 200,
-    method: 'put',
-    response: (request: requestParams) => {
-      const token = getRequestToken(request)
-      postBasicList(request.body, 'update')
-      return builder(token)
-    }
-  },
-  {
-    url: '/mock-server/post_basic_list',
-    timeout: 200,
-    method: 'delete',
-    response: (request: requestParams) => {
-      const token = getRequestToken(request)
-      postBasicList(request.body, 'delete')
-      return builder(token)
     }
   }
 ] as MockMethod[]
