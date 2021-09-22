@@ -53,7 +53,7 @@
                 <a href="#">全部项目</a>
               </template>
               <div>
-                <a-card-grid class="project-card-grid" :key="i" v-for="(item, i) in notice">
+                <a-card-grid :class="$style['project-card-grid']" :key="i" v-for="(item, i) in notice">
                   <a-card :bordered="false" :body-style="{ padding: 0 }">
                     <a-card-meta>
                       <template #title>
