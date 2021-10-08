@@ -480,6 +480,24 @@ const data = [
     perms: '',
     target: '',
     visible: '0'
+  },
+  {
+    checked: false,
+    children: [],
+    component: 'proPages/profile/advanced/index',
+    createTime: '2020-06-30 22:48:57',
+    hiddenChildren: false,
+    hiddenHeader: false,
+    menuId: 27,
+    menuKey: 'advanced',
+    menuName: '高级详情页',
+    menuType: 'C',
+    orderNum: '2',
+    params: {},
+    parentId: 25,
+    perms: '',
+    target: '',
+    visible: '0'
   }
 ]
 

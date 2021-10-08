@@ -16,6 +16,7 @@
 import {
   defineComponent,
   ref,
+  provide,
   reactive,
   watchEffect,
   computed,
@@ -65,6 +66,7 @@ export default defineComponent({
         isRouterAlive.value = true
       })
     }
+    provide('reloadPage', handleReloadPage)
     return {
       loading: computed(() => store.getters['routes/routerLoading']),
       layout: computed(() => store.getters['settings/layout']),

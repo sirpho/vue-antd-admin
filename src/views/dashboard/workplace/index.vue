@@ -199,7 +199,7 @@ export default defineComponent({
     const isMobile = computed(
       () => (colSize.value === 'sm' || colSize.value === 'xs')
     )
-    const reloadCurrentPage: any = inject('reload')
+    const reloadCurrentPage: any = inject('reloadPage')
     const welcome = ref('祝你开心每一天！')
     const state: stateTypes = reactive({
       timeFix: timeFix(),
