@@ -1,10 +1,12 @@
 <template>
   <w-page-wrapper>
     <div style="padding: 24px;background: #f0f2f5;">
-      <a-form :class="$style['advance-form-block']"
+      <a-form
+        :class="$style['advance-form-block']"
         :model="formState"
         layout="vertical"
-        :scrollToFirstError="true">
+        :scrollToFirstError="true"
+      >
         <a-card title="仓库管理" :class="$style.card" :bordered="false">
           <a-row :gutter="16">
             <a-col :lg="6" :md="12" :sm="24">

@@ -8,3 +8,5 @@ export const withInstall = <T>(comp: T, name?: string) => {
 
   return comp as T & Plugin
 }
+
+

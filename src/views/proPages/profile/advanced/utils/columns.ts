@@ -1,31 +1,29 @@
-import type { ProColumns } from '/@/components/WProTable/types/column'
-
-export const progressColumns: ProColumns[] = [
+export const columns = [
   {
-    title: '时间',
-    dataIndex: 'time',
-    key: 'time'
+    title: '操作类型',
+    dataIndex: 'type',
+    key: 'type'
   },
   {
-    title: '当前进度',
-    dataIndex: 'rate',
-    key: 'rate'
+    title: '操作人',
+    dataIndex: 'name',
+    key: 'name'
   },
   {
-    title: '状态',
+    title: '执行结果',
     dataIndex: 'status',
     key: 'status',
     slots: { customRender: 'status' }
   },
 
   {
-    title: '操作员ID',
-    dataIndex: 'operator',
-    key: 'operator'
+    title: '操作时间',
+    dataIndex: 'updatedAt',
+    key: 'updatedAt'
   },
   {
-    title: '耗时',
-    dataIndex: 'cost',
-    key: 'cost'
+    title: '备注',
+    dataIndex: 'memo',
+    key: 'memo'
   }
 ]

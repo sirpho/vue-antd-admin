@@ -1,5 +1,3 @@
-import BasicLayout from '/@/layout/BasicLayout.vue'
-import PageView from '/@/layout/PageView.vue'
 import config from '/config/config'
 import { hasRole } from '/@/utils/hasRole'
 
@@ -10,8 +8,8 @@ let dynamicViewsModules: Record<string, () => Promise<Recordable>>
 // 前端路由表
 const constantRouterComponents = {
   // 基础页面 layout 必须引入
-  BasicLayout: BasicLayout, // 基础页面布局，包含了头部导航，侧边栏和通知栏
-  PageView: PageView
+  BasicLayout: () => import('/@/layout/BasicLayout.vue'), // 基础页面布局，包含了头部导航，侧边栏和通知栏
+  PageView: () => import('/@/layout/PageView.vue')
   // 你需要动态引入的页面组件
 }
 /**

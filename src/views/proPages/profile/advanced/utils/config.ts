@@ -1,45 +1,28 @@
-export const rules = {
-  title: [
-    {
-      required: true,
-      message: '请输入任务名称'
-    }
-  ],
-  createdAt: [
-    {
-      required: true,
-      message: '请选择开始时间',
-    },
-  ],
-  owner: [
-    {
-      required: true,
-      message: '请选择任务负责人',
-    },
-  ],
-  subDescription: [
-    {
-      required: true,
-      message: '请输入至少五个字符的产品描述！',
-      min: 5
-    },
-  ]
-}
-
-export const user = [
-  '付小小',
-  '曲丽丽',
-  '林东东',
-  '周星星',
-  '吴加好',
-  '朱偏右',
-  '鱼酱',
-  '乐哥',
-  '谭小仪',
-  '仲尼'
+export const tabList = [
+  {
+    key: 'detail',
+    tab: '详情'
+  },
+  {
+    key: 'rule',
+    tab: '规则'
+  }
 ]
 
-export const formItemLayout = {
-  labelCol: { span: 3 },
-  wrapperCol: { span: 21 },
-}
+export const operationTabList = [
+  {
+    key: 'tab1',
+    tab: '操作日志一',
+    tableData: []
+  },
+  {
+    key: 'tab2',
+    tab: '操作日志二',
+    tableData: []
+  },
+  {
+    key: 'tab3',
+    tab: '操作日志三',
+    tableData: []
+  }
+]

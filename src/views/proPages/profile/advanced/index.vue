@@ -8,7 +8,7 @@
       </div>
       <div :class="$style['header-deading-extra']">
         <template v-if="isMobile">
-          <a-dropdown-button>
+          <a-dropdown-button type="primary" placement="bottomRight">
             <template #icon>
               <DownOutlined />
             </template>
@@ -28,7 +28,7 @@
           <a-button-group>
             <a-button>操作一</a-button>
             <a-button>操作二</a-button>
-            <a-dropdown>
+            <a-dropdown placement="bottomRight">
               <template #overlay>
                 <a-menu>
                   <a-menu-item key="1">选项一</a-menu-item>
@@ -72,12 +72,17 @@
       </div>
     </div>
     <div :class="$style['header-footer']">
-      <a-tabs v-model:activeKey="activeKey">
-        <a-tab-pane v-for="item in tabList" :key="item.key" :tab="item.tab"></a-tab-pane>
+      <a-tabs v-model:activeKey="tabStatus.tabActiveKey" @change="onTabChange">
+        <a-tab-pane v-for="item in tabList" :key="item.key" :tab="item.tab" />
       </a-tabs>
     </div>
     <div :class="$style.main">
-      <a-card title="流程进度" :style="{ marginBottom: '24px' }">
+      <a-card
+        :class="$style['main-card']"
+        title="流程进度"
+        style="margin-bottom: 24px"
+        :bordered="false"
+      >
         <a-steps :direction="isMobile ? 'vertical' : 'horizontal'" :current="1">
           <template #progressDot="{ status, prefixCls }">
             <a-popover v-if="status === 'process'" placement="topLeft" arrowPointAtCenter>
@@ -126,6 +131,96 @@
           <a-step title="完成" />
         </a-steps>
       </a-card>
+      <a-card
+        :class="$style['main-card']"
+        title="用户信息"
+        style="margin-bottom: 24px"
+        :bordered="false"
+      >
+        <a-descriptions style="margin-bottom: 24px">
+          <a-descriptions-item label="用户姓名">付小小</a-descriptions-item>
+          <a-descriptions-item label="会员卡号">32943898021309809423</a-descriptions-item>
+          <a-descriptions-item label="身份证">3321944288191034921</a-descriptions-item>
+          <a-descriptions-item label="联系方式">18112345678</a-descriptions-item>
+          <a-descriptions-item label="联系地址">
+            曲丽丽 18100000000 浙江省杭州市西湖区黄姑山路工专路交叉路口
+          </a-descriptions-item>
+        </a-descriptions>
+        <a-descriptions style="margin-bottom: 24px" title="信息组">
+          <a-descriptions-item label="某某数据">725</a-descriptions-item>
+          <a-descriptions-item label="该数据更新时间">2017-08-08</a-descriptions-item>
+          <a-descriptions-item>
+            <template #label>
+              <span>
+                某某数据
+                <a-tooltip title="数据说明">
+                  <InfoCircleOutlined style="margin-left: 4px;color: rgba(0, 0, 0, 0.43);" />
+                </a-tooltip>
+              </span>
+            </template>
+          </a-descriptions-item>
+          <a-descriptions-item label="该数据更新时间">2017-08-08</a-descriptions-item>
+        </a-descriptions>
+        <h4 style="margin-bottom: 16px">信息组</h4>
+        <a-card type="inner" title="多层级信息组">
+          <a-descriptions style="margin-bottom: 16px" title="组名称">
+            <a-descriptions-item label="负责人">林东东</a-descriptions-item>
+            <a-descriptions-item label="角色码">1234567</a-descriptions-item>
+            <a-descriptions-item label="所属部门">XX公司 - YY部</a-descriptions-item>
+            <a-descriptions-item label="过期时间">2017-08-08</a-descriptions-item>
+            <a-descriptions-item label="描述">
+              这段描述很长很长很长很长很长很长很长很长很长很长很长很长很长很长...
+            </a-descriptions-item>
+          </a-descriptions>
+          <a-divider style="margin: 16px 0" />
+          <a-descriptions style="margin-bottom: 16px" title="组名称" :column="1">
+            <a-descriptions-item label="学名">
+              Citrullus lanatus (Thunb.) Matsum. et
+              Nakai一年生蔓生藤本；茎、枝粗壮，具明显的棱。卷须较粗..
+            </a-descriptions-item>
+          </a-descriptions>
+          <a-divider style="margin: 16px 0" />
+          <a-descriptions title="组名称">
+            <a-descriptions-item label="负责人">付小小</a-descriptions-item>
+            <a-descriptions-item label="角色码">1234568</a-descriptions-item>
+          </a-descriptions>
+        </a-card>
+      </a-card>
+      <a-card
+        :class="$style['main-card']"
+        title="用户近半年来电记录"
+        style="margin-bottom: 24px"
+        :bordered="false"
+      >
+        <a-empty />
+      </a-card>
+      <a-card
+        :class="[ $style['main-card'], $style.tabsCard ]"
+        :tabList="operationTabList"
+        :bordered="false"
+        @tabChange="onOperationTabChange"
+      >
+        <template v-for="(item, index) in operationTabList">
+          <w-pro-table
+            v-if="item.key === tabStatus.operationKey"
+            :key="index"
+            :showIndex="false"
+            :showPagination="false"
+            :options="false"
+            :loading="false"
+            :toolBarBtn="false"
+            :dataSource="item.tableData"
+            :columns="columns"
+          >
+            <template #status="{ text }">
+              <a-badge
+                :status="text === 'agree' ? 'success' : 'error'"
+                :text="text === 'agree' ? '成功' : '驳回'"
+              />
+            </template>
+          </w-pro-table>
+        </template>
+      </a-card>
     </div>
   </w-page-wrapper>
 </template>
@@ -139,44 +234,49 @@ import {
   reactive,
   toRefs
 } from 'vue'
-import { DownOutlined, EllipsisOutlined, DingdingOutlined } from '@ant-design/icons-vue'
+import {
+  DownOutlined,
+  EllipsisOutlined,
+  DingdingOutlined,
+  InfoCircleOutlined
+} from '@ant-design/icons-vue'
 import { queryAdvancedProfile } from '/@/services/profile/advanced'
 import useMediaQuery from '/@/components/_util/useMediaQuery'
+import { columns } from './utils/columns'
+import { tabList, operationTabList } from './utils/config'
+
+type AdvancedState = {
+  operationKey: string;
+  tabActiveKey: string;
+};
 
 export default defineComponent({
   components: {
     DownOutlined,
     EllipsisOutlined,
-    DingdingOutlined
+    DingdingOutlined,
+    InfoCircleOutlined
   },
   setup() {
     const colSize = useMediaQuery()
     const { proxy }: any = getCurrentInstance()
     const state = reactive({
       loading: false,
-      activeKey: '',
-      tabList: [
-        {
-          key: 'detail',
-          tab: '详情'
-        },
-        {
-          key: 'rule',
-          tab: '规则'
-        }
-      ],
-      tableList: {
-        advancedOperation1: [],
-        advancedOperation2: [],
-        advancedOperation3: []
-      }
+      tabStatus: {
+        operationKey: 'tab1',
+        tabActiveKey: 'detail'
+      } as AdvancedState,
+      tabList: tabList,
+      operationTabList: operationTabList,
+      columns
     })
     const isMobile = computed(
       () => (colSize.value === 'sm' || colSize.value === 'xs')
     )
     onActivated(() => {
+      getListData()
       setTimeout(() => {
-        state.activeKey = 'detail'
+        state.tabStatus.tabActiveKey = 'detail'
       }, 200)
     })
     const getListData = async () => {
@@ -188,18 +288,43 @@ export default defineComponent({
           advancedOperation2 = [],
           advancedOperation3 = []
         } = response.data || {}
-        state.tableList.advancedOperation1 = advancedOperation1
-        state.tableList.advancedOperation2 = advancedOperation2
-        state.tableList.advancedOperation3 = advancedOperation3
+        state.operationTabList = state.operationTabList.map((item: any) => {
+          switch (item.key) {
+            case 'tab1':
+              item.tableData = advancedOperation1
+              break
+            case 'tab2':
+              item.tableData = advancedOperation2
+              break
+            case 'tab3':
+              item.tableData = advancedOperation3
+              break
+          }
+          return item
+        })
       } else {
         proxy.$message.error((response && response.msg) || '系统错误，请稍后再试！')
       }
       state.loading = false
     }
+    const onTabChange = (tabActiveKey: string) => {
+      state.tabStatus = {
+        ...state.tabStatus,
+        tabActiveKey
+      }
+    }
+    const onOperationTabChange = (key: string) => {
+      state.tabStatus = {
+        ...state.tabStatus,
+        operationKey: key
+      }
+    }
     return {
       ...toRefs(state),
       isMobile,
-      getListData
+      getListData,
+      onTabChange,
+      onOperationTabChange
     }
   }
 })

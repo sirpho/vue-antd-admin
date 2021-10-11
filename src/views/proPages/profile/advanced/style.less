@@ -10,6 +10,7 @@
   }
   
   &-extra {
+    margin: 4px 0;
     white-space: nowrap;
   }
   
@@ -96,6 +97,39 @@
     
     .ant-page-header-heading-extra {
       flex-direction: column;
+    }
+  }
+  
+  &-card {
+    box-shadow: 0 2px 8px #00000017;
+  }
+}
+
+@media screen and (max-width: @screen-xl) {
+  .container-main {
+    .container-extraContent {
+      margin-left: 44px;
+    }
+  }
+}
+
+@media screen and (max-width: @screen-lg) {
+  .container-main {
+    .container-extraContent {
+      margin-left: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: @screen-md) {
+  .container-main {
+    .container-row {
+      display: block;
+    }
+    
+    .container-extraContent {
+      margin-left: 0;
+      text-align: left;
     }
   }
 }

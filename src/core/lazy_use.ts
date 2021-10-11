@@ -74,7 +74,9 @@ import {
   BackTop,
   Result,
   Popconfirm,
-  Badge
+  Badge,
+  AutoComplete,
+  Upload
 } from 'ant-design-vue'
 
 const ant = {
@@ -98,6 +100,8 @@ const ant = {
     app.component('w-doc', WDocumentation)
     app.component('w-tag-select', WTagSelect)
     app.component('w-tag-select-option', WTagSelectOption)
+    app.use(Upload)
+    app.use(AutoComplete)
     app.use(Result)
     app.use(Badge)
     app.use(Popconfirm)

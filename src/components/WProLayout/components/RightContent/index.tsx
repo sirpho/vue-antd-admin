@@ -3,6 +3,9 @@ import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { LogoutOutlined } from '@ant-design/icons-vue'
 import config from '/config/config'
+import HeaderSearch from './HeaderSearch'
+import AvatarDropdown from './AvatarDropdown'
+import NoticeIcon from '../NoticeIcon'
 
 export default defineComponent({
   components: { LogoutOutlined },
@@ -31,27 +34,37 @@ export default defineComponent({
     }
 
     return () => (
-      <a-dropdown
-        overlay={
-          <a-menu>
-            <a-menu-item key="3" onClick={logout}>
-              <a href="javascript:">
-                <LogoutOutlined />
-                <span>退出登录</span>
-              </a>
-            </a-menu-item>
-          </a-menu>
-        }
-      >
-        <span class="wd-pro-dropdown wd-pro-dropdown-action">
-          <a-avatar
-            src={avatar.value}
-            size="small"
-            class="wd-pro-global-header-account-avatar"
-          />
-          <span class="wd-pro-global-header-account-name">{username.value}</span>
-        </span>
-      </a-dropdown>
+      <a-space>
+        <HeaderSearch
+          className={`wd-pro-right-content-action wd-pro-header-search`}
+          placeholder="站内搜索"
+          defaultValue="umi ui"
+          options={[
+            {
+              label: <a>umi ui</a>,
+              value: 'umi ui'
+            },
+            {
+              label: <a>Ant Design</a>,
+              value: 'Ant Design'
+            },
+            {
+              label: <a>Pro Table</a>,
+              value: 'Pro Table'
+            },
+            {
+              label: <a>Pro Layout</a>,
+              value: 'Pro Layout'
+            }
+          ]}
+        />
+        <NoticeIcon />
+        <AvatarDropdown
+          avatar={avatar.value}
+          username={username.value}
+          onLogout={logout}
+        />
+      </a-space>
     )
   }
 })

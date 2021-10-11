@@ -12,7 +12,6 @@ export const fieldLabels = {
   dateRange2: '生效日期',
   type2: '任务类型'
 }
-
 export const rules = {
   name: [
     { required: true, message: '请输入仓库名称' }

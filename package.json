@@ -33,6 +33,8 @@
   "dependencies": {
     "@antv/data-set": "^0.11.8",
     "@antv/g2": "^4.1.23",
+    "@logicflow/core": "^0.6.16",
+    "@logicflow/extension": "^0.6.16",
     "animate.css": "^4.1.1",
     "ant-design-vue": "2.2.6",
     "axios": "^0.21.1",
