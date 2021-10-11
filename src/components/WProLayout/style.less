@@ -183,6 +183,10 @@ html {
               }
             }
           }
+  
+          .anticon {
+            color: #fff;
+          }
         }
         
         &.light {
@@ -506,6 +510,129 @@ html {
           margin-left: 8px;
           font-size: 12px;
           color: rgba(0, 0, 0, 0.45);
+        }
+      }
+      
+      &-setting-drawer {
+        &-handle {
+          position: absolute;
+          top: 240px;
+          right: 300px;
+          z-index: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 48px;
+          height: 48px;
+          font-size: 16px;
+          text-align: center;
+          pointer-events: auto;
+          cursor: pointer;
+          background: #1890ff;
+          border-radius: 4px 0 0 4px;
+        }
+        
+        &-content {
+          position: relative;
+          min-height: 100%;
+        }
+        
+        &-title {
+          margin-bottom: 12px;
+          font-size: 14px;
+          line-height: 22px;
+          color: rgba(0, 0, 0, .85);
+        }
+        
+        &-block-checbox {
+          display: flex;
+          
+          &-item {
+            position: relative;
+            width: 44px;
+            height: 36px;
+            margin-right: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            background-color: #f0f2f5;
+            border-radius: 4px;
+            box-shadow: 0 1px 2.5px 0 rgb(0 0 0 / 18%);
+            
+            &::before {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 33%;
+              height: 100%;
+              content: "";
+              background-color: #fff;
+            }
+            
+            &::after {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 25%;
+              content: "";
+              background-color: #fff;
+            }
+            
+            &-light {
+              &::before {
+                content: "";
+                background-color: #fff;
+              }
+              
+              &::after {
+                background-color: #fff;
+              }
+            }
+            
+            &-dark {
+              &::before {
+                content: "";
+                background-color: #001529;
+              }
+              
+              &::after {
+                background-color: #001529;
+              }
+            }
+            
+            &-side {
+              &::before {
+                z-index: 1;
+                content: "";
+                background-color: #001529;
+              }
+              
+              &::after {
+                background-color: #fff;
+              }
+            }
+            
+            &-mix {
+              &::before {
+                content: "";
+                background-color: #ffffff;
+              }
+              
+              &::after {
+                background-color: #001529;
+              }
+            }
+          }
+          
+          &-selectIcon {
+            position: absolute;
+            right: 6px;
+            bottom: 4px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #1890ff;
+            pointer-events: none;
+          }
         }
       }
     }

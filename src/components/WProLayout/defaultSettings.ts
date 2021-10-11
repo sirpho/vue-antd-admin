@@ -20,11 +20,11 @@ export const defaultSettings: themeConfig = {
   // 头部菜单高度
   headerHeight: 48,
   // 头部菜单是否固定
-  fixedMultiTab: false,
-  // 头部菜单是否固定
   fixedHeader: false,
   // 侧边栏菜单是否固定
   fixSiderbar: false,
+  // 标签页栏是否固定
+  fixedMultiTab: false,
   //是否显示顶部进度条
   showProgressBar: true,
   //是否显示多标签页
@@ -33,7 +33,7 @@ export const defaultSettings: themeConfig = {
   showFullScreen: false,
   //是否自动隐藏头部
   autoHideHeader: false,
-  //页面动画配置
+  //菜单字体链接Url
   iconfontUrl: '',
   //页面动画配置
   animate: {
@@ -54,6 +54,10 @@ export const defaultSettingProps = {
   fixedMultiTab: {
     type: Boolean as PropType<themeConfig['fixedMultiTab']>,
     default: defaultSettings.fixedMultiTab
+  },
+  showProgressBar: {
+    type: Boolean as PropType<themeConfig['showProgressBar']>,
+    default: defaultSettings.showProgressBar
   },
   fixedHeader: {
     type: Boolean as PropType<themeConfig['fixedHeader']>,
@@ -88,7 +92,7 @@ export const defaultSettingProps = {
     default: () => defaultSettings.iconfontUrl
   },
   animate: {
-    type: Boolean as PropType<themeConfig['animate']>,
+    type: Object as PropType<themeConfig['animate']>,
     default: defaultSettings.animate
   }
 }

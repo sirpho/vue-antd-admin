@@ -175,6 +175,7 @@ export default defineComponent({
               isMobile={isMobile.value}
               isChildrenLayout={props.isChildrenLayout}
               loading={props.loading}
+              isShowTabsBar={props.showTabsBar}
               isFixedMultiTab={props.fixedMultiTab}
               siderWidth={props.siderWidth}
               collapsed={props.collapsed}

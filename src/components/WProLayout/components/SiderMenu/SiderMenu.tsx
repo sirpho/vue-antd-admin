@@ -23,7 +23,6 @@ export const defaultRenderCollapsedButton = (collapsed?: boolean): CustomRender 
 const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
   const {
     layout,
-    theme,
     isMobile,
     menuLoading,
     breakpoint,
@@ -48,7 +47,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
     return [
       'wd-pro-sider',
       isMobile ? 'shadow' : null,
-      theme,
+      sTheme.value,
       fixSiderbar ? 'wd-pro-sider-fixed' : null
     ]
   })
@@ -123,7 +122,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
         class={classNames.value}
         style={{
           overflow: 'hidden',
-          zIndex: fixSiderbar ? 100 : undefined,
+          zIndex: fixSiderbar ? 101 : undefined,
           paddingTop:
             props.layout === 'side' || props.isMobile ? 0 : `${props.headerHeight}px`
         }}

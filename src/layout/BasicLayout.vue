@@ -10,6 +10,7 @@
     @menuHeaderClick="menuHeaderClick"
   >
     <w-pro-content :animate="animate" :isRouterAlive="isRouterAlive" />
+    <setting-drawer :settings="state" @change="handleSettingChange" />
   </w-pro-layout>
 </template>
 <script lang="ts">
@@ -24,12 +25,18 @@ import {
 } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import { RouteContextProps, getMenuData, clearMenuItem } from '@wd-pro/pro-layout'
+import config from '/config/config'
+import { RouteContextProps, getMenuData, clearMenuItem, SettingDrawer } from '@wd-pro/pro-layout'
 import WProContent from './ContentView.vue'
+
+const { animate } = config
+
+const { preset } = animate
 
 export default defineComponent({
   components: {
-    WProContent
+    WProContent,
+    SettingDrawer
   },
   setup() {
     const store = useStore()
@@ -49,7 +56,9 @@ export default defineComponent({
       fixedHeader: computed(() => store.getters['settings/fixedHeader']),
       fixSiderbar: computed(() => store.getters['settings/fixSiderbar']),
       showTabsBar: computed(() => store.getters['settings/showTabsBar']),
-      autoHideHeader: computed(() => store.getters['settings/autoHideHeader'])
+      autoHideHeader: computed(() => store.getters['settings/autoHideHeader']),
+      showProgressBar: computed(() => store.getters['settings/showProgressBar']),
+      animate: computed(() => store.getters['settings/animate'])
     })
     watchEffect(() => {
       if (router.currentRoute) {
@@ -60,6 +69,58 @@ export default defineComponent({
           .map(r => r.path)
       }
     })
+    const handleSettingChange = ({ type, value }) => {
+      switch (type) {
+        case 'theme':
+          store.dispatch('settings/changeTheme', value)
+          break
+        case 'layout':
+          store.dispatch('settings/changeLayout', value)
+          if (value === 'mix') {
+            store.dispatch('settings/changeFixedHeader', true)
+            store.dispatch('settings/changeFixSiderbar', true)
+          }
+          break
+        case 'fixedHeader':
+          store.dispatch('settings/changeFixedHeader', value)
+          if (state.layout === 'side' && !value) store.dispatch(
+            'settings/changeFixedMultiTab',
+            value
+          )
+          break
+        case 'fixSiderbar':
+          store.dispatch('settings/changeFixSiderbar', value)
+          break
+        case 'showTabsBar':
+          store.dispatch('settings/handleShowTabsBar', value)
+          break
+        case 'fixedMultiTab':
+          store.dispatch('settings/changeFixedMultiTab', value)
+          if (state.layout === 'side' && value) store.dispatch(
+            'settings/changeFixedHeader',
+            value
+          )
+          break
+        case 'showProgressBar':
+          store.dispatch('settings/handleShowProgressBar', value)
+          break
+        case 'showAnimate':
+          store.dispatch('settings/handleShowAnimate', !value)
+          break
+        case 'changeAnimateMode':
+          store.dispatch('settings/changeAnimateMode', value)
+          store.dispatch(
+            'settings/changeAnimateDirections',
+            preset.find((el: any) => el.name === value)?.directions.includes('default')
+              ? 'default'
+              : preset.find((el: any) => el.name === value)?.directions[0]
+          )
+          break
+        case 'changeAnimateDirections':
+          store.dispatch('settings/changeAnimateDirections', value)
+          break
+      }
+    }
     const handleReloadPage = () => {
       isRouterAlive.value = false
       nextTick(() => {
@@ -76,6 +137,7 @@ export default defineComponent({
       state,
       baseState,
       handleReloadPage,
+      handleSettingChange,
       toggleCollapse: () => {
         store.dispatch('settings/toggleCollapse')
       },

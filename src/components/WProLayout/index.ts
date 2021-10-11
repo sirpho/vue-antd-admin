@@ -14,6 +14,7 @@ export type { MenuMode, OpenEventHandler, SelectInfo } from './components/SiderM
 
 export { DefaultHeader } from './components/GlobalHeader/DefaultHeader'
 export { default as GlobalFooter } from './components/GlobalFooter'
+export { default as SettingDrawer } from './components/SettingDrawer'
 export { WrapContent } from './WrapContent'
 
 export type { DefaultHeaderProps } from './components/GlobalHeader/DefaultHeader'

@@ -77,7 +77,7 @@ export default defineComponent({
             height: `${headerHeight.value}px`,
             lineHeight: `${headerHeight.value}px`,
             width: width.value,
-            zIndex: layout.value === 'side' ? 19 : 100,
+            zIndex: layout.value === 'side' ? 100 : 101,
             right: right.value
           }}
         >

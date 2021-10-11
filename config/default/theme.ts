@@ -24,6 +24,8 @@ const themeSetting: themeConfig = {
   showTabsBar: true,
   //是否显示全屏组件
   showFullScreen: false,
+  //菜单字体链接Url
+  iconfontUrl: '',
   //是否自动隐藏头部
   autoHideHeader: false,
   //页面动画配置

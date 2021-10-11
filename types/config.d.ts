@@ -64,7 +64,11 @@ export interface themeConfig {
   autoHideHeader: boolean;
   title: string;
   iconfontUrl?: string;
-  animate?: object;
+  animate?: {
+    disabled?: boolean;
+    name: string;
+    direction: string;
+  };
 }
 
 export interface customizeConfig {
