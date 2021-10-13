@@ -1,18 +1,18 @@
 import {
+  watch,
   computed,
   defineComponent,
   getCurrentInstance,
   onBeforeUnmount,
   onMounted,
-  ref,
-  watch
+  ref
 } from 'vue'
 import { Modal as T } from 'ant-design-vue'
 import { CloseOutlined, FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons-vue'
+import { getRandomNumber } from '/@/utils/util'
 import { useModalDragMove } from './hooks/useModalDrag'
 
 import styles from './style.module.less'
-import { getRandomNumber } from '/@/utils/util'
 
 export default defineComponent({
   props: Object.assign({}, T.props, {
@@ -140,7 +140,7 @@ export default defineComponent({
         if (modalContentRef) modalContentRef['classList'].remove('wd-pro-modal-full-screen')
       } else {
         const el: any = modalContentRef
-        el.classList.add('wd-pro-full-screen')
+        el.classList.add('wd-pro-modal-full-screen')
         if (el.requestFullscreen) {
           el.requestFullscreen()
           return true
