@@ -234,7 +234,6 @@ const TableSearch = defineComponent({
     }
     const dataEntrySlot = (record) => {
       let show
-      console.log(record.valueType)
       switch (record.valueType) {
         case 'text':
           show = (

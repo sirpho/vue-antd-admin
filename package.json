@@ -35,6 +35,7 @@
     "@antv/g2": "^4.1.23",
     "@logicflow/core": "^0.6.16",
     "@logicflow/extension": "^0.6.16",
+    "@vueuse/core": "^6.5.3",
     "animate.css": "^4.1.1",
     "ant-design-vue": "2.2.6",
     "axios": "^0.21.1",

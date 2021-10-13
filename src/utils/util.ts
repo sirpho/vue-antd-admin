@@ -33,6 +33,10 @@ export function trim(str: string, isGlobal: boolean) {
   return result
 }
 
+export function isFunction(val: unknown): val is Function {
+  return typeof val === 'function';
+}
+
 /**
  * @Author      gaoxiang
  * @DateTime    2019/11/29
