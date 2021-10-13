@@ -1,7 +1,7 @@
 @import "./design/styles/index.less";
 @import "./assets/menu_font/index.less";
 
-.wd-pro-full-screen,.wd-pro-modal-full-screen {
+.wd-pro-full-screen {
   scrollbar-color: @primary-color @primary-2;
   scrollbar-width: thin;
   -ms-overflow-style: none;
@@ -26,7 +26,21 @@
 }
 
 .wd-pro-modal-full-screen {
-  padding: 0;
+  overflow: hidden;
+  
+  &.ant-modal {
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100%;
+  }
+  
+  .ant-modal-content {
+    height: 100% !important;
+    box-shadow: 0 4px 8px #0003, 0 6px 20px #00000030 !important;
+  }
 }
 
 #wd-pro-admin {

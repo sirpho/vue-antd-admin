@@ -2,9 +2,6 @@ import {
   watch,
   computed,
   defineComponent,
-  getCurrentInstance,
-  onBeforeUnmount,
-  onMounted,
   ref
 } from 'vue'
 import { Modal as T } from 'ant-design-vue'
@@ -55,7 +52,6 @@ export default defineComponent({
     }
   }),
   setup(props, { emit, slots }: any) {
-    const { proxy }: any = getCurrentInstance()
     const modalClassName = 'wd-pro-modal'
     const modalWrapperRef = ref()
     const innerWidth = ref(window.innerWidth)
@@ -81,28 +77,15 @@ export default defineComponent({
       deep: true,
       immediate: true
     })
-    onMounted(() => {
-      document.addEventListener('fullscreenchange', fullScreenListener)
-      document.addEventListener('webkitfullscreenchange', fullScreenListener)
-      document.addEventListener('mozfullscreenchange', fullScreenListener)
-      document.addEventListener('msfullscreenchange', fullScreenListener)
-    })
-    onBeforeUnmount(() => {
-      document.removeEventListener('fullscreenchange', fullScreenListener)
-      document.removeEventListener('webkitfullscreenchange', fullScreenListener)
-      document.removeEventListener('mozfullscreenchange', fullScreenListener)
-      document.removeEventListener('msfullscreenchange', fullScreenListener)
-    })
     const onCancel = () => {
-      if (fullScreen.value) toggleScreen()
       emit('cancel')
     }
     const handleFullScreen = (e) => {
       e?.stopPropagation()
       e?.preventDefault()
-      toggleScreen()
+      fullScreen.value = !fullScreen.value
     }
-    const handleModalClass = () => {
+    const handleModalClass = computed(() => {
       const publicClass = [ styles[modalClassName] ]
       let heightClass: string[] = []
       if (props.isFail) {
@@ -114,64 +97,9 @@ export default defineComponent({
       } else {
         heightClass = [ styles['height-no-fixed'] ]
       }
-      return [ ...publicClass, ...heightClass ]
-    }
-    /**
-     * @Author      gx12358
-     * @DateTime    2021/7/14
-     * @lastTime    2021/7/14
-     * @description 切换全屏
-     */
-    const toggleScreen = () => {
-      const modalContentRef = modalWrapperRef.value
-        ? modalWrapperRef.value.parentNode.parentNode
-        : null
-      if (fullScreen.value) {
-        const el: any = document
-        if (el.exitFullscreen) {
-          el.exitFullscreen()
-        } else if (el.webkitCancelFullScreen) {
-          el.webkitCancelFullScreen()
-        } else if (el.mozCancelFullScreen) {
-          el.mozCancelFullScreen()
-        } else if (el.msExitFullscreen) {
-          el.msExitFullscreen()
-        }
-        if (modalContentRef) modalContentRef['classList'].remove('wd-pro-modal-full-screen')
-      } else {
-        const el: any = modalContentRef
-        el.classList.add('wd-pro-modal-full-screen')
-        if (el.requestFullscreen) {
-          el.requestFullscreen()
-          return true
-        } else if (el.webkitRequestFullScreen) {
-          el.webkitRequestFullScreen()
-          return true
-        } else if (el.mozRequestFullScreen) {
-          el.mozRequestFullScreen()
-          return true
-        } else if (el.msRequestFullscreen) {
-          el.msRequestFullscreen()
-          return true
-        }
-        proxy.$message.warn('对不起，您的浏览器不支持全屏模式')
-        el.classList.remove('wd-pro-modal-full-screen')
-        return false
-      }
-    }
-    /**
-     * @Author      gx12358
-     * @DateTime    2021/7/14
-     * @lastTime    2021/7/14
-     * @description 监听是否全屏
-     */
-    const fullScreenListener = (e) => {
-      if (e.target.childNodes[2] && e.target.childNodes[2].childNodes[2]) {
-        if (e.target.childNodes[2].childNodes[2].id === modalId.value) {
-          fullScreen.value = !fullScreen.value
-        }
-      }
-    }
+      const fullScreenClass = fullScreen.value ? 'wd-pro-modal-full-screen' : ''
+      return [ ...publicClass, ...heightClass, fullScreenClass ]
+    })
     const renderSolt = () => {
       return Object.keys(slots).map((name) => {
         if (name === 'content') {
@@ -236,9 +164,10 @@ export default defineComponent({
     return () => (
       <a-modal
         {...changeProps.value}
-        class={handleModalClass()}
+        class={handleModalClass.value}
         onCancel={onCancel.bind(this)}
         footer={renderFooter}
+        bodyStyle={fullScreen.value ? { height: `${window.innerHeight - 110}px !important` } : undefined}
       >
         <div class={styles[`${modalClassName}-close`]}>
           <span class={styles[`${modalClassName}-close-x`]}>
