@@ -53,6 +53,7 @@ export type MenuTheme = Theme;
 
 export interface themeConfig {
   theme: MenuTheme | undefined;
+  primaryColor: string;
   layout: 'side' | 'mix';
   fixedMultiTab: boolean;
   fixedHeader: boolean;

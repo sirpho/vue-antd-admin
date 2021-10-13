@@ -15,6 +15,8 @@ export const defaultSettings: themeConfig = {
   layout: 'mix',
   // 主题 light/dark
   theme: 'light',
+  // 主题色
+  primaryColor: '#1890FF',
   // logo标题
   title: 'Wd Pro Admin',
   // 头部菜单高度
@@ -46,6 +48,10 @@ export const defaultSettingProps = {
   theme: {
     type: String as PropType<themeConfig['theme']>,
     default: defaultSettings.theme
+  },
+  primaryColor: {
+    type: String as PropType<themeConfig['primaryColor']>,
+    default: defaultSettings.primaryColor
   },
   layout: {
     type: String as PropType<themeConfig['layout']>,

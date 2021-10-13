@@ -1,12 +1,8 @@
 import { message } from 'ant-design-vue'
 import Clipboard from 'clipboard'
 
-function clipboardSuccess(text: string) {
-  message.success(`复制${text}成功`)
-}
-
-function clipboardError(text: string) {
-  message.error(`复制${text}失败`)
+function clipboardSuccess(msg: string) {
+  message.success(msg || '复制成功')
 }
 
 /**
@@ -14,17 +10,17 @@ function clipboardError(text: string) {
  * @param text
  * @param event
  */
-export default function handleClipboard(text: string, event: any) {
-  console.log(event)
-  const clipboard: any = new Clipboard(event.target, {
+export default function handleClipboard(text: string, msg: string) {
+  const fake_el = document.createElement('button')
+  const clipboard: any = new Clipboard(fake_el, {
     text: () => text
   })
   clipboard.on('success', () => {
-    clipboardSuccess(text)
+    clipboardSuccess(msg)
     clipboard.destroy()
   })
   clipboard.on('error', () => {
-    clipboardError(text)
+    message.error(`复制失败！`)
     clipboard.destroy()
   })
   clipboard.onClick(event)

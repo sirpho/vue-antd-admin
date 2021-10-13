@@ -15,7 +15,7 @@ html {
         box-shadow: none;
         
         .ant-drawer-content {
-          background-color: #fff;
+          background-color: @white;
         }
       }
       
@@ -59,7 +59,7 @@ html {
         
         &-children {
           padding: 24px;
-          background: #ffffff;
+          background: @white;
         }
       }
       
@@ -127,7 +127,7 @@ html {
             margin: 0 0 0 12px;
             font-size: 16px;
             font-weight: 400;
-            color: #fff;
+            color: @white;
             vertical-align: top;
           }
         }
@@ -154,7 +154,7 @@ html {
         
         &-account-avatar {
           margin: 12px 8px 12px 0;
-          color: #1890ff;
+          color: #1890FF;
           vertical-align: top;
           background: hsla(0, 0%, 100%, .85);
         }
@@ -183,14 +183,14 @@ html {
               }
             }
           }
-  
+          
           .anticon {
-            color: #fff;
+            color: @white;
           }
         }
         
         &.light {
-          background-color: #fff;
+          background-color: @white;
           
           .wd-pro-global-header-logo {
             h1 {
@@ -269,7 +269,7 @@ html {
             overflow: hidden;
             font-size: 18px;
             line-height: 32px;
-            color: #fff;
+            color: @white;
             animation: fade-in;
             animation-duration: .2s;
           }
@@ -335,7 +335,7 @@ html {
           
           .wd-pro-sider-links {
             color: rgba(0, 0, 0, .85);
-            background: #ffffff;
+            background: @white;
             border-top: 1px solid #f0f0f0;
           }
           
@@ -447,7 +447,7 @@ html {
           width: 100%;
           padding-top: 6px;
           margin: 0px;
-          background: #ffffff;
+          background: @white;
         }
         
         .ant-tabs-bar {
@@ -456,7 +456,7 @@ html {
         }
         
         &-wrap {
-          background-color: #ffffff;
+          background-color: @white;
           
           &-fixed {
             position: fixed;
@@ -502,7 +502,7 @@ html {
           color: rgba(0, 0, 0, 0.45);
           
           &:hover {
-            color: #1890ff;
+            color: #1890FF;
           }
         }
         
@@ -528,13 +528,14 @@ html {
           text-align: center;
           pointer-events: auto;
           cursor: pointer;
-          background: #1890ff;
+          background: #1890FF;
           border-radius: 4px 0 0 4px;
         }
         
         &-content {
           position: relative;
           min-height: 100%;
+          padding: 24px;
         }
         
         &-title {
@@ -565,7 +566,7 @@ html {
               width: 33%;
               height: 100%;
               content: "";
-              background-color: #fff;
+              background-color: @white;
             }
             
             &::after {
@@ -575,17 +576,17 @@ html {
               width: 100%;
               height: 25%;
               content: "";
-              background-color: #fff;
+              background-color: @white;
             }
             
             &-light {
               &::before {
                 content: "";
-                background-color: #fff;
+                background-color: @white;
               }
               
               &::after {
-                background-color: #fff;
+                background-color: @white;
               }
             }
             
@@ -608,14 +609,14 @@ html {
               }
               
               &::after {
-                background-color: #fff;
+                background-color: @white;
               }
             }
             
             &-mix {
               &::before {
                 content: "";
-                background-color: #ffffff;
+                background-color: @white;
               }
               
               &::after {
@@ -630,8 +631,29 @@ html {
             bottom: 4px;
             font-size: 14px;
             font-weight: 700;
-            color: #1890ff;
+            color: #1890FF;
             pointer-events: none;
+          }
+        }
+        
+        &-theme-color {
+          
+          &-content {
+            margin-top: 16px;
+            overflow: hidden;
+          }
+          
+          .wd-pro-setting-drawer-theme-color-block {
+            float: left;
+            width: 20px;
+            height: 20px;
+            margin-top: 8px;
+            margin-right: 8px;
+            font-weight: 700;
+            color: @white;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 2px;
           }
         }
       }

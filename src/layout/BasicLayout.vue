@@ -52,6 +52,7 @@ export default defineComponent({
       menuData,
       layout: computed(() => store.getters['settings/layout']),
       theme: computed(() => store.getters['settings/theme']),
+      primaryColor: computed(() => store.getters['settings/primaryColor']),
       fixedMultiTab: computed(() => store.getters['settings/fixedMultiTab']),
       fixedHeader: computed(() => store.getters['settings/fixedHeader']),
       fixSiderbar: computed(() => store.getters['settings/fixSiderbar']),
@@ -73,6 +74,9 @@ export default defineComponent({
       switch (type) {
         case 'theme':
           store.dispatch('settings/changeTheme', value)
+          break
+        case 'primaryColor':
+          store.dispatch('settings/changePrimaryColor', value)
           break
         case 'layout':
           store.dispatch('settings/changeLayout', value)

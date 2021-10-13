@@ -9,6 +9,7 @@ const { logo, title } = config.defaultSettings
 const {
   layout,
   theme,
+  primaryColor,
   animate,
   fixedMultiTab,
   fixedHeader,
@@ -23,6 +24,7 @@ const state = () => ({
   title,
   collapse: false,
   theme,
+  primaryColor,
   layout,
   animate: animate || {
     name: 'fade',
@@ -43,6 +45,7 @@ const getters = {
   title: (state) => state.title,
   showProgressBar: (state) => state.showProgressBar,
   theme: (state) => state.theme,
+  primaryColor: (state) => state.primaryColor,
   fixedMultiTab: (state) => state.fixedMultiTab,
   fixedHeader: (state) => state.fixedHeader,
   fixSiderbar: (state) => state.fixSiderbar,
@@ -60,6 +63,9 @@ const mutations = {
   },
   changeTheme(state, theme) {
     state.theme = theme
+  },
+  changePrimaryColor(state, primaryColor) {
+    state.primaryColor = primaryColor
   },
   changeFixedHeader(state, type) {
     state.fixedHeader = type
@@ -95,6 +101,9 @@ const mutations = {
 const actions = {
   changeTheme({ commit }, theme) {
     commit('changeTheme', theme)
+  },
+  changePrimaryColor({ commit }, primaryColor) {
+    commit('changePrimaryColor', primaryColor)
   },
   changeLayout({ commit }, layout) {
     commit('changeLayout', layout)

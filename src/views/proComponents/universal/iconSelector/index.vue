@@ -25,10 +25,10 @@
           :xl="2"
           :xs="6"
         >
-          <a-card shadow="hover" @click="handleCopyIcon(item, $event)">
+          <a-card shadow="hover" @click="handleCopyIcon(item)">
             <w-icon :icon="item"></w-icon>
           </a-card>
-          <div class="icon-text" @click="handleCopyText(item, $event)">
+          <div class="icon-text" @click="handleCopyText(item)">
             {{ item }}
           </div>
         </a-col>
@@ -90,11 +90,11 @@ export default defineComponent({
       this.queryIcon = data
       this.total = totalCount
     },
-    handleCopyText(item, event) {
-      clip(item, event)
+    handleCopyText(text) {
+      clip(text)
     },
-    handleCopyIcon(item, event) {
-      clip(`<w-icon icon="${item}"></w-icon>`, event)
+    handleCopyIcon(text) {
+      clip(`<w-icon icon="${text}"></w-icon>`)
     }
   }
 })

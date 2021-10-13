@@ -59,6 +59,10 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           replacement: pathResolve('config') + '/'
         },
         {
+          find: /\/build\//,
+          replacement: pathResolve('build') + '/'
+        },
+        {
           find: '@wd-pro/pro-layout',
           replacement: pathResolve('src/components/WProLayout') + '/'
         },

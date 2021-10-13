@@ -8,6 +8,8 @@ const themeSetting: themeConfig = {
   layout: 'mix',
   // 主题 light/dark
   theme: 'light',
+  // 主题色
+  primaryColor: '#1890FF',
   // logo标题
   title: 'Wd Pro Admin',
   // 头部菜单高度
