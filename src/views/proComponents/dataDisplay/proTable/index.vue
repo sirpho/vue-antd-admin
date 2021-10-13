@@ -48,6 +48,11 @@
               批量操作
             </a-button>
           </a-dropdown>
+          <!--<a-button key="polling" type="primary" @click="changePolling">-->
+          <!--  <LoadingOutlined v-if="polling" />-->
+          <!--  <ReloadOutlined v-else />-->
+          <!--  {{ polling ? '停止轮询' : '开始轮询' }}-->
+          <!--</a-button>-->
         </template>
         <template #search>
           <a-input
@@ -105,7 +110,7 @@ export default defineComponent({
   components: {
     ProTableApi,
     ProTableSearch,
-    ProTableColums
+    ProTableColums,
   },
   setup() {
     const { proxy }: any = getCurrentInstance()
@@ -124,6 +129,7 @@ export default defineComponent({
         total: 0
       },
       loading: false,
+      polling: true,
       columns: columns.index,
       proTable: columns.proTable,
       selectedRowKeys: [],
@@ -181,8 +187,7 @@ export default defineComponent({
     })
     const getTableData = async (params) => {
       const response: any = await getList({
-        ...params,
-        ...state.tableParameters
+        ...params
       })
       state.tableData = deepCopy(response?.data || [])
       return {
@@ -208,11 +213,15 @@ export default defineComponent({
         title: ''
       }
     }
+    const changePolling = () => {
+      state.polling = !state.polling
+    }
     const batchOperation = (key) => {
       proxy.$message.success(`你点击了${key.domEvent.target.innerText}`)
     }
     return {
       ...toRefs(state),
+      changePolling,
       getTableData,
       onSelectChange,
       onReset,

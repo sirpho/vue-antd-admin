@@ -234,6 +234,7 @@ const TableSearch = defineComponent({
     }
     const dataEntrySlot = (record) => {
       let show
+      console.log(record.valueType)
       switch (record.valueType) {
         case 'text':
           show = (
@@ -382,13 +383,14 @@ const TableSearch = defineComponent({
               items: formList[i]
             })
           )
-          if ((i === formList.length - 1) && advanced) show.push(
+          if ((i === formList.length - 1)) show.push(
             advancedSlot({
               formItemStyle: {
                 flex: 1,
                 justifyContent: 'flex-end'
               },
-              advanced
+              advanced,
+              showAdvanced: advanced
             })
           )
         } else {
@@ -415,7 +417,8 @@ const TableSearch = defineComponent({
                   flex: 1,
                   justifyContent: 'flex-end'
                 },
-                advanced: false
+                advanced: false,
+                showAdvanced: formList.length > 1 && rowLength.value === 1
               })
             )
           }

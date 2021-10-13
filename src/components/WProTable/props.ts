@@ -9,6 +9,16 @@ export const proTableProps = Object.assign({}, T.props, {
     required: false,
     default: null
   },
+  polling: {
+    type: Boolean as PropType<boolean>,
+    required: false,
+    default: false
+  },
+  pollingTime: {
+    type: Number as PropType<number>,
+    required: false,
+    default: 3
+  },
   params: {
     type: Object as PropType<Recordable>,
     required: false

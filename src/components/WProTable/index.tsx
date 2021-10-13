@@ -99,6 +99,7 @@ const WProTable = defineComponent({
       draggingState: draggingMap
     })
     const innerWidth: Ref<number> = ref(window.innerWidth)
+    const pollingSetTimeRef: Ref<any> = ref()
     state.columns.forEach(col => {
       if (col.dataIndex && col.key) draggingMap[col.dataIndex || col.key] = col.width
     })
@@ -200,7 +201,7 @@ const WProTable = defineComponent({
       document.addEventListener('mozfullscreenchange', fullScreenListener)
       document.addEventListener('msfullscreenchange', fullScreenListener)
       window.addEventListener('resize', getWidth)
-      if (props.request) tableLoadData()
+      if (props.request && !props.polling) tableLoadData()
       if (props.actionRef) getProTable()
     })
     onBeforeUnmount(() => {
@@ -209,6 +210,9 @@ const WProTable = defineComponent({
       document.removeEventListener('mozfullscreenchange', fullScreenListener)
       document.removeEventListener('msfullscreenchange', fullScreenListener)
       window.removeEventListener('resize', getWidth)
+      if (pollingSetTimeRef.value) {
+        clearInterval(pollingSetTimeRef.value)
+      }
     })
     /**
      * @Author      gx12358
@@ -297,7 +301,7 @@ const WProTable = defineComponent({
      * @description 表格request
      */
     const tableLoadData = async (info: any = {}) => {
-      const { pagination, filters, sorter, params = {}, removeTotal = 0 } = info
+      const { pagination, filters, sorter, params = {}, removeTotal = 0, isPolling } = info
       const defaultParams = {}
       if (props.search) {
         if (props.search.type === 'dataSouce' || props.search.type === 'columns') {
@@ -322,7 +326,7 @@ const WProTable = defineComponent({
           })
         }
       }
-      state.tableLoading = true
+      state.tableLoading = !isPolling
       emit('loadingChange', state.tableLoading)
       if (pagination && pagination.current) {
         pagination.current = handleCurrentPage(pagination, removeTotal)
@@ -330,7 +334,7 @@ const WProTable = defineComponent({
         state.pagination.current = handleCurrentPage({
           current: state.pagination.current,
           pageSize: state.pagination.pageSize,
-          total: state.pagination.total,
+          total: state.pagination.total
         }, removeTotal)
       }
       const parameter = {
@@ -370,6 +374,24 @@ const WProTable = defineComponent({
       }
       state.tableLoading = false
       emit('loadingChange', state.tableLoading)
+    }
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/10/13
+     * @lastTime    2021/10/13
+     * @description 表格轮询
+     */
+    const useDebounceFn = async (isPolling: boolean, info: any = {}) => {
+      if (pollingSetTimeRef.value) {
+        clearInterval(pollingSetTimeRef.value)
+      }
+
+      await tableLoadData(info)
+
+      pollingSetTimeRef.value = setInterval(() => {
+        tableLoadData({ isPolling, ...info })
+        // 这里判断最小要3000ms，不然一直loading
+      }, pollingTime.value < 3 ? 3000 : pollingTime.value * 1000)
     }
     watch(innerWidth, (value) => {
       innerWidth.value = value
@@ -415,8 +437,12 @@ const WProTable = defineComponent({
       deep: true,
       immediate: true
     })
-    watch(() => props.params, (val) => {
-      if (props.request && props.search && !props.search.showSearch) tableLoadData({ params: val })
+    watch(() => props.params, async (val) => {
+      if (props.request && props.search && !props.search.showSearch) {
+        clearInterval(pollingSetTimeRef.value)
+        await tableLoadData({ params: val })
+        props.polling && useDebounceFn(props.polling, { params: val })
+      }
     }, {
       deep: true,
       immediate: true
@@ -445,6 +471,16 @@ const WProTable = defineComponent({
       deep: true,
       immediate: true
     })
+    watch(() => props.polling, (value) => {
+      if (value) {
+        useDebounceFn(value)
+      } else {
+        clearTimeout(pollingSetTimeRef.value)
+      }
+    }, {
+      deep: true,
+      immediate: true
+    })
     watch(() => props, (_) => {
       const tableSlots = {}
       Object.keys(slots).map(item => {
@@ -458,6 +494,7 @@ const WProTable = defineComponent({
       deep: true,
       immediate: true
     })
+    const pollingTime = computed(() => props.pollingTime)
     const toolBarStyle = computed(() => {
       const style: any = props.search ? { paddingTop: '0' } : {}
       if (innerWidth.value < 992) style.flexWrap = 'wrap'
@@ -754,17 +791,22 @@ const WProTable = defineComponent({
         props.titleTip ||
         (props.toolBarBtn && props.toolBarBtn.length > 0)
     }
-    const changeTableParams = (params, reset) => {
+    const changeTableParams = async (params, reset) => {
       if (props.request) {
         if (props.search.type === 'slots') {
           if (reset) {
             emit('searchReset')
           }
           if (props.search.showSearch) {
-            tableLoadData({ params: props.params })
+            clearInterval(pollingSetTimeRef.value)
+            await tableLoadData({ params: props.params })
+            props.polling && useDebounceFn(props.polling, { params: props.params })
           }
         } else {
-          tableLoadData({ params })
+          console.log(123)
+          clearInterval(pollingSetTimeRef.value)
+          await tableLoadData({ params })
+          props.polling && useDebounceFn(props.polling, { params })
         }
       } else {
         emit('search', params)
@@ -776,9 +818,11 @@ const WProTable = defineComponent({
      * @lastTime    2021/7/14
      * @description ant-table原始方法
      */
-    const changePage = (pagination, filters, sorter) => {
+    const changePage = async (pagination, filters, sorter) => {
       if (props.request) {
-        tableLoadData({ pagination, filters, sorter })
+        clearInterval(pollingSetTimeRef.value)
+        await tableLoadData({ pagination, filters, sorter })
+        props.polling && useDebounceFn(props.polling, { pagination, filters, sorter })
       } else {
         emit('change', pagination, filters, sorter)
       }
@@ -795,9 +839,11 @@ const WProTable = defineComponent({
      * @lastTime    2021/7/14
      * @description 表格刷新
      */
-    const refresh = () => {
+    const refresh = async () => {
       if (props.request) {
-        tableLoadData()
+        clearInterval(pollingSetTimeRef.value)
+        await tableLoadData()
+        props.polling && useDebounceFn(props.polling)
       } else {
         emit('refresh')
       }
