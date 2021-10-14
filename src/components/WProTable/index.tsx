@@ -240,6 +240,7 @@ const WProTable = defineComponent({
           align: props.align,
           fixed: firstColumsItem.fixed,
           width: 60,
+          uuid: getRandomNumber().uuid(15),
           dataIndex: 'sortIndex'
         })
       } else if (!value && originColums.some(item => item.dataIndex === 'sortIndex')) {
@@ -397,7 +398,13 @@ const WProTable = defineComponent({
       innerWidth.value = value
     })
     watch(() => props.columns, (val) => {
-      originColums = cloneDeep(val)
+      originColums = cloneDeep(val).map(item => {
+        return {
+          ...item,
+          align: item.align || props.align,
+          uuid: getRandomNumber().uuid(15)
+        }
+      })
       handleChanheColums()
       let searchData: any = []
       if (props.search && props.search.type === 'columns') {
@@ -803,7 +810,6 @@ const WProTable = defineComponent({
             props.polling && useDebounceFn(props.polling, { params: props.params })
           }
         } else {
-          console.log(123)
           clearInterval(pollingSetTimeRef.value)
           await tableLoadData({ params })
           props.polling && useDebounceFn(props.polling, { params })

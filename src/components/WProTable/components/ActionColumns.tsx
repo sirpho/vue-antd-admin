@@ -408,7 +408,11 @@ const ActionColumns = defineComponent({
     )
     const treeTitleSlots = (record) => {
       const columnsItem: any = props.columns.find(item => item.uuid === record.uuid)
-      return record.title || (slots[columnsItem.slots.title] ? slots[columnsItem.slots.title]!() : '')
+      return record.title || (
+        columnsItem.slots
+          ? (slots[columnsItem.slots?.title] ? slots[columnsItem.slots?.title]!() : '')
+          : ''
+      )
     }
     const TreeTitle = (record, type) => (
       <div class={styles['tree-title']}>
