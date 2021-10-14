@@ -108,6 +108,10 @@ function getRule(params: TableListParams) {
     dataSource = dataSource.filter((data) => data.name.includes(params.name || ''))
   }
 
+  if (params.status) {
+    dataSource = dataSource.filter((data) => data.status === params.status)
+  }
+
   let finalPageSize = 10
   if (params.pageSize) {
     finalPageSize = parseInt(`${params.pageSize}`, 10)

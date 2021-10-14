@@ -86,16 +86,16 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         }
       },
       brotliSize: false,
-      chunkSizeWarningLimit: 2000,
+      chunkSizeWarningLimit: 2500,
       rollupOptions: {
-        external: [ 'vue', 'moment', 'vuex', 'vue-router' ],
+        external: [ 'vue', 'moment', 'vuex', 'vue-router', 'echarts' ],
         plugins: [
           externalGlobals({
             vue: 'Vue',
             vuex: 'Vuex',
             'vue-router': 'VueRouter',
-            // lodash: '_',
-            moment: 'moment'
+            moment: 'moment',
+            echarts: 'echarts',
           })
         ]
       }

@@ -27,7 +27,8 @@
               <div>前端工程师 | （REACT，VUE，UNIAPP）平台</div>
             </div>
           </div>
-          <div :style="isMobile ? { width: '100%', marginTop: '24px' } : undefined" class="wd-pro-page-container-extraContent">
+          <div :style="isMobile ? { width: '100%', marginTop: '24px' } : undefined"
+            class="wd-pro-page-container-extraContent">
             <div :class="$style['extra-content']">
               <div :class="$style['stat-item']">
                 <a-statistic title="项目数" :value="3" />
@@ -50,10 +51,12 @@
               title="进行中的项目"
             >
               <template #extra>
-                <a href="#">全部项目</a>
+                <a href="#/">全部项目</a>
               </template>
               <div>
-                <a-card-grid :class="$style['project-card-grid']" :key="i" v-for="(item, i) in notice">
+                <a-card-grid :class="$style['project-card-grid']"
+                  :key="i"
+                  v-for="(item, i) in notice">
                   <a-card :bordered="false" :body-style="{ padding: 0 }">
                     <a-card-meta>
                       <template #title>
@@ -163,7 +166,6 @@
 </template>
 
 <script lang="ts">
-import { PlusOutlined, RedoOutlined, LoadingOutlined } from '@ant-design/icons-vue'
 import {
   defineComponent,
   ref,
@@ -174,6 +176,7 @@ import {
   inject
 } from 'vue'
 import { useStore } from 'vuex'
+import { PlusOutlined, RedoOutlined, LoadingOutlined } from '@ant-design/icons-vue'
 import { notice, activities, radar } from '/@/services/workplace'
 import useMediaQuery from '/@/components/_util/useMediaQuery'
 import { timeFix, momentFromNow } from '/@/utils/util'
@@ -238,22 +241,47 @@ export default defineComponent({
     const getRadar = async () => {
       const { data = {} }: any = await radar()
       const { radarData = [] } = data
+      state.radarMaxCount = handelMaxRandar(radarData)
       let datasource: any = []
+      let indicatorList: {
+        name: string;
+        max: number;
+      }[] = []
       radarData.map(item => {
-        if (datasource.every(el => el['item'] !== item.label)) {
-          const radarItems: any = { item: item.label }
-          radarItems[item.name] = item.value
+        if (indicatorList.every(el => el.name !== item.label)) {
+          indicatorList.push({
+            name: item.label,
+            max: state.radarMaxCount
+          })
+        }
+        if (datasource.every(el => el.name !== item.name)) {
+          const radarItems: {
+            name: string;
+            label: string[];
+            value: number[];
+          } = {
+            name: item.name,
+            label: [],
+            value: []
+          }
+          radarItems.label.push(item.label)
+          radarItems.value.push(item.value)
           datasource.push(radarItems)
         } else {
-          datasource = datasource.map((el: any) => {
-            if (el['item'] === item.label) el[item.name] = item.value
+          datasource = datasource.map((el: {
+            name: string;
+            value: number[]
+          }) => {
+            if (el.name === item.name) {
+              el.label.push(item.label)
+              el.value.push(item.value)
+            }
             return el
           })
         }
         return item
       })
       state.radarData = datasource
-      state.radarMaxCount = handelMaxRandar(radarData)
       state.radarLoading = false
     }
     const handelMaxRandar = (datasource) => {

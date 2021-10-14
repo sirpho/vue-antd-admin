@@ -1,22 +1,19 @@
 <template>
-  <div style="min-height: 400px;" id="radar-container"></div>
+  <div style="width: 100%;min-height: 400px;" id="radar-container"></div>
 </template>
 
 <script lang="ts">
-import DataSet from '@antv/data-set'
-import { Chart } from '@antv/g2'
-import { defineComponent, onBeforeUnmount, onMounted, reactive, toRefs } from 'vue'
-
-interface stateTypes {
-  chart: Chart | null;
-}
+import { defineComponent, watch } from 'vue'
+import * as echarts from 'echarts'
 
 export default defineComponent({
   name: 'Radar',
   props: {
     data: {
       type: Array,
-      default: null
+      default: () => {
+        return []
+      }
     },
     max: {
       type: Number,
@@ -24,86 +21,44 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const state: stateTypes = reactive({
-      chart: null
-    })
-    onMounted(() => {
-      initRadar()
-    })
-    onBeforeUnmount(() => {
-      state.chart && state.chart.destroy()
-    })
-    const initRadar = () => {
-      const dv = new DataSet.View().source(props.data)
-      dv.transform({
-        type: 'fold',
-        fields: [ '个人', '团队', '部门' ],
-        key: 'user',
-        value: 'score'
+    const initRadar = (indicator) => {
+      // radar-container
+      var chartDom = document.getElementById('radar-container')
+      var myChart = echarts.init(chartDom)
+      var option
+    
+      option = {
+        legend: {
+          data: [ '个人', '团队', '部门' ]
+        },
+        radar: {
+          indicator
+        },
+        series: [
+          {
+            type: 'radar',
+            data: props.data
+          }
+        ]
+      }
+    
+      option && myChart.setOption(option)
+    }
+    watch(() => props.data, (val) => {
+      let indicator = val[0]?.label || []
+      indicator = indicator.map((item: string) => {
+        return {
+          name: item,
+          max: props.max
+        }
       })
       setTimeout(() => {
-        renderRadar(dv)
+        indicator && indicator.length > 0 && initRadar(indicator)
       }, 200)
-    }
-    const renderRadar = (dv) => {
-      state.chart = new Chart({
-        container: 'radar-container',
-        autoFit: true,
-        padding: [ 35, 30, 16, 30 ] as [ number, number, number, number ],
-        height: 343
-      })
-      state.chart.data(dv.rows)
-      state.chart.scale('score', {
-        min: 0,
-        max: props.max
-      })
-      state.chart.coordinate('polar', {
-        radius: 0.8
-      })
-      state.chart.axis('item', {
-        line: null,
-        tickLine: null,
-        grid: {
-          line: {
-            style: {
-              lineDash: null
-            }
-          }
-        }
-      })
-      state.chart.axis('score', {
-        line: null,
-        tickLine: null,
-        grid: {
-          line: {
-            style: {
-              lineDash: null
-            }
-          }
-        }
-      })
-
-      state.chart
-        .point()
-        .position('item*score')
-        .color('user')
-        .shape('circle')
-        .size(4)
-        .style({
-          stroke: '#fff',
-          lineWidth: 1,
-          fillOpacity: 1
-        })
-      state.chart
-        .line()
-        .position('item*score')
-        .color('user')
-        .size(2)
-      state.chart.render()
-    }
-    return {
-      ...toRefs(state)
-    }
+    }, {
+      deep: true,
+      immediate: true
+    })
   }
 })
 </script>

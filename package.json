@@ -31,8 +31,6 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@antv/data-set": "^0.11.8",
-    "@antv/g2": "^4.1.23",
     "@logicflow/core": "^0.6.16",
     "@logicflow/extension": "^0.6.16",
     "animate.css": "^4.1.1",
@@ -42,6 +40,7 @@
     "chalk": "^4.1.2",
     "chokidar": "^3.5.2",
     "clipboard": "^2.0.8",
+    "echarts": "^5.2.1",
     "js-cookie": "^2.2.1",
     "lodash-es": "^4.17.21",
     "md5": "^2.3.0",

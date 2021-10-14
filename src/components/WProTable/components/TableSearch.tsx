@@ -417,7 +417,7 @@ const TableSearch = defineComponent({
                   justifyContent: 'flex-end'
                 },
                 advanced: false,
-                showAdvanced: formList.length > 1 && rowLength.value === 1
+                showAdvanced: formList.length >= rowLength.value
               })
             )
           }

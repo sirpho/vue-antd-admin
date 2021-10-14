@@ -10,7 +10,7 @@
         <a-form layout="vertical">
           <a-form-item label="邮箱" v-bind="validateInfos.email">
             <a-input
-              style="width: 328px;"
+              :style="{ width: isMobile ? '100%' : '328px' }"
               v-model:value="formState.email"
               placeholder="请输入您的邮箱"
               allow-clear
@@ -18,7 +18,7 @@
           </a-form-item>
           <a-form-item label="昵称" v-bind="validateInfos.name">
             <a-input
-              style="width: 328px;"
+              :style="{ width: isMobile ? '100%' : '328px' }"
               v-model:value="formState.name"
               placeholder="请输入您的昵称"
               allow-clear
@@ -26,7 +26,7 @@
           </a-form-item>
           <a-form-item label="个人简介" v-bind="validateInfos.profile">
             <a-textarea
-              style="width: 440px;"
+              :style="{ width: isMobile ? '100%' : '440px' }"
               v-model:value="formState.profile"
               :auto-size="{ minRows: 4 }"
               placeholder="请输入个人简介"
@@ -35,7 +35,7 @@
           </a-form-item>
           <a-form-item label="国家/地区" v-bind="validateInfos.country">
             <a-select
-              style="width: 216px;"
+              :style="{ width: isMobile ? '100%' : '216px' }"
               show-search
               optionFilterProp="text"
               placeholder="请输入您的国家或地区"
@@ -46,10 +46,15 @@
             </a-select>
           </a-form-item>
           <a-form-item label="所在省市">
-            <a-space :class="$style.formGroupContainer">
+            <a-space
+              :class="{
+                [`${$style.formGroupContainer}`]: true,
+                [`${$style.mobile}`]: isMobile
+              }"
+            >
               <a-form-item v-bind="validateInfos.province">
                 <a-select
-                  style="width: 216px;"
+                  :style="{ width: isMobile ? '100%' : '216px' }"
                   show-search
                   allow-clear
                   placeholder="请输入您的所在省"
@@ -80,7 +85,7 @@
               </a-form-item>
               <a-form-item v-bind="validateInfos.city">
                 <a-select
-                  style="width: 216px;"
+                  :style="{ width: isMobile ? '100%' : '216px' }"
                   show-search
                   allow-clear
                   placeholder="请输入您的所在城市"
@@ -113,7 +118,7 @@
           </a-form-item>
           <a-form-item label="街道地址" v-bind="validateInfos.address">
             <a-input
-              style="width: 328px;"
+              :style="{ width: isMobile ? '100%' : '328px' }"
               v-model:value="formState.address"
               placeholder="请输入您的街道地址"
               allow-clear
@@ -123,13 +128,13 @@
             <a-input-group>
               <a-space>
                 <a-input
-                  style="width: 80px"
+                  :style="{ width: isMobile ? '100%' : '80px' }"
                   placeholder="请输入"
                   v-model:value="formState.phoneCode"
                   @change="e => handleChangePhone(e, 0)"
                 />
                 <a-input
-                  style="width: 214px"
+                  :style="{ width: isMobile ? '100%' : '214px' }"
                   placeholder="请输入电话号码"
                   v-model:value="formState.phoneNumber"
                   @change="e => handleChangePhone(e, 1)"
@@ -177,6 +182,7 @@ import type { CurrentUser } from '/@/services/account/data.d'
 import { queryCurrent, queryProvince, queryCity } from '/@/services/account/settings'
 import { rules } from '../utils/config'
 import { hanndleField } from '/@/utils/util'
+import useMediaQuery from '/@/components/_util/useMediaQuery'
 
 const useForm = Form.useForm
 
@@ -186,6 +192,8 @@ export default defineComponent({
   },
   setup() {
     const { proxy }: any = getCurrentInstance()
+
+    const colSize = useMediaQuery()
 
     const state = reactive({
       loading: false,
@@ -209,6 +217,10 @@ export default defineComponent({
     })
 
     const rulesRef = reactive({ ...rules })
+
+    const isMobile = computed(
+      () => (colSize.value === 'sm' || colSize.value === 'xs')
+    )
 
     onMounted(async () => {
       state.loading = true
@@ -347,6 +359,7 @@ export default defineComponent({
 
     return {
       ...toRefs(state),
+      isMobile,
       getAvatarURL,
       resetFields,
       validateInfos,
@@ -421,6 +434,17 @@ export default defineComponent({
 .formGroupContainer {
   flex-wrap: wrap;
   max-width: 100%;
+  
+  &.mobile {
+    flex: 1;
+    width: 100%;
+    
+    :global {
+      div.ant-space-item {
+        flex: 1;
+      }
+    }
+  }
   
   :global {
     div.ant-space-item {
