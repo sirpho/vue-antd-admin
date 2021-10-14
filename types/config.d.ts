@@ -44,7 +44,7 @@ export interface networkConfig {
   contentType: string;
   messageDuration: number;
   requestTimeout: number;
-  successCode: Array<number>;
+  successCode: Array<number | string> | string | number;
 }
 
 export type Theme = 'dark' | 'light';

@@ -82,17 +82,16 @@ export default defineComponent({
         sortOrder = order
         sortField = columnKey
       }
-      const response: any = await rule({
+      const response = await rule({
         ...params,
         sortOrder,
         sortField
       })
-      const tableConfig = response?.data || []
-      state.tableData = cloneDeep(tableConfig?.data || [])
+      state.tableData = cloneDeep(response?.rows || [])
       return {
-        data: cloneDeep(tableConfig?.data || []),
+        data: cloneDeep(response?.rows || []),
         success: response && response.code === 200,
-        total: tableConfig.total,
+        total: response.total,
         msg: response.msg
       }
     }
@@ -131,8 +130,6 @@ export default defineComponent({
       if (response) {
         proxy.$message.success('操作成功！')
         await tableRef.value.reload({ removeTotal: 1 })
-      } else {
-        proxy.$message.error((response && response.msg) || '系统错误，请稍后再试！')
       }
       tableRef.value.loadingOperation(false)
     }

@@ -123,8 +123,6 @@ export default defineComponent({
       const response: any = await queryCurrent()
       if (response) {
         state.currentUser = response.data || {}
-      } else {
-        proxy.$message.error((response && response.msg) || '系统错误，请稍后再试！')
       }
     }
 

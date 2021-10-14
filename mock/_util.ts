@@ -53,12 +53,6 @@ export interface requestParams {
   query: any;
 }
 
-export interface resultParams {
-  data?: any;
-  code?: number;
-  msg?: string;
-}
-
 /**
  * @description 本函数用于从request数据中获取token，请根据项目的实际情况修改
  *
@@ -67,26 +61,11 @@ export function getRequestToken({ headers }: requestParams): string | undefined 
   return headers?.[tokenName.toLowerCase()]
 }
 
-export const builder = (token, { data = null, code, msg }: resultParams = {}) => {
-  code = token ? code || 200 : 401
-  msg = token ? msg || code === 200 ? 'success' : 'Request failed' : 'Request failed'
+export const builder = (token, config?: Partial<Result>) => {
   const result: Result = {
-    code,
-    msg,
-    data
+    ...config,
+    code: token ? config?.code || 200 : 401,
+    msg: token ? config?.msg || config?.code === 200 ? 'success' : 'Request failed' : 'Request failed',
   }
-  if (!data) delete result.data
   return result
-}
-
-export const getQueryParameters = (options: any) => {
-  const url = options.url || ''
-  const search = url.split('?')[1]
-  if (!search) {
-    return {}
-  }
-  return JSON.parse('{"' + decodeURIComponent(search)
-    .replace(/"/g, '\\"')
-    .replace(/&/g, '","')
-    .replace(/=/g, '":"') + '"}')
 }

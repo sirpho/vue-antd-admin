@@ -47,8 +47,6 @@ export default defineComponent({
         const tableData = treeData(response.data || [], 'menuId')
         state.tableData = tableData
         state.total = response.total || 0
-      } else {
-        proxy.$message.error((response && response.msg) || '系统错误，请稍后再试！')
       }
     }
     onMounted(() => {

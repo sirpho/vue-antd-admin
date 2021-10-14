@@ -172,8 +172,6 @@ export default defineComponent({
             proxy.$message.success('操作成功！')
             emit('handleOk')
             handleCancel()
-          } else {
-            proxy.$message.error((response && response.msg) || '系统错误，请稍后再试！')
           }
           state.spinning = false
         })

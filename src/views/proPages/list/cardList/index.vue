@@ -104,8 +104,6 @@ export default defineComponent({
       if (response) {
         state.list = response.data?.list || []
         state.pageConfig.total = response.data?.total || 0
-      } else {
-        proxy.$message.error((response && response.msg) || '系统错误，请稍后再试！')
       }
       state.loading = false
     }

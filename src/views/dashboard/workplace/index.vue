@@ -221,6 +221,7 @@ export default defineComponent({
         { item: '贡献', a: 40, b: 50, c: 40 },
         { item: '热度', a: 60, b: 70, c: 40 },
         { item: '引用', a: 70, b: 50, c: 40 }
+
       ]
     })
     onMounted(() => {
@@ -270,7 +271,8 @@ export default defineComponent({
         } else {
           datasource = datasource.map((el: {
             name: string;
-            value: number[]
+            value: number[];
+            label: number[];
           }) => {
             if (el.name === item.name) {
               el.label.push(item.label)
@@ -298,9 +300,9 @@ export default defineComponent({
       })[0]?.value || 0
     }
     return {
+      ...toRefs(state),
       isMobile,
       userInfo: computed(() => store.getters['user/userInfo']),
-      ...toRefs(state),
       welcome,
       momentFromNow,
       reloadCurrentPage

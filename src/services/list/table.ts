@@ -25,7 +25,7 @@ export function rule(
     /** 页面的容量 */
     pageSize?: number;
   }
-): Promise<{ data: TableListItem[]; total?: number; }> {
+): Promise<Partial<Result>> {
   return request({
     url: '/rule_list',
     method: 'post',

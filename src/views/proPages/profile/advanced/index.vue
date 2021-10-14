@@ -302,8 +302,6 @@ export default defineComponent({
           }
           return item
         })
-      } else {
-        proxy.$message.error((response && response.msg) || '系统错误，请稍后再试！')
       }
       state.loading = false
     }

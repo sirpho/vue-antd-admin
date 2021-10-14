@@ -37,7 +37,7 @@ type ParamsType = {
 
 export function getBasicList(
   params: ParamsType
-): Promise<{ data: BasicListItemDataType[]; }> {
+): Promise<Partial<Result>> {
   return request({
     url: '/get_basic_list',
     method: 'post',
@@ -47,7 +47,7 @@ export function getBasicList(
 
 export function getBasicListInfo(
   params: Partial<BasicListItemDataType>
-): Promise<{ data: BasicListItemDataType; }> {
+): Promise<Partial<Result>> {
   return request({
     url: '/basic_list_info',
     method: 'post',

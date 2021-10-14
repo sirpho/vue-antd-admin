@@ -144,7 +144,7 @@ export default defineComponent({
     const operation = ref()
     const state = reactive({
       loading: false,
-      list: [],
+      list: [] as BasicListItemDataType[],
       listParams: {
         title: '',
         status: 'all'
@@ -174,15 +174,13 @@ export default defineComponent({
     })
     const getListData = async () => {
       state.loading = true
-      const response: any = await getBasicList({
+      const response = await getBasicList({
         ...state.pageConfig,
         ...state.listParams
       })
       if (response) {
         state.list = response.data?.list || []
         state.pageConfig.total = response.data?.total || 0
-      } else {
-        proxy.$message.error((response && response.msg) || '系统错误，请稍后再试！')
       }
       state.loading = false
     }
@@ -210,8 +208,6 @@ export default defineComponent({
       if (response) {
         proxy.$message.success('操作成功！')
         await getListData()
-      } else {
-        proxy.$message.error((response && response.msg) || '系统错误，请稍后再试！')
       }
       state.loading = false
     }

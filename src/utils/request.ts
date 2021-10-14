@@ -1,10 +1,16 @@
+import type { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 import axios from 'axios'
+import qs from 'qs'
+import { message } from 'ant-design-vue'
 import config from '/config/config'
 import store from '/@/store'
-import qs from 'qs'
 import router from '/@/router'
-import { isArray } from '/@/utils/validate'
-import { message } from 'ant-design-vue'
+import { AxiosCanceler } from './axios/axiosCancel'
+
+export interface CreateAxiosOptions extends AxiosRequestConfig {
+  isHttpsUrl?: string;
+  ignoreCancelToken?: boolean;
+}
 
 let loadingInstance
 
@@ -13,13 +19,16 @@ const { debounce, tokenName } = config.defaultSettings
 const { contentType, requestTimeout, successCode } = config.network
 
 const baseURL = import.meta.env.MODE === 'development' ? 'mock-server' : 'mock-server'
+
+const axiosCanceler = new AxiosCanceler()
+
 /**
  * @author gx12358 2539306317@qq.com
  * @description 处理code异常
  * @param {*} code
  * @param {*} msg
  */
-const handleCode = (code, msg) => {
+const handleCode = (code: number, msg: string) => {
   switch (code) {
     case 401:
       message.error(msg || '登录失效')
@@ -42,28 +51,39 @@ const instance = axios.create({
   headers: {
     'Content-Type': contentType
   }
-})
+} as CreateAxiosOptions)
 /**
  * @author gx12358 2539306317@qq.com
  * @description axios请求拦截器
  */
 instance.interceptors.request.use(
-  (config: any) => {
+  (config: CreateAxiosOptions) => {
+    const {
+      headers: { ignoreCancelToken }
+    } = config
+
+    const ignoreCancel =
+      ignoreCancelToken !== undefined
+        ? ignoreCancelToken
+        : config?.ignoreCancelToken || true
+    console.log(ignoreCancel)
+    !ignoreCancel && axiosCanceler.addPending(config)
+
     config.url = `/${baseURL}${config.url}`
     if (store.getters['user/accessToken'])
-      config.headers[tokenName] = store.getters['user/accessToken']
+      (config).headers[tokenName] = store.getters['user/accessToken']
     if (
       config.data &&
       config.headers['Content-Type'] ===
       'application/x-www-form-urlencoded;charset=UTF-8'
     )
       config.data = qs.stringify(config.data)
-    if (debounce.some((item) => config.url.includes(item))) {
+    if (debounce.some((item) => config.url?.includes(item))) {
       //这里写加载动画
     }
     return config
   },
-  (error) => {
+  (error: Error | AxiosError) => {
     return Promise.reject(error)
   }
 )
@@ -72,12 +92,13 @@ instance.interceptors.request.use(
  * @description axios响应拦截器
  */
 instance.interceptors.response.use(
-  (response) => {
+  (response: AxiosResponse<any>) => {
+    response && axiosCanceler.removePending(response.config)
     if (loadingInstance) loadingInstance.close()
     const { data, config } = response
-    const { code, msg } = data
+    const { code, msg = '' } = data as Result
     // 操作正常Code数组
-    const codeVerificationArray = isArray(successCode)
+    const codeVerificationArray = Array.isArray(successCode)
       ? [ ...successCode ]
       : [ ...[ successCode ] ]
     // 是否操作正常

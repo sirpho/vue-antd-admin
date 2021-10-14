@@ -155,9 +155,7 @@ interface basicFormModel {
 export default defineComponent({
   components: { QuestionCircleOutlined },
   setup() {
-    const state: {
-      formState: basicFormModel
-    } = reactive({
+    const state = reactive({
       formState: {
         title: '',
         date: [],
@@ -167,7 +165,7 @@ export default defineComponent({
         weight: 0,
         publicType: '',
         publicUsers: undefined
-      }
+      } as basicFormModel
     })
     const rulesRef = reactive({
       title: [

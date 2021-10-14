@@ -197,8 +197,6 @@ export default defineComponent({
         state.basicGoods = basicGoods
         state.goodsData = goodsData
         state.basicProgress = basicProgress
-      } else {
-        proxy.$message.error((response && response.msg) || '系统错误，请稍后再试！')
       }
       state.loading = false
     }

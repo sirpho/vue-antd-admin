@@ -112,20 +112,14 @@ function getRule(params: TableListParams) {
     dataSource = dataSource.filter((data) => data.status === params.status)
   }
 
-  let finalPageSize = 10
-  if (params.pageSize) {
-    finalPageSize = parseInt(`${params.pageSize}`, 10)
-  }
-
   dataSource = dataSource.slice(
     ((pageNum as number) - 1) * (pageSize as number),
     (pageNum as number) * (pageSize as number)
   )
 
   const result = {
-    data: dataSource,
+    rows: dataSource,
     total: tableListDataSource.length,
-    pageSize: finalPageSize,
     pageNum: parseInt(`${params.pageNum}`, 10) || 1
   }
 
@@ -178,9 +172,7 @@ export default [
     method: 'post',
     response: (request: requestParams) => {
       const token = getRequestToken(request)
-      return builder(token, {
-        data: getRule(request.body)
-      })
+      return builder(token, { ...getRule(request.body) })
     }
   },
   {
