@@ -12,7 +12,11 @@
   </div>
   <div class="wd-markdown-demo">
     <ResizeObserver key="resize-observer" :onResize="({ width }) => { setResponsive(width < 596) }">
-      <w-pro-card :split="responsive ? 'horizontal' : 'vertical'" bordered style="height: 320px">
+      <w-pro-card
+        :split="responsive ? 'horizontal' : 'vertical'"
+        bordered
+        :style="isMobile ? undefined : { height: '320px'}"
+      >
         <w-pro-card :colSpan="responsive ? 24 : 6">
           <a-steps
             style="height: 100%"
@@ -48,14 +52,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref } from 'vue'
+import { computed, defineComponent, Ref, ref } from 'vue'
 import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer'
+import useMediaQuery from '/@/components/_util/useMediaQuery'
 
 export default defineComponent({
   components: {
     ResizeObserver
   },
   setup() {
+    const colSize = useMediaQuery()
+    const isMobile = computed(
+      () => (colSize.value === 'sm' || colSize.value === 'xs')
+    )
     const current: Ref<number> = ref(0)
     const responsive: Ref<boolean> = ref(false)
     const setResponsive = (value: boolean) => {
@@ -63,6 +72,7 @@ export default defineComponent({
     }
     return {
       current,
+      isMobile,
       responsive,
       setResponsive
     }
