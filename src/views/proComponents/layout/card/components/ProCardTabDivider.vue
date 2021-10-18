@@ -1,0 +1,35 @@
+<template>
+  <a-typography style="margin-top: 16px" id="proCardTabDivider">
+    <a-typography-title :level="4" :style="{color: '#454d64'}">
+      ProCard.Divider
+    </a-typography-title>
+  </a-typography>
+  <w-pro-table
+    :showIndex="false"
+    :showPagination="false"
+    :options="false"
+    size="default"
+    headerTitle="用于在将内容进行分组时进行分隔。"
+    :columns="parameter"
+    :dataSource="proCardTabDividerData"
+    :row-key="(record) => record.attributes"
+  />
+</template>
+
+<script lang="ts">
+import { defineComponent, reactive, toRefs } from 'vue'
+import { parameter } from '../utils/columns'
+import { proCardTabDividerData } from '../utils/config'
+
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      parameter,
+      proCardTabDividerData
+    })
+    return {
+      ...toRefs(state)
+    }
+  }
+})
+</script>

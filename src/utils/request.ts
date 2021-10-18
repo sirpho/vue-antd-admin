@@ -66,7 +66,6 @@ instance.interceptors.request.use(
       ignoreCancelToken !== undefined
         ? ignoreCancelToken
         : config?.ignoreCancelToken || true
-    console.log(ignoreCancel)
     !ignoreCancel && axiosCanceler.addPending(config)
 
     config.url = `/${baseURL}${config.url}`

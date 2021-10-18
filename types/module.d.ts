@@ -20,3 +20,7 @@ declare module 'virtual:*' {
   const result: any;
   export default result;
 }
+
+declare module '@wd-pro/pro-card' {
+  export * from '/@/components/WProCard';
+}

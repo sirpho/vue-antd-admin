@@ -10,6 +10,7 @@ import {
   WProTable,
   WBackTop,
   WModal,
+  WProCard,
   WInputSearch,
   WPageLoading,
   WPageWrapper,
@@ -20,7 +21,10 @@ import {
   WAnchor,
   WDocumentation,
   WTagSelect,
-  WTagSelectOption
+  WTagSelectOption,
+  WProCardGroup,
+  WProCardDivider,
+  WProCardTabPane,
 } from '/@/components'
 import { WScrollbars, CustomIcon } from '/@/components/export'
 
@@ -95,6 +99,10 @@ const ant = {
     app.component('w-pro-skeleton', WProSkeleton)
     app.component('w-pro-watermark', WProWatermark)
     app.component('w-pro-color', WProColorPicker)
+    app.component('w-pro-card', WProCard)
+    app.component('w-pro-card-group', WProCardGroup)
+    app.component('w-pro-card-divider', WProCardDivider)
+    app.component('w-pro-card-tab-pane', WProCardTabPane)
     app.component('w-affix', WAffix)
     app.component('w-anchor', WAnchor)
     app.component('w-doc', WDocumentation)

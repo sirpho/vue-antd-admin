@@ -66,6 +66,10 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           find: '@wd-pro/pro-layout',
           replacement: pathResolve('src/components/WProLayout') + '/'
         },
+        {
+          find: '@wd-pro/pro-card',
+          replacement: pathResolve('src/components/WProCard') + '/'
+        },
         { find: /^~/, replacement: '' }
       ]
     },
@@ -95,7 +99,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
             vuex: 'Vuex',
             'vue-router': 'VueRouter',
             moment: 'moment',
-            echarts: 'echarts',
+            echarts: 'echarts'
           })
         ]
       }

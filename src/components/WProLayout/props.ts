@@ -20,5 +20,5 @@ export const basicLayoutProps = {
     type: Array as PropType<MenuDataItem[]>,
     default: () => []
   },
-  collapsed: PropTypes.looseBool,
+  collapsed: PropTypes.looseBool
 }

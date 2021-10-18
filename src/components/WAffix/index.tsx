@@ -15,6 +15,7 @@ import type { CSSProperties } from 'vue'
 import omit from 'omit.js'
 import config from '/config/config'
 import PropTypes from '/@/hooks/vue-types'
+import { getPrefixCls } from '/@/components/_util'
 import {
   addObserveTarget,
   removeObserveTarget,
@@ -24,7 +25,6 @@ import {
 } from './utils/index'
 import throttleByAnimationFrame from '../_util/throttleByAnimationFrame'
 import styles from './style.module.less'
-import { getPrefixCls } from '/@/components/_util'
 
 enum AffixStatus {
   None,
@@ -222,13 +222,23 @@ const WAffix = defineComponent({
     })
     const restProps = omit(props, [ 'prefixCls', 'offsetTop', 'offsetBottom', 'root' ])
     return () => (
-      <div {...restProps} ref={e => placeholderNode.value = e} style={state.placeholderStyle}>
+      <div
+        {...restProps}
+        ref={e => placeholderNode.value = e}
+        style={state.placeholderStyle}
+      >
         <div
           class={className.value}
           ref={e => fixedNode.value = e}
-          style={{ ...state.affixStyle, zIndex: props.zIndex || 10 }}
+          style={{
+            ...state.affixStyle,
+            zIndex: props.zIndex || 10,
+            maxHeight: `calc(90vh - ${(state.affixStyle?.top || 114) as number + 32}px)`
+          }}
         >
-          {slots.default ? slots.default() : null}
+          <w-bars style={{ height: '100%' }}>
+            {slots.default ? slots.default() : null}
+          </w-bars>
         </div>
       </div>
     )

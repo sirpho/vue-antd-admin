@@ -221,7 +221,6 @@ export default defineComponent({
         { item: '贡献', a: 40, b: 50, c: 40 },
         { item: '热度', a: 60, b: 70, c: 40 },
         { item: '引用', a: 70, b: 50, c: 40 }
-
       ]
     })
     onMounted(() => {
