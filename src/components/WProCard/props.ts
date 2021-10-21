@@ -1,15 +1,7 @@
-import { ExtractPropTypes, PropType } from 'vue'
-import tabsProps from 'ant-design-vue/es/tabs'
+import { PropType } from 'vue'
 import tabPaneProps from 'ant-design-vue/es/vc-tabs/src/TabPane'
 import PropTypes from '/@/hooks/vue-types'
-import { CustomRender } from './typings'
-
-export type Breakpoint = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
-export type Gutter = number | Partial<Record<Breakpoint, number>>;
-
-export type ColSpanType = number | string;
-
-export type ProCardTabsProps = Partial<ExtractPropTypes<typeof tabsProps>>;
+import { Breakpoint, Gutter, ColSpanType, ProCardTabsProps } from './typings'
 
 export const cardProps = {
   headStyle: PropTypes.style,
@@ -78,15 +70,10 @@ export const cardProps = {
   tabs: {
     type: [ Object ] as PropType<ProCardTabsProps>
   },
-  prefixCls: PropTypes.string,
-  ref: Object as PropType<HTMLDivElement | undefined>
+  prefixCls: PropTypes.string
 }
 
 export const proCardTabPaneProps = Object.assign({}, tabPaneProps, {
   key: PropTypes.string,
   cardProps: cardProps
 })
-
-export type CardProps = Partial<ExtractPropTypes<typeof cardProps>>;
-
-export type ProCardTabPaneProps = Partial<ExtractPropTypes<typeof proCardTabPaneProps>>;

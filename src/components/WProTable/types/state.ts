@@ -10,7 +10,7 @@ export interface ProActionColums extends ProColumns {
 }
 
 export interface stateTypes {
-  table: Element | null | ComponentInternalInstance;
+  table: any;
   searchData: Recordable[];
   pagination: PaginationProps;
   dataSource: Recordable[];

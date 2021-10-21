@@ -13,19 +13,30 @@ import {
 } from '/@/utils/accessToken'
 import { timeFix } from '/@/utils/util'
 
+interface RolesInfo {
+  roleId: number;
+  roleKey: string;
+  roleName: string;
+  status: string;
+}
+
 export interface UserInfoItem {
   userId?: number;
-  roles?: string[];
-  ability?: string[];
-  username?: string;
+  roles?: RolesInfo[];
+  roleIds?: number[];
+  buttons?: string[];
+  userName?: string;
+  loginName?: string;
   nickName?: string;
   avatar?: string;
+  loginDate?: string;
 }
 
 interface UserState {
   accessToken: string;
   userInfo: UserInfoItem;
-  username: string;
+  userName: string;
+  loginName: string;
   avatar: string;
 }
 
@@ -34,13 +45,15 @@ const { tokenName } = config.defaultSettings
 const state = (): UserState => ({
   accessToken: getAccessToken(),
   userInfo: {},
-  username: '',
+  userName: '',
+  loginName: '',
   avatar: ''
 })
 const getters = {
   accessToken: (state): string => state.accessToken,
   userInfo: (state): string => state.userInfo,
-  username: (state): string => state.username,
+  userName: (state): string => state.userName,
+  loginName: (state): string => state.loginName,
   avatar: (state): string => state.avatar
 }
 const mutations: MutationTree<any> = {
@@ -67,10 +80,19 @@ const mutations: MutationTree<any> = {
    * @author gx12358 2539306317@qq.com
    * @description 设置用户名
    * @param {*} state
-   * @param {*} username
+   * @param {*} userName
    */
-  setUsername(state: UserState, username: string) {
-    state.username = username
+  setUserName(state: UserState, userName: string) {
+    state.userName = userName
+  },
+  /**
+   * @author gx12358 2539306317@qq.com
+   * @description 设置用户名
+   * @param {*} state
+   * @param {*} userName
+   */
+  setLoginName(state: UserState, loginName: string) {
+    state.loginName = loginName
   },
   /**
    * @author gx12358 2539306317@qq.com
@@ -91,7 +113,7 @@ const actions: ActionTree<UserState, any> = {
   setVirtualRoles({ commit, dispatch }) {
     dispatch('acl/setFull', true, { root: true })
     commit('setAvatar', 'https://i.gtimg.cn/club/item/face/img/2/15922_100.gif')
-    commit('setUsername', 'admin(未开启登录拦截)')
+    commit('setUserName', 'admin(未开启登录拦截)')
   },
   /**
    * @author gx12358 2539306317@qq.com
@@ -120,16 +142,16 @@ const actions: ActionTree<UserState, any> = {
       message.error(`验证失败，请重新登录...`)
       return false
     }
-    const { username, avatar, roles, ability, nickName } = data
-    if (username && roles && Array.isArray(roles)) {
+    const { userName, avatar, roles, buttons, loginName } = data as UserInfoItem
+    if (userName && roles && Array.isArray(roles)) {
       dispatch('acl/setRole', roles, { root: true })
-      if (ability && ability.length > 0)
-        dispatch('acl/setAbility', ability, { root: true })
-      commit('setUsername', username)
+      dispatch('acl/setAbility', buttons, { root: true })
+      commit('setUserName', userName)
+      commit('setLoginName', loginName)
       commit('setAvatar', avatar)
       commit('setUserInfo', data)
       notification.success({
-        message: `欢迎登录${nickName}`,
+        message: `欢迎登录${loginName}`,
         description: `${timeFix()}！`
       })
     } else {
@@ -143,13 +165,13 @@ const actions: ActionTree<UserState, any> = {
    */
   async logout({ dispatch, state }) {
     await logout({
-      userName: state.username
+      userName: state.userName
     })
     await dispatch('resetAll')
   },
   /**
    * @author gx12358 2539306317@qq.com
-   * @description 重置accessToken、roles、ability、router等
+   * @description 重置accessToken、roles、buttons、router等
    * @param {*} { commit, dispatch }
    */
   async resetAll({ dispatch }) {

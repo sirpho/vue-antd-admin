@@ -1,5 +1,5 @@
 import { FunctionalComponent } from 'vue'
-import type { CardProps } from './props'
+import type { CardProps } from './typings'
 import ProCard from './components/Card'
 import Divider from './components/Divider'
 import TabPane from './components/TabPane'

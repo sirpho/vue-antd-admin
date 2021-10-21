@@ -10,11 +10,7 @@ import {
 } from 'vue'
 import Menu from 'ant-design-vue/es/menu'
 import { createFromIconfontCN } from '@ant-design/icons-vue'
-import {
-  MenuDataItem,
-  CustomRender,
-  WithFalse
-} from '@wd-pro/pro-layout'
+import { MenuDataItem, WithFalse } from '@wd-pro/pro-layout'
 import { baseMenuProps } from './props'
 import { defaultSettings } from '../../defaultSettings'
 import { isImg, isUrl } from '../../utils'

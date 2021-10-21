@@ -16,7 +16,15 @@ export function getFixedTop(
   targetRect: Rect,
   offsetTop: number | undefined,
 ) {
-  if (offsetTop !== undefined && targetRect.top > placeholderReact.top - offsetTop) {
+  let isPlaceholderReact = true
+  if (placeholderReact.width === 0 && placeholderReact.height === 0) {
+    isPlaceholderReact = false
+  }
+  if (
+    offsetTop !== undefined &&
+    targetRect.top > placeholderReact.top - offsetTop &&
+    isPlaceholderReact
+  ) {
     return `${offsetTop + targetRect.top}px`;
   }
   return undefined;

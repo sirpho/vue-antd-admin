@@ -4,14 +4,14 @@ import { LogoutOutlined } from '@ant-design/icons-vue'
 export type AvatarDropdownProps = {
   onLogout?: () => void;
   avatar?: string;
-  username?: string;
+  userName?: string;
 };
 
 const AvatarDropdown: FC<AvatarDropdownProps> = (props: AvatarDropdownProps) => {
   const {
     onLogout,
     avatar,
-    username
+    userName
   } = props
 
   return (
@@ -34,7 +34,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = (props: AvatarDropdownProps) => 
             size="small"
             class="wd-pro-global-header-account-avatar"
           />
-          <span class="wd-pro-global-header-account-name">{username}</span>
+          <span class="wd-pro-global-header-account-name">{userName}</span>
         </span>
       </a-dropdown>
     </span>

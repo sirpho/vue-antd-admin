@@ -129,7 +129,7 @@ const WAnchor = defineComponent({
             scrollTop < (afterAnchor ? handleOffsetTop(afterAnchor).top - defaultOffsetTop.value : 10000)
           return item
         })
-      })
+      }, 50)
     })
 
     const goAnchor = (selector) => {

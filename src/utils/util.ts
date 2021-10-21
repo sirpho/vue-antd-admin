@@ -735,7 +735,7 @@ export function checkFileType(url: any) {
 
 export function getMediaInfos(mediaInfo: {
   url: any;
-  fileType: string;
+  fileType?: string;
 }) {
   const { url = '', fileType = '1' } = mediaInfo
   let mediaUrl = ''

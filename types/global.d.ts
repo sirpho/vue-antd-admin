@@ -1,3 +1,4 @@
+import { Slot } from 'vue'
 import type {
   ComponentRenderProxy,
   VNode,
@@ -25,6 +26,19 @@ declare global {
   // vue
   declare type PropType<T> = VuePropType<T>;
   declare type VueNode = VNodeChild | JSX.Element;
+
+  declare type CustomRender =
+    | Slot
+    | VNodeChild
+    | VNode
+    | ((...props: any[]) => Slot)
+    | ((...props: any[]) => VNode)
+    | ((...args: any[]) => VNode)
+    | VNode[]
+    | JSX.Element
+    | string
+    | null
+    | undefined;
 
   export type Writable<T> = {
     -readonly [P in keyof T]: T[P];

@@ -5,14 +5,13 @@ import {
   CSSProperties,
   computed,
   cloneVNode,
-  ComponentInternalInstance,
   watch
 } from 'vue'
 import { Grid } from 'ant-design-vue'
 import { RightOutlined } from '@ant-design/icons-vue'
 import { isArray } from '@vue/shared'
 import { getPrefixCls } from '/@/components/_util'
-import type { Breakpoint, Gutter, CardProps } from '../../props'
+import type { Breakpoint, Gutter, CardProps } from '../../typings'
 import Loading from '../Loading'
 import LabelIconTip from '../LabelIconTip'
 import Actions from '../Actions'
@@ -23,11 +22,11 @@ import './style.less'
 
 const { useBreakpoint } = Grid
 
-const WProCard = defineComponent({
+const ProCard = defineComponent({
   name: 'WProCard',
   inheritAttrs: false,
   props: cardProps,
-  emits: [ 'collapse', 'update:ref' ],
+  emits: [ 'collapse' ],
   setup(props, { emit, slots, attrs }) {
     const baseClassName = getPrefixCls({
       suffixCls: 'card'
@@ -35,16 +34,7 @@ const WProCard = defineComponent({
 
     const screens = useBreakpoint()
 
-    const cardRef: Ref<Element | null | ComponentInternalInstance> = ref(null)
-
     const collapsed: Ref<boolean> = ref(false)
-
-    watch(() => cardRef.value, (value) => {
-      props.ref && emit('update:ref', value)
-    }, {
-      deep: true,
-      immediate: true
-    })
 
     watch(() => props.collapsed, (value: boolean) => {
       collapsed.value = value
@@ -251,7 +241,6 @@ const WProCard = defineComponent({
         <div
           class={cardCls.value}
           style={{ ...((attrs.style as any) || {}) }}
-          ref={e => cardRef.value = e}
         >
           {(props.title || props.extra || collapsibleButton.value) && (
             <div
@@ -304,6 +293,6 @@ const WProCard = defineComponent({
   }
 })
 
-WProCard.isProCard = true
+ProCard.isProCard = true
 
-export default WProCard
+export default ProCard

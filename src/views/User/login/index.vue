@@ -8,7 +8,7 @@
           <div class="login-container-title">欢迎来到 {{ title }}</div>
           <a-form :model="form" @submit="handleSubmit" @submit.prevent>
             <a-form-item>
-              <a-input v-model:value="form.username" placeholder="Username">
+              <a-input v-model:value="form.userName" placeholder="userName">
                 <template v-slot:prefix>
                   <UserOutlined style="color: rgba(0, 0, 0, 0.25)" />
                 </template>
@@ -29,7 +29,7 @@
               <a-button
                 type="primary"
                 html-type="submit"
-                :disabled="form.username === '' || form.password === ''"
+                :disabled="form.userName === '' || form.password === ''"
               >
                 登录
               </a-button>
@@ -53,7 +53,7 @@ import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 
 interface formState {
-  username: string;
+  userName: string;
   password: string;
 }
 
@@ -77,14 +77,14 @@ export default defineComponent({
     const state: loginState = reactive({
       redirect: undefined,
       form: {
-        username: '',
+        userName: '',
         password: ''
       },
       dependencies: pkg.dependencies,
       devDependencies: pkg.devDependencies,
     })
     onMounted(() => {
-      state.form.username = 'admin'
+      state.form.userName = 'admin'
       state.form.password = '123456'
     })
     watch(

@@ -1,8 +1,7 @@
 import { FunctionalComponent } from 'vue'
 import { getPrefixCls } from '/@/components/_util'
+import type { ProCardTabPaneProps, CardProps } from '../../typings'
 import Card from '../Card'
-import type { ProCardTabPaneProps } from '../../props'
-
 import './style.less'
 
 const TabPane: FunctionalComponent<ProCardTabPaneProps> = (props, { slots }) => {
@@ -14,9 +13,10 @@ const TabPane: FunctionalComponent<ProCardTabPaneProps> = (props, { slots }) => 
     destroyInactiveTabPane,
     className,
     style,
-    cardProps,
     ...rest
   } = props
+
+  const cardProps = props.cardProps as CardProps
 
   const baseClassName = getPrefixCls({
     suffixCls: 'card'

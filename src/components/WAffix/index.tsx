@@ -9,7 +9,7 @@ import {
   ref,
   getCurrentInstance,
   onActivated,
-  ExtractPropTypes
+  ExtractPropTypes, onDeactivated
 } from 'vue'
 import type { CSSProperties } from 'vue'
 import omit from 'omit.js'
@@ -210,6 +210,12 @@ const WAffix = defineComponent({
     })
     onActivated(() => {
       updatePosition()
+    })
+    onDeactivated(() => {
+      clearTimeout(state.timeout)
+      removeObserveTarget(currentInstance);
+      (updatePosition as any).cancel();
+      (lazyUpdatePosition as any).cancel()
     })
     onUpdated(() => {
       measure()

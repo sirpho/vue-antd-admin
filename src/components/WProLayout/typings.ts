@@ -1,6 +1,6 @@
 export type WithFalse<T> = T | false;
 
-import type { Slot, VNode, VNodeChild } from 'vue'
+import type { VNode } from 'vue'
 
 export type LayoutType = 'side' | 'mix';
 
@@ -60,17 +60,4 @@ export interface MenuDataItem {
    */
   children?: MenuDataItem[];
 }
-
-export type CustomRender =
-  | Slot
-  | VNodeChild
-  | VNode
-  | ((...props: any[]) => Slot)
-  | ((...props: any[]) => VNode)
-  | ((...args: any[]) => VNode)
-  | VNode[]
-  | JSX.Element
-  | string
-  | null
-  | undefined;
 

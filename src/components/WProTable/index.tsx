@@ -7,7 +7,6 @@ import {
   onMounted,
   computed,
   getCurrentInstance,
-  ComponentInternalInstance,
   Ref
 } from 'vue'
 import { cloneDeep } from 'lodash-es'
@@ -110,7 +109,7 @@ const WProTable = defineComponent({
      * @description ant-table重新渲染表头
      */
     const resizeableTitle = (titleprops, { ...restProps }) => {
-      let thDom: Element | null | ComponentInternalInstance = null
+      let thDom: any = null
       const { children } = restProps[0]
       const { key } = titleprops
       const col = state.columns.find(col => {

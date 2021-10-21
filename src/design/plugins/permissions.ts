@@ -35,10 +35,7 @@ router.beforeEach(async (to, _, next) => {
       next({ path: '/user/login' })
       NProgress.done()
     } else {
-      const hasRoles =
-        store.getters['acl/admin'] ||
-        store.getters['acl/role'].length > 0 ||
-        store.getters['acl/ability'].length > 0
+      const hasRoles = store.getters['acl/role'].length > 0
       if (hasRoles) {
         next()
         NProgress.done()

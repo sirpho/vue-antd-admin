@@ -1,7 +1,6 @@
 import { computed, FunctionalComponent } from 'vue'
 import { InfoCircleOutlined } from '@ant-design/icons-vue'
 import { getPrefixCls } from '/@/components/_util'
-import { CustomRender } from '/@/components/WProCard/typings'
 
 import './style.less'
 

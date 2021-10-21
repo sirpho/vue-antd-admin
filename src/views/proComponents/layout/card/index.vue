@@ -41,8 +41,7 @@
   </w-page-wrapper>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+<script lang="ts" setup>
 import BasicCard from './components/BasicCard.vue'
 import GridCard from './components/GridCard.vue'
 import ResponsiveCard from './components/ResponsiveCard.vue'
@@ -71,44 +70,4 @@ import ProCardTabPane from './components/ProCardTabPane.vue'
 import ProCardTabDivider from './components/ProCardTabDivider.vue'
 import ProCardTabGroup from './components/ProCardTabGroup.vue'
 import { links } from './utils/config'
-
-export default defineComponent({
-  components: {
-    BasicCard,
-    GridCard,
-    ResponsiveCard,
-    SplitCard,
-    ColumnsCard,
-    ComplexSplitCard,
-    GridSpaceCard,
-    MultiLineCard,
-    GroupCard,
-    HeaderDivider,
-    CollapsedCard,
-    DeckExpandCard,
-    CenterCard,
-    LoadingCard,
-    ActionsCard,
-    HideTitleCard,
-    BorderedCard,
-    HoverableCard,
-    TabsCard,
-    CardTab,
-    InnerCard,
-    StepsCard,
-    BasicApi,
-    ProCardTabs,
-    ProCardTabPane,
-    ProCardTabDivider,
-    ProCardTabGroup,
-  },
-  setup() {
-    const state = reactive({
-      links
-    })
-    return {
-      ...toRefs(state)
-    }
-  }
-})
 </script>

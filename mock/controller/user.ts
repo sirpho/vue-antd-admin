@@ -1,5 +1,13 @@
 import { MockMethod } from 'vite-plugin-mock'
+import moment from 'moment'
 import { resultError, resultSuccess, getRequestToken, requestParams } from '../_util'
+
+interface RolesInfo {
+  roleId: number;
+  roleKey: string;
+  roleName: string;
+  status: string;
+}
 
 const accessTokens = {
   admin: 'admin-accessToken',
@@ -12,8 +20,8 @@ export default [
     url: '/mock-server/login',
     method: 'post',
     response: ({ body }) => {
-      const { username } = body
-      const accessToken = accessTokens[username]
+      const { loginName } = body
+      const accessToken = accessTokens[loginName]
       if (!accessToken) {
         return {
           code: 500,
@@ -60,38 +68,94 @@ export default [
     method: 'post',
     response: ({ body }) => {
       const { accessToken } = body
-      let roles = [ 'admin' ]
-      let ability = [ 'READ' ]
-      let username = 'admin'
+      let userId: number | null = null
+      let roles: RolesInfo[] = []
+      let roleIds: number[] = []
+      let buttons: string[] = []
+      let loginName = ''
+      let userName = ''
+      let nickName = ''
       if ('admin-accessToken' === accessToken) {
-        roles = [ 'admin' ]
-        ability = [ 'READ', 'WRITE', 'DELETE' ]
-        username = 'admin'
+        userId = 1
+        roles = [
+          {
+            roleId: 1,
+            roleKey: 'admin',
+            roleName: '管理员',
+            status: '0'
+          }
+        ]
+        roleIds = [ 1 ]
+        buttons = [
+          'proTable:button:add',
+          'proTable:button:1',
+          'proTable:button:2',
+          'proTable:button:3',
+        ]
+        loginName = 'admin'
+        userName = '高翔'
+        nickName = 'gx12358'
       }
       if ('editor-accessToken' === accessToken) {
-        roles = [ 'editor' ]
-        ability = [ 'READ', 'WRITE' ]
-        username = 'editor'
+        userId = 2
+        roles = [
+          {
+            roleId: 2,
+            roleKey: 'editor',
+            roleName: '编辑管理员',
+            status: '0'
+          }
+        ]
+        roleIds = [ 2 ]
+        buttons = []
+        loginName = 'editor'
+        userName = '高翔-1'
+        nickName = 'gx12358-1'
       }
       if ('test-accessToken' === accessToken) {
-        roles = [ 'admin', 'editor' ]
-        ability = [ 'READ' ]
-        username = 'test'
+        userId = 3
+        roles = [
+          {
+            roleId: 1,
+            roleKey: 'admin',
+            roleName: '管理员',
+            status: '0'
+          },
+          {
+            roleId: 2,
+            roleKey: 'editor',
+            roleName: '编辑管理员',
+            status: '0'
+          }
+        ]
+        roleIds = [ 1, 2 ]
+        buttons = [
+          'proTable:button:add',
+          'proTable:button:1',
+          'proTable:button:2',
+          'proTable:button:3',
+        ]
+        loginName = 'test'
+        userName = '高翔-2'
+        nickName = 'gx12358-2'
       }
       return {
         code: 200,
         msg: 'success',
         data: {
-          userId: 926,
+          userId,
           roles,
-          ability,
-          username,
-          nickName: 'gx12358',
+          roleIds,
+          buttons,
+          loginName,
+          userName,
+          nickName,
           'avatar|1': [
             'https://i.gtimg.cn/club/item/face/img/2/15922_100.gif',
             'https://i.gtimg.cn/club/item/face/img/8/15918_100.gif',
             'https://zbbf9-hw.ahtv.cn/ahtv-obs/20210811/a8247f9a-1e29-8482-3902-5b50573e15e2.jpg'
-          ]
+          ],
+          loginDate: moment().format('YYYY-MM-DD HH:mm:ss')
         }
       }
     }

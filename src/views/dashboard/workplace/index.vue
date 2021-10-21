@@ -87,7 +87,7 @@
                       <a-avatar :src="item.user.avatar" />
                     </template>
                     <template #title>
-                      <a class="username">{{ item.user.name }}</a>&nbsp;
+                      <a class="userName">{{ item.user.name }}</a>&nbsp;
                       <span class="event">
                       <template
                         :key="index"

@@ -76,24 +76,17 @@ export const generator = (routerMap: any[], parent?) => {
       component:
         constantRouterComponents[item.component || item.key] ||
         loadView(item.component),
-      hideChildrenInMenu: item.hideChildrenInMenu || false,
       // meta: 页面标题, 菜单图标, 页面权限(供指令权限用，可去掉)
       meta: {
         title: item.title,
         fixed: item.fixed,
         icon: item.icon || undefined,
         iconType: item.iconType || undefined,
+        hideInMenu: item.hidden || false,
+        hideChildrenInMenu: item.hideChildrenInMenu || false,
         hiddenHeaderContent: item.hiddenHeaderContent || false,
         target: item.target
       }
-    }
-    // 隐藏菜单
-    if (item.hidden) {
-      currentRouter.hideInMenu = true
-    }
-    // 是否设置了隐藏子菜单
-    if (item.hideChildrenInMenu) {
-      currentRouter.hideChildrenInMenu = true
     }
     // 为了防止出现后端返回结果不规范，处理有可能出现拼接出两个 反斜杠
     if (!currentRouter.path.startsWith('http')) {

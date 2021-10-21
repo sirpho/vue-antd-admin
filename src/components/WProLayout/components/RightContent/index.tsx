@@ -22,7 +22,7 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const avatar = computed(() => store.getters['user/avatar'])
-    const username = computed(() => store.getters['user/username'])
+    const userName = computed(() => store.getters['user/loginName'])
     const logout = async () => {
       await store.dispatch('user/logout')
       if (recordRoute) {
@@ -61,7 +61,7 @@ export default defineComponent({
         <NoticeIcon />
         <AvatarDropdown
           avatar={avatar.value}
-          username={username.value}
+          userName={userName.value}
           onLogout={logout}
         />
       </a-space>

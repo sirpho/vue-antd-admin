@@ -27,11 +27,6 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 
-export default defineComponent({
-  setup() {
-  }
-})
 </script>

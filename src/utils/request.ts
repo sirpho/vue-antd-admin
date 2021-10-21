@@ -8,6 +8,7 @@ import router from '/@/router'
 import { AxiosCanceler } from './axios/axiosCancel'
 
 export interface CreateAxiosOptions extends AxiosRequestConfig {
+  headers?: any;
   isHttpsUrl?: string;
   ignoreCancelToken?: boolean;
 }
