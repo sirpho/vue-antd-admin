@@ -1,4 +1,4 @@
-import { ComponentInternalInstance, Slots } from 'vue'
+import { Slots } from 'vue'
 import { PaginationProps } from 'ant-design-vue/lib/pagination'
 import { ProColumns } from './column'
 import { OptionConfig } from './table'

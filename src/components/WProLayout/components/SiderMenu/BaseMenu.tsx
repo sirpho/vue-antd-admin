@@ -8,6 +8,7 @@ import {
   ExtractPropTypes,
   ConcreteComponent
 } from 'vue'
+import { useRouter } from 'vue-router'
 import Menu from 'ant-design-vue/es/menu'
 import { createFromIconfontCN } from '@ant-design/icons-vue'
 import { MenuDataItem, WithFalse } from '@wd-pro/pro-layout'
@@ -39,7 +40,7 @@ const LazyIcon = (props: {
   }
   if (typeof icon === 'string' && icon !== '') {
     if (isUrl(icon) || isImg(icon)) {
-      return <img src={icon} alt="icon" class={`wd-pro-sider-menu-icon`} />
+      return <img src={icon} alt="icon" class={`wd-pro-sider-menu-icon customimg`} />
     }
     if (iconType === 'custom') {
       return iconfontUrl ?
@@ -68,6 +69,7 @@ export default defineComponent({
   props: baseMenuProps,
   emits: [ 'update:openKeys', 'update:selectedKeys', 'click' ],
   setup(props, { emit }) {
+    const router = useRouter()
     const handleOpenChange = (openKeys: string[]): void => {
       emit('update:openKeys', openKeys)
     }
@@ -86,6 +88,15 @@ export default defineComponent({
       keyPath: string | string[] | number | number[];
     }) => {
       emit('click', args)
+    }
+    const isTotargetLink = (meta: any, routerInfo: any) => {
+      const target = (meta.target || '') as string
+      const hasUrl = isUrl(target)
+      if (router.currentRoute.value?.fullPath !== routerInfo.to) {
+        if (hasUrl && target && meta.targetStatus === '1') {
+          window.open(target)
+        }
+      }
     }
     const RouterLink = resolveComponent('router-link') as ConcreteComponent
     const getNavMenuItems = (menusData: MenuDataItem[] = []) => {
@@ -153,21 +164,24 @@ export default defineComponent({
     }
     const getMenuItem = (item: MenuDataItem) => {
       const meta = { ...item.meta }
-      const target = (meta.target || null) as string | null
-      const hasUrl = isUrl(item.linkPath || item.path)
-      const CustomTag: any = (target && 'a') || RouterLink
+      const CustomTag: any = meta.targetStatus === '1' && meta.target ? 'a' : RouterLink
       const parames = { to: item.linkPath || item.path || '' }
-      const attrs = hasUrl || target
-        ? { ...item.meta, href: item.linkPath || item.path, target }
-        : {}
 
       const menuTitle = item.meta?.title
       const defaultTitle = item.meta?.icon ? (
-        <CustomTag {...attrs} {...parames} class={`wd-pro-sider-menu-item`}>
+        <CustomTag
+          {...parames}
+          class={`wd-pro-sider-menu-item`}
+          onClick={() => isTotargetLink(meta, parames)}
+        >
           <span class={`wd-pro-sider-menu-item-title`}>{menuTitle}</span>
         </CustomTag>
       ) : (
-        <CustomTag {...attrs} {...parames} class={`wd-pro-sider-menu-item`}>
+        <CustomTag
+          {...parames}
+          class={`wd-pro-sider-menu-item`}
+          onClick={() => isTotargetLink(meta, parames)}
+        >
           <span>{menuTitle}</span>
         </CustomTag>
       )

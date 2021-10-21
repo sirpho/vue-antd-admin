@@ -46,7 +46,7 @@ export default defineComponent({
     },
     copyright: {
       type: [ String, Object, Function ] as PropType<VNodeChild | JSX.Element>,
-      default: '2021 WD体验技术部出品'
+      default: '2021 GX12358体验技术部出品'
     },
 
   },

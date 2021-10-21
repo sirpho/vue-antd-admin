@@ -62,10 +62,11 @@ export function getRequestToken({ headers }: requestParams): string | undefined 
 }
 
 export const builder = (token, config?: Partial<Result>) => {
+  const code = config?.code || 200
   const result: Result = {
     ...config,
-    code: token ? config?.code || 200 : 401,
-    msg: token ? config?.msg || config?.code === 200 ? 'success' : 'Request failed' : 'Request failed',
+    code: token ? code : 401,
+    msg: token ? config?.msg || code ? 'success' : 'Request failed' : 'Request failed'
   }
   return result
 }

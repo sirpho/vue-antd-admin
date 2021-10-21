@@ -10,36 +10,41 @@
       </page-transition>
     </template>
   </RouterView>
+  <Iframe v-if="iframeSrc" :frameSrc="iframeSrc" />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import PageTransition from '/@/components/PageTransition/index.vue'
+import Iframe from '/@/views/Iframe/index.vue'
 
-export default defineComponent({
-  components: {
-    PageTransition
+defineProps({
+  isRouterAlive: {
+    type: Boolean,
+    required: false,
+    default: true
   },
-  props: {
-    isRouterAlive: {
-      type: Boolean,
-      required: false,
-      default: true
-    },
-    contentStyle: {
-      type: Object,
-      required: false,
-      default: () => {
-        return {}
-      }
-    },
-    animate: {
-      type: Object,
-      required: false,
-      default: () => {
-        return {}
-      }
+  contentStyle: {
+    type: Object,
+    required: false,
+    default: () => {
+      return {}
+    }
+  },
+  animate: {
+    type: Object,
+    required: false,
+    default: () => {
+      return {}
     }
   }
+})
+
+const router = useRouter()
+
+const iframeSrc = computed(() => {
+  const meta = router.currentRoute.value?.meta
+  return meta?.target && meta?.targetStatus === '0' ? meta?.target : ''
 })
 </script>

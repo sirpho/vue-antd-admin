@@ -9,7 +9,8 @@ let dynamicViewsModules: Record<string, () => Promise<Recordable>>
 const constantRouterComponents = {
   // 基础页面 layout 必须引入
   BasicLayout: () => import('/@/layout/BasicLayout.vue'), // 基础页面布局，包含了头部导航，侧边栏和通知栏
-  PageView: () => import('/@/layout/PageView.vue')
+  PageView: () => import('/@/layout/PageView.vue'),
+  IframeView: () => import('/@/layout/IframeView.vue')
   // 你需要动态引入的页面组件
 }
 /**
@@ -85,7 +86,8 @@ export const generator = (routerMap: any[], parent?) => {
         hideInMenu: item.hidden || false,
         hideChildrenInMenu: item.hideChildrenInMenu || false,
         hiddenHeaderContent: item.hiddenHeaderContent || false,
-        target: item.target
+        target: item.target,
+        targetStatus: item.targetStatus
       }
     }
     // 为了防止出现后端返回结果不规范，处理有可能出现拼接出两个 反斜杠
@@ -153,6 +155,7 @@ export function buildtree(list: any[], arr: any[], parentId: string | number) {
         redirect: item.redirect,
         fixed: item.fixed,
         target: item.target,
+        targetStatus: item.targetStatus,
         hideChildrenInMenu: item.hiddenChildren,
         hiddenHeaderContent: item.hiddenHeader,
         children: [],
