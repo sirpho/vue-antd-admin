@@ -1,7 +1,7 @@
 import { InjectionKey, provide, reactive, Ref } from 'vue'
 import { themeConfig } from '/types/config'
 import { getPrefixCls } from '../_util'
-import { MenuDataItem, CustomRender } from './typings'
+import { MenuDataItem } from './typings'
 import { createContext, useContext } from './hooks/context'
 
 export interface Route {

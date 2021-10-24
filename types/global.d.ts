@@ -36,6 +36,7 @@ declare global {
     | ((...args: any[]) => VNode)
     | VNode[]
     | JSX.Element
+    | boolean
     | string
     | null
     | undefined;

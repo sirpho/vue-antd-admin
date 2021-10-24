@@ -7,7 +7,7 @@ import {
   onMounted,
   computed,
   getCurrentInstance,
-  Ref
+  Ref, ExtractPropTypes
 } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import {
@@ -26,14 +26,17 @@ import {
   isArray,
   isObject
 } from '/@/utils/util'
+import { getPropsSlot } from '/@/components/_util'
 import { stateTypes } from './types/state'
-import { OptionConfig, ProTableProps } from './types/table'
+import { OptionConfig } from './types/table'
 import { proTableProps } from './props'
 import DraggableResizable from '../DraggableResizable'
 import TableSearch from './components/TableSearch'
 import ActionColumns from './components/ActionColumns'
 import ActionSize from './components/ActionSize'
 import styles from './style.module.less'
+
+export type ProTableProps = Partial<ExtractPropTypes<typeof proTableProps>>;
 
 const proTableSlots = [ 'search', 'headerTitle', 'toolBarBtn', 'titleTip' ]
 
@@ -102,98 +105,6 @@ const WProTable = defineComponent({
     state.columns.forEach(col => {
       if (col.dataIndex && col.key) draggingMap[col.dataIndex || col.key] = col.width
     })
-    /**
-     * @Author      gx12358
-     * @DateTime    2021/7/14
-     * @lastTime    2021/7/14
-     * @description ant-table重新渲染表头
-     */
-    const resizeableTitle = (titleprops, { ...restProps }) => {
-      let thDom: any = null
-      const { children } = restProps[0]
-      const { key } = titleprops
-      const col = state.columns.find(col => {
-        const k = col.dataIndex || col.key
-        return k === key
-      })
-      const actionCol: any = state.actionColums.find(col => {
-        const k = col.dataIndex || col.key
-        return k === key
-      })
-      if (!col || !col.width || col.dataIndex === 'action' || !props.draggabled) {
-        if (col && col.dataIndex === 'action' && !props.neverScroll) {
-          if (props.automaticScroll) {
-            if (props.scroll?.x) {
-              col.width = col.width || 100
-              col.fixed = 'right'
-              actionCol.fixed = 'right'
-            } else {
-              const originCol = originColums.find(col => {
-                const k = col.dataIndex || col.key
-                return k === key
-              })
-              col.width = originCol.width || ''
-              col.fixed = originCol.fixed || ''
-              actionCol.fixed = originCol.fixed || ''
-            }
-          } else {
-            if (props.scroll?.x && col && col.dataIndex === 'action') {
-              col.width = col.width || 100
-              col.fixed = 'right'
-              actionCol.fixed = 'right'
-            } else if (innerWidth.value < 1540 && col && col.dataIndex === 'action') {
-              col.width = col.width || 100
-              col.fixed = 'right'
-              actionCol.fixed = 'right'
-            } else {
-              const originCol = originColums.find(col => {
-                const k = col.dataIndex || col.key
-                return k === key
-              })
-              col.width = originCol.width || ''
-              col.fixed = originCol.fixed || ''
-              actionCol.fixed = originCol.fixed || ''
-            }
-          }
-        } else {
-          if (innerWidth.value < 992 && col && !col.width && !col.ellipsis) {
-            col.ellipsis = true
-          }
-        }
-        return <th {...titleprops}>{children}</th>
-      }
-      const onDrag = x => {
-        state.draggingState[key] = 0
-        col.width = Math.max(x, 30)
-      }
-      const onDragstop = () => {
-        if (thDom && thDom['getBoundingClientRect']) {
-          state.draggingState[key] = thDom['getBoundingClientRect']().width
-        }
-      }
-      return (
-        <th {...titleprops} ref={r => { thDom = r }} width={col.width} class="resize-table-th">
-          {children}
-          <DraggableResizable
-            key={col.key}
-            class="table-draggable-handle"
-            w={10}
-            x={state.draggingState[key] || col.width}
-            z={1}
-            axis="x"
-            draggable={true}
-            resizable={false}
-            onDragging={onDrag}
-            onDragstop={onDragstop}
-          />
-        </th>
-      )
-    }
-    const components = {
-      header: {
-        cell: resizeableTitle
-      }
-    }
     onMounted(() => {
       document.addEventListener('fullscreenchange', fullScreenListener)
       document.addEventListener('webkitfullscreenchange', fullScreenListener)
@@ -558,6 +469,93 @@ const WProTable = defineComponent({
     })
     /**
      * @Author      gx12358
+     * @DateTime    2021/7/14
+     * @lastTime    2021/7/14
+     * @description ant-table重新渲染表头
+     */
+    const resizeableTitle = (titleprops, { ...restProps }) => {
+      let thDom: any = null
+      const { children } = restProps[0]
+      const { key } = titleprops
+      const col = state.columns.find(col => {
+        const k = col.dataIndex || col.key
+        return k === key
+      })
+      const actionCol: any = state.actionColums.find(col => {
+        const k = col.dataIndex || col.key
+        return k === key
+      })
+      if (!col || !col.width || col.dataIndex === 'action' || !props.draggabled) {
+        if (col && col.dataIndex === 'action' && !props.neverScroll) {
+          if (props.automaticScroll) {
+            if (props.scroll?.x) {
+              col.width = col.width || 100
+              col.fixed = 'right'
+              actionCol.fixed = 'right'
+            } else {
+              const originCol = originColums.find(col => {
+                const k = col.dataIndex || col.key
+                return k === key
+              })
+              col.width = originCol.width || ''
+              col.fixed = originCol.fixed || ''
+              actionCol.fixed = originCol.fixed || ''
+            }
+          } else {
+            if (props.scroll?.x && col && col.dataIndex === 'action') {
+              col.width = col.width || 100
+              col.fixed = 'right'
+              actionCol.fixed = 'right'
+            } else if (innerWidth.value < 1540 && col && col.dataIndex === 'action') {
+              col.width = col.width || 100
+              col.fixed = 'right'
+              actionCol.fixed = 'right'
+            } else {
+              const originCol = originColums.find(col => {
+                const k = col.dataIndex || col.key
+                return k === key
+              })
+              col.width = originCol.width || ''
+              col.fixed = originCol.fixed || ''
+              actionCol.fixed = originCol.fixed || ''
+            }
+          }
+        } else {
+          if (innerWidth.value < 992 && col && !col.width && !col.ellipsis) {
+            col.ellipsis = true
+          }
+        }
+        return <th {...titleprops}>{children}</th>
+      }
+      const onDrag = x => {
+        state.draggingState[key] = 0
+        col.width = Math.max(x, 30)
+      }
+      const onDragstop = () => {
+        if (thDom && thDom['getBoundingClientRect']) {
+          state.draggingState[key] = thDom['getBoundingClientRect']().width
+        }
+      }
+      return (
+        <th {...titleprops} ref={r => { thDom = r }} width={col.width} class="resize-table-th">
+          {children}
+          <DraggableResizable
+            key={col.key}
+            class="table-draggable-handle"
+            w={10}
+            x={state.draggingState[key] || col.width}
+            z={1}
+            axis="x"
+            draggable={true}
+            resizable={false}
+            onDragging={onDrag}
+            onDragstop={onDragstop}
+          />
+        </th>
+      )
+    }
+    /**
+     * @Author      gx12358
      * @DateTime    2021/9/6
      * @lastTime    2021/9/6
      * @description 判断table是否是树形结构并将第一个改为原ant-table溢出隐藏结构
@@ -890,7 +888,7 @@ const WProTable = defineComponent({
       }
       return show
     }
-    const toolBarLeft = () => (
+    const toolBarLeft = (dom: any, tipDom: any, toolbarDom: any) => (
       <div
         class={styles[`${tableClassName}-list-toolbar-left`]}
         style={{ ...toolBarItemStyle.value, flexWrap: 'wrap' }}
@@ -899,68 +897,31 @@ const WProTable = defineComponent({
           class={styles[`${tableClassName}-list-toolbar-title`]}
           style={innerWidth.value < 992 ? { width: '100%' } : undefined}
         >
-          {
-            props.headerTitle
-              ? typeof props.headerTitle === 'string'
-                ? props.headerTitle
-                : props.headerTitle()
-              : slots.headerTitle
-                ? slots.headerTitle()
-                : null
-          }
-          {
-            props.titleTip || props.titleTip === '' ?
-              <span class={styles[`${tableClassName}-list-toolbar-tip-icon`]}>
-                <a-tooltip title={props.titleTipText}>
-                  {
-                    props.titleTip ?
-                      props.titleTip()
-                      :
-                      slots.titleTip ?
-                        slots.titleTip()
-                        : <InfoCircleOutlined />
-                  }
-                </a-tooltip>
-              </span>
-              :
-              null
-          }
-        </div>
-        {
-          props.toolBarBtn && props.toolBarBtn.length > 0 ?
-            <div
-              class={styles[`${tableClassName}-list-toolbar-btns`]}
-              style={innerWidth.value < 992 ? {
-                width: '100%',
-                marginTop: '16px',
-                marginLeft: 0
-              } : undefined}
-            >
-              <a-space>
+          {dom}
+          {tipDom && (
+            <span class={styles[`${tableClassName}-list-toolbar-tip-icon`]}>
+              <a-tooltip title={props.titleTipText}>
                 {
-                  props.toolBarBtn.map(item => item())
+                  tipDom === true
+                    ? <InfoCircleOutlined />
+                    : tipDom
                 }
-              </a-space>
-            </div>
-            :
-            slots.toolBarBtn ?
-              <div
-                class={styles[`${tableClassName}-list-toolbar-btns`]}
-                style={innerWidth.value < 992 ? {
-                  width: '100%',
-                  marginTop: '16px',
-                  marginLeft: 0
-                } : undefined}
-              >
-                <a-space>
-                  {
-                    slots.toolBarBtn()
-                  }
-                </a-space>
-              </div>
-              :
-              null
-        }
+              </a-tooltip>
+            </span>
+          )}
+        </div>
+        {toolbarDom && (
+          <div
+            class={styles[`${tableClassName}-list-toolbar-btns`]}
+            style={innerWidth.value < 992 ? {
+              width: '100%',
+              marginTop: '16px',
+              marginLeft: 0
+            } : undefined}
+          >
+            <a-space>{toolbarDom}</a-space>
+          </div>
+        )}
       </div>
     )
     const toolBarRight = () => (
@@ -1032,74 +993,83 @@ const WProTable = defineComponent({
         }
       </div>
     )
-    return () => (
-      <div
-        id={state.tableId}
-        ref={e => state.table = e}
-        style={props.tableStyle || null}
-        class={
-          {
-            [`${styles[tableClassName]}`]: true,
-            [`${props.tableClassName}`]: props.tableClassName,
-            [`${styles[`${tableClassName}-no-scroll`]}`]: !changeProps.value.scroll,
-            [`${styles[`${tableClassName}-has-table-tree`]}`]: state.columns.some(item => item.hasTableTree)
+    return () => {
+      const headerTitleRender = getPropsSlot(slots, props, 'headerTitle')
+      const titleTipRender = getPropsSlot(slots, props, 'titleTip')
+      const toolBarBtnRender = getPropsSlot(slots, props, 'toolBarBtn')
+      return (
+        <div
+          id={state.tableId}
+          ref={e => state.table = e}
+          style={props.tableStyle || null}
+          class={
+            {
+              [`${styles[tableClassName]}`]: true,
+              [`${props.tableClassName}`]: props.tableClassName,
+              [`${styles[`${tableClassName}-no-scroll`]}`]: !changeProps.value.scroll,
+              [`${styles[`${tableClassName}-has-table-tree`]}`]: state.columns.some(item => item.hasTableTree)
+            }
           }
-        }
-      >
-        {
-          props.search ?
-            <TableSearch
-              {...props.search}
+        >
+          {
+            props.search ?
+              <TableSearch
+                {...props.search}
+                loading={props.request ? state.tableLoading : changeProps.value.loading}
+                data={
+                  props.search.type === 'dataSouce' || props.search.type === 'columns' ?
+                    state.searchData
+                    :
+                    slots.search ?
+                      slots.search() : null
+                }
+                onTableSearch={changeTableParams}
+              />
+              :
+              null
+          }
+          {
+            handleShowProTool() ?
+              <div
+                style={toolBarStyle.value}
+                class={styles[`${tableClassName}-list-toolbar`]}
+              >
+                {headerTitleRender && toolBarLeft(headerTitleRender, titleTipRender, toolBarBtnRender)}
+                {Object.keys(state.options).length > 0 ? toolBarRight() : null}
+              </div>
+              :
+              null
+          }
+          <a-config-provider renderEmpty={defaultEmpty}>
+            <a-table
+              key={state.tableKey}
+              {...changeProps.value}
+              size={state.size}
+              dataSource={props.request ? state.dataSource : changeProps.value.dataSource}
               loading={props.request ? state.tableLoading : changeProps.value.loading}
-              data={
-                props.search.type === 'dataSouce' || props.search.type === 'columns' ?
-                  state.searchData
+              pagination={props.showPagination ? props.request ? state.pagination : changeProps.value.pagination : false}
+              columns={state.columns}
+              components={{
+                header: {
+                  cell: resizeableTitle
+                }
+              }}
+              transformCellText={({ text, column }) => {
+                const { value, success } = hanndleField(text, column.customize)
+                return column.ellipsis ?
+                  tooltipSlot(value, success, column)
                   :
-                  slots.search ?
-                    slots.search() : null
-              }
-              onTableSearch={changeTableParams}
+                  value
+              }}
+              onChange={changePage}
+              onExpandedRowsChange={expandedRowsChange}
+              onExpand={expand}
+              v-slots={state.tableSlots}
             />
-            :
-            null
-        }
-        {
-          handleShowProTool() ?
-            <div
-              style={toolBarStyle.value}
-              class={styles[`${tableClassName}-list-toolbar`]}
-            >
-              {toolBarLeft()}
-              {Object.keys(state.options).length > 0 ? toolBarRight() : null}
-            </div>
-            :
-            null
-        }
-        <a-config-provider renderEmpty={defaultEmpty}>
-          <a-table
-            key={state.tableKey}
-            {...changeProps.value}
-            size={state.size}
-            dataSource={props.request ? state.dataSource : changeProps.value.dataSource}
-            loading={props.request ? state.tableLoading : changeProps.value.loading}
-            pagination={props.showPagination ? props.request ? state.pagination : changeProps.value.pagination : false}
-            columns={state.columns}
-            components={components}
-            transformCellText={({ text, column }) => {
-              const { value, success } = hanndleField(text, column.customize)
-              return column.ellipsis ?
-                tooltipSlot(value, success, column)
-                :
-                value
-            }}
-            onChange={changePage}
-            onExpandedRowsChange={expandedRowsChange}
-            onExpand={expand}
-            v-slots={state.tableSlots}
-          />
-        </a-config-provider>
-      </div>
-    )
+          </a-config-provider>
+        </div>
+      )
+    }
   }
 })
 export default WProTable

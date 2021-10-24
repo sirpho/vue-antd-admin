@@ -1,4 +1,3 @@
-import { Slots } from 'vue'
 import type { RouteRecord, RouteRecordRaw } from 'vue-router'
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
 import { MenuDataItem } from '@wd-pro/pro-layout'
@@ -75,19 +74,6 @@ export function getMenuFirstLastChildPath(data: MenuDataItem[]): string {
     newPath = data.length > 0 ? data[0].path : ''
   }
   return newPath
-}
-
-export function getPropsSlot(slots: Slots, props: Record<string, any>, prop = 'default') {
-  return props[prop] || slots[prop]?.()
-}
-
-export function getPropsSlotfn(slots: Slots, props: Record<string, any>, prop = 'default') {
-  return props[prop] || slots[prop]
-}
-
-export const PropRenderType = {
-  type: [ Function, Boolean ],
-  default: () => undefined
 }
 
 export interface Attrs {

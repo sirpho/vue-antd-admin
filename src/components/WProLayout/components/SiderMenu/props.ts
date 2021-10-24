@@ -1,14 +1,9 @@
 import { CSSProperties } from 'vue'
 import type { MenuTheme } from '/types/config'
+import PropTypes from '/@/hooks/vue-types'
+import { MenuDataItem, LayoutType, WithFalse } from '@wd-pro/pro-layout'
 import { CustomMenuRender } from './BaseMenu'
 import { SiderProps, MenuMode } from './typings'
-import {
-  MenuDataItem,
-  CustomRender,
-  LayoutType,
-  WithFalse
-} from '@wd-pro/pro-layout'
-import { PropTypes } from '../../utils'
 import { defaultSettingProps } from '../../defaultSettings'
 
 export const baseMenuProps = {
@@ -16,7 +11,7 @@ export const baseMenuProps = {
 
   mode: {
     type: String as PropType<MenuMode>,
-    default: 'inline',
+    default: 'inline'
   },
   menuData: {
     type: Array as PropType<MenuDataItem[]>,
@@ -81,10 +76,11 @@ export const siderMenuProps = {
     default: () => undefined
   },
   menuContentRender: {
-    type: [Function, Object] as PropType<
-      WithFalse<(props: any, defaultDom: CustomRender) => CustomRender>
-      >,
-    default: () => undefined,
+    type: [ Function, Object ] as PropType<WithFalse<(
+      props: any,
+      defaultDom: CustomRender
+    ) => CustomRender>>,
+    default: () => undefined
   },
   collapsedButtonRender: {
     type: [
@@ -95,13 +91,13 @@ export const siderMenuProps = {
     default: () => undefined
   },
   breakpoint: {
-    type: [Object, Boolean] as PropType<SiderProps['breakpoint'] | false>,
-    default: () => false,
+    type: [ Object, Boolean ] as PropType<SiderProps['breakpoint'] | false>,
+    default: () => false
   },
   isMobile: PropTypes.looseBool,
   matchMenuKeys: {
     type: Array as PropType<string[]>,
-    default: () => [],
+    default: () => []
   },
 
   // events

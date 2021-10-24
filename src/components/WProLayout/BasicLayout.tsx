@@ -11,15 +11,15 @@ import {
   ExtractPropTypes
 } from 'vue'
 import omit from 'omit.js'
-import type { CustomRender, WithFalse } from './typings'
-import { WrapContent } from './WrapContent'
+import { getPropsSlotfn, getPropsSlot } from '/@/components/_util'
+import type { WithFalse } from './typings'
 import { basicLayoutProps } from './props'
 import { provideRouteContext, defaultRouteContext, RouteContextProps } from './RouteContext'
+import { WrapContent } from './WrapContent'
 import GlobalHeader from './components/GlobalHeader'
 import GlobalFooter from './components/GlobalFooter'
 import SiderMenuWrapper from './components/SiderMenu'
 import useMediaQuery from '../_util/useMediaQuery'
-import { getPropsSlotfn, getPropsSlot } from './utils'
 import './style.less'
 
 export type BasicLayoutProps = Partial<ExtractPropTypes<typeof basicLayoutProps>>;

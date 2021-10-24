@@ -10,13 +10,12 @@ import {
 import { Grid } from 'ant-design-vue'
 import { RightOutlined } from '@ant-design/icons-vue'
 import { isArray } from '@vue/shared'
-import { getPrefixCls } from '/@/components/_util'
+import { getPrefixCls, getPropsSlot } from '/@/components/_util'
 import type { Breakpoint, Gutter, CardProps } from '../../typings'
+import { cardProps } from '../../props'
 import Loading from '../Loading'
 import LabelIconTip from '../LabelIconTip'
 import Actions from '../Actions'
-import { cardProps } from '../../props'
-import { getPropsSlot } from '../../utils'
 
 import './style.less'
 

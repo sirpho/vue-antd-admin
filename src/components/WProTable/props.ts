@@ -1,5 +1,6 @@
-import { CSSProperties, VNodeChild, PropType } from 'vue'
+import { CSSProperties, PropType } from 'vue'
 import { Table as T } from 'ant-design-vue'
+import { WithFalse } from '@wd-pro/pro-layout'
 import { OptionConfig, requsetConfig, searchPorps } from './types/table'
 import { ProCoreActionType } from './types/tableAction'
 
@@ -32,9 +33,8 @@ export const proTableProps = Object.assign({}, T.props, {
     required: false
   },
   toolBarBtn: {
-    type: [ Array ] as PropType<(() => VNodeChild | JSX.Element)[]>,
-    required: false,
-    default: () => []
+    type: [ Array, Function, Object ] as PropType<WithFalse<() => CustomRender>>,
+    default: () => undefined
   },
   tableClassName: {
     type: String as PropType<String>,
@@ -56,12 +56,16 @@ export const proTableProps = Object.assign({}, T.props, {
     default: true
   },
   headerTitle: {
-    type: [ String, Function ] as PropType<string | (() => VNodeChild | JSX.Element)>,
-    required: false
+    type: [
+      String,
+      Function,
+      Object
+    ] as PropType<string | WithFalse<() => CustomRender>>,
+    default: () => undefined
   },
   titleTip: {
-    type: Function as PropType<(() => VNodeChild | JSX.Element)>,
-    required: false
+    type: [ Boolean, Function, Object ] as PropType<WithFalse<() => CustomRender>>,
+    default: () => undefined
   },
   titleTipText: {
     type: String as PropType<string>,
