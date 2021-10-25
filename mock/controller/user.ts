@@ -20,8 +20,8 @@ export default [
     url: '/mock-server/login',
     method: 'post',
     response: ({ body }) => {
-      const { loginName } = body
-      const accessToken = accessTokens[loginName]
+      const { userName } = body
+      const accessToken = accessTokens[userName]
       if (!accessToken) {
         return {
           code: 500,

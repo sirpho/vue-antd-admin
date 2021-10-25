@@ -87,6 +87,9 @@ export type ProSearchConfig<Entity = Record<string, any>,
 };
 
 export interface ProColumns extends ColumnProps {
+  originAlign?: string;
+  uuid?: string;
+  checked?: boolean;
   hasTableTree?: boolean;
   /** 表单搜索配置 */
   searchConfig?: ProSearchConfig;

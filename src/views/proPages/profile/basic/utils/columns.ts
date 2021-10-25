@@ -1,6 +1,4 @@
-import type { ProColumns } from '/@/components/WProTable/types/column'
-
-export const progressColumns: ProColumns[] = [
+export const progressColumns = [
   {
     title: '时间',
     dataIndex: 'time',

@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <a-row>
-      <a-col :xs="0" :md="0" :sm="12" :lg="14" :xl="16"></a-col>
+      <a-col :xs="0" :md="0" :sm="12" :lg="14" :xl="16"/>
       <a-col :xs="24" :sm="24" :md="12" :lg="10" :xl="6">
         <div class="login-container-form">
           <div class="login-container-hello">hello!</div>

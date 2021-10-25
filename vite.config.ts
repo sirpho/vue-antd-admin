@@ -67,6 +67,10 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           replacement: pathResolve('src/components/WProLayout') + '/'
         },
         {
+          find: '@wd-pro/pro-table',
+          replacement: pathResolve('src/components/WProTable') + '/'
+        },
+        {
           find: '@wd-pro/pro-card',
           replacement: pathResolve('src/components/WProCard') + '/'
         },

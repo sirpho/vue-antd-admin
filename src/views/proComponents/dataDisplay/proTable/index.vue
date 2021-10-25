@@ -13,10 +13,9 @@
       :row-key="(record) => record.uuid"
       :request="(params, sort, filter) => getTableData(params, sort, filter)"
       :row-selection="{
-          selectedRowKeys: selectedRowKeys,
-          onChange: onSelectChange
-        }"
-      :scroll="{ x: 1850 }"
+        selectedRowKeys: selectedRowKeys,
+        onChange: onSelectChange
+      }"
       @reset="onReset"
       @searchReset="onSearchReset"
     >
@@ -180,7 +179,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance, reactive, toRefs } from 'vue'
+import { defineComponent, getCurrentInstance, onMounted, reactive, toRefs } from 'vue'
 import { getList } from '/@/services/table'
 import { deepCopy, handleSelectPage } from '/@/utils/util'
 import ProTableApi from './components/ProTableApi.vue'
@@ -267,6 +266,11 @@ export default defineComponent({
           name: 'Columns 列定义'
         }
       ]
+    })
+    onMounted(() => {
+      // setTimeout(() => {
+      //   state.tableParameters.title = '123'
+      // }, 1000)
     })
     const getTableData = async (params) => {
       const response: any = await getList({

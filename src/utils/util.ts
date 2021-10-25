@@ -1,6 +1,12 @@
 import moment from 'moment'
 import global from '/@/common/global'
 
+const toString = Object.prototype.toString
+
+export function is(val: unknown, type: string) {
+  return toString.call(val) === `[object ${type}]`
+}
+
 export function timeFix() {
   const time = new Date()
   const hour = time.getHours()
@@ -33,8 +39,12 @@ export function trim(str: string, isGlobal: boolean) {
   return result
 }
 
+export function isBoolean(val: unknown): val is boolean {
+  return is(val, 'Boolean')
+}
+
 export function isFunction(val: unknown): val is Function {
-  return typeof val === 'function';
+  return typeof val === 'function'
 }
 
 /**
@@ -43,8 +53,8 @@ export function isFunction(val: unknown): val is Function {
  * @lastTime    2019/11/29
  * @description 是否是数组
  */
-export function isArray(val: any) {
-  return Array.isArray(val)
+export function isArray(val: any): val is Array<any> {
+  return val && Array.isArray(val)
 }
 
 /**
@@ -53,8 +63,8 @@ export function isArray(val: any) {
  * @lastTime    2019/11/29
  * @description 是否是对象
  */
-export function isObject(obj: any) {
-  return obj !== null && typeof obj === 'object'
+export function isObject(val: any): val is Record<any, any> {
+  return val !== null && is(val, 'Object')
 }
 
 /**

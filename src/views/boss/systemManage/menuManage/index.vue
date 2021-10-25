@@ -17,14 +17,13 @@
   </w-page-wrapper>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, toRefs, onMounted, getCurrentInstance } from 'vue'
+import { defineComponent, reactive, toRefs, onMounted } from 'vue'
 import { getRouterList } from '/@/services/router'
 import { treeData } from '/@/utils/util'
 import columns from './utils/columns'
 
 export default defineComponent({
   setup() {
-    const { proxy }: any = getCurrentInstance()
     const state = reactive({
       tableData: [],
       pagination: {
