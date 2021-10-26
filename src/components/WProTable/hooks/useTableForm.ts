@@ -12,16 +12,18 @@ export function useTableForm(
 
   watch(
     () => unref(props).search,
-    (searchConfig) => {
-      let searchData = searchConfig ? searchConfig.data : []
-      if (searchConfig && searchConfig.type === 'columns') {
-        searchData = []
-        unref(props).columns.map(item => {
-          if (item.searchConfig) searchData.push(item.searchConfig)
-          return item
-        })
+    (newVal, oldVal) => {
+      if (String(newVal) !== String(oldVal)) {
+        let searchData = newVal ? newVal.data : []
+        if (newVal && newVal.type === 'columns') {
+          searchData = []
+          unref(props).columns.map(item => {
+            if (item.searchConfig) searchData.push(item.searchConfig)
+            return item
+          })
+        }
+        formDataRef.value = cloneDeep(searchData)
       }
-      formDataRef.value = cloneDeep(searchData)
     },
     {
       deep: true,
@@ -31,8 +33,13 @@ export function useTableForm(
 
   watch(
     () => unref(props).params,
-    (value) => {
-      formParamsRef.value = value
+    (newVal, oldVal) => {
+      if (String(newVal) !== String(oldVal)) {
+        formParamsRef.value = {
+          ...formParamsRef.value,
+          ...newVal
+        }
+      }
     },
     {
       deep: true,

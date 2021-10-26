@@ -13,7 +13,19 @@ export default {
       slots: { title: 'FullName', customRender: 'name' }
     },
     { title: 'Age', dataIndex: 'age', key: 'age', width: 150 },
-    { title: 'Column 1', dataIndex: 'address', key: '1', width: 150 },
+    {
+      title: 'Column 1',
+      dataIndex: 'address',
+      key: '1',
+      width: 150,
+      searchConfig: {
+        name: 'createTime',
+        valueType: 'dateRange',
+        placeholder: '请选择',
+        showTime: false,
+        format: 'YYYY-MM-DD',
+      }
+    },
     { title: 'Column 2', dataIndex: 'address', key: '2' },
     { title: 'Column 3', dataIndex: 'address', key: '3' },
     { title: 'Column 4', dataIndex: 'address', key: '4' },

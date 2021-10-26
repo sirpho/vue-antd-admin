@@ -109,8 +109,10 @@ const TableSearch = defineComponent({
       state.formList = formList
     }
     watch(innerWidth, (value) => { innerWidth.value = value})
-    watch(() => props.data, (dataSource) => {
-      hanldeFormList(dataSource)
+    watch(() => props.data, (newVal, oldVal) => {
+      if (String(newVal) !== String(oldVal)) {
+        hanldeFormList(newVal)
+      }
     }, {
       deep: true,
       immediate: true
@@ -190,9 +192,9 @@ const TableSearch = defineComponent({
       if (record && record.valueType === 'text') modelRef[record.name] = val || record.defaultValue
       const params = cloneDeep(modelRef)
       if (record && record.valueType === 'dateRange') {
-        params[record.rangeStartName || 'start'] = params[record.valueType][0]
-        params[record.rangeEndName || 'end'] = params[record.valueType][1]
-        delete params[record.valueType]
+        params[record.rangeStartName || 'start'] = params[record.name][0]
+        params[record.rangeEndName || 'end'] = params[record.name][1]
+        delete params[record.name]
       }
       if (!props.showSearch) emit('tableSearch', params)
     }

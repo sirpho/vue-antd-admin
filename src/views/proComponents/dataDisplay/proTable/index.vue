@@ -6,7 +6,7 @@
       align="center"
       :actionRef="info => tableRef = info"
       :search="{
-        type: 'colmns',
+        type: 'columns',
       }"
       :params="tableParameters"
       :columns="columns"
@@ -16,6 +16,7 @@
         selectedRowKeys: selectedRowKeys,
         onChange: onSelectChange
       }"
+      :scroll="{ x: 1850 }"
       @reset="onReset"
       @searchReset="onSearchReset"
     >

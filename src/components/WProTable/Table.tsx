@@ -393,10 +393,10 @@ const WProTable = defineComponent({
             emit('searchReset')
           }
           if (props.search.showSearch) {
-            setFormParams(props.params)
+            setFormParams(params)
           }
         } else {
-          setFormParams(props.params)
+          setFormParams(params)
         }
       } else {
         emit('search', params)
