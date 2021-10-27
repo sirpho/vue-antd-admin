@@ -27,6 +27,8 @@ declare global {
   declare type PropType<T> = VuePropType<T>;
   declare type VueNode = VNodeChild | JSX.Element;
 
+  declare type WithFalse<T> = T | false;
+
   declare type CustomRender =
     | Slot
     | VNodeChild

@@ -1,143 +1,137 @@
 import moment from 'moment'
-import { computed, defineComponent, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
+import {
+  computed,
+  defineComponent,
+  PropType,
+  reactive,
+  unref,
+  watch
+} from 'vue'
+import { Grid } from 'ant-design-vue'
 import { SearchOutlined, UpOutlined, DownOutlined } from '@ant-design/icons-vue'
 import { cloneDeep } from 'lodash-es'
+import PropTypes from '/@/hooks/vue-types'
+import type { ProSearchConfig } from '../types/column'
+
 import styles from '../style.module.less'
 
-const TableSearch = defineComponent({
-  props: {
-    type: {
-      type: String,
-      required: true
-    },
-    loading: {
-      type: Boolean,
-      required: false
-    },
-    data: {
-      type: Array,
-      required: false,
-      default: () => {
-        return []
-      }
-    },
-    className: {
-      type: String,
-      required: false
-    },
-    showReset: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-    showSearch: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-    resetText: {
-      type: String,
-      required: false,
-      default: '重置'
-    },
-    searchText: {
-      type: String,
-      required: false,
-      default: '查询'
-    },
-    defaultCollapsed: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-    collapseRender: {
-      type: Function,
-      required: false
-    }
+export type Breakpoint = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
+
+export type ColSpanType = number | string;
+
+const { useBreakpoint } = Grid
+
+const tableSearchProps = {
+  type: String as PropType<'dataSouce' | 'columns' | 'slots'>,
+  loading: PropTypes.bool,
+  searchData: {
+    type: [ Array ] as PropType<ProSearchConfig[]>,
+    default: () => []
   },
-  setup(props, { emit }) {
+  span: {
+    type: [ Object, Number ] as PropType<ColSpanType | Partial<Record<Breakpoint, ColSpanType>>>,
+    default: () => undefined
+  },
+  className: PropTypes.string,
+  searchStyle: PropTypes.style,
+  showReset: PropTypes.bool,
+  showSearch: PropTypes.bool,
+  resetText: {
+    type: String as PropType<string>,
+    default: '重置'
+  },
+  searchText: {
+    type: String as PropType<string>,
+    default: '查询'
+  },
+  defaultCollapsed: PropTypes.bool,
+  collapseRender: {
+    type: [ Function, Boolean ] as PropType<WithFalse<(collapsed?: boolean) => CustomRender>>,
+    default: () => undefined
+  }
+}
+
+const TableSearch = defineComponent({
+  props: tableSearchProps,
+  setup(props, { emit, slots }) {
     const tableClassName = 'wd-pro-table'
-    const innerWidth = ref(window.innerWidth)
+    const screens = useBreakpoint()
+    const responsiveArray: { value: Breakpoint; span: number; }[] = [
+      { value: 'xxl', span: 5 },
+      { value: 'xl', span: 3 },
+      { value: 'lg', span: 2 },
+      { value: 'md', span: 2 },
+      { value: 'sm', span: 2 },
+      { value: 'xs', span: 1 }
+    ]
     const modelRef = reactive({})
     const state = reactive({
       searchType: 'dataSouce',
-      advanced: false,
-      formList: []
+      advanced: false
     })
-    onMounted(() => {
-      window.addEventListener('resize', getWidth)
-    })
-    onUnmounted(() => {
-      window.removeEventListener('resize', getWidth)
-    })
-    /**
-     * @Author      gx12358
-     * @DateTime    2021/7/14
-     * @lastTime    2021/7/14
-     * @description 监听屏幕宽度
-     */
-    const getWidth = () => {
-      innerWidth.value = window.innerWidth
-    }
-    const hanldeFormList = (data) => {
-      const formList: any = []
+    const getSearchType = computed(() => props.type || 'dataSouce')
+    const getDataRef = computed(() => {
+      const datasource: ProSearchConfig[] = []
       if (props.type === 'dataSouce' || props.type === 'columns') {
-        data.map(item => {
-          let defaultValue = item.defaultValue
-          const valueUndefined = [ 'select' ]
-          const valueNull = [ 'date', 'time', 'dateRange' ]
-          const valueEmptyArray: any = []
-          if (!defaultValue && valueUndefined.includes(item.valueType)) {
-            defaultValue = undefined
-          } else if (!defaultValue && valueNull.includes(item.valueType)) {
-            defaultValue = null
-          } else if (!defaultValue && valueEmptyArray.includes(item.valueType)) {
-            defaultValue = []
-          } else if (!defaultValue) {
-            defaultValue = ''
+        props.searchData.map(item => {
+          if (item.valueType && item.name) {
+            let initialValue = item.initialValue
+            const valueUndefined: string[] = [ 'select' ]
+            const valueNull: string[] = [ 'date', 'time', 'dateRange' ]
+            const valueEmptyArray: string[] = []
+            if (!initialValue && valueUndefined.includes(item.valueType)) {
+              initialValue = undefined
+            } else if (!initialValue && valueNull.includes(item.valueType)) {
+              initialValue = null
+            } else if (!initialValue && valueEmptyArray.includes(item.valueType)) {
+              initialValue = []
+            } else if (!initialValue) {
+              initialValue = ''
+            }
+            modelRef[item.name] = initialValue
           }
-          modelRef[item.name] = defaultValue
-          formList.push(cloneDeep(item))
-          return item
-        })
-      } else if (props.type === 'slots') {
-        data.map(item => {
-          formList.push(item)
+          datasource.push(cloneDeep(item))
           return item
         })
       }
-      state.formList = formList
-    }
-    watch(innerWidth, (value) => { innerWidth.value = value})
-    watch(() => props.data, (newVal, oldVal) => {
-      if (String(newVal) !== String(oldVal)) {
-        hanldeFormList(newVal)
-      }
-    }, {
-      deep: true,
-      immediate: true
+      return datasource
+    })
+    const rowLength = computed(() => {
+      return getColSpanStyle(props.span)
     })
     watch(() => props.defaultCollapsed, (value) => {
       state.advanced = state.advanced || value
-    }, {
-      deep: true,
-      immediate: true
     })
-    watch(() => props.type, (value) => {
-      state.searchType = value
-    }, {
-      deep: true,
-      immediate: true
-    })
-    const rowLength = computed(() => {
-      return innerWidth.value > 1540
-        ? 5
-        : innerWidth.value >= 1341 && innerWidth.value <= 1540
-          ? 3
-          : innerWidth.value >= 992 && innerWidth.value < 1540
-            ? 2
-            : 1
-    })
+    const getColSpanStyle = (colSpan: ColSpanType | Partial<Record<Breakpoint, ColSpanType>> | undefined) => {
+      let span: number | string | undefined = 5
+
+      // colSpan 响应式
+      if (typeof colSpan === 'object') {
+        for (let i = 0; i < responsiveArray.length; i += 1) {
+          const breakpoint: Breakpoint = responsiveArray[i].value
+          if (screens.value[breakpoint] && colSpan[breakpoint] !== undefined) {
+            span = colSpan[breakpoint]
+            break
+          }
+        }
+      }
+
+      if (
+        typeof span === 'string' && /\d%|\dpx/i.test(span) ||
+        typeof span === 'number' ||
+        !span
+      ) {
+        for (let i = 0; i < responsiveArray.length; i += 1) {
+          const breakpoint: Breakpoint = responsiveArray[i].value
+          if (screens.value[breakpoint]) {
+            span = responsiveArray[i].span
+            break
+          }
+        }
+      }
+
+      return span as number
+    }
     const changeAdvanced = (status) => { state.advanced = status }
     const getStyleWidth = (index, rowLength, rowWidth) => {
       return (index + 1) % rowLength === 0
@@ -153,22 +147,22 @@ const TableSearch = defineComponent({
     const handleChange = (val, record) => {
       switch (record.valueType) {
         case 'text':
-          modelRef[record.name] = val.target.value || record.defaultValue
+          modelRef[record.name] = val.target.value || record.initialValue
           break
         case 'select':
-          modelRef[record.name] = val || record.defaultValue || undefined
+          modelRef[record.name] = val || record.initialValue || undefined
           if (!props.showSearch) changeTableParams()
           break
         case 'date':
           modelRef[record.name] = val
             ? moment(val).format(record.format || 'YYYY-MM-DD')
-            : record.defaultValue || null
+            : record.initialValue || null
           if (!props.showSearch) changeTableParams()
           break
         case 'dateMonth':
           modelRef[record.name] = val
             ? moment(val).format('YYYY-MM')
-            : record.defaultValue || null
+            : record.initialValue || null
           if (!props.showSearch) changeTableParams()
           break
         case 'dateRange':
@@ -177,44 +171,48 @@ const TableSearch = defineComponent({
               moment(val[0]).format(record.format || 'YYYY-MM-DD'),
               moment(val[1]).format(record.format || 'YYYY-MM-DD')
             ]
-            : record.defaultValue || null
+            : record.initialValue || null
           if (!props.showSearch) changeTableParams(val, record)
           break
         case 'time':
           modelRef[record.name] = val
             ? moment(val).format(record.format || 'HH:mm:ss')
-            : record.defaultValue || null
+            : record.initialValue || null
           if (!props.showSearch) changeTableParams()
           break
       }
     }
     const changeTableParams = (val?, record?) => {
-      if (record && record.valueType === 'text') modelRef[record.name] = val || record.defaultValue
+      if (record && record.valueType === 'text') modelRef[record.name] = val || record.initialValue
       const params = cloneDeep(modelRef)
       if (record && record.valueType === 'dateRange') {
-        params[record.rangeStartName || 'start'] = params[record.name][0]
-        params[record.rangeEndName || 'end'] = params[record.name][1]
+        params[record.rangeStartName || 'start'] = params[record.name]
+          ? params[record.name][0]
+          : ''
+        params[record.rangeEndName || 'end'] = params[record.name]
+          ? params[record.name][1]
+          : ''
         delete params[record.name]
       }
       if (!props.showSearch) emit('tableSearch', params)
     }
     const resetTableParams = () => {
       if (props.type === 'dataSouce' || props.type === 'columns') {
-        props.data.map((item: any) => {
-          let defaultValue: any = item.defaultValue
+        props.searchData.map((item: any) => {
+          let initialValue: any = item.initialValue
           const valueUndefined = [ 'select' ]
           const valueNull = [ 'date', 'time', 'dateRange' ]
           const valueEmptyArray: any = []
-          if (!defaultValue && valueUndefined.includes(item.valueType)) {
-            defaultValue = undefined
-          } else if (!defaultValue && valueNull.includes(item.valueType)) {
-            defaultValue = null
-          } else if (!defaultValue && valueEmptyArray.includes(item.valueType)) {
-            defaultValue = []
-          } else if (!defaultValue) {
-            defaultValue = ''
+          if (!initialValue && valueUndefined.includes(item.valueType)) {
+            initialValue = undefined
+          } else if (!initialValue && valueNull.includes(item.valueType)) {
+            initialValue = null
+          } else if (!initialValue && valueEmptyArray.includes(item.valueType)) {
+            initialValue = []
+          } else if (!initialValue) {
+            initialValue = ''
           }
-          modelRef[item.name] = defaultValue
+          modelRef[item.name] = initialValue
           return item
         })
       }
@@ -223,7 +221,7 @@ const TableSearch = defineComponent({
     const searchTableParams = (reset) => {
       let params: any = cloneDeep(modelRef)
       if (props.type === 'dataSouce' || props.type === 'columns') {
-        const record: any = props.data.find((item: any) => item.valueType === 'dateRange')
+        const record = (props.searchData || []).find((item) => item.valueType === 'dateRange')
         if (record) {
           params[record.rangeStartName || 'start'] = params.dateRange ? [ 0 ] : null
           params[record.rangeEndName || 'end'] = params.dateRange ? [ 1 ] : null
@@ -328,23 +326,21 @@ const TableSearch = defineComponent({
       }
       return show
     }
-    const formItemSlot = ({ formItemStyle, items }) => <a-form-item style={formItemStyle}>
-      {
-        state.searchType === 'dataSouce' || state.searchType === 'columns' ?
-          dataEntrySlot(items)
-          :
-          items
-      }
-    </a-form-item>
-    const optionRender = () => props.showSearch || props.showReset ? <a-space>
-      {
-        props.showReset ?
+    const formItemSlot = ({ formItemStyle, items }) => (
+      <a-form-item style={formItemStyle}>
+        {
+          getSearchType.value === 'dataSouce' || getSearchType.value === 'columns'
+            ? dataEntrySlot(items)
+            : items
+        }
+      </a-form-item>
+    )
+    const optionRender = () => (props.showSearch || props.showReset) && (
+      <a-space>
+        {props.showReset && (
           <a-button onClick={resetTableParams}>{props.resetText}</a-button>
-          :
-          null
-      }
-      {
-        props.showSearch ?
+        )}
+        {props.showSearch && (
           <a-button
             loading={props.loading}
             type="primary"
@@ -352,10 +348,9 @@ const TableSearch = defineComponent({
           >
             {props.searchText}
           </a-button>
-          :
-          null
-      }
-    </a-space> : null
+        )}
+      </a-space>
+    )
     const advancedSlot = ({ formItemStyle, advanced, showAdvanced = true }) =>
       <div style={formItemStyle} class={styles.list_unfold}>
         <a-space size={16}>
@@ -363,28 +358,36 @@ const TableSearch = defineComponent({
           {showAdvanced && (
             <a onClick={() => changeAdvanced(!advanced)}>
               {advanced ? '收起' : '展开'}
-              {props.collapseRender ? props.collapseRender() : advanced ? <UpOutlined /> :
-                <DownOutlined />}
+              {
+                props.collapseRender ?
+                  props.collapseRender()
+                  : advanced
+                    ? <UpOutlined />
+                    : <DownOutlined />
+              }
             </a>
           )}
         </a-space>
       </div>
     const formRowSlot = () => {
-      const { advanced, formList } = state
+      const { advanced } = state
+      const formRender = getSearchType.value === 'slots'
+        ? slots.default?.() || []
+        : unref(getDataRef)
       const show: any = []
       const rowWidth = {
         width: `${(100 - (rowLength.value - 1) * 2) / rowLength.value}%`
       }
-      for (let i = 0; i < formList.length; i += 1) {
+      for (let i = 0; i < formRender.length; i += 1) {
         const formItemStyle = getStyleWidth(i, rowLength.value, rowWidth)
-        if ((formList.length < rowLength.value) || advanced) {
+        if ((formRender.length < rowLength.value) || advanced) {
           show.push(
             formItemSlot({
               formItemStyle,
-              items: formList[i]
+              items: formRender[i]
             })
           )
-          if ((i === formList.length - 1)) show.push(
+          if ((i === formRender.length - 1)) show.push(
             advancedSlot({
               formItemStyle: {
                 flex: 1,
@@ -399,7 +402,7 @@ const TableSearch = defineComponent({
             show.push(
               formItemSlot({
                 formItemStyle,
-                items: formList[i]
+                items: formRender[i]
               })
             )
           }
@@ -407,7 +410,7 @@ const TableSearch = defineComponent({
             show.push(
               formItemSlot({
                 formItemStyle,
-                items: formList[i]
+                items: formRender[i]
               })
             )
           }
@@ -419,7 +422,7 @@ const TableSearch = defineComponent({
                   justifyContent: 'flex-end'
                 },
                 advanced: false,
-                showAdvanced: formList.length >= rowLength.value
+                showAdvanced: formRender.length >= rowLength.value
               })
             )
           }
@@ -436,21 +439,6 @@ const TableSearch = defineComponent({
           <div class={styles.table_search_block}>
             {formRowSlot()}
           </div>
-          {/*{*/}
-          {/*  state.advanced && ((state.formList.length) % rowLength.value === 0) ?*/}
-          {/*    <div class={styles.list_shrink}>*/}
-          {/*      <span>{rowLength.value}</span>*/}
-          {/*      <span>{state.formList.length}</span>*/}
-          {/*      <a-space size={16}>*/}
-          {/*        {optionRender()}*/}
-          {/*        <a onClick={() => changeAdvanced(false)}>*/}
-          {/*          收起 {props.collapseRender ? props.collapseRender() : <UpOutlined />}*/}
-          {/*        </a>*/}
-          {/*      </a-space>*/}
-          {/*    </div>*/}
-          {/*    :*/}
-          {/*    null*/}
-          {/*}*/}
         </a-form>
       </div>
     )

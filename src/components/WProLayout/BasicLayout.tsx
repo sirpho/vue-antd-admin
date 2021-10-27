@@ -12,7 +12,6 @@ import {
 } from 'vue'
 import omit from 'omit.js'
 import { getPropsSlotfn, getPropsSlot } from '/@/components/_util'
-import type { WithFalse } from './typings'
 import { basicLayoutProps } from './props'
 import { provideRouteContext, defaultRouteContext, RouteContextProps } from './RouteContext'
 import { WrapContent } from './WrapContent'

@@ -1,70 +1,54 @@
-import { defineComponent, reactive, watch, onMounted, PropType } from 'vue'
+import { defineComponent, reactive, watch, ref, ExtractPropTypes, computed } from 'vue'
+import { cloneDeep } from 'lodash-es'
 import {
   SettingOutlined,
   VerticalAlignTopOutlined,
   VerticalAlignBottomOutlined,
   VerticalAlignMiddleOutlined
 } from '@ant-design/icons-vue'
-import { cloneDeep } from 'lodash-es'
+
 import styles from '../style.module.less'
 
-interface actionStates {
-  root: any;
-  checkAll: any;
-  indeterminate: any;
-  leftCheckedKeys: any;
-  leftColumnsData: any;
-  rightCheckedKeys: any;
-  rightColumnsData: any;
-  checkedKeys: any;
-  columnsData: any;
-  treeCheckKeys: any;
-  treeColumnsData: any;
-  checkedCounts: any;
-  fixType: any;
-  backColumns: any;
+export interface Options {
+  uuid: string;
+  dataIndex?: string;
+  key: string;
+  title: string;
+  checked: boolean;
+  slots?: any;
+  fixType?: 'nofixed' | 'fixedLeft' | 'fixedRight';
+  children?: Options[];
 }
 
-const ActionColumns = defineComponent({
-  props: {
-    columns: {
-      type: Object,
-      required: false,
-      default: () => {
-        return {}
-      }
-    },
-    scroll: {
-      type: [ Object, Boolean ] as PropType<{
-        x?: boolean | number | string;
-        y?: boolean | number | string;
-      } | boolean>,
-      required: false
-    },
-    visibleColumns: {
-      type: Object,
-      required: false,
-      default: () => {
-        return {}
-      }
-    }
+const actionColumnsProps = {
+  columns: {
+    type: [ Array ] as PropType<Options[]>,
+    default: () => []
   },
+  scroll: {
+    type: [ Object, Boolean ] as PropType<{
+      x?: boolean | number | string;
+      y?: boolean | number | string;
+    } | boolean>
+  }
+}
+
+export type ActionColumnsProps = Partial<ExtractPropTypes<typeof actionColumnsProps>>;
+
+const ActionColumns = defineComponent({
+  props: actionColumnsProps,
   setup(props, { emit, slots }) {
-    const state: actionStates = reactive({
-      root: null,
-      checkAll: true,
-      indeterminate: false,
-      leftCheckedKeys: [],
-      leftColumnsData: [],
-      rightCheckedKeys: [],
-      rightColumnsData: [],
-      checkedKeys: [],
-      columnsData: [],
-      treeCheckKeys: [],
-      treeColumnsData: [],
-      checkedCounts: 0,
-      fixType: [ 'nofixed' ],
-      backColumns: cloneDeep(props.columns)
+    const actionRef = ref()
+    const state = reactive({
+      leftCheckedKeys: [] as string[],
+      leftColumnsData: [] as Options[],
+      rightCheckedKeys: [] as string[],
+      rightColumnsData: [] as Options[],
+      checkedKeys: [] as string[],
+      columnsData: [] as Options[],
+      treeCheckKeys: [] as string[],
+      treeColumnsData: [] as Options[],
+      fixType: [ 'nofixed' ]
     })
     /**
      * @Author      gx12358
@@ -74,23 +58,8 @@ const ActionColumns = defineComponent({
      */
     const formatColumns = (columns) => {
       state.treeColumnsData = cloneDeep(columns).map((item, index) => {
-        if (item.checked === undefined) item.checked = true
-        if (item.fixType === undefined) {
-          switch (item.fixed) {
-            case 'left':
-              item.fixType = 'fixedLeft'
-              break
-            case 'right':
-              item.fixType = 'fixedRight'
-              break
-            default:
-              item.fixType = 'nofixed'
-              break
-          }
-        }
         return {
           ...item,
-          title: item.title || '',
           slots: { title: 'titleName' },
           key: `0-${index}`,
           children: []
@@ -128,24 +97,22 @@ const ActionColumns = defineComponent({
         ...state.rightCheckedKeys
       ]
     }
-    watch(() => state.treeCheckKeys, (val) => {
-      state.checkAll = val.length === state.treeColumnsData.length
-      state.indeterminate = val.length > 0 && val.length < state.treeColumnsData.length
-    }, {
-      deep: true,
-      immediate: true
-    })
-    watch(() => props.columns, (newVal, oldVal) => {
-      if (newVal != oldVal) {
-        formatColumns(newVal)
+    const checkAllRef = computed(() =>
+      state.treeCheckKeys.length === state.treeColumnsData.length)
+    const indeterminateRef = computed(() =>
+      state.treeCheckKeys.length > 0 &&
+      state.treeCheckKeys.length < state.treeColumnsData.length)
+    watch(
+      () => props.columns,
+      (newVal, oldVal) => {
+        if (String(newVal) !== String(oldVal)) {
+          formatColumns(newVal)
+        }
+      }, {
+        deep: true,
+        immediate: true
       }
-    }, {
-      deep: true,
-      immediate: true
-    })
-    onMounted(() => {
-      formatColumns(props.columns)
-    })
+    )
     /**
      * @Author      gx12358
      * @DateTime    2021/7/14
@@ -392,12 +359,13 @@ const ActionColumns = defineComponent({
       })
       emit('changeFixed', checkedColumns)
     }
+
     const popoverTitle = () => (
       <div class={styles['popover-title']}>
         <div>
           <a-checkbox
-            indeterminate={state.indeterminate}
-            checked={state.checkAll}
+            indeterminate={indeterminateRef.value}
+            checked={checkAllRef.value}
             class={styles['check-all']}
             onChange={onCheckAllChange}
           />
@@ -406,6 +374,7 @@ const ActionColumns = defineComponent({
         <a-button type="link" size="small" onClick={() => emit('reset')}>重置</a-button>
       </div>
     )
+
     const treeTitleSlots = (record) => {
       const columnsItem: any = props.columns.find(item => item.uuid === record.uuid)
       return record.title || (
@@ -414,12 +383,11 @@ const ActionColumns = defineComponent({
           : ''
       )
     }
+
     const TreeTitle = (record, type) => (
       <div class={styles['tree-title']}>
         <div style={{ flex: '1 1' }}>
-          {
-            treeTitleSlots(record)
-          }
+          {treeTitleSlots(record)}
         </div>
         <span
           class={[
@@ -427,130 +395,110 @@ const ActionColumns = defineComponent({
             'w-pro-table-column-setting-list-item-option'
           ]}
         >
-          {
-            type === 'nofixed' ?
-              <span>
-                <a-tooltip title="固定在列首">
-                  <VerticalAlignTopOutlined
-                    onClick={() => addFixed('fixedLeft', record, type)}
-                  />
-                </a-tooltip>
-              </span>
-              :
-              null
-          }
-          {
-            type === 'fixedLeft' || type === 'fixedRight' ?
-              <span>
-                <a-tooltip title="不固定">
-                  <VerticalAlignMiddleOutlined
-                    onClick={() => cancelFixed(type, record)}
-                  />
-                </a-tooltip>
-              </span>
-              :
-              null
-          }
-          {
-            type === 'nofixed' ?
-              <span>
-                <a-tooltip title="固定在列尾">
-                  <VerticalAlignBottomOutlined
-                    onClick={() => addFixed('fixedRight', record, type)}
-                  />
-                </a-tooltip>
-              </span>
-              :
-              null
-          }
+          {type === 'nofixed' && (
+            <span>
+              <a-tooltip title="固定在列首">
+                <VerticalAlignTopOutlined
+                  onClick={() => addFixed('fixedLeft', record, type)}
+                />
+              </a-tooltip>
             </span>
+          )}
+          {(type === 'fixedLeft' || type === 'fixedRight') && (
+            <span>
+              <a-tooltip title="不固定">
+                <VerticalAlignMiddleOutlined
+                  onClick={() => cancelFixed(type, record)}
+                />
+              </a-tooltip>
+            </span>
+          )}
+          {type === 'nofixed' && (
+            <span>
+              <a-tooltip title="固定在列尾">
+                <VerticalAlignBottomOutlined
+                  onClick={() => addFixed('fixedRight', record, type)}
+                />
+              </a-tooltip>
+            </span>
+          )}
+        </span>
       </div>
     )
-    const popoverContent = () => {
-      return (
-        <>
-          {
-            state.fixType.includes('fixedLeft') ?
-              <>
+
+    const popoverContent = () => (
+      <>
+        {state.fixType.includes('fixedLeft') && (
+          <>
+            <div class={styles['fixed-title']}>
+              固定在左侧
+            </div>
+            <a-tree
+              draggable
+              checkable
+              checkedKeys={state.leftCheckedKeys}
+              tree-data={state.leftColumnsData}
+              style={{ width: '100%' }}
+              onDrop={info => popoverDrop(info, 'fixedLeft')}
+              onCheck={info => popoverCheck(info, 'fixedLeft')}
+              v-slots={{
+                titleName: (e) => TreeTitle(e, 'fixedLeft')
+              }}
+            />
+          </>
+        )}
+        {state.fixType.includes('nofixed') && (
+          <>
+            {
+              (state.fixType.includes('fixedLeft') || state.fixType.includes('fixedRight')) && (
                 <div class={styles['fixed-title']}>
-                  固定在左侧
+                  不固定
                 </div>
-                <a-tree
-                  draggable
-                  checkable
-                  checkedKeys={state.leftCheckedKeys}
-                  tree-data={state.leftColumnsData}
-                  style={{ width: '100%' }}
-                  onDrop={info => popoverDrop(info, 'fixedLeft')}
-                  onCheck={info => popoverCheck(info, 'fixedLeft')}
-                  v-slots={{
-                    titleName: (e) => TreeTitle(e, 'fixedLeft')
-                  }}
-                />
-              </>
-              :
-              null
-          }
-          {
-            state.fixType.includes('nofixed') ?
-              <>
-                {
-                  state.fixType.includes('fixedLeft') || state.fixType.includes('fixedRight') ?
-                    <div class={styles['fixed-title']}>
-                      不固定
-                    </div>
-                    :
-                    null
-                }
-                <a-tree
-                  draggable
-                  checkable
-                  checkedKeys={state.checkedKeys}
-                  tree-data={state.columnsData}
-                  style={{ width: '100%' }}
-                  onDrop={info => popoverDrop(info, 'nofixed')}
-                  onCheck={info => popoverCheck(info, 'nofixed')}
-                  v-slots={{
-                    titleName: (e) => TreeTitle(e, 'nofixed')
-                  }}
-                />
-              </>
-              :
-              null
-          }
-          {
-            state.fixType.includes('fixedRight') ?
-              <>
-                <div class={styles['fixed-title']}>
-                  固定在右侧
-                </div>
-                <a-tree
-                  draggable
-                  checkable
-                  checkedKeys={state.rightCheckedKeys}
-                  tree-data={state.rightColumnsData}
-                  style={{ width: '100%' }}
-                  onDrop={info => popoverDrop(info, 'fixedRight')}
-                  onCheck={info => popoverCheck(info, 'fixedRight')}
-                  v-slots={{
-                    titleName: (e) => TreeTitle(e, 'fixedRight')
-                  }}
-                />
-              </>
-              :
-              null
-          }
-        </>
-      )
-    }
+              )}
+            <a-tree
+              draggable
+              checkable
+              checkedKeys={state.checkedKeys}
+              tree-data={state.columnsData}
+              style={{ width: '100%' }}
+              onDrop={info => popoverDrop(info, 'nofixed')}
+              onCheck={info => popoverCheck(info, 'nofixed')}
+              v-slots={{
+                titleName: (e) => TreeTitle(e, 'nofixed')
+              }}
+            />
+          </>
+        )}
+        {state.fixType.includes('fixedRight') && (
+          <>
+            <div class={styles['fixed-title']}>
+              固定在右侧
+            </div>
+            <a-tree
+              draggable
+              checkable
+              checkedKeys={state.rightCheckedKeys}
+              tree-data={state.rightColumnsData}
+              style={{ width: '100%' }}
+              onDrop={info => popoverDrop(info, 'fixedRight')}
+              onCheck={info => popoverCheck(info, 'fixedRight')}
+              v-slots={{
+                titleName: (e) => TreeTitle(e, 'fixedRight')
+              }}
+            />
+          </>
+        )}
+      </>
+    )
+
     return () => (
-      <div class={styles['action-columns']} ref={e => state.root = e}>
+      <div class={styles['action-columns']} ref={e => actionRef.value = e}>
         <a-popover
           title={popoverTitle}
           content={popoverContent}
           placement="bottomRight"
           trigger="click"
-          get-popup-container={() => state.root}
+          get-popup-container={() => actionRef.value}
         >
           <a-tooltip title="列配置">
             <SettingOutlined />
@@ -560,4 +508,5 @@ const ActionColumns = defineComponent({
     )
   }
 })
+
 export default ActionColumns

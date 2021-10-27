@@ -1,5 +1,23 @@
 html {
   body {
+    .@{wd-prefix-pro}-modal-full-screen {
+      overflow: hidden;
+      
+      &.ant-modal {
+        top: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100%;
+      }
+      
+      .ant-modal-content {
+        height: 100% !important;
+        box-shadow: 0 4px 8px #0003, 0 6px 20px #00000030 !important;
+      }
+    }
+    
     /**
      * @Author      gx12358
      * @DateTime    2021/7/30

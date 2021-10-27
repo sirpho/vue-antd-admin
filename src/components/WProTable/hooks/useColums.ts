@@ -1,20 +1,48 @@
 import { ComputedRef, unref, computed, ref, Ref, watch } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import type { ProTableProps } from '@wd-pro/pro-table'
-import type { ProColumns } from '../types/column'
 import { getRandomNumber, isArray } from '/@/utils/util'
+import type { ProColumns } from '../types/column'
+import type { Options } from '../components/ActionColumns'
 
-interface ActionColums extends ProColumns {
-  fixType?: string;
+function handleActionsColumn(columns: ProColumns[]) {
+  return cloneDeep(columns).map((item, index) => {
+    const actionItems: Options = {
+      uuid: item.uuid || '',
+      dataIndex: item.dataIndex || '',
+      title: item.title as string,
+      checked: item.checked || true,
+      slots: item.slots,
+      key: `0-${index}`,
+      children: []
+    }
+    if (item.fixType) {
+      actionItems.fixType = item.fixType
+    } else {
+      switch (item.fixed) {
+        case 'left':
+          actionItems.fixType = 'fixedLeft'
+          break
+        case 'right':
+          actionItems.fixType = 'fixedRight'
+          break
+        default:
+          actionItems.fixType = 'nofixed'
+          break
+      }
+    }
+    return actionItems
+  })
 }
 
 export function useColumns(
   propsRef: ComputedRef<ProTableProps>,
+  propsColumnsRef: ComputedRef<ProColumns[]>,
   innerWidth: Ref<number>,
   emit: EmitType
 ) {
   const columnsRef = ref(unref(propsRef).columns) as unknown as Ref<ProColumns[]>
-  const actionColumsRef = ref(unref(propsRef).columns) as unknown as Ref<ActionColums[]>
+  const actionColumsRef = ref(unref(propsRef).columns) as unknown as Ref<Options[]>
   let cacheColumns = unref(propsRef).columns
 
   const getColumnsRef = computed(() => {
@@ -28,7 +56,7 @@ export function useColumns(
 
   const getActionColumsRef = computed(() => {
     const columns = cloneDeep(unref(actionColumsRef))
-    cloneDeep(handleActionColumn(propsRef, innerWidth, columns, cacheColumns))
+    cloneDeep(handleActionColumn(propsRef, innerWidth, columns, cacheColumns, true))
     return columns
   })
 
@@ -44,7 +72,7 @@ export function useColumns(
   })
 
   watch(
-    () => unref(propsRef).columns,
+    () => unref(propsColumnsRef),
     (columns) => {
       const newColumns = cloneDeep(columns).map(column => {
         return {
@@ -56,7 +84,7 @@ export function useColumns(
       if (unref(propsRef).showIndex) handleShowIndex(propsRef, newColumns)
       cacheColumns = cloneDeep(newColumns)
       columnsRef.value = cloneDeep(newColumns)
-      actionColumsRef.value = cloneDeep(newColumns)
+      actionColumsRef.value = handleActionsColumn(cloneDeep(newColumns)) as Options[]
     }, {
       deep: true,
       immediate: true
@@ -75,7 +103,7 @@ export function useColumns(
     columnsRef.value = cloneDeep(columnList)
   }
 
-  function setActionColumns(columnList: Partial<ActionColums>[] | string[], type) {
+  function setActionColumns(columnList: Partial<Options>[] | string[], type) {
     const columns: Partial<ProColumns>[] = []
     if (!isArray(columnList)) return
 
@@ -133,7 +161,7 @@ export function useColumns(
           return item
         })
         columnsRef.value = columns
-        actionColumsRef.value = columns
+        actionColumsRef.value = handleActionsColumn(columns)
         break
       case 'fixed':
         columnList.map(item => {
@@ -176,8 +204,9 @@ export function useColumns(
 function handleActionColumn(
   propsRef: ComputedRef<ProTableProps>,
   innerWidth: Ref<number>,
-  columns: ProColumns[],
-  cacheColumns: ProColumns[]
+  columns: ProColumns[] | Options[],
+  cacheColumns: ProColumns[],
+  type?: boolean
 ) {
   const { automaticScroll, scroll, neverScroll } = unref(propsRef)
   columns.map(item => {
@@ -185,26 +214,45 @@ function handleActionColumn(
       if (item.dataIndex === 'action' && !neverScroll) {
         if (automaticScroll) {
           if (scroll?.x) {
+            if (type) {
+              item.fixType = 'fixedRight'
+            }
             item.width = item.width || 100
             item.fixed = 'right'
           } else {
             const originCol = cacheColumns.find(col =>
-              col.dataIndex || col.key === item.key)
-            item.width = originCol?.width || ''
-            item.fixed = originCol?.fixed
+              col.dataIndex === item.dataIndex)
+            if (type) {
+              item.fixType = 'right'
+            } else {
+              item.width = originCol?.width || ''
+              item.fixed = originCol?.fixed
+            }
           }
         } else {
           if (scroll?.x && item.dataIndex === 'action') {
-            item.width = item.width || 100
-            item.fixed = 'right'
+            if (type) {
+              item.fixType = 'fixedRight'
+            } else {
+              item.width = item.width || 100
+              item.fixed = 'right'
+            }
           } else if (innerWidth.value < 1540 && item.dataIndex === 'action') {
-            item.width = item.width || 100
-            item.fixed = 'right'
+            if (type) {
+              item.fixType = 'fixedRight'
+            } else {
+              item.width = item.width || 100
+              item.fixed = 'right'
+            }
           } else {
             const originCol = cacheColumns.find(col =>
-              col.dataIndex || col.key === item.key)
-            item.width = originCol?.width || ''
-            item.fixed = originCol?.fixed
+              col.dataIndex === item.dataIndex)
+            if (type) {
+              item.fixType = 'fixedRight'
+            } else {
+              item.width = originCol?.width || ''
+              item.fixed = originCol?.fixed
+            }
           }
         }
       }

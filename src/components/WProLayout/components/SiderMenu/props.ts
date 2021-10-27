@@ -1,7 +1,7 @@
 import { CSSProperties } from 'vue'
 import type { MenuTheme } from '/types/config'
 import PropTypes from '/@/hooks/vue-types'
-import { MenuDataItem, LayoutType, WithFalse } from '@wd-pro/pro-layout'
+import { MenuDataItem, LayoutType } from '@wd-pro/pro-layout'
 import { CustomMenuRender } from './BaseMenu'
 import { SiderProps, MenuMode } from './typings'
 import { defaultSettingProps } from '../../defaultSettings'

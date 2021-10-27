@@ -13,8 +13,8 @@ export function useTableSize(props: ComputedRef<ProTableProps>, emit: EmitType) 
 
   const getSize = computed(() => unref(sizeRef))
 
-  function setSize(loading: boolean) {
-    sizeRef.value = loading
+  function setSize(size: string) {
+    sizeRef.value = size
     emit('sizeChange', true)
   }
 

@@ -53,6 +53,7 @@ export type ProSearchConfig<Entity = Record<string, any>,
   ValueType = 'text',
   ValueFormat = 'date',
   > = {
+  name?: string;
   /** 选择如何渲染相应的模式 */
   valueType?: ProSchemaValueType<ValueType>;
   ValueFormat?: ProSchemaValueFormat<ValueFormat>;
@@ -66,9 +67,9 @@ export type ProSearchConfig<Entity = Record<string, any>,
   /** valueType为date生效 */
   showToday?: boolean;
   /** valueType为dateRange生效 */
-  rangeStartName?: boolean;
+  rangeStartName?: string;
   /** valueType为dateRange生效 */
-  rangeEndName?: boolean;
+  rangeEndName?: string;
   /** valueType为time生效 */
   use12Hours?: boolean;
   /** valueType为date|dateMonth|dateRange|time生效 */
@@ -89,6 +90,7 @@ export type ProSearchConfig<Entity = Record<string, any>,
 export interface ProColumns extends ColumnProps {
   originAlign?: string;
   uuid?: string;
+  fixType?: 'nofixed' | 'fixedLeft' | 'fixedRight';
   checked?: boolean;
   hasTableTree?: boolean;
   /** 表单搜索配置 */

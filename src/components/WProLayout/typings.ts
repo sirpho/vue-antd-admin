@@ -1,5 +1,3 @@
-export type WithFalse<T> = T | false;
-
 import type { VNode } from 'vue'
 
 export type LayoutType = 'side' | 'mix';

@@ -73,9 +73,6 @@ export default defineComponent({
         destroyOnClose: changeProps.value.destroyOnClose,
         draggable: changeProps.value.draggable
       })
-    }, {
-      deep: true,
-      immediate: true
     })
     const onCancel = () => {
       emit('cancel')

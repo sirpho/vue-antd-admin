@@ -3,7 +3,7 @@ import {
   unref,
   ComputedRef,
   computed,
-  watch
+  watch, onMounted
 } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { PaginationProps } from 'ant-design-vue/lib/pagination'
@@ -55,9 +55,11 @@ export function useFetchData(
   watch(
     () => unref(getFormParamsRef),
     (_) => {
-      useTimeoutFn(() => {
-        fetchData()
-      }, 16)
+      if (!unref(propsRef).search?.showSearch) {
+        useTimeoutFn(() => {
+          fetchData()
+        }, 16)
+      }
     },
     {
       immediate: true
@@ -79,6 +81,9 @@ export function useFetchData(
     return unref(dataSourceRef)
   })
 
+  const isTreeDataRef = computed(() => unref(dataSourceRef)
+    .some(item => item.children && item.children.length > 0))
+
   function handleTableChange(pagination, filters, sorter) {
     fetchData({ pagination, filters, sorter })
     emit('change', pagination, filters, sorter)
@@ -86,7 +91,7 @@ export function useFetchData(
 
   async function fetchData(info: any = {}) {
     const { request, search } = unref(propsRef)
-    const { pagination, filters, sorter, removeTotal = 0, beforeFetch } = info
+    const { pagination, filters, sorter, removeTotal = 0, beforeFetch, afterFetch } = info
     if (!request || !isFunction(request)) return
     setLoading(true)
     let pageParams: Recordable = {}
@@ -118,7 +123,7 @@ export function useFetchData(
       }))
     }
 
-    const actionParams = {
+    let actionParams = {
       ...(pageParams || {}),
       ...(search?.type === 'dataSouce' || search?.type === 'columns'
         ? {}
@@ -128,7 +133,7 @@ export function useFetchData(
     }
 
     if (beforeFetch && isFunction(beforeFetch)) {
-      await beforeFetch(actionParams)
+      actionParams = await beforeFetch(actionParams, sorter, filters)
     }
 
     let resultItems: Recordable[] = []
@@ -143,7 +148,9 @@ export function useFetchData(
         pageSize: actionParams.pageSize,
         total: response.total || 0
       })
-    } else {
+      if (afterFetch && isFunction(afterFetch)) {
+        await afterFetch(resultItems)
+      }
     }
     setLoading(false)
   }
@@ -152,14 +159,17 @@ export function useFetchData(
     return await fetchData(opt)
   }
 
-  // onMounted(() => {
-  //   useTimeoutFn(() => {
-  //     fetchData()
-  //   }, 16)
-  // })
+  onMounted(() => {
+    if (unref(propsRef).search?.showSearch) {
+      useTimeoutFn(() => {
+        fetchData()
+      }, 16)
+    }
+  })
 
   return {
     getDataSourceRef,
+    isTreeDataRef,
     fetchData,
     handleTableChange,
     reload

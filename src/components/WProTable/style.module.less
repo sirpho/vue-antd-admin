@@ -7,6 +7,16 @@
     }
     
     .ant-table-scroll {
+      .ant-table-header {
+        min-width: 6px !important;
+        margin-bottom: -6px !important;
+        
+        &::-webkit-scrollbar {
+          width: 6px;
+          height: 6px;
+        }
+      }
+      
       .ant-table-body {
         &::-webkit-scrollbar {
           width: 6px;
@@ -25,14 +35,35 @@
       }
     }
     
+    .ant-table-empty .ant-table-body {
+      &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba(50, 50, 50, .3);
+        border-radius: 1em;
+      }
+      
+      &::-webkit-scrollbar-track {
+        background-color: rgba(50, 50, 50, .1);
+        border-radius: 1em;
+      }
+    }
+    
     .ant-table-row-cell-ellipsis.ant-table-cell-fix-left-last, .ant-table-row-cell-ellipsis.ant-table-cell-fix-right-first {
       overflow: visible;
     }
-  
+    
     .ant-table-row-cell-ellipsis, .ant-table-row-cell-ellipsis .ant-table-column-title {
       overflow: unset;
       text-overflow: unset;
       white-space: initial;
+    }
+    
+    .ant-table-cell-fix-left, .ant-table-cell-fix-right {
+      z-index: 2;
     }
   }
   
@@ -46,7 +77,7 @@
     }
   }
   
-  &-has-table-tree{
+  &-has-table-tree {
     :global {
       .ant-table-row-cell-ellipsis, .ant-table-row-cell-ellipsis .ant-table-column-title {
         overflow: hidden;
@@ -95,6 +126,18 @@
       :global {
         .ant-space {
           flex-wrap: wrap;
+        }
+        
+        .ant-btn {
+          padding-right: 33px;
+          padding-left: 33px;
+          color: @primary-color;
+          border-color: @primary-color;
+          
+          &.ant-btn-primary {
+            color: @white;
+            border-color: @white;
+          }
         }
       }
     }

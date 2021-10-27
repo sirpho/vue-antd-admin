@@ -1,8 +1,6 @@
 import { CSSProperties, PropType } from 'vue'
 import { Table as T } from 'ant-design-vue'
-import { WithFalse } from '@wd-pro/pro-layout'
-import { OptionConfig, requsetConfig, searchPorps } from './types/table'
-import { ProCoreActionType } from './types/tableAction'
+import { OptionConfig, requsetConfig, searchPorps, ProCoreActionType } from './types/table'
 
 export const proTableProps = Object.assign({}, T.props, {
   request: {
