@@ -1,7 +1,6 @@
 <template>
   <w-modal
     :title="infoParams.done ? null : `任务${infoParams.current ? '编辑' : '添加'}`"
-    width="850px"
     :fixHeight="false"
     :visible="visible"
     :isFail="isFail"

@@ -1,7 +1,6 @@
 <template>
   <w-modal
     :title="modalTitle"
-    width="850px"
     :fixHeight="false"
     :visible="visible"
     :isFail="isFail"

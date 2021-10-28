@@ -1,7 +1,7 @@
 <template>
   <w-modal
     title="Title"
-    width="850px"
+    class="test"
     :visible="visible"
     :isFail="isFail"
     :spinning="spinning"

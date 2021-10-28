@@ -1,9 +1,10 @@
 import {
-  watch,
   computed,
   defineComponent,
-  ref
+  ref,
+  watchEffect
 } from 'vue'
+import { omit } from 'lodash-es'
 import { Modal as T } from 'ant-design-vue'
 import { CloseOutlined, FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons-vue'
 import { getRandomNumber } from '/@/utils/util'
@@ -51,27 +52,28 @@ export default defineComponent({
       required: false
     }
   }),
-  setup(props, { emit, slots }: any) {
+  setup(props, { emit, slots, attrs }) {
     const modalClassName = 'wd-pro-modal'
     const modalWrapperRef = ref()
     const innerWidth = ref(window.innerWidth)
     const modalId = ref(getRandomNumber().uuid(15))
     const fullScreen = ref(false)
-    const changeProps = computed(() => {
-      const newProps: any = {
+    const getModalWidth = computed(() => props.width === 520 || !props.width ? '850px' : props.width)
+    const getProps = computed(() => {
+      const newProps: Recordable = {
         ...props,
         centered: props.fixHeight,
         closable: false
       }
       if (props.isFail) newProps.centered = false
       if (props.spinning) newProps.maskClosable = false
-      return newProps
+      return omit(newProps, [ 'width' ])
     })
-    watch(() => props.visible, (_) => {
+    watchEffect(() => {
       useModalDragMove({
-        visible: changeProps.value.visible,
-        destroyOnClose: changeProps.value.destroyOnClose,
-        draggable: changeProps.value.draggable
+        visible: getProps.value.visible,
+        destroyOnClose: getProps.value.destroyOnClose,
+        draggable: getProps.value.draggable
       })
     })
     const onCancel = () => {
@@ -95,22 +97,19 @@ export default defineComponent({
         heightClass = [ styles['height-no-fixed'] ]
       }
       const fullScreenClass = fullScreen.value ? 'wd-pro-modal-full-screen' : ''
-      return [ ...publicClass, ...heightClass, fullScreenClass ]
+      return [
+        ...publicClass,
+        ...heightClass,
+        fullScreenClass,
+        attrs.class
+      ]
     })
     const renderSolt = () => {
       return Object.keys(slots).map((name) => {
-        if (name === 'content') {
-          return typeof slots[name] === 'function'
-            ? slots[name]
-              ? slots[name]()
-              : null
-            : <template></template>
-        } else if (name === 'extra') {
+        if (name === 'extra') {
           return <template></template>
         } else {
-          typeof slots[name] === 'function'
-            ? slots[name]()
-            : <template></template>
+          return slots[name]?.()
         }
       })
     }
@@ -124,9 +123,11 @@ export default defineComponent({
           }
           style={props.contentStyle}
         >
-          {props.spinning ? (
-            <div class={styles[`${modalClassName}-spinning-content`]} />
-          ) : null}
+          {props.spinning
+            ? (
+              <div class={styles[`${modalClassName}-spinning-content`]} />
+            )
+            : null}
           {props.skeletonLoading
             ? (<div class={styles[`${modalClassName}-skeleton`]}>
               <a-skeleton loading={props.skeletonLoading} active />
@@ -149,7 +150,7 @@ export default defineComponent({
       const loading = props.skeletonLoading || props.isFail
       const defaultFooter = (
         <div class="modal-footer">
-          <a-button key="back" onClick={onCancel.bind(this)}>
+          <a-button key="back" onClick={() => onCancel()}>
             关闭
           </a-button>
         </div>
@@ -160,9 +161,10 @@ export default defineComponent({
     }
     return () => (
       <a-modal
-        {...changeProps.value}
+        {...getProps.value}
         class={handleModalClass.value}
-        onCancel={onCancel.bind(this)}
+        width={getModalWidth.value}
+        onCancel={() => onCancel()}
         footer={renderFooter}
         bodyStyle={fullScreen.value ? { height: `${window.innerHeight - 110}px !important` } : undefined}
       >
