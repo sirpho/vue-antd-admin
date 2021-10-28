@@ -420,23 +420,25 @@ const WProTable = defineComponent({
         class={styles[`${baseClassName}-list-toolbar-left`]}
         style={{ ...toolBarItemStyle.value, flexWrap: 'wrap' }}
       >
-        <div
-          class={styles[`${baseClassName}-list-toolbar-title`]}
-          style={innerWidth.value < 992 ? { width: '100%' } : undefined}
-        >
-          {dom}
-          {tipDom && (
-            <span class={styles[`${baseClassName}-list-toolbar-tip-icon`]}>
-              <a-tooltip title={props.titleTipText}>
-                {
-                  isBoolean(tipDom) && tipDom
-                    ? <InfoCircleOutlined />
-                    : tipDom
-                }
-              </a-tooltip>
-            </span>
-          )}
-        </div>
+        {(dom || tipDom) && (
+          <div
+            class={styles[`${baseClassName}-list-toolbar-title`]}
+            style={innerWidth.value < 992 ? { width: '100%' } : undefined}
+          >
+            {dom}
+            {tipDom && (
+              <span class={styles[`${baseClassName}-list-toolbar-tip-icon`]}>
+                <a-tooltip title={props.titleTipText}>
+                  {
+                    isBoolean(tipDom) && tipDom
+                      ? <InfoCircleOutlined />
+                      : tipDom
+                  }
+                </a-tooltip>
+              </span>
+            )}
+          </div>
+        )}
         {toolbarDom && (
           <div
             class={styles[`${baseClassName}-list-toolbar-btns`]}
@@ -546,7 +548,7 @@ const WProTable = defineComponent({
                 style={toolBarStyle.value}
                 class={styles[`${baseClassName}-list-toolbar`]}
               >
-                {headerTitleRender && toolBarLeft(
+                {(headerTitleRender || titleTipRender || toolBarBtnRender) && toolBarLeft(
                   headerTitleRender,
                   titleTipRender,
                   toolBarBtnRender
