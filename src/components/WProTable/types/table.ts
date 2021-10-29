@@ -1,6 +1,8 @@
 import { VNodeChild } from 'vue'
 import { ProSearchConfig } from './column'
 
+export type ProFieldEmptyText = string | false;
+
 export type ParamsType = Record<string, any>;
 
 export declare type SortOrder = 'descend' | 'ascend' | null;

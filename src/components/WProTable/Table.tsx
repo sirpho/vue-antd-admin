@@ -1,16 +1,16 @@
 import {
   defineComponent,
   reactive,
-  onBeforeUnmount,
   ref,
   unref,
-  watch,
   toRaw,
   onMounted,
   computed,
   Ref,
-  ExtractPropTypes
+  ExtractPropTypes,
+  CSSProperties
 } from 'vue'
+import { Grid } from 'ant-design-vue'
 import { cloneDeep, omit } from 'lodash-es'
 import {
   LoadingOutlined,
@@ -40,7 +40,11 @@ import { ActionSize } from './components/ActionSize'
 
 import styles from './style.module.less'
 
+export type Breakpoint = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
+
 export type ProTableProps = Partial<ExtractPropTypes<typeof proTableProps>>;
+
+const { useBreakpoint } = Grid
 
 const defaultEmpty = () => (
   <div style="text-align: center">
@@ -59,14 +63,28 @@ const WProTable = defineComponent({
     DraggableResizable
   },
   props: proTableProps,
+  emits: [
+    'reset',
+    'submit',
+    'sizeChange',
+    'refresh',
+    'expandedRowsChange',
+    'expand',
+    'change',
+    'requestError',
+    'beforeSearchSubmit',
+    'columnsStateChange',
+    'loadingChange',
+    'postData'
+  ],
   setup(props, { emit, slots, attrs }) {
     const baseClassName = getPrefixCls({
       suffixCls: 'table'
     })
     const draggingMap: Recordable = {}
+    const screens = useBreakpoint()
     const tableRef = ref<any>()
     const fullScreen: Ref<boolean> = ref(false)
-    const innerWidth: Ref<number> = ref(window.innerWidth)
     const getProps = computed(() => {
       return { ...props } as ProTableProps
     })
@@ -86,7 +104,7 @@ const WProTable = defineComponent({
       getColumnsRef,
       setActionColumns,
       getActionColumsRef
-    } = useColumns(getProps, propsColumnsRef, innerWidth, emit)
+    } = useColumns(getProps, propsColumnsRef, screens, emit)
     const {
       getFormParamsRef,
       getFormDataRef,
@@ -118,7 +136,7 @@ const WProTable = defineComponent({
     )
     const { getScrollRef } = useTableScroll(
       getProps,
-      innerWidth,
+      screens,
       getColumnsRef
     )
     const getActionsList = computed(() => unref(getActionColumsRef))
@@ -139,11 +157,7 @@ const WProTable = defineComponent({
       if (col.dataIndex && col.key) draggingMap[col.dataIndex || col.key] = col.width
     })
     onMounted(() => {
-      window.addEventListener('resize', getWidth)
       if (props.actionRef) getProTable()
-    })
-    onBeforeUnmount(() => {
-      window.removeEventListener('resize', getWidth)
     })
     /**
      * @Author      gx12358
@@ -158,16 +172,13 @@ const WProTable = defineComponent({
         reloadAndRest: () => fetchData({ current: 1, pageSize: 10 })
       })
     }
-    watch(innerWidth, (value) => {
-      innerWidth.value = value
-    })
     const toolBarStyle = computed(() => {
-      const style: any = props.search ? { paddingTop: '0' } : {}
-      if (innerWidth.value < 992) style.flexWrap = 'wrap'
+      const style: CSSProperties = props.search ? { paddingTop: '0' } : {}
+      if (!screens.value.lg) style.flexWrap = 'wrap'
       return style
     })
     const toolBarItemStyle = computed(() => {
-      if (innerWidth.value < 992) return {
+      if (!screens.value.lg) return {
         width: '100%'
       }
       return undefined
@@ -218,19 +229,11 @@ const WProTable = defineComponent({
      * @Author      gx12358
      * @DateTime    2021/7/14
      * @lastTime    2021/7/14
-     * @description 监听屏幕宽度
-     */
-    const getWidth = () => {
-      innerWidth.value = window.innerWidth
-    }
-    /**
-     * @Author      gx12358
-     * @DateTime    2021/7/14
-     * @lastTime    2021/7/14
      * @description 表格列设置-是否展示
      */
     const onColumnsChange = (data) => {
       setActionColumns(data, 'visible')
+      emit('columnsStateChange')
     }
     /**
      * @Author      gx12358
@@ -240,6 +243,7 @@ const WProTable = defineComponent({
      */
     const onColumnsDrop = (data) => {
       setActionColumns(data, 'drop')
+      emit('columnsStateChange')
     }
     /**
      * @Author      gx12358
@@ -249,6 +253,7 @@ const WProTable = defineComponent({
      */
     const onChangeFixedColums = (data) => {
       setActionColumns(data, 'fixed')
+      emit('columnsStateChange')
     }
     /**
      * @Author      gx12358
@@ -258,7 +263,6 @@ const WProTable = defineComponent({
      */
     const onResetColums = () => {
       reSetColumns()
-      emit('reset')
     }
     /**
      * @Author      gx12358
@@ -283,20 +287,21 @@ const WProTable = defineComponent({
         (props.toolBarBtn && props.toolBarBtn.length > 0)
     }
     const changeTableParams = async (params, reset) => {
-      if (props.request) {
-        if (props.search.type === 'slots') {
-          if (reset) {
-            emit('searchReset')
-          }
-          if (props.search.showSearch) {
-            setFormParams(params)
-            fetchData()
-          }
+      if (reset) {
+        emit('reset', props.search.type === 'slots' ? undefined : params)
+        if (props.request) {
+          setFormParams(params)
+        }
+      } else if (props.request) {
+        emit('submit', params)
+        if (props.search.showSearch) {
+          setFormParams(params)
+          fetchData()
         } else {
           setFormParams(params)
         }
       } else {
-        emit('search', params)
+        emit('submit', params)
       }
     }
     /**
@@ -423,7 +428,7 @@ const WProTable = defineComponent({
         {(dom || tipDom) && (
           <div
             class={styles[`${baseClassName}-list-toolbar-title`]}
-            style={innerWidth.value < 992 ? { width: '100%' } : undefined}
+            style={screens.value.lg ? undefined : { width: '100%', marginRight: '0' }}
           >
             {dom}
             {tipDom && (
@@ -442,15 +447,16 @@ const WProTable = defineComponent({
         {toolbarDom && (
           <div
             class={styles[`${baseClassName}-list-toolbar-btns`]}
-            style={innerWidth.value < 992
-              ? {
+            style={screens.value.lg
+              ? undefined
+              : {
                 width: '100%',
                 marginTop: '16px',
                 marginLeft: 0
               }
-              : undefined}
+            }
           >
-            <a-space>{toolbarDom}</a-space>
+            <a-space direction={screens.value.lg ? 'horizontal' : 'vertical'}>{toolbarDom}</a-space>
           </div>
         )}
       </div>
@@ -565,7 +571,10 @@ const WProTable = defineComponent({
                   }
                 }}
                 transformCellText={({ text, column }) => {
-                  const { value, success } = hanndleField(text, column.customize)
+                  const { value, success } = hanndleField(
+                    text,
+                    column.columnEmptyText || props.columnEmptyText
+                  )
                   return column.ellipsis
                     ? tooltipSlot(value, success, column)
                     : value

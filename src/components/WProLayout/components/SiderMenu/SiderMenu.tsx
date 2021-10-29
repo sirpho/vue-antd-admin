@@ -97,7 +97,6 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
   )
 
   const headerDom = layout === 'side' || isMobile
-    // @ts-ignore
     ? <LogoContent drawer={isMobile} disabledTitle={isMobile ? false : collapsed} {...props} />
     : null
 

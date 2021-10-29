@@ -1,6 +1,13 @@
-import { CSSProperties, PropType } from 'vue'
+import type { CSSProperties, PropType } from 'vue'
 import { Table as T } from 'ant-design-vue'
-import { OptionConfig, requsetConfig, searchPorps, ProCoreActionType } from './types/table'
+import type {
+  OptionConfig,
+  requsetConfig,
+  searchPorps,
+  ProCoreActionType,
+  ProFieldEmptyText
+} from './types/table'
+import type { ColumnsState } from './components/ActionColumns'
 
 export const proTableProps = Object.assign({}, T.props, {
   request: {
@@ -101,5 +108,36 @@ export const proTableProps = Object.assign({}, T.props, {
   neverScroll: {
     type: Boolean as PropType<boolean>,
     required: false
+  },
+  columnEmptyText: {
+    type: [ String, Boolean ] as PropType<ProFieldEmptyText>,
+    default: false
+  },
+  reset: {
+    type: Function as PropType<(params?: Partial<Record<string, any>>) => any>
+  },
+  submit: {
+    type: Function as PropType<(params: Partial<Record<string, any>>) => any>
+  },
+  refresh: {
+    type: Function as PropType<() => any>
+  },
+  sizeChange: {
+    type: Function as PropType<(size: string) => any>
+  },
+  loadingChange: {
+    type: Function as PropType<(loading: boolean) => any>
+  },
+  beforeSearchSubmit: {
+    type: Function as PropType<(params: Partial<Record<string, any>>) => any>
+  },
+  requestError: {
+    type: Function as PropType<(e: Error) => void>
+  },
+  columnsStateChange: {
+    type: Function as PropType<(data: ColumnsState[]) => void>
+  },
+  postData: {
+    type: Function as PropType<(data: any[]) => void>
   }
 })

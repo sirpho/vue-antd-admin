@@ -9,7 +9,7 @@ import {
 
 import styles from '../style.module.less'
 
-export interface Options {
+export interface ColumnsState {
   uuid: string;
   dataIndex?: string;
   key: string;
@@ -17,12 +17,12 @@ export interface Options {
   checked: boolean;
   slots?: any;
   fixType?: 'nofixed' | 'fixedLeft' | 'fixedRight';
-  children?: Options[];
+  children?: ColumnsState[];
 }
 
 const actionColumnsProps = {
   columns: {
-    type: [ Array ] as PropType<Options[]>,
+    type: [ Array ] as PropType<ColumnsState[]>,
     default: () => []
   },
   scroll: {
@@ -41,13 +41,13 @@ const ActionColumns = defineComponent({
     const actionRef = ref()
     const state = reactive({
       leftCheckedKeys: [] as string[],
-      leftColumnsData: [] as Options[],
+      leftColumnsData: [] as ColumnsState[],
       rightCheckedKeys: [] as string[],
-      rightColumnsData: [] as Options[],
+      rightColumnsData: [] as ColumnsState[],
       checkedKeys: [] as string[],
-      columnsData: [] as Options[],
+      columnsData: [] as ColumnsState[],
       treeCheckKeys: [] as string[],
-      treeColumnsData: [] as Options[],
+      treeColumnsData: [] as ColumnsState[],
       fixType: [ 'nofixed' ]
     })
     /**
@@ -105,7 +105,7 @@ const ActionColumns = defineComponent({
     watch(
       () => props.columns,
       (newVal, oldVal) => {
-        if (String(newVal) !== String(oldVal)) {
+        if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
           formatColumns(newVal)
         }
       }, {

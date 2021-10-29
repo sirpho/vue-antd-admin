@@ -3,7 +3,8 @@ import {
   unref,
   ComputedRef,
   computed,
-  watch, onMounted
+  watch,
+  onMounted
 } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { PaginationProps } from 'ant-design-vue/lib/pagination'
@@ -69,8 +70,13 @@ export function useFetchData(
   const getDataSourceRef = computed(() => {
     const { current = 1, pageSize = 10 } = unref(getPaginationInfo) as PaginationProps
     const dataSource = unref(dataSourceRef)
-    if (!dataSource || dataSource.length === 0) {
-      return unref(dataSourceRef)
+    if (
+      !dataSource ||
+      dataSource.length === 0 ||
+      !unref(getViewColumns) ||
+      unref(getViewColumns).length === 0
+    ) {
+      return []
     }
     let tableData = cloneDeep(unref(dataSourceRef))
     tableData = getSortIndex(tableData, {
@@ -90,8 +96,8 @@ export function useFetchData(
   }
 
   async function fetchData(info: any = {}) {
-    const { request, search } = unref(propsRef)
-    const { pagination, filters, sorter, removeTotal = 0, beforeFetch, afterFetch } = info
+    const { request, search, beforeSearchSubmit, postData } = unref(propsRef)
+    const { pagination, filters, sorter, removeTotal = 0 } = info
     if (!request || !isFunction(request)) return
     setLoading(true)
     let pageParams: Recordable = {}
@@ -132,8 +138,8 @@ export function useFetchData(
       ...getFormParamsRef.value
     }
 
-    if (beforeFetch && isFunction(beforeFetch)) {
-      actionParams = await beforeFetch(actionParams, sorter, filters)
+    if (beforeSearchSubmit && isFunction(beforeSearchSubmit)) {
+      actionParams = await beforeSearchSubmit(actionParams, sorter, filters)
     }
 
     let resultItems: Recordable[] = []
@@ -142,15 +148,17 @@ export function useFetchData(
 
     if (response && response.success) {
       resultItems = response.data
+      if (postData && isFunction(postData)) {
+        resultItems = (await postData(resultItems)) || resultItems
+      }
       dataSourceRef.value = resultItems
       setPagination({
         current: actionParams.pageNum,
         pageSize: actionParams.pageSize,
         total: response.total || 0
       })
-      if (afterFetch && isFunction(afterFetch)) {
-        await afterFetch(resultItems)
-      }
+    } else {
+      emit('requestError', response)
     }
     setLoading(false)
   }

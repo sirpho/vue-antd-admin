@@ -100,10 +100,7 @@ export function deepCopy(data: object | any[]) {
  * @description 处理表格字段为空
  */
 export function hanndleField(str: any, customize: any) {
-  const stringNull = [
-    'null',
-    'undefined'
-  ]
+  const stringNull = [ 'null', 'undefined' ]
   let success = true
   if (str === 0) {
     success = true

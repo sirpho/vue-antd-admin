@@ -23,6 +23,32 @@ export function useTableForm(
           return item
         })
       }
+      if (search && (search.type === 'columns' || search.type === 'dataSouce')) {
+        const defaultParams = {}
+        cloneDeep(searchData).map(item => {
+          let initialValue = item.initialValue
+          const valueUndefined = [ 'select' ]
+          const valueNull = [ 'date', 'time', 'dateRange' ]
+          if (!initialValue && valueUndefined.includes(item.valueType)) {
+            initialValue = undefined
+          } else if (!initialValue && valueNull.includes(item.valueType)) {
+            initialValue = null
+          } else if (!initialValue) {
+            initialValue = ''
+          }
+          if (item.name === 'dateRange') {
+            defaultParams[item.rangeStartName || 'start'] = initialValue ? initialValue[0] : null
+            defaultParams[item.rangeEndName || 'end'] = initialValue ? initialValue[1] : null
+          } else {
+            defaultParams[item.name] = initialValue
+          }
+          return item
+        })
+        formParamsRef.value = {
+          ...formParamsRef.value,
+          ...defaultParams
+        }
+      }
       formDataRef.value = cloneDeep(searchData)
     },
     {

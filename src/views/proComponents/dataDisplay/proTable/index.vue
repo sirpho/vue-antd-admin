@@ -7,7 +7,8 @@
       :actionRef="info => tableRef = info"
       :search="{
         type: 'slots',
-        showSearch: true
+        showSearch: true,
+        showReset: true,
       }"
       :params="tableParameters"
       :columns="columns"
@@ -297,7 +298,12 @@ export default defineComponent({
         tableData: state.tableData
       })
     }
-    const onReset = () => {}
+    const onReset = () => {
+      state.tableParameters = {
+        source: undefined,
+        title: ''
+      }
+    }
     const onSearchReset = () => {
       // state.inputSearchRef.changeValue('')
       state.tableParameters = {

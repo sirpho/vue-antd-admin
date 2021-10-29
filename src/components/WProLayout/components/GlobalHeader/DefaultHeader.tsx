@@ -89,7 +89,7 @@ export const DefaultHeader: FunctionalComponent<DefaultHeaderProps> = (props) =>
     <div style={{ height: '100%' }} class={className.value}>
       <div ref={headerRef} class="wd-pro-global-header-main">
         {layout === 'mix' && (
-          <LogoContent disabledTitle={isMobile || collapsed} {...props} />
+          <LogoContent disabledTitle={isMobile} {...props} />
         )}
         {(layout === 'side' || isMobile) && collapsedButtonRender && (
           <span

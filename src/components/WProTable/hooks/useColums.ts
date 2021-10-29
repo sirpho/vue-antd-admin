@@ -2,12 +2,13 @@ import { ComputedRef, unref, computed, ref, Ref, watch } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import type { ProTableProps } from '@wd-pro/pro-table'
 import { getRandomNumber, isArray } from '/@/utils/util'
+import type { Breakpoint } from '../Table'
 import type { ProColumns } from '../types/column'
-import type { Options } from '../components/ActionColumns'
+import type { ColumnsState } from '../components/ActionColumns'
 
 function handleActionsColumn(columns: ProColumns[]) {
   return cloneDeep(columns).map((item, index) => {
-    const actionItems: Options = {
+    const actionItems: ColumnsState = {
       uuid: item.uuid || '',
       dataIndex: item.dataIndex || '',
       title: item.title as string,
@@ -38,11 +39,11 @@ function handleActionsColumn(columns: ProColumns[]) {
 export function useColumns(
   propsRef: ComputedRef<ProTableProps>,
   propsColumnsRef: ComputedRef<ProColumns[]>,
-  innerWidth: Ref<number>,
+  screensRef: Ref<Partial<Record<Breakpoint, boolean>>>,
   emit: EmitType
 ) {
   const columnsRef = ref(unref(propsRef).columns) as unknown as Ref<ProColumns[]>
-  const actionColumsRef = ref(unref(propsRef).columns) as unknown as Ref<Options[]>
+  const actionColumsRef = ref(unref(propsRef).columns) as unknown as Ref<ColumnsState[]>
   let cacheColumns = unref(propsRef).columns
 
   const getColumnsRef = computed(() => {
@@ -56,7 +57,7 @@ export function useColumns(
 
   const getActionColumsRef = computed(() => {
     const columns = cloneDeep(unref(actionColumsRef))
-    cloneDeep(handleActionColumn(propsRef, innerWidth, columns, cacheColumns, true))
+    cloneDeep(handleActionColumn(propsRef, screensRef, columns, cloneDeep(cacheColumns), true))
     return columns
   })
 
@@ -65,7 +66,7 @@ export function useColumns(
 
     const columns = cloneDeep(viewColumns)
 
-    cloneDeep(handleActionColumn(propsRef, innerWidth, columns, cacheColumns))
+    cloneDeep(handleActionColumn(propsRef, screensRef, columns, cloneDeep(cacheColumns)))
 
     return columns
       .filter((column) => column.checked || column.checked === undefined)
@@ -84,7 +85,7 @@ export function useColumns(
       if (unref(propsRef).showIndex) handleShowIndex(propsRef, newColumns)
       cacheColumns = cloneDeep(newColumns)
       columnsRef.value = cloneDeep(newColumns)
-      actionColumsRef.value = handleActionsColumn(cloneDeep(newColumns)) as Options[]
+      actionColumsRef.value = handleActionsColumn(cloneDeep(newColumns)) as ColumnsState[]
     }, {
       deep: true,
       immediate: true
@@ -103,7 +104,7 @@ export function useColumns(
     columnsRef.value = cloneDeep(columnList)
   }
 
-  function setActionColumns(columnList: Partial<Options>[] | string[], type) {
+  function setActionColumns(columnList: Partial<ColumnsState>[] | string[], type) {
     const columns: Partial<ProColumns>[] = []
     if (!isArray(columnList)) return
 
@@ -182,8 +183,8 @@ export function useColumns(
   }
 
   function reSetColumns() {
-    columnsRef.value = unref(cacheColumns)
-    actionColumsRef.value = unref(cacheColumns)
+    columnsRef.value = cloneDeep(unref(cacheColumns))
+    actionColumsRef.value = handleActionsColumn(cloneDeep(unref(cacheColumns)))
   }
 
   function getCacheColumns() {
@@ -203,12 +204,13 @@ export function useColumns(
 
 function handleActionColumn(
   propsRef: ComputedRef<ProTableProps>,
-  innerWidth: Ref<number>,
-  columns: ProColumns[] | Options[],
+  screensRef: Ref<Partial<Record<Breakpoint, boolean>>>,
+  columns: ProColumns[] | ColumnsState[],
   cacheColumns: ProColumns[],
   type?: boolean
 ) {
   const { automaticScroll, scroll, neverScroll } = unref(propsRef)
+  const { xl } = screensRef.value
   columns.map(item => {
     if (!item.width || item.dataIndex === 'action') {
       if (item.dataIndex === 'action' && !neverScroll) {
@@ -230,14 +232,14 @@ function handleActionColumn(
             }
           }
         } else {
-          if (scroll?.x && item.dataIndex === 'action') {
+          if (scroll?.x) {
             if (type) {
               item.fixType = 'fixedRight'
             } else {
               item.width = item.width || 100
               item.fixed = 'right'
             }
-          } else if (innerWidth.value < 1540 && item.dataIndex === 'action') {
+          } else if (!xl) {
             if (type) {
               item.fixType = 'fixedRight'
             } else {
@@ -310,6 +312,7 @@ function sortFixedColumn(columns: ProColumns[], columnList: Partial<ProColumns>[
             break
         }
       }
+      return el
     })
     return item
   })

@@ -216,7 +216,7 @@ const TableSearch = defineComponent({
           return item
         })
       }
-      searchTableParams(props.type === 'slots')
+      searchTableParams(true)
     }
     const searchTableParams = (reset) => {
       let params: any = cloneDeep(modelRef)
