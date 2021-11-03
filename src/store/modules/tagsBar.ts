@@ -22,7 +22,7 @@ const mutations = {
       if (route.fullPath !== target.fullPath) Object.assign(target, route)
       return
     }
-    if (route.fixed) {
+    if (route.tagFixed) {
       state.visitedRoutes.unshift(Object.assign({}, route))
     } else {
       state.visitedRoutes.push(Object.assign({}, route))
@@ -49,7 +49,7 @@ const mutations = {
    */
   delOthersVisitedRoutes(state, route) {
     state.visitedRoutes = state.visitedRoutes.filter(
-      (item) => item.meta.fixed || item.path === route.path
+      (item) => item.meta.tagFixed || item.path === route.path
     )
   },
   /**
@@ -63,7 +63,7 @@ const mutations = {
     let index = state.visitedRoutes.length
     state.visitedRoutes = state.visitedRoutes.filter((item) => {
       if (item.name === route.name) index = state.visitedRoutes.indexOf(item)
-      return item.meta.fixed || index <= state.visitedRoutes.indexOf(item)
+      return item.meta.tagFixed || index <= state.visitedRoutes.indexOf(item)
     })
   },
   /**
@@ -77,7 +77,7 @@ const mutations = {
     let index = state.visitedRoutes.length
     state.visitedRoutes = state.visitedRoutes.filter((item) => {
       if (item.name === route.name) index = state.visitedRoutes.indexOf(item)
-      return item.meta.fixed || index >= state.visitedRoutes.indexOf(item)
+      return item.meta.tagFixed || index >= state.visitedRoutes.indexOf(item)
     })
   },
   /**
@@ -88,7 +88,7 @@ const mutations = {
    * @returns
    */
   delAllVisitedRoutes(state) {
-    state.visitedRoutes = state.visitedRoutes.filter((item) => item.meta.fixed)
+    state.visitedRoutes = state.visitedRoutes.filter((item) => item.meta.tagFixed)
   }
 }
 const actions = {

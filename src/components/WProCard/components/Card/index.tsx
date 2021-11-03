@@ -186,6 +186,7 @@ const ProCard = defineComponent({
         [`${baseClassName}-split`]: props.split === 'vertical' || props.split === 'horizontal',
         [`${baseClassName}-ghost`]: props.ghost,
         [`${baseClassName}-hoverable`]: props.hoverable,
+        [`${baseClassName}-alway-hoverable`]: props.alwaysHoverable,
         [`${baseClassName}-size-${props.size}`]: props.size,
         [`${baseClassName}-type-${props.type}`]: props.type,
         [`${baseClassName}-collapse`]: collapsed.value

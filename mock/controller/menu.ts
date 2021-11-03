@@ -368,7 +368,7 @@ const data = [
     children: [],
     component: 'proComponents/dataDisplay/proTable/index',
     createTime: '2020-06-30 22:48:57',
-    fixed: true,
+    tagFixed: '0',
     menuId: 6,
     path: 'proTable',
     menuName: '高级表格',

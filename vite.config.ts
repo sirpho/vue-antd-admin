@@ -7,8 +7,7 @@ import externalGlobals from 'rollup-plugin-external-globals'
 import { generateModifyVars } from './build/generate/generateModifyVars'
 import { wrapperEnv } from './build/utils'
 import { createVitePlugins } from './build/vite/plugin'
-import config from './config/config'
-import proxy from './config/default/proxy'
+import config, { createProxy } from './config/config'
 
 import pkg from './package.json'
 import moment from 'moment'
@@ -37,7 +36,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
   // The boolean type read by loadEnv is a string. This function can be converted to boolean type
   const viteEnv = wrapperEnv(env)
 
-  const { VITE_DROP_CONSOLE, VITE_APP_ENV } = viteEnv
+  const { VITE_DROP_CONSOLE, VITE_APP_ENV, VITE_BASE_URL } = viteEnv
 
   const isBuild = command === 'build'
 
@@ -81,7 +80,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       open: true,
       host: true,
       port: devPort,
-      proxy: proxy[VITE_APP_ENV] || {}
+      proxy: createProxy(VITE_BASE_URL)[VITE_APP_ENV]
     },
     build: {
       target: 'es2015',

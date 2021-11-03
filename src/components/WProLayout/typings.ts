@@ -32,9 +32,13 @@ export interface MetaRecord {
    */
   homePage?: number;
   /**
+   * @name 标签栏是否隐藏
+   */
+  tagHidden?: boolean;
+  /**
    * @name 是否固定在标签栏中
    */
-  fixed?: boolean;
+  tagFixed?: boolean;
 
   [key: string]: any;
 }

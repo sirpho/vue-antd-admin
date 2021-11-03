@@ -86,7 +86,8 @@ export const generator = (routerMap: any[], parent?) => {
       // meta: 页面标题, 菜单图标, 页面权限(供指令权限用，可去掉)
       meta: {
         title: item.title || '',
-        fixed: item.fixed || false,
+        tagFixed: item.tagFixed,
+        tagHidden: item.tagHidden,
         icon: item.icon || undefined,
         homePage: item.homePage || 0,
         iconType: item.iconType || undefined,
@@ -154,7 +155,8 @@ export function buildMenu(list: any[]) {
       title = '',
       icon = '',
       iconType = 1,
-      fixed = false,
+      tagFixed = '1',
+      tagHidden = '0',
       homePageFlag = 0,
       isFrame = '1',
       outLinkType = 0
@@ -175,7 +177,8 @@ export function buildMenu(list: any[]) {
       redirect: item.redirect === 'noRedirect'
         ? ''
         : item.redirect,
-      fixed: fixed,
+      tagFixed: tagFixed === '0',
+      tagHidden: tagHidden === '1',
       target: isFrame === '0' ? item.path : '',
       targetStatus: outLinkType || 0,
       children: item.children && item.children.length > 0
@@ -210,7 +213,8 @@ export function buildtree(list: any[], arr: any[], parentId: string | number) {
         redirect: item.redirect === 'noRedirect'
           ? ''
           : item.redirect,
-        fixed: item.fixed,
+        tagFixed: item.tagFixed === '0',
+        tagHidden: item.tagHidden === '1',
         target: item.isFrame === '0' ? item.path : '',
         targetStatus: item.outLinkType || 0,
         children: []

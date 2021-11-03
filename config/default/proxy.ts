@@ -5,30 +5,20 @@
  * For details, please see
  * https://pro.ant.design/docs/deploy
  */
-import defaultSettings from './defaultSettings'
-
-const { devPort } = defaultSettings
-
-export default {
-  dev: {
-    '/mock-server': {
-      target: `http://localhost:${devPort}`,
-      changeOrigin: true,
-      rewrite: (path) => path.replace(/^\/basic-api/, '')
-    }
-  },
-  test: {
-    '/api/': {
-      target: 'your pre url',
-      changeOrigin: true,
-      rewrite: (path) => path.replace(/^\/api/, '')
-    }
-  },
-  pre: {
-    '/api/': {
-      target: 'your pre url',
-      changeOrigin: true,
-      rewrite: (path) => path.replace(/^\/api/, '')
-    }
+export function createProxy(prefix) {
+  const ret = {
+    dev: {},
+    test: {},
+    pre: {}
   }
+  const proxy = {
+    target: `http://localhost:9999${prefix}`,
+    changeOrigin: true,
+    ws: true,
+    rewrite: (path) => path.replace(new RegExp(`^${prefix}`), '')
+  }
+  ret.dev[prefix] = proxy
+  ret.test[prefix] = proxy
+  ret.pre[prefix] = proxy
+  return ret
 }

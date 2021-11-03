@@ -77,6 +77,7 @@ declare global {
     VITE_PORT: number;
     VITE_USE_MOCK: boolean;
     VITE_USE_PWA: boolean;
+    VITE_BASE_URL: string;
     VITE_APP_ENV: string;
     VUE_APP_VERSION: string;
     VUE_APP_AUTHOR: any;

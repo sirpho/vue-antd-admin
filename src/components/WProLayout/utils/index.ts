@@ -51,9 +51,12 @@ export function flatMap(menusData: RouteRecord[] | RouteRecordRaw[]): RouteRecor
 }
 
 export function getMenuFirstChildren(menus: MenuDataItem[], key?: string) {
+  const menuKey = (key || '').split('/').length === 2
+    ? (key || '')
+    : `/${(key || '').split('/')[1]}`
   return key === undefined
     ? []
-    : (menus[menus.findIndex(menu => menu.path === key)] || {}).children || []
+    : (menus[menus.findIndex(menu => menu.path === menuKey)] || {}).children || []
 }
 
 export function getMenuFirstLastChildPath(data: MenuDataItem[]): string {

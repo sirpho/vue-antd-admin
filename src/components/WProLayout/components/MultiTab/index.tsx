@@ -59,7 +59,7 @@ export default defineComponent({
      */
     const initAffixTabs = (routes) => {
       routes.forEach((route) => {
-        if (route.meta && route.meta.fixed) addTabs(route)
+        if (route.meta && route.meta.tagFixed) addTabs(route)
         if (route.children) initAffixTabs(route.children)
       })
     }
@@ -74,13 +74,12 @@ export default defineComponent({
         tag.name &&
         tag.meta &&
         tag.meta.tagHidden !== true &&
-        tag.meta.hideInMenu !== true &&
         !routesWhiteList.includes(tag.path)
       ) {
         let matched = [ tag.name ]
         if (tag.matched) matched = tag.matched.map((item) => item.name)
         await store.dispatch('tagsBar/addVisitedRoute', {
-          fixed: tag.meta && tag.meta.fixed,
+          tagFixed: tag.meta && tag.meta.tagFixed,
           path: tag.path,
           fullPath: tag.fullPath || tag.path,
           query: tag.query,
@@ -121,7 +120,7 @@ export default defineComponent({
      * @description 当前页是否固定
      */
     const isFixed = (tag) => {
-      return tag.meta && tag.meta.fixed
+      return tag.meta && tag.meta.tagFixed
     }
     /**
      * @Author      gx12358
@@ -131,7 +130,7 @@ export default defineComponent({
      */
     const handleTabClick = (tab) => {
       const route = visitedRoutes.value.filter((item) => item.path === tab)[0]
-      if ($route.fullPath !== route.fullPath) router.push(route)
+      if ($route.fullPath !== route.fullPath) router.push(route.fullPath)
     }
     /**
      * @Author      gx12358
@@ -177,11 +176,11 @@ export default defineComponent({
       switch (type) {
         case 1:
           status = visitedRoutes.value.length === 1 ||
-            (visitedRoutes.value.findIndex(item => item.meta.fixed) === 0 && visitedRoutes.value.length === 2)
+            (visitedRoutes.value.findIndex(item => item.meta.tagFixed) === 0 && visitedRoutes.value.length === 2)
           break
         case 2:
           status = currentIndex === 0 ||
-            (currentIndex === 1 && visitedRoutes.value.findIndex(item => item.meta.fixed) === 0)
+            (currentIndex === 1 && visitedRoutes.value.findIndex(item => item.meta.tagFixed) === 0)
           break
         case 3:
           status = currentIndex === visitedRoutes.value.length - 1 || visitedRoutes.value.length === 1

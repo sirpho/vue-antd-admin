@@ -5,6 +5,7 @@ import { message } from 'ant-design-vue'
 import config from '/config/config'
 import store from '/@/store'
 import router from '/@/router'
+import { tansParams, isArray } from '/@/utils/util'
 import { AxiosCanceler } from './axios/axiosCancel'
 
 export interface CreateAxiosOptions extends AxiosRequestConfig {
@@ -19,8 +20,6 @@ const { debounce, tokenName } = config.defaultSettings
 
 const { contentType, requestTimeout, successCode } = config.network
 
-const baseURL = import.meta.env.MODE === 'development' ? 'mock-server' : 'mock-server'
-
 const axiosCanceler = new AxiosCanceler()
 
 /**
@@ -30,18 +29,20 @@ const axiosCanceler = new AxiosCanceler()
  * @param {*} msg
  */
 const handleCode = (code: number, msg: string) => {
-  switch (code) {
-    case 401:
-      message.error(msg || '登录失效')
-      store.dispatch('user/resetAll').catch(() => {})
-      break
-    case 403:
-      router.push({ path: '/401' }).catch(() => {})
-      break
-    default:
-      message.error(msg || `后端接口${code}异常`)
-      break
-  }
+  setTimeout(() => {
+    switch (code) {
+      case 401:
+        message.error(msg || '登录失效')
+        store.dispatch('user/resetAll').catch(() => {})
+        break
+      case 403:
+        router.push({ path: '/401' }).catch(() => {})
+        break
+      default:
+        message.error(msg || `后端接口${code}异常`)
+        break
+    }
+  })
 }
 /**
  * @author gx12358 2539306317@qq.com
@@ -69,7 +70,14 @@ instance.interceptors.request.use(
         : config?.ignoreCancelToken || true
     !ignoreCancel && axiosCanceler.addPending(config)
 
-    config.url = `/${baseURL}${config.url}`
+    // get请求映射params参数
+    if (config.method === 'get' && config.params) {
+      let url = config.url + '?' + tansParams(config.params)
+      url = url.slice(0, -1)
+      config.params = {}
+      config.url = url
+    }
+    config.url = `${import.meta.env.VITE_BASE_URL}${config.url}`
     if (store.getters['user/accessToken'])
       (config).headers[tokenName] = store.getters['user/accessToken']
     if (
@@ -95,10 +103,10 @@ instance.interceptors.response.use(
   (response: AxiosResponse<any>) => {
     response && axiosCanceler.removePending(response.config)
     if (loadingInstance) loadingInstance.close()
-    const { data, config } = response
+    const { data } = response
     const { code, msg = '' } = data as Result
     // 操作正常Code数组
-    const codeVerificationArray = Array.isArray(successCode)
+    const codeVerificationArray = isArray(successCode)
       ? [ ...successCode ]
       : [ ...[ successCode ] ]
     // 是否操作正常
@@ -106,10 +114,7 @@ instance.interceptors.response.use(
       return data
     } else {
       handleCode(code, msg)
-      return Promise.reject(
-        'wd-pro-admin请求异常拦截:' +
-        JSON.stringify({ url: config.url, code, msg }) || 'Error'
-      )
+      return Promise.resolve(false)
     }
   },
   (error) => {
@@ -119,7 +124,7 @@ instance.interceptors.response.use(
     if (error.response && error.response.data) {
       const { status, data } = response
       handleCode(status, data.msg || errorMessage)
-      return Promise.reject(error)
+      return Promise.resolve(false)
     } else {
       if (errorMessage === 'Network Error') {
         errorMessage = '后端接口连接异常'
@@ -132,7 +137,7 @@ instance.interceptors.response.use(
         errorMessage = '后端接口' + code + '异常'
       }
       message.error(errorMessage || `后端接口未知异常`)
-      return Promise.reject(error)
+      return Promise.resolve(false)
     }
   }
 )

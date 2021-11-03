@@ -60,6 +60,7 @@ export const cardProps = {
   },
   bordered: PropTypes.looseBool,
   hoverable: PropTypes.looseBool,
+  alwaysHoverable: PropTypes.looseBool,
   ghost: PropTypes.looseBool,
   collapsible: PropTypes.looseBool,
   collapsed: PropTypes.looseBool,

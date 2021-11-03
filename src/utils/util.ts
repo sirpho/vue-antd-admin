@@ -39,6 +39,34 @@ export function trim(str: string, isGlobal: boolean) {
   return result
 }
 
+/**
+ * @Author      gx12358
+ * @DateTime    2021/11/3
+ * @lastTime    2021/11/3
+ * @description 参数处理
+ */
+export function tansParams(params) {
+  let result = ''
+  for (const propName of Object.keys(params)) {
+    const value = params[propName]
+    const part = encodeURIComponent(propName) + '='
+    if (value !== null && typeof (value) !== 'undefined' && value !== '') {
+      if (typeof value === 'object') {
+        for (const key of Object.keys(value)) {
+          if (value[key] !== null && typeof (value[key]) !== 'undefined') {
+            const params = propName + '[' + key + ']'
+            const subPart = encodeURIComponent(params) + '='
+            result += subPart + encodeURIComponent(value[key]) + '&'
+          }
+        }
+      } else {
+        result += part + encodeURIComponent(value) + '&'
+      }
+    }
+  }
+  return result
+}
+
 export function isBoolean(val: unknown): val is boolean {
   return is(val, 'Boolean')
 }
@@ -89,7 +117,12 @@ export function isJSONStr(str: any) {
   return false
 }
 
-/** 如果是个方法执行一下它 */
+/**
+ * @Author      gx12358
+ * @DateTime    2021/11/3
+ * @lastTime    2021/11/3
+ * @description 如果是个方法执行一下它
+ */
 export function runFunction<T extends any[]>(valueEnum: any, ...rest: T) {
   if (typeof valueEnum === 'function') {
     return valueEnum(...rest)

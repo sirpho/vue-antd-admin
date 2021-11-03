@@ -25,6 +25,7 @@ export default defineComponent({
     const needFixedHeader = computed(
       () => fixedHeader.value || context.fixedHeader
     )
+    const hTheme = computed(() => (layout.value === 'side' && 'light') || theme.value)
     const className = computed(() => {
       return [
         needFixedHeader.value && 'wd-pro-fixed-header'
@@ -48,7 +49,7 @@ export default defineComponent({
       const defaultDom = (
         <DefaultHeader
           {...props}
-          theme={theme.value as 'light' | 'dark'}
+          theme={hTheme.value as 'light' | 'dark'}
           mode="horizontal"
           onCollapse={onCollapse.value}
           menuData={clearMenuData.value}
