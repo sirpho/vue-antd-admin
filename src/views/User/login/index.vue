@@ -70,6 +70,7 @@ export default defineComponent({
     LockOutlined
   },
   setup() {
+    console.log(123)
     const store = useStore()
     const route = useRoute()
     const router = useRouter()
