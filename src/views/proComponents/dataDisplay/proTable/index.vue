@@ -143,7 +143,7 @@ export default defineComponent({
   },
   setup() {
     const { proxy }: any = getCurrentInstance()
-    const polling = ref(2000)
+    const polling = ref<number | undefined>(2000)
     const state: any = reactive({
       waitRequest: true,
       searchConfig: {
