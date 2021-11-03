@@ -21,12 +21,11 @@ interface RolesInfo {
 }
 
 export interface UserInfoItem {
+  admin?: boolean;
   userId?: number;
   roles?: RolesInfo[];
   roleIds?: number[];
-  buttons?: string[];
   userName?: string;
-  loginName?: string;
   nickName?: string;
   avatar?: string;
   loginDate?: string;
@@ -137,21 +136,22 @@ const actions: ActionTree<UserState, any> = {
    * @returns
    */
   async getUserInfo({ commit, dispatch, state }) {
-    const { data } = await getUserInfo(state.accessToken)
-    if (!data) {
+    const response: any = await getUserInfo(state.accessToken)
+    const { roles, user, permissions } = response
+    if (!user || Object.keys(user).length === 0) {
       message.error(`验证失败，请重新登录...`)
       return false
     }
-    const { userName, avatar, roles, buttons, loginName } = data as UserInfoItem
+    const { userName, avatar, admin } = user as UserInfoItem
     if (userName && roles && Array.isArray(roles)) {
-      dispatch('acl/setRole', roles, { root: true })
-      dispatch('acl/setAbility', buttons, { root: true })
+      dispatch('acl/setRole', roles, { root: admin })
+      dispatch('acl/setAbility', permissions, { root: admin })
       commit('setUserName', userName)
-      commit('setLoginName', loginName)
+      commit('setLoginName', userName)
       commit('setAvatar', avatar)
-      commit('setUserInfo', data)
+      commit('setUserInfo', user)
       notification.success({
-        message: `欢迎登录${loginName}`,
+        message: `欢迎登录${userName}`,
         description: `${timeFix()}！`
       })
     } else {

@@ -86,11 +86,10 @@ const WProTable = defineComponent({
     const tableRef = ref<any>()
     const fullScreen: Ref<boolean> = ref(false)
     const getProps = computed(() => {
-      return { ...props } as ProTableProps
+      return { ...cloneDeep(props) } as ProTableProps
     })
-    const propsColumnsRef = computed(() => props.columns)
-    const propsParamsRef = computed(() => props.params)
-    const propsSearchRef = computed(() => props.search)
+    const propsColumnsRef = computed(() => cloneDeep(props.columns))
+    const propsParamsRef = computed(() => cloneDeep(props.params))
     const { getLoading, setLoading } = useLoading(getProps, emit)
     const { getSize, setSize } = useTableSize(getProps, emit)
     const {
@@ -112,12 +111,10 @@ const WProTable = defineComponent({
     } = useTableForm(
       getProps,
       {
-        propsSearchRef,
         propsParamsRef
       }
     )
     const {
-      fetchData,
       reload,
       isTreeDataRef,
       getDataSourceRef,
@@ -125,6 +122,7 @@ const WProTable = defineComponent({
     } = useFetchData(
       getProps,
       {
+        getLoading,
         getPaginationInfo,
         setPagination,
         setLoading,
@@ -169,7 +167,7 @@ const WProTable = defineComponent({
       props.actionRef({
         reload: (info) => reload(info),
         loadingOperation: (loading) => setLoading(loading),
-        reloadAndRest: () => fetchData({ current: 1, pageSize: 10 })
+        reloadAndRest: () => reload({ current: 1, pageSize: 10 })
       })
     }
     const toolBarStyle = computed(() => {
@@ -296,7 +294,7 @@ const WProTable = defineComponent({
         emit('submit', params)
         if (props.search.showSearch) {
           setFormParams(params)
-          fetchData()
+          reload()
         } else {
           setFormParams(params)
         }
@@ -327,7 +325,7 @@ const WProTable = defineComponent({
      */
     const refresh = async () => {
       if (props.request) {
-        fetchData()
+        reload()
       } else {
         emit('refresh')
       }

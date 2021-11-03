@@ -69,85 +69,86 @@ export default [
     response: ({ body }) => {
       const { accessToken } = body
       let userId: number | null = null
-      let roles: RolesInfo[] = []
+      let roles: string[] = []
+      let rolesInfo: RolesInfo[] = []
       let roleIds: number[] = []
-      let buttons: string[] = []
-      let loginName = ''
+      let permissions: string[] = []
       let userName = ''
       let nickName = ''
       if ('admin-accessToken' === accessToken) {
         userId = 1
-        roles = [
+        rolesInfo = [
           {
             roleId: 1,
             roleKey: 'admin',
-            roleName: '管理员',
+            roleName: '超级管理员',
             status: '0'
           }
         ]
-        roleIds = [ 1 ]
-        buttons = [
+        roles = rolesInfo.map(item => item.roleKey)
+        roleIds = rolesInfo.map(item => item.roleId)
+        permissions = [
           'proTable:button:add',
           'proTable:button:1',
           'proTable:button:2',
-          'proTable:button:3',
+          'proTable:button:3'
         ]
-        loginName = 'admin'
         userName = '高翔'
         nickName = 'gx12358'
       }
       if ('editor-accessToken' === accessToken) {
         userId = 2
-        roles = [
+        rolesInfo = [
           {
             roleId: 2,
             roleKey: 'editor',
-            roleName: '编辑管理员',
+            roleName: '编辑人员',
             status: '0'
           }
         ]
-        roleIds = [ 2 ]
-        buttons = []
-        loginName = 'editor'
-        userName = '高翔-1'
-        nickName = 'gx12358-1'
+        roles = rolesInfo.map(item => item.roleKey)
+        roleIds = rolesInfo.map(item => item.roleId)
+        permissions = []
+        userName = '高翔-editor'
+        nickName = 'gx12358-editor'
       }
       if ('test-accessToken' === accessToken) {
         userId = 3
-        roles = [
+        rolesInfo = [
           {
             roleId: 1,
             roleKey: 'admin',
-            roleName: '管理员',
+            roleName: '超级管理员',
             status: '0'
           },
           {
             roleId: 2,
             roleKey: 'editor',
-            roleName: '编辑管理员',
+            roleName: '编辑人员',
             status: '0'
           }
         ]
-        roleIds = [ 1, 2 ]
-        buttons = [
+        roles = rolesInfo.map(item => item.roleKey)
+        roleIds = rolesInfo.map(item => item.roleId)
+        permissions = [
           'proTable:button:add',
           'proTable:button:1',
           'proTable:button:2',
-          'proTable:button:3',
+          'proTable:button:3'
         ]
-        loginName = 'test'
-        userName = '高翔-2'
-        nickName = 'gx12358-2'
+        userName = '高翔-test'
+        nickName = 'gx12358-test'
       }
       return {
         code: 200,
         msg: 'success',
-        data: {
+        roles,
+        permissions,
+        user: {
+          admin: userId === 1,
           userId,
-          roles,
+          roles: rolesInfo,
           roleIds,
-          buttons,
-          loginName,
           userName,
           nickName,
           'avatar|1': [

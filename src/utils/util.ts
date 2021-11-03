@@ -89,6 +89,14 @@ export function isJSONStr(str: any) {
   return false
 }
 
+/** 如果是个方法执行一下它 */
+export function runFunction<T extends any[]>(valueEnum: any, ...rest: T) {
+  if (typeof valueEnum === 'function') {
+    return valueEnum(...rest)
+  }
+  return valueEnum
+}
+
 export function deepCopy(data: object | any[]) {
   return JSON.parse(JSON.stringify(data))
 }
@@ -476,6 +484,25 @@ export function getRandomNumber() {
       })
     }
   }
+}
+
+export function getMaxFloor(treeData: any[] = []) {
+  let max = 0
+
+  function each(data: any[] = [], floor) {
+    data.forEach((e: any) => {
+      e.floor = floor
+      if (floor > max) {
+        max = floor
+      }
+      if (e.children && e.children.length > 0) {
+        each(e.children, floor + 1)
+      }
+    })
+  }
+
+  each(treeData, 1)
+  return max
 }
 
 /**

@@ -448,7 +448,6 @@ export default defineComponent({
           ...state.formState,
           member: cloneDeep(state.tableData)
         }
-        console.log(parames)
       }).catch(({ errorFields }) => {
         state.errorFields = errorFields
       })

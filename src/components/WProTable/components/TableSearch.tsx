@@ -257,6 +257,13 @@ const TableSearch = defineComponent({
               placeholder={record.placeholder || '请选择'}
               showSearch={record.showSearch}
               allowClear={record.allowClear || record.allowClear === false ? record.allowClear : true}
+              notFoundContent={
+                record.loading === undefined
+                  ? undefined
+                  : record.loading
+                    ? <a-spin size="small" />
+                    : undefined
+              }
               onChange={(e) => handleChange(e, record)}
             >
               {

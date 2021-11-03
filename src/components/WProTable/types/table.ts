@@ -1,5 +1,6 @@
-import { VNodeChild } from 'vue'
+import { VNodeChild, CSSProperties } from 'vue'
 import { ProSearchConfig } from './column'
+import { Breakpoint, ColSpanType } from '../components/TableSearch'
 
 export type ProFieldEmptyText = string | false;
 
@@ -25,8 +26,16 @@ export type requsetConfig = (
 
 export interface searchPorps {
   type: string;
+  searchStyle?: CSSProperties;
+  searchText?: string;
+  resetText?: string;
+  className?: string;
+  defaultCollapsed?: boolean;
   showSearch?: boolean;
-  data: ProSearchConfig[]
+  showReset?: boolean;
+  collapseRender?: WithFalse<(collapsed?: boolean) => CustomRender>;
+  span?: ColSpanType | Partial<Record<Breakpoint, ColSpanType>>;
+  searchData: ProSearchConfig[]
 }
 
 export interface OptionConfig {
@@ -37,9 +46,9 @@ export interface OptionConfig {
 }
 
 /** 操作类型 */
-export type ProCoreActionType = {
+export type ProCoreActionType = () => {
   /** @name 刷新 */
-  reload: () => void;
+  reload: (info?: any) => void;
   /** @name 改变loading状态 */
   loadingOperation: (loading: boolean) => void;
   /** @name 刷新并清空表单，重置为第一页 */

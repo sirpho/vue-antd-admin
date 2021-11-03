@@ -2,45 +2,39 @@ import type { VNode } from 'vue'
 
 export type LayoutType = 'side' | 'mix';
 
-export type TargetType = '_blank' | '_self' | unknown;
-
 export interface MetaRecord {
   /**
    * @name 菜单的icon
    */
   icon?: string | VNode;
   /**
-   * @type 有 children 的菜单的组件类型 可选值 'group'
+   * @name 菜单的iconType
    */
-  type?: string;
+  iconType?: number;
   /**
    * @name 自定义菜单的国际化 key，如果没有则返回自身
    */
   title?: string;
   /**
-   * @name 内建授权信息
+   * @name 是否是外链地址 '0' | '1'
    */
-  authority?: string | string[];
+  target?: string;
   /**
-   * @name 打开目标位置 '_blank' | '_self' | null | undefined
+   * @name 打开目标位置 0：系统内 | 1：系统外
    */
-  target?: TargetType;
-  /**
-   * @name 在菜单中隐藏子节点
-   */
-  hideChildInMenu?: boolean;
+  targetStatus?: number;
   /**
    * @name 在菜单中隐藏自己和子节点
    */
   hideInMenu?: boolean;
   /**
-   * @name disable 菜单选项
+   * @name 登录后是否跳转改地址 0 | 1
    */
-  disabled?: boolean;
+  homePage?: number;
   /**
-   * @name 隐藏自己，并且将子节点提升到与自己平级
+   * @name 是否固定在标签栏中
    */
-  flatMenu?: boolean;
+  fixed?: boolean;
 
   [key: string]: any;
 }

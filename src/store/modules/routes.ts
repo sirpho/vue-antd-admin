@@ -3,7 +3,7 @@
  * @description 路由拦截状态管理，目前两种模式：all模式与intelligence模式，其中partialRoutes是菜单暂未使用
  */
 import { asyncRoutes, constantRoutes, basicRoutes } from '/@/router'
-import { getRouterList } from '/@/services/router'
+import { getRouterList } from '/@/services/controller/router'
 import { filterRoutes, generator, getRootMenu } from '/@/utils/routes'
 import { getFirstLastChild } from '/@/utils/routeConvert'
 import { getLevelData } from '/@/utils/util'
@@ -89,7 +89,7 @@ const actions = {
     const asyncRoutes = generator(rootMenu)
     asyncRoutes[0].children = [ ...asyncRoutes[0].children, ...basicRoutes ]
     const haveHomePage = getLevelData(asyncRoutes[0].children)
-      .find(item => item.meta ? item.meta.homePage : false)
+      .find(item => item.meta ? item.meta.homePage === 1 : false)
     asyncRoutes[0].redirect = haveHomePage ? haveHomePage.path : getFirstLastChild(asyncRoutes[0].children)
     asyncRoutes.push(notFoundRouter)
     commit('setRoutes', asyncRoutes)

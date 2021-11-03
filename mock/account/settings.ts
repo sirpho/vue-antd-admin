@@ -77,7 +77,6 @@ export default [
     method: 'post',
     timeout: 500,
     response: (request: requestParams) => {
-      console.log(request.query)
       return builder(getRequestToken(request), {
         data: city[request.query.province]
       })

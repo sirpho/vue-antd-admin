@@ -72,6 +72,8 @@ export type ProSearchConfig<Entity = Record<string, any>,
   rangeEndName?: string;
   /** valueType为time生效 */
   use12Hours?: boolean;
+  /** valueType为select生效 */
+  loading?: boolean;
   /** valueType为date|dateMonth|dateRange|time生效 */
   renderExtraFooter?: (mode: 'date' | 'time' | 'year' | 'month' | 'decade') => any;
   showTime?: Record<string, any> | boolean;

@@ -17,7 +17,6 @@ export function clearMenuItem(menusData: RouteRecord[] | RouteRecordRaw[]): Rout
 
       if (finalItem && finalItem?.children) {
         if (
-          !finalItem.meta?.hideChildInMenu &&
           finalItem.children.some(
             (child: RouteRecord | RouteRecordRaw) => child && child.name && !child.meta?.hideInMenu
           )

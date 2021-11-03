@@ -1,5 +1,7 @@
+import { cloneDeep } from 'lodash-es'
 import config from '/config/config'
 import { hasRole } from '/@/utils/hasRole'
+import { getMaxFloor } from '/@/utils/util'
 
 const { rolesControl } = config.defaultSettings
 
@@ -70,22 +72,25 @@ export const generator = (routerMap: any[], parent?) => {
   return routerMap.map((item: any) => {
     const currentRouter: any = {
       // 路由地址 动态拼接生成如 /dashboard/workplace
-      path: item.path || `${(parent && parent.path) || ''}/${item.key}`,
+      path: parent && parent.path
+        ? `${parent.path === '/'
+          ? ''
+          : (parent.path || '')}/${item.path}`
+        : `/${item.path}`,
       // 路由名称，建议唯一
-      name: item.name || item.key || '',
+      name: item.name || '',
       // 该路由对应页面的 组件 优先根据组件名或者key从constantRouterComponents获取，没有则通过组件名地址查询
       component:
         constantRouterComponents[item.component || item.key] ||
         loadView(item.component),
       // meta: 页面标题, 菜单图标, 页面权限(供指令权限用，可去掉)
       meta: {
-        title: item.title,
-        fixed: item.fixed,
+        title: item.title || '',
+        fixed: item.fixed || false,
         icon: item.icon || undefined,
+        homePage: item.homePage || 0,
         iconType: item.iconType || undefined,
         hideInMenu: item.hidden || false,
-        hideChildrenInMenu: item.hideChildrenInMenu || false,
-        hiddenHeaderContent: item.hiddenHeaderContent || false,
         target: item.target,
         targetStatus: item.targetStatus
       }
@@ -114,9 +119,13 @@ export const generator = (routerMap: any[], parent?) => {
 export function getRootMenu(rows: any[]) {
   // 根菜单
   const rootMenu: any = []
-  const arr = []
+  let arr: any[] = []
   const menus: any[] = []
-  buildtree(rows, arr, 0)
+  if (getMaxFloor(cloneDeep(rows)) > 1) {
+    arr = buildMenu(rows)
+  } else {
+    buildtree(rows, arr, 0)
+  }
   arr.forEach((row: any) => {
     menus.push(row)
   })
@@ -125,7 +134,7 @@ export function getRootMenu(rows: any[]) {
     key: 'externalLink',
     path: '/externalLink',
     meta: {
-      hideInMenu: true,
+      hidden: true,
       title: '外链地址'
     }
   })
@@ -137,29 +146,74 @@ export function getRootMenu(rows: any[]) {
  * @Author      gx12358
  * @DateTime    2021/5/14
  * @lastTime    2021/5/14
- * @description 将后台菜单数据变成树形结构
+ * @description 将后台树形结构菜单数据添加后修改属性（具体修改看后台返回值）
+ */
+export function buildMenu(list: any[]) {
+  return list.map((item: any) => {
+    const {
+      title = '',
+      icon = '',
+      iconType = 1,
+      fixed = false,
+      homePageFlag = 0,
+      isFrame = '1',
+      outLinkType = 0
+    } = item.meta
+    const child = {
+      title,
+      level: 'tree',
+      name: item.name,
+      key: item.name,
+      icon: icon,
+      iconType: iconType || 1,
+      hidden: item.hidden,
+      homePage: homePageFlag,
+      path: item.path && item.path.length > 0
+        ? item.path
+        : undefined,
+      component: item.component,
+      redirect: item.redirect === 'noRedirect'
+        ? ''
+        : item.redirect,
+      fixed: fixed,
+      target: isFrame === '0' ? item.path : '',
+      targetStatus: outLinkType || 0,
+      children: item.children && item.children.length > 0
+        ? buildMenu(item.children)
+        : []
+    }
+    return child
+  })
+}
+
+/**
+ * @Author      gx12358
+ * @DateTime    2021/5/14
+ * @lastTime    2021/5/14
+ * @description 将后台菜单数据变成树形结构（具体修改看后台返回值）
  */
 export function buildtree(list: any[], arr: any[], parentId: string | number) {
   list.forEach((item: any) => {
     if (item.parentId === parentId) {
       const child: any = {
+        level: 'flat',
         title: item.menuName,
-        key: item.menuKey,
+        name: item.menuName,
+        key: item.path,
         icon: item.icon,
-        iconType: item.iconType,
+        iconType: item.iconType || 1,
         hidden: item.visible === '1',
         path: item.path && item.path.length > 0
           ? item.path
           : undefined,
         component: item.component,
-        redirect: item.redirect,
+        redirect: item.redirect === 'noRedirect'
+          ? ''
+          : item.redirect,
         fixed: item.fixed,
-        target: item.target,
-        targetStatus: item.targetStatus,
-        hideChildrenInMenu: item.hiddenChildren,
-        hiddenHeaderContent: item.hiddenHeader,
-        children: [],
-        systemCategory: item.systemCategory
+        target: item.isFrame === '0' ? item.path : '',
+        targetStatus: item.outLinkType || 0,
+        children: []
       }
       buildtree(list, child.children, item.menuId)
       if (child.children.length === 0) {

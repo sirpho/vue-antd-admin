@@ -31,7 +31,7 @@ const IconFont: any = (iconfontUrl) => {
 
 const LazyIcon = (props: {
   icon: VNodeChild | string;
-  iconType: string;
+  iconType: number;
   iconfontUrl?: string;
 }) => {
   const { icon, iconType, iconfontUrl } = props
@@ -42,7 +42,7 @@ const LazyIcon = (props: {
     if (isUrl(icon) || isImg(icon)) {
       return <img src={icon} alt="icon" class={`wd-pro-sider-menu-icon customimg`} />
     }
-    if (iconType === 'custom') {
+    if (iconType === 1) {
       return iconfontUrl ?
         <IconFont type={icon} />
         :
@@ -60,7 +60,7 @@ LazyIcon.props = {
   icon: {
     type: [ String, Function, Object ] as PropType<string | Function | VNode | JSX.Element>
   },
-  iconType: String,
+  iconType: Number,
   iconfontUrl: String
 }
 
@@ -93,7 +93,7 @@ export default defineComponent({
       const target = (meta.target || '') as string
       const hasUrl = isUrl(target)
       if (router.currentRoute.value?.fullPath !== routerInfo.to) {
-        if (hasUrl && target && meta.targetStatus === '1') {
+        if (hasUrl && target && meta.targetStatus === 1) {
           window.open(target)
         }
       }
@@ -164,7 +164,7 @@ export default defineComponent({
     }
     const getMenuItem = (item: MenuDataItem) => {
       const meta = { ...item.meta }
-      const CustomTag: any = meta.targetStatus === '1' && meta.target ? 'a' : RouterLink
+      const CustomTag: any = meta.targetStatus === 1 && meta.target ? 'a' : RouterLink
       const parames = { to: item.linkPath || item.path || '' }
 
       const menuTitle = item.meta?.title
