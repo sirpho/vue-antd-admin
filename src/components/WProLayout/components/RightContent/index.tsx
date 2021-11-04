@@ -3,6 +3,7 @@ import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { LogoutOutlined } from '@ant-design/icons-vue'
 import config from '/config/config'
+import { globalHeaderProps } from '../GlobalHeader/props'
 import HeaderSearch from './HeaderSearch'
 import AvatarDropdown from './AvatarDropdown'
 import NoticeIcon from '../NoticeIcon'
@@ -10,13 +11,9 @@ import NoticeIcon from '../NoticeIcon'
 export default defineComponent({
   components: { LogoutOutlined },
   props: {
-    isMobile: {
-      type: Boolean,
-      required: false,
-      default: false
-    }
+    extra: globalHeaderProps.extraRightDropdownRender
   },
-  setup(_) {
+  setup(props) {
     const { recordRoute } = config.defaultSettings
     const store = useStore()
     const route = useRoute()
@@ -63,6 +60,7 @@ export default defineComponent({
           avatar={avatar.value}
           userName={userName.value}
           onLogout={logout}
+          {...props}
         />
       </a-space>
     )

@@ -18,6 +18,7 @@ export type DefaultHeaderProps = Partial<ExtractPropTypes<typeof defaultHeaderPr
 
 const RightContent: FunctionalComponent<DefaultHeaderProps> = ({
   rightContentRender,
+  extraRightDropdownRender,
   ...props
 }) => {
   const rightSize = ref<number | string>('auto')
@@ -44,7 +45,7 @@ const RightContent: FunctionalComponent<DefaultHeaderProps> = ({
                 ...props
               })}
             </div>
-          ) : <DeFaultRightContent />}
+          ) : <DeFaultRightContent extra={extraRightDropdownRender} />}
         </ResizeObserver>
       </div>
     </div>
@@ -61,6 +62,7 @@ export const DefaultHeader: FunctionalComponent<DefaultHeaderProps> = (props) =>
     collapsed,
     onCollapse,
     collapsedButtonRender = defaultRenderCollapsedButton,
+    extraRightDropdownRender,
     rightContentRender,
     menuData,
     theme
@@ -123,7 +125,11 @@ export const DefaultHeader: FunctionalComponent<DefaultHeaderProps> = (props) =>
             :
             <div style={{ flex: 1 }}></div>
         }
-        <RightContent rightContentRender={rightContentRender} {...props} />
+        <RightContent
+          extraRightDropdownRender={extraRightDropdownRender}
+          rightContentRender={rightContentRender}
+          {...props}
+        />
       </div>
     </div>
   )

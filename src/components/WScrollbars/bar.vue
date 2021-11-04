@@ -17,12 +17,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, onBeforeUnmount, onMounted, ref, Ref } from "vue";
-import { off, on } from "./utils/utils";
-import { BAR_MAP, renderThumbStyle } from "./utils/config";
+import { computed, defineComponent, inject, onBeforeUnmount, onMounted, ref, Ref } from 'vue'
+import { on, off } from '/@/components/_util/Dom'
+import { BAR_MAP, renderThumbStyle } from './utils/config'
 
 export default defineComponent({
-  name: "Bar",
+  name: 'Bar',
   props: {
     vertical: Boolean,
     size: String,
@@ -30,95 +30,95 @@ export default defineComponent({
     always: Boolean
   },
   setup(props) {
-    const instance: any = ref(null);
-    const thumb: any = ref(null);
-    const scrollbar = inject("scrollbar", {} as Ref<Nullable<HTMLElement>>);
-    const wrap: any = inject("scrollbar-wrap", {} as Ref<Nullable<HTMLElement>>);
-    const bar = computed(() => BAR_MAP[props.vertical ? "vertical" : "horizontal"]);
-    const barStore = ref({});
-    const cursorDown: Ref<boolean | null> = ref(null);
-    const cursorLeave: Ref<boolean | null> = ref(null);
-    const visible: Ref<boolean | null> = ref(false);
-    let onselectstartStore: any = null;
+    const instance: any = ref(null)
+    const thumb: any = ref(null)
+    const scrollbar = inject('scrollbar', {} as Ref<Nullable<HTMLElement>>)
+    const wrap: any = inject('scrollbar-wrap', {} as Ref<Nullable<HTMLElement>>)
+    const bar = computed(() => BAR_MAP[props.vertical ? 'vertical' : 'horizontal'])
+    const barStore = ref({})
+    const cursorDown: Ref<boolean | null> = ref(null)
+    const cursorLeave: Ref<boolean | null> = ref(null)
+    const visible: Ref<boolean | null> = ref(false)
+    let onselectstartStore: any = null
 
     const clickThumbHandler = (e: MouseEvent) => {
       // prevent click event of middle and right button
-      e.stopPropagation();
+      e.stopPropagation()
       if (e.ctrlKey || [ 1, 2 ].includes(e.button)) {
-        return;
+        return
       }
-      const getSelection: any = window.getSelection();
-      getSelection.removeAllRanges();
-      startDrag(e);
-      const currentTarget: any = e.currentTarget;
-      barStore.value[bar.value.axis] = (currentTarget[bar.value.offset] - (e[bar.value.client] - (currentTarget as HTMLElement).getBoundingClientRect()[bar.value.direction]));
-    };
+      const getSelection: any = window.getSelection()
+      getSelection.removeAllRanges()
+      startDrag(e)
+      const currentTarget: any = e.currentTarget
+      barStore.value[bar.value.axis] = (currentTarget[bar.value.offset] - (e[bar.value.client] - (currentTarget as HTMLElement).getBoundingClientRect()[bar.value.direction]))
+    }
 
     const clickTrackHandler = (e: MouseEvent) => {
-      const offset = Math.abs((e.target as HTMLElement).getBoundingClientRect()[bar.value.direction] - e[bar.value.client]);
-      const thumbHalf = (thumb.value[bar.value.offset] / 2);
-      const thumbPositionPercentage = ((offset - thumbHalf) * 100 / instance.value[bar.value.offset]);
+      const offset = Math.abs((e.target as HTMLElement).getBoundingClientRect()[bar.value.direction] - e[bar.value.client])
+      const thumbHalf = (thumb.value[bar.value.offset] / 2)
+      const thumbPositionPercentage = ((offset - thumbHalf) * 100 / instance.value[bar.value.offset])
 
-      wrap.value[bar.value.scroll] = (thumbPositionPercentage * wrap.value[bar.value.scrollSize] / 100);
-    };
+      wrap.value[bar.value.scroll] = (thumbPositionPercentage * wrap.value[bar.value.scrollSize] / 100)
+    }
 
     const startDrag = (e: MouseEvent) => {
-      e.stopImmediatePropagation();
-      cursorDown.value = true;
-      on(document, "mousemove", mouseMoveDocumentHandler);
-      on(document, "mouseup", mouseUpDocumentHandler);
-      onselectstartStore = document.onselectstart;
-      document.onselectstart = () => false;
-    };
+      e.stopImmediatePropagation()
+      cursorDown.value = true
+      on(document, 'mousemove', mouseMoveDocumentHandler)
+      on(document, 'mouseup', mouseUpDocumentHandler)
+      onselectstartStore = document.onselectstart
+      document.onselectstart = () => false
+    }
 
     const mouseMoveDocumentHandler = (e: MouseEvent) => {
-      if (cursorDown.value === false) return;
-      const prevPage = barStore.value[bar.value.axis];
+      if (cursorDown.value === false) return
+      const prevPage = barStore.value[bar.value.axis]
 
-      if (!prevPage) return;
+      if (!prevPage) return
 
-      const offset = ((instance.value.getBoundingClientRect()[bar.value.direction] - e[bar.value.client]) * -1);
-      const thumbClickPosition = (thumb.value[bar.value.offset] - prevPage);
-      const thumbPositionPercentage = ((offset - thumbClickPosition) * 100 / instance.value[bar.value.offset]);
-      wrap.value[bar.value.scroll] = (thumbPositionPercentage * wrap.value[bar.value.scrollSize] / 100);
-    };
+      const offset = ((instance.value.getBoundingClientRect()[bar.value.direction] - e[bar.value.client]) * -1)
+      const thumbClickPosition = (thumb.value[bar.value.offset] - prevPage)
+      const thumbPositionPercentage = ((offset - thumbClickPosition) * 100 / instance.value[bar.value.offset])
+      wrap.value[bar.value.scroll] = (thumbPositionPercentage * wrap.value[bar.value.scrollSize] / 100)
+    }
 
     const mouseUpDocumentHandler = () => {
-      cursorDown.value = false;
-      barStore.value[bar.value.axis] = 0;
-      off(document, "mousemove", mouseMoveDocumentHandler);
-      document.onselectstart = onselectstartStore;
+      cursorDown.value = false
+      barStore.value[bar.value.axis] = 0
+      off(document, 'mousemove', mouseMoveDocumentHandler)
+      document.onselectstart = onselectstartStore
       if (cursorLeave.value) {
-        visible.value = false;
+        visible.value = false
       }
-    };
+    }
 
     const thumbStyle = computed(() => renderThumbStyle({
       size: props.size,
       move: props.move,
       bar: bar.value
-    }));
+    }))
 
     const mouseMoveScrollbarHandler = () => {
-      cursorLeave.value = false;
-      visible.value = !!props.size;
-    };
+      cursorLeave.value = false
+      visible.value = !!props.size
+    }
 
     const mouseLeaveScrollbarHandler = () => {
-      cursorLeave.value = true;
-      visible.value = cursorDown.value;
-    };
+      cursorLeave.value = true
+      visible.value = cursorDown.value
+    }
 
     onMounted(() => {
-      on(scrollbar.value, "mousemove", mouseMoveScrollbarHandler);
-      on(scrollbar.value, "mouseleave", mouseLeaveScrollbarHandler);
-    });
+      on(scrollbar.value, 'mousemove', mouseMoveScrollbarHandler)
+      on(scrollbar.value, 'mouseleave', mouseLeaveScrollbarHandler)
+    })
 
     onBeforeUnmount(() => {
-      off(document, "mouseup", mouseUpDocumentHandler);
-      off(scrollbar.value, "mousemove", mouseMoveScrollbarHandler);
-      off(scrollbar.value, "mouseleave", mouseLeaveScrollbarHandler);
-    });
+      off(document, 'mouseup', mouseUpDocumentHandler)
+      off(scrollbar.value, 'mousemove', mouseMoveScrollbarHandler)
+      off(scrollbar.value, 'mouseleave', mouseLeaveScrollbarHandler)
+    })
 
     return {
       instance,
@@ -128,8 +128,8 @@ export default defineComponent({
       clickThumbHandler,
       thumbStyle,
       visible
-    };
+    }
   }
-});
+})
 
 </script>

@@ -83,6 +83,7 @@ export const basicRoutes: AppRouteModule[] = [
     name: 'Workplace',
     component: () => import('/@/views/dashboard/workplace/index.vue'),
     meta: {
+      tagHidden: true,
       hideInMenu: true,
       homePage: 1,
       title: '工作台'

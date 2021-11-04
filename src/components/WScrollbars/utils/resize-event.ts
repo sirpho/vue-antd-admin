@@ -1,5 +1,5 @@
 import ResizeObserver from 'resize-observer-polyfill'
-import isServer from './isServer'
+import isServer from '/@/components/_util/isServer'
 
 declare type CustomizedHTMLElement<T> = HTMLElement & T
 

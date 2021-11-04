@@ -27,6 +27,10 @@ export const globalHeaderProps = {
       defaultDom: CustomRender) => CustomRender>>,
     default: () => undefined
   },
+  extraRightDropdownRender: {
+    type: [ Array ] as PropType<VueNode[]>,
+    default: () => undefined
+  },
   rightContentRender: {
     type: [ Object, Function ] as PropType<WithFalse<(props: any) => CustomRender>>,
     default: () => undefined

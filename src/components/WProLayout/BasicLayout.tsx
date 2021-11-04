@@ -119,6 +119,7 @@ export default defineComponent({
           ? false
           : getPropsSlot(slots, props, 'collapsedButtonRender')
       const headerContentRender = getPropsSlot(slots, props, 'headerContentRender')
+      const extraRightDropdownRender = getPropsSlot(slots, props, 'extraRightDropdownRender')
       const rightContentRender = getPropsSlot(slots, props, 'rightContentRender')
       const customHeaderRender = getPropsSlot(slots, props, 'headerRender')
       const headerLogoRender = getPropsSlot(slots, props, 'headerLogoRender')
@@ -144,6 +145,7 @@ export default defineComponent({
             onSelect,
             onMenuHeaderClick,
             rightContentRender,
+            extraRightDropdownRender,
             headerLogoRender,
             headerContentRender,
             headerRender: customHeaderRender,
