@@ -48,7 +48,7 @@ import { addResizeListener, removeResizeListener } from './utils/resize-event'
 import { addUnit, isArray, isNumber, isString, toObject } from './utils/utils'
 
 export default defineComponent({
-  name: 'ElScrollbar',
+  name: 'WScrollbar',
   components: { Bar },
   props: {
     height: {

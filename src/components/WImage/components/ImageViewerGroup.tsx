@@ -1,7 +1,7 @@
 import { cloneVNode, computed, defineComponent, ref, Teleport } from 'vue'
+import { getPrefixCls } from '/@/components/_util'
 import ImageViewer from './ImageViewer'
 import { wImagePorps } from '../props'
-import { getPrefixCls } from '/@/components/_util'
 
 let prevOverflow = ''
 

@@ -8,11 +8,11 @@ import {
   Teleport
 } from 'vue'
 import isServer from '/@/components/_util/isServer'
+import { getPrefixCls, getPropsSlot } from '/@/components/_util'
 import ImageViewer from './components/ImageViewer'
 import { wImagePorps } from './props'
 
 import './style.less'
-import { getPrefixCls, getPropsSlot } from '/@/components/_util'
 
 const isSupportObjectFit = () => document.documentElement.style.objectFit !== undefined
 
