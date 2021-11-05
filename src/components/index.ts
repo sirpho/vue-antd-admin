@@ -16,7 +16,10 @@ export { default as WDocumentation } from '/@/components/WDocumentation'
 export { default as WTagSelect } from '/@/components/WTagSelect'
 export { default as WTagSelectOption } from '/@/components/WTagSelect/TagSelectOption'
 export { default as WProCard } from '/@/components/WProCard'
-export { Group as WProCardGroup } from '/@/components/WProCard/ProCard'
-export { Divider as WProCardDivider } from '/@/components/WProCard/ProCard'
-export { TabPane as WProCardTabPane } from '/@/components/WProCard/ProCard'
+export {
+  Group as WProCardGroup,
+  Divider as WProCardDivider,
+  TabPane as WProCardTabPane
+} from '/@/components/WProCard/ProCard'
 export { default as WImage, WImageViewer, WImageViewerGroup } from '/@/components/WImage'
+export { default as WUpload } from '/@/components/WUpload'

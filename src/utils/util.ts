@@ -1,6 +1,8 @@
 import moment from 'moment'
 import global from '/@/common/global'
 
+import type { MaterialInfo } from '@wd/pro-upload'
+
 const toString = Object.prototype.toString
 
 export function is(val: unknown, type: string) {
@@ -634,12 +636,21 @@ export function handleTimeShow(date: string) {
 }
 
 /**
+ * @Author      gx12358
+ * @DateTime    2021/11/5
+ * @lastTime    2021/11/5
+ * @description blob对象转blob字符串
+ */
+export function getBlobUrl(blob: Blob) {
+  return URL.createObjectURL(blob)
+}
+/**
  * @Author      gaoxiang
  * @DateTime    2020/7/25
  * @lastTime    2020/7/25
  * @description 获取图片base64码
  */
-export function getBase64(file: File) {
+export function getBase64(file: File): Promise<string | ArrayBuffer | null> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.readAsDataURL(file)
@@ -654,7 +665,7 @@ export function getBase64(file: File) {
  * @lastTime    2021/1/21
  * @description base转blob对象
  */
-export function dataURLtoBlob(dataurl: string) {
+export function dataURLtoBlob(dataurl: any): Blob {
   const arr: any[] = dataurl.split(',')
   const mime = arr[0].match(/:(.*?);/)[1]
   const bstr = atob(arr[1])
@@ -803,7 +814,7 @@ export function checkFileType(url: any) {
 export function getMediaInfos(mediaInfo: {
   url: any;
   fileType?: string;
-}) {
+}): Promise<MaterialInfo> {
   const { url = '', fileType = '1' } = mediaInfo
   let mediaUrl = ''
   if (url instanceof File) {
@@ -862,10 +873,10 @@ export function getMediaInfos(mediaInfo: {
  */
 export async function getVideoCoverPicture(videoInfo: {
   url: any;
-  currentTime: number;
-  videoSuffix: string;
-  vidoeAllowPlay: boolean;
-}) {
+  currentTime?: number;
+  videoSuffix?: string;
+  vidoeAllowPlay?: boolean;
+}): Promise<string> {
   const { url = '', currentTime, videoSuffix = '', vidoeAllowPlay = false } = videoInfo
   let videoUrl = ''
   let fileSuffix: string = videoSuffix
@@ -911,7 +922,10 @@ export async function getVideoCoverPicture(videoInfo: {
   }
 }
 
-export async function generateVidoePicture(videoUrl: string, currentTime?: number) {
+export async function generateVidoePicture(
+  videoUrl: string,
+  currentTime?: number
+): Promise<string> {
   let video: HTMLVideoElement | null = document.createElement('video')
   video.style.display = 'none'
   video.controls = true

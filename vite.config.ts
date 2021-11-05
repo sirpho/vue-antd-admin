@@ -73,6 +73,10 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           find: '@wd-pro/pro-card',
           replacement: pathResolve('src/components/WProCard') + '/'
         },
+        {
+          find: '@wd/pro-upload',
+          replacement: pathResolve('src/components/WUpload') + '/'
+        },
         { find: /^~/, replacement: '' }
       ]
     },

@@ -28,6 +28,7 @@ import {
   WImage,
   WImageViewer,
   WImageViewerGroup,
+  WUpload,
 } from '/@/components'
 import { WScrollbars, CustomIcon } from '/@/components/export'
 
@@ -106,6 +107,7 @@ const ant = {
     app.component('w-pro-card-group', WProCardGroup)
     app.component('w-pro-card-divider', WProCardDivider)
     app.component('w-pro-card-tab-pane', WProCardTabPane)
+    app.component('w-upload', WUpload)
     app.component('w-image', WImage)
     app.component('w-image-viewer', WImageViewer)
     app.component('w-image-viewer-group', WImageViewerGroup)

@@ -26,9 +26,10 @@
       "/types/*": ["types/*"],
       "/build/*": ["build/*"],
       "/config/*": ["config/*"],
+      "@wd/pro-upload": ["src/components/WUpload/index.ts"],
       "@wd-pro/pro-card": ["src/components/WProCard/index.ts"],
       "@wd-pro/pro-table": ["src/components/WProTable/index.ts"],
-      "@wd-pro/pro-layout": ["src/components/WProLayout/index.ts"]
+      "@wd-pro/pro-layout": ["src/components/WProLayout/index.ts"],
     }
   },
   "include": [
