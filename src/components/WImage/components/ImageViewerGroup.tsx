@@ -72,7 +72,7 @@ const WImageViewerGroup = defineComponent({
 
     return () => (
       <div class={`${baseClassName}`}>
-        <a-space>
+        <a-space size={15}>
           {getChildrenSlots.value.map((child: any, index) => {
             if (isWImage(child)) {
               return (
