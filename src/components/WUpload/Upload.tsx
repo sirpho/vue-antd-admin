@@ -78,8 +78,26 @@ const WUpload = defineComponent({
     const beforeUpload = async (file) => {
       const fileSuffix = getFileSuffix(file.name)
       const fileType = checkFileType(file.name)
-      let fileDuration = 0
-      if (fileType === '2' || fileType === '3') {
+      let isFileType = true
+      let isFileSize = true
+      let isFileDuration = true
+      if (props.fileType.length > 0) {
+        isFileType = props.fileType.includes(fileSuffix.toLowerCase())
+        if (!isFileType) {
+          const fileName = props.fileType.join('，')
+          message.error(
+            `请选择${props.fileType.length === 1
+              ? fileName
+              : `（${fileName}）`}格式上传!`
+          )
+        }
+      }
+      isFileSize = props.fileSize ? file.size / 1024 / 1024 < props.fileSize : true
+      if (!isFileSize) {
+        message.error(`请上传${props.fileSize}MB以内的文件!`)
+      }
+      if ((fileType === '2' || fileType === '3') && isFileType && isFileSize) {
+        let fileDuration = 0
         addDataValue({
           name: file.name,
           size: file.size,
@@ -93,25 +111,7 @@ const WUpload = defineComponent({
           fileType
         })
         if (play) fileDuration = duration || 0
-      }
-      let isFileType = true
-      let isFileSize = true
-      let isFileDuration = true
-      if (props.fileType.length > 0) {
-        isFileType = props.fileType.includes(fileSuffix.toLowerCase())
-        isFileSize = props.fileSize ? file.size / 1024 / 1024 < props.fileSize : true
         isFileDuration = props.fileDuration ? fileDuration < props.fileDuration : true
-        if (!isFileType) {
-          const fileName = props.fileType.join('，')
-          message.error(
-            `请选择${props.fileType.length === 1
-              ? fileName
-              : `（${fileName}）`}格式上传!`
-          )
-        }
-        if (!isFileSize) {
-          message.error(`请上传${props.fileSize}MB以内的文件!`)
-        }
         if ((fileType === '2' || fileType === '3') && !isFileDuration) {
           message.error(`请上传${props.fileDuration}s以内的文件!`)
         }
@@ -575,6 +575,7 @@ const WUpload = defineComponent({
             )}
             {!props.viewUp && (
               <a-upload
+                class={`${baseClassName}-upload`}
                 beforeUpload={e => beforeUpload(e)}
                 customRequest={e => uploadHttp(e)}
                 disabled={props.disabled}
