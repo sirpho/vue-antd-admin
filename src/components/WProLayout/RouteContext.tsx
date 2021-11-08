@@ -1,8 +1,8 @@
 import { InjectionKey, provide, reactive, Ref } from 'vue'
 import { themeConfig } from '/types/config'
-import { getPrefixCls } from '../_util'
-import { MenuDataItem } from './typings'
+import type { MenuDataItem } from './typings'
 import { createContext, useContext } from './hooks/context'
+import { getPrefixCls } from '../_util'
 
 export interface Route {
   path: string;

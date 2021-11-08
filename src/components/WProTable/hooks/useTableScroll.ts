@@ -1,6 +1,5 @@
 import { ComputedRef, unref, computed, Ref } from 'vue'
 import type { ProTableProps } from '@wd-pro/pro-table'
-import { Breakpoint } from '../Table'
 import type { ProColumns } from '../types/column'
 
 export function useTableScroll(

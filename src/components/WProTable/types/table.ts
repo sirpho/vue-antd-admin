@@ -1,6 +1,6 @@
 import { VNodeChild, CSSProperties } from 'vue'
 import { ProSearchConfig } from './column'
-import { Breakpoint, ColSpanType } from '../components/TableSearch'
+import { ColSpanType } from '../components/TableSearch'
 
 export type ProFieldEmptyText = string | false;
 

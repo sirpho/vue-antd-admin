@@ -32,12 +32,12 @@
     <w-pro-card title="指定宽度px" :gutter="8" style="margin-top: 8px">
       <w-pro-card
         :colSpan="{
-            xs: '50px',
-            sm: '100px',
-            md: '200px',
-            lg: '300px',
-            xl: '400px',
-          }"
+          xs: '50px',
+          sm: '100px',
+          md: '200px',
+          lg: '300px',
+          xl: '400px',
+        }"
         layout="center"
         bordered
       >
@@ -53,12 +53,12 @@
       </w-pro-card>
       <w-pro-card
         :colSpan="{
-            xs: '10%',
-            sm: '20%',
-            md: '30%',
-            lg: '40%',
-            xl: '50%',
-          }"
+          xs: '10%',
+          sm: '20%',
+          md: '30%',
+          lg: '40%',
+          xl: '50%',
+        }"
         layout="center"
         bordered
       >

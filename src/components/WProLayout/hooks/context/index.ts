@@ -9,12 +9,11 @@ import {
   PropType,
   DefineComponent
 } from 'vue'
+
 // @ts-ignore
-// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
 export type ContextType<T> = any;
 
 // @ts-ignore
-// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
 export type CreateContext<T> = DefineComponent<{}, () => VNode | VNode[] | undefined, any>;
 
 export const createContext = <T>(

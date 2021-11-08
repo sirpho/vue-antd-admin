@@ -9,6 +9,6 @@ export function download(params) {
     params: params.params,
     name: params.name,
     showTip: showTip,
-    method: params.method
+    method: params.method || 'get'
   })
 }

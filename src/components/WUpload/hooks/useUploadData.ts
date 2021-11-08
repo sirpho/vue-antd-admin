@@ -3,6 +3,8 @@ import { cloneDeep } from 'lodash-es'
 import common from '/@/common/global'
 import {
   checkFileType,
+  dataURLtoBlob,
+  getBlobUrl,
   getFileSuffix,
   getMediaInfos,
   getVideoCoverPicture
@@ -14,7 +16,7 @@ import type { WUploadProps } from '../Upload'
 export function useUploadData(
   propsRef: ComputedRef<WUploadProps>
 ) {
-  const dataValue = ref<MaterialListItem[]>(unref(propsRef).dataList || [])
+  const dataValue = ref<MaterialListItem[]>([])
   const getDataValueRef = computed(() => unref(dataValue))
   const getUrlValueRef = computed(() => unref(dataValue).filter(item => item.url)
     .map(item => item.url))
@@ -88,7 +90,7 @@ export function useUploadData(
                     uploadStatus: 'success',
                     allowPlay: info.play,
                     loadStatusMsg: allowFormat ? info.play && url ? '' : '加载失败' : '无法在线预览',
-                    coverImg: url
+                    coverImg: getBlobUrl(dataURLtoBlob(url))
                   }
                 }
                 return item

@@ -29,6 +29,7 @@ import {
   WImageViewer,
   WImageViewerGroup,
   WUpload,
+  WMaterialView,
 } from '/@/components'
 import { WScrollbars, CustomIcon } from '/@/components/export'
 
@@ -116,6 +117,7 @@ const ant = {
     app.component('w-doc', WDocumentation)
     app.component('w-tag-select', WTagSelect)
     app.component('w-tag-select-option', WTagSelectOption)
+    app.component('w-material-view', WMaterialView)
     app.use(Upload)
     app.use(AutoComplete)
     app.use(Result)

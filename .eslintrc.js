@@ -1,4 +1,3 @@
-// @ts-check
 const { defineConfig } = require('eslint-define-config');
 module.exports = defineConfig({
   root: true,
@@ -37,20 +36,6 @@ module.exports = defineConfig({
     '@typescript-eslint/ban-types': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-unused-vars': [
-      'error',
-      {
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-      },
-    ],
-    'no-unused-vars': [
-      'error',
-      {
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-      },
-    ],
     'space-before-function-paren': 'off',
 
     'vue/attributes-order': 'off',

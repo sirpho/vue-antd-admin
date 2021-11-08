@@ -23,3 +23,4 @@ export {
 } from '/@/components/WProCard/ProCard'
 export { default as WImage, WImageViewer, WImageViewerGroup } from '/@/components/WImage'
 export { default as WUpload } from '/@/components/WUpload'
+export { default as WMaterialView } from '/@/components/WMaterialView'

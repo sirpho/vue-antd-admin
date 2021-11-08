@@ -31,7 +31,7 @@ const IconFont: any = (iconfontUrl) => {
 
 const LazyIcon = (props: {
   icon: VNodeChild | string;
-  iconType: number;
+  iconType?: number;
   iconfontUrl?: string;
 }) => {
   const { icon, iconType, iconfontUrl } = props

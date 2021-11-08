@@ -163,7 +163,6 @@ const WImageViewer = defineComponent({
 
     const handleImgLoad = () => {
       loading.value = false
-      console.log(loading.value)
     }
 
     const handleImgError = (e) => {

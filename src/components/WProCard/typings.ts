@@ -2,8 +2,6 @@ import { ExtractPropTypes } from 'vue'
 import tabsProps from 'ant-design-vue/es/tabs'
 import { cardProps, proCardTabPaneProps } from './props'
 
-export type Breakpoint = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
-
 export type Gutter = number | Partial<Record<Breakpoint, number>>;
 
 export type ColSpanType = number | string;

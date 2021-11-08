@@ -33,34 +33,42 @@ export default async function fetchFile(options) {
   if (options.method === 'post') {
     if (options.data) opations.body = JSON.stringify(options.data)
   }
-  const response: any = await fetch(newUrl, opations)
-  const fileName = options.name
-    ? options.name
-    : response.headers.get('content-disposition')
-      ? response.headers.get('content-disposition').split(';')[1].split('=')[1]
-      : ''
-  const blobResponse = await response.blob()
-  if (blobResponse) {
-    const a = window.document.createElement('a')
-    const downUrl = window.URL.createObjectURL(blobResponse)
-    a.href = downUrl
-    a.download = `${decodeURI(fileName)}`
-    a.click()
-    if (options.showTip) {
-      message.success({
-        content: `下载成功`,
-        key: 'updatable'
-      })
+  let isFail = true
+  try {
+    const response: Response = await fetch(newUrl, opations)
+    if (response.status && response.status === 200) {
+      const fileName = options.name
+        ? options.name
+        : response.headers.get('content-disposition')
+          ? response.headers.get('content-disposition')?.split(';')[1].split('=')[1]
+          : ''
+      const blobResponse = await response.blob()
+      if (blobResponse) {
+        const a = window.document.createElement('a')
+        const downUrl = window.URL.createObjectURL(blobResponse)
+        a.href = downUrl
+        a.download = `${decodeURI(fileName)}`
+        a.click()
+        if (options.showTip) {
+          message.success({
+            content: `下载成功！`,
+            key: 'updatable'
+          })
+        }
+        window.URL.revokeObjectURL(downUrl)
+        isFail = false
+      }
     }
-    window.URL.revokeObjectURL(downUrl)
-    return true
-  } else {
-    if (options.showTip) {
-      message.success({
-        content: `下载失败`,
-        key: 'updatable'
-      })
-    }
+  } catch (_) {
+    isFail = true
+  }
+
+  if (isFail) {
+    message.error({
+      content: `下载失败！`,
+      key: 'updatable'
+    })
     return false
   }
+  return true
 }

@@ -40,8 +40,6 @@ import { ActionSize } from './components/ActionSize'
 
 import styles from './style.module.less'
 
-export type Breakpoint = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
-
 export type ProTableProps = Partial<ExtractPropTypes<typeof proTableProps>>;
 
 const { useBreakpoint } = Grid

@@ -1,16 +1,18 @@
 import {
   computed,
-  defineComponent,
+  defineComponent, onUnmounted,
   ref,
   watchEffect
 } from 'vue'
-import { omit } from 'lodash-es'
 import { Modal as T } from 'ant-design-vue'
+import { omit } from 'lodash-es'
 import { CloseOutlined, FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons-vue'
+import PropTypes from '/@/hooks/vue-types'
 import { getRandomNumber } from '/@/utils/util'
 import { useModalDragMove } from './hooks/useModalDrag'
 
 import styles from './style.module.less'
+import { getPropsSlot } from '/@/components/_util'
 
 export default defineComponent({
   props: Object.assign({}, T.props, {
@@ -50,7 +52,9 @@ export default defineComponent({
       type: Boolean,
       default: true,
       required: false
-    }
+    },
+    content: PropTypes.VNodeChild,
+    extra: PropTypes.VNodeChild,
   }),
   setup(props, { emit, slots, attrs }) {
     const modalClassName = 'wd-pro-modal'
@@ -75,6 +79,9 @@ export default defineComponent({
         destroyOnClose: getProps.value.destroyOnClose,
         draggable: getProps.value.draggable
       })
+    })
+    onUnmounted(() => {
+      emit('cancel')
     })
     const onCancel = () => {
       emit('cancel')
@@ -113,7 +120,11 @@ export default defineComponent({
         }
       })
     }
+    const renderContentSlot = () => {
+      return getPropsSlot(slots, props, 'content')
+    }
     const renderContent = () => {
+      const extraRender = getPropsSlot(slots, props, 'extra')
       return (
         <div
           class={
@@ -129,20 +140,32 @@ export default defineComponent({
             )
             : null}
           {props.skeletonLoading
-            ? (<div class={styles[`${modalClassName}-skeleton`]}>
-              <a-skeleton loading={props.skeletonLoading} active />
-              <a-skeleton loading={props.skeletonLoading} active />
-              {props.fixHeight && (
+            ? (
+              <div class={styles[`${modalClassName}-skeleton`]}>
                 <a-skeleton loading={props.skeletonLoading} active />
-              )}
-            </div>)
+                <a-skeleton loading={props.skeletonLoading} active />
+                {props.fixHeight && (
+                  <a-skeleton loading={props.skeletonLoading} active />
+                )}
+              </div>
+            )
             : props.isFail
-              ? (<a-empty
-                class={styles[`${modalClassName}-error-warp`]}
-                image="/src/assets/public_image/nodata.png"
-              />) : (renderSolt())
+              ? (
+                <a-empty
+                  class={styles[`${modalClassName}-error-warp`]}
+                  image="/src/assets/public_image/nodata.png"
+                />
+              )
+              : slots.content
+                ? renderSolt()
+                : (
+                  <>
+                    {renderContentSlot()}
+                    {renderSolt()}
+                  </>
+                )
           }
-          {slots.extra ? slots.extra() : null}
+          {extraRender}
         </div>
       )
     }
@@ -159,16 +182,18 @@ export default defineComponent({
         ? defaultFooter
         : slots.footer()
     }
-    return () => (
-      <a-modal
-        {...getProps.value}
-        class={handleModalClass.value}
-        width={getModalWidth.value}
-        onCancel={() => onCancel()}
-        footer={renderFooter}
-        bodyStyle={fullScreen.value ? { height: `${window.innerHeight - 110}px !important` } : undefined}
-      >
-        <div class={styles[`${modalClassName}-close`]}>
+    return () => {
+      return (
+        <a-modal
+          {...getProps.value}
+          wrapClassName={getProps.value.visible ? '' : styles[`${modalClassName}-wrap`]}
+          class={handleModalClass.value}
+          width={getModalWidth.value}
+          onCancel={() => onCancel()}
+          footer={renderFooter}
+          bodyStyle={fullScreen.value ? { height: `${window.innerHeight - 110}px !important` } : undefined}
+        >
+          <div class={styles[`${modalClassName}-close`]}>
           <span class={styles[`${modalClassName}-close-x`]}>
             <a-space size={24}>
             {
@@ -179,23 +204,26 @@ export default defineComponent({
               <CloseOutlined onClick={() => onCancel()} />
           </a-space>
           </span>
-        </div>
-        <div
-          id={modalId.value}
-          class={styles[`${modalClassName}-content`]}
-          ref={e => modalWrapperRef.value = e}
-        >
-          <div class={styles[`${modalClassName}-spin`]}>
-            <a-spin spinning={props.spinning} tip={props.spinningTip} />
           </div>
-          {props.fixHeight
-            ? (<w-bars style={{ height: '100%' }}>
-              {renderContent()}
-            </w-bars>)
-            : (renderContent())
-          }
-        </div>
-      </a-modal>
-    )
+          <div
+            id={modalId.value}
+            class={styles[`${modalClassName}-content`]}
+            ref={e => modalWrapperRef.value = e}
+          >
+            {props.spinning && (
+              <div class={styles[`${modalClassName}-spin`]}>
+                <a-spin spinning={props.spinning} tip={props.spinningTip} />
+              </div>
+            )}
+            {props.fixHeight
+              ? (<w-bars style={{ height: '100%' }}>
+                {renderContent()}
+              </w-bars>)
+              : (renderContent())
+            }
+          </div>
+        </a-modal>
+      )
+    }
   }
 })

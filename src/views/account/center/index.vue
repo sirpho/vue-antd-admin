@@ -105,8 +105,6 @@ export default defineComponent({
 
   },
   setup() {
-    const { proxy }: any = getCurrentInstance()
-
     const state = reactive({
       tabKey: 'articles' as tabKeyType,
       loading: false,

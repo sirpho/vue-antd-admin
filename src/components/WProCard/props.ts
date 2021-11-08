@@ -1,7 +1,7 @@
 import { PropType } from 'vue'
 import tabPaneProps from 'ant-design-vue/es/vc-tabs/src/TabPane'
 import PropTypes from '/@/hooks/vue-types'
-import { Breakpoint, Gutter, ColSpanType, ProCardTabsProps } from './typings'
+import { Gutter, ColSpanType, ProCardTabsProps } from './typings'
 
 export const cardProps = {
   headStyle: PropTypes.style,

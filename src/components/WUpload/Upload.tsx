@@ -5,19 +5,12 @@ import {
   onDeactivated,
   onUnmounted,
   ref,
-  Teleport,
   unref,
-  CSSProperties
+  CSSProperties, reactive
 } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { message } from 'ant-design-vue'
-import {
-  PlusOutlined,
-  LoadingOutlined,
-  EyeOutlined,
-  CloudDownloadOutlined,
-  DeleteOutlined
-} from '@ant-design/icons-vue'
+import { PlusOutlined } from '@ant-design/icons-vue'
 import { download } from '/@/services/common'
 import global from '/@/common/global'
 import { getPrefixCls, getPropsSlot } from '/@/components/_util'
@@ -33,7 +26,9 @@ import {
   getBlobUrl
 } from '/@/utils/util'
 import { proUploadProps } from './props'
+import { provideUploadContext } from './UploadContext'
 import { useUploadData } from './hooks/useUploadData'
+import UploadCard from './components/UploadCard'
 
 import type { MaterialListItem } from './typings'
 
@@ -46,8 +41,11 @@ const WUpload = defineComponent({
   emits: [ 'deleteBefore', 'errorRequest', 'change', 'downLoad' ],
   setup(props, { emit, attrs, slots }) {
     const uploadCard = ref()
-    const showViewer = ref(false)
-    const previewSrcList = ref<string[]>([])
+    const previewConfig = reactive({
+      type: '',
+      url: '',
+      visible: false
+    })
     const baseClassName = getPrefixCls({
       suffixCls: 'upload',
       defaultPrefixCls: 'wd'
@@ -311,7 +309,6 @@ const WUpload = defineComponent({
       return { file, idName }
     }
     const mediaCropper = async (name, type, info?: { file: File; url: string }) => {
-      console.log(unref(getDataValueRef))
       const fileUrl = info?.url || unref(getDataValueRef).find(item => item.id === name)?.url || ''
       const fileName = fileUrl.split('/')[fileUrl.split('/').length - 1]
       const fileSuffix = fileName.split('.')[1]
@@ -326,31 +323,26 @@ const WUpload = defineComponent({
             ImageEditor.unmount()
           },
           onClose: _ => {
-            if (props.editor) requestUpload(info?.file, 'upload', name)
+            if (props.beforeEditable) requestUpload(info?.file, 'upload', name)
             return false
           }
         }
       )
       ImageEditor.open(fileUrl)
     }
-    const viewFile = (type, url) => {
-      if (type === '1') {
-        previewSrcList.value = [ url ]
-        showViewer.value = true
-      } else if (type === '4') {
-        console.log('其他文件')
-      } else {}
-    }
-    const closeViewer = () => {
-      previewSrcList.value = []
-      showViewer.value = false
+    provideUploadContext({
+      uploadList: getDataValueRef
+    })
+    const view = (type, url) => {
+      previewConfig.type = String(type)
+      previewConfig.url = url
+      previewConfig.visible = true
     }
     const downLoad = async (url) => {
       emit('downLoad', true)
       await download({
         url: url,
-        direct: true,
-        showTip: false
+        direct: true
       })
       emit('downLoad', false)
     }
@@ -393,94 +385,6 @@ const WUpload = defineComponent({
       deleteDataValue(idName)
       emit('change', getUrlValueRef, cloneDeep(unref(getDataValueRef)).filter(item => item.url))
     }
-    const renderFileCard = (record) => {
-      const errorExtraRender = getPropsSlot(slots, props, 'errorExtra')
-      let show
-      switch (record.type) {
-        case '1':
-          show = (
-            <w-image
-              fit="cover"
-              style={props.imageStyle}
-              src={record.url}
-              fallback={errorExtraRender ||
-              <div class="image-slot"><i class="iconfont icon-tupian" /></div>}
-            />
-          )
-          break
-        case '2':
-          show = (
-            record.allowPlay && record.url
-              ? (
-                <div class="image-slot">
-                  <i class="iconfont icon-yinleyinpin" />
-                </div>
-              )
-              : (
-                errorExtraRender || (
-                  <div class="image-slot">
-                    {record.loadStatusMsg || '加载失败'}
-                  </div>
-                )
-              )
-          )
-          break
-        case '3':
-          show = (
-            record.allowPlay && record.url
-              ? (
-                <w-image
-                  fit="cover"
-                  style={props.imageStyle}
-                  src={record.url}
-                  fallback={errorExtraRender || <i class="iconfont icon-shipin" />}
-                />
-              )
-              : (
-                errorExtraRender || (
-                  <div class="image-slot">
-                    {record.loadStatusMsg || '加载失败'}
-                  </div>
-                )
-              )
-          )
-          break
-        case '4':
-          show = (
-            <div class="image-slot">
-              <i class="iconfont icon-qitawenjian" />
-            </div>
-          )
-          break
-        default:
-          show = (
-            <w-image
-              fit="cover"
-              style={props.imageStyle}
-              src={record.url}
-              fallback={errorExtraRender ||
-              <div class="image-slot"><i class="iconfont icon-tupian" /></div>}
-            />
-          )
-          break
-      }
-      return show
-    }
-    const renderExtraMenu = (record) => !props.viewUp && !props.disabled && (
-      <a-menu>
-        {record.type === '1' && !record.uploadLoading && props.editor && (
-          <a-menu-item onClick={() => mediaCropper(record.id, 'quickEdit')}>
-            <i class="iconfont icon-tupianbianji" />
-            <span style={{ marginLeft: '8px' }}>快编</span>
-          </a-menu-item>
-        )}
-        {(record.type === '1' || record.type === '3') && !record.uploadLoading && props.waterMark && (
-          <a-menu-item onClick={() => watermark(record.id, record.type)}>
-            <i class="iconfont icon-shuiyin" />
-            <span style={{ marginLeft: '8px' }}>水印</span>
-          </a-menu-item>
-        )}
-      </a-menu>)
     return () => {
       const wordExtraRender = getPropsSlot(slots, props, 'wordExtra')
       const uploadButtonRender = getPropsSlot(slots, props, 'uploadButton')
@@ -496,83 +400,16 @@ const WUpload = defineComponent({
               [`${props.cardClassName}`]: props.cardClassName
             }}
           >
-            {unref(getDataValueRef) && unref(getDataValueRef).length > 0 && (
-              unref(getDataValueRef).map((item, index) => {
-                return (
-                  <a-dropdown
-                    key={index}
-                    get-popup-container={() => uploadCard.value}
-                    trigger={[ 'contextmenu' ]}
-                    overlay={renderExtraMenu(item)}
-                  >
-                    <div
-                      class={{
-                        [`${baseClassName}-card-item`]: true,
-                        [`${baseClassName}-card-item-circle`]: props.shape === 'circle'
-                      }}
-                      style={props.imageStyle}
-                    >
-                      {
-                        item.uploadLoading
-                          ? (
-                            <div class={`${baseClassName}-card-item-loading`}>
-                              {
-                                item.spinning || !props.progress
-                                  ? (
-                                    <a-spin
-                                      tip={item.loadingText || (props.progress ? '' : '正在上传中...')}
-                                      indicator={<LoadingOutlined style={{ fontSize: '14px' }} spin />}
-                                    />
-                                  )
-                                  : (
-                                    props.progress && (
-                                      <a-progress
-                                        width={70}
-                                        percent={item.progress}
-                                        status={item.uploadStatus}
-                                        type="circle"
-                                      />
-                                    )
-                                  )
-                              }
-                            </div>
-                          )
-                          : (
-                            <div
-                              class={{
-                                [`${baseClassName}-card-item-wrapper`]: true,
-                                [`${baseClassName}-card-item-wrapper-disabled`]: props.viewUp &&
-                                unref(getDataValueRef).every(item => !item.url)
-                              }}
-                            >
-                              {renderFileCard(item)}
-                              <div class={`${baseClassName}-card-item-wrapper-icons`}>
-                                <>
-                                  {item.allowPlay && item.url && item.type !== '4' && (
-                                    <EyeOutlined
-                                      onClick={() => viewFile(item.type, item.url)}
-                                    />
-                                  )}
-                                  {item.allowPlay && item.url && props.downLoadAble && (
-                                    <CloudDownloadOutlined
-                                      onClick={() => downLoad(item.url)}
-                                    />
-                                  )}
-                                  {props.deleteAble && !props.disabled && !props.viewUp && (
-                                    <DeleteOutlined
-                                      onClick={() => deleteFile(item.id)}
-                                    />
-                                  )}
-                                </>
-                              </div>
-                            </div>
-                          )
-                      }
-                    </div>
-                  </a-dropdown>
-                )
-              })
-            )}
+            <UploadCard
+              {...getProps.value}
+              baseClassName={baseClassName}
+              root={uploadCard.value}
+              onView={(type, url) => view(type, url)}
+              onDelete={(idName) => deleteFile(idName)}
+              onDownload={(url) => downLoad(url)}
+              onWaterMark={(idName, type) => watermark(idName, type)}
+              onMediaCropper={(name, type, info) => mediaCropper(name, type, info)}
+            />
             {!props.viewUp && (
               <a-upload
                 class={`${baseClassName}-upload`}
@@ -585,18 +422,20 @@ const WUpload = defineComponent({
               >
                 {unref(getDataValueRef).length < props.limit && (
                   uploadButtonRender || (
-                    <div class={`${baseClassName}-button`} style={props.imageStyle}>
+                    <div
+                      class={{
+                        [`${baseClassName}-button`]: true,
+                        [`${baseClassName}-button-circle`]: props.shape === 'circle'
+                      }}
+                      style={props.imageStyle}
+                    >
                       <PlusOutlined />
                     </div>
                   )
                 )}
               </a-upload>
             )}
-            <Teleport to="body">
-              {showViewer.value && (
-                <w-image-viewer urlList={previewSrcList.value} onClose={() => closeViewer()} />
-              )}
-            </Teleport>
+            <w-material-view {...previewConfig} onChange={(visible) => previewConfig.visible = visible} />
           </div>
           {wordExtraRender && (
             <div class={`${baseClassName}-word-extra`}>

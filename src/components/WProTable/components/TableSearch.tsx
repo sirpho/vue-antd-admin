@@ -15,8 +15,6 @@ import type { ProSearchConfig } from '../types/column'
 
 import styles from '../style.module.less'
 
-export type Breakpoint = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
-
 export type ColSpanType = number | string;
 
 const { useBreakpoint } = Grid
