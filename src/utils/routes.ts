@@ -1,7 +1,7 @@
 import { cloneDeep } from 'lodash-es'
 import config from '/config/config'
-import { hasRole } from '/@/utils/hasRole'
 import { getMaxFloor } from '/@/utils/util'
+import { usePermissions } from '/@/hooks/web/usePermissions'
 
 const { rolesControl } = config.defaultSettings
 
@@ -238,7 +238,7 @@ export function filterRoutes(routes: any[]) {
   return routes
     .filter((route: any) => {
       if (route.meta && route.meta.roles)
-        return !rolesControl || hasRole(route.meta.roles)
+        return !rolesControl || usePermissions(route.meta.roles)
       else return true
     })
     .map((route: any) => {

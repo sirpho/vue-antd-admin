@@ -8,9 +8,9 @@ import {
   watch
 } from 'vue'
 import { Grid } from 'ant-design-vue'
-import { SearchOutlined, UpOutlined, DownOutlined } from '@ant-design/icons-vue'
 import { cloneDeep } from 'lodash-es'
-import PropTypes from '/@/hooks/vue-types'
+import { SearchOutlined, UpOutlined, DownOutlined } from '@ant-design/icons-vue'
+import { PropTypes } from '/@/utils'
 import type { ProSearchConfig } from '../types/column'
 
 import styles from '../style.module.less'

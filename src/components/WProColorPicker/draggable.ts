@@ -1,5 +1,5 @@
+import { on, off } from '/@/utils'
 import isServer from '/@/components/_util/isServer'
-import { on, off } from '/@/components/_util/Dom'
 
 let isDragging = false
 

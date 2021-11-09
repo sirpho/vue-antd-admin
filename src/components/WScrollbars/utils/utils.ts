@@ -3,16 +3,12 @@ import {
   capitalize,
   extend,
   hasOwn,
-  isArray,
-  isObject,
-  isString,
   looseEqual
 } from '@vue/shared'
+import { isString, isNumber } from '/@/utils/validate'
 import { warn } from './error'
 
 export const SCOPE = 'Util'
-
-export const isNumber = (val: unknown) => typeof val === 'number'
 
 export function addUnit(value: string | number) {
   if (isString(value)) {
@@ -36,33 +32,8 @@ export function toObject<T>(arr: Array<T>): Record<string, T> {
   return res
 }
 
-export const on = function (
-  element: HTMLElement | Document | Window | null,
-  event: string,
-  handler: EventListenerOrEventListenerObject,
-  useCapture = false
-): void {
-  if (element && event && handler) {
-    element.addEventListener(event, handler, useCapture)
-  }
-}
-
-export const off = function (
-  element: HTMLElement | Document | Window | null,
-  event: string,
-  handler: EventListenerOrEventListenerObject,
-  useCapture = false
-): void {
-  if (element && event && handler) {
-    element.removeEventListener(event, handler, useCapture)
-  }
-}
-
 export {
   hasOwn,
-  isObject,
-  isArray,
-  isString,
   capitalize,
   camelize,
   looseEqual,

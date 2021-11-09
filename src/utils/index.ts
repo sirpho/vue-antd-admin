@@ -1,3 +1,6 @@
+import PropTypes from 'ant-design-vue/es/_util/vue-types'
+
+export { PropTypes }
 /**
  * @author gx12358 2539306317@qq.com
  * @description 格式化时间
@@ -236,27 +239,24 @@ export function random(m, n) {
   return Math.floor(Math.random() * (m - n) + n)
 }
 
-/**
- * @author gx12358 2539306317@qq.com
- * @description addEventListener
- * @type {function(...[*]=)}
- */
-export const on = (function () {
-  return function (element, event, handler, useCapture = false) {
-    if (element && event && handler) {
-      element.addEventListener(event, handler, useCapture)
-    }
+export const on = function (
+  element: HTMLElement | Document | Window | null,
+  event: string,
+  handler: EventListenerOrEventListenerObject,
+  useCapture = false
+): void {
+  if (element && event && handler) {
+    element.addEventListener(event, handler, useCapture)
   }
-})()
-/**
- * @author gx12358 2539306317@qq.com
- * @description removeEventListener
- * @type {function(...[*]=)}
- */
-export const off = (function () {
-  return function (element, event, handler, useCapture = false) {
-    if (element && event) {
-      element.removeEventListener(event, handler, useCapture)
-    }
+}
+
+export const off = function (
+  element: HTMLElement | Document | Window | null,
+  event: string,
+  handler: EventListenerOrEventListenerObject,
+  useCapture = false
+): void {
+  if (element && event && handler) {
+    element.removeEventListener(event, handler, useCapture)
   }
-})()
+}

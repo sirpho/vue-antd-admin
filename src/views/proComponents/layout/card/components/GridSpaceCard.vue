@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import useMediaQuery from '/@/components/_util/useMediaQuery'
+import useMediaQuery from '/@/hooks/event/useMediaQuery'
 
 export default defineComponent({
   setup() {

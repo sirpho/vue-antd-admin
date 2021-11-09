@@ -7,12 +7,12 @@ import {
 } from '@ant-design/icons-vue'
 import config from '/config/config'
 import themePluginConfig from '/config/default/themePluginConfig'
+import { PropTypes } from '/@/utils'
 import clip from '/@/utils/clipboard'
 import { getPrefixCls } from '/@/components/_util'
 import BlockCheckbox from './BlockCheckbox'
 import ThemeColor from './ThemeColor'
 import LayoutSetting, { renderLayoutSettingItem } from './LayoutChange'
-import { PropTypes } from '../../utils'
 import { ProSettingsProps } from '../../defaultSettings'
 
 const { defaultSettings, animate } = config

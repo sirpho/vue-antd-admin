@@ -1,6 +1,6 @@
 import { computed, unref, ref, ComputedRef, watch } from 'vue'
 import { PaginationProps } from 'ant-design-vue/lib/pagination'
-import { isBoolean } from '/@/utils/util'
+import { isBoolean } from '/@/utils/validate'
 import { ProTableProps } from '@wd-pro/pro-table'
 
 export function usePagination(refProps: ComputedRef<ProTableProps>) {

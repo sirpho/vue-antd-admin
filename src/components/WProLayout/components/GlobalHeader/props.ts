@@ -1,8 +1,8 @@
 import type { PropType } from 'vue'
 import type { Theme } from '/types/config'
 import type { MenuDataItem } from '@wd-pro/pro-layout'
+import { PropTypes } from '/@/utils'
 import { siderMenuProps } from '../SiderMenu/props'
-import { PropTypes } from '../../utils'
 import { defaultSettingProps } from '../../defaultSettings'
 
 export const globalHeaderProps = {

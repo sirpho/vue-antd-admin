@@ -15,7 +15,7 @@ import {
 import type { CSSProperties } from 'vue'
 import omit from 'omit.js'
 import config from '/config/config'
-import PropTypes from '/@/hooks/vue-types'
+import { PropTypes } from '/@/utils'
 import { getPrefixCls } from '/@/components/_util'
 import {
   addObserveTarget,
@@ -24,7 +24,8 @@ import {
   getFixedTop,
   getFixedBottom
 } from './utils/index'
-import throttleByAnimationFrame from '../_util/throttleByAnimationFrame'
+import throttleByAnimationFrame from '../_util/scroll/throttleByAnimationFrame'
+
 import styles from './style.module.less'
 
 enum AffixStatus {

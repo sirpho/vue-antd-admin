@@ -1,11 +1,9 @@
 import type { RouteRecord, RouteRecordRaw } from 'vue-router'
-import PropTypes from 'ant-design-vue/es/_util/vue-types'
 import { MenuDataItem } from '@wd-pro/pro-layout'
 
 export { default as isUrl } from './isUrl'
 export { default as isImg } from './isImg'
 export { default as isNil } from './isNil'
-export { PropTypes }
 
 export function clearMenuItem(menusData: RouteRecord[] | RouteRecordRaw[]): RouteRecordRaw[] {
   return menusData

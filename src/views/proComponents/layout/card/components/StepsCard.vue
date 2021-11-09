@@ -54,7 +54,7 @@
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue'
 import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer'
-import useMediaQuery from '/@/components/_util/useMediaQuery'
+import useMediaQuery from '/@/hooks/event/useMediaQuery'
 
 export default defineComponent({
   components: {

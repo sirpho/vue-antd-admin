@@ -1,7 +1,3 @@
-export function isFunction(func: () => void) {
-  return (typeof func === 'function' || Object.prototype.toString.call(func) === '[object Function]')
-}
-
 export function snapToGrid(grid: number[], pendingX: number, pendingY: number, scale: number = 1) {
   const x = Math.round((pendingX / scale) / grid[0]) * grid[0]
   const y = Math.round((pendingY / scale) / grid[1]) * grid[1]

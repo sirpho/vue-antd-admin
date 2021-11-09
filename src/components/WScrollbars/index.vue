@@ -42,10 +42,11 @@ import {
   ref
 } from 'vue'
 import type { CSSProperties, PropType } from 'vue'
+import { isArray, isString, isNumber } from '/@/utils/validate'
 import Bar from './bar.vue'
 import { warn } from './utils/error'
 import { addResizeListener, removeResizeListener } from './utils/resize-event'
-import { addUnit, isArray, isNumber, isString, toObject } from './utils/utils'
+import { addUnit, toObject } from './utils/utils'
 
 export default defineComponent({
   name: 'WScrollbar',

@@ -1,7 +1,8 @@
 import { ComputedRef, unref, computed, ref, Ref, watch } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import type { ProTableProps } from '@wd-pro/pro-table'
-import { getRandomNumber, isArray } from '/@/utils/util'
+import { getRandomNumber } from '/@/utils/util'
+import { isArray } from '/@/utils/validate'
 import type { ProColumns } from '../types/column'
 import type { ColumnsState } from '../components/ActionColumns'
 

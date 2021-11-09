@@ -1,7 +1,8 @@
 import { Slots } from 'vue'
 import { camelize } from '@vue/shared'
-import type { AnyFunction } from './type'
 import isServer from './isServer'
+
+export type AnyFunction<T> = (...args: any[]) => T
 
 export const getStyle = function (
   element: HTMLElement,
@@ -44,7 +45,6 @@ export function rafThrottle<T extends AnyFunction<any>>(fn: T): AnyFunction<void
     if (locked) return
     locked = true
     window.requestAnimationFrame(() => {
-      // @ts-ignore
       fn.apply(this, args)
       locked = false
     })

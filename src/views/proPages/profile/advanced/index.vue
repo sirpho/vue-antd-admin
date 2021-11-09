@@ -241,7 +241,7 @@ import {
   InfoCircleOutlined
 } from '@ant-design/icons-vue'
 import { queryAdvancedProfile } from '/@/services/profile/advanced'
-import useMediaQuery from '/@/components/_util/useMediaQuery'
+import useMediaQuery from '/@/hooks/event/useMediaQuery'
 import { columns } from './utils/columns'
 import { tabList, operationTabList } from './utils/config'
 
@@ -259,7 +259,6 @@ export default defineComponent({
   },
   setup() {
     const colSize = useMediaQuery()
-    const { proxy }: any = getCurrentInstance()
     const state = reactive({
       loading: false,
       tabStatus: {

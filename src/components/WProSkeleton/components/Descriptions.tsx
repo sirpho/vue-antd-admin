@@ -1,4 +1,4 @@
-import useMediaQuery from '/@/components/_util/useMediaQuery'
+import useMediaQuery from '/@/hooks/event/useMediaQuery'
 import { PageHeaderSkeleton, Line } from './List'
 
 export type DescriptionsPageSkeletonProps = {

@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject, onBeforeUnmount, onMounted, ref, Ref } from 'vue'
-import { on, off } from '/@/components/_util/Dom'
+import { on, off } from '/@/utils'
 import { BAR_MAP, renderThumbStyle } from './utils/config'
 
 export default defineComponent({

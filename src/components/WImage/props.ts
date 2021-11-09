@@ -1,5 +1,4 @@
-import PropTypes from '/@/hooks/vue-types'
-import { PropType } from 'vue'
+import { PropTypes } from '/@/utils'
 
 export const wImagePorps = {
   appendToBody: {

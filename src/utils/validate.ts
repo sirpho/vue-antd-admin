@@ -1,3 +1,9 @@
+const toString = Object.prototype.toString
+
+export function is(val: unknown, type: string) {
+  return toString.call(val) === `[object ${type}]`
+}
+
 /**
  * @author gx12358 2539306317@qq.com
  * @description 判读是否为外链
@@ -24,9 +30,8 @@ export function isPassword(value) {
  * @param value
  * @returns {boolean}
  */
-export function isNumber(value) {
-  const reg = /^[0-9]*$/
-  return reg.test(value)
+export function isNumber(val: unknown) {
+  return typeof val === 'number'
 }
 
 /**
@@ -105,6 +110,14 @@ export function isString(value) {
   return typeof value === 'string' || value instanceof String
 }
 
+export function isBoolean(val: unknown): val is boolean {
+  return is(val, 'Boolean')
+}
+
+export function isFunction(func: () => void) {
+  return (typeof func === 'function' || Object.prototype.toString.call(func) === '[object Function]')
+}
+
 /**
  * @author gx12358 2539306317@qq.com
  * @description 判断是否是数组
@@ -116,6 +129,16 @@ export function isArray(arg) {
     return Object.prototype.toString.call(arg) === '[object Array]'
   }
   return Array.isArray(arg)
+}
+
+/**
+ * @Author      gaoxiang
+ * @DateTime    2019/11/29
+ * @lastTime    2019/11/29
+ * @description 是否是对象
+ */
+export function isObject(val: any): val is Record<any, any> {
+  return val !== null && is(val, 'Object')
 }
 
 /**
@@ -247,16 +270,16 @@ export function isRTSP(value) {
 }
 
 /**
- * @author gx12358 2539306317@qq.com
- * @description 判断是否为json
- * @param value
- * @returns {boolean}
+ * @Author      gaoxiang
+ * @DateTime    2020/11/4
+ * @lastTime    2020/11/4
+ * @description 判断是否是JSON字符串
  */
-export function isJson(value) {
-  if (typeof value == 'string') {
+export function isJSONStr(str: any) {
+  if (typeof str === 'string') {
     try {
-      const obj = JSON.parse(value)
-      if (typeof obj == 'object' && obj) {
+      const obj = JSON.parse(str)
+      if (typeof obj === 'object' && obj) {
         return true
       } else {
         return false
@@ -265,4 +288,5 @@ export function isJson(value) {
       return false
     }
   }
+  return false
 }

@@ -1,4 +1,4 @@
-import PropTypes from '/@/hooks/vue-types'
+import { PropTypes } from '/@/utils'
 
 export const wMaterialViewProps = {
   type: PropTypes.string,

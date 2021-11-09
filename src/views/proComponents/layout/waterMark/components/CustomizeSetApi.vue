@@ -103,7 +103,7 @@
 
 <script>
 import { computed, defineComponent, reactive, toRefs } from 'vue'
-import useMediaQuery from '/@/components/_util/useMediaQuery'
+import useMediaQuery from '/@/hooks/event/useMediaQuery'
 import config from '../utils/config'
 
 export default defineComponent({

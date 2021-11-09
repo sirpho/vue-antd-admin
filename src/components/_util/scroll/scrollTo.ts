@@ -1,6 +1,6 @@
-import raf from '/@/components/_util/raf'
-import getScroll, { isWindow } from '/@/components/_util/getScroll'
-import { easeInOutCubic } from '/@/components/_util/easings'
+import raf from './raf'
+import getScroll, { isWindow } from './getScroll'
+import { easeInOutCubic } from './easings'
 
 interface ScrollToOptions {
   /** Scroll container, default as window */

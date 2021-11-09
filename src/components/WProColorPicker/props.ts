@@ -1,5 +1,3 @@
-import { PropType } from 'vue'
-
 export const isValidComponentSize = (val: string) =>
   [ '', 'large', 'medium', 'small', 'mini' ].includes(val)
 

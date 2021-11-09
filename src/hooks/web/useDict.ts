@@ -2,7 +2,7 @@ import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { getDicts } from '/@/services/system/dictData'
 import { onMountedOrActivated } from '/@/hooks/core/onMountedOrActivated'
-import { isArray } from '/@/utils/util'
+import { isArray } from '/@/utils/validate'
 
 export function useDict(val: string | string[]) {
   const dictData: any = reactive({})

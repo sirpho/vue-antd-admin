@@ -1,5 +1,5 @@
 import { ref, watch, onUnmounted, getCurrentInstance } from 'vue'
-import { isFunction } from '/@/utils/util'
+import { isFunction } from '/@/utils/validate'
 
 export function tryOnUnmounted(fn: Fn) {
   if (getCurrentInstance())

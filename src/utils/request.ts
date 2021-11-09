@@ -5,7 +5,8 @@ import { message } from 'ant-design-vue'
 import config from '/config/config'
 import store from '/@/store'
 import router from '/@/router'
-import { tansParams, isArray } from '/@/utils/util'
+import { tansParams } from '/@/utils/util'
+import { isArray } from '/@/utils/validate'
 import { AxiosCanceler } from './axios/axiosCancel'
 
 export interface CreateAxiosOptions extends AxiosRequestConfig {
@@ -106,9 +107,9 @@ instance.interceptors.response.use(
     const { data } = response
     const { code, msg = '' } = data as Result
     // 操作正常Code数组
-    const codeVerificationArray = isArray(successCode)
-      ? [ ...successCode ]
-      : [ ...[ successCode ] ]
+    const codeVerificationArray: any = isArray(successCode)
+      ? successCode
+      : [ successCode ]
     // 是否操作正常
     if (codeVerificationArray.includes(code)) {
       return data

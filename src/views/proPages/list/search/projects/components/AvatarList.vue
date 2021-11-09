@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import { CSSProperties, defineComponent, getCurrentInstance } from 'vue'
-import PropTypes from '/@/hooks/vue-types'
+import { PropTypes } from '/@/utils'
 
 export declare type SizeType = number | 'small' | 'default' | 'large';
 

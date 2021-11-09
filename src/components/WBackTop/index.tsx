@@ -12,11 +12,12 @@ import {
 } from 'vue'
 import { VerticalAlignTopOutlined } from '@ant-design/icons-vue'
 import backTopProps from './props'
-import { getPrefixCls } from '../_util'
-import getScroll from '../_util/getScroll'
-import scrollTo from '../_util/scrollTo'
-import addEventListener from '../_util/Dom/addEventListener'
-import throttleByAnimationFrame from '../_util/throttleByAnimationFrame'
+import { getPrefixCls } from '/@/components/_util'
+import addEventListener from '../_util/dom/addEventListener'
+import getScroll from '../_util/scroll/getScroll'
+import scrollTo from '../_util/scroll/scrollTo'
+import throttleByAnimationFrame from '../_util/scroll/throttleByAnimationFrame'
+
 import styles from './style.module.less'
 
 export type BackTopProps = Partial<ExtractPropTypes<typeof backTopProps>>;

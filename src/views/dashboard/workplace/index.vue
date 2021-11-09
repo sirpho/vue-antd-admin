@@ -178,7 +178,7 @@ import {
 import { useStore } from 'vuex'
 import { PlusOutlined, RedoOutlined, LoadingOutlined } from '@ant-design/icons-vue'
 import { notice, activities, radar } from '/@/services/workplace'
-import useMediaQuery from '/@/components/_util/useMediaQuery'
+import useMediaQuery from '/@/hooks/event/useMediaQuery'
 import { timeFix, momentFromNow } from '/@/utils/util'
 import Radar from './components/Radar.vue'
 

@@ -1,6 +1,7 @@
 import { computed, ExtractPropTypes, FunctionalComponent } from 'vue'
-import PropTypes from '/@/hooks/vue-types'
+import { PropTypes } from '/@/utils'
 import { handelInkStyle } from './index'
+
 import styles from './style.module.less'
 
 const defaultAnchorProps = {

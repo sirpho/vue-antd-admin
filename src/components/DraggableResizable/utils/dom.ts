@@ -1,4 +1,4 @@
-import { isFunction } from './fns'
+import { isFunction } from '/@/utils/validate'
 
 export function matchesSelectorToParentElements(el: Element, selector: string, baseNode: Element) {
   let node: any = el

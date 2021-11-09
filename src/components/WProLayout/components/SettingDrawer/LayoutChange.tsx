@@ -1,5 +1,5 @@
 import { computed, defineComponent } from 'vue'
-import { PropTypes } from '../../utils'
+import { PropTypes } from '/@/utils'
 
 const LayoutSettingProps = {
   fixedHeader: PropTypes.looseBool,

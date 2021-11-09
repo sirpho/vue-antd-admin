@@ -11,6 +11,7 @@ import {
   ExtractPropTypes
 } from 'vue'
 import omit from 'omit.js'
+import useMediaQuery from '/@/hooks/event/useMediaQuery'
 import { getPropsSlotfn, getPropsSlot } from '/@/components/_util'
 import { basicLayoutProps } from './props'
 import { provideRouteContext, defaultRouteContext, RouteContextProps } from './RouteContext'
@@ -18,7 +19,6 @@ import { WrapContent } from './WrapContent'
 import GlobalHeader from './components/GlobalHeader'
 import GlobalFooter from './components/GlobalFooter'
 import SiderMenuWrapper from './components/SiderMenu'
-import useMediaQuery from '../_util/useMediaQuery'
 import './style.less'
 
 export type BasicLayoutProps = Partial<ExtractPropTypes<typeof basicLayoutProps>>;

@@ -1,6 +1,6 @@
-import PropTypes from '/@/hooks/vue-types'
-import { PropType } from 'vue'
-import { MaterialListItem } from './typings'
+import { PropTypes } from '/@/utils'
+
+import type { MaterialListItem } from './typings'
 
 export const proUploadProps = {
   cardClassName: PropTypes.string,

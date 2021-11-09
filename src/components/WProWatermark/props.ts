@@ -1,6 +1,5 @@
-import { PropType } from 'vue'
 import config from '/config/config'
-import PropTypes from '/@/hooks/vue-types'
+import { PropTypes } from '/@/utils'
 
 const { waterMarkTitle } = config.defaultSettings
 

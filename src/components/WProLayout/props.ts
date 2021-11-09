@@ -1,4 +1,4 @@
-import PropTypes from '/@/hooks/vue-types'
+import { PropTypes } from '/@/utils'
 import { defaultSettingProps } from './defaultSettings'
 import { MenuDataItem } from './typings'
 import { globalHeaderProps, headerViewProps } from './components/GlobalHeader/props'

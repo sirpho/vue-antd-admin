@@ -9,7 +9,7 @@ import {
 } from 'vue'
 import { Grid } from 'ant-design-vue'
 import { RightOutlined } from '@ant-design/icons-vue'
-import { isArray } from '@vue/shared'
+import { isArray } from '/@/utils/validate'
 import { getPrefixCls, getPropsSlot } from '/@/components/_util'
 import type { Gutter, CardProps } from '../../typings'
 import { cardProps } from '../../props'
@@ -268,7 +268,7 @@ const ProCard = defineComponent({
           )}
           {props.tabs ? (
             <div class={`${baseClassName}-tabs`}>
-              <a-tabs onChange={props.tabs.onChange} {...props.tabs}>
+              <a-tabs onChange={props.tabs?.onChange} {...props.tabs}>
                 {getPropsSlot(slots, props, 'loading') ? loadingRender : slots.default?.()}
               </a-tabs>
             </div>

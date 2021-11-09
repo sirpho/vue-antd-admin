@@ -14,10 +14,10 @@
 <script lang="ts" setup>
 import { ref, unref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { getPrefixCls } from '/@/components/_util'
-import propTypes from '/@/hooks/vue-types'
+import { PropTypes } from '/@/utils'
 
 const props = defineProps({
-  frameSrc: propTypes.string.def('')
+  frameSrc: PropTypes.string.def('')
 })
 
 const prefixCls = getPrefixCls({

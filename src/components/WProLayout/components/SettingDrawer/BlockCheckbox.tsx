@@ -1,6 +1,6 @@
 import { computed, defineComponent } from 'vue'
 import { CheckOutlined } from '@ant-design/icons-vue'
-import { PropTypes } from '../../utils'
+import { PropTypes } from '/@/utils'
 
 const BlockCheckboxProps = {
   value: PropTypes.string,

@@ -3,11 +3,9 @@ import {
   capitalize,
   extend,
   hasOwn,
-  isArray,
-  isObject,
-  isString,
   looseEqual
 } from '@vue/shared'
+import { isString } from '/@/utils/validate'
 import { warn } from './error'
 
 export const SCOPE = 'Util'
@@ -38,9 +36,6 @@ export function toObject<T>(arr: Array<T>): Record<string, T> {
 
 export {
   hasOwn,
-  isObject,
-  isArray,
-  isString,
   capitalize,
   camelize,
   looseEqual,

@@ -10,14 +10,13 @@ import {
 import { cloneDeep, isEqual } from 'lodash-es'
 import { PaginationProps } from 'ant-design-vue/lib/pagination'
 import type { ProTableProps } from '@wd-pro/pro-table'
-import type { ProColumns } from '../types/column'
 import {
-  isFunction,
-  isBoolean,
   getSortIndex,
   handleCurrentPage,
   runFunction
 } from '/@/utils/util'
+import { isFunction, isBoolean } from '/@/utils/validate'
+import type { ProColumns } from '../types/column'
 import useDebounceFn from '../hooks/useDebounceFn'
 
 interface ActionType {

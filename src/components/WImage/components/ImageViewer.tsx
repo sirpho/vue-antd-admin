@@ -20,7 +20,7 @@ import {
 } from '@ant-design/icons-vue'
 import { onMountedOrActivated } from '/@/hooks/core/onMountedOrActivated'
 import { getPrefixCls, isFirefox, rafThrottle } from '/@/components/_util'
-import { on, off } from '/@/components/_util/Dom'
+import { on, off } from '/@/utils'
 import { wImageViewProps } from '../props'
 import { EVENT_CODE } from '../utils/aria'
 

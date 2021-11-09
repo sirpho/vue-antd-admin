@@ -180,9 +180,9 @@ import { Form } from 'ant-design-vue'
 import { UploadOutlined } from '@ant-design/icons-vue'
 import type { CurrentUser } from '/@/services/account/data.d'
 import { queryCurrent, queryProvince, queryCity } from '/@/services/account/settings'
-import { rules } from '../utils/config'
+import useMediaQuery from '/@/hooks/event/useMediaQuery'
 import { hanndleField } from '/@/utils/util'
-import useMediaQuery from '/@/components/_util/useMediaQuery'
+import { rules } from '../utils/config'
 
 const useForm = Form.useForm
 

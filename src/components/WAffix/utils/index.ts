@@ -1,6 +1,6 @@
-import type { ComponentPublicInstance } from 'vue';
-import addEventListener from '/@/components/_util/Dom/addEventListener';
-import supportsPassive from '/@/components/_util/supportsPassive';
+import type { ComponentPublicInstance } from 'vue'
+import addEventListener from '/@/components/_util/dom/addEventListener'
+import supportsPassive from '/@/components/_util/supportsPassive'
 
 export type BindElement = HTMLElement | Window | null | undefined;
 export type Rect = ClientRect | DOMRect;
@@ -8,13 +8,13 @@ export type Rect = ClientRect | DOMRect;
 export function getTargetRect(target: BindElement): ClientRect {
   return target !== window
     ? (target as HTMLElement).getBoundingClientRect()
-    : ({ top: 0, bottom: window.innerHeight } as ClientRect);
+    : ({ top: 0, bottom: window.innerHeight } as ClientRect)
 }
 
 export function getFixedTop(
   placeholderReact: Rect,
   targetRect: Rect,
-  offsetTop: number | undefined,
+  offsetTop: number | undefined
 ) {
   let isPlaceholderReact = true
   if (placeholderReact.width === 0 && placeholderReact.height === 0) {
@@ -25,21 +25,21 @@ export function getFixedTop(
     targetRect.top > placeholderReact.top - offsetTop &&
     isPlaceholderReact
   ) {
-    return `${offsetTop + targetRect.top}px`;
+    return `${offsetTop + targetRect.top}px`
   }
-  return undefined;
+  return undefined
 }
 
 export function getFixedBottom(
   placeholderReact: Rect,
   targetRect: Rect,
-  offsetBottom: number | undefined,
+  offsetBottom: number | undefined
 ) {
   if (offsetBottom !== undefined && targetRect.bottom < placeholderReact.bottom + offsetBottom) {
-    const targetBottomOffset = window.innerHeight - targetRect.bottom;
-    return `${offsetBottom + targetBottomOffset}px`;
+    const targetBottomOffset = window.innerHeight - targetRect.bottom
+    return `${offsetBottom + targetBottomOffset}px`
   }
-  return undefined;
+  return undefined
 }
 
 // ======================== Observer ========================
@@ -50,8 +50,8 @@ const TRIGGER_EVENTS = [
   'touchmove',
   'touchend',
   'pageshow',
-  'load',
-];
+  'load'
+]
 
 interface ObserverEntity {
   target: HTMLElement | Window;
@@ -59,66 +59,66 @@ interface ObserverEntity {
   eventHandlers: { [eventName: string]: any };
 }
 
-let observerEntities: ObserverEntity[] = [];
+let observerEntities: ObserverEntity[] = []
 
 export function getObserverEntities() {
   // Only used in test env. Can be removed if refactor.
-  return observerEntities;
+  return observerEntities
 }
 
 export function addObserveTarget(
   target: HTMLElement | Window | null,
-  affix: ComponentPublicInstance<any>,
+  affix: ComponentPublicInstance<any>
 ): void {
-  if (!target) return;
+  if (!target) return
 
-  let entity: ObserverEntity | undefined = observerEntities.find(item => item.target === target);
+  let entity: ObserverEntity | undefined = observerEntities.find(item => item.target === target)
 
   if (entity) {
-    entity.affixList.push(affix);
+    entity.affixList.push(affix)
   } else {
     entity = {
       target,
-      affixList: [affix],
-      eventHandlers: {},
-    };
-    observerEntities.push(entity);
+      affixList: [ affix ],
+      eventHandlers: {}
+    }
+    observerEntities.push(entity)
 
     // Add listener
     TRIGGER_EVENTS.forEach(eventName => {
       entity!.eventHandlers[eventName] = addEventListener(target, eventName, () => {
         entity!.affixList.forEach(
           targetAffix => {
-            const { lazyUpdatePosition } = (targetAffix as any).exposed;
-            lazyUpdatePosition();
+            const { lazyUpdatePosition } = (targetAffix as any).exposed
+            lazyUpdatePosition()
           },
           (eventName === 'touchstart' || eventName === 'touchmove') && supportsPassive
             ? ({ passive: true } as EventListenerOptions)
-            : false,
-        );
-      });
-    });
+            : false
+        )
+      })
+    })
   }
 }
 
 export function removeObserveTarget(affix: ComponentPublicInstance<any>): void {
   const observerEntity = observerEntities.find(oriObserverEntity => {
-    const hasAffix = oriObserverEntity.affixList.some(item => item === affix);
+    const hasAffix = oriObserverEntity.affixList.some(item => item === affix)
     if (hasAffix) {
-      oriObserverEntity.affixList = oriObserverEntity.affixList.filter(item => item !== affix);
+      oriObserverEntity.affixList = oriObserverEntity.affixList.filter(item => item !== affix)
     }
-    return hasAffix;
-  });
+    return hasAffix
+  })
 
   if (observerEntity && observerEntity.affixList.length === 0) {
-    observerEntities = observerEntities.filter(item => item !== observerEntity);
+    observerEntities = observerEntities.filter(item => item !== observerEntity)
 
     // Remove listener
     TRIGGER_EVENTS.forEach(eventName => {
-      const handler = observerEntity.eventHandlers[eventName];
+      const handler = observerEntity.eventHandlers[eventName]
       if (handler && handler.remove) {
-        handler.remove();
+        handler.remove()
       }
-    });
+    })
   }
 }

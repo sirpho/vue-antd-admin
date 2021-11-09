@@ -1,5 +1,5 @@
-import PropTypes from '/@/hooks/vue-types'
 import config from '/config/config'
+import { PropTypes } from '/@/utils'
 
 const { defaultSettings } = config
 

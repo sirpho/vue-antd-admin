@@ -1,7 +1,6 @@
-import { PropType } from 'vue'
 import tabPaneProps from 'ant-design-vue/es/vc-tabs/src/TabPane'
-import PropTypes from '/@/hooks/vue-types'
-import { Gutter, ColSpanType, ProCardTabsProps } from './typings'
+import { PropTypes } from '/@/utils'
+import type { Gutter, ColSpanType, ProCardTabsProps } from './typings'
 
 export const cardProps = {
   headStyle: PropTypes.style,
@@ -69,7 +68,8 @@ export const cardProps = {
     type: Function as PropType<(collapsed: boolean) => void>
   },
   tabs: {
-    type: [ Object ] as PropType<ProCardTabsProps>
+    type: [ Object ] as PropType<ProCardTabsProps>,
+    default: undefined
   },
   prefixCls: PropTypes.string
 }

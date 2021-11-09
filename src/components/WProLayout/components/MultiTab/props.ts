@@ -1,4 +1,4 @@
-import PropTypes from '/@/hooks/vue-types'
+import { PropTypes } from '/@/utils'
 import { defaultSettingProps } from '../../defaultSettings'
 import { baseMenuProps, siderMenuProps } from '../SiderMenu/props'
 

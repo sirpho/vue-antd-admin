@@ -6,8 +6,8 @@ import {
   ref
 } from 'vue'
 import { BellOutlined } from '@ant-design/icons-vue'
+import { PropTypes } from '/@/utils'
 import NoticeList, { NoticeIconItem, NoticeIconTabProps } from './NoticeList'
-import { PropTypes } from '../../utils'
 
 import styles from './index.module.less'
 

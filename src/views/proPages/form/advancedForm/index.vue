@@ -286,7 +286,7 @@ import type { TableFormDateType } from './types'
 import { getAdvancedForm, getAdvancedFormTable } from '/@/services/form/advanced'
 import config from '/config/config'
 import { handleOffsetTop, hanndleField } from '/@/utils/util'
-import scrollTo from '/@/components/_util/scrollTo'
+import scrollTo from '/@/components/_util/scroll/scrollTo'
 import columns from './utils/columns'
 import { fieldLabels, rules } from './utils/config'
 

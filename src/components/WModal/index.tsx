@@ -1,18 +1,19 @@
 import {
   computed,
-  defineComponent, onUnmounted,
+  defineComponent,
+  onUnmounted,
   ref,
   watchEffect
 } from 'vue'
 import { Modal as T } from 'ant-design-vue'
 import { omit } from 'lodash-es'
 import { CloseOutlined, FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons-vue'
-import PropTypes from '/@/hooks/vue-types'
+import { PropTypes } from '/@/utils'
 import { getRandomNumber } from '/@/utils/util'
+import { getPropsSlot } from '/@/components/_util'
 import { useModalDragMove } from './hooks/useModalDrag'
 
 import styles from './style.module.less'
-import { getPropsSlot } from '/@/components/_util'
 
 export default defineComponent({
   props: Object.assign({}, T.props, {

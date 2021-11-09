@@ -8,8 +8,8 @@ import {
 } from 'vue'
 import type { AutoCompleteProps } from 'ant-design-vue/es/auto-complete'
 import { SearchOutlined } from '@ant-design/icons-vue'
+import { PropTypes } from '/@/utils'
 import { getPrefixCls } from '/@/components/_util'
-import { PropTypes } from '../../utils'
 
 export const headerSearchProps = {
   onSearch: {

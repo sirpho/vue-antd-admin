@@ -3,12 +3,6 @@ import global from '/@/common/global'
 
 import type { MaterialInfo } from '@wd/pro-upload'
 
-const toString = Object.prototype.toString
-
-export function is(val: unknown, type: string) {
-  return toString.call(val) === `[object ${type}]`
-}
-
 export function timeFix() {
   const time = new Date()
   const hour = time.getHours()
@@ -67,56 +61,6 @@ export function tansParams(params) {
     }
   }
   return result
-}
-
-export function isBoolean(val: unknown): val is boolean {
-  return is(val, 'Boolean')
-}
-
-export function isFunction(val: unknown): val is Function {
-  return typeof val === 'function'
-}
-
-/**
- * @Author      gaoxiang
- * @DateTime    2019/11/29
- * @lastTime    2019/11/29
- * @description 是否是数组
- */
-export function isArray(val: any): val is Array<any> {
-  return val && Array.isArray(val)
-}
-
-/**
- * @Author      gaoxiang
- * @DateTime    2019/11/29
- * @lastTime    2019/11/29
- * @description 是否是对象
- */
-export function isObject(val: any): val is Record<any, any> {
-  return val !== null && is(val, 'Object')
-}
-
-/**
- * @Author      gaoxiang
- * @DateTime    2020/11/4
- * @lastTime    2020/11/4
- * @description 判断是否是JSON字符串
- */
-export function isJSONStr(str: any) {
-  if (typeof str === 'string') {
-    try {
-      const obj = JSON.parse(str)
-      if (typeof obj === 'object' && obj) {
-        return true
-      } else {
-        return false
-      }
-    } catch (e) {
-      return false
-    }
-  }
-  return false
 }
 
 /**
