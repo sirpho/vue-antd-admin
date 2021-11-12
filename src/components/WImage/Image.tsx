@@ -44,14 +44,21 @@ const WImage = defineComponent({
     const showViewer = ref(false)
     const container = ref<any>(null)
 
+    const imageWidthHeightStyle = computed(() => {
+      return {
+        width: props.width ? `${props.width}px` : undefined,
+        height: props.height ? `${props.height}px` : undefined
+      }
+    })
+
     const imageStyle = computed(() => {
       const { fit } = props
       if (!isServer && fit) {
         return isSupportObjectFit()
-          ? { 'object-fit': fit }
-          : getImageStyle(fit)
+          ? { 'object-fit': fit, ...imageWidthHeightStyle.value }
+          : { ...getImageStyle(fit), ...imageWidthHeightStyle.value }
       }
-      return {}
+      return imageWidthHeightStyle.value
     })
 
     const alignCenter = computed(() => {
@@ -76,8 +83,8 @@ const WImage = defineComponent({
     const getAttrs = computed(() => attrs)
 
     const getImageStyle = (fit) => {
-      const imageWidth = imgWidth.value
-      const imageHeight = imgHeight.value
+      const imageWidth = props.width || imgWidth.value
+      const imageHeight = props.height || imgHeight.value
 
       if (!container.value) return {}
       const {

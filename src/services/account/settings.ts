@@ -1,5 +1,5 @@
 import request from '/@/utils/request'
-import type { CurrentUser, GeographicItemType } from './data.d'
+import type { CurrentUser, GeographicItemType } from './typings'
 
 export function queryCurrent(): Promise<{ data: CurrentUser }> {
   return request({

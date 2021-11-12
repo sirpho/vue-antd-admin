@@ -83,9 +83,9 @@
   </w-page-wrapper>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, onActivated, getCurrentInstance, toRefs } from 'vue'
+import { defineComponent, reactive, onActivated, toRefs } from 'vue'
 import { ContactsOutlined, HomeOutlined, ClusterOutlined } from '@ant-design/icons-vue'
-import type { tabKeyType } from '/@/services/account/data.d'
+import type { tabKeyType } from '/@/services/account/typings'
 import { queryCurrent, queryFakeList } from '/@/services/account/center'
 import TagList from './components/TagList.vue'
 import Projects from './components/Projects.vue'

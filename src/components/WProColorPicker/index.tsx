@@ -19,11 +19,7 @@ import styles from './style.module.less'
 
 export default defineComponent({
   props: proColorProps,
-  model: {
-    prop: 'value',
-    event: 'change.value',
-  },
-  emits: [ 'change.value', 'update:value' ],
+  emits: [ 'change', 'update:value' ],
   setup(props, { emit }) {
     const defaultClassName = 'wd-pro-color'
 
@@ -45,16 +41,16 @@ export default defineComponent({
       return !props.value ? '' : color.value
     })
     // watch
-    watch(() => props, (newProps) => {
-      if (newProps.value && newProps.value !== color.value) {
-        color.fromString(newProps.value)
+    watch(() => props.value, (val) => {
+      if ((val || val == '') && val !== color.value) {
+        color.fromString(val)
       }
-      if (newProps.value && newProps.value.includes('rgba')) {
+      if (val && val.includes('rgba')) {
         color.setState({
           enableAlpha: true,
           format: 'rgb'
         })
-      } else if (newProps.value && newProps.value.includes('hex')) {
+      } else if (val && val.includes('hex')) {
         color.setState({
           enableAlpha: false,
           format: 'hex'
@@ -67,7 +63,7 @@ export default defineComponent({
 
     watch(() => color.value, (value) => {
       emit('update:value', value)
-      emit('change.value', value)
+      emit('change', value)
     })
 
     const setShowPicker = (value) => {
@@ -105,6 +101,11 @@ export default defineComponent({
       document.removeEventListener('mousedown', () => {})
     })
 
+    const handleShowPicker = () => {
+      if (props.disabled || props.readonly) return
+      showPicker.value = true
+    }
+
     provide('currentColor', currentColor)
 
     const contentSlot = () => (
@@ -139,9 +140,15 @@ export default defineComponent({
           content={contentSlot}
         >
           <div
-            class={[ styles[`${defaultClassName}-color-picker`], 'wd-pro-color-picker' ]}
-            onClick={() => { showPicker.value = true }}
+            class={{
+              ['wd-pro-color-picker']: true,
+              [`${styles[`${defaultClassName}-color-picker`]}`]: true
+            }}
+            onClick={() => handleShowPicker()}
           >
+            {props.disabled && (
+              <div class={styles[`${defaultClassName}-color-picker-disabled`]} />
+            )}
             <div
               style={{
                 backgroundColor: color.value,
@@ -149,8 +156,7 @@ export default defineComponent({
                 height: '14px',
                 borderRadius: '2px'
               }}
-            >
-            </div>
+            />
           </div>
         </a-popover>
       </div>

@@ -24,3 +24,4 @@ export {
 export { default as WImage, WImageViewer, WImageViewerGroup } from '/@/components/WImage'
 export { default as WUpload } from '/@/components/WUpload'
 export { default as WMaterialView } from '/@/components/WMaterialView'
+export { default as WProField } from '/@/components/WProField'

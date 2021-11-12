@@ -2,11 +2,23 @@
   background-color: #ffffff;
   
   &-color-picker {
+    position: relative;
     width: 48px;
     padding: 5px;
     cursor: pointer;
     border: 1px solid rgb(221, 221, 221);
     border-radius: 2px;
+  }
+  
+  &-color-picker-disabled {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    cursor: not-allowed;
+    background-color: rgba(255, 255, 255, .7);
   }
   
   &-main-wrapper {
@@ -148,7 +160,7 @@
     cursor: pointer;
     border-radius: 4px;
     
-    &>div{
+    & > div {
       display: flex;
       height: 100%;
       border-radius: 3px;

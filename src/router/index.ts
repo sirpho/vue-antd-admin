@@ -1,10 +1,11 @@
 import { createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw } from 'vue-router'
-import type { AppRouteModule } from '/@/router/types'
+import config from '/config/config'
 import BasicLayout from '/@/layout/BasicLayout.vue'
 import BlankLayout from '/@/layout/BlankLayout.vue'
 import PageView from '/@/layout/PageView.vue'
 import UserLayout from '/@/layout/UserLayout.vue'
-import config from '/config/config'
+
+import type { AppRouteModule } from './typings'
 
 const { routerMode } = config.defaultSettings
 
@@ -29,7 +30,7 @@ export const constantRoutes: AppRouteModule[] = [
     redirect: '/user/login',
     meta: {
       hideInMenu: true,
-      title: 'user',
+      title: 'user'
     },
     children: [
       {
@@ -37,7 +38,7 @@ export const constantRoutes: AppRouteModule[] = [
         name: 'Login',
         meta: {
           hideInMenu: true,
-          title: 'user',
+          title: 'user'
         },
         component: () => import('/@/views/User/login/index.vue')
       }

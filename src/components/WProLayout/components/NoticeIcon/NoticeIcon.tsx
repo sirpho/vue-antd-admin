@@ -9,7 +9,8 @@ import { BellOutlined } from '@ant-design/icons-vue'
 import { PropTypes } from '/@/utils'
 import NoticeList, { NoticeIconItem, NoticeIconTabProps } from './NoticeList'
 
-import styles from './index.module.less'
+import './index.less'
+import { getPrefixCls } from '/@/components/_util'
 
 export const noticeIconProps = {
   count: PropTypes.number,
@@ -37,6 +38,10 @@ const NoticeIcon = defineComponent({
   props: noticeIconProps,
   emits: [ 'onClear', 'onTabChange', 'onItemClick', 'onViewMore', 'onPopupVisibleChange' ],
   setup(props, { emit, slots }) {
+    const prefixCls = getPrefixCls({
+      suffixCls: 'notice'
+    })
+
     const visible = ref(props.popupVisible || false)
 
     const activeKey = ref('notification')
@@ -97,7 +102,7 @@ const NoticeIcon = defineComponent({
       return (
         <>
           <a-spin spinning={loading} delay={300}>
-            <a-tabs class={styles['tabs']} activeKey={activeKey.value} onChange={onTabChange}>
+            <a-tabs class={`${prefixCls}-tabs`} activeKey={activeKey.value} onChange={onTabChange}>
               {panes}
             </a-tabs>
           </a-spin>
@@ -115,18 +120,18 @@ const NoticeIcon = defineComponent({
       props.onTabChange && props.onTabChange(key)
     }
 
-    const NoticeBellIcon = <BellOutlined class={styles['icon']} />
+    const NoticeBellIcon = <BellOutlined class={`${prefixCls}-icon`} />
 
     const trigger = computed(() => (
       <span
         class={{
-          [`${props.className}`]: true,
-          [`${styles['noticeButton']}`]: true,
+          [`${prefixCls}-button`]: true,
+          [`${props.className}`]: props.className,
           [`opened`]: visible.value
         }}
         onClick={() => onChange(true)}
       >
-        <a-badge count={props.count} style={{ boxShadow: 'none' }} class={styles.badge}>
+        <a-badge count={props.count} style={{ boxShadow: 'none' }} class={`${prefixCls}-badge`}>
           {NoticeBellIcon}
         </a-badge>
       </span>
@@ -142,7 +147,7 @@ const NoticeIcon = defineComponent({
           placement="bottomRight"
           trigger={[ 'click' ]}
           overlay={notificationBox.value}
-          overlayClassName={`wd-pro-dropdown-container ${styles.popover}`}
+          overlayClassName={`wd-pro-dropdown-container ${prefixCls}-popover`}
           onVisibleChange={() => onChange}
         >
           {trigger.value}

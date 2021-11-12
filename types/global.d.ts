@@ -40,6 +40,7 @@ declare global {
     | JSX.Element
     | boolean
     | string
+    | number
     | null
     | undefined;
 

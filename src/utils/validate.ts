@@ -114,7 +114,7 @@ export function isBoolean(val: unknown): val is boolean {
   return is(val, 'Boolean')
 }
 
-export function isFunction(func: () => void) {
+export function isFunction(func: any) {
   return (typeof func === 'function' || Object.prototype.toString.call(func) === '[object Function]')
 }
 

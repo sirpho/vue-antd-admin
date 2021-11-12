@@ -17,6 +17,9 @@ export const proColorProps = {
   disabled: {
     type: Boolean as PropType<boolean>
   },
+  readonly: {
+    type: Boolean as PropType<boolean>
+  },
   size: {
     type: String as PropType<ComponentSize>,
     validator: isValidComponentSize
@@ -26,5 +29,6 @@ export const proColorProps = {
   },
   predefine: {
     type: Array as PropType<any[]>
-  }
+  },
+  onChange: Function as PropType<(value: any) => void>
 }

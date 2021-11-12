@@ -5,7 +5,7 @@
 import { MutationTree, ActionTree } from 'vuex'
 import { message, notification } from 'ant-design-vue'
 import config from '/config/config'
-import { getUserInfo, login, logout } from '/@/services/user'
+import { getUserInfo, login, logout } from '/@/services/controller/user'
 import {
   getAccessToken,
   removeAccessToken,

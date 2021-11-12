@@ -1,11 +1,12 @@
-import {  CSSProperties, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 import config from '/config/config'
+import { PropTypes } from '/@/utils'
 
 const { waterMark } = config.defaultSettings
 
 export default defineComponent({
   props: {
-    contentStyle: CSSStyleSheet as PropType<CSSProperties>
+    contentStyle: PropTypes.style
   },
   setup(props, { slots }) {
 

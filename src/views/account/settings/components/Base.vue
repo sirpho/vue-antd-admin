@@ -178,7 +178,7 @@ import {
 } from 'vue'
 import { Form } from 'ant-design-vue'
 import { UploadOutlined } from '@ant-design/icons-vue'
-import type { CurrentUser } from '/@/services/account/data.d'
+import type { CurrentUser } from '/@/services/account/typings'
 import { queryCurrent, queryProvince, queryCity } from '/@/services/account/settings'
 import useMediaQuery from '/@/hooks/event/useMediaQuery'
 import { hanndleField } from '/@/utils/util'

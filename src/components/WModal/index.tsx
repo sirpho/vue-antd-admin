@@ -41,7 +41,7 @@ export default defineComponent({
       required: false
     },
     contentStyle: {
-      type: Object,
+      type: PropTypes.style,
       required: false
     },
     draggable: {

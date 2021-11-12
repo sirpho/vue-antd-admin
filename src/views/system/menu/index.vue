@@ -19,7 +19,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, reactive, toRefs, onMounted } from 'vue'
-import { getRouterList } from '/@/services/router'
+import { getRouterList } from '/@/services/controller/router'
 import { treeData } from '/@/utils/util'
 import columns from './utils/columns'
 

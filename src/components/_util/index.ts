@@ -127,3 +127,16 @@ export function getPropsSlot(slots: Slots, props: Record<string, any>, prop = 'd
 export function getPropsSlotfn(slots: Slots, props: Record<string, any>, prop = 'default') {
   return props[prop] || slots[prop]
 }
+
+export const omitUndefined = <T>(obj: T): T => {
+  const newObj = {} as T
+  Object.keys(obj || {}).forEach((key) => {
+    if (obj[key] !== undefined) {
+      newObj[key] = obj[key]
+    }
+  })
+  if (Object.keys(newObj).length < 1) {
+    return {} as any
+  }
+  return newObj
+}

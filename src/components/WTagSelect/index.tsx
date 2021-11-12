@@ -64,12 +64,12 @@ const WTagSelect = defineComponent({
         expandText = '展开',
         collapseText = '收起',
         selectAllText = '全部'
-      } = props.actionsText || {}
+      } = props.actionsText as actionsTextItem
       return {
         expandText,
         collapseText,
         selectAllText
-      } as actionsTextItem
+      }
     })
 
     const isTagSelectOption = (node) => {

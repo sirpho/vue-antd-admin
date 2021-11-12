@@ -24,7 +24,7 @@
 <script lang="ts">
 import { defineComponent, reactive, Ref, ref, toRefs } from 'vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
-import type { CurrentUser, TagType } from '/@/services/account/data.d'
+import type { CurrentUser, TagType } from '/@/services/account/typings'
 
 export default defineComponent({
   props: {

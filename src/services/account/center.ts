@@ -1,5 +1,5 @@
 import request from '/@/utils/request'
-import type { CurrentUser, ListItemDataType } from './data.d'
+import type { CurrentUser, ListItemDataType } from './typings'
 
 export function queryCurrent(): Promise<{ data: CurrentUser }> {
   return request({
