@@ -1,5 +1,5 @@
 import { Ref, ref, CSSProperties, defineComponent, computed } from 'vue'
-import { SelectProps } from 'ant-design-vue/lib/select'
+import SelectProps from 'ant-design-vue/lib/select'
 import type { SelectPropsTypes } from 'ant-design-vue/lib/select'
 import { SearchOutlined } from '@ant-design/icons-vue'
 import { getPrefixCls } from '/@/components/_util'
@@ -10,7 +10,7 @@ import { useMemo } from '/@/hooks/core/useMemo'
 import { PropTypes } from '/@/utils'
 
 export type LightSelectProps = {
-  ref?: any;
+  actionRef?: any;
   label?: string;
   placeholder?: any;
   class?: string;
@@ -39,8 +39,8 @@ const getValueOrLabel = (
 }
 
 const lightSelectProps = {
-  ...SelectProps(),
-  ref: PropTypes.any,
+  ...SelectProps.props,
+  actionRef: PropTypes.any,
   placeholder: PropTypes.any,
   class: PropTypes.string,
   style: PropTypes.style
@@ -65,7 +65,7 @@ const LightSelect = defineComponent({
 
     const valueMap: Ref<Record<string, string>> = useMemo(() => {
       const values = {}
-      props.options?.forEach(({ label: aLabel, value: aValue }) => {
+      if (props.options) props.options?.forEach(({ label: aLabel, value: aValue }) => {
         values[aValue] = aLabel || aValue
       })
       return values
@@ -79,6 +79,7 @@ const LightSelect = defineComponent({
 
     return () => {
       const {
+        actionRef,
         label,
         prefixCls: customizePrefixCls,
         onChange,
@@ -98,7 +99,7 @@ const LightSelect = defineComponent({
         ...restProps
       } = props
 
-      console.log(props)
+      console.log(value)
 
       return (
         <div
@@ -134,9 +135,9 @@ const LightSelect = defineComponent({
             showSearch={showSearch}
             onSearch={onSearch}
             style={style}
-            dropdownRender={(menuNode) => {
+            dropdownRender={({ menuNode }) => {
               return (
-                <div ref={ref}>
+                <div ref={actionRef}>
                   {showSearch && (
                     <div style={{ margin: '4px 8px' }}>
                       <a-input

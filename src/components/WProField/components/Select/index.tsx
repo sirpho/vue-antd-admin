@@ -5,7 +5,7 @@ import {
   defineComponent,
   PropType,
   computed,
-  ExtractPropTypes
+  ExtractPropTypes,
 } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { PropTypes } from '/@/utils'
@@ -129,7 +129,10 @@ const fieldSelectProps = {
   request: Function as PropType<ProFieldRequestData>,
   params: PropTypes.any,
   fieldProps: PropTypes.any,
-  bordered: PropTypes.bool.def(true),
+  bordered: {
+    type: Boolean as PropType<boolean>,
+    default: undefined
+  },
   id: PropTypes.string
 }
 
@@ -153,7 +156,7 @@ const FieldSelect = defineComponent({
         ? getResOptionsRef.value?.reduce((pre: any, cur) => {
           return { ...pre, [cur.value]: cur.label }
         }, {})
-        : undefined
+        : []
     })
 
     const renderRead = () => {
@@ -193,14 +196,15 @@ const FieldSelect = defineComponent({
         renderFormItem,
         ...rest
       } = props
+
       let dom
       if (light) {
         dom = (
           <LightSelect
-            bordered={bordered}
+            bordered={!!bordered}
             id={id}
             loading={loading.value}
-            ref={e => inputRef.value = e}
+            actionRef={e => inputRef.value = e}
             allowClear
             options={getResOptionsRef.value}
             label={label}
@@ -215,10 +219,10 @@ const FieldSelect = defineComponent({
             style={{
               minWidth: '100px'
             }}
-            bordered={bordered}
+            bordered={bordered === false ? bordered : (bordered || true)}
             id={id}
             loading={loading.value}
-            ref={e => inputRef.value = e}
+            actionRef={e => inputRef.value = e}
             allowClear
             notFoundContent={loading.value ? <a-spin size="small" /> : fieldProps?.notFoundContent}
             optionItemRender={(item) => {
