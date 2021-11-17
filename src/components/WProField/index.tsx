@@ -3,8 +3,10 @@ import {
   FunctionalComponent,
   isVNode,
   cloneVNode,
-  reactive,
-  watch
+  watch,
+  ref,
+  computed,
+  unref
 } from 'vue'
 import { noteOnce } from 'ant-design-vue/es/vc-util/warning'
 import type {
@@ -20,13 +22,23 @@ import pickProProps from '/@/components/_util/pickProProps'
 import { proFieldPropsType } from './props'
 import FieldImage from './components/Image'
 import FieldMoney from './components/Money'
+import FieldDatePicker from './components/DatePicker'
+import FieldFromNow from './components/FromNow'
+import FieldRangePicker from './components/RangePicker'
+import FieldTimePicker, { FieldTimeRangePicker } from './components/TimePicker'
 import FieldText from './components/Text'
-import FieldColorPicker from './components/ColorPicker'
+import FieldPassword from './components/Password'
 import FieldDigit from './components/Digit'
 import FieldSecond from './components/Second'
+import FieldProgress from './components/Progress'
 import FieldPercent from './components/Percent'
 import FieldRate from './components/Rate'
 import FieldSelect from './components/Select'
+import FieldCheckbox from './components/Checkbox'
+import FieldRadio from './components/Radio'
+import FieldCascader from './components/Cascader'
+import FieldColorPicker from './components/ColorPicker'
+import FieldCode from './components/Code'
 
 const REQUEST_VALUE_TYPE = [ 'select', 'radio', 'radioButton', 'checkbook' ]
 
@@ -47,6 +59,19 @@ const defaultRenderTextByObject = (
 ): any => {
   const pickFormItemProps = pickProProps(props.fieldProps)
 
+  if (valueType.type === 'progress') {
+    return (
+      <FieldProgress
+        {...props}
+        text={text as number}
+        fieldProps={{
+          status: valueType.status ? valueType.status : undefined,
+          ...pickFormItemProps
+        }}
+      />
+    )
+  }
+
   if (valueType.type === 'money') {
     return (
       <FieldMoney
@@ -54,6 +79,19 @@ const defaultRenderTextByObject = (
         fieldProps={pickFormItemProps}
         text={text as number}
         moneySymbol={valueType.moneySymbol}
+      />
+    )
+  }
+
+  if (valueType.type === 'percent') {
+    return (
+      <FieldPercent
+        {...props}
+        text={text as number}
+        showSymbol={valueType.showSymbol}
+        precision={valueType.precision}
+        fieldProps={pickFormItemProps}
+        showColor={valueType.showColor}
       />
     )
   }
@@ -116,6 +154,69 @@ const defaultRenderText = (
     return <FieldMoney {...props} text={text as number} />
   }
 
+  /** 如果是日期的值 */
+  if (valueType === 'date') {
+    return <FieldDatePicker text={text as string} format="YYYY-MM-DD" {...props} />
+  }
+
+  /** 如果是周的值 */
+  if (valueType === 'dateWeek') {
+    return <FieldDatePicker text={text as string} format="YYYY-wo" picker="week" {...props} />
+  }
+
+  /** 如果是月的值 */
+  if (valueType === 'dateMonth') {
+    return <FieldDatePicker text={text as string} format="YYYY-MM" picker="month" {...props} />
+  }
+
+  /** 如果是季度的值 */
+  if (valueType === 'dateQuarter') {
+    return <FieldDatePicker text={text as string} format="YYYY-\QQ" picker="quarter" {...props} />
+  }
+
+  /** 如果是年的值 */
+  if (valueType === 'dateYear') {
+    return <FieldDatePicker text={text as string} format="YYYY" picker="year" {...props} />
+  }
+
+  /** 如果是日期范围的值 */
+  if (valueType === 'dateRange') {
+    return <FieldRangePicker text={text as string[]} format="YYYY-MM-DD" {...props} />
+  }
+
+  /** 如果是日期加时间类型的值 */
+  if (valueType === 'dateTime') {
+    return (
+      <FieldDatePicker text={text as string} format="YYYY-MM-DD HH:mm:ss" showTime {...props} />
+    )
+  }
+
+  /** 如果是日期加时间类型的值的值 */
+  if (valueType === 'dateTimeRange') {
+    // 值不存在的时候显示 "-"
+    return (
+      <FieldRangePicker text={text as string[]} format="YYYY-MM-DD HH:mm:ss" showTime {...props} />
+    )
+  }
+
+  /** 如果是时间类型的值 */
+  if (valueType === 'time') {
+    return <FieldTimePicker text={text as string} format="HH:mm:ss" {...props} />
+  }
+
+  /** 如果是时间类型的值 */
+  if (valueType === 'timeRange') {
+    return <FieldTimeRangePicker text={text as string[]} format="HH:mm:ss" {...props} />
+  }
+
+  if (valueType === 'fromNow') {
+    return <FieldFromNow text={text as string} {...props} />
+  }
+
+  if (valueType === 'progress') {
+    return <FieldProgress {...props} text={text as number} />
+  }
+
   /** 百分比, 默认展示符号, 不展示小数位 */
   if (valueType === 'percent') {
     return <FieldPercent text={text as number} {...props} />
@@ -123,6 +224,14 @@ const defaultRenderText = (
 
   if (valueType === 'avatar' && typeof text === 'string' && props.mode === 'read') {
     return <a-avatar src={text as string} size={22} shape="circle" />
+  }
+
+  if (valueType === 'code') {
+    return <FieldCode text={text as string} {...props} />
+  }
+
+  if (valueType === 'jsonCode') {
+    return <FieldCode text={text as string} language="json" {...props} />
   }
 
   if (valueType === 'digit') {
@@ -137,12 +246,32 @@ const defaultRenderText = (
     return <FieldSelect text={text as string} {...props} />
   }
 
+  if (valueType === 'checkbox') {
+    return <FieldCheckbox text={text as string} {...props} />
+  }
+
+  if (valueType === 'radio') {
+    return <FieldRadio text={text as string} {...props} />
+  }
+
+  if (valueType === 'radioButton') {
+    return <FieldRadio radioType="button" text={text as string} {...props} />
+  }
+
   if (valueType === 'rate') {
     return <FieldRate text={text as string} {...props} />
   }
 
+  if (valueType === 'password') {
+    return <FieldPassword text={text as string} {...props} />
+  }
+
   if (valueType === 'image') {
     return <FieldImage text={text as string} {...props} />
+  }
+
+  if (valueType === 'cascader') {
+    return <FieldCascader text={text as string} {...props} />
   }
 
   if (valueType === 'color') {
@@ -156,14 +285,24 @@ const defaultRenderValue = (
   valueType: ProFieldValueType | ProFieldValueObjectType,
   props: RenderProps
 ) => {
-  if (valueType === 'image') return ''
-  if (valueType === 'avatar') return ''
-  if (valueType === 'color') return ''
-  if (valueType === 'money') return ''
-  if (valueType === 'digit') return ''
-  if (valueType === 'percent') return ''
-  if (valueType === 'second') return ''
-  if (valueType === 'select' || (valueType === 'text' && (props.valueEnum || props.request))) return undefined
+  const renderNull = [
+    'date',
+    'dateWeek',
+    'dateMonth',
+    'dateQuarter',
+    'dateYear',
+    'dateTime',
+    'fromNow',
+    'time'
+  ]
+  const renderAarray = [ 'cascader', 'dateRange', 'dateTimeRange', 'timeRange' ]
+  let type = valueType
+  if (typeof valueType === 'object') {
+    type = valueType.type
+  }
+  if (type === 'select' || (type === 'text' && (props.valueEnum || props.request))) return undefined
+  if (renderAarray.includes(type as string)) return []
+  if (renderNull.includes(type as string)) return null
   return ''
 }
 
@@ -172,14 +311,33 @@ const defaultChangeValue = (
   value: any,
   props: RenderProps
 ) => {
-  if (valueType === 'image') return value.target.value
-  if (valueType === 'avatar') return value.target.value
-  if (valueType === 'color') return value
-  if (valueType === 'money') return value
-  if (valueType === 'digit') return value
-  if (valueType === 'percent') return value
-  if (valueType === 'second') return value
-  if (valueType === 'select' || (valueType === 'text' && (props.valueEnum || props.request))) return value
+  const renderValue: string[] = [
+    'color',
+    'money',
+    'digit',
+    'percent',
+    'second',
+    'checkbox',
+    'cascader',
+    'progress',
+    'date',
+    'dateWeek',
+    'dateMonth',
+    'dateQuarter',
+    'dateYear',
+    'dateTime',
+    'fromNow',
+    'dateRange',
+    'dateTimeRange',
+    'time',
+    'timeRange'
+  ]
+  let type = valueType
+  if (typeof valueType === 'object') {
+    type = valueType.type
+  }
+  if (renderValue.includes(type as string)) return value
+  if (type === 'select' || (type === 'text' && (props.valueEnum || props.request))) return value
   return value.target.value
 }
 
@@ -197,28 +355,28 @@ export default defineComponent({
   props: proFieldPropsType,
   emits: [ 'change', 'update:value' ],
   setup(props, { emit }) {
-    const getFieldProps = (val) => {
+    const fieldValue = ref<any>()
+
+    const getFieldProps = computed(() => {
       return {
-        value: props.value || defaultRenderValue(props.valueType || 'text', props),
+        value: fieldValue.value,
         // fieldProps 优先级更高，在类似 LightFilter 场景下需要覆盖默认的 value 和 onChange
-        ...omitUndefined(val) as object,
+        ...omitUndefined(props.fieldProps) as object,
         onChange: (params) => {
           handleChange(params)
         }
       }
-    }
-
-    let fieldProps = reactive(getFieldProps(props.fieldProps))
+    })
 
     watch(() => props.value, (val) => {
-      fieldProps.value = val || defaultRenderValue(props.valueType || 'text', props)
+      fieldValue.value = val || defaultRenderValue(props.valueType || 'text', props)
     }, {
       deep: true,
       immediate: true
     })
 
-    watch(() => props.fieldProps, (val) => {
-      fieldProps = getFieldProps(val)
+    watch(() => props.mode, (_) => {
+      fieldValue.value = props.value || defaultRenderValue(props.valueType || 'text', props)
     }, {
       deep: true,
       immediate: true
@@ -226,7 +384,7 @@ export default defineComponent({
 
     const handleChange = (params) => {
       const defaultValue = defaultChangeValue(props.valueType || 'text', params, props)
-      fieldProps.value = defaultValue
+      fieldValue.value = defaultValue
       emit('change', defaultValue)
       emit('update:value', defaultValue)
       props.value?.onChange(...params)
@@ -237,7 +395,7 @@ export default defineComponent({
       return (
         <>
           {defaultRenderText(
-            text ?? fieldProps?.value as any ?? '',
+            text ?? unref(getFieldProps)?.value as any ?? '',
             valueType || 'text',
             {
               ...rest,
@@ -250,14 +408,14 @@ export default defineComponent({
                     return cloneVNode(newDom, {
                       placeholder:
                         rest.placeholder || '请输入',
-                      ...fieldProps,
+                      ...unref(getFieldProps),
                       ...((newDom.props as any) || {})
                     })
                   return newDom
                 }
                 : undefined,
               placeholder: rest.placeholder || '请输入',
-              fieldProps: pickProProps(fieldProps)
+              fieldProps: pickProProps(unref(getFieldProps))
             }
           )}
         </>

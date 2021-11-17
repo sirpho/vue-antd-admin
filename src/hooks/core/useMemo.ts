@@ -1,20 +1,21 @@
-import type { Ref } from 'vue';
+import type { Ref, WatchSource } from 'vue'
 import { ref, watch } from 'vue'
-import { isFunction } from '/@/utils/validate'
 
-export function useMemo<T>(factory: () => T, deps: any[] | undefined) {
-  const memoRef: Ref<T> = ref(factory() as any)
-
-  if (!isFunction(factory)) {
-    throw new Error('factory is not Function!')
-  }
-
-  watch(() => deps, (_) => {
-    memoRef.value = factory()
-  }, {
-    deep: true,
-    immediate: true
+export default function useMemo<T>(
+  getValue: () => T,
+  condition: (WatchSource<unknown> | object)[],
+  shouldUpdate?: (prev: any[], next: any[]) => boolean
+) {
+  const cacheRef: Ref<T> = ref(getValue() as any)
+  watch(condition, (next, pre) => {
+    if (shouldUpdate) {
+      if (shouldUpdate(next, pre)) {
+        cacheRef.value = getValue()
+      }
+    } else {
+      cacheRef.value = getValue()
+    }
   })
 
-  return memoRef
+  return cacheRef
 }

@@ -1,5 +1,5 @@
 import { toNumber } from 'lodash-es'
-import { useMemo } from '/@/hooks/core/useMemo'
+import useMemo from '/@/hooks/core/useMemo'
 import { getColorByRealValue, getSymbolByRealValue, getRealTextWithPrecision } from './util'
 import type { ProFieldFC } from '../../index'
 
@@ -38,14 +38,14 @@ const FieldPercent: ProFieldFC<PercentPropInt> = (
       typeof text === 'string' && (text as string).includes('%')
         ? toNumber((text as string).replace('%', ''))
         : toNumber(text),
-    [ text ]
+    [ () => text ]
   )
   const showSymbol = useMemo(() => {
     if (typeof propsShowSymbol === 'function') {
       return propsShowSymbol?.(text)
     }
     return propsShowSymbol
-  }, [ propsShowSymbol, text ])
+  }, [ () => propsShowSymbol, () => text ])
 
   if (mode === 'read') {
     /** 颜色有待确定, 根据提供 colors: ['正', '负'] | boolean */
@@ -60,7 +60,11 @@ const FieldPercent: ProFieldFC<PercentPropInt> = (
       </span>
     )
     if (render) {
-      return render(text, { mode, ...fieldProps, prefix, precision, showSymbol: showSymbol.value, suffix }, dom)
+      return render(
+        text,
+        { mode, ...fieldProps, prefix, precision, showSymbol: showSymbol.value, suffix },
+        dom
+      )
     }
     return dom
   }

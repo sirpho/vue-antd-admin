@@ -1,4 +1,4 @@
-import { Ref, ref, CSSProperties, defineComponent, computed } from 'vue'
+import { ref, CSSProperties, defineComponent, computed } from 'vue'
 import SelectProps from 'ant-design-vue/lib/select'
 import type { SelectPropsTypes } from 'ant-design-vue/lib/select'
 import { SearchOutlined } from '@ant-design/icons-vue'
@@ -6,7 +6,6 @@ import { getPrefixCls } from '/@/components/_util'
 import FieldLabel from '../../FieldLabel'
 
 import './index.less'
-import { useMemo } from '/@/hooks/core/useMemo'
 import { PropTypes } from '/@/utils'
 
 export type LightSelectProps = {
@@ -63,13 +62,13 @@ const LightSelect = defineComponent({
       keyword.value = value
     }
 
-    const valueMap: Ref<Record<string, string>> = useMemo(() => {
+    const valueMap = computed(() => {
       const values = {}
       if (props.options) props.options?.forEach(({ label: aLabel, value: aValue }) => {
         values[aValue] = aLabel || aValue
       })
       return values
-    }, [ props.options ])
+    })
 
     const filterValue = computed(() => {
       return Array.isArray(props.value)
@@ -98,8 +97,6 @@ const LightSelect = defineComponent({
         labelInValue,
         ...restProps
       } = props
-
-      console.log(value)
 
       return (
         <div

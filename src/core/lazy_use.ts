@@ -36,6 +36,7 @@ import { WScrollbars, CustomIcon } from '/@/components/export'
 
 import {
   List,
+  Cascader,
   Rate,
   Descriptions,
   Statistic,
@@ -121,6 +122,7 @@ const ant = {
     app.component('w-tag-select-option', WTagSelectOption)
     app.component('w-material-view', WMaterialView)
     app.component('w-pro-field', WProField)
+    app.use(Cascader)
     app.use(Upload)
     app.use(Rate)
     app.use(AutoComplete)

@@ -3,7 +3,6 @@ import {
   FunctionalComponent,
   h,
   defineComponent,
-  PropType,
   computed,
   ExtractPropTypes,
 } from 'vue'
@@ -122,7 +121,7 @@ const Highlight: FunctionalComponent<{
   )
 }
 
-const fieldSelectProps = {
+export const fieldSelectProps = {
   ...proFieldPropsType,
   text: PropTypes.string,
   valueEnum: [ Object, Map ] as PropType<ProFieldValueEnumType>,
@@ -201,7 +200,7 @@ const FieldSelect = defineComponent({
       if (light) {
         dom = (
           <LightSelect
-            bordered={!!bordered}
+            bordered={bordered}
             id={id}
             loading={loading.value}
             actionRef={e => inputRef.value = e}
@@ -219,7 +218,7 @@ const FieldSelect = defineComponent({
             style={{
               minWidth: '100px'
             }}
-            bordered={bordered === false ? bordered : (bordered || true)}
+            bordered={bordered}
             id={id}
             loading={loading.value}
             actionRef={e => inputRef.value = e}

@@ -1,5 +1,5 @@
 import { ProFieldFC } from '../../index'
-import { useMemo } from '/@/hooks/core/useMemo'
+import useMemo from '/@/hooks/core/useMemo'
 
 export type FieldMoneyProps = {
   text: number;
@@ -51,7 +51,7 @@ const FieldMoney: ProFieldFC<FieldMoneyProps> = (
       return ''
     }
     return defaultText
-  }, [ fieldProps.moneySymbol, rest.moneySymbol, customSymbol ])
+  }, [ () => fieldProps.moneySymbol, () => rest.moneySymbol, () => customSymbol ])
   if (type === 'read') {
     const dom = (
       <span>{getTextByLocale(text, precision)}</span>

@@ -103,10 +103,106 @@
           }"
         />
       </a-descriptions-item>
+      <a-descriptions-item label="多选">
+        <w-pro-field
+          :text="['open', 'closed']"
+          :mode="state"
+          valueType="checkbox"
+          :valueEnum="{
+            all: { text: '全部', disabled: true, status: 'Default' },
+            open: {
+              text: '未解决',
+              status: 'Error',
+            },
+            closed: {
+              text: '已解决',
+              status: 'Success',
+            },
+            processing: {
+              text: '解决中',
+              status: 'Processing',
+            },
+          }"
+        />
+      </a-descriptions-item>
+      <a-descriptions-item label="多选 labelInValue">
+        <w-pro-field
+          :text="[
+            {
+              value: 'open1',
+              label: '打开',
+            },
+            {
+              value: 'closed2',
+              label: '关闭',
+            },
+          ]"
+          :mode="state"
+          valueType="checkbox"
+          :valueEnum="{
+            all: { text: '全部', disabled: true, status: 'Default' },
+            open: {
+              text: '未解决',
+              status: 'Error',
+            },
+            closed: {
+              text: '已解决',
+              status: 'Success',
+            },
+            processing: {
+              text: '解决中',
+              status: 'Processing',
+            },
+          }"
+        />
+      </a-descriptions-item>
+      <a-descriptions-item label="单选">
+        <w-pro-field
+          text="open"
+          :mode="state"
+          valueType="radio"
+          :valueEnum="{
+            all: { text: '全部', disabled: true, status: 'Default' },
+            open: {
+              text: '未解决',
+              status: 'Error',
+            },
+            closed: {
+              text: '已解决',
+              status: 'Success',
+            },
+            processing: {
+              text: '解决中',
+              status: 'Processing',
+            },
+          }"
+        />
+      </a-descriptions-item>
+      <a-descriptions-item label="单选按钮">
+        <w-pro-field
+          text="open"
+          :mode="state"
+          valueType="radioButton"
+          :valueEnum="{
+            all: { text: '全部', disabled: true, status: 'Default' },
+            open: {
+              text: '未解决',
+              status: 'Error',
+            },
+            closed: {
+              text: '已解决',
+              status: 'Success',
+            },
+            processing: {
+              text: '解决中',
+              status: 'Processing',
+            },
+          }"
+        />
+      </a-descriptions-item>
       <a-descriptions-item label="远程选择框">
         <w-pro-field
           text="open"
-          light
           valueType="select"
           :mode="state"
           :request="async () => [
@@ -126,15 +222,207 @@
           ]"
         />
       </a-descriptions-item>
+      <a-descriptions-item label="级联选择框">
+        <w-pro-field
+          :text="['zhejiang', 'hangzhou', 'xihu']"
+          valueType="cascader"
+          :mode="state"
+          :request="async () => [
+            {
+              value: 'zhejiang',
+              label: 'Zhejiang',
+              children: [
+                {
+                  value: 'hangzhou',
+                  label: 'Hangzhou',
+                  children: [
+                    {
+                      value: 'xihu',
+                      label: 'West Lake',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              value: 'jiangsu',
+              label: 'Jiangsu',
+              children: [
+                {
+                  value: 'nanjing',
+                  label: 'Nanjing',
+                  children: [
+                    {
+                      value: 'zhonghuamen',
+                      label: 'Zhong Hua Men',
+                    },
+                  ],
+                },
+              ],
+            },
+          ]"
+        />
+      </a-descriptions-item>
+      <a-descriptions-item label="进度条">
+        <w-pro-field
+          text="40"
+          valueType="progress"
+          :mode="state"
+          :plain="plain"
+        />
+      </a-descriptions-item>
+      <a-descriptions-item label="百分比">
+        <a-space>
+          <w-pro-field
+            :text="10"
+            :valueType="{
+              type: 'percent',
+              showSymbol: true,
+              showColor: true,
+            }"
+            mode="read"
+          />
+          <w-pro-field
+            :text="0"
+            :valueType="{
+              type: 'percent',
+              showSymbol: true,
+              showColor: true,
+            }"
+            mode="read"
+          />
+          <w-pro-field
+            :text="-10"
+            :valueType="{
+              type: 'percent',
+              showSymbol: true,
+              showColor: true,
+            }"
+            mode="read"
+          />
+        </a-space>
+      </a-descriptions-item>
+      <a-descriptions-item label="日期时间">
+        <w-pro-field
+          :text="dateTime"
+          valueType="dateTime"
+          :mode="state"
+          :plain="plain"
+        />
+      </a-descriptions-item>
+      <a-descriptions-item label="相对于当前时间">
+        <a-space>
+          <w-pro-field
+            :text="dateTime"
+            valueType="fromNow"
+            :mode="state"
+            :plain="plain"
+          />
+          <w-pro-field
+            :text="moment('2013-11-16 12:50:26').valueOf()"
+            valueType="fromNow"
+            :mode="state"
+            :plain="plain"
+          />
+        </a-space>
+      </a-descriptions-item>
+      <a-descriptions-item label="日期">
+        <w-pro-field
+          :text="dateTime"
+          valueType="date"
+          :mode="state"
+          :plain="plain"
+        />
+      </a-descriptions-item>
+      <a-descriptions-item label="日期区间">
+        <w-pro-field
+          :text="[
+            moment('2019-11-16 12:50:26').add(-1, 'd').valueOf(),
+            moment('2019-11-16 12:50:26').valueOf(),
+          ]"
+          valueType="dateRange"
+          :mode="state"
+          :plain="plain"
+        />
+      </a-descriptions-item>
+      <a-descriptions-item label="日期时间区间">
+        <w-pro-field
+          :text="[
+            moment('2019-11-16 12:50:26').add(-1, 'd').valueOf(),
+            moment('2019-11-16 12:50:26').valueOf(),
+          ]"
+          valueType="dateTimeRange"
+          :mode="state"
+          :plain="plain"
+        />
+      </a-descriptions-item>
+      <a-descriptions-item label="时间">
+        <w-pro-field
+          :text="moment('2019-11-16 12:50:26').valueOf()"
+          valueType="time"
+          :mode="state"
+          :plain="plain"
+        />
+      </a-descriptions-item>
+      <!--<a-descriptions-item label="时间区间">-->
+      <!--  <w-pro-field-->
+      <!--    :text="[-->
+      <!--      moment('2019-11-16 12:50:26').add(-1, 'd').valueOf(),-->
+      <!--      moment('2019-11-16 12:50:26').valueOf(),-->
+      <!--    ]"-->
+      <!--    valueType="timeRange"-->
+      <!--    :mode="state"-->
+      <!--    :plain="plain"-->
+      <!--  />-->
+      <!--</a-descriptions-item>-->
+      <a-descriptions-item label="代码块">
+        <w-pro-field
+          :text="`
+yarn run v1.22.0
+$ eslint --format=pretty ./packages
+Done in 9.70s.
+          `"
+          valueType="code"
+          :mode="state"
+          :plain="plain"
+        />
+      </a-descriptions-item>
+      <a-descriptions-item label="代码块">
+        <w-pro-field
+          :text="jsonCode"
+          valueType="jsonCode"
+          :mode="state"
+          :plain="plain"
+        />
+      </a-descriptions-item>
     </a-descriptions>
   </w-page-wrapper>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import moment from 'moment'
 
 const state = ref('read')
 const plain = ref(false)
+const dateTime = moment('2019-11-16 12:50:26').valueOf()
+const jsonCode = `{
+  "compilerOptions": {
+    "target": "esnext",
+    "moduleResolution": "node",
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "declaration": true,
+    "skipLibCheck": true
+  },
+  "include": ["**/src", "**/docs", "scripts", "**/demo", ".eslintrc.js"]
+}
+`
 const handlechange = (e) => {
   console.log(e)
 }
