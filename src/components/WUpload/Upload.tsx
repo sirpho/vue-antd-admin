@@ -314,7 +314,12 @@ const WUpload = defineComponent({
       const fileSuffix = fileName.split('.')[1]
       // @ts-ignore
       const ImageEditor = new FilerobotImageEditor(
-        {},
+        {
+          language: 'zh-cn',
+          translations: {
+            'zh-cn': global.filerobotImageZnch
+          }
+        },
         {
           onBeforeComplete: e => {
             const imgData = e.canvas.toDataURL(`image/${fileSuffix}`)
@@ -325,6 +330,9 @@ const WUpload = defineComponent({
           onClose: _ => {
             if (props.beforeEditable) requestUpload(info?.file, 'upload', name)
             return false
+          },
+          onError: e => {
+            console.log(e)
           }
         }
       )

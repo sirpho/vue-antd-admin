@@ -152,8 +152,8 @@ export default [
           userName,
           nickName,
           'avatar|1': [
-            'https://i.gtimg.cn/club/item/face/img/2/15922_100.gif',
-            'https://i.gtimg.cn/club/item/face/img/8/15918_100.gif',
+            'https://ahtv-obs.obs.cn-north-4.myhuaweicloud.com/15918_100.gif',
+            'https://ahtv-obs.obs.cn-north-4.myhuaweicloud.com/15922_100.gif',
             'https://ahtv-obs.obs.cn-north-4.myhuaweicloud.com/20211111162748.jpg'
           ],
           loginDate: moment().format('YYYY-MM-DD HH:mm:ss')

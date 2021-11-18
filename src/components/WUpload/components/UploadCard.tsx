@@ -36,9 +36,18 @@ const UploadCard: FC<UploadCardProps> = (props: UploadCardProps, { slots }) => {
     onMediaCropper
   } = props
 
+  const { DEV, VITE_USE_MOCK } = import.meta.env
+
   const context = useUploadContext()
 
   const rootRef = computed(() => root)
+
+  const handleQuickEdit = (record) => {
+    return record.type === '1' &&
+      !record.uploadLoading &&
+      props.editor &&
+      (DEV || !VITE_USE_MOCK)
+  }
 
   const renderMaterial = (record) => {
     const errorExtraRender = getPropsSlot(slots, props, 'errorExtra')
@@ -117,7 +126,7 @@ const UploadCard: FC<UploadCardProps> = (props: UploadCardProps, { slots }) => {
 
   const renderExtraMenu = (record) => !props.viewUp && !props.disabled && (
     <a-menu>
-      {record.type === '1' && !record.uploadLoading && props.editor && (
+      {handleQuickEdit(record) && (
         <a-menu-item onClick={() => onMediaCropper(record.id, 'quickEdit')}>
           <i class="material_font icon-tupianbianji" />
           <span style={{ marginLeft: '8px' }}>快编</span>
