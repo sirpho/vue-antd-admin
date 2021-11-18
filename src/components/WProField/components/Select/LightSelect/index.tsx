@@ -1,5 +1,5 @@
 import { ref, CSSProperties, defineComponent, computed } from 'vue'
-import SelectProps from 'ant-design-vue/lib/select'
+import { Select } from 'ant-design-vue'
 import type { SelectPropsTypes } from 'ant-design-vue/lib/select'
 import { SearchOutlined } from '@ant-design/icons-vue'
 import { getPrefixCls } from '/@/components/_util'
@@ -38,7 +38,7 @@ const getValueOrLabel = (
 }
 
 const lightSelectProps = {
-  ...SelectProps.props,
+  ...Select.props,
   actionRef: PropTypes.any,
   placeholder: PropTypes.any,
   class: PropTypes.string,

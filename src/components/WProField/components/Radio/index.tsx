@@ -1,7 +1,6 @@
 ﻿import { computed, defineComponent, ExtractPropTypes, ref } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { Radio } from 'ant-design-vue'
-import radioGroupProps from 'ant-design-vue/lib/radio/Group'
+import { Radio, RadioGroup } from 'ant-design-vue'
 import { getPrefixCls } from '/@/components/_util'
 import type { FieldSelectProps } from '../Select'
 import { proFieldParsingText, fieldSelectProps } from '../Select'
@@ -9,7 +8,7 @@ import { ObjToMap, useFetchList } from '../Select/useFetchList'
 
 import './index.less'
 
-export type RadioGroupProps = Partial<ExtractPropTypes<typeof radioGroupProps>>;
+export type RadioGroupProps = Partial<ExtractPropTypes<typeof RadioGroup.props>>;
 
 export type GroupProps = {
   radioType?: 'button' | 'radio';

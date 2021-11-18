@@ -1,5 +1,5 @@
-import { ProFieldFC } from '../../index'
 import useMemo from '/@/hooks/core/useMemo'
+import type { ProFieldFC } from '../../index'
 
 export type FieldMoneyProps = {
   text: number;

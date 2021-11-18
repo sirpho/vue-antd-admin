@@ -1,5 +1,5 @@
-import { ProSchemaValueEnumMap, ProSchemaValueEnumObj } from '/@/components/_util/typings'
-import { Moment } from 'moment'
+import type { Moment } from 'moment'
+import type { ProSchemaValueEnumMap, ProSchemaValueEnumObj } from '/@/components/_util/typings'
 
 export type ProFieldFCMode = 'read' | 'edit' | 'update';
 

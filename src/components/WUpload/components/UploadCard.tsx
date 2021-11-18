@@ -51,7 +51,7 @@ const UploadCard: FC<UploadCardProps> = (props: UploadCardProps, { slots }) => {
             style={props.imageStyle}
             src={record.url}
             fallback={errorExtraRender ||
-            <div class="image-slot"><i class="iconfont icon-tupian" /></div>}
+            <div class="image-slot"><i class="material_font icon-tupian" /></div>}
           />
         )
         break
@@ -60,7 +60,7 @@ const UploadCard: FC<UploadCardProps> = (props: UploadCardProps, { slots }) => {
           record.allowPlay && record.url
             ? (
               <div class="image-slot">
-                <i class="iconfont icon-yinleyinpin" />
+                <i class="material_font icon-yinleyinpin" />
               </div>
             )
             : (
@@ -81,7 +81,7 @@ const UploadCard: FC<UploadCardProps> = (props: UploadCardProps, { slots }) => {
                 style={props.imageStyle}
                 src={record.coverImg}
                 fallback={errorExtraRender ||
-                <div class="image-slot"><i class="iconfont icon-shipin" /></div>}
+                <div class="image-slot"><i class="material_font icon-shipin" /></div>}
               />
             )
             : (
@@ -96,7 +96,7 @@ const UploadCard: FC<UploadCardProps> = (props: UploadCardProps, { slots }) => {
       case '4':
         show = (
           <div class="image-slot">
-            <i class="iconfont icon-qitawenjian" />
+            <i class="material_font icon-qitawenjian" />
           </div>
         )
         break
@@ -107,7 +107,7 @@ const UploadCard: FC<UploadCardProps> = (props: UploadCardProps, { slots }) => {
             style={props.imageStyle}
             src={record.url}
             fallback={errorExtraRender ||
-            <div class="image-slot"><i class="iconfont icon-tupian" /></div>}
+            <div class="image-slot"><i class="material_font icon-tupian" /></div>}
           />
         )
         break
@@ -119,13 +119,13 @@ const UploadCard: FC<UploadCardProps> = (props: UploadCardProps, { slots }) => {
     <a-menu>
       {record.type === '1' && !record.uploadLoading && props.editor && (
         <a-menu-item onClick={() => onMediaCropper(record.id, 'quickEdit')}>
-          <i class="iconfont icon-tupianbianji" />
+          <i class="material_font icon-tupianbianji" />
           <span style={{ marginLeft: '8px' }}>快编</span>
         </a-menu-item>
       )}
       {(record.type === '1' || record.type === '3') && !record.uploadLoading && props.waterMark && (
         <a-menu-item onClick={() => onWaterMark(record.id, record.type)}>
-          <i class="iconfont icon-shuiyin" />
+          <i class="material_font icon-shuiyin" />
           <span style={{ marginLeft: '8px' }}>水印</span>
         </a-menu-item>
       )}

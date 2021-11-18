@@ -1,6 +1,6 @@
 ﻿import { computed, defineComponent, ExtractPropTypes } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import checkboxGroupProps from 'ant-design-vue/lib/checkbox/Group'
+import { CheckboxGroup } from 'ant-design-vue'
 import { getPrefixCls } from '/@/components/_util'
 import type { FieldSelectProps } from '../Select'
 import { proFieldParsingText, fieldSelectProps } from '../Select'
@@ -8,7 +8,7 @@ import { ObjToMap, useFetchList } from '../Select/useFetchList'
 
 import './index.less'
 
-export type CheckboxGroupProps = Partial<ExtractPropTypes<typeof checkboxGroupProps>>;
+export type CheckboxGroupProps = Partial<ExtractPropTypes<typeof CheckboxGroup.props>>;
 
 const groupProps = {
   ...fieldSelectProps,

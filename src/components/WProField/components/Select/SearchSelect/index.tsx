@@ -1,4 +1,4 @@
-import { Select } from 'ant-design-vue/'
+import { Select } from 'ant-design-vue'
 import type { SelectPropsTypes } from 'ant-design-vue/lib/select'
 import type { LabeledValue } from 'ant-design-vue/es/select'
 import type { RequestOptionsType } from '/@/components/_util/typings'
