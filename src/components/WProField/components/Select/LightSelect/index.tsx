@@ -3,7 +3,7 @@ import { Select } from 'ant-design-vue'
 import type { SelectPropsTypes } from 'ant-design-vue/lib/select'
 import { SearchOutlined } from '@ant-design/icons-vue'
 import { getPrefixCls } from '/@/components/_util'
-import FieldLabel from '../../FieldLabel'
+import FieldLabel from '/@/components/_util/components/FieldLabel'
 
 import './index.less'
 import { PropTypes } from '/@/utils'

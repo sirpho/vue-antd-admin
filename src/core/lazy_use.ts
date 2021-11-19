@@ -30,7 +30,9 @@ import {
   WImageViewerGroup,
   WUpload,
   WMaterialView,
-  WProField
+  WProField,
+  WProForm,
+  ProFormItem
 } from '/@/components'
 import { WScrollbars, CustomIcon } from '/@/components/export'
 
@@ -122,6 +124,8 @@ const ant = {
     app.component('w-tag-select-option', WTagSelectOption)
     app.component('w-material-view', WMaterialView)
     app.component('w-pro-field', WProField)
+    app.component('w-pro-form', WProForm)
+    app.component('w-pro-form-item', ProFormItem)
     app.use(Cascader)
     app.use(Upload)
     app.use(Rate)

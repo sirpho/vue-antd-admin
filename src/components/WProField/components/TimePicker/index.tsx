@@ -3,7 +3,7 @@ import { TimePicker } from 'ant-design-vue'
 import moment from 'moment'
 import { getPrefixCls } from '/@/components/_util'
 import parseValueToMoment from '/@/components/_util/parseValueToMoment'
-import FieldLabel from '../FieldLabel'
+import FieldLabel from '/@/components/_util/components/FieldLabel'
 import type { ProFieldFC } from '../../index'
 
 /**

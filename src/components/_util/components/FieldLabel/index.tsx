@@ -1,7 +1,7 @@
 import { CSSProperties, FunctionalComponent } from 'vue'
 import { DownOutlined, CloseOutlined } from '@ant-design/icons-vue'
-import { getPrefixCls } from '/@/components/_util'
-import type { SizeType } from '/@/components/_util/typings'
+import { getPrefixCls } from '../../index'
+import type { SizeType } from '../../typings'
 
 import './index.less'
 
@@ -14,7 +14,7 @@ export type FieldLabelProps = {
   ellipsis?: boolean;
   placeholder?: VueNode;
   expanded?: boolean;
-  className?: string;
+  class?: string;
   formatter?: (value: any) => string;
   style?: CSSProperties;
   bordered?: boolean;
@@ -28,7 +28,6 @@ const FieldLabel: FunctionalComponent<FieldLabelProps> = (props) => {
     value,
     size = 'middle',
     disabled,
-    className,
     style,
     bordered,
     allowClear = true
@@ -103,7 +102,7 @@ const FieldLabel: FunctionalComponent<FieldLabelProps> = (props) => {
         [`${prefixCls}-disabled`]: disabled,
         [`${prefixCls}-bordered`]: bordered,
         [`${prefixCls}-allow-clear`]: allowClear,
-        [`${className}`]: className
+        [`${props.class}`]: props.class
       }}
       style={style}
     >

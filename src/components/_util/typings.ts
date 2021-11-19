@@ -27,6 +27,12 @@ export type ProSchemaValueEnumObj = Record<string, ProSchemaValueEnumType | VueN
 
 export type ProFieldTextType = VueNode | VueNode[] | Moment | Moment[];
 
+export type SearchTransformKeyFn = (
+  value: any,
+  field: string,
+  object: any
+) => string | Record<string, any>;
+
 export type ProSchemaValueEnumMap = Map<string | number, ProSchemaValueEnumType | VueNode>;
 
 export type ProTableEditableFnType<T> = (_: any, record: T, index: number) => boolean;
