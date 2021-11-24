@@ -1,5 +1,5 @@
 import type { FormItemProps } from 'ant-design-vue'
-import { formProps } from 'ant-design-vue/lib/form'
+import { Form } from 'ant-design-vue'
 import type { ProRequestData } from '/@/components/_util/useFetchData'
 import type { FormInstance, ProFormInstance, GroupProps, FieldProps } from '../typings'
 import type { SubmitterProps } from '../components/Submitter'
@@ -33,6 +33,6 @@ export const commonProps = {
 }
 
 export const proFormProps = {
-  ...formProps,
+  ...Form.props,
   ...commonProps
 }

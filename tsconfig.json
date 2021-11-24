@@ -25,6 +25,8 @@
       "/types/*": ["types/*"],
       "/build/*": ["build/*"],
       "/config/*": ["config/*"],
+      "@wd-design/pro-utils": ["src/components/_util/index.ts"],
+      "@wd-design/pro-field*": ["src/components/WProField/index.tsx"],
       "@wd/pro-upload": ["src/components/WUpload/index.ts"],
       "@wd-pro/pro-card": ["src/components/WProCard/index.ts"],
       "@wd-pro/pro-table": ["src/components/WProTable/index.ts"],

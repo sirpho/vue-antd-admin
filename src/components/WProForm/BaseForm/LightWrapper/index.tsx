@@ -1,5 +1,6 @@
-import type { FunctionalComponent, CSSProperties } from 'vue'
-import { cloneVNode, ref } from 'vue'
+import type { CSSProperties } from 'vue'
+import { cloneVNode, computed, defineComponent, ref } from 'vue'
+import { PropTypes } from '/@/utils'
 import useMemo from '/@/hooks/core/useMemo'
 import { getPrefixCls } from '/@/components/_util'
 import dateArrayFormatter from '/@/components/_util/dateArrayFormatter'
@@ -12,6 +13,30 @@ import './index.less'
 
 export type SizeType = 'small' | 'middle' | 'large' | undefined;
 
+export const lightWrapperProps = {
+  label: PropTypes.VNodeChild,
+  disabled: PropTypes.bool,
+  placeholder: PropTypes.VNodeChild,
+  size: String as PropType<SizeType>,
+  value: PropTypes.any,
+  onChange: Function as PropType<(value?: any) => void>,
+  onBlur: Function as PropType<(value?: any) => void>,
+  style: PropTypes.style,
+  class: PropTypes.string,
+  valuePropName: PropTypes.string,
+  customLightMode: PropTypes.bool,
+  light: PropTypes.bool,
+  labelFormatter: Function as PropType<(value: any) => string>,
+  bordered: PropTypes.bool,
+  otherFieldProps: PropTypes.any,
+  valueType: PropTypes.string,
+  allowClear: PropTypes.bool,
+  footerRender: {
+    type: [ Function, Boolean ] as PropType<LightFilterFooterRender>,
+    default: undefined
+  }
+}
+
 export type LightWrapperProps = {
   label?: VueNode;
   disabled?: boolean;
@@ -22,7 +47,6 @@ export type LightWrapperProps = {
   onBlur?: (value?: any) => void;
   style?: CSSProperties;
   class?: string;
-  children?: VueNode;
   valuePropName?: string;
   customLightMode?: boolean;
   light?: boolean;
@@ -34,109 +58,116 @@ export type LightWrapperProps = {
   footerRender?: LightFilterFooterRender;
 };
 
-const LightWrapper: FunctionalComponent<LightWrapperProps> = (props, { slots }) => {
-  const {
-    label,
-    size,
-    disabled,
-    onChange: propsOnChange,
-    style,
-    valuePropName,
-    placeholder,
-    labelFormatter,
-    bordered,
-    footerRender,
-    allowClear,
-    otherFieldProps,
-    valueType,
-    ...rest
-  } = props
+const LightWrapper = defineComponent({
+  props: lightWrapperProps,
+  setup(props, { slots }) {
+    const prefixCls = getPrefixCls({
+      suffixCls: 'field-light-wrapper'
+    })
 
-  const prefixCls = getPrefixCls({
-    suffixCls: 'field-light-wrapper'
-  })
+    const tempValue = ref<string | undefined>(props[props.valuePropName!])
+    const open = ref<boolean>(false)
 
-  const tempValue = ref<string | undefined>(props[valuePropName!])
-  const open = ref<boolean>(false)
-
-  const setOpen = (value: boolean) => {
-    open.value = value
-  }
-
-  const setTempValue = (value: string) => {
-    tempValue.value = value
-  }
-
-  const onChange = (...restParams: any[]) => {
-    otherFieldProps?.onChange?.(...restParams)
-    propsOnChange?.(...restParams)
-  }
-
-  const labelValue = props[valuePropName!]
-
-  /** DataRange的转化，moment 的 toString 有点不好用 */
-  const labelText = useMemo(() => {
-    if (valueType?.toLowerCase()?.endsWith('range') && !labelFormatter) {
-      return dateArrayFormatter(labelValue, dateFormatterMap[valueType] || 'YYYY-MM-DD')
+    const setOpen = (value: boolean) => {
+      open.value = value
     }
-    return labelValue
-  }, [ () => labelValue, () => valueType, () => labelFormatter ])
 
+    const setTempValue = (value: string) => {
+      tempValue.value = value
+    }
 
-  return (
-    <FilterDropdown
-      disabled={disabled}
-      onVisibleChange={setOpen}
-      visible={open.value}
-      label={
-        <FieldLabel
-          ellipsis
-          size={size}
-          onClear={() => {
-            onChange?.()
-            setTempValue(undefined)
-          }}
-          bordered={bordered}
-          style={style}
-          class={props.class}
-          label={label}
-          placeholder={placeholder}
-          value={labelText.value}
-          disabled={disabled}
-          expanded={open.value}
-          formatter={labelFormatter}
-          allowClear={allowClear}
-        />
+    const propsOnChange = (...restParams: any[]) => {
+      props.otherFieldProps?.onChange?.(...restParams)
+      props.onChange?.(...restParams)
+    }
+
+    const labelValue = computed(() => props[props.valuePropName!])
+
+    /** DataRange的转化，moment 的 toString 有点不好用 */
+    const labelText = useMemo(() => {
+      if (props.valueType?.toLowerCase()?.endsWith('range') && !props.labelFormatter) {
+        return dateArrayFormatter(
+          labelValue.value,
+          dateFormatterMap[props.valueType] || 'YYYY-MM-DD'
+        )
       }
-      footer={{
-        onClear: () => setTempValue(undefined),
-        onConfirm: () => {
-          onChange?.(tempValue)
-          setOpen(false)
-        }
-      }}
-      footerRender={footerRender}
-    >
-      <div
-        class={{
-          [`${prefixCls}-container`]: true,
-          [`${props.class}`]: props.class
-        }}
-        style={style}
-      >
-        {slots.default?.().map(children => {
-          return cloneVNode(children as JSX.Element, {
-            ...rest,
-            [valuePropName!]: tempValue,
-            onChange: (e: any) => {
-              setTempValue(e?.target ? e.target.value : e)
-            },
-            ...(children as JSX.Element).props
-          })
-        })}
-      </div>
-    </FilterDropdown>
-  )
-}
+      return labelValue.value
+    }, [ () => labelValue.value, () => props.valueType, () => props.labelFormatter ])
+
+    return () => {
+      const {
+        label,
+        size,
+        disabled,
+        onChange,
+        style,
+        valuePropName,
+        placeholder,
+        labelFormatter,
+        bordered,
+        footerRender,
+        allowClear,
+        otherFieldProps,
+        valueType,
+        ...rest
+      } = props
+
+      return (
+        <FilterDropdown
+          disabled={disabled}
+          onVisibleChange={setOpen}
+          visible={open.value}
+          label={
+            <FieldLabel
+              ellipsis
+              size={size}
+              onClear={() => {
+                propsOnChange?.()
+                setTempValue(undefined)
+              }}
+              bordered={bordered}
+              style={style}
+              class={props.class}
+              label={label}
+              placeholder={placeholder}
+              value={labelText.value}
+              disabled={disabled}
+              expanded={open.value}
+              formatter={labelFormatter}
+              allowClear={allowClear}
+            />
+          }
+          footer={{
+            onClear: () => setTempValue(undefined),
+            onConfirm: () => {
+              propsOnChange?.(tempValue)
+              setOpen(false)
+            }
+          }}
+          footerRender={footerRender}
+        >
+          <div
+            class={{
+              [`${prefixCls}-container`]: true,
+              [`${props.class}`]: props.class
+            }}
+            style={style}
+          >
+            {slots.default?.().map(children => {
+              return cloneVNode(children as JSX.Element, {
+                ...rest,
+                [valuePropName!]: tempValue,
+                onChange: (e: any) => {
+                  setTempValue(e?.target ? e.target.value : e)
+                },
+                ...(children as JSX.Element).props
+              })
+            })}
+          </div>
+        </FilterDropdown>
+      )
+    }
+  }
+})
 
 export default LightWrapper

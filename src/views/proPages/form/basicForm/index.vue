@@ -194,7 +194,7 @@ export default defineComponent({
       ]
     })
     onActivated(async () => {
-      const response = await getBasicForm()
+      const response: any = await getBasicForm()
       if (response) {
         for (let i in response.data) {
           switch (i) {

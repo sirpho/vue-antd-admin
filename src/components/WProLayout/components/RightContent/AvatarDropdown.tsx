@@ -1,5 +1,6 @@
 import { FunctionalComponent as FC, cloneVNode, VNode } from 'vue'
 import { cloneDeep } from 'lodash-es'
+import { Menu } from 'ant-design-vue'
 import { LogoutOutlined } from '@ant-design/icons-vue'
 
 export type AvatarDropdownProps = {
@@ -21,7 +22,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = (props: AvatarDropdownProps) => 
     <span class="wd-pro-right-content-action">
       <a-dropdown
         overlay={
-          <a-menu>
+          <Menu>
             {extra && (
               extra.map((child: VNode, index) => {
                 const newChild = cloneDeep(child)
@@ -34,13 +35,13 @@ const AvatarDropdown: FC<AvatarDropdownProps> = (props: AvatarDropdownProps) => 
                 )
               })
             )}
-            <a-menu-item key={extra ? extra.length : 0} onClick={onLogout}>
+            <Menu.Item key={extra ? extra.length : 0} onClick={onLogout}>
               <a href="javascript:">
                 <LogoutOutlined />
                 <span>退出登录</span>
               </a>
-            </a-menu-item>
-          </a-menu>
+            </Menu.Item>
+          </Menu>
         }
       >
         <span class="wd-pro-dropdown">

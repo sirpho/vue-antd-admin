@@ -1,6 +1,8 @@
-import tabPaneProps from 'ant-design-vue/es/vc-tabs/src/TabPane'
+import { Tabs } from 'ant-design-vue'
 import { PropTypes } from '/@/utils'
 import type { Gutter, ColSpanType, ProCardTabsProps } from './typings'
+
+const TabPane = Tabs.TabPane
 
 export const cardProps = {
   headStyle: PropTypes.style,
@@ -74,7 +76,7 @@ export const cardProps = {
   prefixCls: PropTypes.string
 }
 
-export const proCardTabPaneProps = Object.assign({}, tabPaneProps, {
+export const proCardTabPaneProps = Object.assign({}, TabPane.props, {
   key: PropTypes.string,
   cardProps: cardProps
 })

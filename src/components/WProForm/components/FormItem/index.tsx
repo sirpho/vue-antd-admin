@@ -1,5 +1,6 @@
 import { computed, defineComponent } from 'vue'
-import { Form, FormItem } from 'ant-design-vue'
+import type { FormItemProps } from 'ant-design-vue'
+import { Form } from 'ant-design-vue'
 import { PropTypes } from '/@/utils'
 import useMemo from '/@/hooks/core/useMemo'
 import type { SearchTransformKeyFn, ProSchemaValueType } from '/@/components/_util/typings'
@@ -9,6 +10,15 @@ import { provideFormItemContext } from './FormItemContext'
 import { useFieldContext } from '../../FieldContext'
 import type { LightWrapperProps } from '../../BaseForm/LightWrapper'
 import LightWrapper from '../../BaseForm/LightWrapper'
+
+const FormItem = Form.Item
+
+type WarpFormItemProps = {
+  /** @name 前置的dom * */
+  addonBefore?: VueNode;
+  /** @name 后置的dom * */
+  addonAfter?: VueNode;
+};
 
 const proFormItemProps = {
   ...FormItem.props,
@@ -20,10 +30,19 @@ const proFormItemProps = {
   lightProps: Object as PropType<LightWrapperProps>
 }
 
+export type ProFormItemProps = FormItemProps & {
+  ignoreFormItem?: boolean;
+  valueType?: ProSchemaValueType<'text'>;
+  /** @name 提交时转化值，一般用于数组类型 */
+  transform?: SearchTransformKeyFn;
+  dataFormat?: string;
+  lightProps?: LightWrapperProps;
+} & WarpFormItemProps;
+
 const ProFormItem = defineComponent({
   props: proFormItemProps,
   setup(props, { slots }) {
-    const { setFieldValueType } = useFieldContext()
+    const { setFieldValueType, formRef } = useFieldContext()
 
     const name = useMemo(() => {
       return props.name as string[]
@@ -53,31 +72,27 @@ const ProFormItem = defineComponent({
       () => props.valueType
     ])
 
-    const isDropdown = computed(() => isDropdownValueType(props.valueType))
+    const isDropdown = computed(() => isDropdownValueType(props.valueType as string))
 
-    const noLightFormItem = useMemo(
-      () => {
-        if (!props.lightProps?.light || props.lightProps?.customLightMode || isDropdown.value) {
-          return true
-        }
-        return false
-      },
-      [
-        () => props.lightProps?.customLightMode,
-        () => isDropdown.value,
-        () => props.lightProps?.light
-      ]
-    )
+    const noLightFormItem = computed(() => {
+      if (!props.lightProps?.['light'] || props.lightProps?.['customLightMode'] || isDropdown.value) {
+        return true
+      }
+      return false
+    })
 
     const lightDom = (formDom) => {
-      const { valueType, transform, dataFormat, ignoreFormItem, lightProps = {}, ...rest } = props
       return (
         <>
           {
             noLightFormItem.value
               ? formDom
               : (
-                <LightWrapper {...lightProps} key={rest.name?.toString()} v-slots={slots} />
+                <LightWrapper
+                  {...props.lightProps}
+                  key={props.name?.toString()}
+                  v-slots={slots.default?.()}
+                />
               )
           }
         </>
@@ -85,8 +100,12 @@ const ProFormItem = defineComponent({
     }
 
     const formDom = () => {
-      const { valueType, transform, dataFormat, ignoreFormItem, lightProps = {}, ...rest } = props
-      if (!rest.addonAfter && !rest.addonBefore) return <Form.Item {...rest}>{slots.default?.()}</Form.Item>
+      const { valueType, transform, dataFormat, lightProps = {}, ...rest } = props
+      if (!rest.addonAfter && !rest.addonBefore) return (
+        <Form.Item {...rest} {...formRef?.validateInfos[props.name as string]}>
+          {slots.default?.()}
+        </Form.Item>
+      )
       return (
         <Form.Item {...rest} rules={undefined} name={undefined}>
           <div
@@ -97,7 +116,7 @@ const ProFormItem = defineComponent({
           >
             {rest.addonBefore ? <div style={{ marginRight: 8 }}>{rest.addonBefore}</div> : null}
             <div style={{ flex: 1 }}>
-              <Form.Item {...rest}>
+              <Form.Item {...rest} {...formRef?.validateInfos[props.name as string]}>
                 {slots.default?.()}
               </Form.Item>
             </div>

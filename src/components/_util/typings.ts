@@ -2,6 +2,7 @@ import { VueElement } from 'vue'
 import type { Moment } from 'moment'
 import type { TooltipProps } from 'ant-design-vue/lib/tooltip'
 import type { NamePath } from 'ant-design-vue/lib/form/interface'
+import { FormInstance } from '../WProForm/typings'
 
 export type SizeType = 'small' | 'middle' | 'large' | undefined;
 
@@ -221,6 +222,33 @@ export type ProSchema<Entity = Record<string, any>,
       isEditable?: boolean;
       type: ComponentsType;
     }
+  ) => VueNode;
+
+  /**
+   * 返回一个 ReactNode，会自动包裹 value 和 onChange
+   *
+   * @name 自定义编辑模式
+   */
+  renderFormItem?: (
+    schema: ProSchema<Entity, ExtraProps, ComponentsType, ValueType> & {
+      isEditable?: boolean;
+      index?: number;
+      type: ComponentsType;
+      originProps?: any;
+    },
+    config: {
+      onSelect?: (value: any) => void;
+      onChange?: <T = any>(value: T) => void;
+      value?: any;
+      type: ComponentsType;
+      recordKey?: string | number | (string | number)[];
+      record?: Entity;
+      isEditable?: boolean;
+      defaultRender: (
+        newItem: ProSchema<Entity, ExtraProps, ComponentsType, ValueType>,
+      ) => JSX.Element | null;
+    },
+    form: FormInstance,
   ) => VueNode;
 
   /** 可编辑表格是否可编辑 */

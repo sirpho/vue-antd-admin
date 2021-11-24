@@ -1,4 +1,5 @@
 import { defineComponent, FunctionalComponent, PropType, reactive, ref, Ref, watch } from 'vue'
+import { message } from 'ant-design-vue'
 import {
   CloseOutlined,
   SettingOutlined,
@@ -19,7 +20,8 @@ const { defaultSettings, animate } = config
 
 const { preset } = animate
 
-export const SettingDrawerProps = {
+export const settingDrawerProps = {
+  hideLoading: PropTypes.bool,
   root: PropTypes.string.def(defaultSettings.viewScrollRoot),
   settings: Object as PropType<ProSettingsProps>
 }
@@ -37,10 +39,16 @@ const Body: FunctionalComponent<{ title: string; className: string }> = ({
   )
 }
 
+const updateTheme = () => {
+  message.loading('正在加载主题')
+}
+
 const SettingDrawer = defineComponent({
-  props: SettingDrawerProps,
+  props: settingDrawerProps,
   emits: [ 'change' ],
   setup(props, { emit, slots }) {
+    const { DEV } = import.meta.env
+
     const baseClassName = getPrefixCls({
       suffixCls: 'setting-drawer'
     })
@@ -81,7 +89,12 @@ const SettingDrawer = defineComponent({
       show.value = flag
     }
 
-    const changeSetting = (type: string, value: string) => {
+    const changeSetting = (type: string, value: string | boolean) => {
+
+      if (type === 'primaryColor') {
+        updateTheme()
+      }
+
       emit('change', { type, value })
     }
 
@@ -135,15 +148,17 @@ const SettingDrawer = defineComponent({
                   />
                 </Body>
 
-                <ThemeColor
-                  title="主题色"
-                  className={baseClassName}
-                  value={primaryColor}
-                  colors={themePluginConfig.theme}
-                  onChange={(color) => {
-                    changeSetting('primaryColor', color)
-                  }}
-                />
+                {DEV && (
+                  <ThemeColor
+                    title="主题色"
+                    className={baseClassName}
+                    value={primaryColor}
+                    colors={themePluginConfig.theme}
+                    onChange={(color) => {
+                      changeSetting('primaryColor', color)
+                    }}
+                  />
+                )}
 
                 <a-divider />
 

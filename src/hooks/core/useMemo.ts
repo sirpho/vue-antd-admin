@@ -7,7 +7,7 @@ export default function useMemo<T>(
   shouldUpdate?: (prev: any[], next: any[]) => boolean
 ) {
   const cacheRef: Ref<T> = ref(getValue() as any)
-  watch(condition, (next, pre) => {
+  watch(() => condition, (next, pre) => {
     if (shouldUpdate) {
       if (shouldUpdate(next, pre)) {
         cacheRef.value = getValue()
@@ -15,6 +15,9 @@ export default function useMemo<T>(
     } else {
       cacheRef.value = getValue()
     }
+  }, {
+    deep: true,
+    immediate: true
   })
 
   return cacheRef

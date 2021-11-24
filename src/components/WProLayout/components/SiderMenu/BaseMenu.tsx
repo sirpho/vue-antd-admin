@@ -9,7 +9,7 @@ import {
   ConcreteComponent
 } from 'vue'
 import { useRouter } from 'vue-router'
-import Menu from 'ant-design-vue/es/menu'
+import { Menu } from 'ant-design-vue'
 import { createFromIconfontCN } from '@ant-design/icons-vue'
 import { MenuDataItem } from '@wd-pro/pro-layout'
 import { baseMenuProps } from './props'

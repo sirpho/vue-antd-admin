@@ -32,7 +32,9 @@ import {
   WMaterialView,
   WProField,
   WProForm,
-  ProFormItem
+  ProFormItem,
+  ProFormText,
+  ProFormGroup,
 } from '/@/components'
 import { WScrollbars, CustomIcon } from '/@/components/export'
 
@@ -65,7 +67,6 @@ import {
   Avatar,
   Breadcrumb,
   Spin,
-  Menu,
   Tooltip,
   Tag,
   Divider,
@@ -126,6 +127,8 @@ const ant = {
     app.component('w-pro-field', WProField)
     app.component('w-pro-form', WProForm)
     app.component('w-pro-form-item', ProFormItem)
+    app.component('w-pro-form-text', ProFormText)
+    app.component('w-pro-form-group', ProFormGroup)
     app.use(Cascader)
     app.use(Upload)
     app.use(Rate)
@@ -168,7 +171,6 @@ const ant = {
     app.use(Avatar)
     app.use(Breadcrumb)
     app.use(Spin)
-    app.use(Menu)
     app.use(Tooltip)
     app.use(Tag)
     app.use(Divider)

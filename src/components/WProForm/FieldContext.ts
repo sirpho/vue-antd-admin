@@ -1,4 +1,4 @@
-import { ComputedRef, inject, InjectionKey, provide } from 'vue'
+import { inject, InjectionKey, provide, Ref } from 'vue'
 import type { FormItemProps } from 'ant-design-vue'
 import type { NamePath } from 'ant-design-vue/lib/form/interface'
 import type { ProSchemaValueType, SearchTransformKeyFn } from '/@/components/_util/typings'
@@ -37,7 +37,7 @@ export const useContext = <T>(
   return inject(contextInjectKey, defaultValue || ({} as T))
 }
 
-export const provideFieldContext = (value: FieldContextProps | ComputedRef<FieldContextProps>) => {
+export const provideFieldContext = (value: FieldContextProps | Ref<FieldContextProps>) => {
   provide(fieldContextInjectKey, value)
 }
 

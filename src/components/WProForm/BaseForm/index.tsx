@@ -1,5 +1,5 @@
 import { computed, defineComponent, ref, Ref, unref, watch, onMounted } from 'vue'
-import { omit } from 'lodash-es'
+import { cloneDeep, omit } from 'lodash-es'
 import { Form } from 'ant-design-vue'
 import type { FormProps, FormItemProps } from 'ant-design-vue'
 import type { NamePath } from 'ant-design-vue/lib/form/interface'
@@ -88,26 +88,30 @@ export type BaseFormProps<T = Record<string, any>> = {
 } & Omit<FormProps, 'onFinish'> &
   CommonFormProps<T>;
 
+const useForm = Form.useForm
+
 const BaseForm = defineComponent({
   props: proFormProps,
   emits: [ 'finish', 'reset', 'init' ],
   setup(props, { slots, emit }) {
-    const useForm = Form.useForm
 
     const loading = ref<boolean>(false)
 
     const getProps = computed(() => props)
 
     const { getResOptionsRef } = useFetchData({
+      model: unref(getProps).model,
       request: unref(getProps).request,
       params: unref(getProps).params
     })
 
-    const propsFormRef = computed(() => {
-      return useForm({
-        ...unref(getProps).model,
-        ...getResOptionsRef.value
-      }, unref(getProps).rules)! || ({} as any)
+    const useFormContext = useForm(getResOptionsRef.value, unref(getProps).rules)! || ({} as any)
+
+    watch(() => useFormContext, (val) => {
+      console.log(cloneDeep(val))
+    }, {
+      deep: true,
+      immediate: true
     })
 
     const fieldsValueType = ref<Record<string,
@@ -143,21 +147,24 @@ const BaseForm = defineComponent({
 
     const commonValues = useMemo(() => ({
       getFieldValue: (nameList?: NamePath) => {
-        return nameList ? unref(propsFormRef).modelRef[nameList as string] : {}
+        return nameList ? useFormContext.modelRef[nameList as string] : {}
       },
       getFieldsValue: (nameList?: NamePath[] | true) => {
         let values = {}
         if (typeof nameList === 'boolean' && nameList) {
-          values = unref(propsFormRef).modelRef
+          values = useFormContext.modelRef
         } else {
-          Object.keys(unref(propsFormRef).modelRef).map(item => {
+          Object.keys(useFormContext.modelRef).map(item => {
             if ((nameList as NamePath[]).includes(item)) {
-              values[item] = unref(propsFormRef).modelRef[item]
+              values[item] = useFormContext.modelRef[item]
             }
             return item
           })
         }
         return values
+      },
+      submit: () => {
+        return useFormContext.validate()
       }
     }), [])
 
@@ -180,7 +187,7 @@ const BaseForm = defineComponent({
         },
         /** 校验字段后返回格式化之后的所有数据 */
         validateFieldsReturnFormatValue: async (nameList?: NamePath[]) => {
-          const values = await propsFormRef.value?.validateFields(nameList)
+          const values = await useFormContext?.validateFields(nameList)
           return unref(transformKey)(values, unref(getProps).omitNil)
         }
       }),
@@ -189,11 +196,11 @@ const BaseForm = defineComponent({
 
     /** 利用反射把值传的到处都是，并且总是新的 */
     const responseForm = useMemo(() => {
-      const response: ProFormInstance<any> = { ...propsFormRef.value }
-      Object.keys(propsFormRef.value || {}).forEach((key) => {
+      const response: ProFormInstance<any> = { ...useFormContext }
+      Object.keys(useFormContext || {}).forEach((key) => {
         Object.defineProperty(response, key, {
           get: () => {
-            return propsFormRef.value[key]
+            return useFormContext[key]
           }
         })
       })
@@ -214,7 +221,7 @@ const BaseForm = defineComponent({
         })
       })
       return response
-    }, [])
+    }, [ () => useFormContext ])
 
     const setLoading = (value: boolean) => {
       loading.value = value
@@ -254,7 +261,7 @@ const BaseForm = defineComponent({
           {...submitterProps.value}
           onReset={() => {
             const finalValues = unref(transformKey)(
-              propsFormRef.value?.getFieldsValue(),
+              commonValues.value?.getFieldsValue(true),
               props.omitNil
             )
             submitterProps.value?.onReset?.(finalValues)
@@ -277,12 +284,21 @@ const BaseForm = defineComponent({
       () => unref(getProps).onReset
     ])
 
-    const content = useMemo(() => {
-      if (unref(getProps).contentRender) {
-        return unref(getProps).contentRender(slots.default?.(), submitterNode.value, propsFormRef.value)
-      }
-      return slots.default?.()
-    }, [ () => unref(getProps).contentRender, () => slots.default?.(), () => submitterNode.value ])
+    const getChildrenSlots = (children) => {
+      return children.length === 1 &&
+      (
+        String(children[0].type) === String(Symbol('Fragment')) ||
+        String(children[0].type) === String(Symbol())
+      )
+        ? children[0].children || []
+        : children || []
+    }
+
+    const content = (children) => {
+      const renderContent = props.contentRender ?? slots.contentRender
+      if (!renderContent) return null
+      return renderContent(children, submitterNode.value, useFormContext)
+    }
 
     const getPopupContainer = useMemo(() => {
       if (typeof window === 'undefined') return undefined
@@ -295,7 +311,7 @@ const BaseForm = defineComponent({
     }, [ () => unref(getProps).formComponentType ])
 
     provideFieldContext({
-      formRef: propsFormRef.value,
+      formRef: useFormContext,
       fieldProps: unref(getProps).fieldProps,
       formItemProps: unref(getProps).formItemProps,
       groupProps: unref(getProps).groupProps,
@@ -317,7 +333,7 @@ const BaseForm = defineComponent({
       const { omitNil, ...rest } = unref(getProps)
       return (
         <Form
-          {...omit(rest, Object.keys(commonProps))}
+          {...omit(rest, [ ...Object.keys(commonProps), 'model', 'rules' ])}
           onFinish={async () => {
             // 没设置 onFinish 就不执行
             if (!rest.onFinish) return
@@ -337,7 +353,7 @@ const BaseForm = defineComponent({
             }
           }}
         >
-          {content.value}
+          {content(getChildrenSlots(slots.default?.()))}
         </Form>
       )
     }

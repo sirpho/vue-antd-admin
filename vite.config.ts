@@ -77,6 +77,14 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           find: '@wd/pro-upload',
           replacement: pathResolve('src/components/WUpload') + '/'
         },
+        {
+          find: '@wd-design/pro-field',
+          replacement: pathResolve('src/components/WProField') + '/index.tsx'
+        },
+        {
+          find: '@wd-design/pro-utils',
+          replacement: pathResolve('src/components/_util') + '/'
+        },
         { find: /^~/, replacement: '' }
       ]
     },

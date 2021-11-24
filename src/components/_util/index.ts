@@ -1,6 +1,12 @@
 import { Slots } from 'vue'
 import { camelize } from '@vue/shared'
+
+import LabelIconTip from './components/LabelIconTip';
+
 import isServer from './isServer'
+
+import pickProFormItemProps from './pickProFormItemProps';
+
 
 export type AnyFunction<T> = (...args: any[]) => T
 
@@ -203,4 +209,9 @@ export function set<Entity = any, Output = Entity, Value = any>(
   }
 
   return internalSet(entity, paths, value, removeIfUndefined);
+}
+
+export {
+  LabelIconTip,
+  pickProFormItemProps
 }

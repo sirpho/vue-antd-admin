@@ -1,4 +1,4 @@
-import { FunctionalComponent } from 'vue'
+import type { FunctionalComponent } from 'vue'
 import omit from 'omit.js'
 import type { ButtonProps } from 'ant-design-vue'
 import type { FormInstance } from '../../typings'
@@ -56,7 +56,7 @@ const Submitter: FunctionalComponent<SubmitterProps & { form: FormInstance }> = 
   } = props
 
   const submit = () => {
-    form.submit()
+    form.validate()
     onSubmit?.()
   }
 

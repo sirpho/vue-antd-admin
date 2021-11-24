@@ -25,7 +25,7 @@ export function triggerWindowResizeEvent() {
  * @lastTime    2020/7/23
  * @description 去除空格
  */
-export function trim(str: string, isGlobal: boolean) {
+export function trim(str: string, isGlobal?: boolean) {
   if (typeof str === 'undefined' || str.length === 0) return ''
   let result
   result = str.replace(/(^\s+)|(\s+$)/g, '')

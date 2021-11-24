@@ -28,8 +28,6 @@ const FilterDropdown: FunctionalComponent<DropdownProps> = (props, { slots }) =>
     suffixCls: 'core-field-dropdown'
   })
 
-  console.log(visible)
-
   return (
     <Dropdown
       disabled={disabled}
@@ -43,7 +41,7 @@ const FilterDropdown: FunctionalComponent<DropdownProps> = (props, { slots }) =>
         </div>
       }
     >
-      <span class={`${prefixCls}-label`} onClick={() => onVisibleChange(true)}>{label}</span>
+      <span class={`${prefixCls}-label`}>{label}</span>
     </Dropdown>
   )
 }

@@ -38,6 +38,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
   } = props
 
   const context = useRouteContext()
+
   const hasSplitMenu = computed(() => props.layout === 'mix' && !props.isMobile)
   const hasSide = computed(() => props.layout === 'mix' || props.layout === 'side' || false)
 

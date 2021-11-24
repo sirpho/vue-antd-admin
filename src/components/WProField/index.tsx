@@ -387,7 +387,6 @@ export default defineComponent({
       fieldValue.value = defaultValue
       emit('change', defaultValue)
       emit('update:value', defaultValue)
-      props.value?.onChange(...params)
     }
 
     return () => {
