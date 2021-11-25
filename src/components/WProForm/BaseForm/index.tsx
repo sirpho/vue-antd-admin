@@ -117,25 +117,9 @@ const BaseForm = defineComponent({
     //   immediate: true
     // })
 
-    watch(() => getResOptionsRef, (val) => {
-      Object.assign(changeModelRef, val || {})
-    }, {
-      deep: true,
-      immediate: true
-    })
-
-    watch(() => changeModelRef, (val) => {
-      if (Object.keys(val).length > 0) {
-        useFormContext?.clearValidate()
-      }
-    }, {
-      deep: true,
-      immediate: true
-    })
-
     const handleChangeModel = (fieldVal: any, initVal?: boolean) => {
       Object.assign(changeModelRef, cloneDeep(fieldVal) || {})
-      if (initVal) useFormContext?.clearValidate()
+      if (initVal) useFormContext.clearValidate()
     }
 
     const fieldsValueType = ref<Record<string,
@@ -341,7 +325,6 @@ const BaseForm = defineComponent({
       groupProps: unref(getProps).groupProps,
       formComponentType: unref(getProps).formComponentType,
       getPopupContainer: getPopupContainer.value,
-      changeModelRef,
       handleChangeModel,
       setFieldValueType: (name, { valueType = 'text', dateFormat, transform }) => {
         if (!Array.isArray(name)) return

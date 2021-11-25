@@ -1,6 +1,5 @@
-import { FunctionalComponent, RendererElement, RendererNode, VNode } from 'vue'
+import { FunctionalComponent, reactive, RendererElement, RendererNode, VNode } from 'vue'
 import { pickProFormItemProps, omitUndefined } from '@wd-design/pro-utils'
-import { noteOnce } from 'ant-design-vue/es/vc-util/warning'
 import { useFieldContext } from '../FieldContext'
 import type { ExtendsProps, ProFormFieldItemProps, ProFormItemCreateConfig } from '../typings'
 import ProFormItem from '../components/FormItem'
@@ -45,7 +44,6 @@ function createField<P extends ProFormFieldItemProps = any>(
       valueType,
       customLightMode,
       lightFilterLabelFormatter,
-      valuePropName = 'value',
       ignoreWidth,
       defaultProps,
       ...defaultFormItemProps
@@ -68,12 +66,10 @@ function createField<P extends ProFormFieldItemProps = any>(
       ...rest
     } = { ...defaultProps, ...props } as P & ExtendsProps
 
-    /** 从 context 中拿到的值 */
-    const { fieldProps, formItemProps, formRef, changeModelRef } = useFieldContext()
+    const fieldVal = reactive({})
 
-    if (!changeModelRef[props.name as string]) {
-      changeModelRef[props.name as string] = ''
-    }
+    /** 从 context 中拿到的值 */
+    const { fieldProps, formItemProps, formRef, handleChangeModel } = useFieldContext()
 
     // restFormItemProps is user props pass to Form.Item
     const restFormItemProps = pickProFormItemProps(rest)
@@ -102,10 +98,6 @@ function createField<P extends ProFormFieldItemProps = any>(
       ...propsFormItemProps
     }
 
-    noteOnce(
-      !rest['defaultValue'],
-      '请不要在 Form 中使用 defaultXXX。如果需要默认值请使用 initialValues 和 initialValue。'
-    )
     const ignoreWidthValueType = [ 'switch', 'radioButton', 'radio', 'rate' ]
 
     const realFieldPropsStyle = {
@@ -116,10 +108,9 @@ function createField<P extends ProFormFieldItemProps = any>(
     }
 
     const handleChange = (val: any) => {
-      const fieldVal = {}
       if (props.hasOwnProperty('value')) return
       fieldVal[props.name as string] = val
-      Object.assign(changeModelRef, fieldVal)
+      handleChangeModel(fieldVal)
     }
 
     const field = (
@@ -167,6 +158,10 @@ function createField<P extends ProFormFieldItemProps = any>(
         transform={transform}
         dataFormat={rest.fieldProps?.format}
         valueType={valueType || (rest as any).valueType}
+        messageVariables={{
+          label: (label as string) || '',
+          ...otherProps?.messageVariables
+        }}
         lightProps={omitUndefined({
           ...realFieldProps,
           valueType: valueType || (rest as any).valueType,
@@ -176,7 +171,6 @@ function createField<P extends ProFormFieldItemProps = any>(
           label,
           customLightMode,
           labelFormatter: lightFilterLabelFormatter,
-          valuePropName,
           footerRender: field?.props?.footerRender,
           // 使用用户的配置覆盖默认的配置
           ...rest.lightProps

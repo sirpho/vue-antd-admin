@@ -16,7 +16,6 @@ const antdFormItemPropsList = [
   'validateFirst',
   'validateStatus',
   'validateTrigger',
-  'valuePropName',
   'wrapperCol',
   // 我自定义的
   'addonBefore',

@@ -47,7 +47,8 @@ import { reactive, ref } from 'vue'
 const formRef = ref()
 
 const formState = reactive({
-  company: '',
+  name: '',
+  company: ''
 })
 const rules = reactive({
   name: [

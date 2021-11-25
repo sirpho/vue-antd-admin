@@ -23,7 +23,6 @@ export const lightWrapperProps = {
   onBlur: Function as PropType<(value?: any) => void>,
   style: PropTypes.style,
   class: PropTypes.string,
-  valuePropName: PropTypes.string,
   customLightMode: PropTypes.bool,
   light: PropTypes.bool,
   labelFormatter: Function as PropType<(value: any) => string>,
@@ -47,7 +46,6 @@ export type LightWrapperProps = {
   onBlur?: (value?: any) => void;
   style?: CSSProperties;
   class?: string;
-  valuePropName?: string;
   customLightMode?: boolean;
   light?: boolean;
   labelFormatter?: (value: any) => string;
@@ -65,7 +63,7 @@ const LightWrapper = defineComponent({
       suffixCls: 'field-light-wrapper'
     })
 
-    const tempValue = ref<string | undefined>(props[props.valuePropName!])
+    const tempValue = ref<string | undefined>(props.value)
     const open = ref<boolean>(false)
 
     const setOpen = (value: boolean) => {
@@ -81,7 +79,7 @@ const LightWrapper = defineComponent({
       props.onChange?.(...restParams)
     }
 
-    const labelValue = computed(() => props[props.valuePropName!])
+    const labelValue = computed(() => props['value'])
 
     /** DataRange的转化，moment 的 toString 有点不好用 */
     const labelText = useMemo(() => {
@@ -101,7 +99,6 @@ const LightWrapper = defineComponent({
         disabled,
         onChange,
         style,
-        valuePropName,
         placeholder,
         labelFormatter,
         bordered,
@@ -156,7 +153,6 @@ const LightWrapper = defineComponent({
             {slots.default?.().map(children => {
               return cloneVNode(children as JSX.Element, {
                 ...rest,
-                [valuePropName!]: tempValue,
                 onChange: (e: any) => {
                   setTempValue(e?.target ? e.target.value : e)
                 },
