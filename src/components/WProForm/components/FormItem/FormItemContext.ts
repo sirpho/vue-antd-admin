@@ -23,4 +23,4 @@ export const provideFormItemContext = (value: FormItemContextProps | ComputedRef
 }
 
 export const useFormItemContext = () =>
-  useContext<Required<FormItemContextProps>>(formItemContextInjectKey, [])
+  useContext<Required<FormItemContextProps>>(formItemContextInjectKey, {})

@@ -1,4 +1,4 @@
-import { FunctionalComponent, reactive, RendererElement, RendererNode, VNode } from 'vue'
+import { FunctionalComponent, RendererElement, RendererNode, VNode } from 'vue'
 import { pickProFormItemProps, omitUndefined } from '@wd-design/pro-utils'
 import { noteOnce } from 'ant-design-vue/es/vc-util/warning'
 import { useFieldContext } from '../FieldContext'
@@ -68,16 +68,11 @@ function createField<P extends ProFormFieldItemProps = any>(
       ...rest
     } = { ...defaultProps, ...props } as P & ExtendsProps
 
-    const fieldVal = reactive({})
-
-
-
     /** 从 context 中拿到的值 */
-    const { fieldProps, formItemProps, formRef, handleChangeModel } = useFieldContext()
+    const { fieldProps, formItemProps, formRef, changeModelRef } = useFieldContext()
 
-    if (!props.hasOwnProperty('value')) {
-      fieldVal[props.name as string] = ''
-      handleChangeModel(fieldVal)
+    if (!changeModelRef[props.name as string]) {
+      changeModelRef[props.name as string] = ''
     }
 
     // restFormItemProps is user props pass to Form.Item
@@ -108,7 +103,6 @@ function createField<P extends ProFormFieldItemProps = any>(
     }
 
     noteOnce(
-      // eslint-disable-next-line @typescript-eslint/dot-notation
       !rest['defaultValue'],
       '请不要在 Form 中使用 defaultXXX。如果需要默认值请使用 initialValues 和 initialValue。'
     )
@@ -122,9 +116,10 @@ function createField<P extends ProFormFieldItemProps = any>(
     }
 
     const handleChange = (val: any) => {
+      const fieldVal = {}
       if (props.hasOwnProperty('value')) return
       fieldVal[props.name as string] = val
-      handleChangeModel(fieldVal)
+      Object.assign(changeModelRef, fieldVal)
     }
 
     const field = (
@@ -166,17 +161,12 @@ function createField<P extends ProFormFieldItemProps = any>(
         // 全局的提供一个 tip 功能，可以减少代码量
         // 轻量模式下不通过 FormItem 显示 label
         label={label && proFieldProps?.light !== true ? label : undefined}
-        valuePropName={valuePropName}
         key={otherProps.name?.toString()}
         {...otherProps}
         ignoreFormItem={ignoreFormItem}
         transform={transform}
         dataFormat={rest.fieldProps?.format}
         valueType={valueType || (rest as any).valueType}
-        messageVariables={{
-          label: (label as string) || '',
-          ...otherProps?.messageVariables
-        }}
         lightProps={omitUndefined({
           ...realFieldProps,
           valueType: valueType || (rest as any).valueType,

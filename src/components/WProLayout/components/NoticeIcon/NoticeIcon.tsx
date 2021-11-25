@@ -13,8 +13,8 @@ import './index.less'
 import { getPrefixCls } from '/@/components/_util'
 
 export const noticeIconProps = {
+  class: PropTypes.string,
   count: PropTypes.number,
-  className: PropTypes.string,
   loading: PropTypes.looseBool,
   onClear: Function as PropType<(tabName: string, tabKey: string) => void>,
   onItemClick: Function as PropType<(item: NoticeIconItem, tabProps: NoticeIconTabProps) => void>,
@@ -36,6 +36,7 @@ export type NoticeIconProps = Partial<ExtractPropTypes<typeof noticeIconProps>>;
 
 const NoticeIcon = defineComponent({
   props: noticeIconProps,
+  Tab: NoticeList,
   emits: [ 'onClear', 'onTabChange', 'onItemClick', 'onViewMore', 'onPopupVisibleChange' ],
   setup(props, { emit, slots }) {
     const prefixCls = getPrefixCls({
@@ -55,61 +56,6 @@ const NoticeIcon = defineComponent({
         : slots.default?.() || []
     )
 
-    const notificationBox = computed(() => {
-      const {
-        loading,
-        onClear,
-        onItemClick,
-        onViewMore,
-        clearText,
-        viewMoreText
-      } = props
-
-      if (getChildrenSlots.value.length === 0) {
-        return null
-      }
-
-      const panes: any = []
-
-      getChildrenSlots.value.map((item: any) => {
-        if (!item) {
-          return
-        }
-
-        const { list, title, count, tabKey, showClear, showViewMore, emptyText } = item.props
-        const len = list && list.length ? list.length : 0
-        const msgCount = count || count === 0 ? count : len
-        const tabTitle: string = msgCount > 0 ? `${title} (${msgCount})` : title
-        panes.push(
-          <a-tab-pane tab={tabTitle} key={tabKey}>
-            <NoticeList
-              clearText={clearText}
-              viewMoreText={viewMoreText}
-              list={list}
-              tabKey={tabKey}
-              onClear={(): void => onClear && onClear(title, tabKey)}
-              onClick={(el): void => onItemClick && onItemClick(el, item.props)}
-              onViewMore={(event): void => onViewMore && onViewMore(item.props, event)}
-              emptyText={emptyText}
-              showClear={showClear}
-              showViewMore={showViewMore}
-              title={title}
-            />
-          </a-tab-pane>
-        )
-      })
-
-      return (
-        <>
-          <a-spin spinning={loading} delay={300}>
-            <a-tabs class={`${prefixCls}-tabs`} activeKey={activeKey.value} onChange={onTabChange}>
-              {panes}
-            </a-tabs>
-          </a-spin>
-        </>
-      )
-    })
-
     const onChange = (value: boolean) => {
       visible.value = value
       emit('onPopupVisibleChange', value)
@@ -126,7 +72,7 @@ const NoticeIcon = defineComponent({
       <span
         class={{
           [`${prefixCls}-button`]: true,
-          [`${props.className}`]: props.className,
+          [`${props.class}`]: props.class,
           [`opened`]: visible.value
         }}
         onClick={() => onChange(true)}
@@ -137,21 +83,71 @@ const NoticeIcon = defineComponent({
       </span>
     ))
 
-    if (!notificationBox.value) {
-      return trigger.value
+    const notificationBoxRender = () => {
+      const {
+        loading,
+        onClear,
+        onItemClick,
+        onViewMore,
+        clearText,
+        viewMoreText
+      } = props
+
+      return (
+        <a-spin spinning={loading} delay={300}>
+          <a-tabs className={`${prefixCls}-tabs`} activeKey={activeKey.value} onChange={onTabChange}>
+            {getChildrenSlots.value.map((item: any) => {
+              if (!item) {
+                return null
+              }
+
+              const { list, title, count, tabKey, showClear, showViewMore, emptyText } = item.props
+              const len = list && list.length ? list.length : 0
+              const msgCount = count || count === 0 ? count : len
+              const tabTitle: string = msgCount > 0 ? `${title} (${msgCount})` : title
+              return (
+                <a-tab-pane tab={tabTitle} key={tabKey}>
+                  <NoticeList
+                    clearText={clearText}
+                    viewMoreText={viewMoreText}
+                    list={list}
+                    tabKey={tabKey}
+                    onClear={(): void => onClear && onClear(title, tabKey)}
+                    onClick={(el): void => onItemClick && onItemClick(el, item.props)}
+                    onViewMore={(event): void => onViewMore && onViewMore(item.props, event)}
+                    emptyText={emptyText}
+                    showClear={showClear}
+                    showViewMore={showViewMore}
+                    title={title}
+                  />
+                </a-tab-pane>
+              )
+            })}
+          </a-tabs>
+        </a-spin>
+      )
     }
+
 
     return () => {
       return (
-        <a-dropdown
-          placement="bottomRight"
-          trigger={[ 'click' ]}
-          overlay={notificationBox.value}
-          overlayClassName={`wd-pro-dropdown-container ${prefixCls}-popover`}
-          onVisibleChange={() => onChange}
-        >
-          {trigger.value}
-        </a-dropdown>
+        <>
+          {
+            getChildrenSlots.value.length > 0
+              ? (
+                <a-dropdown
+                  placement="bottomRight"
+                  trigger={[ 'click' ]}
+                  overlay={notificationBoxRender()}
+                  overlayClassName={`wd-pro-dropdown-container ${prefixCls}-popover`}
+                  onVisibleChange={() => onChange}
+                >
+                  {trigger.value}
+                </a-dropdown>
+              )
+              : trigger.value
+          }
+        </>
       )
     }
   }
@@ -160,7 +156,5 @@ const NoticeIcon = defineComponent({
 NoticeIcon.defaultProps = {
   emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg'
 }
-
-NoticeIcon.Tab = NoticeList
 
 export default NoticeIcon

@@ -110,15 +110,32 @@ const BaseForm = defineComponent({
 
     const useFormContext = useForm(getModelRef.value, unref(getProps).rules)! || ({} as any)
 
-    watch(() => useFormContext, (val) => {
-      console.log(cloneDeep(val))
+    // watch(() => useFormContext, (val) => {
+    //   console.log(cloneDeep(val))
+    // }, {
+    //   deep: true,
+    //   immediate: true
+    // })
+
+    watch(() => getResOptionsRef, (val) => {
+      Object.assign(changeModelRef, val || {})
     }, {
       deep: true,
       immediate: true
     })
 
-    const handleChangeModel = (fieldVal: any) => {
+    watch(() => changeModelRef, (val) => {
+      if (Object.keys(val).length > 0) {
+        useFormContext?.clearValidate()
+      }
+    }, {
+      deep: true,
+      immediate: true
+    })
+
+    const handleChangeModel = (fieldVal: any, initVal?: boolean) => {
       Object.assign(changeModelRef, cloneDeep(fieldVal) || {})
+      if (initVal) useFormContext?.clearValidate()
     }
 
     const fieldsValueType = ref<Record<string,
@@ -227,7 +244,6 @@ const BaseForm = defineComponent({
           }
         })
       })
-      console.log(response)
       return response
     }, [ () => useFormContext ])
 
@@ -325,6 +341,7 @@ const BaseForm = defineComponent({
       groupProps: unref(getProps).groupProps,
       formComponentType: unref(getProps).formComponentType,
       getPopupContainer: getPopupContainer.value,
+      changeModelRef,
       handleChangeModel,
       setFieldValueType: (name, { valueType = 'text', dateFormat, transform }) => {
         if (!Array.isArray(name)) return

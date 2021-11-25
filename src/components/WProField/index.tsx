@@ -353,7 +353,7 @@ type RenderProps = Omit<ProFieldFCRenderProps, 'text'> &
 
 export default defineComponent({
   props: proFieldPropsType,
-  emits: [ 'change', 'update:value' ],
+  emits: [ 'change', 'update:value', 'blur' ],
   setup(props, { emit }) {
     const fieldValue = ref<any>()
 

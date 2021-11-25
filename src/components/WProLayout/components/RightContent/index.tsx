@@ -97,7 +97,7 @@ export default defineComponent({
             <a-input
               size="small"
               ref={e => inputRef.value = e}
-              defaultValue={searchValue}
+              defaultValue={searchValue.value}
               aria-label="站内搜索"
               placeholder="站内搜索"
               onBlur={() => {

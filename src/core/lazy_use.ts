@@ -40,6 +40,7 @@ import { WScrollbars, CustomIcon } from '/@/components/export'
 
 import {
   List,
+  Menu,
   Cascader,
   Rate,
   Descriptions,
@@ -129,6 +130,7 @@ const ant = {
     app.component('w-pro-form-item', ProFormItem)
     app.component('w-pro-form-text', ProFormText)
     app.component('w-pro-form-group', ProFormGroup)
+    app.use(Menu)
     app.use(Cascader)
     app.use(Upload)
     app.use(Rate)

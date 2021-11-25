@@ -5,6 +5,8 @@ export function generateModifyVars() {
   const modifyVars = getThemeVariables()
 
   return {
+    ...modifyVars,
     hack: `${modifyVars.hack} @import (reference) "${resolve('src/design/styles/config.less')}";`,
+    'primary-color': '#1890FF'
   }
 }

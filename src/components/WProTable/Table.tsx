@@ -529,7 +529,6 @@ const WProTable = defineComponent({
       const headerTitleRender = getPropsSlot(slots, props, 'headerTitle')
       const titleTipRender = getPropsSlot(slots, props, 'titleTip')
       const toolBarBtnRender = getPropsSlot(slots, props, 'toolBarBtn')
-      const tableSearchRender = slots.search?.()
       return (
         <div
           ref={e => tableRef.value = e}
@@ -543,8 +542,9 @@ const WProTable = defineComponent({
                 loading={getBindValues.value.loading}
                 searchData={getFormDataRef.value}
                 onTableSearch={changeTableParams}
-                v-slots={tableSearchRender}
-              />
+              >
+                {slots.search?.()}
+              </TableSearch>
             )}
             {handleShowProTool() && (
               <div

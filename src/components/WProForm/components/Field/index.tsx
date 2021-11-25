@@ -1,4 +1,5 @@
 import type { ExtractPropTypes, FunctionalComponent } from 'vue'
+import { omit } from 'lodash-es'
 import { Input } from 'ant-design-vue'
 import type { SelectProps } from 'ant-design-vue/lib/vc-select'
 import ProField from '@wd-design/pro-field'
@@ -27,7 +28,6 @@ export type ProFormFieldProps<T = any, FiledProps = InputProps & SelectProps<str
  * @param
  */
 const ProFormField: FunctionalComponent<ProFormFieldProps<any> & {
-  valuePropName?: string;
   onChange?: Function;
   autoFocus?: boolean;
 }> = ((props, { slots }) => {
@@ -45,7 +45,6 @@ const ProFormField: FunctionalComponent<ProFormFieldProps<any> & {
     valueEnum,
     params,
     name,
-    valuePropName = 'value',
     ...restProps
   } = props
 
@@ -58,8 +57,7 @@ const ProFormField: FunctionalComponent<ProFormFieldProps<any> & {
     const propsParams = values ? { ...params, ...(values || {}) } : params
     return (
       <ProField
-        valuePropName={valuePropName}
-        text={fieldProps?.[valuePropName]}
+        text={fieldProps?.value}
         render={render as any}
         renderFormItem={renderFormItem as any}
         valueType={(valueType as 'text') || 'text'}
@@ -76,7 +74,7 @@ const ProFormField: FunctionalComponent<ProFormFieldProps<any> & {
         }}
         valueEnum={runFunction(valueEnum)}
         {...proFieldProps}
-        {...restProps}
+        {...omit(restProps, [ 'id', 'onBlur' ])}
         mode={proFieldProps?.mode || 'edit'}
         params={propsParams}
       />

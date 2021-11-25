@@ -7,12 +7,12 @@ import {
   CopyOutlined
 } from '@ant-design/icons-vue'
 import config from '/config/config'
-import { themeConfig } from '/config/default/themeColor'
+// import { themeConfig } from '/config/default/themeColor'
 import { PropTypes } from '/@/utils'
 import clip from '/@/utils/clipboard'
 import { getPrefixCls } from '/@/components/_util'
 import BlockCheckbox from './BlockCheckbox'
-import ThemeColor from './ThemeColor'
+// import ThemeColor from './ThemeColor'
 import LayoutSetting, { renderLayoutSettingItem } from './LayoutChange'
 import { ProSettingsProps } from '../../defaultSettings'
 
@@ -120,14 +120,14 @@ const SettingDrawer = defineComponent({
 
       const {
         theme,
-        primaryColor,
+        // primaryColor,
         layout,
         fixedHeader,
         fixSiderbar,
         showTabsBar,
         fixedMultiTab,
         showProgressBar,
-        animate,
+        animate
       } = settings as ProSettingsProps
 
       return (
@@ -165,15 +165,15 @@ const SettingDrawer = defineComponent({
                   />
                 </Body>
 
-                <ThemeColor
-                  title="主题色"
-                  className={baseClassName}
-                  value={primaryColor}
-                  colors={themeConfig}
-                  onChange={(color) => {
-                    changeSetting('primaryColor', color, hideLoading)
-                  }}
-                />
+                {/*<ThemeColor*/}
+                {/*  title="主题色"*/}
+                {/*  className={baseClassName}*/}
+                {/*  value={primaryColor}*/}
+                {/*  colors={themeConfig}*/}
+                {/*  onChange={(color) => {*/}
+                {/*    changeSetting('primaryColor', color, hideLoading)*/}
+                {/*  }}*/}
+                {/*/>*/}
 
                 <a-divider />
 
