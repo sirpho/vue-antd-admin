@@ -6,17 +6,24 @@ export type ProRequestData<T, U = Record<string, any>> = (params: U, props: any)
 
 export function useFetchData<T, U extends Record<string, any> = Record<string, any>>(props: {
   model?: any;
+  changeModelRef?: any;
   params?: U;
   request?: ProRequestData<T, U>;
 }) {
+  const modelRef = reactive({})
   const requestData = reactive({})
 
   const getResOptionsRef = computed(() => {
     return requestData
   })
 
+  const getModelRef = computed(() => {
+    return modelRef
+  })
+
   const fetchData = async () => {
     const loadData = await props.request?.(props.params as U, props)
+    Object.assign(modelRef, loadData || {})
     Object.assign(requestData, loadData || {})
   }
 
@@ -33,7 +40,17 @@ export function useFetchData<T, U extends Record<string, any> = Record<string, a
   watch(
     () => props.model,
     (val) => {
-      Object.assign(requestData, cloneDeep(val || {}))
+      Object.assign(modelRef, cloneDeep(val || {}))
+    }, {
+      deep: true,
+      immediate: true
+    }
+  )
+
+  watch(
+    () => props.changeModelRef,
+    (val) => {
+      Object.assign(modelRef, cloneDeep(val || {}))
     }, {
       deep: true,
       immediate: true
@@ -47,6 +64,7 @@ export function useFetchData<T, U extends Record<string, any> = Record<string, a
   })
 
   return {
+    getModelRef,
     getResOptionsRef,
     fetchData
   }

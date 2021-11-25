@@ -85,6 +85,10 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           find: '@wd-design/pro-utils',
           replacement: pathResolve('src/components/_util') + '/'
         },
+        {
+          find: '@wd-design/pro-hooks',
+          replacement: pathResolve('src/hooks') + '/'
+        },
         { find: /^~/, replacement: '' }
       ]
     },

@@ -4,6 +4,10 @@ export function is(val: unknown, type: string) {
   return toString.call(val) === `[object ${type}]`
 }
 
+export const isClient = typeof window !== 'undefined'
+
+export const noop = () => {}
+
 /**
  * @author gx12358 2539306317@qq.com
  * @description 判读是否为外链

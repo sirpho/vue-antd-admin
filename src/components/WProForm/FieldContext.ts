@@ -21,6 +21,7 @@ export interface FieldContextProps {
     }
   ) => void;
   formRef?: ProFormInstance;
+  handleChangeModel?: (fieldVal: any) => void;
   /** Form 组件的类型 */
   formComponentType?: string;
 

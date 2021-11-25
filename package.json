@@ -33,6 +33,7 @@
   "dependencies": {
     "@logicflow/core": "^0.6.16",
     "@logicflow/extension": "^0.6.16",
+    "@zougt/vite-plugin-theme-preprocessor": "^1.4.0-a.1",
     "animate.css": "^4.1.1",
     "ant-design-vue": "2.2.8",
     "axios": "^0.22.0",

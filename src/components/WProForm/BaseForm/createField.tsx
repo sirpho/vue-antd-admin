@@ -1,4 +1,4 @@
-import { FunctionalComponent, RendererElement, RendererNode, VNode } from 'vue'
+import { FunctionalComponent, reactive, RendererElement, RendererNode, VNode } from 'vue'
 import { pickProFormItemProps, omitUndefined } from '@wd-design/pro-utils'
 import { noteOnce } from 'ant-design-vue/es/vc-util/warning'
 import { useFieldContext } from '../FieldContext'
@@ -68,8 +68,17 @@ function createField<P extends ProFormFieldItemProps = any>(
       ...rest
     } = { ...defaultProps, ...props } as P & ExtendsProps
 
+    const fieldVal = reactive({})
+
+
+
     /** 从 context 中拿到的值 */
-    const { fieldProps, formItemProps } = useFieldContext()
+    const { fieldProps, formItemProps, formRef, handleChangeModel } = useFieldContext()
+
+    if (!props.hasOwnProperty('value')) {
+      fieldVal[props.name as string] = ''
+      handleChangeModel(fieldVal)
+    }
 
     // restFormItemProps is user props pass to Form.Item
     const restFormItemProps = pickProFormItemProps(rest)
@@ -111,8 +120,16 @@ function createField<P extends ProFormFieldItemProps = any>(
     if (realFieldPropsStyle.width !== undefined && (rest as any).valueType === 'switch') {
       delete realFieldPropsStyle.width
     }
+
+    const handleChange = (val: any) => {
+      if (props.hasOwnProperty('value')) return
+      fieldVal[props.name as string] = val
+      handleChangeModel(fieldVal)
+    }
+
     const field = (
       <Field
+        value={formRef?.modelRef[props.name as string]}
         // ProXxx 上面的 props 透传给 FieldProps，可能包含 Field 自定义的 props，
         // 比如 ProFormSelect 的 request
         {...(rest as P)}
@@ -123,7 +140,7 @@ function createField<P extends ProFormFieldItemProps = any>(
             width: width && !WIDTH_SIZE_ENUM[width] ? width : undefined,
             ...realFieldPropsStyle
           }),
-          class: {
+          class: omitUndefined({
             [`pro-field`]: width && WIDTH_SIZE_ENUM[width],
             [`${realFieldProps?.class}`]: realFieldProps?.class,
             [`pro-field-${width}`]: width &&
@@ -131,7 +148,7 @@ function createField<P extends ProFormFieldItemProps = any>(
             !ignoreWidthValueType.includes((props as any)?.valueType as 'text') &&
             !ignoreWidth &&
             WIDTH_SIZE_ENUM[width]
-          }
+          })
         })}
         proFieldProps={omitUndefined({
           // @ts-ignore
@@ -140,6 +157,7 @@ function createField<P extends ProFormFieldItemProps = any>(
           proFieldKey: otherProps?.name && `form-field-${otherProps.name}`,
           ...proFieldProps
         })}
+        onChange={handleChange}
       />
     )
 

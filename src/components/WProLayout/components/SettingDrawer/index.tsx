@@ -7,7 +7,7 @@ import {
   CopyOutlined
 } from '@ant-design/icons-vue'
 import config from '/config/config'
-import themePluginConfig from '/config/default/themePluginConfig'
+import { themeConfig } from '/config/default/themeColor'
 import { PropTypes } from '/@/utils'
 import clip from '/@/utils/clipboard'
 import { getPrefixCls } from '/@/components/_util'
@@ -39,16 +39,29 @@ const Body: FunctionalComponent<{ title: string; className: string }> = ({
   )
 }
 
-const updateTheme = () => {
-  message.loading('正在加载主题')
+const updateTheme = (
+  dark: boolean,
+  color?: string,
+  hideMessageLoading?: boolean
+) => {
+
+  let hide: any = () => null
+  if (!hideMessageLoading) {
+    hide = message.loading('正在加载主题')
+  }
+
+  document.documentElement.className = color
+
+  // 模拟加载主题
+  setTimeout(() => hide(), 500)
+
+  localStorage.setItem('wd-theme', dark ? 'dark' : 'light')
 }
 
 const SettingDrawer = defineComponent({
   props: settingDrawerProps,
   emits: [ 'change' ],
   setup(props, { emit, slots }) {
-    const { DEV } = import.meta.env
-
     const baseClassName = getPrefixCls({
       suffixCls: 'setting-drawer'
     })
@@ -89,17 +102,21 @@ const SettingDrawer = defineComponent({
       show.value = flag
     }
 
-    const changeSetting = (type: string, value: string | boolean) => {
+    const changeSetting = (type: string, value: string | boolean, hideMessageLoading?: boolean) => {
 
       if (type === 'primaryColor') {
-        updateTheme()
+        updateTheme(
+          value === 'realDark',
+          value as string,
+          !!hideMessageLoading
+        )
       }
 
       emit('change', { type, value })
     }
 
     return () => {
-      const { root, settings } = props
+      const { root, settings, hideLoading } = props
 
       const {
         theme,
@@ -110,7 +127,7 @@ const SettingDrawer = defineComponent({
         showTabsBar,
         fixedMultiTab,
         showProgressBar,
-        animate
+        animate,
       } = settings as ProSettingsProps
 
       return (
@@ -143,22 +160,20 @@ const SettingDrawer = defineComponent({
                     list={getThemeList().themeList}
                     value={theme}
                     onChange={(val) => {
-                      changeSetting('theme', val)
+                      changeSetting('theme', val, hideLoading)
                     }}
                   />
                 </Body>
 
-                {DEV && (
-                  <ThemeColor
-                    title="主题色"
-                    className={baseClassName}
-                    value={primaryColor}
-                    colors={themePluginConfig.theme}
-                    onChange={(color) => {
-                      changeSetting('primaryColor', color)
-                    }}
-                  />
-                )}
+                <ThemeColor
+                  title="主题色"
+                  className={baseClassName}
+                  value={primaryColor}
+                  colors={themeConfig}
+                  onChange={(color) => {
+                    changeSetting('primaryColor', color, hideLoading)
+                  }}
+                />
 
                 <a-divider />
 
@@ -167,7 +182,7 @@ const SettingDrawer = defineComponent({
                     className={baseClassName}
                     value={layout}
                     onChange={(val) => {
-                      changeSetting('layout', val)
+                      changeSetting('layout', val, hideLoading)
                     }}
                   />
                 </Body>

@@ -1,58 +1,42 @@
 import {
   computed,
   defineComponent,
-  onMounted,
-  onUnmounted,
-  onUpdated,
   reactive,
   watch,
-  ref,
-  getCurrentInstance,
-  onActivated,
+  shallowRef,
   ExtractPropTypes,
+  ref,
   onDeactivated
 } from 'vue'
 import type { CSSProperties } from 'vue'
-import omit from 'omit.js'
 import config from '/config/config'
 import { PropTypes } from '/@/utils'
-import { getPrefixCls } from '/@/components/_util'
-import {
-  addObserveTarget,
-  removeObserveTarget,
-  getTargetRect,
-  getFixedTop,
-  getFixedBottom
-} from './utils/index'
-import throttleByAnimationFrame from '../_util/scroll/throttleByAnimationFrame'
+import { getPrefixCls, getScrollContainer } from '/@/components/_util'
+import { useEventListener, useResizeObserver, onMountedOrActivated } from '@wd-design/pro-hooks/core'
 
-import styles from './style.module.less'
-
-enum AffixStatus {
-  None,
-  Prepare,
-}
-
-export interface AffixState {
-  affixStyle?: CSSProperties;
-  placeholderStyle?: CSSProperties;
-  status: AffixStatus;
-  lastAffix: boolean;
-  prevTarget: Window | HTMLElement | null;
-  timeout: any;
-}
+import './style.less'
+import { cloneDeep } from 'lodash-es'
 
 const { defaultSettings } = config
 
+const defaultState = {
+  fixed: false,
+  height: 0, // height of root
+  width: 0, // width of root
+  scrollTop: 0, // scrollTop of documentElement
+  clientHeight: 0, // clientHeight of documentElement
+  transform: 0
+}
+
 const affixProps = {
-  zIndex: PropTypes.number,
-  offsetTop: PropTypes.number,
-  offset: PropTypes.number,
-  offsetBottom: PropTypes.number,
-  prefixCls: PropTypes.string,
-  onChange: PropTypes.func,
-  onTestUpdatePosition: PropTypes.func,
-  root: PropTypes.string.def(defaultSettings.viewScrollRoot)
+  zIndex: PropTypes.number.def(100),
+  offset: PropTypes.number.def(0),
+  target: PropTypes.string.def(defaultSettings.viewScrollRoot),
+  position: {
+    type: String,
+    values: [ 'top', 'bottom' ],
+    default: 'top'
+  }
 }
 
 export type AffixProps = Partial<ExtractPropTypes<typeof affixProps>>;
@@ -60,196 +44,141 @@ export type AffixProps = Partial<ExtractPropTypes<typeof affixProps>>;
 const WAffix = defineComponent({
   name: 'WAffix',
   props: affixProps,
-  emits: [ 'change', 'testUpdatePosition' ],
-  setup(props, { slots, emit, expose }) {
-    const prefixCls = getPrefixCls({
+  emits: [ 'change', 'scroll' ],
+  setup(props, { slots, emit }) {
+    const className = getPrefixCls({
       suffixCls: 'affix',
       defaultPrefixCls: 'wd'
     })
-    const className = ref<any>('')
-    const placeholderNode = ref()
-    const fixedNode = ref()
-    const state: AffixState = reactive({
-      affixStyle: undefined,
-      placeholderStyle: undefined,
-      status: AffixStatus.None,
-      lastAffix: false,
-      prevTarget: null,
-      timeout: null
+    const affixShow = ref(false)
+    const target = shallowRef<HTMLElement>()
+    const root = shallowRef<any>()
+    const scrollContainer = shallowRef<HTMLElement | Window>()
+
+    const state = reactive(cloneDeep(defaultState))
+
+    const rootStyle = computed<CSSProperties>(() => {
+      return {
+        height: state.fixed ? `${state.height}px` : '',
+        width: state.fixed ? `${state.width}px` : ''
+      }
     })
-    const currentInstance: any = getCurrentInstance()
-    const offsetTop = computed(() => {
-      return props.offsetBottom === undefined && props.offsetTop === undefined
-        ? 0
-        : props.offsetTop
+
+    const affixStyle = computed<CSSProperties | undefined>(() => {
+      if (!state.fixed) return
+
+      const offset = props.offset ? `${props.offset}px` : 0
+      const transform = state.transform
+        ? `translateY(${state.transform}px)`
+        : ''
+
+      return {
+        height: `${state.height}px`,
+        width: `${state.width}px`,
+        top: props.position === 'top' ? offset : '',
+        bottom: props.position === 'bottom' ? offset : '',
+        transform,
+        zIndex: props.zIndex,
+        maxHeight: `calc(90vh - ${(offset || 114) as number + 32}px)`
+      }
     })
-    const offsetBottom = computed(() => props.offsetBottom)
-    const measure = () => {
-      const { status, lastAffix } = state
-      const { root } = props
-      if (status !== AffixStatus.Prepare || !fixedNode.value || !placeholderNode.value || !root) {
+
+    const update = () => {
+      if (
+        !root.value ||
+        !target.value ||
+        !scrollContainer.value
+      ) {
         return
       }
 
-      const targetNode = (document.querySelector(root) as HTMLInputElement)
-      if (!targetNode) {
-        return
-      }
+      const rootRect = root.value.getBoundingClientRect()
+      const targetRect = target.value.getBoundingClientRect()
+      state.height = rootRect.height
+      state.width = rootRect.width
+      state.scrollTop =
+        scrollContainer.value instanceof Window
+          ? document.documentElement.scrollTop
+          : scrollContainer.value.scrollTop
+      state.clientHeight = document.documentElement.clientHeight
 
-      const newState = {
-        status: AffixStatus.None
-      } as AffixState
-      const targetRect = getTargetRect(targetNode)
-      const placeholderReact = getTargetRect(placeholderNode.value)
-      const placeholderChildReact = getTargetRect(
-        placeholderNode.value.childNodes?.[0].childNodes?.[1] as HTMLElement ||
-        placeholderNode.value
-      )
-      const fixedTop = getFixedTop(placeholderReact, targetRect, offsetTop.value)
-      const fixedBottom = getFixedBottom(placeholderReact, targetRect, offsetBottom.value)
-      if (fixedTop !== undefined) {
-        newState.affixStyle = {
-          position: 'fixed',
-          top: fixedTop,
-          width: placeholderChildReact.width + 'px',
-          height: placeholderChildReact.height + 'px'
+      if (props.position === 'top') {
+        if (props.target) {
+          const difference = targetRect.bottom - props.offset - state.height
+          state.fixed = props.offset > rootRect.top && targetRect.bottom > 0
+          state.transform = difference < 0 ? difference : 0
+        } else {
+          state.fixed = props.offset > rootRect.top
         }
-        newState.placeholderStyle = {
-          width: placeholderChildReact.width + 'px',
-          height: placeholderChildReact.height + 'px'
-        }
-        className.value = styles[`${prefixCls}`]
-      } else if (fixedBottom !== undefined) {
-        newState.affixStyle = {
-          position: 'fixed',
-          bottom: fixedBottom,
-          width: placeholderReact.width + 'px',
-          height: placeholderReact.height + 'px'
-        }
-        newState.placeholderStyle = {
-          width: placeholderReact.width + 'px',
-          height: placeholderReact.height + 'px'
-        }
-        className.value = styles[`${prefixCls}`]
       } else {
-        newState.affixStyle = undefined
-        newState.placeholderStyle = undefined
-        className.value = ''
+        if (props.target) {
+          const difference =
+            state.clientHeight - targetRect.top - props.offset - state.height
+          state.fixed =
+            state.clientHeight - props.offset < rootRect.bottom &&
+            state.clientHeight > targetRect.top
+          state.transform = difference < 0 ? -difference : 0
+        } else {
+          state.fixed = state.clientHeight - props.offset < rootRect.bottom
+        }
       }
-
-      newState.lastAffix = !!newState.affixStyle
-      if (lastAffix !== newState.lastAffix) {
-        emit('change', newState.lastAffix)
-      }
-      // update state
-      Object.assign(state, newState)
     }
-    const prepareMeasure = () => {
-      Object.assign(state, {
-        status: AffixStatus.Prepare,
-        affixStyle: undefined,
-        placeholderStyle: undefined
+
+    const onScroll = () => {
+      update()
+
+      emit('scroll', {
+        scrollTop: state.scrollTop,
+        fixed: state.fixed
       })
-      currentInstance.update()
-      if (process.env.NODE_ENV === 'test') {
-        emit('testUpdatePosition')
-      }
     }
-    const updatePosition = throttleByAnimationFrame(() => {
-      prepareMeasure()
-    })
-    const lazyUpdatePosition = throttleByAnimationFrame(() => {
-      const { root } = props
-      const { affixStyle } = state
 
-      if (root && affixStyle) {
-        const targetNode = (document.querySelector(root) as HTMLInputElement)
-        if (targetNode && placeholderNode.value) {
-          const targetRect = getTargetRect(targetNode)
-          const placeholderReact = getTargetRect(placeholderNode.value as HTMLElement)
-          const fixedTop = getFixedTop(placeholderReact, targetRect, offsetTop.value)
-          const fixedBottom = getFixedBottom(placeholderReact, targetRect, offsetBottom.value)
-          if (
-            (fixedTop !== undefined && affixStyle.top === fixedTop) ||
-            (fixedBottom !== undefined && affixStyle.bottom === fixedBottom)
-          ) {
-            return
-          }
-        }
-      }
-      prepareMeasure()
-    })
-    expose({
-      updatePosition,
-      lazyUpdatePosition
-    })
     watch(
-      () => props.root,
-      val => {
-        let newTarget: any = null
-        if (val) {
-          newTarget = (document.querySelector(val) as HTMLInputElement) || null
-        }
-        if (state.prevTarget !== newTarget) {
-          removeObserveTarget(currentInstance)
-          if (newTarget) {
-            addObserveTarget(newTarget, currentInstance)
-            updatePosition()
-          }
-          state.prevTarget = newTarget
-        }
+      () => state.fixed,
+      () => {
+        emit('change', state.fixed)
       }
     )
-    watch(() => [ props.offsetTop, props.offsetBottom ], updatePosition)
-    onMounted(() => {
-      const { root } = props
-      if (root) {
-        state.timeout = setTimeout(() => {
-          addObserveTarget((document.querySelector(root) as HTMLInputElement), currentInstance)
-          updatePosition()
-        })
+
+    const init = () => {
+      if (props.target) {
+        target.value =
+          document.querySelector<HTMLElement>(props.target) ?? undefined
+        if (!target.value) {
+          throw new Error(`Target is not existed: ${props.target}`)
+        }
+      } else {
+        target.value = document.documentElement
       }
+      scrollContainer.value = getScrollContainer(root.value!, true)
+    }
+
+    onMountedOrActivated(() => {
+      affixShow.value = true
+      setTimeout(() => {
+        init()
+        useEventListener(scrollContainer, 'scroll', onScroll)
+        useResizeObserver(root, () => update())
+        useResizeObserver(target, () => update())
+      })
     })
-    onActivated(() => {
-      updatePosition()
-    })
-    onUpdated(() => {
-      measure()
-    })
+
     onDeactivated(() => {
-      clearTimeout(state.timeout)
-      removeObserveTarget(currentInstance);
-      (updatePosition as any).cancel();
-      (lazyUpdatePosition as any).cancel()
+      affixShow.value = false
+      Object.assign(state, cloneDeep(defaultState))
     })
-    onUnmounted(() => {
-      clearTimeout(state.timeout)
-      removeObserveTarget(currentInstance);
-      (updatePosition as any).cancel();
-      (lazyUpdatePosition as any).cancel()
-    })
-    const restProps = omit(props, [ 'prefixCls', 'offsetTop', 'offsetBottom', 'root' ])
-    return () => (
-      <div
-        {...restProps}
-        ref={e => placeholderNode.value = e}
-        style={state.placeholderStyle}
-      >
-        <div
-          class={className.value}
-          ref={e => fixedNode.value = e}
-          style={{
-            ...state.affixStyle,
-            zIndex: props.zIndex || 10,
-            maxHeight: `calc(90vh - ${(state.affixStyle?.top || 114) as number + 32}px)`
-          }}
-        >
-          <w-bars style={{ height: '100%' }}>
-            {slots.default ? slots.default() : null}
-          </w-bars>
-        </div>
-      </div>
-    )
+
+    return () => {
+      return (
+        affixShow.value && (
+          <div ref={e => root.value = e} class={className} style={rootStyle.value}>
+            <div class={{ [`${className}-fixed`]: state.fixed }} style={affixStyle.value}>
+              {slots.default?.()}
+            </div>
+          </div>
+        )
+      )
+    }
   }
 })
 

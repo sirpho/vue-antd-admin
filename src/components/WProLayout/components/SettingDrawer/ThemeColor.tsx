@@ -1,7 +1,7 @@
 import { computed, defineComponent, FunctionalComponent } from 'vue'
 import { CheckOutlined } from '@ant-design/icons-vue'
+import { genThemeToString } from '/config/default/themeColor'
 import { PropTypes } from '/@/utils'
-import { changeTheme } from '/@/components/_util/theme'
 
 const ThemeColorProps = {
   title: PropTypes.string,
@@ -29,9 +29,13 @@ const ThemeColor = defineComponent({
   setup(props, { emit }) {
     const baseClassName = computed(() => `${props.className}-theme-color`)
 
+    const toggleTheme = (scopeName) => {
+      document.documentElement.className = scopeName
+    }
+
     const handleChange = (key: string) => {
       emit('change', key)
-      changeTheme(key)
+      toggleTheme(genThemeToString(key))
     }
 
     return () => {

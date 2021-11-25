@@ -1,4 +1,4 @@
-import { computed, defineComponent, ref, Ref, unref, watch, onMounted } from 'vue'
+import { computed, defineComponent, ref, Ref, unref, watch, onMounted, reactive } from 'vue'
 import { cloneDeep, omit } from 'lodash-es'
 import { Form } from 'ant-design-vue'
 import type { FormProps, FormItemProps } from 'ant-design-vue'
@@ -99,13 +99,16 @@ const BaseForm = defineComponent({
 
     const getProps = computed(() => props)
 
-    const { getResOptionsRef } = useFetchData({
+    const changeModelRef = reactive({})
+
+    const { getModelRef, getResOptionsRef } = useFetchData({
       model: unref(getProps).model,
+      changeModelRef,
       request: unref(getProps).request,
       params: unref(getProps).params
     })
 
-    const useFormContext = useForm(getResOptionsRef.value, unref(getProps).rules)! || ({} as any)
+    const useFormContext = useForm(getModelRef.value, unref(getProps).rules)! || ({} as any)
 
     watch(() => useFormContext, (val) => {
       console.log(cloneDeep(val))
@@ -113,6 +116,10 @@ const BaseForm = defineComponent({
       deep: true,
       immediate: true
     })
+
+    const handleChangeModel = (fieldVal: any) => {
+      Object.assign(changeModelRef, cloneDeep(fieldVal) || {})
+    }
 
     const fieldsValueType = ref<Record<string,
       {
@@ -220,6 +227,7 @@ const BaseForm = defineComponent({
           }
         })
       })
+      console.log(response)
       return response
     }, [ () => useFormContext ])
 
@@ -317,6 +325,7 @@ const BaseForm = defineComponent({
       groupProps: unref(getProps).groupProps,
       formComponentType: unref(getProps).formComponentType,
       getPopupContainer: getPopupContainer.value,
+      handleChangeModel,
       setFieldValueType: (name, { valueType = 'text', dateFormat, transform }) => {
         if (!Array.isArray(name)) return
         transformKeyRef.value = set(transformKeyRef.value, name, transform)

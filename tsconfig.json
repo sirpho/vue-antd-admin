@@ -25,6 +25,7 @@
       "/types/*": ["types/*"],
       "/build/*": ["build/*"],
       "/config/*": ["config/*"],
+      "@wd-design/pro-hooks/*": ["src/hooks/*"],
       "@wd-design/pro-utils": ["src/components/_util/index.ts"],
       "@wd-design/pro-field*": ["src/components/WProField/index.tsx"],
       "@wd/pro-upload": ["src/components/WUpload/index.ts"],

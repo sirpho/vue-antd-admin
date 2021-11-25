@@ -62,7 +62,7 @@ export const DefaultAnchor: FunctionalComponent<DefaultAnchorProps> = (props) =>
       {
         isMobile
           ? linksRender()
-          : <w-affix offsetTop={isfixedMultiTab ? 68 + 42 : 68}>{linksRender()}</w-affix>
+          : <w-affix offset={isfixedMultiTab ? 68 + 42 : 68}>{linksRender()}</w-affix>
       }
     </div>
   )
