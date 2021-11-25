@@ -158,8 +158,8 @@ const WAffix = defineComponent({
       setTimeout(() => {
         init()
         useEventListener(scrollContainer, 'scroll', onScroll)
-        useResizeObserver(root, () => update())
-        useResizeObserver(target, () => update())
+        useResizeObserver(root, () => setTimeout(() => update()))
+        useResizeObserver(target, () => setTimeout(() => update()))
       })
     })
 

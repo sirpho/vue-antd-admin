@@ -11,7 +11,12 @@ export const tagSelectProps = {
   className: PropTypes.string,
   hideCheckAll: PropTypes.looseBool,
   expandable: PropTypes.looseBool,
-  actionsText: Object as PropType<actionsTextItem>,
+  actionsText: {
+    type: Object as PropType<actionsTextItem>,
+    default: () => {
+      return {}
+    }
+  },
   value: Array as PropType<(string | number)[]>,
   defaultValue: Array as PropType<(string | number)[]>,
   onChange: Function as PropType<(value: string | number, state: boolean) => void>,
