@@ -1,5 +1,5 @@
 import { Descriptions as T } from 'ant-design-vue'
-import type { FormProps } from 'ant-design-vue/lib/form'
+import type { FormProps } from 'ant-design-vue'
 import { PropTypes } from '/@/utils'
 import type { ProCoreActionType, LabelTooltipType } from '../_util/typings'
 import type { ProDescriptionsItemProps, RowEditableConfig } from './typings'

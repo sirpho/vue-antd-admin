@@ -302,10 +302,10 @@ const BaseForm = defineComponent({
         : children || []
     }
 
-    const content = (children) => {
+    const content = (children, formContext) => {
       const renderContent = props.contentRender ?? slots.contentRender
       if (!renderContent) return null
-      return renderContent(children, submitterNode.value, useFormContext)
+      return renderContent(children, submitterNode.value, formContext)
     }
 
     const getPopupContainer = useMemo(() => {
@@ -362,7 +362,7 @@ const BaseForm = defineComponent({
             }
           }}
         >
-          {content(getChildrenSlots(slots.default?.()))}
+          {content(getChildrenSlots(slots.default?.()), useFormContext)}
         </Form>
       )
     }

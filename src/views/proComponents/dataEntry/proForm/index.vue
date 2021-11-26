@@ -5,7 +5,7 @@
     <!--    <a-input v-model:value="formState.name" />-->
     <!--  </a-form-item>-->
     <!--</a-form>-->
-    <w-pro-form
+    <w-pro-form-light
       :model="formState"
       :formRef="e => formRef = e"
       :rules="rules"
@@ -33,7 +33,7 @@
           placeholder="请输入名称"
         />
       </w-pro-form-group>
-    </w-pro-form>
+    </w-pro-form-light>
   </w-page-wrapper>
 </template>
 
@@ -48,7 +48,8 @@ const formRef = ref()
 
 const formState = reactive({
   name: '',
-  company: ''
+  company: '',
+  age: ''
 })
 const rules = reactive({
   name: [

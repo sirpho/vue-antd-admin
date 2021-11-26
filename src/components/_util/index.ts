@@ -1,12 +1,13 @@
 import { Slots } from 'vue'
 import { camelize } from '@vue/shared'
 
-import LabelIconTip from './components/LabelIconTip';
+import LabelIconTip from './components/LabelIconTip'
+import FieldLabel from './components/FieldLabel'
+import FilterDropdown from './components/FilterDropdown'
 
 import isServer from './isServer'
 
-import pickProFormItemProps from './pickProFormItemProps';
-
+import pickProFormItemProps from './pickProFormItemProps'
 
 export type AnyFunction<T> = (...args: any[]) => T
 
@@ -148,55 +149,55 @@ export const omitUndefined = <T>(obj: T): T => {
 }
 
 export function get(entity: any, path: (string | number)[]) {
-  let current = entity;
+  let current = entity
 
   for (let i = 0; i < path.length; i += 1) {
     if (current === null || current === undefined) {
-      return undefined;
+      return undefined
     }
 
-    current = current[path[i]];
+    current = current[path[i]]
   }
 
-  return current;
+  return current
 }
 
 function internalSet<Entity = any, Output = Entity, Value = any>(
   entity: Entity,
   paths: (string | number)[],
   value: Value,
-  removeIfUndefined: boolean,
+  removeIfUndefined: boolean
 ): Output {
   if (!paths.length) {
-    return (value as unknown) as Output;
+    return (value as unknown) as Output
   }
 
-  const [path, ...restPath] = paths;
+  const [ path, ...restPath ] = paths
 
-  let clone: Output;
+  let clone: Output
   if (!entity && typeof path === 'number') {
-    clone = ([] as unknown) as Output;
+    clone = ([] as unknown) as Output
   } else if (Array.isArray(entity)) {
-    clone = ([...entity] as unknown) as Output;
+    clone = ([ ...entity ] as unknown) as Output
   } else {
-    clone = ({ ...entity } as unknown) as Output;
+    clone = ({ ...entity } as unknown) as Output
   }
 
   // Delete prop if `removeIfUndefined` and value is undefined
   if (removeIfUndefined && value === undefined && restPath.length === 1) {
-    delete clone[path][restPath[0]];
+    delete clone[path][restPath[0]]
   } else {
-    clone[path] = internalSet(clone[path], restPath, value, removeIfUndefined);
+    clone[path] = internalSet(clone[path], restPath, value, removeIfUndefined)
   }
 
-  return clone;
+  return clone
 }
 
 export function set<Entity = any, Output = Entity, Value = any>(
   entity: Entity,
   paths: (string | number)[],
   value: Value,
-  removeIfUndefined = false,
+  removeIfUndefined = false
 ): Output {
   // Do nothing if `removeIfUndefined` and parent object not exist
   if (
@@ -205,13 +206,15 @@ export function set<Entity = any, Output = Entity, Value = any>(
     value === undefined &&
     !get(entity, paths.slice(0, -1))
   ) {
-    return (entity as unknown) as Output;
+    return (entity as unknown) as Output
   }
 
-  return internalSet(entity, paths, value, removeIfUndefined);
+  return internalSet(entity, paths, value, removeIfUndefined)
 }
 
 export {
+  FieldLabel,
   LabelIconTip,
+  FilterDropdown,
   pickProFormItemProps
 }

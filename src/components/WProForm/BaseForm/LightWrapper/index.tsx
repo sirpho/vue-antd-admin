@@ -2,11 +2,9 @@ import type { CSSProperties } from 'vue'
 import { cloneVNode, computed, defineComponent, ref } from 'vue'
 import { PropTypes } from '/@/utils'
 import useMemo from '/@/hooks/core/useMemo'
-import { getPrefixCls } from '/@/components/_util'
+import { FieldLabel, FilterDropdown, getPrefixCls } from '@wd-design/pro-utils'
 import dateArrayFormatter from '/@/components/_util/dateArrayFormatter'
 import { dateFormatterMap } from '/@/components/_util/conversionMomentValue'
-import FilterDropdown from '/@/components/_util/components/FilterDropdown'
-import FieldLabel from '/@/components/_util/components/FieldLabel'
 import type { LightFilterFooterRender } from '../../typings'
 
 import './index.less'
@@ -79,7 +77,7 @@ const LightWrapper = defineComponent({
       props.onChange?.(...restParams)
     }
 
-    const labelValue = computed(() => props['value'])
+    const labelValue = computed(() => props.value)
 
     /** DataRange的转化，moment 的 toString 有点不好用 */
     const labelText = useMemo(() => {
@@ -137,7 +135,7 @@ const LightWrapper = defineComponent({
           footer={{
             onClear: () => setTempValue(undefined),
             onConfirm: () => {
-              propsOnChange?.(tempValue)
+              propsOnChange?.(tempValue.value)
               setOpen(false)
             }
           }}
@@ -151,9 +149,10 @@ const LightWrapper = defineComponent({
             style={style}
           >
             {slots.default?.().map(children => {
-              return cloneVNode(children as JSX.Element, {
+              return cloneVNode((children) as JSX.Element, {
                 ...rest,
                 onChange: (e: any) => {
+                  console.log(e)
                   setTempValue(e?.target ? e.target.value : e)
                 },
                 ...(children as JSX.Element).props

@@ -143,7 +143,6 @@ function createField<P extends ProFormFieldItemProps = any>(
           proFieldKey: otherProps?.name && `form-field-${otherProps.name}`,
           ...proFieldProps
         })}
-        onChange={handleChange}
       />
     )
 

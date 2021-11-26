@@ -91,8 +91,9 @@ const ProFormItem = defineComponent({
                 <LightWrapper
                   {...props.lightProps}
                   key={props.name?.toString()}
-                  v-slots={slots.default?.()}
-                />
+                >
+                  {slots.default?.()}
+                </LightWrapper>
               )
           }
         </>

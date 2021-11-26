@@ -2,11 +2,10 @@ import { ref, CSSProperties, defineComponent, computed } from 'vue'
 import { Select } from 'ant-design-vue'
 import type { SelectPropsTypes } from 'ant-design-vue/lib/select'
 import { SearchOutlined } from '@ant-design/icons-vue'
-import { getPrefixCls } from '/@/components/_util'
-import FieldLabel from '/@/components/_util/components/FieldLabel'
+import { PropTypes } from '/@/utils'
+import { getPrefixCls, FieldLabel } from '/@/components/_util'
 
 import './index.less'
-import { PropTypes } from '/@/utils'
 
 export type LightSelectProps = {
   actionRef?: any;
