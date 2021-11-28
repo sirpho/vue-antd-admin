@@ -108,6 +108,8 @@ const BaseForm = defineComponent({
       params: unref(getProps).params
     })
 
+    console.log(getProps.value)
+
     const useFormContext = useForm(getModelRef.value, unref(getProps).rules)! || ({} as any)
 
     // watch(() => useFormContext, (val) => {

@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'vue'
 import { cloneVNode, computed, defineComponent, ref } from 'vue'
+import { omit } from 'lodash-es'
 import { PropTypes } from '/@/utils'
 import useMemo from '/@/hooks/core/useMemo'
 import { FieldLabel, FilterDropdown, getPrefixCls } from '@wd-design/pro-utils'
@@ -90,6 +91,14 @@ const LightWrapper = defineComponent({
       return labelValue.value
     }, [ () => labelValue.value, () => props.valueType, () => props.labelFormatter ])
 
+    const isChildrenSymbol = (children) => {
+      return children.length === 1 &&
+      (
+        String(children[0].type) === String(Symbol('Fragment')) ||
+        String(children[0].type) === String(Symbol())
+      )
+    }
+
     return () => {
       const {
         label,
@@ -149,14 +158,25 @@ const LightWrapper = defineComponent({
             style={style}
           >
             {slots.default?.().map(children => {
-              return cloneVNode((children) as JSX.Element, {
-                ...rest,
-                onChange: (e: any) => {
-                  console.log(e)
-                  setTempValue(e?.target ? e.target.value : e)
-                },
-                ...(children as JSX.Element).props
+              if (isChildrenSymbol(children)) {
+                return cloneVNode((children) as JSX.Element, {
+                  ...omit(rest, [ 'customLightMode' ]),
+                  onChange: (e: any) => {
+                    setTempValue(e?.target ? e.target.value : e)
+                  },
+                  ...(children as JSX.Element).props
+                })
+              }
+              children.children = (children?.children as any[]).map(item => {
+                return cloneVNode((item) as JSX.Element, {
+                  ...omit(rest, [ 'customLightMode' ]),
+                  onChange: (e: any) => {
+                    setTempValue(e?.target ? e.target.value : e)
+                  },
+                  ...(item as JSX.Element).props
+                })
               })
+              return children
             })}
           </div>
         </FilterDropdown>
