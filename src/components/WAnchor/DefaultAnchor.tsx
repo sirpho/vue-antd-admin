@@ -1,4 +1,5 @@
-import { computed, ExtractPropTypes, FunctionalComponent } from 'vue'
+import type { ExtractPropTypes, FunctionalComponent } from 'vue'
+import { computed } from 'vue'
 import { PropTypes } from '/@/utils'
 import { handelInkStyle } from './index'
 

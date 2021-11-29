@@ -1,4 +1,4 @@
-import useMemo from '/@/hooks/core/useMemo'
+import { useMemo } from '@wd-design/pro-hooks/core'
 import type { ProFieldFC } from '../../index'
 
 export type FieldMoneyProps = {

@@ -1,5 +1,5 @@
-import { Slot } from 'vue'
 import type {
+  Slot,
   ComponentRenderProxy,
   VNode,
   VNodeChild,

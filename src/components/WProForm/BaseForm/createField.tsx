@@ -1,8 +1,11 @@
-import { FunctionalComponent, reactive, RendererElement, RendererNode, VNode } from 'vue'
+import type { FunctionalComponent, VNode } from 'vue'
+import { reactive } from 'vue'
+import { noteOnce } from 'ant-design-vue/es/vc-util/warning'
 import { pickProFormItemProps, omitUndefined } from '@wd-design/pro-utils'
 import { useFieldContext } from '../FieldContext'
 import type { ExtendsProps, ProFormFieldItemProps, ProFormItemCreateConfig } from '../typings'
 import ProFormItem from '../components/FormItem'
+import { isArray } from '/@/utils/validate'
 
 export const TYPE = Symbol('ProFormComponent')
 
@@ -39,7 +42,7 @@ function createField<P extends ProFormFieldItemProps = any>(
   // eslint-disable-next-line no-param-reassign
   Field.displayName = 'ProFormComponent'
 
-  const FieldWithContext: (props: (P & ExtendsProps)) => VNode<RendererNode, RendererElement, { [p: string]: any }> = (props: P & ExtendsProps) => {
+  const FieldWithContext: (props: (P & ExtendsProps)) => VNode<any> = (props: P & ExtendsProps) => {
     const {
       valueType,
       customLightMode,
@@ -109,9 +112,23 @@ function createField<P extends ProFormFieldItemProps = any>(
 
     const handleChange = (val: any) => {
       if (props.hasOwnProperty('value')) return
-      fieldVal[props.name as string] = val
+      if (isArray(props.name)) {
+        noteOnce(
+          // eslint-disable-next-line @typescript-eslint/dot-notation
+          !props.name,
+          'name值只能是string类型！',
+        );
+      } else {
+        fieldVal[props.name as string] = val
+      }
       handleChangeModel(fieldVal)
     }
+
+    const changeProps = proFieldProps?.light
+      ? {}
+      : {
+        onChange: handleChange
+      }
 
     const field = (
       <Field
@@ -143,7 +160,7 @@ function createField<P extends ProFormFieldItemProps = any>(
           proFieldKey: otherProps?.name && `form-field-${otherProps.name}`,
           ...proFieldProps
         })}
-        onChange={handleChange}
+        { ...changeProps }
       />
     )
 

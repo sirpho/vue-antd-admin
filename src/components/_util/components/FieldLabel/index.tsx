@@ -1,7 +1,7 @@
-import { CSSProperties, FunctionalComponent } from 'vue'
+import type { CSSProperties, FunctionalComponent } from 'vue'
 import { DownOutlined, CloseOutlined } from '@ant-design/icons-vue'
-import { getPrefixCls } from '../../index'
-import type { SizeType } from '../../typings'
+import type { SizeType } from '@wd-design/pro-utils'
+import { getPrefixCls } from '@wd-design/pro-utils'
 
 import './index.less'
 

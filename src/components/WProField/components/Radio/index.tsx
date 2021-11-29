@@ -1,7 +1,7 @@
 ﻿import { computed, defineComponent, ExtractPropTypes, ref } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { Radio, RadioGroup } from 'ant-design-vue'
-import { getPrefixCls } from '/@/components/_util'
+import { getPrefixCls } from '@wd-design/pro-utils'
 import type { FieldSelectProps } from '../Select'
 import { proFieldParsingText, fieldSelectProps } from '../Select'
 import { ObjToMap, useFetchList } from '../Select/useFetchList'

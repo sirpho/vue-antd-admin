@@ -1,18 +1,17 @@
+import type { CSSProperties, ExtractPropTypes } from 'vue'
 import {
   computed,
   defineComponent,
   reactive,
   watch,
   shallowRef,
-  ExtractPropTypes,
   ref,
   onDeactivated
 } from 'vue'
-import type { CSSProperties } from 'vue'
 import config from '/config/config'
-import { PropTypes } from '/@/utils'
-import { getPrefixCls, getScrollContainer } from '/@/components/_util'
 import { useEventListener, useResizeObserver, onMountedOrActivated } from '@wd-design/pro-hooks/core'
+import { getPrefixCls, getScrollContainer } from '@wd-design/pro-utils'
+import { PropTypes } from '/@/utils'
 
 import './style.less'
 import { cloneDeep } from 'lodash-es'

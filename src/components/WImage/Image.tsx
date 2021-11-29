@@ -1,14 +1,13 @@
+import type { CSSProperties } from 'vue'
 import {
   computed,
   defineComponent,
   onMounted,
   ref,
   watch,
-  CSSProperties,
   Teleport
 } from 'vue'
-import isServer from '/@/components/_util/isServer'
-import { getPrefixCls, getPropsSlot } from '/@/components/_util'
+import { isServer, getPrefixCls, getPropsSlot } from '@wd-design/pro-utils'
 import ImageViewer from './components/ImageViewer'
 import { wImagePorps } from './props'
 

@@ -1,4 +1,5 @@
-import { defineComponent, FunctionalComponent, PropType, reactive, ref, Ref, watch } from 'vue'
+import type { FunctionalComponent } from 'vue'
+import { defineComponent, PropType, reactive, ref, Ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import {
   CloseOutlined,
@@ -10,7 +11,7 @@ import config from '/config/config'
 // import { themeConfig } from '/config/default/themeColor'
 import { PropTypes } from '/@/utils'
 import clip from '/@/utils/clipboard'
-import { getPrefixCls } from '/@/components/_util'
+import { getPrefixCls } from '@wd-design/pro-utils'
 import BlockCheckbox from './BlockCheckbox'
 // import ThemeColor from './ThemeColor'
 import LayoutSetting, { renderLayoutSettingItem } from './LayoutChange'

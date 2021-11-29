@@ -1,4 +1,4 @@
-import { FunctionalComponent, CSSProperties } from 'vue'
+import type { FunctionalComponent, CSSProperties } from 'vue'
 
 import './style.less'
 

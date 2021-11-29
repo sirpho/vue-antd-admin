@@ -125,7 +125,7 @@ import {
 } from 'vue'
 import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons-vue'
 import { getList } from '/@/services/table'
-import { useDict } from '/@/hooks/web/useDict'
+import { useDict } from '@wd-design/pro-hooks/web'
 import { deepCopy, handleSelectPage } from '/@/utils/util'
 import ProTableApi from './components/ProTableApi.vue'
 import ProTableSearch from './components/ProTableSearch.vue'

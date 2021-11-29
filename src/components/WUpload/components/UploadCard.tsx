@@ -1,16 +1,12 @@
-import {
-  FunctionalComponent as FC,
-  Ref,
-  computed,
-  unref
-} from 'vue'
+import type { FunctionalComponent as FC } from 'vue'
+import { Ref, computed, unref } from 'vue'
 import {
   CloudDownloadOutlined,
   DeleteOutlined,
   EyeOutlined,
   LoadingOutlined
 } from '@ant-design/icons-vue'
-import { getPropsSlot } from '/@/components/_util'
+import { getPropsSlot } from '@wd-design/pro-utils'
 import { useUploadContext } from '../UploadContext'
 
 import type { WUploadProps } from '../Upload'

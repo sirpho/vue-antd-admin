@@ -1,5 +1,5 @@
 import { toNumber } from 'lodash-es'
-import useMemo from '/@/hooks/core/useMemo'
+import { useMemo } from '@wd-design/pro-hooks/core'
 import { getColorByRealValue, getSymbolByRealValue, getRealTextWithPrecision } from './util'
 import type { ProFieldFC } from '../../index'
 

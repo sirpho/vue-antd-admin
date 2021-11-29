@@ -1,5 +1,5 @@
+import { isServer } from '@wd-design/pro-utils'
 import { on, off } from '/@/utils'
-import isServer from '/@/components/_util/isServer'
 
 let isDragging = false
 

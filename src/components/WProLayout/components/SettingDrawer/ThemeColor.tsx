@@ -1,4 +1,5 @@
-import { computed, defineComponent, FunctionalComponent } from 'vue'
+import type { FunctionalComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { CheckOutlined } from '@ant-design/icons-vue'
 import { genThemeToString } from '/config/default/themeColor'
 import { PropTypes } from '/@/utils'

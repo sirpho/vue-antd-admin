@@ -10,7 +10,7 @@ import {
 import { Grid } from 'ant-design-vue'
 import { RightOutlined } from '@ant-design/icons-vue'
 import { isArray } from '/@/utils/validate'
-import { getPrefixCls, getPropsSlot } from '/@/components/_util'
+import { getPrefixCls, getPropsSlot } from '@wd-design/pro-utils'
 import type { Gutter, CardProps } from '../../typings'
 import { cardProps } from '../../props'
 import Loading from '../Loading'

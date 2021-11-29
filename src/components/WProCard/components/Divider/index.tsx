@@ -1,5 +1,5 @@
-import { FunctionalComponent, CSSProperties } from 'vue'
-import { getPrefixCls } from '/@/components/_util'
+import type { FunctionalComponent, CSSProperties } from 'vue'
+import { getPrefixCls } from '@wd-design/pro-utils'
 
 import './style.less'
 

@@ -1,5 +1,5 @@
 import type { Moment } from 'moment'
-import type { ProSchemaValueEnumMap, ProSchemaValueEnumObj } from '/@/components/_util/typings'
+import type { ProSchemaValueEnumMap, ProSchemaValueEnumObj } from '@wd-design/pro-utils'
 
 export type ProFieldFCMode = 'read' | 'edit' | 'update';
 

@@ -1,4 +1,5 @@
-import { FunctionalComponent as FC, cloneVNode, VNode } from 'vue'
+import type { FunctionalComponent as FC, VNode } from 'vue'
+import { cloneVNode } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { LogoutOutlined } from '@ant-design/icons-vue'
 

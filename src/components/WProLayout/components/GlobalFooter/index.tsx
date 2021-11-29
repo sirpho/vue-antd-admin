@@ -1,6 +1,6 @@
 import { defineComponent, PropType, SetupContext, VNodeChild } from 'vue'
 import { GithubOutlined } from '@ant-design/icons-vue'
-import { getPrefixCls } from '/@/components/_util'
+import { getPrefixCls } from '@wd-design/pro-utils'
 
 export type Links = WithFalse<{
   key?: string;

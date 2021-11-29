@@ -1,6 +1,6 @@
 ﻿import { computed, defineComponent, ref } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { getPrefixCls } from '/@/components/_util'
+import { getPrefixCls } from '@wd-design/pro-utils'
 import type { RadioGroupProps } from '../Radio'
 import type { FieldSelectProps } from '../Select'
 import { proFieldParsingText, fieldSelectProps } from '../Select'

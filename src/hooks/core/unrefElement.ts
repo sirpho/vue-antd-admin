@@ -1,4 +1,5 @@
-import { unref, ComponentPublicInstance } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
+import { unref } from 'vue'
 import type { MaybeRef } from '../typings'
 
 export type VueInstance = ComponentPublicInstance

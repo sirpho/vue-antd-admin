@@ -1,11 +1,10 @@
 import type { CSSProperties } from 'vue'
-import { cloneVNode, computed, defineComponent, ref } from 'vue'
+import { cloneVNode, computed, defineComponent, ref, watch } from 'vue'
 import { omit } from 'lodash-es'
 import { PropTypes } from '/@/utils'
-import useMemo from '/@/hooks/core/useMemo'
-import { FieldLabel, FilterDropdown, getPrefixCls } from '@wd-design/pro-utils'
-import dateArrayFormatter from '/@/components/_util/dateArrayFormatter'
-import { dateFormatterMap } from '/@/components/_util/conversionMomentValue'
+import { FieldLabel, FilterDropdown, getPrefixCls, dateFormatterMap, dateArrayFormatter } from '@wd-design/pro-utils'
+import { useFieldContext } from '../../FieldContext'
+import { useFormItemContext } from '../../components/FormItem/FormItemContext'
 import type { LightFilterFooterRender } from '../../typings'
 
 import './index.less'
@@ -62,6 +61,9 @@ const LightWrapper = defineComponent({
       suffixCls: 'field-light-wrapper'
     })
 
+    const { handleChangeModel } = useFieldContext()
+    const { name } = useFormItemContext()
+
     const tempValue = ref<string | undefined>(props.value)
     const open = ref<boolean>(false)
 
@@ -76,20 +78,46 @@ const LightWrapper = defineComponent({
     const propsOnChange = (...restParams: any[]) => {
       props.otherFieldProps?.onChange?.(...restParams)
       props.onChange?.(...restParams)
+      const field = {}
+      field[ name as string ] = restParams[0]
+      handleChangeModel(field)
     }
 
     const labelValue = computed(() => props.value)
 
+    const labelText = ref<any>()
+
     /** DataRange的转化，moment 的 toString 有点不好用 */
-    const labelText = useMemo(() => {
-      if (props.valueType?.toLowerCase()?.endsWith('range') && !props.labelFormatter) {
+    const changeLabelText = (labelValue, valueType, labelFormatter) => {
+      if (valueType?.toLowerCase()?.endsWith('range') && !labelFormatter) {
         return dateArrayFormatter(
-          labelValue.value,
+          labelValue,
           dateFormatterMap[props.valueType] || 'YYYY-MM-DD'
         )
       }
-      return labelValue.value
-    }, [ () => labelValue.value, () => props.valueType, () => props.labelFormatter ])
+      return labelValue
+    }
+
+    watch(() => labelValue.value, (val) => {
+      labelText.value = changeLabelText(val, props.valueType, props.labelFormatter)
+    }, {
+      deep: true,
+      immediate: true
+    })
+
+    watch(() => props.valueType, (val) => {
+      labelText.value = changeLabelText(labelValue.value, val, props.labelFormatter)
+    }, {
+      deep: true,
+      immediate: true
+    })
+
+    watch(() => props.labelFormatter, (val) => {
+      labelText.value = changeLabelText(labelValue.value, props.valueType, val)
+    }, {
+      deep: true,
+      immediate: true
+    })
 
     const isChildrenSymbol = (children) => {
       return children.length === 1 &&
@@ -142,7 +170,10 @@ const LightWrapper = defineComponent({
             />
           }
           footer={{
-            onClear: () => setTempValue(undefined),
+            onClear: () => {
+              propsOnChange?.()
+              setTempValue(undefined)
+            },
             onConfirm: () => {
               propsOnChange?.(tempValue.value)
               setOpen(false)

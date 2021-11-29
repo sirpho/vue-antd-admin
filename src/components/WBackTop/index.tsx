@@ -11,12 +11,14 @@ import {
   nextTick
 } from 'vue'
 import { VerticalAlignTopOutlined } from '@ant-design/icons-vue'
+import {
+  getPrefixCls,
+  addEventListener,
+  getScroll,
+  scrollTo,
+  throttleByAnimationFrame
+} from '@wd-design/pro-utils'
 import backTopProps from './props'
-import { getPrefixCls } from '/@/components/_util'
-import addEventListener from '../_util/dom/addEventListener'
-import getScroll from '../_util/scroll/getScroll'
-import scrollTo from '../_util/scroll/scrollTo'
-import throttleByAnimationFrame from '../_util/scroll/throttleByAnimationFrame'
 
 import styles from './style.module.less'
 

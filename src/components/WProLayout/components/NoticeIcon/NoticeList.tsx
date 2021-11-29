@@ -1,4 +1,4 @@
-import {
+import type {
   FunctionalComponent as FC,
   CSSProperties
 } from 'vue'

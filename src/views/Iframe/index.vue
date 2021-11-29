@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import { ref, unref, computed, onMounted, onUnmounted, watch } from 'vue'
-import { getPrefixCls } from '/@/components/_util'
+import { getPrefixCls } from '@wd-design/pro-utils'
 import { PropTypes } from '/@/utils'
 
 const props = defineProps({

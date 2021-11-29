@@ -5,7 +5,7 @@
     <!--    <a-input v-model:value="formState.name" />-->
     <!--  </a-form-item>-->
     <!--</a-form>-->
-    <w-pro-form-light
+    <w-pro-form
       :model="formState"
       :formRef="e => formRef = e"
       :rules="rules"
@@ -17,6 +17,7 @@
     >
       <w-pro-form-group>
         <w-pro-form-text
+          width="md"
           name="name"
           label="签约客户名称"
           placeholder="请输入名称"
@@ -25,7 +26,6 @@
           name="company"
           label="我方公司名称"
           placeholder="请输入名称"
-          v-model:value="formState.company"
         />
         <w-pro-form-text
           name="age"
@@ -33,7 +33,7 @@
           placeholder="请输入名称"
         />
       </w-pro-form-group>
-    </w-pro-form-light>
+    </w-pro-form>
   </w-page-wrapper>
 </template>
 
@@ -64,7 +64,7 @@ const rules = reactive({
 //   deep: true,
 //   immediate: true
 // })
-const changeAge = (e) => {
+const handleChange = (e) => {
   console.log(e)
 }
 </script>

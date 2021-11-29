@@ -4,7 +4,7 @@ import { useTimeoutFn } from '/@/hooks/core/useTimeout'
 
 export type ProRequestData<T, U = Record<string, any>> = (params: U, props: any) => Promise<T>;
 
-export function useFetchData<T, U extends Record<string, any> = Record<string, any>>(props: {
+export default function useFetchData<T, U extends Record<string, any> = Record<string, any>>(props: {
   model?: any;
   changeModelRef?: any;
   params?: U;

@@ -1,6 +1,6 @@
+import type { CSSProperties } from 'vue'
 import {
   computed,
-  CSSProperties,
   ref,
   reactive,
   cloneVNode,

@@ -1,6 +1,6 @@
 import moment from 'moment'
 import { DatePicker } from 'ant-design-vue'
-import parseValueToMoment from '/@/components/_util/parseValueToMoment'
+import { parseValueToMoment } from '@wd-design/pro-utils'
 import type { ProFieldFC } from '../../index'
 
 /**

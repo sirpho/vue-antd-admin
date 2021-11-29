@@ -1,7 +1,8 @@
-import { FunctionalComponent } from 'vue'
-import { getPrefixCls } from '/@/components/_util'
+import type { FunctionalComponent } from 'vue'
+import { getPrefixCls } from '@wd-design/pro-utils'
 import type { ProCardTabPaneProps, CardProps } from '../../typings'
 import Card from '../Card'
+
 import './style.less'
 
 const TabPane: FunctionalComponent<ProCardTabPaneProps> = (props, { slots }) => {

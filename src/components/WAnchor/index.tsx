@@ -12,13 +12,15 @@ import { useStore } from 'vuex'
 import { MenuOutlined, CloseOutlined } from '@ant-design/icons-vue'
 import { cloneDeep } from 'lodash-es'
 import config from '/config/config'
-import useMediaQuery from '/@/hooks/event/useMediaQuery'
+import { useMediaQuery } from '@wd-design/pro-hooks/event'
+import {
+  addEventListener,
+  getScroll,
+  scrollTo,
+  throttleByAnimationFrame
+} from '@wd-design/pro-utils'
 import { handleOffsetTop } from '/@/utils/util'
 import { DefaultAnchor } from './DefaultAnchor'
-import addEventListener from '../_util/dom/addEventListener'
-import getScroll from '../_util/scroll/getScroll'
-import scrollTo from '../_util/scroll/scrollTo'
-import throttleByAnimationFrame from '../_util/scroll/throttleByAnimationFrame'
 
 import styles from './style.module.less'
 

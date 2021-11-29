@@ -1,7 +1,7 @@
 import { inject, InjectionKey, provide, Ref } from 'vue'
 import type { FormItemProps } from 'ant-design-vue'
 import type { NamePath } from 'ant-design-vue/lib/form/interface'
-import type { ProSchemaValueType, SearchTransformKeyFn } from '/@/components/_util/typings'
+import type { ProSchemaValueType, SearchTransformKeyFn } from '@wd-design/pro-utils'
 import type { GroupProps, FieldProps, ProFormInstance } from './typings'
 
 // @ts-ignore
@@ -9,6 +9,7 @@ export type ContextType<T> = any;
 
 export interface FieldContextProps {
   fieldProps?: FieldProps;
+  lightFilterModelRef?: any;
   formItemProps?: FormItemProps;
   groupProps?: GroupProps;
   setFieldValueType?: (
@@ -21,7 +22,7 @@ export interface FieldContextProps {
     }
   ) => void;
   formRef?: ProFormInstance;
-  handleChangeModel?: (fieldVal: any, initValue?: boolean) => void;
+  handleChangeModel?: (fieldVal: any) => void;
   /** Form 组件的类型 */
   formComponentType?: string;
 

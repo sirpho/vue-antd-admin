@@ -1,8 +1,7 @@
 import type { FunctionalComponent } from 'vue'
 import { cloneVNode, ref } from 'vue'
 import { RightOutlined } from '@ant-design/icons-vue'
-import { LabelIconTip } from '@wd-design/pro-utils'
-import { getPrefixCls } from '/@/components/_util'
+import { getPrefixCls, LabelIconTip } from '@wd-design/pro-utils'
 import type { GroupProps } from '../../typings'
 import { useFieldContext } from '../../FieldContext'
 

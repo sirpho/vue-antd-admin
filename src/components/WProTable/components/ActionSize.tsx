@@ -1,4 +1,5 @@
-import { FunctionalComponent, ref } from 'vue'
+import type { FunctionalComponent } from 'vue'
+import { ref } from 'vue'
 import { ColumnHeightOutlined } from '@ant-design/icons-vue'
 import styles from '../style.module.less'
 

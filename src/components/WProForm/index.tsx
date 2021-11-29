@@ -4,6 +4,8 @@ import LightFilter from './layouts/LightFilter';
 import ProFormItem from './components/FormItem'
 import ProFormText from './components/Text'
 
+import './index.less';
+
 export type {
   ProFormProps
 }

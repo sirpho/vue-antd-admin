@@ -1,4 +1,4 @@
-import { FunctionalComponent as FC } from 'vue'
+import type { FunctionalComponent as FC } from 'vue'
 import { siderMenuProps } from './props'
 import SiderMenu, { SiderMenuProps, PrivateSiderMenuProps } from './SiderMenu'
 

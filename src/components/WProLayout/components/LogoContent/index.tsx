@@ -1,4 +1,5 @@
-import { CSSProperties, defineComponent, ExtractPropTypes } from 'vue'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
+import { defineComponent } from 'vue'
 import Logo from '/@/assets/logo.png'
 import logoContentProps from './props'
 

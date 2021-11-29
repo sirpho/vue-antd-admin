@@ -1,4 +1,4 @@
-import supportsPassive from '../supportsPassive';
+import supportsPassive from './supportsPassive';
 
 export default function addEventListenerWrap(target, eventType, cb, option) {
   if (target.addEventListener) {

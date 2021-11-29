@@ -1,10 +1,10 @@
 import { computed, onMounted, ref, unref } from 'vue'
 import type { ComputedRef } from 'vue'
 import type { SelectPropsTypes } from 'ant-design-vue/lib/select'
+import { useTimeoutFn } from '@wd-design/pro-hooks/core'
+import { ProFieldValueEnumType, ProSchemaValueEnumMap } from '@wd-design/pro-utils'
 import { isFunction } from '/@/utils/validate'
-import { useTimeoutFn } from '/@/hooks/core/useTimeout'
 import type { FieldSelectProps } from './index'
-import { ProFieldValueEnumType, ProSchemaValueEnumMap } from '/@/components/_util/typings'
 
 export function useFetchList(
   propsRef: ComputedRef<FieldSelectProps>

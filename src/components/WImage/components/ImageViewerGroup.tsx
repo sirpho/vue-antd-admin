@@ -1,5 +1,5 @@
 import { cloneVNode, computed, defineComponent, ref, Teleport } from 'vue'
-import { getPrefixCls } from '/@/components/_util'
+import { getPrefixCls } from '@wd-design/pro-utils'
 import ImageViewer from './ImageViewer'
 import { wImagePorps } from '../props'
 

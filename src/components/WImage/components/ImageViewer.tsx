@@ -1,10 +1,10 @@
+import type { CSSProperties } from 'vue'
 import {
   defineComponent,
   ref,
   computed,
   nextTick,
-  watch,
-  CSSProperties
+  watch
 } from 'vue'
 import {
   OneToOneOutlined,
@@ -18,8 +18,8 @@ import {
   RotateRightOutlined,
   LoadingOutlined
 } from '@ant-design/icons-vue'
-import { onMountedOrActivated } from '/@/hooks/core/onMountedOrActivated'
-import { getPrefixCls, isFirefox, rafThrottle } from '/@/components/_util'
+import { onMountedOrActivated } from '@wd-design/pro-hooks/core'
+import { getPrefixCls, isFirefox, rafThrottle } from '@wd-design/pro-utils'
 import { on, off } from '/@/utils'
 import { wImageViewProps } from '../props'
 import { EVENT_CODE } from '../utils/aria'

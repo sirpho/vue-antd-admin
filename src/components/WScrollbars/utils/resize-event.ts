@@ -1,5 +1,5 @@
 import ResizeObserver from 'resize-observer-polyfill'
-import isServer from '/@/components/_util/isServer'
+import { isServer } from '@wd-design/pro-utils'
 
 declare type CustomizedHTMLElement<T> = HTMLElement & T
 

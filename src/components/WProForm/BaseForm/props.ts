@@ -1,6 +1,6 @@
 import type { FormItemProps } from 'ant-design-vue'
 import { Form } from 'ant-design-vue'
-import type { ProRequestData } from '/@/components/_util/useFetchData'
+import type { ProRequestData } from '@wd-design/pro-utils'
 import type { FormInstance, ProFormInstance, GroupProps, FieldProps } from '../typings'
 import type { SubmitterProps } from '../components/Submitter'
 
@@ -17,6 +17,7 @@ export const commonProps = {
   params: Object as PropType<Record<string, any>>,
   /** 发起网络请求的参数,返回值会覆盖给 initialValues */
   onInit: Function as PropType<(values: Record<string, any>, form: ProFormInstance<any>) => void>,
+  onValuesChange: Function as PropType<(changedValues: any, values: any) => void>,
   request: Function as PropType<ProRequestData<Record<string, any>, Record<string, any>>>,
   contentRender: Function as PropType<(
     items: VueNode[],

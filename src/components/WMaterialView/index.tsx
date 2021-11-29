@@ -1,8 +1,7 @@
+import type { CSSProperties, ExtractPropTypes, } from 'vue'
 import {
   computed,
-  CSSProperties,
   defineComponent,
-  ExtractPropTypes,
   ref,
   Teleport,
   watch,
@@ -15,7 +14,7 @@ import Music from 'xgplayer-music'
 import Nodata from '/@/assets/public_image/nodata.png'
 import MusicPng from '/@/assets/public_image/music.png'
 import global from '/@/common/global'
-import { getPrefixCls } from '/@/components/_util'
+import { getPrefixCls } from '@wd-design/pro-utils'
 import { getFileSuffix, getRandomNumber } from '/@/utils/util'
 import { isString, isArray } from '/@/utils/validate'
 import { wMaterialViewProps } from '../WMaterialView/props'

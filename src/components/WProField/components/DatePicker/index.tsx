@@ -1,8 +1,7 @@
 import { ExtractPropTypes, ref } from 'vue'
 import moment from 'moment'
 import { DatePicker } from 'ant-design-vue'
-import { FieldLabel, getPrefixCls } from '@wd-design/pro-utils'
-import parseValueToMoment from '/@/components/_util/parseValueToMoment'
+import { FieldLabel, getPrefixCls, parseValueToMoment } from '@wd-design/pro-utils'
 import type { ProFieldFC } from '../../index'
 import './index.less'
 

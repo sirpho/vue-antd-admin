@@ -1,8 +1,9 @@
 import type { FunctionalComponent } from 'vue'
 import { InfoCircleOutlined } from '@ant-design/icons-vue'
+import { getPrefixCls } from '@wd-design/pro-utils'
 import type { LabelTooltipType, WrapperTooltipProps } from '../../typings'
+
 import './index.less'
-import { getPrefixCls } from '/@/components/_util'
 
 /**
  * 在 form 的 label 后面增加一个 tips 来展示一些说明文案

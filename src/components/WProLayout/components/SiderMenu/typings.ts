@@ -1,4 +1,4 @@
-import { VNodeChild, CSSProperties, HTMLAttributes } from 'vue'
+import type { VNodeChild, CSSProperties, HTMLAttributes } from 'vue'
 
 export { MenuMode, MenuTheme } from 'ant-design-vue/es/menu/src/interface'
 

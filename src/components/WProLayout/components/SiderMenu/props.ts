@@ -1,4 +1,4 @@
-import { CSSProperties } from 'vue'
+import type { CSSProperties } from 'vue'
 import type { MenuTheme } from '/types/config'
 import { PropTypes } from '/@/utils'
 import { MenuDataItem, LayoutType } from '@wd-pro/pro-layout'

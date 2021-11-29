@@ -1,20 +1,20 @@
+import type { CSSProperties } from 'vue'
 import {
   defineComponent,
   reactive,
   onMounted,
   onBeforeUnmount,
   computed,
-  watch,
-  CSSProperties
+  watch
 } from 'vue'
-import {
+import type {
   eventsTypes,
   userSelectTypes,
   mouseOrTouchTypes,
   stateTypes,
   boundsTypes,
   positionTypes
-} from './types'
+} from './typings'
 import {
   matchesSelectorToParentElements,
   getComputedSize,

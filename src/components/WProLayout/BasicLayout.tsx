@@ -1,18 +1,17 @@
+import type { CSSProperties, ExtractPropTypes } from 'vue'
 import {
   defineComponent,
   ref,
   reactive,
-  CSSProperties,
   computed,
   onBeforeUnmount,
   toRefs,
   onMounted,
-  unref,
-  ExtractPropTypes
+  unref
 } from 'vue'
 import omit from 'omit.js'
-import useMediaQuery from '/@/hooks/event/useMediaQuery'
-import { getPropsSlotfn, getPropsSlot } from '/@/components/_util'
+import { useMediaQuery } from '@wd-design/pro-hooks/event'
+import { getPropsSlotfn, getPropsSlot } from '@wd-design/pro-utils'
 import { basicLayoutProps } from './props'
 import { provideRouteContext, defaultRouteContext, RouteContextProps } from './RouteContext'
 import { WrapContent } from './WrapContent'

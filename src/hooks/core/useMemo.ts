@@ -1,7 +1,7 @@
 import type { Ref, WatchSource } from 'vue'
 import { ref, watch } from 'vue'
 
-export default function useMemo<T>(
+export function useMemo<T>(
   getValue: () => T,
   condition: (WatchSource<unknown> | object)[],
   shouldUpdate?: (prev: any[], next: any[]) => boolean

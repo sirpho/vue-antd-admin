@@ -2,9 +2,9 @@ import { computed, defineComponent } from 'vue'
 import type { FormItemProps } from 'ant-design-vue'
 import { Form } from 'ant-design-vue'
 import { PropTypes } from '/@/utils'
-import useMemo from '/@/hooks/core/useMemo'
-import type { SearchTransformKeyFn, ProSchemaValueType } from '/@/components/_util/typings'
-import isDropdownValueType from '/@/components/_util/isDropdownValueType'
+import { useMemo } from '@wd-design/pro-hooks/core'
+import type { SearchTransformKeyFn, ProSchemaValueType } from '@wd-design/pro-utils'
+import { isDropdownValueType } from '@wd-design/pro-utils'
 import useEffect from './useEffect'
 import { provideFormItemContext } from './FormItemContext'
 import { useFieldContext } from '../../FieldContext'
@@ -89,6 +89,7 @@ const ProFormItem = defineComponent({
               ? formDom
               : (
                 <LightWrapper
+                  value={formRef?.modelRef[props.name as string]}
                   {...props.lightProps}
                   key={props.name?.toString()}
                 >

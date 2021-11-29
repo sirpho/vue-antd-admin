@@ -1,4 +1,4 @@
-import { VNodeChild, CSSProperties } from 'vue'
+import type { VNodeChild, CSSProperties } from 'vue'
 import { ProSearchConfig } from './column'
 import { ColSpanType } from '../components/TableSearch'
 

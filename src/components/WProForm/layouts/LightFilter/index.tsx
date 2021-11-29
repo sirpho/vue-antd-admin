@@ -194,7 +194,6 @@ const LightFilter: FC = (props: LightFilterProps<Record<string, any>>, { slots }
     collapse,
     collapseLabel,
     model,
-    // @ts-ignore
     onValuesChange,
     formRef: userFormRef,
     bordered,
@@ -225,6 +224,7 @@ const LightFilter: FC = (props: LightFilterProps<Record<string, any>>, { slots }
             bordered={bordered}
             collapse={collapse}
             collapseLabel={collapseLabel}
+            values={useFormContext.modelRef}
             footerRender={footerRender}
             onValuesChange={(_: any) => {
               console.log(useFormContext.modelRef)

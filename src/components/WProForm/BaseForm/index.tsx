@@ -3,13 +3,9 @@ import { cloneDeep, omit } from 'lodash-es'
 import { Form } from 'ant-design-vue'
 import type { FormProps, FormItemProps } from 'ant-design-vue'
 import type { NamePath } from 'ant-design-vue/lib/form/interface'
-import useMemo from '/@/hooks/core/useMemo'
-import type { ProFieldValueType, SearchTransformKeyFn } from '/@/components/_util/typings'
-import type { ProRequestData } from '/@/components/_util/useFetchData'
-import { set } from '/@/components/_util'
-import transformKeySubmitValue from '/@/components/_util/transformKeySubmitValue'
-import conversionMomentValue from '/@/components/_util/conversionMomentValue'
-import { useFetchData } from '/@/components/_util/useFetchData'
+import { useMemo } from '@wd-design/pro-hooks/core'
+import type { ProRequestData, ProFieldValueType, SearchTransformKeyFn } from '@wd-design/pro-utils'
+import { conversionMomentValue, set, useFetchData, transformKeySubmitValue } from '@wd-design/pro-utils'
 import { proFormProps, commonProps } from './props'
 import type { SubmitterProps } from '../components/Submitter'
 import type { FormInstance, ProFormInstance, FieldProps, GroupProps } from '../typings'
@@ -67,6 +63,9 @@ export type CommonFormProps<T extends Record<string, any> = Record<string, any>,
 
   /** 自动选中第一项 */
   autoFocusFirstInput?: boolean;
+
+  /** 字段值更新时触发回调事件 */
+  onValuesChange?: (changedValues: any, values: any) => void;
 };
 
 export type BaseFormProps<T = Record<string, any>> = {
@@ -92,9 +91,8 @@ const useForm = Form.useForm
 
 const BaseForm = defineComponent({
   props: proFormProps,
-  emits: [ 'finish', 'reset', 'init' ],
+  emits: [ 'finish', 'reset', 'init', 'valuesChange' ],
   setup(props, { slots, emit }) {
-
     const loading = ref<boolean>(false)
 
     const getProps = computed(() => props)
@@ -108,7 +106,7 @@ const BaseForm = defineComponent({
       params: unref(getProps).params
     })
 
-    console.log(getProps.value)
+    const lightFilterModelRef = computed(() => getModelRef.value)
 
     const useFormContext = useForm(getModelRef.value, unref(getProps).rules)! || ({} as any)
 
@@ -119,9 +117,12 @@ const BaseForm = defineComponent({
     //   immediate: true
     // })
 
-    const handleChangeModel = (fieldVal: any, initVal?: boolean) => {
+    const handleChangeModel = (fieldVal: any) => {
       Object.assign(changeModelRef, cloneDeep(fieldVal) || {})
-      if (initVal) useFormContext.clearValidate()
+      emit('valuesChange', cloneDeep({
+        ...getModelRef.value,
+        ...cloneDeep(fieldVal) || {}
+      }))
     }
 
     const fieldsValueType = ref<Record<string,
@@ -322,6 +323,7 @@ const BaseForm = defineComponent({
 
     provideFieldContext({
       formRef: useFormContext,
+      lightFilterModelRef,
       fieldProps: unref(getProps).fieldProps,
       formItemProps: unref(getProps).formItemProps,
       groupProps: unref(getProps).groupProps,
@@ -344,6 +346,7 @@ const BaseForm = defineComponent({
       const { omitNil, ...rest } = unref(getProps)
       return (
         <Form
+          class="wd-pro-form"
           {...omit(rest, [ ...Object.keys(commonProps), 'model', 'rules' ])}
           onFinish={async () => {
             // 没设置 onFinish 就不执行

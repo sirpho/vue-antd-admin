@@ -1,9 +1,10 @@
-import { ref, CSSProperties, defineComponent, computed } from 'vue'
+import type { CSSProperties } from 'vue'
+import { ref, defineComponent, computed } from 'vue'
 import { Select } from 'ant-design-vue'
 import type { SelectPropsTypes } from 'ant-design-vue/lib/select'
 import { SearchOutlined } from '@ant-design/icons-vue'
+import { getPrefixCls, FieldLabel } from '@wd-design/pro-utils'
 import { PropTypes } from '/@/utils'
-import { getPrefixCls, FieldLabel } from '/@/components/_util'
 
 import './index.less'
 

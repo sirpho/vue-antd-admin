@@ -1,6 +1,6 @@
+import type { FunctionalComponent } from 'vue'
 import {
   defineComponent,
-  FunctionalComponent,
   isVNode,
   cloneVNode,
   watch,
@@ -14,11 +14,10 @@ import type {
   ProFieldValueObjectType,
   ProFieldRequestData,
   ProFieldTextType
-} from '/@/components/_util/typings'
+} from '@wd-design/pro-utils'
+import { omitUndefined, pickProProps } from '@wd-design/pro-utils'
 import type { ProFieldFCRenderProps, ProRenderFieldPropsType, BaseProFieldFC } from './typings'
 import type { FieldMoneyProps } from './components/Money'
-import { omitUndefined } from '/@/components/_util'
-import pickProProps from '/@/components/_util/pickProProps'
 import { proFieldPropsType } from './props'
 import FieldImage from './components/Image'
 import FieldMoney from './components/Money'

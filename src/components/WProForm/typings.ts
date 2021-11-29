@@ -12,7 +12,7 @@ import type {
   SearchTransformKeyFn,
   ProFieldValueType,
   ProFieldProps
-} from '/@/components/_util/typings'
+} from '@wd-design/pro-utils'
 import { ProFormItemProps } from './components/FormItem'
 
 type namesType = string | string[];

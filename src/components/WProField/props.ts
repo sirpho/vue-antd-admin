@@ -1,4 +1,3 @@
-import { PropTypes } from '/@/utils'
 import type {
   ProFieldTextType,
   ProFieldValueType,
@@ -6,9 +5,9 @@ import type {
   ProSchemaValueEnumObj,
   ProSchemaValueEnumMap,
   ProFieldRequestData,
-} from '/@/components/_util/typings'
+} from '@wd-design/pro-utils'
+import { PropTypes } from '/@/utils'
 import type { ProFieldFCMode, ProRenderFieldPropsType } from './typings'
-import { PropType } from 'vue'
 
 export const proFieldPropsType = {
   text: [ Object, Array, String, Number, Boolean ] as PropType<ProFieldTextType>,

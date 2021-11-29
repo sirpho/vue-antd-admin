@@ -1,16 +1,11 @@
-import {
-  computed,
-  CSSProperties,
-  defineComponent,
-  ExtractPropTypes,
-  ref
-} from 'vue'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { BellOutlined } from '@ant-design/icons-vue'
+import { getPrefixCls } from '@wd-design/pro-utils'
 import { PropTypes } from '/@/utils'
 import NoticeList, { NoticeIconItem, NoticeIconTabProps } from './NoticeList'
 
 import './index.less'
-import { getPrefixCls } from '/@/components/_util'
 
 export const noticeIconProps = {
   class: PropTypes.string,

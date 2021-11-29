@@ -1,6 +1,7 @@
-import { computed, FunctionalComponent } from 'vue'
+import type { FunctionalComponent } from 'vue'
+import { computed } from 'vue'
 import { InfoCircleOutlined } from '@ant-design/icons-vue'
-import { getPrefixCls } from '/@/components/_util'
+import { getPrefixCls } from '@wd-design/pro-utils'
 
 import './style.less'
 

@@ -1,4 +1,4 @@
-import { CSSProperties } from 'vue'
+import type { CSSProperties } from 'vue'
 import type { NamePath } from 'ant-design-vue/lib/form/interface'
 import type { ProSchema, ProSchemaComponentTypes } from '../_util/typings'
 

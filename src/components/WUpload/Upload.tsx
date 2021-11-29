@@ -1,19 +1,19 @@
+import type { ExtractPropTypes, CSSProperties, } from 'vue'
 import {
   computed,
   defineComponent,
-  ExtractPropTypes,
   onDeactivated,
   onUnmounted,
   ref,
   unref,
-  CSSProperties, reactive
+  reactive
 } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { message } from 'ant-design-vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
 import { download } from '/@/services/common'
 import global from '/@/common/global'
-import { getPrefixCls, getPropsSlot } from '/@/components/_util'
+import { getPrefixCls, getPropsSlot } from '@wd-design/pro-utils'
 import { fileName } from '/@/utils/uploadFile'
 import {
   checkFileType,

@@ -1,9 +1,5 @@
-import {
-  FunctionalComponent as FC,
-  ExtractPropTypes,
-  computed,
-  unref
-} from 'vue'
+import type { FunctionalComponent as FC, ExtractPropTypes } from 'vue'
+import { computed, unref } from 'vue'
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue'
 import { useRouteContext } from '@wd-pro/pro-layout'
 import BaseMenu from './BaseMenu'

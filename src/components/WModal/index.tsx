@@ -10,7 +10,7 @@ import { omit } from 'lodash-es'
 import { CloseOutlined, FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons-vue'
 import { PropTypes } from '/@/utils'
 import { getRandomNumber } from '/@/utils/util'
-import { getPropsSlot } from '/@/components/_util'
+import { getPropsSlot } from '@wd-design/pro-utils'
 import { useModalDragMove } from './hooks/useModalDrag'
 
 import styles from './style.module.less'

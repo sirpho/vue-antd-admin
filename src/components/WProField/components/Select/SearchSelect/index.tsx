@@ -1,9 +1,10 @@
+import type { FunctionalComponent } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { Select } from 'ant-design-vue'
 import type { SelectPropsTypes } from 'ant-design-vue/lib/select'
 import type { LabeledValue } from 'ant-design-vue/es/select'
-import type { RequestOptionsType } from '/@/components/_util/typings'
-import { computed, ref, watch, FunctionalComponent } from 'vue'
-import { getPrefixCls } from '/@/components/_util'
+import type { RequestOptionsType } from '@wd-design/pro-utils'
+import { getPrefixCls } from '@wd-design/pro-utils'
 
 const { OptGroup } = Select
 

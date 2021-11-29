@@ -1,7 +1,7 @@
 import { computed, defineComponent, ExtractPropTypes } from 'vue'
+import { useMediaQuery } from '@wd-design/pro-hooks/event'
+import { getPrefixCls } from '@wd-design/pro-utils'
 import { PropTypes } from '/@/utils'
-import useMediaQuery from '/@/hooks/event/useMediaQuery'
-import { getPrefixCls } from '/@/components/_util'
 
 export const documentationProps = {
   anchorLinks: {

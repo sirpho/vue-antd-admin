@@ -1,9 +1,7 @@
 import { ref } from 'vue'
 import { TimePicker } from 'ant-design-vue'
 import moment from 'moment'
-import { getPrefixCls } from '/@/components/_util'
-import parseValueToMoment from '/@/components/_util/parseValueToMoment'
-import { FieldLabel } from '@wd-design/pro-utils'
+import { getPrefixCls, parseValueToMoment, FieldLabel } from '@wd-design/pro-utils'
 import type { ProFieldFC } from '../../index'
 
 /**
