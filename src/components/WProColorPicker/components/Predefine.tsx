@@ -1,4 +1,4 @@
-import { ref, watch, watchEffect, defineComponent, PropType, inject } from 'vue'
+import { ref, watch, watchEffect, defineComponent, inject } from 'vue'
 import Color from '../colors'
 import styles from '../style.module.less'
 

@@ -1,5 +1,5 @@
-import { ColumnProps } from 'ant-design-vue/lib/table/interface'
 import { VNodeChild } from 'vue'
+import { ColumnsType } from '../typings'
 
 /**
  * @param text 文本框
@@ -89,7 +89,7 @@ export type ProSearchConfig<Entity = Record<string, any>,
     | ProSchemaValueEnumObj
 };
 
-export interface ProColumns extends ColumnProps {
+export interface ProColumns<RecordType> extends ColumnsType<RecordType> {
   originAlign?: string;
   uuid?: string;
   fixType?: 'nofixed' | 'fixedLeft' | 'fixedRight';

@@ -1,10 +1,36 @@
-import { Descriptions as T } from 'ant-design-vue'
 import type { FormProps } from 'ant-design-vue'
 import { PropTypes } from '/@/utils'
+import { tuple } from '@wd-design/pro-utils'
 import type { ProCoreActionType, LabelTooltipType } from '../_util/typings'
 import type { ProDescriptionsItemProps, RowEditableConfig } from './typings'
 
-export const proDescriptionsProps = Object.assign({}, T.props, {
+const DEFAULT_COLUMN_MAP: Partial<Record<Breakpoint, number>> = {
+  xxl: 3,
+  xl: 3,
+  lg: 3,
+  md: 3,
+  sm: 2,
+  xs: 1
+}
+
+export const descriptionsProps = {
+  prefixCls: PropTypes.string,
+  bordered: PropTypes.looseBool,
+  size: PropTypes.oneOf(tuple('default', 'middle', 'small')).def('default'),
+  title: PropTypes.VNodeChild,
+  extra: PropTypes.VNodeChild,
+  column: {
+    type: [ Number, Object ] as PropType<number | Partial<Record<Breakpoint, number>>>,
+    default: (): number | Partial<Record<Breakpoint, number>> => DEFAULT_COLUMN_MAP
+  },
+  layout: PropTypes.oneOf(tuple('horizontal', 'vertical')),
+  colon: PropTypes.looseBool,
+  labelStyle: PropTypes.style,
+  contentStyle: PropTypes.style
+}
+
+export const proDescriptionsProps = {
+  ...descriptionsProps,
   params: {
     type: Object as PropType<Record<string, any>>
   },
@@ -26,4 +52,4 @@ export const proDescriptionsProps = Object.assign({}, T.props, {
   editable: Object as PropType<RowEditableConfig<Record<string, any>>>,
   dataSource: Array as PropType<Record<string, any>>,
   onDataSourceChange: Function as PropType<(value: Record<string, any>) => void>
-})
+}

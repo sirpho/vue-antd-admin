@@ -29,7 +29,7 @@ export const ActionSize: FunctionalComponent<{ size: string }> = (props, { emit 
           placement="bottomLeft"
           trigger={[ 'click' ]}
           get-popup-container={() => root.value}
-          overlay={menuSlot}
+          overlay={menuSlot()}
         >
           <ColumnHeightOutlined class={styles.action} />
         </a-dropdown>

@@ -6,13 +6,13 @@ import {
   computed,
 } from 'vue'
 import { cloneDeep } from 'lodash-es'
+import { PropTypes } from '/@/utils'
 import { getPrefixCls } from '@wd-design/pro-utils'
 import type {
   ProFieldRequestData,
   ProFieldValueEnumType,
   ProSchemaValueEnumObj
 } from '@wd-design/pro-utils'
-import { PropTypes } from '/@/utils'
 import { useFetchList, ObjToMap } from './useFetchList'
 import LightSelect from './LightSelect'
 import SearchSelect from './SearchSelect'

@@ -1,10 +1,65 @@
+import type { CSSProperties } from 'vue'
 import { VueElement } from 'vue'
 import type { Moment } from 'moment'
-import type { TooltipProps } from 'ant-design-vue/lib/tooltip'
 import type { NamePath } from 'ant-design-vue/lib/form/interface'
 import { FormInstance } from '../WProForm/typings'
 
 export type SizeType = 'small' | 'middle' | 'large' | undefined;
+
+export const tuple = <T extends string[]>(...args: T) => args
+
+type triggerTypes = 'hover' | 'focus' | 'click' | 'contextmenu'
+
+type placementTypes =
+  'top'
+  | 'left'
+  | 'right'
+  | 'bottom'
+  | 'topLeft'
+  | 'topRight'
+  | 'bottomLeft'
+  | 'bottomRight'
+  | 'leftTop'
+  | 'leftBottom'
+  | 'rightTop'
+  | 'rightBottom'
+
+export type abstractTooltipProps = {
+  trigger?: triggerTypes | triggerTypes[];
+  visible?: boolean;
+  defaultVisible?: boolean;
+  placement?: placementTypes;
+  color?: string;
+  transitionName?: string;
+  overlayStyle?: CSSProperties;
+  overlayClassName?: string;
+  openClassName?: string;
+  prefixCls?: string;
+  mouseEnterDelay?: number;
+  mouseLeaveDelay?: number;
+  getPopupContainer?: () => void;
+  arrowPointAtCenter?: boolean;
+  autoAdjustOverflow?: boolean | object;
+  destroyTooltipOnHide?: boolean;
+  align?: object;
+  builtinPlacements?: object;
+  children?: any[];
+  onVisibleChange?: () => void;
+};
+
+export type TooltipProps = {
+  title?: any;
+} & abstractTooltipProps;
+
+export type SpinProps = {
+  prefixCls?: string;
+  spinning?: boolean;
+  size?: 'small' | 'default' | 'large';
+  wrapperClassName?: string;
+  tip?: string;
+  delay?: number;
+  indicator?: any;
+};
 
 export type WrapperTooltipProps = TooltipProps & {
   icon?: VueElement;
@@ -245,10 +300,10 @@ export type ProSchema<Entity = Record<string, any>,
       record?: Entity;
       isEditable?: boolean;
       defaultRender: (
-        newItem: ProSchema<Entity, ExtraProps, ComponentsType, ValueType>,
+        newItem: ProSchema<Entity, ExtraProps, ComponentsType, ValueType>
       ) => JSX.Element | null;
     },
-    form: FormInstance,
+    form: FormInstance
   ) => VueNode;
 
   /** 可编辑表格是否可编辑 */

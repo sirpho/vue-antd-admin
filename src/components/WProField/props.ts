@@ -1,12 +1,12 @@
+import { PropTypes } from '/@/utils'
 import type {
   ProFieldTextType,
   ProFieldValueType,
   ProFieldValueObjectType,
   ProSchemaValueEnumObj,
   ProSchemaValueEnumMap,
-  ProFieldRequestData,
+  ProFieldRequestData
 } from '@wd-design/pro-utils'
-import { PropTypes } from '/@/utils'
 import type { ProFieldFCMode, ProRenderFieldPropsType } from './typings'
 
 export const proFieldPropsType = {
@@ -27,5 +27,5 @@ export const proFieldPropsType = {
   proFieldKey: [ String, Number ] as PropType<string | number>,
   render: Function as PropType<ProRenderFieldPropsType['render']>,
   renderFormItem: Function as PropType<ProRenderFieldPropsType['renderFormItem']>,
-  request: Function as PropType<ProFieldRequestData>,
+  request: Function as PropType<ProFieldRequestData>
 }

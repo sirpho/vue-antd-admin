@@ -1,8 +1,20 @@
-import { Tabs } from 'ant-design-vue'
 import { PropTypes } from '/@/utils'
 import type { Gutter, ColSpanType, ProCardTabsProps } from './typings'
 
-const TabPane = Tabs.TabPane
+export const tabPaneProps = {
+  tab: PropTypes.any,
+  disabled: { type: Boolean },
+  forceRender: { type: Boolean },
+  closable: { type: Boolean },
+  animated: { type: Boolean },
+  active: { type: Boolean },
+  destroyInactiveTabPane: { type: Boolean },
+
+  // Pass by TabPaneList
+  prefixCls: { type: String },
+  tabKey: { type: [ String, Number ] },
+  id: { type: String }
+}
 
 export const cardProps = {
   headStyle: PropTypes.style,
@@ -76,7 +88,8 @@ export const cardProps = {
   prefixCls: PropTypes.string
 }
 
-export const proCardTabPaneProps = Object.assign({}, TabPane.props, {
+export const proCardTabPaneProps = {
+  ...tabPaneProps,
   key: PropTypes.string,
   cardProps: cardProps
-})
+}

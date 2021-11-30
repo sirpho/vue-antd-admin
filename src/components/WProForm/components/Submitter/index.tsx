@@ -1,5 +1,5 @@
 import type { FunctionalComponent } from 'vue'
-import omit from 'omit.js'
+import { omit } from 'lodash-es'
 import type { ButtonProps } from 'ant-design-vue'
 import type { FormInstance } from '../../typings'
 

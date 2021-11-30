@@ -8,7 +8,7 @@ import {
   provide,
   watch
 } from 'vue'
-import debounce from 'lodash/debounce'
+import { debounce } from 'lodash'
 import { proColorProps } from './props'
 import Color from './colors'
 import HueSlider from './components/HueSlider'

@@ -1,6 +1,6 @@
 import { computed, onMounted, ref, unref } from 'vue'
 import type { ComputedRef } from 'vue'
-import type { SelectPropsTypes } from 'ant-design-vue/lib/select'
+import type { SelectProps } from './SearchSelect'
 import { useTimeoutFn } from '@wd-design/pro-hooks/core'
 import { ProFieldValueEnumType, ProSchemaValueEnumMap } from '@wd-design/pro-utils'
 import { isFunction } from '/@/utils/validate'
@@ -22,7 +22,7 @@ export function useFetchList(
     const { request, valueEnum, fieldProps, params } = unref(propsRef)
     if (!request || !isFunction(request)) {
       if (valueEnum) {
-        const options: SelectPropsTypes<any>['options'] = proFieldParsingValueEnumToArray(ObjToMap(
+        const options: SelectProps['options'] = proFieldParsingValueEnumToArray(ObjToMap(
           valueEnum))
           .map(({ value, text, ...rest }) => ({
             label: text,

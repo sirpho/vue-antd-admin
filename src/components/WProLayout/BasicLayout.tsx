@@ -9,7 +9,7 @@ import {
   onMounted,
   unref
 } from 'vue'
-import omit from 'omit.js'
+import { omit } from 'lodash-es'
 import { useMediaQuery } from '@wd-design/pro-hooks/event'
 import { getPropsSlotfn, getPropsSlot } from '@wd-design/pro-utils'
 import { basicLayoutProps } from './props'

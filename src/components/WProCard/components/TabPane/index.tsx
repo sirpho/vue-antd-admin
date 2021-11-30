@@ -1,23 +1,20 @@
 import type { FunctionalComponent } from 'vue'
 import { getPrefixCls } from '@wd-design/pro-utils'
-import type { ProCardTabPaneProps, CardProps } from '../../typings'
+import type { ProCardTabPaneProps } from '../../typings'
 import Card from '../Card'
 
 import './style.less'
 
-const TabPane: FunctionalComponent<ProCardTabPaneProps> = (props, { slots }) => {
+const TabPane: FunctionalComponent<ProCardTabPaneProps> = (props, { slots, attrs }) => {
   const {
     key,
     tab,
     tabKey,
     disabled,
     destroyInactiveTabPane,
-    className,
-    style,
+    cardProps = {},
     ...rest
   } = props
-
-  const cardProps = props.cardProps as CardProps
 
   const baseClassName = getPrefixCls({
     suffixCls: 'card'
@@ -29,10 +26,10 @@ const TabPane: FunctionalComponent<ProCardTabPaneProps> = (props, { slots }) => 
       tabKey={tabKey}
       tab={tab}
       class={{
-        [`${className}`]: className,
+        [`${attrs.class}`]: attrs.class,
         [`${baseClassName}-tabpane`]: true
       }}
-      style={style}
+      style={attrs.style}
       disabled={disabled}
       destroyInactiveTabPane={destroyInactiveTabPane}
       {...rest}

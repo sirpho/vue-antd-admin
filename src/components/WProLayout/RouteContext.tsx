@@ -60,7 +60,7 @@ const routeContextInjectKey: InjectionKey<RouteContextProps> = Symbol('route-con
 export const createRouteContext = () =>
   createContext<RouteContextProps>(routeContextInjectKey, 'RouteContext.Provider')
 
-export const provideRouteContext = (value: RouteContextProps | Ref<RouteContextProps>) => {
+export const provideRouteContext = (value: RouteContextProps | Ref<RouteContextProps> | any) => {
   provide(routeContextInjectKey, value)
 }
 

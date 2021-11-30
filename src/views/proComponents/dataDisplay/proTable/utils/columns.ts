@@ -10,7 +10,6 @@ export default {
         valueType: 'text',
         placeholder: '请输入'
       },
-      slots: { title: 'FullName', customRender: 'name' }
     },
     { title: 'Age', dataIndex: 'age', key: 'age', width: 150 },
     {
@@ -38,7 +37,6 @@ export default {
       copyable: true,
       dataIndex: 'action',
       key: 'action',
-      slots: { customRender: 'action' }
     }
   ],
   proTable: [

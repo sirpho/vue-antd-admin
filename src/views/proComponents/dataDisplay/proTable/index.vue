@@ -95,14 +95,18 @@
             </a-select-option>
           </a-select>
         </template>
-        <template #FullName>
-          FullName
+        <template #headerCell="{ column }">
+          <template v-if="column.dataIndex === 'name'">
+            FullName
+          </template>
         </template>
-        <template #name="{ record  }">
-          这是高级列表的FullName的字段（测试溢出展示）：{{ record.title }}
-        </template>
-        <template #action>
-          <a>这是高级列表的action的字段（测试溢出展示并且可复制）</a>
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.dataIndex === 'name'">
+            这是高级列表的FullName的字段（测试溢出展示）：{{ record.title }}
+          </template>
+          <template v-if="column.dataIndex === 'action'">
+            <a>这是高级列表的action的字段（测试溢出展示并且可复制）</a>
+          </template>
         </template>
       </w-pro-table>
       <ProTableApi />

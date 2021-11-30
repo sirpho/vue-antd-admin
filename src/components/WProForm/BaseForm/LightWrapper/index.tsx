@@ -2,7 +2,13 @@ import type { CSSProperties } from 'vue'
 import { cloneVNode, computed, defineComponent, ref, watch } from 'vue'
 import { omit } from 'lodash-es'
 import { PropTypes } from '/@/utils'
-import { FieldLabel, FilterDropdown, getPrefixCls, dateFormatterMap, dateArrayFormatter } from '@wd-design/pro-utils'
+import {
+  FieldLabel,
+  FilterDropdown,
+  getPrefixCls,
+  dateFormatterMap,
+  dateArrayFormatter
+} from '@wd-design/pro-utils'
 import { useFieldContext } from '../../FieldContext'
 import { useFormItemContext } from '../../components/FormItem/FormItemContext'
 import type { LightFilterFooterRender } from '../../typings'
@@ -79,7 +85,7 @@ const LightWrapper = defineComponent({
       props.otherFieldProps?.onChange?.(...restParams)
       props.onChange?.(...restParams)
       const field = {}
-      field[ name as string ] = restParams[0]
+      field[name as string] = restParams[0]
       handleChangeModel(field)
     }
 
@@ -121,10 +127,10 @@ const LightWrapper = defineComponent({
 
     const isChildrenSymbol = (children) => {
       return children.length === 1 &&
-      (
-        String(children[0].type) === String(Symbol('Fragment')) ||
-        String(children[0].type) === String(Symbol())
-      )
+        (
+          String(children[0].type) === String(Symbol('Fragment')) ||
+          String(children[0].type) === String(Symbol())
+        )
     }
 
     return () => {

@@ -1,4 +1,4 @@
-import { defineComponent, watch, ref, onMounted, getCurrentInstance, PropType } from 'vue'
+import { defineComponent, watch, ref, onMounted, getCurrentInstance } from 'vue'
 import type Color from '../colors'
 import draggable from '../draggable'
 import styles from '../style.module.less'

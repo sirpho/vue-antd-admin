@@ -1,4 +1,4 @@
-import { defineComponent, reactive, watch, ref, ExtractPropTypes, computed } from 'vue'
+import { defineComponent, reactive, watch, ref, ExtractPropTypes, computed, renderSlot } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import {
   SettingOutlined,
@@ -10,11 +10,11 @@ import {
 import styles from '../style.module.less'
 
 export interface ColumnsState {
-  uuid: string;
+  uuid?: string;
   dataIndex?: string;
-  key: string;
-  title: string;
-  checked: boolean;
+  key?: string;
+  title?: string;
+  checked?: boolean;
   slots?: any;
   fixType?: 'nofixed' | 'fixedLeft' | 'fixedRight';
   children?: ColumnsState[];
@@ -58,9 +58,9 @@ const ActionColumns = defineComponent({
      */
     const formatColumns = (columns) => {
       state.treeColumnsData = cloneDeep(columns).map((item, index) => {
+        delete item.slots
         return {
           ...item,
-          slots: { title: 'titleName' },
           key: `0-${index}`,
           children: []
         }
@@ -377,10 +377,14 @@ const ActionColumns = defineComponent({
 
     const treeTitleSlots = (record) => {
       const columnsItem: any = props.columns.find(item => item.uuid === record.uuid)
-      return record.title || (
-        columnsItem.slots
-          ? (slots[columnsItem.slots?.title] ? slots[columnsItem.slots?.title]!() : '')
-          : ''
+      return record.title || renderSlot(
+        slots,
+        'headerCell',
+        {
+          title: columnsItem.title,
+          column: columnsItem,
+        },
+        () => [columnsItem.title as any]
       )
     }
 
@@ -426,76 +430,78 @@ const ActionColumns = defineComponent({
       </div>
     )
 
-    const popoverContent = () => (
-      <>
-        {state.fixType.includes('fixedLeft') && (
-          <>
-            <div class={styles['fixed-title']}>
-              固定在左侧
-            </div>
-            <a-tree
-              draggable
-              checkable
-              checkedKeys={state.leftCheckedKeys}
-              tree-data={state.leftColumnsData}
-              style={{ width: '100%' }}
-              onDrop={info => popoverDrop(info, 'fixedLeft')}
-              onCheck={info => popoverCheck(info, 'fixedLeft')}
-              v-slots={{
-                titleName: (e) => TreeTitle(e, 'fixedLeft')
-              }}
-            />
-          </>
-        )}
-        {state.fixType.includes('nofixed') && (
-          <>
-            {
-              (state.fixType.includes('fixedLeft') || state.fixType.includes('fixedRight')) && (
-                <div class={styles['fixed-title']}>
-                  不固定
-                </div>
-              )}
-            <a-tree
-              draggable
-              checkable
-              checkedKeys={state.checkedKeys}
-              tree-data={state.columnsData}
-              style={{ width: '100%' }}
-              onDrop={info => popoverDrop(info, 'nofixed')}
-              onCheck={info => popoverCheck(info, 'nofixed')}
-              v-slots={{
-                titleName: (e) => TreeTitle(e, 'nofixed')
-              }}
-            />
-          </>
-        )}
-        {state.fixType.includes('fixedRight') && (
-          <>
-            <div class={styles['fixed-title']}>
-              固定在右侧
-            </div>
-            <a-tree
-              draggable
-              checkable
-              checkedKeys={state.rightCheckedKeys}
-              tree-data={state.rightColumnsData}
-              style={{ width: '100%' }}
-              onDrop={info => popoverDrop(info, 'fixedRight')}
-              onCheck={info => popoverCheck(info, 'fixedRight')}
-              v-slots={{
-                titleName: (e) => TreeTitle(e, 'fixedRight')
-              }}
-            />
-          </>
-        )}
-      </>
-    )
+    const popoverContent = () => {
+      return (
+        <>
+          {state.fixType.includes('fixedLeft') && (
+            <>
+              <div class={styles['fixed-title']}>
+                固定在左侧
+              </div>
+              <a-tree
+                draggable
+                checkable
+                checkedKeys={state.leftCheckedKeys}
+                tree-data={state.leftColumnsData}
+                style={{ width: '100%' }}
+                onDrop={info => popoverDrop(info, 'fixedLeft')}
+                onCheck={info => popoverCheck(info, 'fixedLeft')}
+                v-slots={{
+                  title: (e) => TreeTitle(e, 'fixedLeft')
+                }}
+              />
+            </>
+          )}
+          {state.fixType.includes('nofixed') && (
+            <>
+              {
+                (state.fixType.includes('fixedLeft') || state.fixType.includes('fixedRight')) && (
+                  <div class={styles['fixed-title']}>
+                    不固定
+                  </div>
+                )}
+              <a-tree
+                draggable
+                checkable
+                checkedKeys={state.checkedKeys}
+                tree-data={state.columnsData}
+                style={{ width: '100%' }}
+                onDrop={info => popoverDrop(info, 'nofixed')}
+                onCheck={info => popoverCheck(info, 'nofixed')}
+                v-slots={{
+                  title: (e) => TreeTitle(e, 'nofixed')
+                }}
+              />
+            </>
+          )}
+          {state.fixType.includes('fixedRight') && (
+            <>
+              <div class={styles['fixed-title']}>
+                固定在右侧
+              </div>
+              <a-tree
+                draggable
+                checkable
+                checkedKeys={state.rightCheckedKeys}
+                tree-data={state.rightColumnsData}
+                style={{ width: '100%' }}
+                onDrop={info => popoverDrop(info, 'fixedRight')}
+                onCheck={info => popoverCheck(info, 'fixedRight')}
+                v-slots={{
+                  title: (e) => TreeTitle(e, 'fixedRight')
+                }}
+              />
+            </>
+          )}
+        </>
+      )
+    }
 
     return () => (
       <div class={styles['action-columns']} ref={e => actionRef.value = e}>
         <a-popover
-          title={popoverTitle}
-          content={popoverContent}
+          title={popoverTitle()}
+          content={popoverContent()}
           placement="bottomRight"
           trigger="click"
           get-popup-container={() => actionRef.value}

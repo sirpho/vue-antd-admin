@@ -1,17 +1,38 @@
 import { computed, defineComponent } from 'vue'
-import type { FormItemProps } from 'ant-design-vue'
+import type { FormItemProps, ColProps } from 'ant-design-vue'
 import { Form } from 'ant-design-vue'
 import { PropTypes } from '/@/utils'
 import { useMemo } from '@wd-design/pro-hooks/core'
 import type { SearchTransformKeyFn, ProSchemaValueType } from '@wd-design/pro-utils'
-import { isDropdownValueType } from '@wd-design/pro-utils'
+import { isDropdownValueType, tuple } from '@wd-design/pro-utils'
 import useEffect from './useEffect'
 import { provideFormItemContext } from './FormItemContext'
 import { useFieldContext } from '../../FieldContext'
 import type { LightWrapperProps } from '../../BaseForm/LightWrapper'
 import LightWrapper from '../../BaseForm/LightWrapper'
 
-const FormItem = Form.Item
+export const formItemProps = {
+  htmlFor: PropTypes.string,
+  prefixCls: PropTypes.string,
+  label: PropTypes.VNodeChild,
+  help: PropTypes.VNodeChild,
+  extra: PropTypes.VNodeChild,
+  labelCol: { type: Object as PropType<ColProps> },
+  wrapperCol: { type: Object as PropType<ColProps> },
+  hasFeedback: PropTypes.looseBool.def(false),
+  colon: PropTypes.looseBool,
+  labelAlign: PropTypes.oneOf(tuple('left', 'right')),
+  prop: { type: [ String, Number, Array ] as PropType<string | number | string[] | number[]> },
+  name: { type: [ String, Number, Array ] as PropType<string | number | string[] | number[]> },
+  rules: PropTypes.oneOfType([ Array, Object ]),
+  autoLink: PropTypes.looseBool.def(true),
+  required: PropTypes.looseBool,
+  validateFirst: PropTypes.looseBool,
+  validateStatus: PropTypes.oneOf(tuple('', 'success', 'warning', 'error', 'validating')),
+  validateTrigger: { type: [ String, Array ] as PropType<string | string[]> },
+  messageVariables: { type: Object as PropType<Record<string, string>> },
+  hidden: Boolean
+}
 
 type WarpFormItemProps = {
   /** @name 前置的dom * */
@@ -21,7 +42,7 @@ type WarpFormItemProps = {
 };
 
 const proFormItemProps = {
-  ...FormItem.props,
+  ...formItemProps,
   addonBefore: Object as PropType<VueNode>,
   addonAfter: Object as PropType<VueNode>,
   valueType: String as PropType<ProSchemaValueType<'text'>>,

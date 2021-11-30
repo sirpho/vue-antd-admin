@@ -8,8 +8,8 @@ export function useTableForm(
     propsParamsRef
   }
 ) {
-  const formDataRef = ref(unref(props).search?.data || [])
-  const formParamsRef = ref(unref(props).params)
+  const formDataRef = ref<any[]>(unref(props).search?.searchData || [])
+  const formParamsRef = ref(unref(props).params || {})
 
   watch(
     () => unref(props).search,
@@ -45,7 +45,7 @@ export function useTableForm(
             return item
           })
           formParamsRef.value = {
-            ...formParamsRef.value,
+            ...formParamsRef.value as object,
             ...defaultParams
           }
         }
@@ -62,7 +62,7 @@ export function useTableForm(
     () => unref(propsParamsRef),
     (params) => {
       formParamsRef.value = {
-        ...formParamsRef.value,
+        ...formParamsRef.value as object,
         ...params
       }
     },
@@ -74,7 +74,7 @@ export function useTableForm(
 
   const getFormParamsRef = computed(() => {
     return {
-      ...unref(formParamsRef)
+      ...unref(formParamsRef as object)
     }
   })
 
@@ -88,7 +88,7 @@ export function useTableForm(
 
   function setFormParams(params) {
     formParamsRef.value = {
-      ...formParamsRef.value,
+      ...formParamsRef.value as object,
       ...cloneDeep(params)
     }
   }

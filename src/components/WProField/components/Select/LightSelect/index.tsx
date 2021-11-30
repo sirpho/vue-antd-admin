@@ -1,10 +1,10 @@
 import type { CSSProperties } from 'vue'
 import { ref, defineComponent, computed } from 'vue'
-import { Select } from 'ant-design-vue'
-import type { SelectPropsTypes } from 'ant-design-vue/lib/select'
+import { PropTypes } from '/@/utils'
 import { SearchOutlined } from '@ant-design/icons-vue'
 import { getPrefixCls, FieldLabel } from '@wd-design/pro-utils'
-import { PropTypes } from '/@/utils'
+import type { SelectProps } from '../SearchSelect'
+import { selectProps } from '../SearchSelect'
 
 import './index.less'
 
@@ -14,7 +14,7 @@ export type LightSelectProps = {
   placeholder?: any;
   class?: string;
   style?: CSSProperties;
-} & SelectPropsTypes<any>;
+} & SelectProps;
 
 /**
  * 如果有 label 就优先使用 label
@@ -38,7 +38,7 @@ const getValueOrLabel = (
 }
 
 const lightSelectProps = {
-  ...Select.props,
+  ...selectProps,
   actionRef: PropTypes.any,
   placeholder: PropTypes.any,
   class: PropTypes.string,
@@ -73,7 +73,10 @@ const LightSelect = defineComponent({
     const filterValue = computed(() => {
       return Array.isArray(props.value)
         ? props.value.map((v) => getValueOrLabel(valueMap.value, v))
-        : getValueOrLabel(valueMap.value, props.value)
+        : getValueOrLabel(
+          valueMap.value,
+          props.value as (string | { value: string, label: string })
+        )
     })
 
     return () => {
@@ -179,7 +182,7 @@ const LightSelect = defineComponent({
             expanded={open.value}
             bordered={bordered}
             allowClear={allowClear}
-            value={filterValue.value || value?.label || value}
+            value={filterValue.value || value?.['label'] || value}
             onClear={() => {
               onChange?.(undefined, undefined as any)
             }}

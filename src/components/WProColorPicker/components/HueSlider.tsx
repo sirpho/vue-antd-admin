@@ -6,7 +6,6 @@ import {
   getCurrentInstance,
   defineComponent
 } from 'vue'
-import type { PropType } from 'vue'
 import type Colors from '../colors'
 import draggable from '../draggable'
 import styles from '../style.module.less'

@@ -1,5 +1,5 @@
-import type { FunctionalComponent } from 'vue'
-import { defineComponent, PropType, reactive, ref, Ref, watch } from 'vue'
+import type { FunctionalComponent, Ref } from 'vue'
+import { defineComponent, reactive, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import {
   CloseOutlined,

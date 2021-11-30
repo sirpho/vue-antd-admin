@@ -1,14 +1,47 @@
 import type { ExtractPropTypes, FunctionalComponent } from 'vue'
 import { omit } from 'lodash-es'
-import { Input } from 'ant-design-vue'
 import type { SelectProps } from 'ant-design-vue/lib/vc-select'
-import ProField from '@wd-design/pro-field'
-import type { ProSchema } from '@wd-design/pro-utils'
+import { PropTypes } from '/@/utils'
+import type { ProSchema, SizeType } from '@wd-design/pro-utils'
 import { runFunction } from '/@/utils/util'
+import ProField from '@wd-design/pro-field'
 import createField from '../../BaseForm/createField'
 import type { ProFormFieldItemProps } from '../../typings'
 
-export type InputProps = Partial<ExtractPropTypes<typeof Input.props>>;
+export const inputProps = {
+  id: PropTypes.string,
+  prefixCls: PropTypes.string,
+  inputPrefixCls: PropTypes.string,
+  defaultValue: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+  value: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+  placeholder: {
+    type: [ String, Number ] as PropType<string | number>
+  },
+  type: PropTypes.string.def('text'),
+  name: PropTypes.string,
+  size: { type: String as PropType<SizeType> },
+  disabled: PropTypes.looseBool,
+  readonly: PropTypes.looseBool,
+  addonBefore: PropTypes.VNodeChild,
+  addonAfter: PropTypes.VNodeChild,
+  prefix: PropTypes.VNodeChild,
+  suffix: PropTypes.VNodeChild,
+  autofocus: PropTypes.looseBool,
+  allowClear: PropTypes.looseBool,
+  lazy: PropTypes.looseBool.def(true),
+  maxlength: PropTypes.number,
+  loading: PropTypes.looseBool,
+  onPressEnter: PropTypes.func,
+  onKeydown: PropTypes.func,
+  onKeyup: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  onInput: PropTypes.func,
+  'onUpdate:value': PropTypes.func
+}
+
+export type InputProps = Partial<ExtractPropTypes<typeof inputProps>>;
 
 export type ProFormFieldProps<T = any, FiledProps = InputProps & SelectProps<string>> = ProSchema<T,
   ProFormFieldItemProps<FiledProps> & {

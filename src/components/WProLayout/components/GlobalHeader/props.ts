@@ -1,4 +1,3 @@
-import type { PropType } from 'vue'
 import type { Theme } from '/types/config'
 import type { MenuDataItem } from '@wd-pro/pro-layout'
 import { PropTypes } from '/@/utils'

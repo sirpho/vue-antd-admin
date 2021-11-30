@@ -1,12 +1,10 @@
-import type { VNode } from 'vue'
-
 export type LayoutType = 'side' | 'mix';
 
 export interface MetaRecord {
   /**
    * @name 菜单的icon
    */
-  icon?: string | VNode;
+  icon?: string | VueNode;
   /**
    * @name 菜单的iconType
    */

@@ -1,5 +1,5 @@
 import { ComputedRef, inject, InjectionKey, provide } from 'vue'
-import type { NamePath } from 'ant-design-vue/lib/form/interface'
+import type { NamePath } from '../../typings'
 
 // @ts-ignore
 export type ContextType<T> = any;

@@ -1,10 +1,193 @@
-import type { FunctionalComponent } from 'vue'
+import type { FunctionalComponent, ExtractPropTypes, CSSProperties, VNode } from 'vue'
 import { computed, ref, watch } from 'vue'
 import { Select } from 'ant-design-vue'
-import type { SelectPropsTypes } from 'ant-design-vue/lib/select'
-import type { LabeledValue } from 'ant-design-vue/es/select'
+import { omit } from 'lodash-es'
+import type { SelectValue, LabeledValue } from 'ant-design-vue/lib/select'
+import type { Placement } from 'ant-design-vue/lib/vc-select/generate'
+import type {
+  Mode,
+  FieldNames,
+  RenderDOMFunc,
+  OptionsType as SelectOptionsType
+} from 'ant-design-vue/lib/vc-select/interface'
+import type {
+  FilterFunc,
+  OnClear,
+  CustomTagProps,
+  SingleType,
+  RawValueType,
+  SelectSource
+} from 'ant-design-vue/lib/vc-select/interface/generator'
+import { PropTypes } from '/@/utils'
 import type { RequestOptionsType } from '@wd-design/pro-utils'
-import { getPrefixCls } from '@wd-design/pro-utils'
+import { getPrefixCls, tuple } from '@wd-design/pro-utils'
+
+export function selectBaseProps<OptionType, ValueType>() {
+  return {
+    prefixCls: String,
+    id: String,
+
+    // Options
+    options: { type: Array as PropType<OptionType[]> },
+    mode: { type: String as PropType<Mode> },
+
+    // Value
+    value: {
+      type: [ String, Number, Object, Array ] as PropType<ValueType>,
+      default: undefined as ValueType
+    },
+    defaultValue: {
+      type: [ String, Number, Object, Array ] as PropType<ValueType>,
+      default: undefined as ValueType
+    },
+    labelInValue: { type: Boolean, default: undefined },
+
+    fieldNames: { type: Object as PropType<FieldNames> },
+    // Search
+    inputValue: String,
+    searchValue: String,
+    optionFilterProp: String,
+    /**
+     * In Select, `false` means do nothing.
+     * In TreeSelect, `false` will highlight match item.
+     * It's by design.
+     */
+    filterOption: {
+      type: [ Boolean, Function ] as PropType<boolean | FilterFunc<OptionType>>,
+      default: undefined
+    },
+    filterSort: {
+      type: Function as PropType<(optionA: OptionType, optionB: OptionType) => number>
+    },
+    showSearch: { type: Boolean, default: undefined },
+    autoClearSearchValue: { type: Boolean, default: undefined },
+    onSearch: { type: Function as PropType<(value: string) => void> },
+    onClear: { type: Function as PropType<OnClear> },
+
+    // Icons
+    allowClear: { type: Boolean, default: undefined },
+    clearIcon: PropTypes.any,
+    showArrow: { type: Boolean, default: undefined },
+    inputIcon: PropTypes.VNodeChild,
+    removeIcon: PropTypes.VNodeChild,
+    menuItemSelectedIcon: PropTypes.VNodeChild,
+
+    // Dropdown
+    open: { type: Boolean, default: undefined },
+    defaultOpen: { type: Boolean, default: undefined },
+    listHeight: Number,
+    listItemHeight: Number,
+    dropdownStyle: { type: Object as PropType<CSSProperties> },
+    dropdownClassName: String,
+    dropdownMatchSelectWidth: {
+      type: [ Boolean, Number ] as PropType<boolean | number>,
+      default: undefined
+    },
+    placement: {
+      type: String as PropType<Placement>
+    },
+    virtual: { type: Boolean, default: undefined },
+    dropdownRender: { type: Function as PropType<(menu: VNode) => any> },
+    dropdownAlign: PropTypes.any,
+    animation: String,
+    transitionName: String,
+    getPopupContainer: { type: Function as PropType<RenderDOMFunc> },
+    direction: { type: String as PropType<'ltr' | 'rtl'> },
+
+    // Others
+    disabled: { type: Boolean, default: undefined },
+    loading: { type: Boolean, default: undefined },
+    autofocus: { type: Boolean, default: undefined },
+    defaultActiveFirstOption: { type: Boolean, default: undefined },
+    notFoundContent: PropTypes.any,
+    placeholder: PropTypes.any,
+    backfill: { type: Boolean, default: undefined },
+    /** @private Internal usage. Do not use in your production. */
+    getInputElement: { type: Function as PropType<() => any> },
+    optionLabelProp: String,
+    maxTagTextLength: Number,
+    maxTagCount: { type: [ String, Number ] as PropType<number | 'responsive'> },
+    maxTagPlaceholder: PropTypes.any,
+    tokenSeparators: { type: Array as PropType<string[]> },
+    tagRender: { type: Function as PropType<(props: CustomTagProps) => any> },
+    showAction: { type: Array as PropType<('focus' | 'click')[]> },
+    tabindex: { type: [ Number, String ] },
+
+    // Events
+    onKeyup: { type: Function as PropType<(e: KeyboardEvent) => void> },
+    onKeydown: { type: Function as PropType<(e: KeyboardEvent) => void> },
+    onPopupScroll: { type: Function as PropType<(e: UIEvent) => void> },
+    onDropdownVisibleChange: { type: Function as PropType<(open: boolean) => void> },
+    onSelect: {
+      type: Function as PropType<(value: SingleType<ValueType>, option: OptionType) => void>
+    },
+    onDeselect: {
+      type: Function as PropType<(value: SingleType<ValueType>, option: OptionType) => void>
+    },
+    onInputKeyDown: { type: Function as PropType<(e: KeyboardEvent) => void> },
+    onClick: { type: Function as PropType<(e: MouseEvent) => void> },
+    onChange: {
+      type: Function as PropType<(value: ValueType, option: OptionType | OptionType[]) => void>
+    },
+    onBlur: { type: Function as PropType<(e: FocusEvent) => void> },
+    onFocus: { type: Function as PropType<(e: FocusEvent) => void> },
+    onMousedown: { type: Function as PropType<(e: MouseEvent) => void> },
+    onMouseenter: { type: Function as PropType<(e: MouseEvent) => void> },
+    onMouseleave: { type: Function as PropType<(e: MouseEvent) => void> },
+
+    // Motion
+    choiceTransitionName: String,
+
+    // Internal props
+    /**
+     * Only used in current version for internal event process.
+     * Do not use in production environment.
+     */
+    internalProps: {
+      type: Object as PropType<{
+        mark?: string;
+        onClear?: OnClear;
+        skipTriggerChange?: boolean;
+        skipTriggerSelect?: boolean;
+        onRawSelect?: (value: RawValueType, option: OptionType, source: SelectSource) => void;
+        onRawDeselect?: (value: RawValueType, option: OptionType, source: SelectSource) => void;
+      }>,
+      default: undefined as {
+        mark?: string;
+        onClear?: OnClear;
+        skipTriggerChange?: boolean;
+        skipTriggerSelect?: boolean;
+        onRawSelect?: (value: RawValueType, option: OptionType, source: SelectSource) => void;
+        onRawDeselect?: (value: RawValueType, option: OptionType, source: SelectSource) => void;
+      }
+    },
+    children: { type: Array as PropType<any[]> }
+  }
+}
+
+export function vcSelectProps<T>() {
+  return selectBaseProps<SelectOptionsType[number], T>()
+}
+
+export const selectProps = {
+  ...omit(vcSelectProps<SelectValue>(), [ 'inputIcon', 'mode', 'getInputElement', 'backfill' ]),
+  value: {
+    type: [ Array, Object, String, Number ] as PropType<SelectValue | KeyLabel | KeyLabel[]>
+  },
+  defaultValue: {
+    type: [ Array, Object, String, Number ] as PropType<SelectValue | KeyLabel | KeyLabel[]>
+  },
+  notFoundContent: PropTypes.any,
+  suffixIcon: PropTypes.any,
+  itemIcon: PropTypes.any,
+  size: PropTypes.oneOf(tuple('small', 'middle', 'large', 'default')),
+  mode: PropTypes.oneOf(tuple('multiple', 'tags', 'SECRET_COMBOBOX_MODE_DO_NOT_USE')),
+  bordered: PropTypes.looseBool.def(true),
+  transitionName: PropTypes.string.def('slide-up'),
+  choiceTransitionName: PropTypes.string.def('')
+}
+
+export type SelectProps = Partial<ExtractPropTypes<typeof selectProps>>;
 
 const { OptGroup } = Select
 
@@ -17,12 +200,11 @@ export type DataValueType<T> = KeyLabel & T;
 /** 可能单选，可能多选 */
 export type DataValuesType<T> = DataValueType<T> | DataValueType<T>[];
 
-export interface SearchSelectProps<T = Record<string, any>>
-  extends Omit<SelectPropsTypes<KeyLabel | KeyLabel[]>, 'options'> {
+export interface SearchSelectProps extends Omit<SelectProps, 'options'> {
   /** 自定义搜索方法, 返回搜索结果的 Promise */
-  request?: (params: { query: string }) => Promise<DataValueType<T>[]>;
+  request?: (params: { query: string }) => Promise<DataValueType<Record<string, any>>[]>;
   /** 自定义选项渲染 */
-  optionItemRender?: (item: DataValueType<T>) => VueNode;
+  optionItemRender?: (item: DataValueType<Record<string, any>>) => VueNode;
   /** 指定组件中的值 */
   value?: KeyLabel | KeyLabel[];
   /** 指定默认选中的条目 */
@@ -56,7 +238,7 @@ export interface SearchSelectProps<T = Record<string, any>>
   prefixCls?: string;
 }
 
-const SearchSelect: FunctionalComponent = <T, >(props: SearchSelectProps<T[]>, { attrs }) => {
+const SearchSelect: FunctionalComponent = (props: SearchSelectProps, { attrs }) => {
   const {
     optionItemRender,
     mode,
@@ -114,7 +296,7 @@ const SearchSelect: FunctionalComponent = <T, >(props: SearchSelectProps<T[]>, {
     }
   })
 
-  const getMergeValue: SelectPropsTypes<any>['onChange'] = (value, option) => {
+  const getMergeValue: SelectProps['onChange'] = (value, option) => {
     if (Array.isArray(value) && value.length > 0) {
       // 多选情况且用户有选择
       return value.map((item, index) => {

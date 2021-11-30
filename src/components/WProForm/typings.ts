@@ -1,6 +1,11 @@
 import type { CSSProperties, Ref } from 'vue'
 import type { SpaceProps, FormItemProps } from 'ant-design-vue'
-import type { NamePath, ValidateErrorEntity, RuleError } from 'ant-design-vue/lib/form/interface'
+import type {
+  NamePath,
+  ValidateErrorEntity,
+  RuleError,
+  Callbacks
+} from 'ant-design-vue/lib/form/interface'
 import type {
   validateOptions,
   ValidateInfo,
@@ -16,6 +21,11 @@ import type {
 import { ProFormItemProps } from './components/FormItem'
 
 type namesType = string | string[];
+
+export {
+  NamePath,
+  Callbacks
+}
 
 export type InternalNamePath = (string | number)[];
 

@@ -1,9 +1,8 @@
 import { defineComponent, onMounted, reactive, watch } from 'vue'
-import { Input as T } from 'ant-design-vue'
 import { SearchOutlined } from '@ant-design/icons-vue'
 
 const WInputSearch = defineComponent({
-  props: Object.assign({}, T.props, {
+  props: {
     searchValue: {
       type: [ String, Number ],
       required: true
@@ -12,7 +11,7 @@ const WInputSearch = defineComponent({
       type: Function,
       required: false
     }
-  }),
+  },
   setup(props, { emit }) {
     const state = reactive({
       value: props.searchValue
@@ -46,7 +45,7 @@ const WInputSearch = defineComponent({
     }
     return () => (
       <a-input-search
-        { ...props }
+        {...props}
         value={state.value}
         enterButton={<a-button><SearchOutlined /></a-button>}
         onChange={handleChange}

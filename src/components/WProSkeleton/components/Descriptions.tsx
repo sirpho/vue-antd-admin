@@ -1,4 +1,4 @@
-import useMediaQuery from '/@/hooks/event/useMediaQuery'
+import { useMediaQuery } from '@wd-design/pro-hooks/event'
 import { PageHeaderSkeleton, Line } from './List'
 
 export type DescriptionsPageSkeletonProps = {

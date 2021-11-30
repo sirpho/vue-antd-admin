@@ -1,11 +1,10 @@
-import { ExtractPropTypes, ref } from 'vue'
+import { ref } from 'vue'
 import moment from 'moment'
-import { DatePicker } from 'ant-design-vue'
+import { DatePicker, DatePickerProps } from 'ant-design-vue'
 import { FieldLabel, getPrefixCls, parseValueToMoment } from '@wd-design/pro-utils'
 import type { ProFieldFC } from '../../index'
 import './index.less'
 
-export type DatePickerProps = Partial<ExtractPropTypes<typeof DatePicker.props>>;
 
 /**
  * 日期选择组件

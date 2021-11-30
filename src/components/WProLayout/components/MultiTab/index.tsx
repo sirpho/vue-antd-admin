@@ -295,7 +295,7 @@ export default defineComponent({
     const defaultRenderTab = (record) => (
       <a-dropdown
         trigger="contextmenu"
-        overlay={_ => defaultRenderTabMenu(record)}
+        overlay={defaultRenderTabMenu(record)}
         onVisibleChange={_ => dropdownVisible(record.fullPath)}
       >
         <div class="wd-pro-multi-tab-content">
@@ -344,7 +344,7 @@ export default defineComponent({
     )
 
     const tabBarExtraContent = () => (
-      <a-dropdown overlay={defaultExtraMenu}>
+      <a-dropdown overlay={defaultExtraMenu()}>
         <EllipsisOutlined class="wd-pro-multi-tab-dropdown-menu-btn" rotate={90} />
       </a-dropdown>
     )
@@ -378,7 +378,7 @@ export default defineComponent({
             activeKey={state.tabActive}
             hideAdd
             type="editable-card"
-            tabBarExtraContent={tabBarExtraContent}
+            rightExtra={tabBarExtraContent()}
           >
             {
               visitedRoutes.value.map(item => (

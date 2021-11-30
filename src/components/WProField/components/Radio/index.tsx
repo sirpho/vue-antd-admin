@@ -1,14 +1,34 @@
 ﻿import { computed, defineComponent, ExtractPropTypes, ref } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { Radio, RadioGroup } from 'ant-design-vue'
-import { getPrefixCls } from '@wd-design/pro-utils'
+import { Radio } from 'ant-design-vue'
+import type { RadioGroupChildOption } from 'ant-design-vue/lib/radio/Group'
+import { PropTypes } from '/@/utils'
+import { getPrefixCls, tuple } from '@wd-design/pro-utils'
 import type { FieldSelectProps } from '../Select'
 import { proFieldParsingText, fieldSelectProps } from '../Select'
 import { ObjToMap, useFetchList } from '../Select/useFetchList'
 
 import './index.less'
 
-export type RadioGroupProps = Partial<ExtractPropTypes<typeof RadioGroup.props>>;
+const RadioGroupSizeTypes = tuple('large', 'default', 'small')
+
+const RadioGroupOptionTypes = tuple('default', 'button')
+
+export const radioGroupProps = {
+  prefixCls: PropTypes.string,
+  value: PropTypes.any,
+  size: PropTypes.oneOf(RadioGroupSizeTypes).def('default'),
+  options: {
+    type: Array as PropType<Array<String | RadioGroupChildOption>>
+  },
+  disabled: PropTypes.looseBool,
+  name: PropTypes.string,
+  buttonStyle: PropTypes.string.def('outline'),
+  id: PropTypes.string,
+  optionType: PropTypes.oneOf(RadioGroupOptionTypes).def('default')
+}
+
+export type RadioGroupProps = Partial<ExtractPropTypes<typeof radioGroupProps>>;
 
 export type GroupProps = {
   radioType?: 'button' | 'radio';

@@ -25,7 +25,7 @@ export type requsetConfig = (
 ) => Promise<Partial<RequestData>>
 
 export interface searchPorps {
-  type: string;
+  type: 'dataSouce' | 'columns' | 'slots';
   searchStyle?: CSSProperties;
   searchText?: string;
   resetText?: string;
@@ -46,11 +46,11 @@ export interface OptionConfig {
 }
 
 /** 操作类型 */
-export type ProCoreActionType = () => {
+export type ProCoreActionType = ({ reload, loadingOperation, reloadAndRest }: {
   /** @name 刷新 */
   reload: (info?: any) => void;
   /** @name 改变loading状态 */
   loadingOperation: (loading: boolean) => void;
   /** @name 刷新并清空表单，重置为第一页 */
   reloadAndRest?: () => void;
-}
+}) => void;

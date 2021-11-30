@@ -1,6 +1,5 @@
 import {
   defineComponent,
-  reactive,
   ref,
   unref,
   toRaw,
@@ -20,9 +19,8 @@ import {
   InfoCircleOutlined
 } from '@ant-design/icons-vue'
 import Nodata from '/@/assets/public_image/nodata.png'
-import DraggableResizable from '/@/components/DraggableResizable'
 import { hanndleField } from '/@/utils/util'
-import { isBoolean, isObject } from '/@/utils/validate'
+import { isBoolean, isNum, isObject } from '/@/utils/validate'
 import { getPrefixCls, getPropsSlot } from '@wd-design/pro-utils'
 import type { OptionConfig } from './types/table'
 import { useLoading } from './hooks/useLoading'
@@ -58,9 +56,6 @@ const defaultOptions: OptionConfig = {
   fullScreen: true
 }
 const WProTable = defineComponent({
-  components: {
-    DraggableResizable
-  },
   props: proTableProps,
   emits: [
     'reset',
@@ -80,14 +75,19 @@ const WProTable = defineComponent({
     const baseClassName = getPrefixCls({
       suffixCls: 'table'
     })
-    const draggingMap: Recordable = {}
     const screens = useBreakpoint()
     const tableRef = ref<any>()
     const fullScreen: Ref<boolean> = ref(false)
     const getProps = computed(() => {
       return { ...cloneDeep(props) } as ProTableProps
     })
-    const propsColumnsRef = computed(() => cloneDeep(props.columns))
+    const propsColumnsRef = computed(() => {
+      return cloneDeep(props.columns).map(column => {
+        if (column.dataIndex !== 'action') column.resizable =
+          isNum(column.width) && props.draggabled ? true : false
+        return column
+      })
+    })
     const propsParamsRef = computed(() => cloneDeep(props.params))
     const { getLoading, setLoading } = useLoading(getProps, emit)
     const { getSize, setSize } = useTableSize(getProps, emit)
@@ -99,6 +99,7 @@ const WProTable = defineComponent({
       getViewColumns,
       setColumns,
       reSetColumns,
+      resizeColumnWidth,
       getColumnsRef,
       setActionColumns,
       getActionColumsRef
@@ -146,12 +147,6 @@ const WProTable = defineComponent({
         }
       }
       return {}
-    })
-    const state = reactive({
-      draggingState: draggingMap
-    })
-    unref(getViewColumns).forEach(col => {
-      if (col.dataIndex && col.key) draggingMap[col.dataIndex || col.key] = col.width
     })
     onMounted(() => {
       if (props.actionRef) getProTable()
@@ -316,6 +311,9 @@ const WProTable = defineComponent({
     const expand = (expanded, record) => {
       emit('expand', expanded, record)
     }
+    const handleResizeColumn = (w, col) => {
+      resizeColumnWidth(w, col)
+    }
     /**
      * @Author      gx12358
      * @DateTime    2021/7/14
@@ -328,57 +326,6 @@ const WProTable = defineComponent({
       } else {
         emit('refresh')
       }
-    }
-    /**
-     * @Author      gx12358
-     * @DateTime    2021/7/14
-     * @lastTime    2021/7/14
-     * @description ant-table重新渲染表头
-     */
-    const resizeableTitle = (titleprops, { ...restProps }) => {
-      let thDom: any = null
-      const { children } = restProps[0]
-      const { key } = titleprops
-      const col = unref(getViewColumns).find(col => {
-        const k = col.dataIndex || col.key
-        return k === key
-      })
-      if (!col || !col.width || col.dataIndex === 'action' || !props.draggabled) {
-        return <th {...titleprops}>{children}</th>
-      }
-      const onDrag = x => {
-        state.draggingState[key] = 0
-        col.width = Math.max(x, 30)
-        const newViewColoumns = unref(getViewColumns).map(item => {
-          if (item.dataIndex === col.dataIndex) {
-            item.width = col.width
-          }
-          return item
-        })
-        setColumns(newViewColoumns)
-      }
-      const onDragstop = () => {
-        if (thDom && thDom['getBoundingClientRect']) {
-          state.draggingState[key] = thDom['getBoundingClientRect']().width
-        }
-      }
-      return (
-        <th {...titleprops} ref={r => { thDom = r }} width={col.width} class="resize-table-th">
-          {children}
-          <DraggableResizable
-            key={col.key}
-            class="table-draggable-handle"
-            w={10}
-            x={state.draggingState[key] || col.width}
-            z={1}
-            axis="x"
-            draggable={true}
-            resizable={false}
-            onDragging={onDrag}
-            onDragstop={onDragstop}
-          />
-        </th>
-      )
     }
     /**
      * @Author      gx12358
@@ -495,7 +442,9 @@ const WProTable = defineComponent({
             onDrop={onColumnsDrop}
             onReset={onResetColums}
             onChangeFixed={onChangeFixedColums}
-            v-slots={handleSlots(slots)}
+            v-slots={{
+              ...slots
+            }}
           />
         )}
         {
@@ -562,25 +511,22 @@ const WProTable = defineComponent({
             <a-config-provider renderEmpty={defaultEmpty}>
               <a-table
                 {...getBindValues.value}
-                components={{
-                  header: {
-                    cell: resizeableTitle
-                  }
-                }}
                 transformCellText={({ text, column }) => {
                   const { value, success } = hanndleField(
                     text,
-                    column.columnEmptyText || props.columnEmptyText
+                    column?.columnEmptyText || props?.columnEmptyText
                   )
-                  return column.ellipsis
+                  return column?.ellipsis
                     ? tooltipSlot(value, success, column)
                     : value
                 }}
                 onChange={changePage}
                 onExpandedRowsChange={expandedRowsChange}
                 onExpand={expand}
-                v-slots={handleSlots(slots)}
-              />
+                onResizeColumn={handleResizeColumn}
+              >
+                {handleSlots(slots)}
+              </a-table>
             </a-config-provider>
           </div>
         </div>

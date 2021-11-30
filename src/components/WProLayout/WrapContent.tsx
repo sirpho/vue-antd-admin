@@ -1,6 +1,5 @@
 import type { FunctionalComponent, CSSProperties } from 'vue'
 import { computed, toRefs } from 'vue'
-import 'ant-design-vue/es/layout/style'
 import { useRouteContext } from './RouteContext'
 import { getMenuFirstChildren } from './utils'
 import type { MultiTabProps } from './components/MultiTab'

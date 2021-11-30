@@ -1,8 +1,7 @@
 import { inject, InjectionKey, provide, Ref } from 'vue'
 import type { FormItemProps } from 'ant-design-vue'
-import type { NamePath } from 'ant-design-vue/lib/form/interface'
 import type { ProSchemaValueType, SearchTransformKeyFn } from '@wd-design/pro-utils'
-import type { GroupProps, FieldProps, ProFormInstance } from './typings'
+import type { GroupProps, FieldProps, ProFormInstance, NamePath } from './typings'
 
 // @ts-ignore
 export type ContextType<T> = any;
