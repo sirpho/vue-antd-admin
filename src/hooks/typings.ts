@@ -1,4 +1,4 @@
-import type { App, Plugin, Ref } from 'vue'
+import type { Ref } from 'vue'
 
 /**
  * Any function
@@ -14,13 +14,18 @@ export type Fn = () => void
  */
 export type MaybeRef<T> = T | Ref<T>
 
-export const withInstall = <T>(comp: T, name?: string) => {
-  const c = comp as any
-  c.install = function (app: App) {
-    app.component(name || c.displayName || c.name, comp)
-  }
+export type FunctionArgs<Args extends any[] = any[], Return = void> = (...args: Args) => Return
 
-  return comp as T & Plugin
+
+export interface FunctionWrapperOptions<Args extends any[] = any[], This = any> {
+  fn: FunctionArgs<Args, This>
+  args: Args
+  thisArg: This
 }
+
+export type EventFilter<Args extends any[] = any[], This = any> = (
+  invoke: Fn,
+  options: FunctionWrapperOptions<Args, This>
+) => void
 
 

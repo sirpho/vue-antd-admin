@@ -5,13 +5,26 @@ import {
   onMounted,
   ref,
   watch,
-  Teleport
+  Teleport,
+  nextTick
 } from 'vue'
-import { isServer, getPrefixCls, getPropsSlot } from '@wd-design/pro-utils'
+import {
+  isServer,
+  getPrefixCls,
+  getPropsSlot,
+  getScrollContainer,
+  isInContainer
+} from '@wd-design/pro-utils'
+import { useEventListener } from '@wd-design/pro-hooks/core'
+import { useThrottleFn } from '@wd-design/pro-hooks/shared'
+import { isString } from '/@/utils/validate'
 import ImageViewer from './components/ImageViewer'
 import { wImagePorps } from './props'
 
 import './style.less'
+
+const isHtmlElement = (e: any): e is Element =>
+  e && e.nodeType === Node.ELEMENT_NODE
 
 const isSupportObjectFit = () => document.documentElement.style.objectFit !== undefined
 
@@ -42,6 +55,10 @@ const WImage = defineComponent({
     const imgHeight = ref(0)
     const showViewer = ref(false)
     const container = ref<any>(null)
+
+    const _scrollContainer = ref<any>()
+    let stopScrollListener: () => void
+    let stopWheelListener: () => void
 
     const imageWidthHeightStyle = computed(() => {
       return {
@@ -137,6 +154,48 @@ const WImage = defineComponent({
       img.src = props.src
     }
 
+    function handleLazyLoad() {
+      if (isInContainer(container.value, _scrollContainer.value)) {
+        loadImage()
+        removeLazyLoadListener()
+      }
+    }
+
+    const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200)
+
+    const addLazyLoadListener = async () => {
+      if (isServer) return
+
+      await nextTick()
+
+      const { scrollContainer } = props
+
+      if (isHtmlElement(scrollContainer)) {
+        _scrollContainer.value = scrollContainer
+      } else if (isString(scrollContainer) && scrollContainer !== '') {
+        _scrollContainer.value =
+          document.querySelector<HTMLElement>(scrollContainer) ?? undefined
+      } else if (container.value) {
+        _scrollContainer.value = getScrollContainer(container.value)
+      }
+
+      if (_scrollContainer.value) {
+        stopScrollListener = useEventListener(
+          _scrollContainer,
+          'scroll',
+          lazyLoadHandler
+        )
+        setTimeout(() => handleLazyLoad(), 100)
+      }
+    }
+
+    const removeLazyLoadListener = () => {
+      if (isServer || !_scrollContainer.value || !lazyLoadHandler) return
+
+      stopScrollListener()
+      _scrollContainer.value = undefined
+    }
+
     const handleLoad = (_: Event, img: HTMLImageElement) => {
       imgWidth.value = img.width
       imgHeight.value = img.height
@@ -150,26 +209,56 @@ const WImage = defineComponent({
       emit('error', e)
     }
 
+    const wheelHandler = (e: WheelEvent) => {
+      if (!e.ctrlKey) return
+
+      if (e.deltaY < 0) {
+        e.preventDefault()
+        return false
+      } else if (e.deltaY > 0) {
+        e.preventDefault()
+        return false
+      }
+    }
+
     const clickHandler = () => {
       if (!preview.value || props.disablePreview) {
         return
       }
+
+      stopWheelListener = useEventListener('wheel', wheelHandler, {
+        passive: false,
+      })
+
       prevOverflow = document.body.style.overflow
       document.body.style.overflow = 'hidden'
       showViewer.value = true
     }
 
     const closeViewer = () => {
+      stopWheelListener?.()
       document.body.style.overflow = prevOverflow
       showViewer.value = false
     }
 
     watch(() => props.src, () => {
-      loadImage()
+      if (props.lazy) {
+        // reset status
+        loading.value = true
+        hasLoadError.value = false
+        removeLazyLoadListener()
+        addLazyLoadListener()
+      } else {
+        loadImage()
+      }
     })
 
     onMounted(() => {
-      loadImage()
+      if (props.lazy) {
+        addLazyLoadListener()
+      } else {
+        loadImage()
+      }
     })
 
     return () => {
@@ -179,8 +268,15 @@ const WImage = defineComponent({
       return (
         <>
           <div
+            class={{
+              [`${baseClassName}`]: true,
+              [`${getAttrs.value.class}`]: getAttrs.value.class
+            }}
             ref={e => container.value = e}
-            style={(getAttrs.value.style || {}) as CSSProperties}
+            style={{
+              ...(getAttrs.value.style || {}) as CSSProperties,
+              display: props.lazy ? 'block': undefined
+            }}
           >
             {
               loading.value

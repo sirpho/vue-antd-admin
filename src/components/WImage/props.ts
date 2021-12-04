@@ -17,6 +17,10 @@ export const wImagePorps = {
     type: String as PropType<string>,
     default: ''
   },
+  lazy: PropTypes.bool,
+  scrollContainer: {
+    type: [String, Object] as PropType<string | HTMLElement | undefined>,
+  },
   placeholder: {
     type: [ Function, Object ] as PropType<WithFalse<() => CustomRender>>,
     default: () => undefined
