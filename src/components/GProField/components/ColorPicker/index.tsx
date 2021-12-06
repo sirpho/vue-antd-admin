@@ -31,7 +31,7 @@ const FieldColorPicker: ProFieldFC<{
     return dom
   }
   if (type === 'edit' || type === 'update') {
-    const dom = <g-color {...fieldProps} predefine={fieldProps?.predefine || DEFAULT_COLORS} />
+    const dom = <g-color {...fieldProps} swatches={fieldProps?.swatches || DEFAULT_COLORS} />
     if (renderFormItem) {
       return renderFormItem(text, { mode: type, ...fieldProps }, dom)
     }

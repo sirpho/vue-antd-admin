@@ -1,8 +1,10 @@
+import { PropTypes } from '/@/utils'
 import type { OnUpdateValue, MaybeArray } from '@gx-design/pro-utils'
 import type { ColorPickerMode, ActionType } from './typings'
 
 export const colorPickerPanelProps = {
   value: String,
+  readonly: PropTypes.bool,
   show: {
     type: Boolean as PropType<boolean | undefined>,
     default: undefined
@@ -36,5 +38,5 @@ export const colorPickerPanelProps = {
   'onUpdate:show': [ Function, Array ] as PropType<MaybeArray<(value: boolean) => void>>,
   onUpdateShow: [ Function, Array ] as PropType<MaybeArray<(value: boolean) => void>>,
   'onUpdate:value': [ Function, Array ] as PropType<MaybeArray<OnUpdateValue>>,
-  onUpdateValue: [ Function, Array ] as PropType<MaybeArray<OnUpdateValue>>
+  onChange: [ Function, Array ] as PropType<MaybeArray<OnUpdateValue>>
 }

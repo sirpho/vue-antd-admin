@@ -53,7 +53,7 @@ export type ColorPickerProps = Partial<ExtractPropTypes<typeof colorPickerPanelP
 export default defineComponent({
   name: 'WColorPicker',
   props: colorPickerPanelProps,
-  setup(props, { slots }) {
+  setup(props, { slots, emit }) {
     const baseClassName = getPrefixCls({
       suffixCls: 'color',
       defaultPrefixCls: 'gx'
@@ -197,6 +197,7 @@ export default defineComponent({
             (showAlpha ? toHsvaString : toHsvString)([ hue, s, v, alpha ]),
             'cursor'
           )
+          emit('change', '')
           break
         case 'hsl':
           doUpdateValue(
@@ -304,8 +305,8 @@ export default defineComponent({
       } else {
         upcomingValue = null
       }
-      const { onUpdateValue, 'onUpdate:value': _onUpdateValue } = props
-      if (onUpdateValue) call(onUpdateValue as OnUpdateValueImpl, value)
+      const { onChange, 'onUpdate:value': _onUpdateValue } = props
+      if (onChange) call(onChange as OnUpdateValueImpl, value)
       if (_onUpdateValue) call(_onUpdateValue as OnUpdateValueImpl, value)
       uncontrolledValueRef.value = value
     }
@@ -545,7 +546,7 @@ export default defineComponent({
               size={props.size || 'middle'}
               value={mergedValueRef.value}
               hsla={hslaRef.value}
-              onClick={() => handleTriggerClick()}
+              onClick={() => !props.readonly && handleTriggerClick()}
             />
           </a-popover>
         </div>

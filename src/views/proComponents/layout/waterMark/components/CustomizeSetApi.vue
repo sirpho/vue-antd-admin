@@ -78,7 +78,7 @@
                 <a-input v-model:value="formState.content" placeholder="Basic usage" />
               </a-form-item>
               <a-form-item label="字体颜色">
-                <g-color v-model:value="formState.fontColor" :predefine="predefineColors" />
+                <g-color v-model:value="formState.fontColor" :swatches="predefineColors" />
               </a-form-item>
               <a-form-item label="字体大小">
                 <a-slider v-model:value="formState.fontSize" :min="1" :max="100" />
@@ -118,20 +118,16 @@ export default defineComponent({
     const state = reactive({
       code: config.code,
       predefineColors: [
-        '#ff4500',
-        '#ff8c00',
-        '#ffd700',
-        '#90ee90',
-        '#00ced1',
-        '#1e90ff',
-        '#c71585',
-        'rgba(255, 69, 0, 0.68)',
-        'rgb(255, 120, 0)',
-        'hsv(51, 100, 98)',
-        'hsva(120, 40, 94, 0.5)',
-        'hsl(181, 100%, 37%)',
-        'hsla(209, 100%, 56%, 0.73)',
-        '#c7158577'
+        '#FF9D4E', // 0 - 橘黄色
+        '#5BD8A6', // 1 - 绿色
+        '#5B8FF9', // 2 - 蓝色
+        '#F7664E', // 3 - 红色
+        '#FF86B7', // 4 - 水红色
+        '#2B9E9D', // 5 - 墨绿色
+        '#9270CA', // 6 - 紫色
+        '#6DC8EC', // 7 - 浅蓝色
+        '#667796', // 8 - 黛蓝色
+        '#F6BD16' // 9 - 黄色
       ],
       formState: {
         content: '示例水印',

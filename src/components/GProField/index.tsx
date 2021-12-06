@@ -286,6 +286,7 @@ const defaultRenderValue = (
 ) => {
   const renderNull = [
     'date',
+    'color',
     'dateWeek',
     'dateMonth',
     'dateQuarter',
