@@ -1,25 +1,25 @@
 <template>
-  <w-page-wrapper>
-    <w-image-viewer-group>
-      <w-image
+  <g-page-wrapper>
+    <g-image-viewer-group>
+      <g-image
         fit="cover"
         style="width: 100px; height: 100px"
         src="https://aliyuncdn.antdv.com/vue.png"
       />
-      <w-image
+      <g-image
         fit="cover"
         style="width: 100px; height: 100px"
         src="https://aliyuncdn.antdv.com/logo.png"
       />
-    </w-image-viewer-group>
+    </g-image-viewer-group>
     <div style="width: 300px;height: 500px;">
-      <w-bars style="height: 100%">
+      <g-bars style="height: 100%">
         <div style="padding: 20px;background: rgb(240, 242, 245)">
-          <w-image style="min-height: 200px;margin-bottom: 15px;" v-for="url in urls" :key="url" :src="url" lazy />
+          <g-image style="min-height: 200px;margin-bottom: 15px;" v-for="url in urls" :key="url" :src="url" lazy />
         </div>
-      </w-bars>
+      </g-bars>
     </div>
-  </w-page-wrapper>
+  </g-page-wrapper>
 </template>
 
 <script setup lang="ts">

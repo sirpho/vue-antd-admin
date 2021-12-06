@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import { ref, unref, computed, onMounted, onUnmounted, watch } from 'vue'
-import { getPrefixCls } from '@wd-design/pro-utils'
+import { getPrefixCls } from '@gx-design/pro-utils'
 import { PropTypes } from '/@/utils'
 
 const props = defineProps({
@@ -22,7 +22,7 @@ const props = defineProps({
 
 const prefixCls = getPrefixCls({
   suffixCls: 'iframe-page',
-  defaultPrefixCls: 'wd'
+  defaultPrefixCls: 'gx'
 })
 
 const loading = ref(true)

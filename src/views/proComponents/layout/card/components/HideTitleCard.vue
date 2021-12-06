@@ -7,10 +7,10 @@
   <div style="margin: 16px 0;font-size: 15px;line-height: 24px">
     头部没有内容时会自动隐藏。
   </div>
-  <div class="wd-markdown-demo">
-    <w-pro-card style="max-width: 300px;">
+  <div class="gx-markdown-demo">
+    <g-pro-card style="max-width: 300px;">
       内容
-    </w-pro-card>
+    </g-pro-card>
   </div>
 </template>
 

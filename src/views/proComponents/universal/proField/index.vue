@@ -1,5 +1,5 @@
 <template>
-  <w-page-wrapper>
+  <g-page-wrapper>
     <a-space>
       <a-radio-group v-model:value="state">
         <a-radio value="read">只读</a-radio>
@@ -10,24 +10,24 @@
     </a-space>
     <a-descriptions style="margin-top: 15px" :column="2">
       <a-descriptions-item label="空字符串">
-        <w-pro-field text="" mode="read" />
+        <g-pro-field text="" mode="read" />
       </a-descriptions-item>
       <a-descriptions-item label="头像">
-        <w-pro-field
+        <g-pro-field
           text="https://avatars2.githubusercontent.com/u/8186664?s=60&v=4"
           mode="read"
           valueType="avatar"
         />
       </a-descriptions-item>
       <a-descriptions-item label="文本">
-        <w-pro-field
+        <g-pro-field
           text="这是一段文本"
           :mode="state"
           :plain="plain"
         />
       </a-descriptions-item>
       <a-descriptions-item label="图片">
-        <w-pro-field
+        <g-pro-field
           text="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
           valueType="image"
           :mode="state"
@@ -35,7 +35,7 @@
         />
       </a-descriptions-item>
       <a-descriptions-item label="金额">
-        <w-pro-field
+        <g-pro-field
           text="100"
           valueType="money"
           :mode="state"
@@ -43,7 +43,7 @@
         />
       </a-descriptions-item>
       <a-descriptions-item label="颜色">
-        <w-pro-field
+        <g-pro-field
           text="#1099aa"
           valueType="color"
           :mode="state"
@@ -51,7 +51,7 @@
         />
       </a-descriptions-item>
       <a-descriptions-item label="数字">
-        <w-pro-field
+        <g-pro-field
           text="19897979797979"
           valueType="digit"
           :mode="state"
@@ -59,7 +59,7 @@
         />
       </a-descriptions-item>
       <a-descriptions-item label="秒格式化">
-        <w-pro-field
+        <g-pro-field
           text="2000000"
           valueType="second"
           :mode="state"
@@ -67,7 +67,7 @@
         />
       </a-descriptions-item>
       <a-descriptions-item label="百分比">
-        <w-pro-field
+        <g-pro-field
           text="100"
           valueType="percent"
           :mode="state"
@@ -75,7 +75,7 @@
         />
       </a-descriptions-item>
       <a-descriptions-item label="评分">
-        <w-pro-field
+        <g-pro-field
           text="3.5"
           valueType="rate"
           :mode="state"
@@ -83,7 +83,7 @@
         />
       </a-descriptions-item>
       <a-descriptions-item label="选择框">
-        <w-pro-field
+        <g-pro-field
           text="open"
           :mode="state"
           :valueEnum="{
@@ -104,7 +104,7 @@
         />
       </a-descriptions-item>
       <a-descriptions-item label="多选">
-        <w-pro-field
+        <g-pro-field
           :text="['open', 'closed']"
           :mode="state"
           valueType="checkbox"
@@ -126,7 +126,7 @@
         />
       </a-descriptions-item>
       <a-descriptions-item label="多选 labelInValue">
-        <w-pro-field
+        <g-pro-field
           :text="[
             {
               value: 'open1',
@@ -157,7 +157,7 @@
         />
       </a-descriptions-item>
       <a-descriptions-item label="单选">
-        <w-pro-field
+        <g-pro-field
           text="open"
           :mode="state"
           valueType="radio"
@@ -179,7 +179,7 @@
         />
       </a-descriptions-item>
       <a-descriptions-item label="单选按钮">
-        <w-pro-field
+        <g-pro-field
           text="open"
           :mode="state"
           valueType="radioButton"
@@ -201,7 +201,7 @@
         />
       </a-descriptions-item>
       <a-descriptions-item label="远程选择框">
-        <w-pro-field
+        <g-pro-field
           text="open"
           valueType="select"
           :mode="state"
@@ -223,7 +223,7 @@
         />
       </a-descriptions-item>
       <a-descriptions-item label="级联选择框">
-        <w-pro-field
+        <g-pro-field
           :text="['zhejiang', 'hangzhou', 'xihu']"
           valueType="cascader"
           :mode="state"
@@ -264,7 +264,7 @@
         />
       </a-descriptions-item>
       <a-descriptions-item label="进度条">
-        <w-pro-field
+        <g-pro-field
           text="40"
           valueType="progress"
           :mode="state"
@@ -273,7 +273,7 @@
       </a-descriptions-item>
       <a-descriptions-item label="百分比">
         <a-space>
-          <w-pro-field
+          <g-pro-field
             :text="10"
             :valueType="{
               type: 'percent',
@@ -282,7 +282,7 @@
             }"
             mode="read"
           />
-          <w-pro-field
+          <g-pro-field
             :text="0"
             :valueType="{
               type: 'percent',
@@ -291,7 +291,7 @@
             }"
             mode="read"
           />
-          <w-pro-field
+          <g-pro-field
             :text="-10"
             :valueType="{
               type: 'percent',
@@ -303,7 +303,7 @@
         </a-space>
       </a-descriptions-item>
       <a-descriptions-item label="日期时间">
-        <w-pro-field
+        <g-pro-field
           :text="dateTime"
           valueType="dateTime"
           :mode="state"
@@ -312,13 +312,13 @@
       </a-descriptions-item>
       <a-descriptions-item label="相对于当前时间">
         <a-space>
-          <w-pro-field
+          <g-pro-field
             :text="dateTime"
             valueType="fromNow"
             :mode="state"
             :plain="plain"
           />
-          <w-pro-field
+          <g-pro-field
             :text="moment('2013-11-16 12:50:26').valueOf()"
             valueType="fromNow"
             :mode="state"
@@ -327,7 +327,7 @@
         </a-space>
       </a-descriptions-item>
       <a-descriptions-item label="日期">
-        <w-pro-field
+        <g-pro-field
           :text="dateTime"
           valueType="date"
           :mode="state"
@@ -335,7 +335,7 @@
         />
       </a-descriptions-item>
       <a-descriptions-item label="日期区间">
-        <w-pro-field
+        <g-pro-field
           :text="[
             moment('2019-11-16 12:50:26').add(-1, 'd').valueOf(),
             moment('2019-11-16 12:50:26').valueOf(),
@@ -346,7 +346,7 @@
         />
       </a-descriptions-item>
       <a-descriptions-item label="日期时间区间">
-        <w-pro-field
+        <g-pro-field
           :text="[
             moment('2019-11-16 12:50:26').add(-1, 'd').valueOf(),
             moment('2019-11-16 12:50:26').valueOf(),
@@ -357,7 +357,7 @@
         />
       </a-descriptions-item>
       <a-descriptions-item label="时间">
-        <w-pro-field
+        <g-pro-field
           :text="moment('2019-11-16 12:50:26').valueOf()"
           valueType="time"
           :mode="state"
@@ -365,7 +365,7 @@
         />
       </a-descriptions-item>
       <!--<a-descriptions-item label="时间区间">-->
-      <!--  <w-pro-field-->
+      <!--  <g-pro-field-->
       <!--    :text="[-->
       <!--      moment('2019-11-16 12:50:26').add(-1, 'd').valueOf(),-->
       <!--      moment('2019-11-16 12:50:26').valueOf(),-->
@@ -376,11 +376,11 @@
       <!--  />-->
       <!--</a-descriptions-item>-->
       <a-descriptions-item label="代码块">
-        <w-pro-field
+        <g-pro-field
           :text="`
-yarn run v1.22.0
-$ eslint --format=pretty ./packages
-Done in 9.70s.
+            yarn run v1.22.0
+            $ eslint --format=pretty ./packages
+            Done in 9.70s.
           `"
           valueType="code"
           :mode="state"
@@ -388,7 +388,7 @@ Done in 9.70s.
         />
       </a-descriptions-item>
       <a-descriptions-item label="代码块">
-        <w-pro-field
+        <g-pro-field
           :text="jsonCode"
           valueType="jsonCode"
           :mode="state"
@@ -396,7 +396,7 @@ Done in 9.70s.
         />
       </a-descriptions-item>
     </a-descriptions>
-  </w-page-wrapper>
+  </g-page-wrapper>
 </template>
 
 <script setup lang="ts">

@@ -12,7 +12,7 @@ export const fileName = (file: File, bucketName?: string) => {
   const uuid = bucketName ?
     bucketName + '/' + time1 + '/' + guid()
     :
-    'wd' + '/' + time1 + '/' + guid()
+    'gx' + '/' + time1 + '/' + guid()
   if (arr.length > 1) {
     return uuid + '.' + arr[arr.length - 1]
   } else {

@@ -1,5 +1,5 @@
 <template>
-  <w-page-wrapper :contentStyle="{ background: 'transparent', padding: 0 }">
+  <g-page-wrapper :contentStyle="{ background: 'transparent', padding: 0 }">
     <div :class="$style.workplace">
       <a-page-header title="工作台" :backIcon="false">
         <template #extra>
@@ -7,8 +7,8 @@
           <RedoOutlined />&nbsp;刷新
         </span>
         </template>
-        <div class="wd-pro-page-container-row">
-          <div class="wd-pro-page-container-content">
+        <div class="gx-pro-page-container-row">
+          <div class="gx-pro-page-container-content">
             <div :class="$style.avatar">
               <a-avatar size="large" :src="userInfo.avatar">
                 <template #icon>
@@ -28,7 +28,7 @@
             </div>
           </div>
           <div :style="isMobile ? { width: '100%', marginTop: '24px' } : undefined"
-            class="wd-pro-page-container-extraContent">
+            class="gx-pro-page-container-extraContent">
             <div :class="$style['extra-content']">
               <div :class="$style['stat-item']">
                 <a-statistic title="项目数" :value="3" />
@@ -162,7 +162,7 @@
         </a-row>
       </div>
     </div>
-  </w-page-wrapper>
+  </g-page-wrapper>
 </template>
 
 <script lang="ts">

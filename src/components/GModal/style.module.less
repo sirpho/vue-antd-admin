@@ -1,0 +1,152 @@
+body {
+  .@{gx-prefix-pro}-modal {
+    padding-bottom: 0;
+    
+    &.height-no-fixed {
+      :global {
+        .ant-modal-body {
+          height: 100%;
+        }
+      }
+    }
+    
+    &.height-auto {
+      :global {
+        .ant-modal-body {
+          height: 300px;
+          overflow: hidden;
+        }
+      }
+    }
+    
+    &.height-lower {
+      :global {
+        .ant-modal-body {
+          height: 450px;
+          overflow: hidden;
+        }
+      }
+    }
+    
+    &-wrap {
+      display: none;
+    }
+    
+    &-body {
+      height: 100%;
+      padding: 24px;
+      
+    }
+    
+    &-spinning {
+      position: relative;
+      opacity: 0.5;
+    
+      .@{gx-prefix-pro}-modal-spinning-content {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1001;
+        height: 100%;
+        padding: 24px 24px 24px 24px;
+      }
+    }
+    
+    &-error-warp {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      width: 100%;
+      margin: 0;
+      transform: translate(-50%, -50%);
+      
+      :global {
+        .ant-empty-image {
+          height: 150px;
+        }
+      }
+    }
+    
+    &-skeleton {
+      
+      :global {
+        .ant-skeleton {
+          margin-bottom: 24px;
+          
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+    
+    &-content {
+      position: relative;
+      height: 100%;
+      background: #ffffff;
+    }
+    
+    &-close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 10;
+      padding: 0;
+      padding-right: 24px;
+      font-weight: 700;
+      color: rgba(0, 0, 0, 0.45);
+      text-decoration: none;
+      cursor: pointer;
+      background: transparent;
+      border: 0;
+      outline: 0;
+      transition: color 0.3s;
+    }
+    
+    &-close-x {
+      display: inline-block;
+      height: 56px;
+      font-size: 16px;
+      font-style: normal;
+      line-height: 56px;
+      text-align: center;
+      text-transform: none;
+      text-rendering: auto;
+    }
+    
+    &-spin {
+      position: absolute;
+      z-index: 100;
+      width: 100%;
+      height: 100%;
+      
+      :global {
+        .ant-spin-spinning {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
+    
+    :global {
+      .ant-modal {
+        padding-bottom: 0;
+      }
+      
+      .ant-modal-body {
+        height: 640px;
+        padding: 0;
+        overflow: hidden;
+      }
+      
+      .ant-modal-close-x {
+        width: auto;
+        padding-right: 24px;
+      }
+    }
+  }
+}

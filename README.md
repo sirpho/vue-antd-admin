@@ -1,11 +1,11 @@
 <div align="center"> <a href="https://gitee.com/gx12358/vite-admin-pro"> <img alt="VbenAdmin Logo" width="200" height="200" src="https://zbbf9-hw.ahtv.cn/ahtv-obs/20210811/d5b6f8d7-b759-243d-b8f3-906a6b8570bf.png"> </a> <br> <br>
 
-<h1>Wd Pro Admin（Ant Design Vue）</h1>
+<h1>GX Pro Admin（Ant Design Vue）</h1>
 </div>
 
 ## 简介
 
-Wd Pro Admin 是一个免费开源的中后台模版。使用了最新的`vue3.0+`,`vite2`,`TypeScript`, `Ant Design Vue3.0+`等主流技术开发，开箱即用的中后台前端解决方案，也可用于学习参考。
+GX Pro Admin 是一个免费开源的中后台模版。使用了最新的`vue3.0+`,`vite2`,`TypeScript`, `Ant Design Vue3.0+`等主流技术开发，开箱即用的中后台前端解决方案，也可用于学习参考。
 
 ## 特性
 

@@ -1,5 +1,5 @@
 <template>
-  <w-page-wrapper>
+  <g-page-wrapper>
     <a-card :bordered="false">
       <a-result
         status="error"
@@ -33,7 +33,7 @@
         </div>
       </a-result>
     </a-card>
-  </w-page-wrapper>
+  </g-page-wrapper>
 </template>
 
 <script lang="ts">

@@ -1,5 +1,5 @@
 <template>
-  <w-result status="403" />
+  <g-result status="403" />
 </template>
 
 <script lang="ts">

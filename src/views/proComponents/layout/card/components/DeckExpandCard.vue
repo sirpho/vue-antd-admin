@@ -6,21 +6,21 @@
   </a-typography>
   <div style="margin: 16px 0;font-size: 15px;line-height: 24px">
     配合
-    <span class="wd-markdown-code">ghost</span>
+    <span class="gx-markdown-code">ghost</span>
     幽灵模式和可折叠能力可以实现卡片组展开。
   </div>
-  <div class="wd-markdown-demo" :style="isMobile ? undefined : { width: '500px'}">
-    <w-pro-card title="卡片组展开" ghost :gutter="8" collapsible>
-      <w-pro-card layout="center" bordered>
+  <div class="gx-markdown-demo" :style="isMobile ? undefined : { width: '500px'}">
+    <g-pro-card title="卡片组展开" ghost :gutter="8" collapsible>
+      <g-pro-card layout="center" bordered>
         卡片内容
-      </w-pro-card>
-      <w-pro-card layout="center" bordered>
+      </g-pro-card>
+      <g-pro-card layout="center" bordered>
         卡片内容
-      </w-pro-card>
-      <w-pro-card layout="center" bordered>
+      </g-pro-card>
+      <g-pro-card layout="center" bordered>
         卡片内容
-      </w-pro-card>
-    </w-pro-card>
+      </g-pro-card>
+    </g-pro-card>
   </div>
 </template>
 

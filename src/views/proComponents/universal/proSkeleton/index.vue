@@ -1,12 +1,12 @@
 <template>
-  <w-page-wrapper :contentStyle="{ position: 'relative' }" :class="$style['skeleton-block']">
-    <w-doc :anchorLinks="links">
+  <g-page-wrapper :contentStyle="{ position: 'relative' }" :class="$style['skeleton-block']">
+    <g-doc :anchorLinks="links">
       <BasicSkelecton />
       <ListSkelecton />
       <ResultSkelecton />
       <DescriptionsSkelecton />
-    </w-doc>
-  </w-page-wrapper>
+    </g-doc>
+  </g-page-wrapper>
 </template>
 
 <script lang="ts">
@@ -27,34 +27,34 @@ export default defineComponent({
     const state = reactive({
       links: [
         {
-          link: '#w-skeleton-demo',
+          link: '#g-skeleton-demo',
           name: 'Skeleton'
         },
         {
-          link: '#w-skeleton-api',
+          link: '#g-skeleton-api',
           name: 'Skeleton-API'
         },
         {
-          link: '#w-pro-skeleton',
+          link: '#g-pro-skeleton',
           name: 'ProSkeleton'
         },
         {
-          link: '#w-pro-skeleton-list',
+          link: '#g-pro-skeleton-list',
           level: 2,
           name: 'List'
         },
         {
-          link: '#w-pro-skeleton-result',
+          link: '#g-pro-skeleton-result',
           level: 2,
           name: '结果页'
         },
         {
-          link: '#w-pro-skeleton-descriptions',
+          link: '#g-pro-skeleton-descriptions',
           level: 2,
           name: '详情页'
         },
         {
-          link: '#w-pro-skeleton-api',
+          link: '#g-pro-skeleton-api',
           name: 'ProSkeleton-API'
         }
       ]

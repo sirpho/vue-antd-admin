@@ -18,9 +18,9 @@
   </a-typography>
   <div style="position: relative;z-index: 90;margin-top: 15px;background-color: #fff;border: 1px solid #ebedf1;border-radius: 1px;">
     <div style="padding: 40px 24px;">
-      <w-pro-watermark :content="content">
+      <g-pro-watermark :content="content">
         <div style="height: 500px"></div>
-      </w-pro-watermark>
+      </g-pro-watermark>
     </div>
   </div>
 </template>

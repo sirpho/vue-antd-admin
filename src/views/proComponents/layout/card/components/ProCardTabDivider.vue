@@ -4,7 +4,7 @@
       ProCard.Divider
     </a-typography-title>
   </a-typography>
-  <w-pro-table
+  <g-pro-table
     :showIndex="false"
     :showPagination="false"
     :options="false"

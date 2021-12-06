@@ -4,7 +4,7 @@
       API
     </a-typography-title>
   </a-typography>
-  <w-pro-table
+  <g-pro-table
     style="margin-top: 15px"
     :showIndex="false"
     :showPagination="false"

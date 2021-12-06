@@ -11,7 +11,7 @@ export default {
         placeholder: '请输入'
       },
     },
-    { title: 'Age', dataIndex: 'age', key: 'age', width: 150 },
+    { title: 'Age', dataIndex: 'age', key: 'age', width: 100, resizable: false },
     {
       title: 'Column 1',
       dataIndex: 'address',

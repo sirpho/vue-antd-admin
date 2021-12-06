@@ -1,11 +1,11 @@
 <template>
-  <w-page-wrapper>
+  <g-page-wrapper>
     <!--<a-form>-->
     <!--  <a-form-item label="Activity name" v-bind="validateInfos.name">-->
     <!--    <a-input v-model:value="formState.name" />-->
     <!--  </a-form-item>-->
     <!--</a-form>-->
-    <w-pro-form
+    <g-pro-form
       :model="formState"
       :formRef="e => formRef = e"
       :rules="rules"
@@ -15,26 +15,26 @@
         }
       }"
     >
-      <w-pro-form-group>
-        <w-pro-form-text
+      <g-pro-form-group>
+        <g-pro-form-text
           width="md"
           name="name"
           label="签约客户名称"
           placeholder="请输入名称"
         />
-        <w-pro-form-text
+        <g-pro-form-text
           name="company"
           label="我方公司名称"
           placeholder="请输入名称"
         />
-        <w-pro-form-text
+        <g-pro-form-text
           name="age"
           label="我方公司年龄"
           placeholder="请输入名称"
         />
-      </w-pro-form-group>
-    </w-pro-form>
-  </w-page-wrapper>
+      </g-pro-form-group>
+    </g-pro-form>
+  </g-page-wrapper>
 </template>
 
 <script lang="ts" setup>

@@ -1,26 +1,26 @@
 <template>
-  <a-typography id="w-skeleton-demo">
+  <a-typography id="g-skeleton-demo">
     <a-typography-title :level="2" :style="{color: '#454d64'}">Skeleton</a-typography-title>
   </a-typography>
   <a-space>
-    <w-skeleton :loading="loading" :shape="buttonShape" :active="active" :size="size">
+    <g-skeleton :loading="loading" :shape="buttonShape" :active="active" :size="size">
       按钮
-    </w-skeleton>
-    <w-skeleton :loading="loading" :shape="buttonShape" :active="active" :size="size">
+    </g-skeleton>
+    <g-skeleton :loading="loading" :shape="buttonShape" :active="active" :size="size">
       按钮
-    </w-skeleton>
-    <w-skeleton type="avatar" :shape="avatarShape" :loading="loading" :active="active" :size="size">
+    </g-skeleton>
+    <g-skeleton type="avatar" :shape="avatarShape" :loading="loading" :active="active" :size="size">
       头像
-    </w-skeleton>
-    <w-skeleton type="input" :loading="loading" :active="active" :size="size">
+    </g-skeleton>
+    <g-skeleton type="input" :loading="loading" :active="active" :size="size">
       输入框
-    </w-skeleton>
+    </g-skeleton>
   </a-space>
   <br />
   <br />
-  <w-skeleton type="image" :loading="loading">
+  <g-skeleton type="image" :loading="loading">
     图片
-  </w-skeleton>
+  </g-skeleton>
   <a-divider orientation="left">骨架按钮、头像、输入框和图像。</a-divider>
   <a-form layout="inline">
     <a-form-item label="Loading">
@@ -50,13 +50,13 @@
       </a-radio-group>
     </a-form-item>
   </a-form>
-  <a-typography id="w-skeleton-api" style="margin-top: 15px">
+  <a-typography id="g-skeleton-api" style="margin-top: 15px">
     <a-typography-title :level="2" :style="{color: '#454d64'}">API</a-typography-title>
   </a-typography>
   <a-typography>
     <a-typography-title :level="3" :style="{color: '#454d64'}">WSkeletonButtonProps</a-typography-title>
   </a-typography>
-  <w-pro-table
+  <g-pro-table
     :showIndex="false"
     :showPagination="false"
     :options="false"

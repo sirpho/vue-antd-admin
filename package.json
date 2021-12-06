@@ -1,5 +1,5 @@
 {
-  "name": "wd-pro-admin",
+  "name": "gx-pro-admin",
   "version": "1.0.0",
   "scripts": {
     "bootstrap": "yarn install",

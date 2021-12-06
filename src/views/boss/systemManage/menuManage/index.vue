@@ -1,6 +1,6 @@
 <template>
-  <w-page-wrapper>
-    <w-pro-table
+  <g-page-wrapper>
+    <g-pro-table
       row-key="menuId"
       :columns="columns"
       :data-source="tableData"
@@ -13,8 +13,8 @@
       <template #visible="{ text }">
         {{ text === '0' ? '显示' : '隐藏' }}
       </template>
-    </w-pro-table>
-  </w-page-wrapper>
+    </g-pro-table>
+  </g-page-wrapper>
 </template>
 <script lang="ts">
 import { defineComponent, reactive, toRefs, onMounted } from 'vue'

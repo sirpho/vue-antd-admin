@@ -1,6 +1,6 @@
 import type { FunctionalComponent } from 'vue'
 import { InfoCircleOutlined } from '@ant-design/icons-vue'
-import { getPrefixCls } from '@wd-design/pro-utils'
+import { getPrefixCls } from '@gx-design/pro-utils'
 import type { LabelTooltipType, WrapperTooltipProps } from '../../typings'
 
 import './index.less'

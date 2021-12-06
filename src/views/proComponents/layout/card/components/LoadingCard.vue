@@ -6,21 +6,21 @@
   </a-typography>
   <div style="margin: 16px 0;font-size: 15px;line-height: 24px">
     配置
-    <span class="wd-markdown-code">loading</span>
+    <span class="gx-markdown-code">loading</span>
     属性为
-    <span class="wd-markdown-code">true</span>
+    <span class="gx-markdown-code">true</span>
     控制卡片加载中，也可以传入 DOM 给
-    <span class="wd-markdown-code">loading</span>
+    <span class="gx-markdown-code">loading</span>
     来自定义 loading 展示。
   </div>
-  <div class="wd-markdown-demo">
-    <w-pro-card loading style="max-width: 300px">
+  <div class="gx-markdown-demo">
+    <g-pro-card loading style="max-width: 300px">
       内容
-    </w-pro-card>
-    <w-pro-card loading style="max-width: 300px;margin-top: 16px" layout="center">
+    </g-pro-card>
+    <g-pro-card loading style="max-width: 300px;margin-top: 16px" layout="center">
       内容
-    </w-pro-card>
-    <w-pro-card
+    </g-pro-card>
+    <g-pro-card
       title="自定义 Loading"
       extra="extra"
       style="max-width: 300px;margin-top: 16px"
@@ -29,7 +29,7 @@
         <div>加载中</div>
       </template>
       内容
-    </w-pro-card>
+    </g-pro-card>
   </div>
 </template>
 

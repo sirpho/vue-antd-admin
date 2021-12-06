@@ -1,5 +1,5 @@
 <template>
-  <w-page-wrapper>
+  <g-page-wrapper>
     <div :class="$style.standardList">
       <a-card :bordered="false">
         <a-row>
@@ -110,7 +110,7 @@
         </a-list>
       </a-card>
     </div>
-  </w-page-wrapper>
+  </g-page-wrapper>
   <a-button type="dashed" style="width: 100%;margin-bottom: 8px" @click="$refs.operation.open()">
     <PlusOutlined />
     添加
@@ -195,7 +195,7 @@ export default defineComponent({
           icon: createVNode(ExclamationCircleOutlined),
           okText: '确定',
           cancelText: '取消',
-          class: 'wd-pro-confirm-delete',
+          class: 'gx-pro-confirm-delete',
           onOk() {
             deleteItem(currentItem.id)
           }

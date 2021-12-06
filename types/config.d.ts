@@ -1,4 +1,4 @@
-import { MenuTheme } from '@wd-pro/pro-layout'
+import { MenuTheme } from '@gx-pro/pro-layout'
 
 export interface configSeting {
   theme: themeConfig;

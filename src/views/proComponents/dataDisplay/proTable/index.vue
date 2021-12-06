@@ -1,10 +1,10 @@
 <template>
-  <w-page-wrapper :contentStyle="{ position: 'relative' }">
-    <w-doc :anchorLinks="links">
-      <a-typography id="w-pro-table">
+  <g-page-wrapper :contentStyle="{ position: 'relative' }">
+    <g-doc :anchorLinks="links">
+      <a-typography id="g-pro-table">
         <a-typography-title :level="2" :style="{color: '#454d64'}">ProTable</a-typography-title>
       </a-typography>
-      <w-pro-table
+      <g-pro-table
         titleTip
         draggabled
         align="center"
@@ -108,13 +108,13 @@
             <a>这是高级列表的action的字段（测试溢出展示并且可复制）</a>
           </template>
         </template>
-      </w-pro-table>
+      </g-pro-table>
       <ProTableApi />
       <ProTableSearch />
       <ProTableColums />
-    </w-doc>
-    <w-back-top />
-  </w-page-wrapper>
+    </g-doc>
+    <g-back-top />
+  </g-page-wrapper>
 </template>
 
 <script lang="ts">
@@ -129,7 +129,7 @@ import {
 } from 'vue'
 import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons-vue'
 import { getList } from '/@/services/table'
-import { useDict } from '@wd-design/pro-hooks/web'
+import { useDict } from '@gx-design/pro-hooks/web'
 import { deepCopy, handleSelectPage } from '/@/utils/util'
 import ProTableApi from './components/ProTableApi.vue'
 import ProTableSearch from './components/ProTableSearch.vue'
@@ -174,11 +174,11 @@ export default defineComponent({
       selectedRowItems: [],
       links: [
         {
-          link: '#w-pro-table',
+          link: '#g-pro-table',
           name: 'ProTable'
         },
         {
-          link: '#w-pro-table-api',
+          link: '#g-pro-table-api',
           name: 'API'
         },
         {

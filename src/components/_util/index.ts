@@ -9,6 +9,7 @@ import DropdownFooter from './components/DropdownFooter'
 import isServer from './isServer'
 
 import isNil from './isNil'
+import { call, MaybeArray } from './call'
 import pickProProps from './pickProProps'
 import omitUndefined from './omitUndefined'
 import isDropdownValueType from './isDropdownValueType'
@@ -139,7 +140,7 @@ export interface prefixCls {
 export const getPrefixCls = ({
   suffixCls,
   customizePrefixCls,
-  defaultPrefixCls = 'wd-pro'
+  defaultPrefixCls = 'gx-pro'
 }: prefixCls) => {
   if (customizePrefixCls) return customizePrefixCls
   return suffixCls ? `${defaultPrefixCls}-${suffixCls}` : defaultPrefixCls
@@ -221,12 +222,14 @@ export function set<Entity = any, Output = Entity, Value = any>(
 export * from './typings'
 
 export type {
+  MaybeArray,
   ProRequestData
 }
 
 export {
   isServer,
   isNil,
+  call,
   scrollTo,
   getScroll,
   pickProProps,
@@ -245,6 +248,6 @@ export {
   conversionMomentValue,
   parseValueToMoment,
   transformKeySubmitValue,
-  throttleByAnimationFrame,
+  throttleByAnimationFrame
 
 }

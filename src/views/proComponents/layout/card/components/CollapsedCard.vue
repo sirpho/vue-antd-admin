@@ -8,16 +8,16 @@
     <ul style="margin-top: 16px;list-style-type: disc;">
       <li>
         你可以使用
-        <span class="wd-markdown-code">padding</span>
+        <span class="gx-markdown-code">padding</span>
         来配置卡片是否可折叠，通过
-        <span class="wd-markdown-code">defaultCollapsed</span>
+        <span class="gx-markdown-code">defaultCollapsed</span>
         属性配置是否默认折叠
       </li>
-      <li>或者你可以通过<span class="wd-markdown-code">collapsed</span>属性受控进行自定义。</li>
+      <li>或者你可以通过<span class="gx-markdown-code">collapsed</span>属性受控进行自定义。</li>
     </ul>
   </div>
-  <div class="wd-markdown-demo">
-    <w-pro-card
+  <div class="gx-markdown-demo">
+    <g-pro-card
       title="可折叠"
       headerBordered
       collapsible
@@ -27,7 +27,7 @@
         <a-button size="small" @click="e => e.stopPropagation()">提交</a-button>
       </template>
       内容
-    </w-pro-card>
+    </g-pro-card>
     <w-pro-card
       style="margin-top: 16px"
       title="可折叠-受控自定义"

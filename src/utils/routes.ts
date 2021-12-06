@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash-es'
 import config from '/config/config'
-import { usePermissions } from '@wd-design/pro-hooks/web'
+import { usePermissions } from '@gx-design/pro-hooks/web'
 import { getMaxFloor } from '/@/utils/util'
 
 const { rolesControl } = config.defaultSettings

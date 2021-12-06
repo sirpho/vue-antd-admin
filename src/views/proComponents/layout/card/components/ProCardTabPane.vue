@@ -4,7 +4,7 @@
       ProCard.TabPane
     </a-typography-title>
   </a-typography>
-  <w-pro-table
+  <g-pro-table
     :showIndex="false"
     :showPagination="false"
     :options="false"
@@ -16,7 +16,7 @@
     <template #headerTitle>
       支持&nbsp;&nbsp;<a target="_blank" href="https://2x.antdv.com/components/tabs-cn#API">Tab</a>&nbsp;&nbsp;的所有属性。
     </template>
-  </w-pro-table>
+  </g-pro-table>
 </template>
 
 <script lang="ts">

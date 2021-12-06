@@ -62,31 +62,31 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           replacement: pathResolve('build') + '/'
         },
         {
-          find: '@wd-pro/pro-layout',
-          replacement: pathResolve('src/components/WProLayout') + '/'
+          find: '@gx-pro/pro-layout',
+          replacement: pathResolve('src/components/GProLayout') + '/'
         },
         {
-          find: '@wd-pro/pro-table',
-          replacement: pathResolve('src/components/WProTable') + '/'
+          find: '@gx-pro/pro-table',
+          replacement: pathResolve('src/components/GProTable') + '/'
         },
         {
-          find: '@wd-pro/pro-card',
-          replacement: pathResolve('src/components/WProCard') + '/'
+          find: '@gx-pro/pro-card',
+          replacement: pathResolve('src/components/GProCard') + '/'
         },
         {
-          find: '@wd/pro-upload',
-          replacement: pathResolve('src/components/WUpload') + '/'
+          find: '@gx/pro-upload',
+          replacement: pathResolve('src/components/GUpload') + '/'
         },
         {
-          find: '@wd-design/pro-field',
-          replacement: pathResolve('src/components/WProField') + '/index.tsx'
+          find: '@gx-design/pro-field',
+          replacement: pathResolve('src/components/GProField') + '/index.tsx'
         },
         {
-          find: '@wd-design/pro-utils',
+          find: '@gx-design/pro-utils',
           replacement: pathResolve('src/components/_util') + '/'
         },
         {
-          find: '@wd-design/pro-hooks',
+          find: '@gx-design/pro-hooks',
           replacement: pathResolve('src/hooks') + '/'
         },
         { find: /^~/, replacement: '' }
@@ -131,7 +131,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       preprocessorOptions: {
         css: {
           modules: {
-            localIdentName: 'wd-pro-[path][local]'
+            localIdentName: 'gx-pro-[path][local]'
           }
         },
         less: {

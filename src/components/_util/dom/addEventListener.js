@@ -1,7 +1,7 @@
 import supportsPassive from './supportsPassive';
 
 export default function addEventListenerWrap(target, eventType, cb, option) {
-  if (target.addEventListener) {
+  if (target?.addEventListener) {
     let opt = option;
     if (
       opt === undefined &&
@@ -14,7 +14,7 @@ export default function addEventListenerWrap(target, eventType, cb, option) {
   }
   return {
     remove: () => {
-      if (target.removeEventListener) {
+      if (target?.removeEventListener) {
         target.removeEventListener(eventType, cb);
       }
     },

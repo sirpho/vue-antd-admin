@@ -2,7 +2,7 @@ import type { CSSProperties } from 'vue'
 import { VueElement } from 'vue'
 import type { Moment } from 'moment'
 import type { NamePath } from 'ant-design-vue/lib/form/interface'
-import { FormInstance } from '../WProForm/typings'
+import { FormInstance } from '../GProForm/typings'
 
 export type SizeType = 'small' | 'middle' | 'large' | undefined;
 
@@ -337,3 +337,7 @@ export interface ProFieldProps {
   proFieldKey?: string;
   render?: any;
 }
+
+export type OnUpdateValue = (value: string & null) => void
+
+export type OnUpdateValueImpl = (value: string | null) => void

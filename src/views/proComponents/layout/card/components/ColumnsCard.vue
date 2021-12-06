@@ -7,7 +7,7 @@
   <div style="margin: 16px 0">
     通过卡片切分能力我们很容易实现左右分栏的效果，很适合左侧是列表，右侧是详情的结构。
   </div>
-  <div class="wd-markdown-demo">
+  <div class="gx-markdown-demo">
     <w-pro-card split="vertical">
       <w-pro-card title="左侧详情" colSpan="30%">
         左侧内容

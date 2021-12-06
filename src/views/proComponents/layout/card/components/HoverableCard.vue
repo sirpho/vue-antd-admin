@@ -4,10 +4,10 @@
       浮出效果
     </a-typography-title>
   </a-typography>
-  <div class="wd-markdown-demo">
-    <w-pro-card hoverable bordered style="max-width: 300px;">
+  <div class="gx-markdown-demo">
+    <g-pro-card hoverable bordered style="max-width: 300px;">
       内容
-    </w-pro-card>
+    </g-pro-card>
   </div>
 </template>
 

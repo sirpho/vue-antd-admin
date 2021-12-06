@@ -4,7 +4,7 @@
       ProCardTabs
     </a-typography-title>
   </a-typography>
-  <w-pro-table
+  <g-pro-table
     :showIndex="false"
     :showPagination="false"
     :options="false"
@@ -20,7 +20,7 @@
       </a>
       &nbsp;&nbsp;API 描述。
     </template>
-  </w-pro-table>
+  </g-pro-table>
 </template>
 
 <script lang="ts">

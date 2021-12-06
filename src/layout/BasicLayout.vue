@@ -1,5 +1,5 @@
 <template>
-  <w-pro-layout
+  <g-pro-layout
     :loading="loading"
     v-model:collapsed="baseState.collapsed"
     v-model:selectedKeys="baseState.selectedKeys"
@@ -11,7 +11,7 @@
   >
     <w-pro-content :animate="animate" :isRouterAlive="isRouterAlive" />
     <setting-drawer :settings="state" @change="handleSettingChange" />
-  </w-pro-layout>
+  </g-pro-layout>
 </template>
 <script lang="ts">
 import {
@@ -26,7 +26,7 @@ import {
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import config from '/config/config'
-import { RouteContextProps, getMenuData, clearMenuItem, SettingDrawer } from '@wd-pro/pro-layout'
+import { RouteContextProps, getMenuData, clearMenuItem, SettingDrawer } from '@gx-pro/pro-layout'
 import WProContent from './ContentView.vue'
 
 const { animate } = config

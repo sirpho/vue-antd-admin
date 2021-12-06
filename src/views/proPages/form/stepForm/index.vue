@@ -1,5 +1,5 @@
 <template>
-  <w-page-wrapper>
+  <g-page-wrapper>
     <div :class="$style['steps-form']">
       <div :class="$style['steps-form-steps-container']" style="max-width: 960px">
         <a-steps :current="current">
@@ -179,7 +179,7 @@
         如果需要，这里可以放一些关于产品的常见问题说明。如果需要，这里可以放一些关于产品的常见问题说明。如果需要，这里可以放一些关于产品的常见问题说明。
       </p>
     </div>
-  </w-page-wrapper>
+  </g-page-wrapper>
 </template>
 
 <script lang="ts">

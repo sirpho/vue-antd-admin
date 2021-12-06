@@ -7,7 +7,7 @@
   <div style="margin: 16px 0">
     可以放在卡片内部，展示多层级结构的信息。
   </div>
-  <div class="wd-markdown-demo">
+  <div class="gx-markdown-demo">
     <w-pro-card title="横向内部卡片" bordered headerBordered :gutter="16">
       <w-pro-card title="内部卡片标题" type="inner" bordered>
         内部卡片内容

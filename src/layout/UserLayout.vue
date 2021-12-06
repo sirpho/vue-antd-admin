@@ -1,5 +1,5 @@
 <template>
-  <div id="wd-user-layout">
+  <div id="gx-user-layout">
     <div class="container">
       <router-view v-slot="{ Component }">
         <component :is="Component" />
@@ -13,7 +13,7 @@ import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   setup() {
-    const title = ref('Wd Pro Admin')
+    const title = ref('GX Pro Admin')
     return {
       title
     }

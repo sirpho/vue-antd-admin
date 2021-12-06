@@ -1,16 +1,11 @@
 <template>
-  <w-page-wrapper>
-    <w-pro-field
-      text="100"
-      valueType="text"
-    />
-  </w-page-wrapper>
+  <g-page-wrapper>
+    <color-picker />
+  </g-page-wrapper>
 </template>
 
 <script setup lang="ts">
-const handlechange = (e) => {
-  console.log(e)
-}
+import { ColorPicker } from '/@/components'
 </script>
 
 <style lang="less" module>

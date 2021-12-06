@@ -1,6 +1,6 @@
 <template>
-  <w-page-wrapper>
-    <w-pro-table
+  <g-page-wrapper>
+    <g-pro-table
       headerTitle="查询表格"
       row-key="key"
       align="center"
@@ -44,9 +44,9 @@
         <a key="config" style="margin-right: 15px;" @click="removeTableConfirm(record)">删除</a>
         <a key="subscribeAlert" href="https://procomponents.ant.design/" target="_blank">订阅警报</a>
       </template>
-    </w-pro-table>
+    </g-pro-table>
     <OperationModal ref="operation" @handleOk="tableRef.reload()" />
-  </w-page-wrapper>
+  </g-page-wrapper>
 </template>
 
 <script lang="ts">
@@ -116,7 +116,7 @@ export default defineComponent({
         icon: createVNode(ExclamationCircleOutlined),
         okText: '确定',
         cancelText: '取消',
-        class: 'wd-pro-confirm-delete',
+        class: 'gx-pro-confirm-delete',
         onOk() {
           removeTableRule(record)
         }

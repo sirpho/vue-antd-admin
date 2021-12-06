@@ -1,7 +1,7 @@
 import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { getDicts } from '/@/services/system/dictData'
-import { onMountedOrActivated } from '@wd-design/pro-hooks/core'
+import { onMountedOrActivated } from '@gx-design/pro-hooks/core'
 import { isArray } from '/@/utils/validate'
 
 export function useDict(val: string | string[]) {

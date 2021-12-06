@@ -6,18 +6,18 @@
   </a-typography>
   <div style="margin: 16px 0;font-size: 15px;line-height: 24px">
     配置
-    <span class="wd-markdown-code">layout</span>
+    <span class="gx-markdown-code">layout</span>
     属性为
-    <span class="wd-markdown-code">center</span>
+    <span class="gx-markdown-code">center</span>
     控制内容垂直居中，设置居中时内容部分转为
-    <span class="wd-markdown-code">flex</span>
+    <span class="gx-markdown-code">flex</span>
     布局，可以使用
-    <span class="wd-markdown-code">direction</span>
+    <span class="gx-markdown-code">direction</span>
     控制
-    <span class="wd-markdown-code">flex</span>方向。
+    <span class="gx-markdown-code">flex</span>方向。
   </div>
-  <div class="wd-markdown-demo" :style="isMobile ? undefined : { width: '500px'}">
-    <w-pro-card
+  <div class="gx-markdown-demo" :style="isMobile ? undefined : { width: '500px'}">
+    <g-pro-card
       title="标题"
       extra="extra"
       layout="center"
@@ -26,7 +26,7 @@
     >
       <div>123</div>
       <div>456</div>
-    </w-pro-card>
+    </g-pro-card>
   </div>
 </template>
 

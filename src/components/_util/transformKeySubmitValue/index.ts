@@ -1,4 +1,4 @@
-import { get, set } from '@wd-design/pro-utils'
+import { get, set } from '@gx-design/pro-utils'
 import type { SearchTransformKeyFn } from '../typings'
 import isNil from '../isNil'
 import { merge } from '../merge/index'

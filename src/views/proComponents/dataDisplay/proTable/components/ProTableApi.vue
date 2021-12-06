@@ -1,8 +1,8 @@
 <template>
-  <a-typography style="margin-top: 15px" id="w-pro-table-api">
+  <a-typography style="margin-top: 15px" id="g-pro-table-api">
     <a-typography-title :level="2" :style="{color: '#454d64'}">API</a-typography-title>
     <a-typography-paragraph>
-      w-pro-table 在 antd 的 Table 上进行了一层封装，支持了一些预设，并且封装了一些行为（自适应横向滚动）。这里只列出与 antd Table 不同的 api。
+      g-pro-table 在 antd 的 Table 上进行了一层封装，支持了一些预设，并且封装了一些行为（自适应横向滚动）。这里只列出与 antd Table 不同的 api。
       （<a href="https://procomponents.ant.design/components/table#api"
       target="_blank">参照react-pro-components：pro-table</a>）
     </a-typography-paragraph>
@@ -34,7 +34,7 @@
       <a-typography-text type="danger" code style="font-size: 14px;">params</a-typography-text>
       参数也会带入。
     </a-typography-paragraph>
-    <a-typography-paragraph copyable class="wd-code">
+    <a-typography-paragraph copyable class="gx-code">
       <pre>{{ requestCode }}</pre>
     </a-typography-paragraph>
   </a-typography>
@@ -46,7 +46,7 @@
       ProTable
     </a-typography-title>
   </a-typography>
-  <w-pro-table
+  <g-pro-table
     style="margin-top: 15px"
     :showIndex="false"
     :showPagination="false"
@@ -56,7 +56,7 @@
     :dataSource="proTableData"
     :row-key="(record) => record.attributes"
   >
-  </w-pro-table>
+  </g-pro-table>
 </template>
 
 <script lang="ts">

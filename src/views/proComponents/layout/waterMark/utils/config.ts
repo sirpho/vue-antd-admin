@@ -121,7 +121,7 @@ export default {
       defaults: 'offsetTop = gapY / 2'
     }
   ],
-  code: `<w-pro-watermark
+  code: `<g-pro-watermark
   :rotate="-2"
   content='示例水印'
   fontColor='#064417'
@@ -129,5 +129,5 @@ export default {
   :zIndex="18"
 >
   <div>xxx</div>
-</w-pro-watermark>`
+</g-pro-watermark>`
 }

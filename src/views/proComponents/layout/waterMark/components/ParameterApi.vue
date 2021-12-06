@@ -9,7 +9,7 @@
       style="font-weight: normal;color: #454d64;">基础参数
     </a-typography-title>
   </a-typography>
-  <w-pro-table
+  <g-pro-table
     style="margin-top: 15px"
     :showIndex="false"
     :showPagination="false"
@@ -27,7 +27,7 @@
       高级参数
     </a-typography-title>
   </a-typography>
-  <w-pro-table
+  <g-pro-table
     style="margin-top: 15px"
     :showIndex="false"
     :showPagination="false"

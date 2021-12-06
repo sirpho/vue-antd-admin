@@ -1,5 +1,5 @@
 <template>
-  <w-page-wrapper>
+  <g-page-wrapper>
     <a-card :bordered="false">
       <div style="height: 729px; min-height: 729px;">
         <div style="height: 100%">
@@ -9,7 +9,7 @@
         </div>
       </div>
     </a-card>
-  </w-page-wrapper>
+  </g-page-wrapper>
 </template>
 
 <script lang="ts">

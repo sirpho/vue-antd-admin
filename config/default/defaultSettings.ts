@@ -11,9 +11,9 @@ const defaultSettings: settingConfig = {
   //放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录。
   assetsDir: 'assets',
   //标题 （包括初次加载雪花屏的标题 页面的标题 浏览器的标题）
-  title: 'Wd Pro Admin',
+  title: 'GX Pro Admin',
   //短标题
-  shortName: 'wd_pro_admin',
+  shortName: 'gx_pro_admin',
   //标题分隔符
   titleSeparator: ' - ',
   //标题是否反转 如果为false:"page - title"，如果为ture:"title - page"
@@ -21,9 +21,9 @@ const defaultSettings: settingConfig = {
   //是否开启水印
   waterMark: true,
   //水印字符
-  waterMarkTitle: 'Wd Pro Admin',
+  waterMarkTitle: 'GX Pro Admin',
   //滚动区域选择器
-  viewScrollRoot: '#wd-pro-admin>.wd-pro-scrollbar>.wd-pro-scrollbar-wrap',
+  viewScrollRoot: '#gx-pro-admin>.gx-pro-scrollbar>.gx-pro-scrollbar-wrap',
   //开启cdn
   useCdn: true,
   //开发环境端口号

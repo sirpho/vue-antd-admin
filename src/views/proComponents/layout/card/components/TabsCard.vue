@@ -6,12 +6,12 @@
   </a-typography>
   <div style="margin: 16px 0">
     配置
-    <span class="wd-markdown-code">tabs</span>
+    <span class="gx-markdown-code">tabs</span>
     属性配合
-    <span class="wd-markdown-code">ProCard.TabPane</span>
+    <span class="gx-markdown-code">ProCard.TabPane</span>
     子组件可以配置卡片的标签栏。
   </div>
-  <div class="wd-markdown-demo">
+  <div class="gx-markdown-demo">
     <a-space style="margin-bottom: 16px">
       Tab position：
       <a-select
@@ -46,7 +46,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, Ref } from 'vue'
-import type { ProCardTabsProps } from '@wd-pro/pro-card'
+import type { ProCardTabsProps } from '@gx-pro/pro-card'
 
 export default defineComponent({
   setup() {

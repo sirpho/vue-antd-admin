@@ -1,5 +1,5 @@
 <template>
-  <w-page-wrapper>
+  <g-page-wrapper>
     <div :class="$style['header-deading']">
       <div :class="$style['header-deading-left']">
         <div :class="$style['header-deading-title']">
@@ -201,7 +201,7 @@
         @tabChange="onOperationTabChange"
       >
         <template v-for="(item, index) in operationTabList">
-          <w-pro-table
+          <g-pro-table
             v-if="item.key === tabStatus.operationKey"
             :key="index"
             :showIndex="false"
@@ -218,11 +218,11 @@
                 :text="text === 'agree' ? '成功' : '驳回'"
               />
             </template>
-          </w-pro-table>
+          </g-pro-table>
         </template>
       </a-card>
     </div>
-  </w-page-wrapper>
+  </g-page-wrapper>
 </template>
 
 <script lang="ts">

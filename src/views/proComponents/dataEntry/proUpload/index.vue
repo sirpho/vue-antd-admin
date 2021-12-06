@@ -1,12 +1,12 @@
 <template>
-  <w-page-wrapper>
-    <w-upload
+  <g-page-wrapper>
+    <g-upload
       :progress="false"
       :data-list="[ avatar, ...urlList ]"
       :request="uploadHttps"
       wordExtra="打包后在Mock模式下，不能启用快编功能！"
     />
-  </w-page-wrapper>
+  </g-page-wrapper>
 </template>
 
 <script setup lang="ts">

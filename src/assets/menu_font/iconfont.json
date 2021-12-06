@@ -1,8 +1,8 @@
 {
   "id": "2718382",
-  "name": "pro-admin",
+  "name": "gx-pro-admin",
   "font_family": "iconfont",
-  "css_prefix_text": "wd-",
+  "css_prefix_text": "gx-",
   "description": "",
   "glyphs": [
     {

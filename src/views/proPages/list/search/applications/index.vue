@@ -4,15 +4,15 @@
       <a-card :bordered="false" :bodyStyle="{ padding: 0 }">
         <a-form :class="$style['page-list-search']" :model="listParams">
           <a-form-item :class="$style['form-list-row']" style="padding-bottom: 11px" label="所属类目">
-            <w-tag-select
+            <g-tag-select
               v-model:value="listParams.category"
               expandable
               @change="changeSearch"
             >
-              <w-tag-select-option :key="item" v-for="item in 12" :value="`cat${item}`">
+              <g-tag-select-option :key="item" v-for="item in 12" :value="`cat${item}`">
                 {{ `类目${item}` }}
-              </w-tag-select-option>
-            </w-tag-select>
+              </g-tag-select-option>
+            </g-tag-select>
           </a-form-item>
           <a-form-item
             :class="[$style['form-list-row'], $style['form-list-row-last']]"

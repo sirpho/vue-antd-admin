@@ -10,7 +10,7 @@ function clipboardSuccess(msg: string) {
  * @param text
  * @param event
  */
-export default function handleClipboard(text: string, msg: string) {
+export default function handleClipboard(text: string, msg?: string) {
   const fake_el = document.createElement('button')
   const clipboard: any = new Clipboard(fake_el, {
     text: () => text

@@ -4,40 +4,40 @@ import 'moment/dist/locale/zh-cn'
 moment.locale('zh-cn')
 
 import {
-  WAffix,
-  WResult,
-  WProLayout,
-  WProTable,
-  WBackTop,
-  WModal,
-  WProCard,
-  WInputSearch,
-  WPageLoading,
-  WPageWrapper,
-  WSkeleton,
-  WProSkeleton,
-  WProWatermark,
-  WProColorPicker,
-  WAnchor,
-  WDocumentation,
-  WTagSelect,
-  WTagSelectOption,
-  WProCardGroup,
-  WProCardDivider,
-  WProCardTabPane,
-  WImage,
-  WImageViewer,
-  WImageViewerGroup,
-  WUpload,
-  WMaterialView,
-  WProField,
-  WProForm,
+  GAffix,
+  GAnchor,
+  GResult,
+  GProLayout,
+  GProTable,
+  GBackTop,
+  GModal,
+  GProCard,
+  GInputSearch,
+  GPageLoading,
+  GPageWrapper,
+  GSkeleton,
+  GProSkeleton,
+  GProWatermark,
+  GColorPicker,
+  GDocumentation,
+  GTagSelect,
+  TagSelectOption,
+  GProCardGroup,
+  GProCardDivider,
+  GProCardTabPane,
+  GImage,
+  GImageViewer,
+  GImageViewerGroup,
+  GUpload,
+  GMaterialView,
+  GProField,
+  GProForm,
   ProFormItem,
   ProFormText,
   ProFormGroup,
   LightFilter,
 } from '/@/components'
-import { WScrollbars, CustomIcon } from '/@/components/export'
+import { GScrollbars, CustomIcon } from '/@/components/export'
 
 import {
   List,
@@ -98,40 +98,40 @@ import {
 
 const ant = {
   install(app) {
-    app.component('w-pro-layout', WProLayout)
-    app.component('w-pro-table', WProTable)
-    app.component('w-modal', WModal)
-    app.component('w-back-top', WBackTop)
-    app.component('w-bars', WScrollbars)
-    app.component('w-page-wrapper', WPageWrapper)
-    app.component('w-icon', CustomIcon)
-    app.component('w-page-loading', WPageLoading)
-    app.component('w-input-search', WInputSearch)
-    app.component('w-result', WResult)
-    app.component('w-skeleton', WSkeleton)
-    app.component('w-pro-skeleton', WProSkeleton)
-    app.component('w-pro-watermark', WProWatermark)
-    app.component('w-pro-color', WProColorPicker)
-    app.component('w-pro-card', WProCard)
-    app.component('w-pro-card-group', WProCardGroup)
-    app.component('w-pro-card-divider', WProCardDivider)
-    app.component('w-pro-card-tab-pane', WProCardTabPane)
-    app.component('w-upload', WUpload)
-    app.component('w-image', WImage)
-    app.component('w-image-viewer', WImageViewer)
-    app.component('w-image-viewer-group', WImageViewerGroup)
-    app.component('w-affix', WAffix)
-    app.component('w-anchor', WAnchor)
-    app.component('w-doc', WDocumentation)
-    app.component('w-tag-select', WTagSelect)
-    app.component('w-tag-select-option', WTagSelectOption)
-    app.component('w-material-view', WMaterialView)
-    app.component('w-pro-field', WProField)
-    app.component('w-pro-form', WProForm)
-    app.component('w-pro-form-item', ProFormItem)
-    app.component('w-pro-form-text', ProFormText)
-    app.component('w-pro-form-group', ProFormGroup)
-    app.component('w-pro-form-light', LightFilter)
+    app.component('g-pro-layout', GProLayout)
+    app.component('g-pro-table', GProTable)
+    app.component('g-modal', GModal)
+    app.component('g-back-top', GBackTop)
+    app.component('g-bars', GScrollbars)
+    app.component('g-page-wrapper', GPageWrapper)
+    app.component('g-icon', CustomIcon)
+    app.component('g-page-loading', GPageLoading)
+    app.component('g-input-search', GInputSearch)
+    app.component('g-result', GResult)
+    app.component('g-skeleton', GSkeleton)
+    app.component('g-pro-skeleton', GProSkeleton)
+    app.component('g-pro-watermark', GProWatermark)
+    app.component('g-color', GColorPicker)
+    app.component('g-pro-card', GProCard)
+    app.component('g-pro-card-group', GProCardGroup)
+    app.component('g-pro-card-divider', GProCardDivider)
+    app.component('g-pro-card-tab-pane', GProCardTabPane)
+    app.component('g-upload', GUpload)
+    app.component('g-image', GImage)
+    app.component('g-image-viewer', GImageViewer)
+    app.component('g-image-viewer-group', GImageViewerGroup)
+    app.component('g-affix', GAffix)
+    app.component('g-anchor', GAnchor)
+    app.component('g-doc', GDocumentation)
+    app.component('g-tag-select', GTagSelect)
+    app.component('g-tag-select-option', TagSelectOption)
+    app.component('g-material-view', GMaterialView)
+    app.component('g-pro-field', GProField)
+    app.component('g-pro-form', GProForm)
+    app.component('g-pro-form-item', ProFormItem)
+    app.component('g-pro-form-text', ProFormText)
+    app.component('g-pro-form-group', ProFormGroup)
+    app.component('g-pro-form-light', LightFilter)
     app.use(Menu)
     app.use(Cascader)
     app.use(Upload)

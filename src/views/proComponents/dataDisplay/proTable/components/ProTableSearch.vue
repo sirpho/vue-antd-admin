@@ -8,7 +8,7 @@
       Search 搜索表单（type为columns时，表格columns添加searchConfig-参数为表单data通用配置）
     </a-typography-title>
   </a-typography>
-  <w-pro-table
+  <g-pro-table
     style="margin-top: 15px"
     :showIndex="false"
     :showPagination="false"
@@ -26,7 +26,7 @@
   >
     Pro Table - Search type: dataSouce示例：
   </a-typography-title>
-  <a-typography-paragraph style="margin-top: 15px" copyable class="wd-code">
+  <a-typography-paragraph style="margin-top: 15px" copyable class="gx-code">
     <pre>{{ searchDataCode }}</pre>
   </a-typography-paragraph>
   <a-typography-title
@@ -37,7 +37,7 @@
   >
     Pro Table - Search type: slots示例：
   </a-typography-title>
-  <a-typography-paragraph style="margin-top: 15px" copyable class="wd-code">
+  <a-typography-paragraph style="margin-top: 15px" copyable class="gx-code">
     <pre>{{ searchSlotsCode }}</pre>
   </a-typography-paragraph>
   <a-typography-title
@@ -48,7 +48,7 @@
   >
     Pro Table - Search type: columns示例：
   </a-typography-title>
-  <a-typography-paragraph style="margin-top: 15px" copyable class="wd-code">
+  <a-typography-paragraph style="margin-top: 15px" copyable class="gx-code">
     <pre>{{ searchColumnsCode }}</pre>
   </a-typography-paragraph>
   <a-typography id="searchData-api" style="margin-top: 15px">
@@ -60,7 +60,7 @@
       Pro Table - Search - data 通用配置
     </a-typography-title>
   </a-typography>
-  <w-pro-table
+  <g-pro-table
     :showIndex="false"
     :showPagination="false"
     :options="false"

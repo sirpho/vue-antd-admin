@@ -1,5 +1,5 @@
 <template>
-  <w-page-wrapper>
+  <g-page-wrapper>
     <div :class="$style.cardList">
       <a-list
         rowKey="id"
@@ -44,7 +44,7 @@
         </template>
       </a-list>
     </div>
-  </w-page-wrapper>
+  </g-page-wrapper>
 </template>
 
 <script lang="ts">

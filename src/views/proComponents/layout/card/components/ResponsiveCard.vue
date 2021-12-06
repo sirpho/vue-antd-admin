@@ -5,20 +5,20 @@
     </a-typography-title>
   </a-typography>
   <div style="margin: 16px 0">
-    <span class="wd-markdown-code">colSpan</span>
+    <span class="gx-markdown-code">colSpan</span>
     支持 antd 定义的栅格式响应布局。预设六个响应尺寸：
-    <span class="wd-markdown-code">xs&nbsp;&nbsp;</span>
-    <span class="wd-markdown-code">sm&nbsp;&nbsp;</span>
-    <span class="wd-markdown-code">md&nbsp;&nbsp;</span>
-    <span class="wd-markdown-code">lg&nbsp;&nbsp;</span>
-    <span class="wd-markdown-code">xl&nbsp;&nbsp;</span>
-    <span class="wd-markdown-code">xxl</span>
+    <span class="gx-markdown-code">xs&nbsp;&nbsp;</span>
+    <span class="gx-markdown-code">sm&nbsp;&nbsp;</span>
+    <span class="gx-markdown-code">md&nbsp;&nbsp;</span>
+    <span class="gx-markdown-code">lg&nbsp;&nbsp;</span>
+    <span class="gx-markdown-code">xl&nbsp;&nbsp;</span>
+    <span class="gx-markdown-code">xxl</span>
     。如果要支持响应式，可以写成
-    <span class="wd-markdown-code">{ xs: 4, sm: 8, md: 10, lg: 12 }</span>
+    <span class="gx-markdown-code">{ xs: 4, sm: 8, md: 10, lg: 12 }</span>
     。
   </div>
-  <div class="wd-markdown-demo">
-    <w-pro-card title="24栅格" style="margin-top: 8px" :gutter="8">
+  <div class="gx-markdown-demo">
+    <g-pro-card title="24栅格" style="margin-top: 8px" :gutter="8">
       <w-pro-card :colSpan="{ xs: 2, sm: 4, md: 6, lg: 8, xl: 10 }" layout="center" bordered>
         Col
       </w-pro-card>
@@ -28,7 +28,7 @@
       <w-pro-card :colSpan="{ xs: 2, sm: 4, md: 6, lg: 8, xl: 10 }" layout="center" bordered>
         Col
       </w-pro-card>
-    </w-pro-card>
+    </g-pro-card>
     <w-pro-card title="指定宽度px" :gutter="8" style="margin-top: 8px">
       <w-pro-card
         :colSpan="{

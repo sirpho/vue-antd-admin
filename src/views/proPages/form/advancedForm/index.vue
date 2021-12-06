@@ -1,5 +1,5 @@
 <template>
-  <w-page-wrapper>
+  <g-page-wrapper>
     <div style="padding: 24px;background: #f0f2f5;">
       <a-form
         :class="$style['advance-form-block']"
@@ -185,7 +185,7 @@
           </a-row>
         </a-card>
         <a-card title="成员管理" :bordered="false">
-          <w-pro-table
+          <g-pro-table
             :columns="columns"
             :row-key="(record) => record.key"
             :loading="tableLoading"
@@ -224,7 +224,7 @@
               </template>
               <a v-else @click="handelEdit(record.key)">编辑</a>
             </template>
-          </w-pro-table>
+          </g-pro-table>
           <a-button type="dashed" block @click="handelTableAdd">
             <template #icon>
               <PlusOutlined />
@@ -272,8 +272,8 @@
         <a-button type="primary" @click="submitForm">提交</a-button>
       </div>
     </div>
-    <w-back-top />
-  </w-page-wrapper>
+    <g-back-top />
+  </g-page-wrapper>
 </template>
 
 <script lang="ts">
@@ -285,7 +285,7 @@ import { PlusOutlined, CloseCircleOutlined } from '@ant-design/icons-vue'
 import { getAdvancedForm, getAdvancedFormTable } from '/@/services/form/advanced'
 import config from '/config/config'
 import { handleOffsetTop, hanndleField } from '/@/utils/util'
-import { scrollTo } from '@wd-design/pro-utils'
+import { scrollTo } from '@gx-design/pro-utils'
 import type { TableFormDateType } from './types'
 import columns from './utils/columns'
 import { fieldLabels, rules } from './utils/config'

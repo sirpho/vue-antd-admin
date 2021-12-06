@@ -1,5 +1,5 @@
 export default {
-  requestCode: `<w-pro-table
+  requestCode: `<g-pro-table
   // params 是需要自带的参数
   // 这个参数优先级更高，会覆盖查询表单的参数
   :params={params}
@@ -69,7 +69,7 @@ export default {
   }
 ]`,
   searchSlotsCode: `<template #search>
-  <w-input-search
+  <g-input-search
     v-model:searchValue="tableParameters.title"
     :actionRef="info => inputSearchRef = info"
     allow-clear
@@ -81,7 +81,7 @@ export default {
         <SearchOutlined />
       </a-button>
     </template>
-  </w-input-search>
+  </g-input-search>
   <a-select
     v-model:value="tableParameters.source"
     placeholder="请选择来源"

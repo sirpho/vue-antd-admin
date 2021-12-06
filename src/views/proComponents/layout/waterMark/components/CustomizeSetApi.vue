@@ -15,14 +15,14 @@
   <div style="position: relative;z-index: 90;margin-top: 15px;background-color: rgb(240, 242, 245);border: 1px solid #ebedf1;border-radius: 1px;">
     <div style="padding: 40px 24px;">
       <a-card
-        :class="$style['wd-pro-card-contain-card']"
+        :class="$style['gx-pro-card-contain-card']"
         title="水印自定义配置器"
         :headStyle="{ borderBottom: '1px solid #f0f0f0', marginBottom: 0 }"
         :bodyStyle="{ display: 'flex', padding: 0, flexWrap: isMobile ? 'wrap' : '' }"
       >
         <div :style="{ flexShrink: 0, width: isMobile ? '100%' : '70%', borderRight: '1px solid #f0f0f0' }">
           <a-card :bordered="false">
-            <w-pro-watermark
+            <g-pro-watermark
               :content="formState.content"
               :fontColor="formState.fontColor"
               :fontSize="formState.fontSize"
@@ -64,7 +64,7 @@
                 width="600"
                 :style="{ zIndex: 10, maxWidth: '100%', position: 'relative' }"
               />
-            </w-pro-watermark>
+            </g-pro-watermark>
           </a-card>
         </div>
         <div style="width: 100%">
@@ -78,7 +78,7 @@
                 <a-input v-model:value="formState.content" placeholder="Basic usage" />
               </a-form-item>
               <a-form-item label="字体颜色">
-                <w-pro-color v-model:value="formState.fontColor" :predefine="predefineColors" />
+                <g-color v-model:value="formState.fontColor" :predefine="predefineColors" />
               </a-form-item>
               <a-form-item label="字体大小">
                 <a-slider v-model:value="formState.fontSize" :min="1" :max="100" />
@@ -92,7 +92,7 @@
             </a-form>
             <a-divider />
           </a-card>
-          <a-typography-paragraph style="margin: 0 24px 0 24px;" copyable class="wd-code">
+          <a-typography-paragraph style="margin: 0 24px 0 24px;" copyable class="gx-code">
             <pre>{{ code }}</pre>
           </a-typography-paragraph>
         </div>

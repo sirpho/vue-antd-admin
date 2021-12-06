@@ -1,5 +1,5 @@
 <template>
-  <w-modal
+  <g-modal
     :title="infoParams.done ? null : `任务${infoParams.current ? '编辑' : '添加'}`"
     :fixHeight="false"
     :visible="visible"
@@ -70,7 +70,7 @@
         </a-button>
       </div>
     </template>
-  </w-modal>
+  </g-modal>
 </template>
 
 <script lang="ts">

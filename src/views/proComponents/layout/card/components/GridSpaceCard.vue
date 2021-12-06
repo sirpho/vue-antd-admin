@@ -6,15 +6,15 @@
   </a-typography>
   <div style="margin: 16px 0;font-size: 15px;line-height: 24px">
     栅格常常需要和间隔进行配合，你可以使用
-    <span class="wd-markdown-code">gutter</span>
+    <span class="gx-markdown-code">gutter</span>
     属性，我们推荐使用
-    <span class="wd-markdown-code">(16+8n)px</span>
+    <span class="gx-markdown-code">(16+8n)px</span>
     作为栅格间隔(n 是自然数)，如果要支持响应式，可以写成
-    <span class="wd-markdown-code">{ xs: 8, sm: 16, md: 24, lg: 32 }</span>
+    <span class="gx-markdown-code">{ xs: 8, sm: 16, md: 24, lg: 32 }</span>
     。如果需要垂直间距，可以写成数组形式
-    <span class="wd-markdown-code">[水平间距, 垂直间距][16, { xs: 8, sm: 16, md: 24, lg: 32 }]</span>。
+    <span class="gx-markdown-code">[水平间距, 垂直间距][16, { xs: 8, sm: 16, md: 24, lg: 32 }]</span>。
   </div>
-  <div class="wd-markdown-demo">
+  <div class="gx-markdown-demo">
     <w-pro-card :wrap="isMobile" :gutter="[16, 16]">
       <w-pro-card :colSpan="isMobile ? '100%' : '30%'" title="title" headerBordered bordered>
         300px

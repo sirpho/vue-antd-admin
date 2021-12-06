@@ -5,12 +5,12 @@
     </a-typography-title>
   </a-typography>
   <div style="margin: 16px 0">
-    <span class="wd-markdown-code">Steps</span>
+    <span class="gx-markdown-code">Steps</span>
     组件结合
-    <span class="wd-markdown-code">ProCard</span>
+    <span class="gx-markdown-code">ProCard</span>
     组件完成竖向步骤示例。
   </div>
-  <div class="wd-markdown-demo">
+  <div class="gx-markdown-demo">
     <ResizeObserver key="resize-observer" :onResize="({ width }) => { setResponsive(width < 596) }">
       <w-pro-card
         :split="responsive ? 'horizontal' : 'vertical'"

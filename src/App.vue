@@ -1,11 +1,11 @@
 <template>
-  <div id="wd-pro-admin">
-    <w-bars>
+  <div id="gx-pro-admin">
+    <g-bars>
       <a-config-provider :locale="locale">
         <router-view />
       </a-config-provider>
-    </w-bars>
-    <w-page-loading :loading="loading && routhPath === '/'" />
+    </g-bars>
+    <g-page-loading :loading="loading && routhPath === '/'" />
   </div>
 </template>
 

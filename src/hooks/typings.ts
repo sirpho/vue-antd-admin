@@ -28,4 +28,13 @@ export type EventFilter<Args extends any[] = any[], This = any> = (
   options: FunctionWrapperOptions<Args, This>
 ) => void
 
+export interface RenderableComponent {
+  /**
+   * The element that the component should be rendered as
+   *
+   * @default 'div'
+   */
+  as?: Object | string
+}
+
 

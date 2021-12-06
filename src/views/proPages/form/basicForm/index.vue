@@ -1,5 +1,5 @@
 <template>
-  <w-page-wrapper>
+  <g-page-wrapper>
     <a-form
       style="max-width: 600px;margin: 8px auto auto;"
       :model="formState"
@@ -38,7 +38,7 @@
             客户
             <em :class="$style.optional">（选填）</em>
             <a-tooltip title="目标的服务对象">
-              <QuestionCircleOutlined :class="$style['wd-form-item-tooltip']" />
+              <QuestionCircleOutlined :class="$style['gx-form-item-tooltip']" />
             </a-tooltip>
           </span>
         </template>
@@ -128,7 +128,7 @@
         <a-button style="margin-left: 10px" @click="resetFields">重置</a-button>
       </a-form-item>
     </a-form>
-  </w-page-wrapper>
+  </g-page-wrapper>
 </template>
 
 <script lang="ts">
@@ -240,7 +240,7 @@ export default defineComponent({
   color: @text-color-secondary;
 }
 
-.wd-form-item-tooltip {
+.gx-form-item-tooltip {
   color: #00000073;
   cursor: help;
   writing-mode: horizontal-tb;

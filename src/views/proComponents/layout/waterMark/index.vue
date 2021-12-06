@@ -1,6 +1,6 @@
 <template>
-  <w-page-wrapper :contentStyle="{ position: 'relative' }">
-    <w-doc :anchorLinks="links">
+  <g-page-wrapper :contentStyle="{ position: 'relative' }">
+    <g-doc :anchorLinks="links">
       <a-typography id="watermark">
         <a-typography-title :level="2" :style="{color: '#454d64'}">
           WaterMark 水印组件
@@ -14,9 +14,9 @@
       <ContentApi />
       <ImageApi />
       <ParameterApi />
-    </w-doc>
-    <w-back-top />
-  </w-page-wrapper>
+    </g-doc>
+    <g-back-top />
+  </g-page-wrapper>
 </template>
 
 <script lang="ts">

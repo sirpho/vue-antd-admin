@@ -2,7 +2,7 @@ export default {
   position: [
     {
       title: '应用名称',
-      width: 80,
+      align: 'center',
       dataIndex: 'name',
       slots: { customRender: 'name' }
     },

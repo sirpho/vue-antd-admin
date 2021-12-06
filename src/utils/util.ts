@@ -1,7 +1,6 @@
 import moment from 'moment'
+import type { MaterialInfo } from '@gx/pro-upload'
 import global from '/@/common/global'
-
-import type { MaterialInfo } from '@wd/pro-upload'
 
 export function timeFix() {
   const time = new Date()

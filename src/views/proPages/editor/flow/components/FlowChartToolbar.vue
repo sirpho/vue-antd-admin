@@ -8,7 +8,7 @@
           v-if="item.icon"
           @click="onControl(item)"
         >
-          <w-icon
+          <g-icon
             :icon="item.icon"
             :class="item.disabled ? `disabeld ${$style[`${prefixCls}_icon`]}` : `${$style[`${prefixCls}_icon`]}`"
           />

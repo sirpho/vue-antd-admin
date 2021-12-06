@@ -4,7 +4,7 @@
       Columns 列定义（继承antd属性，这里列举新增的属性）
     </a-typography-title>
   </a-typography>
-  <w-pro-table
+  <g-pro-table
     :showIndex="false"
     :showPagination="false"
     :options="false"

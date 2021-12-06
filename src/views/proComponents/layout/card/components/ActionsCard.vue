@@ -6,11 +6,11 @@
   </a-typography>
   <div style="margin: 16px 0;font-size: 15px;line-height: 24px">
     配置
-    <span class="wd-markdown-code">actions</span>
+    <span class="gx-markdown-code">actions</span>
     属性来配置卡片操作项。
   </div>
-  <div class="wd-markdown-demo">
-    <w-pro-card
+  <div class="gx-markdown-demo">
+    <g-pro-card
       title="Actions 操作项"
       style="max-width: 300px;"
     >
@@ -22,7 +22,7 @@
       <div>Card content</div>
       <div>Card content</div>
       <div>Card content</div>
-    </w-pro-card>
+    </g-pro-card>
   </div>
 </template>
 

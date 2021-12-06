@@ -1,5 +1,5 @@
 <template>
-  <w-modal
+  <g-modal
     :title="modalTitle"
     :fixHeight="false"
     :visible="visible"
@@ -192,7 +192,7 @@
         </a-button>
       </div>
     </template>
-  </w-modal>
+  </g-modal>
 </template>
 
 <script lang="ts">

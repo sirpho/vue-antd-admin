@@ -1,5 +1,5 @@
 <template>
-  <w-page-wrapper>
+  <g-page-wrapper>
     <a-card :bordered="false">
       <a-descriptions title="退款申请" style="margin-bottom: 32px">
         <a-descriptions-item label="取货单号">
@@ -35,7 +35,7 @@
       </a-descriptions>
       <a-divider style="margin-bottom: 32px" />
       <div :class="$style.title">退货商品</div>
-      <w-pro-table
+      <g-pro-table
         style="margin-bottom: 24px"
         rowKey="id"
         :bordered="false"
@@ -48,7 +48,7 @@
         :columns="goodsColumns"
       />
       <div :class="$style.title">退货进度</div>
-      <w-pro-table
+      <g-pro-table
         style="margin-bottom: 16px"
         rowKey="key"
         :bordered="false"
@@ -66,9 +66,9 @@
             :text="text === 'success' ? '成功' : '进行中'"
           />
         </template>
-      </w-pro-table>
+      </g-pro-table>
     </a-card>
-  </w-page-wrapper>
+  </g-page-wrapper>
 </template>
 
 <script lang="ts">

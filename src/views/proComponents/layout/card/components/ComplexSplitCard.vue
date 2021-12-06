@@ -7,27 +7,27 @@
   <div style="margin: 16px 0">
     通过卡片切分能力我们可以实现更加复杂的数据展现形式。
   </div>
-  <div class="wd-markdown-demo">
+  <div class="gx-markdown-demo">
     <ResizeObserver key="resize-observer" :onResize="({ width }) => { setResponsive(width < 596) }">
-      <w-pro-card
+      <g-pro-card
         title="复杂切分"
         extra="2019年9月28日"
         bordered
         headerBordered
         :split="responsive ? 'horizontal' : 'vertical'"
       >
-        <w-pro-card split="horizontal">
-          <w-pro-card split="horizontal">
-            <w-pro-card :split="responsive ? 'horizontal' : 'vertical'">
-              <w-pro-card title="昨日全部流量">123</w-pro-card>
-              <w-pro-card title="本月累计流量">234</w-pro-card>
-              <w-pro-card title="今年累计流量">345</w-pro-card>
-            </w-pro-card>
-            <w-pro-card split="vertical">
-              <w-pro-card title="运行中试验">12/56</w-pro-card>
-              <w-pro-card title="历史试验总数">134 个</w-pro-card>
-            </w-pro-card>
-          </w-pro-card>
+        <g-pro-card split="horizontal">
+          <g-pro-card split="horizontal">
+            <g-pro-card :split="responsive ? 'horizontal' : 'vertical'">
+              <g-pro-card title="昨日全部流量">123</g-pro-card>
+              <g-pro-card title="本月累计流量">234</g-pro-card>
+              <g-pro-card title="今年累计流量">345</g-pro-card>
+            </g-pro-card>
+            <g-pro-card split="vertical">
+              <g-pro-card title="运行中试验">12/56</g-pro-card>
+              <g-pro-card title="历史试验总数">134 个</g-pro-card>
+            </g-pro-card>
+          </g-pro-card>
           <w-pro-card title="流量趋势">
             <div>图表</div>
             <div>图表</div>
@@ -35,9 +35,9 @@
             <div>图表</div>
             <div>图表</div>
           </w-pro-card>
-        </w-pro-card>
+        </g-pro-card>
         <w-pro-card title="流量占用情况">右侧内容</w-pro-card>
-      </w-pro-card>
+      </g-pro-card>
     </ResizeObserver>
   </div>
 </template>

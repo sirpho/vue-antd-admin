@@ -1,6 +1,6 @@
 <template>
-  <w-page-wrapper :contentStyle="{ position: 'relative' }">
-    <w-doc :anchorLinks="links">
+  <g-page-wrapper :contentStyle="{ position: 'relative' }">
+    <g-doc :anchorLinks="links">
       <a-typography id="proCard">
         <a-typography-title :level="2" :style="{color: '#454d64'}">
           ProCard 高级卡片
@@ -36,9 +36,9 @@
       <ProCardTabPane />
       <ProCardTabDivider />
       <ProCardTabGroup />
-    </w-doc>
-    <w-back-top />
-  </w-page-wrapper>
+    </g-doc>
+    <g-back-top />
+  </g-page-wrapper>
 </template>
 
 <script lang="ts" setup>

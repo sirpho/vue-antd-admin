@@ -1,34 +1,34 @@
-export { default as WProLayout } from '/@/components/WProLayout/BasicLayout'
-export { default as WProTable } from '/@/components/WProTable'
-export { default as WAffix } from '/@/components/WAffix'
-export { default as WAnchor } from '/@/components/WAnchor'
-export { default as WResult } from '/@/components/WResult'
-export { default as WBackTop } from '/@/components/WBackTop'
-export { default as WInputSearch } from '/@/components/WInputSearch'
-export { default as WModal } from '/@/components/WModal'
-export { default as WPageLoading } from '/@/components/WPageLoading'
-export { default as WPageWrapper } from '/@/components/WPageWrapper'
-export { default as WSkeleton } from '/@/components/WSkeleton'
-export { default as WProSkeleton } from '/@/components/WProSkeleton'
-export { default as WProWatermark } from '/@/components/WProWatermark'
-export { default as WProColorPicker } from '/@/components/WProColorPicker'
-export { default as WDocumentation } from '/@/components/WDocumentation'
-export { default as WTagSelect } from '/@/components/WTagSelect'
-export { default as WTagSelectOption } from '/@/components/WTagSelect/TagSelectOption'
-export { default as WProCard } from '/@/components/WProCard'
+export { default as GProLayout } from './GProLayout/BasicLayout'
+export { default as GProTable } from './GProTable'
+export { default as GAffix } from './GAffix'
+export { default as GAnchor } from './GAnchor'
+export { default as GResult } from './GResult'
+export { default as GBackTop } from './GBackTop'
+export { default as GInputSearch } from './GInputSearch'
+export { default as GModal } from './GModal'
+export { default as GPageLoading } from './GPageLoading'
+export { default as GPageWrapper } from './GPageWrapper'
+export { default as GSkeleton } from './GSkeleton'
+export { default as GProSkeleton } from './GProSkeleton'
+export { default as GProWatermark } from './GProWatermark'
+export { default as GColorPicker } from './GColorPicker'
+export { default as GDocumentation } from './GDocumentation'
+export { default as GTagSelect } from './GTagSelect'
+export { default as TagSelectOption } from './GTagSelect/TagSelectOption'
+export { default as GProCard } from './GProCard'
 export {
-  Group as WProCardGroup,
-  Divider as WProCardDivider,
-  TabPane as WProCardTabPane
-} from '/@/components/WProCard/ProCard'
-export { default as WImage, WImageViewer, WImageViewerGroup } from '/@/components/WImage'
-export { default as WUpload } from '/@/components/WUpload'
-export { default as WMaterialView } from '/@/components/WMaterialView'
-export { default as WProField } from '/@/components/WProField'
+  Group as GProCardGroup,
+  Divider as GProCardDivider,
+  TabPane as GProCardTabPane
+} from './GProCard/ProCard'
+export { default as GImage, GImageViewer, GImageViewerGroup } from './GImage'
+export { default as GUpload } from './GUpload'
+export { default as GMaterialView } from './GMaterialView'
+export { default as GProField } from './GProField'
 export {
-  default as WProForm,
+  default as GProForm,
   ProFormItem,
   ProFormText,
   ProFormGroup,
   LightFilter
-} from '/@/components/WProForm'
+} from './GProForm'

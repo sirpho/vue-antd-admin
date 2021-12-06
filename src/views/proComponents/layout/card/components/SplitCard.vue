@@ -5,28 +5,28 @@
     </a-typography-title>
   </a-typography>
   <div style="margin: 16px 0">
-    布局模式下通过配置<span class="wd-markdown-code">split</span>可以方便地切分卡片，可以进行任意的分栏，不管是横切还是竖切都非常便利，切分出来的分栏仍然保有卡片的特性，高度自动撑满。注意：
+    布局模式下通过配置<span class="gx-markdown-code">split</span>可以方便地切分卡片，可以进行任意的分栏，不管是横切还是竖切都非常便利，切分出来的分栏仍然保有卡片的特性，高度自动撑满。注意：
     <ul style="margin-top: 16px;list-style-type: disc;">
-      <li>切分时父卡片的内容 <span class="wd-markdown-code">padding</span> 会被设置为 0。</li>
-      <li>切分时子卡片的 <span class="wd-markdown-code">border-radius</span> 会被设置为 0。</li>
+      <li>切分时父卡片的内容 <span class="gx-markdown-code">padding</span> 会被设置为 0。</li>
+      <li>切分时子卡片的 <span class="gx-markdown-code">border-radius</span> 会被设置为 0。</li>
     </ul>
   </div>
-  <div class="wd-markdown-demo">
+  <div class="gx-markdown-demo">
     <ResizeObserver key="resize-observer" :onResize="({ width }) => { setResponsive(width < 596) }">
-      <w-pro-card
+      <g-pro-card
         title="左右分栏带标题"
         extra="2019年9月28日"
         :split="responsive ? 'horizontal' : 'vertical'"
         bordered
         headerBordered
       >
-        <w-pro-card title="左侧详情" colSpan="50%">
+        <g-pro-card title="左侧详情" colSpan="50%">
           <div style="height: 360px">左侧内容</div>
-        </w-pro-card>
-        <w-pro-card title="流量占用情况">
+        </g-pro-card>
+        <g-pro-card title="流量占用情况">
           <div style="height: 360px">右侧内容</div>
-        </w-pro-card>
-      </w-pro-card>
+        </g-pro-card>
+      </g-pro-card>
     </ResizeObserver>
   </div>
 </template>

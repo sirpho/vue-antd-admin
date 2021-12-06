@@ -6,12 +6,12 @@
   </a-typography>
   <div style="margin: 16px 0">
     配置
-    <span class="wd-markdown-code">tab</span>的
-    <span class="wd-markdown-code">type</span>为
-    <span class="wd-markdown-code">card</span>
+    <span class="gx-markdown-code">tab</span>的
+    <span class="gx-markdown-code">type</span>为
+    <span class="gx-markdown-code">card</span>
     来配置卡片式页签。
   </div>
-  <div class="wd-markdown-demo">
+  <div class="gx-markdown-demo">
     <w-pro-card
       :tabs="{
         type: 'card'

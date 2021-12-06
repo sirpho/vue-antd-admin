@@ -6,11 +6,11 @@
   </a-typography>
   <div style="margin: 16px 0;font-size: 15px;line-height: 24px">
     默认卡片布局不可换行，你可以配置
-    <span class="wd-markdown-code">wrap</span>为
-    <span class="wd-markdown-code">true</span>
+    <span class="gx-markdown-code">wrap</span>为
+    <span class="gx-markdown-code">true</span>
     来让多个卡片之间可以换行，适用于多个卡片排版的情况。
   </div>
-  <div class="wd-markdown-demo">
+  <div class="gx-markdown-demo">
     <w-pro-card :gutter="[16, 16]" wrap title="换行">
       <w-pro-card :colSpan="{ xs: 24, sm: 12, md: 12, lg: 12, xl: 12 }" layout="center" bordered>
         Col
