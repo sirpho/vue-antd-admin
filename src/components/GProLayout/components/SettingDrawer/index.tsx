@@ -64,7 +64,8 @@ const SettingDrawer = defineComponent({
   emits: [ 'change' ],
   setup(props, { emit, slots }) {
     const baseClassName = getPrefixCls({
-      suffixCls: 'setting-drawer'
+      suffixCls: 'setting-drawer',
+      isPor: true
     })
 
     const show: Ref<boolean> = ref(false)

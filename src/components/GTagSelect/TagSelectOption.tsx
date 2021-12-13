@@ -3,8 +3,8 @@ import { tagSelectOptionProps } from './props'
 
 export type TagSelectOptionProps = Partial<ExtractPropTypes<typeof tagSelectOptionProps>>;
 
-const WTagSelectOption = defineComponent({
-  name: 'WTagSelectOption',
+const GTagSelectOption = defineComponent({
+  name: 'GTagSelectOption',
   props: tagSelectOptionProps,
   inheritAttrs: false,
   setup(props, { slots }) {
@@ -20,6 +20,6 @@ const WTagSelectOption = defineComponent({
   }
 })
 
-WTagSelectOption.isTagSelectOption = true
+GTagSelectOption.isTagSelectOption = true
 
-export default WTagSelectOption
+export default GTagSelectOption

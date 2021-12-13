@@ -24,12 +24,11 @@ import './style.less'
 
 export type BackTopProps = Partial<ExtractPropTypes<typeof backTopProps>>;
 
-const WBackTop = defineComponent({
+const GBackTop = defineComponent({
   props: backTopProps,
   setup(props, { emit, slots }) {
     const prefixCls = getPrefixCls({
-      suffixCls: 'back-top',
-      defaultPrefixCls: 'gx'
+      suffixCls: 'back-top'
     })
     const innerWidth = ref(window.innerWidth)
     const state = reactive({
@@ -134,4 +133,4 @@ const WBackTop = defineComponent({
   }
 })
 
-export default WBackTop
+export default GBackTop

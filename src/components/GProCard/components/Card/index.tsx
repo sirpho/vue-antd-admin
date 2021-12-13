@@ -27,7 +27,8 @@ const ProCard = defineComponent({
   emits: [ 'collapse' ],
   setup(props, { emit, slots, attrs }) {
     const baseClassName = getPrefixCls({
-      suffixCls: 'card'
+      suffixCls: 'card',
+      isPor: true
     })
 
     const screens = useBreakpoint()

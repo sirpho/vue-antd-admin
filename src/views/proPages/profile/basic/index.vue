@@ -1,5 +1,5 @@
 <template>
-  <g-page-wrapper>
+  <g-pro-page-wrapper>
     <a-card :bordered="false">
       <a-descriptions title="退款申请" style="margin-bottom: 32px">
         <a-descriptions-item label="取货单号">
@@ -68,14 +68,13 @@
         </template>
       </g-pro-table>
     </a-card>
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
 </template>
 
 <script lang="ts">
 import {
   computed,
   defineComponent,
-  getCurrentInstance,
   h,
   onActivated,
   reactive,
@@ -86,7 +85,6 @@ import { progressColumns } from './utils/columns'
 
 export default defineComponent({
   setup() {
-    const { proxy }: any = getCurrentInstance()
     const state = reactive({
       loading: false,
       goodsData: [],

@@ -3,7 +3,7 @@ import config from '/config/config'
 import { waterMarkProps } from './props'
 import { getPrefixCls } from '../_util'
 
-import styles from './style.module.less'
+import './style.less'
 
 const { waterMarkTitle } = config.defaultSettings
 
@@ -30,17 +30,18 @@ const getPixelRatio = (context: any) => {
   return (window.devicePixelRatio || 1) / backingStore
 }
 
-const WaterMark = defineComponent({
+const GPorWaterMark = defineComponent({
   props: waterMarkProps,
   setup(props, { slots }) {
     const base64Url = ref('')
     const prefixCls = getPrefixCls({
-      suffixCls: 'watermark'
+      suffixCls: 'watermark',
+      isPor: true
     })
     const wrapperCls = computed(() => `${prefixCls}-wrapper`)
     const waterMakrCls = computed(() => {
       return {
-        [`${styles[prefixCls]}`]: prefixCls,
+        [`${prefixCls}`]: prefixCls,
         [`${props.markClassName}`]: props.markClassName
       }
     })
@@ -109,7 +110,7 @@ const WaterMark = defineComponent({
         style={{
           position: 'relative'
         }}
-        class={styles[wrapperCls.value]}
+        class={wrapperCls.value}
       >
         {slots.default?.()}
         <div
@@ -133,4 +134,4 @@ const WaterMark = defineComponent({
   }
 })
 
-export default WaterMark
+export default GPorWaterMark

@@ -35,7 +35,8 @@ const NoticeIcon = defineComponent({
   emits: [ 'onClear', 'onTabChange', 'onItemClick', 'onViewMore', 'onPopupVisibleChange' ],
   setup(props, { emit, slots }) {
     const prefixCls = getPrefixCls({
-      suffixCls: 'notice'
+      suffixCls: 'notice',
+      isPor: true
     })
 
     const visible = ref(props.popupVisible || false)

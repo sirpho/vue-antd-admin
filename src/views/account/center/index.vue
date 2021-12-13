@@ -1,5 +1,5 @@
 <template>
-  <g-page-wrapper>
+  <g-pro-page-wrapper>
     <a-row :gutter="24">
       <a-col :lg="7" :md="24">
         <a-card
@@ -80,7 +80,7 @@
         </a-card>
       </a-col>
     </a-row>
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
 </template>
 <script lang="ts">
 import { defineComponent, reactive, onActivated, toRefs } from 'vue'

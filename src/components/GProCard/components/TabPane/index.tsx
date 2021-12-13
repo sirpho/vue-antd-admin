@@ -17,7 +17,8 @@ const TabPane: FunctionalComponent<ProCardTabPaneProps> = (props, { slots, attrs
   } = props
 
   const baseClassName = getPrefixCls({
-    suffixCls: 'card'
+    suffixCls: 'card',
+    isPor: true
   })
 
   return (

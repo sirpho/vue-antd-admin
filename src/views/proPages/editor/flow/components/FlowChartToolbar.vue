@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, unref, watchEffect, nextTick, onUnmounted } from 'vue'
-import type { ToolbarConfig } from '../types'
+import type { ToolbarConfig } from '../typings'
 import { ToolbarTypeEnum } from '../enum'
 import { useFlowChartContext } from '../utils/useFlowContext'
 

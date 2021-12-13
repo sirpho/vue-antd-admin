@@ -1,6 +1,6 @@
 import { PropTypes } from '/@/utils'
 
-export const wMaterialViewProps = {
+export const gMaterialViewProps = {
   type: PropTypes.string,
   url: {
     type: [ String, Array ] as PropType<string | string[]>

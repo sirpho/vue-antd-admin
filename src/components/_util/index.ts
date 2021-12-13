@@ -134,16 +134,19 @@ export const isInContainer = (
 export interface prefixCls {
   suffixCls?: string;
   customizePrefixCls?: string;
-  defaultPrefixCls?: string;
+  isPor?: boolean;
+  className?: string;
 }
 
 export const getPrefixCls = ({
   suffixCls,
   customizePrefixCls,
-  defaultPrefixCls = 'gx-pro'
+  isPor,
+  className
 }: prefixCls) => {
+  const prefixCls = className || (isPor ? `gx-pro`: 'gx')
   if (customizePrefixCls) return customizePrefixCls
-  return suffixCls ? `${defaultPrefixCls}-${suffixCls}` : defaultPrefixCls
+  return suffixCls ? `${prefixCls}-${suffixCls}` : prefixCls
 }
 
 export function getPropsSlot(slots: Slots, props: Record<string, any>, prop = 'default') {

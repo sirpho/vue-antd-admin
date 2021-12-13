@@ -154,12 +154,12 @@ export function buildMenu(list: any[]) {
     const {
       title = '',
       icon = '',
-      iconType = 1,
-      tagFixed = '1',
-      tagHidden = '0',
-      homePageFlag = 0,
-      isFrame = '1',
-      outLinkType = 0
+      iconType = 1, //菜单图标类型 0:本地 1:自定义 2:图片
+      tagFixed = '1', //标签栏固定状态（标签栏路由地址是否固定（只有标签栏为显示转态才生效））0:是 1:否
+      tagHidden = '0', //标签栏显示状态（隐藏的路由是否显示在标签栏中（只有标签栏为显示转态才生效））0:显示 1:隐藏
+      homePageFlag = 0, //是否为主页（选择后为登录后跳转改地址，不选择默认跳转 /）0:否 1:是
+      isFrame = '1', //是否外链 0:是 1:否
+      outLinkType = 0 //外链类型（选择是系统内则以iframe形式在系统内部展示，否则跳转新页面打开） 0:系统内 1:系统外
     } = item.meta
     const child = {
       title,
@@ -179,7 +179,7 @@ export function buildMenu(list: any[]) {
         : item.redirect,
       tagFixed: tagFixed === '0',
       tagHidden: tagHidden === '1',
-      target: isFrame === '0' ? item.path : '',
+      target: isFrame === '0' ? item.target : '',
       targetStatus: outLinkType || 0,
       children: item.children && item.children.length > 0
         ? buildMenu(item.children)
@@ -215,7 +215,7 @@ export function buildtree(list: any[], arr: any[], parentId: string | number) {
           : item.redirect,
         tagFixed: item.tagFixed === '0',
         tagHidden: item.tagHidden === '1',
-        target: item.isFrame === '0' ? item.path : '',
+        target: item.isFrame === '0' ? item.target : '',
         targetStatus: item.outLinkType || 0,
         children: []
       }

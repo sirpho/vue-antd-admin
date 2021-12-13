@@ -1,5 +1,5 @@
 <template>
-  <g-page-wrapper>
+  <g-pro-page-wrapper>
     <div class="icon-container">
       <a-button @click="$refs.operation.open()" style="margin-bottom: 20px" type="primary">
         打开Modal
@@ -46,7 +46,7 @@
       </a-row>
       <OperationModal ref="operation" />
     </div>
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'

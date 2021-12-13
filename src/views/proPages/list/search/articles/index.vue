@@ -123,8 +123,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onActivated, onMounted, reactive, toRefs } from 'vue'
+import { defineComponent, reactive, toRefs } from 'vue'
 import { StarOutlined, LikeOutlined, MessageOutlined, LoadingOutlined } from '@ant-design/icons-vue'
+import { onMountedOrActivated } from '@gx-design/pro-hooks/core'
 import type { ListItemDataType } from '/@/services/list/search'
 import { queryFakeList } from '/@/services/list/search'
 import ArticleListContent from './components/ArticleListContent.vue'
@@ -164,10 +165,7 @@ export default defineComponent({
       loadingMore: false,
       listSource: []
     })
-    onMounted(() => {
-      onActiveLoad()
-    })
-    onActivated(async () => {
+    onMountedOrActivated(() => {
       onActiveLoad()
     })
     const onActiveLoad = (title?: string) => {

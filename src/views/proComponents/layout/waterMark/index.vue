@@ -1,5 +1,5 @@
 <template>
-  <g-page-wrapper :contentStyle="{ position: 'relative' }">
+  <g-pro-page-wrapper :contentStyle="{ position: 'relative' }">
     <g-doc :anchorLinks="links">
       <a-typography id="watermark">
         <a-typography-title :level="2" :style="{color: '#454d64'}">
@@ -16,7 +16,7 @@
       <ParameterApi />
     </g-doc>
     <g-back-top />
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
 </template>
 
 <script lang="ts">

@@ -176,7 +176,7 @@ import {
   getCurrentInstance,
   toRaw
 } from 'vue'
-import { Form } from 'ant-design-vue'
+import { Form, message } from 'ant-design-vue'
 import { UploadOutlined } from '@ant-design/icons-vue'
 import type { CurrentUser } from '/@/services/account/typings'
 import { queryCurrent, queryProvince, queryCity } from '/@/services/account/settings'
@@ -354,7 +354,7 @@ export default defineComponent({
     }
 
     const handleFinish = async () => {
-      proxy.$message.success('更新基本信息成功')
+      message.success('更新基本信息成功')
     }
 
     return {

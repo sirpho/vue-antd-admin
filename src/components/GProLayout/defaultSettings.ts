@@ -1,5 +1,8 @@
 import type { PropType, ExtractPropTypes } from 'vue'
+import config from '/config/config'
 import type { themeConfig } from '/types/config'
+
+const { title } = config.defaultSettings
 
 export interface RenderSetting {
   headerRender?: false;
@@ -18,7 +21,7 @@ export const defaultSettings: themeConfig = {
   // 主题色
   primaryColor: '#1890FF',
   // logo标题
-  title: 'gx Pro Admin',
+  title: title || 'GX Pro Admin',
   // 头部菜单高度
   headerHeight: 48,
   // 头部菜单是否固定

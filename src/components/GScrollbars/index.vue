@@ -1,11 +1,11 @@
 <template>
-  <div ref="scrollbar" class="gx-pro-scrollbar">
+  <div ref="scrollbar" :class="`${baseClassName}`">
     <div
       ref="wrap"
       :class="[
         wrapClass,
-        'gx-pro-scrollbar-wrap',
-        native ? '' : 'gx-pro-scrollbar-wrap-hidden-default',
+        `${baseClassName}-wrap`,  
+        native ? '' : `${baseClassName}-wrap-hidden-default`,
       ]"
       :style="style"
       @scroll="handleScroll"
@@ -13,15 +13,16 @@
       <component
         :is="tag"
         ref="resize"
-        :class="['gx-pro-scrollbar-view', viewClass]"
+        :class="[`${baseClassName}-view`, viewClass]"
         :style="viewStyle"
       >
         <slot></slot>
       </component>
     </div>
     <template v-if="!native">
-      <bar :move="moveX" :size="sizeWidth" :always="always" />
+      <bar :className="baseClassName" :move="moveX" :size="sizeWidth" :always="always" />
       <bar
+        :className="baseClassName"
         :move="moveY"
         :size="sizeHeight"
         vertical
@@ -42,6 +43,7 @@ import {
   ref
 } from 'vue'
 import type { CSSProperties, PropType } from 'vue'
+import { getPrefixCls } from '@gx-design/pro-utils'
 import { isArray, isString, isNumber } from '/@/utils/validate'
 import Bar from './bar.vue'
 import { warn } from './utils/error'
@@ -49,7 +51,7 @@ import { addResizeListener, removeResizeListener } from './utils/resize-event'
 import { addUnit, toObject } from './utils/utils'
 
 export default defineComponent({
-  name: 'WScrollbar',
+  name: 'GScrollbar',
   components: { Bar },
   props: {
     height: {
@@ -92,6 +94,10 @@ export default defineComponent({
   },
   emits: [ 'scroll' ],
   setup(props, { emit }) {
+    const baseClassName = getPrefixCls({
+      suffixCls: 'scrollbar'
+    })
+    
     const sizeWidth = ref('0')
     const sizeHeight = ref('0')
     const moveX = ref(0)
@@ -99,12 +105,12 @@ export default defineComponent({
     const scrollbar = ref(null)
     const wrap: Ref<Element | null> = ref(null)
     const resize = ref(null)
-
+    
     const SCOPE = 'ElScrollbar'
-
+    
     provide('scrollbar', scrollbar)
     provide('scrollbar-wrap', wrap)
-
+    
     const handleScroll = () => {
       if (wrap.value) {
         moveY.value = (wrap.value.scrollTop * 100) / wrap.value.clientHeight
@@ -115,7 +121,7 @@ export default defineComponent({
         })
       }
     }
-
+    
     const setScrollTop = (value: number) => {
       if (!isNumber(value)) {
         if (process.env.NODE_ENV !== 'production') {
@@ -125,7 +131,7 @@ export default defineComponent({
       }
       if (wrap.value) wrap.value.scrollTop = value
     }
-
+    
     const setScrollLeft = (value: number) => {
       if (!isNumber(value)) {
         if (process.env.NODE_ENV !== 'production') {
@@ -135,17 +141,17 @@ export default defineComponent({
       }
       if (wrap.value) wrap.value.scrollLeft = value
     }
-
+    
     const update = () => {
       if (!wrap.value) return
-
+      
       const heightPercentage = (wrap.value.clientHeight * 100) / wrap.value.scrollHeight
       const widthPercentage = (wrap.value.clientWidth * 100) / wrap.value.scrollWidth
-
+      
       sizeHeight.value = heightPercentage < 100 ? heightPercentage + '%' : ''
       sizeWidth.value = widthPercentage < 100 ? widthPercentage + '%' : ''
     }
-
+    
     const style = computed(() => {
       let style: any = props.wrapStyle
       if (isArray(style)) {
@@ -158,7 +164,7 @@ export default defineComponent({
       }
       return style
     })
-
+    
     onMounted(() => {
       if (!props.native) {
         nextTick(update)
@@ -168,14 +174,14 @@ export default defineComponent({
         addEventListener('resize', update)
       }
     })
-
+    
     onBeforeUnmount(() => {
       if (!props.noresize) {
         removeResizeListener(resize.value, update)
         removeEventListener('resize', update)
       }
     })
-
+    
     return {
       moveX,
       moveY,
@@ -186,6 +192,7 @@ export default defineComponent({
       wrap,
       resize,
       update,
+      baseClassName,
       handleScroll,
       setScrollTop,
       setScrollLeft

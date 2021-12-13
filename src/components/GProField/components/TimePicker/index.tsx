@@ -14,7 +14,8 @@ const FieldTimePicker: ProFieldFC<{
   format: string;
 }> = ({ text, mode, light, label, format, render, renderFormItem, plain, fieldProps }) => {
   const prefixCls = getPrefixCls({
-    suffixCls: 'field-date-picker'
+    suffixCls: 'field-date-picker',
+    isPor: true
   })
   const open = ref<boolean>(false)
 

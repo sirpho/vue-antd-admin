@@ -203,7 +203,8 @@ const LightFilter: FC = (props: LightFilterProps<Record<string, any>>, { slots }
   } = props
 
   const prefixCls = getPrefixCls({
-    suffixCls: 'form'
+    suffixCls: 'form',
+    isPor: true
   })
 
   const formRef = ref<ProFormInstance>()

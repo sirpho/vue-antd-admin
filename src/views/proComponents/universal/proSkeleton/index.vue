@@ -1,12 +1,12 @@
 <template>
-  <g-page-wrapper :contentStyle="{ position: 'relative' }" :class="$style['skeleton-block']">
+  <g-pro-page-wrapper :contentStyle="{ position: 'relative' }" :class="$style['skeleton-block']">
     <g-doc :anchorLinks="links">
       <BasicSkelecton />
       <ListSkelecton />
       <ResultSkelecton />
       <DescriptionsSkelecton />
     </g-doc>
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
 </template>
 
 <script lang="ts">

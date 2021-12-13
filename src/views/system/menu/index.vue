@@ -1,5 +1,5 @@
 <template>
-  <g-page-wrapper>
+  <g-pro-page-wrapper>
     <g-pro-table
       row-key="menuId"
       :showIndex="false"
@@ -15,7 +15,7 @@
         {{ text === '0' ? '显示' : '隐藏' }}
       </template>
     </g-pro-table>
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
 </template>
 <script lang="ts">
 import { defineComponent, reactive, toRefs, onMounted } from 'vue'

@@ -1,5 +1,5 @@
 <template>
-  <g-modal
+  <g-pro-modal
     title="Title"
     class="test"
     :visible="visible"
@@ -40,7 +40,7 @@
         </a-button>
       </div>
     </template>
-  </g-modal>
+  </g-pro-modal>
 </template>
 
 <script lang="ts">

@@ -1,5 +1,5 @@
 <template>
-  <g-page-wrapper>
+  <g-pro-page-wrapper>
     <div :class="$style.cardList">
       <a-list
         rowKey="id"
@@ -44,21 +44,18 @@
         </template>
       </a-list>
     </div>
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
 </template>
 
 <script lang="ts">
 import {
   computed,
   defineComponent,
-  getCurrentInstance,
   onActivated,
   reactive, ref,
   toRefs
 } from 'vue'
-import {
-  PlusOutlined
-} from '@ant-design/icons-vue'
+import { PlusOutlined } from '@ant-design/icons-vue'
 import type { CardListItemDataType } from '/@/services/list/card'
 import { getCardList } from '/@/services/list/card'
 
@@ -67,7 +64,6 @@ export default defineComponent({
     PlusOutlined
   },
   setup() {
-    const { proxy }: any = getCurrentInstance()
     const operation = ref()
     const nullData: Partial<CardListItemDataType> = reactive({})
     const state = reactive({

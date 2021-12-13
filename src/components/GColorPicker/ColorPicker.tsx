@@ -51,12 +51,11 @@ import './style.less'
 export type ColorPickerProps = Partial<ExtractPropTypes<typeof colorPickerPanelProps>>;
 
 export default defineComponent({
-  name: 'WColorPicker',
+  name: 'GColorPicker',
   props: colorPickerPanelProps,
   setup(props, { slots, emit }) {
     const baseClassName = getPrefixCls({
-      suffixCls: 'color',
-      defaultPrefixCls: 'gx'
+      suffixCls: 'color'
     })
     const selfRef = ref<any>(null)
     const wrap = ref<any>()

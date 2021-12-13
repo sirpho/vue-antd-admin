@@ -10,11 +10,11 @@ import {
   GProLayout,
   GProTable,
   GBackTop,
-  GModal,
+  GProModal,
   GProCard,
   GInputSearch,
-  GPageLoading,
-  GPageWrapper,
+  GProPageLoading,
+  GProPageWrapper,
   GSkeleton,
   GProSkeleton,
   GProWatermark,
@@ -100,12 +100,12 @@ const ant = {
   install(app) {
     app.component('g-pro-layout', GProLayout)
     app.component('g-pro-table', GProTable)
-    app.component('g-modal', GModal)
+    app.component('g-pro-modal', GProModal)
     app.component('g-back-top', GBackTop)
     app.component('g-bars', GScrollbars)
-    app.component('g-page-wrapper', GPageWrapper)
+    app.component('g-pro-page-wrapper', GProPageWrapper)
     app.component('g-icon', CustomIcon)
-    app.component('g-page-loading', GPageLoading)
+    app.component('g-pro-page-loading', GProPageLoading)
     app.component('g-input-search', GInputSearch)
     app.component('g-result', GResult)
     app.component('g-skeleton', GSkeleton)

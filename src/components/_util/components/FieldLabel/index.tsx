@@ -34,7 +34,8 @@ const FieldLabel: FunctionalComponent<FieldLabelProps> = (props) => {
   } = props
 
   const prefixCls = getPrefixCls({
-    suffixCls: 'core-field-label'
+    suffixCls: 'core-field-label',
+    isPor: true
   })
 
   const formatterText = (aValue: any) => {

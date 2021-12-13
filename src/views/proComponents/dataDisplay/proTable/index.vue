@@ -1,5 +1,5 @@
 <template>
-  <g-page-wrapper :contentStyle="{ position: 'relative' }">
+  <g-pro-page-wrapper :contentStyle="{ position: 'relative' }">
     <g-doc :anchorLinks="links">
       <a-typography id="g-pro-table">
         <a-typography-title :level="2" :style="{color: '#454d64'}">ProTable</a-typography-title>
@@ -114,7 +114,7 @@
       <ProTableColums />
     </g-doc>
     <g-back-top />
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
 </template>
 
 <script lang="ts">
@@ -127,6 +127,7 @@ import {
   toRefs,
   watch
 } from 'vue'
+import { message } from 'ant-design-vue'
 import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons-vue'
 import { getList } from '/@/services/table'
 import { useDict } from '@gx-design/pro-hooks/web'
@@ -135,7 +136,6 @@ import ProTableApi from './components/ProTableApi.vue'
 import ProTableSearch from './components/ProTableSearch.vue'
 import ProTableColums from './components/ProTableColums.vue'
 import columns from './utils/columns'
-// import config from './utils/config'
 
 export default defineComponent({
   components: {
@@ -146,7 +146,6 @@ export default defineComponent({
     ReloadOutlined,
   },
   setup() {
-    const { proxy }: any = getCurrentInstance()
     const polling = ref<number | undefined>(2000)
     const state: any = reactive({
       waitRequest: true,
@@ -295,7 +294,7 @@ export default defineComponent({
       state.polling = !state.polling
     }
     const batchOperation = (key) => {
-      proxy.$message.success(`你点击了${key.domEvent.target.innerText}`)
+      message.success(`你点击了${key.domEvent.target.innerText}`)
     }
     const handleReload = () => {
       state.selectedRowKeys = []

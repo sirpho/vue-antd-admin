@@ -22,7 +22,8 @@ const LabelIconTip: FunctionalComponent<{
     return <>{label}</>
   }
   const className = getPrefixCls({
-    suffixCls: 'core-label-tip'
+    suffixCls: 'core-label-tip',
+    isPor: true
   })
   const tooltipProps =
     typeof tooltip === 'string'

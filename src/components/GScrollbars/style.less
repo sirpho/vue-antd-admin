@@ -1,12 +1,12 @@
 :root {
-  --gx-pro-scrollbar-opacity: 0.3;
-  --gx-pro-text-color-secondary: #909399;
-  --gx-pro-scrollbar-background-color: var(--gx-pro-text-color-secondary);
-  --gx-pro-scrollbar-hover-opacity: 0.5;
-  --gx-pro-scrollbar-hover-background-color: var(--gx-pro-text-color-secondary);
+  --wd-scrollbar-opacity: 0.3;
+  --wd-text-color-secondary: #909399;
+  --wd-scrollbar-background-color: var(--wd-text-color-secondary);
+  --wd-scrollbar-hover-opacity: 0.5;
+  --wd-scrollbar-hover-background-color: var(--wd-text-color-secondary);
 }
 
-.@{gx-prefix-pro-scrollbar} {
+.@{gx-prefix}-scrollbar {
   position: relative;
   height: 100%;
   overflow: hidden;
@@ -56,15 +56,15 @@
     width: 0;
     height: 0;
     cursor: pointer;
-    background-color: var(--gx-pro-scrollbar-background-color);
+    background-color: var(--wd-scrollbar-background-color);
     border-radius: inherit;
-    opacity: var(--gx-pro-scrollbar-opacity);
-    -webkit-transition: var(--gx-transition-duration) background-color;
-    transition: var(--gx-transition-duration) background-color;
+    opacity: var(--wd-scrollbar-opacity);
+    -webkit-transition: var(--wd-transition-duration) background-color;
+    transition: var(--wd-transition-duration) background-color;
     
     &:hover {
-      background-color: var(--gx-pro-scrollbar-hover-background-color);
-      opacity: var(--gx-pro-scrollbar-hover-opacity);
+      background-color: var(--wd-scrollbar-hover-background-color);
+      opacity: var(--wd-scrollbar-hover-opacity);
     }
   }
   
@@ -79,6 +79,6 @@
   }
 }
 
-.@{gx-prefix-pro-scrollbar}-fade-enter-from, .@{gx-prefix-pro-scrollbar}-fade-leave-active {
+.@{gx-prefix}-scrollbar-fade-enter-from, .@{gx-prefix}-scrollbar-fade-leave-active {
   opacity: 0;
 }

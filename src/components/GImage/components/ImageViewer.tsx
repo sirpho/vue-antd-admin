@@ -21,7 +21,7 @@ import {
 import { onMountedOrActivated } from '@gx-design/pro-hooks/core'
 import { getPrefixCls, isFirefox, rafThrottle } from '@gx-design/pro-utils'
 import { on, off } from '/@/utils'
-import { wImageViewProps } from '../props'
+import { gImageViewProps } from '../props'
 import { EVENT_CODE } from '../utils/aria'
 
 const Mode = {
@@ -38,8 +38,8 @@ const Mode = {
 const mousewheelEventName = isFirefox() ? 'DOMMouseScroll' : 'mousewheel'
 export type ImageViewerAction = 'zoomIn' | 'zoomOut' | 'clocelise' | 'anticlocelise'
 
-const WImageViewer = defineComponent({
-  props: wImageViewProps,
+const GImageViewer = defineComponent({
+  props: gImageViewProps,
   emits: [ 'close', 'switch' ],
   setup(props, { emit }) {
     let _keyDownHandler: any = null
@@ -47,8 +47,7 @@ const WImageViewer = defineComponent({
     let _dragHandler: any = null
 
     const baseClassName = getPrefixCls({
-      suffixCls: 'image-viewer',
-      defaultPrefixCls: 'gx'
+      suffixCls: 'image-viewer'
     })
 
     const loading = ref(true)
@@ -347,4 +346,4 @@ const WImageViewer = defineComponent({
   }
 })
 
-export default WImageViewer
+export default GImageViewer

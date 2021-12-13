@@ -1,5 +1,5 @@
 <template>
-  <g-page-wrapper>
+  <g-pro-page-wrapper>
     <a-form
       style="max-width: 600px;margin: 8px auto auto;"
       :model="formState"
@@ -128,16 +128,16 @@
         <a-button style="margin-left: 10px" @click="resetFields">重置</a-button>
       </a-form-item>
     </a-form>
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs, toRaw, onActivated } from 'vue'
+import moment, { Moment } from 'moment'
+import { Form } from 'ant-design-vue'
 import { QuestionCircleOutlined } from '@ant-design/icons-vue'
 import { getBasicForm } from '/@/services/form/basic'
-import { Form } from 'ant-design-vue'
 import { hanndleField } from '/@/utils/util'
-import moment, { Moment } from 'moment'
 
 const useForm = Form.useForm
 

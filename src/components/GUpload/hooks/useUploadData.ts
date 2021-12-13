@@ -1,5 +1,5 @@
 import { computed, ComputedRef, ref, unref, watch } from 'vue'
-import { cloneDeep } from 'lodash-es'
+import { cloneDeep, omit } from 'lodash-es'
 import common from '/@/common/global'
 import {
   checkFileType,
@@ -186,6 +186,21 @@ export function useUploadData(
     })
   }
 
+  function batchChangeDataValue(list) {
+    list.map(item => {
+      dataValue.value = dataValue.value.map(el => {
+        if (el.id === item.id) {
+          return {
+            ...el,
+            ...omit(item, [ 'id' ])
+          }
+        }
+        return el
+      })
+      return item
+    })
+  }
+
   function changeFileDataValue(file, params) {
     dataValue.value = dataValue.value.map(item => {
       if (item.name === file.name && item.size === file.size) {
@@ -213,6 +228,7 @@ export function useUploadData(
     setDataValue,
     addDataValue,
     changeDataValue,
+    batchChangeDataValue,
     changeFileDataValue,
     deleteDataValue,
     deleteFileDataValue

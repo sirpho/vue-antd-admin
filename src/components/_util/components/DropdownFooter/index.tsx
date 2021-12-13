@@ -22,7 +22,8 @@ export type DropdownFooterProps = {
 const DropdownFooter: FunctionalComponent<DropdownFooterProps> = (props) => {
   const { onClear, onConfirm, disabled, footerRender } = props
   const prefixCls = getPrefixCls({
-    suffixCls: 'core-dropdown-footer'
+    suffixCls: 'core-dropdown-footer',
+    isPor: true
   })
   const defaultFooter = [
     <a-button

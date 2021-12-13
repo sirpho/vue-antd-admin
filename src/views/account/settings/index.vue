@@ -1,5 +1,5 @@
 <template>
-  <g-page-wrapper>
+  <g-pro-page-wrapper>
     <div :class="$style.main" ref="dom">
       <div :class="$style.leftMenu">
         <a-menu
@@ -25,7 +25,7 @@
         <Notification v-if="initConfig.selectKey === 'notification'" />
       </div>
     </div>
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
 </template>
 
 <script lang="ts">

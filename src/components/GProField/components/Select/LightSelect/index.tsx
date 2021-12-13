@@ -49,7 +49,8 @@ const LightSelect = defineComponent({
   props: lightSelectProps,
   setup(props: LightSelectProps) {
     const prefixCls = getPrefixCls({
-      suffixCls: 'field-select-light-select'
+      suffixCls: 'field-select-light-select',
+      isPor: true
     })
     const open = ref<boolean>(false)
     const keyword = ref<string>('')

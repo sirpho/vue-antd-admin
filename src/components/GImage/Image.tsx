@@ -19,7 +19,7 @@ import { useEventListener } from '@gx-design/pro-hooks/core'
 import { useThrottleFn } from '@gx-design/pro-hooks/shared'
 import { isString } from '/@/utils/validate'
 import ImageViewer from './components/ImageViewer'
-import { wImagePorps } from './props'
+import { gImagePorps } from './props'
 
 import './style.less'
 
@@ -38,15 +38,14 @@ const ObjectFit = {
   SCALE_DOWN: 'scale-down'
 }
 
-const WImage = defineComponent({
-  props: wImagePorps,
-  name: 'WImage',
+const GImage = defineComponent({
+  props: gImagePorps,
+  name: 'GImage',
   inheritAttrs: false,
-  emits: [ 'error' ],
+  emits: [ 'error', 'click' ],
   setup(props, { slots, emit, attrs }) {
     const baseClassName = getPrefixCls({
-      suffixCls: 'image',
-      defaultPrefixCls: 'gx'
+      suffixCls: 'image'
     })
 
     const hasLoadError = ref(false)
@@ -277,6 +276,7 @@ const WImage = defineComponent({
               ...(getAttrs.value.style || {}) as CSSProperties,
               display: props.lazy ? 'block': undefined
             }}
+            onClick={() => { emit('click') }}
           >
             {
               loading.value
@@ -325,6 +325,6 @@ const WImage = defineComponent({
   }
 })
 
-WImage.isWImage = true
+GImage.isWImage = true
 
-export default WImage
+export default GImage

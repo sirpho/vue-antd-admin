@@ -1,5 +1,5 @@
 <template>
-  <g-modal
+  <g-pro-modal
     :title="infoParams.done ? null : `任务${infoParams.current ? '编辑' : '添加'}`"
     :fixHeight="false"
     :visible="visible"
@@ -70,13 +70,13 @@
         </a-button>
       </div>
     </template>
-  </g-modal>
+  </g-pro-modal>
 </template>
 
 <script lang="ts">
+import { defineComponent, reactive, toRaw, toRefs } from 'vue'
 import moment from 'moment'
-import { defineComponent, reactive, toRaw, getCurrentInstance, toRefs } from 'vue'
-import { Form } from 'ant-design-vue'
+import { Form, message } from 'ant-design-vue'
 import type { BasicListItemDataType } from '/@/services/list/basic'
 import { getBasicListInfo, updateBasicList, addBasicList } from '/@/services/list/basic'
 import { hanndleField } from '/@/utils/util'
@@ -92,7 +92,6 @@ const useForm = Form.useForm
 export default defineComponent({
   emits: [ 'handleOk' ],
   setup(_, { emit }) {
-    const { proxy }: any = getCurrentInstance()
     const state = reactive({
       isFail: false,
       visible: false,
@@ -151,7 +150,7 @@ export default defineComponent({
         formState.id = id
       } else {
         state.isFail = true
-        proxy.$message.error((response && response.msg) || '系统错误，请稍后再试！')
+        message.error((response && response.msg) || '系统错误，请稍后再试！')
       }
       state.skeletonLoading = false
     }
@@ -168,7 +167,7 @@ export default defineComponent({
             response = await addBasicList(toRaw(formState))
           }
           if (response) {
-            proxy.$message.success('操作成功！')
+            message.success('操作成功！')
             emit('handleOk')
             handleCancel()
           }

@@ -1,5 +1,5 @@
 <template>
-  <g-page-wrapper>
+  <g-pro-page-wrapper>
     <div :class="$style.standardList">
       <a-card :bordered="false">
         <a-row>
@@ -7,14 +7,14 @@
             <div :class="$style.headerInfo">
               <span>我的待办</span>
               <p>8个任务</p>
-              <em />
+              <em></em>
             </div>
           </a-col>
           <a-col :sm="8" :xs="24">
             <div :class="$style.headerInfo">
               <span>本周任务平均处理时间</span>
               <p>32分钟</p>
-              <em />
+              <em></em>
             </div>
           </a-col>
           <a-col :sm="8" :xs="24">
@@ -110,7 +110,7 @@
         </a-list>
       </a-card>
     </div>
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
   <a-button type="dashed" style="width: 100%;margin-bottom: 8px" @click="$refs.operation.open()">
     <PlusOutlined />
     添加
@@ -120,14 +120,20 @@
 
 <script lang="ts">
 import {
-  computed, createVNode,
+  computed,
+  createVNode,
   defineComponent,
-  getCurrentInstance,
   onActivated,
   reactive, ref,
   toRefs
 } from 'vue'
-import { PlusOutlined, DownOutlined, ExclamationCircleOutlined, RedoOutlined } from '@ant-design/icons-vue'
+import { message, Modal } from 'ant-design-vue'
+import {
+  PlusOutlined,
+  DownOutlined,
+  ExclamationCircleOutlined,
+  RedoOutlined
+} from '@ant-design/icons-vue'
 import type { BasicListItemDataType } from '/@/services/list/basic'
 import { getBasicList, removeBasicList } from '/@/services/list/basic'
 import OperationModal from './components/OperationModal.vue'
@@ -140,7 +146,6 @@ export default defineComponent({
     OperationModal
   },
   setup() {
-    const { proxy }: any = getCurrentInstance()
     const operation = ref()
     const state = reactive({
       loading: false,
@@ -188,9 +193,9 @@ export default defineComponent({
       getListData()
     }
     const editAndDelete = (key: string | number, currentItem: BasicListItemDataType) => {
-      if (key === 'edit') operation.value?.edit(currentItem.id, currentItem);
+      if (key === 'edit') operation.value?.edit(currentItem.id, currentItem)
       else if (key === 'delete') {
-        proxy.$antdconfirm({
+        Modal.confirm({
           title: '确定要删除吗?',
           icon: createVNode(ExclamationCircleOutlined),
           okText: '确定',
@@ -206,7 +211,7 @@ export default defineComponent({
       state.loading = true
       const response: any = await removeBasicList({ id })
       if (response) {
-        proxy.$message.success('操作成功！')
+        message.success('操作成功！')
         await getListData()
       }
       state.loading = false

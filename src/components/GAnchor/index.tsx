@@ -46,18 +46,17 @@ export const anchorProps = {
   },
   root: {
     type: String as PropType<string>,
-    default: viewScrollRoot || '#gx-pro-admin>.gx-pro-scrollbar>.gx-pro-scrollbar-wrap'
+    default: viewScrollRoot || '#gx-pro-admin>.gx-scrollbar>.gx-scrollbar-wrap'
   }
 }
 
-const WAnchor = defineComponent({
+const GAnchor = defineComponent({
   props: anchorProps,
   setup(props) {
     const store = useStore()
 
     const prefixCls = getPrefixCls({
-      suffixCls: 'anchor',
-      defaultPrefixCls: 'gx'
+      suffixCls: 'anchor'
     })
 
     const colSize = useMediaQuery()
@@ -193,4 +192,4 @@ const WAnchor = defineComponent({
   }
 })
 
-export default WAnchor
+export default GAnchor

@@ -45,6 +45,6 @@ const router = useRouter()
 
 const iframeSrc = computed(() => {
   const meta = router.currentRoute.value?.meta
-  return meta?.target && meta?.targetStatus === '0' ? meta?.target : ''
+  return meta?.target && Number(meta?.targetStatus) === 0 ? meta?.target : ''
 })
 </script>

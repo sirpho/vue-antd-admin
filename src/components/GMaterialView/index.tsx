@@ -17,11 +17,11 @@ import global from '/@/common/global'
 import { getPrefixCls } from '@gx-design/pro-utils'
 import { getFileSuffix, getRandomNumber } from '/@/utils/util'
 import { isString, isArray } from '/@/utils/validate'
-import { wMaterialViewProps } from '../GMaterialView/props'
+import { gMaterialViewProps } from '../GMaterialView/props'
 
 import './style.less'
 
-export type WMaterialViewProps = Partial<ExtractPropTypes<typeof wMaterialViewProps>>;
+export type GMaterialViewProps = Partial<ExtractPropTypes<typeof gMaterialViewProps>>;
 
 const videoPlayerConfig = {
   id: 'g-video-player',
@@ -56,15 +56,14 @@ const audioPlayerConfig = {
 }
 
 export default defineComponent({
-  props: wMaterialViewProps,
+  props: gMaterialViewProps,
   emits: [
     'update:visible',
     'change'
   ],
   setup(props, { attrs, emit }) {
     const baseClassName = getPrefixCls({
-      suffixCls: 'material-view',
-      defaultPrefixCls: 'gx'
+      suffixCls: 'material-view'
     })
 
     const musicPlayer = ref()
@@ -232,10 +231,11 @@ export default defineComponent({
                   <g-image-viewer urlList={getViewUrl.value} onClose={() => closeViewer()} />
                 )}
               </Teleport>
-              <g-modal
+              <g-pro-modal
                 width={850}
                 class={baseClassName}
                 destroyOnClose
+                showDefaultFooter
                 fixHeight={type === '3'}
                 title={getModalTitle.value}
                 visible={showViewer.value && type !== '1'}

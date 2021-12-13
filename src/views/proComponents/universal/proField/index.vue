@@ -1,5 +1,5 @@
 <template>
-  <g-page-wrapper>
+  <g-pro-page-wrapper>
     <a-space>
       <a-radio-group v-model:value="state">
         <a-radio value="read">只读</a-radio>
@@ -396,7 +396,7 @@
         />
       </a-descriptions-item>
     </a-descriptions>
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
 </template>
 
 <script setup lang="ts">

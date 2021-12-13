@@ -14,7 +14,8 @@ const LabelIconTip: FunctionalComponent<{
   const { label, subTitle, tooltipText, tooltipIcon } = props
   const tooltip = computed(() => !!(props.tooltipText || props.tooltipIcon))
   const baseClassName = getPrefixCls({
-    suffixCls: 'core-label-tip'
+    suffixCls: 'core-label-tip',
+    isPor: true
   })
 
   if (!tooltip.value && !subTitle) {

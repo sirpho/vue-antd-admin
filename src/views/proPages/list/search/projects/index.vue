@@ -98,6 +98,7 @@
 import { defineComponent, onActivated, onMounted, reactive, toRefs } from 'vue'
 import moment from 'moment'
 import type { ListItemDataType } from '/@/services/list/search'
+import { onMountedOrActivated } from '@gx-design/pro-hooks/core'
 import { queryFakeList } from '/@/services/list/search'
 import AvatarList from './components/AvatarList.vue'
 import { formItemLayout } from '../utils/config'
@@ -127,10 +128,7 @@ export default defineComponent({
       loading: false,
       listSource: []
     })
-    onMounted(() => {
-      onActiveLoad()
-    })
-    onActivated(async () => {
+    onMountedOrActivated(() => {
       onActiveLoad()
     })
     const onActiveLoad = (title?: string) => {

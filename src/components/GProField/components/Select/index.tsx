@@ -83,10 +83,12 @@ const Highlight: FunctionalComponent<{
 }> = ({ label, words }) => {
   const REG_LIST = '.^$*+-?()[]{}\\|'
   const lightCls = getPrefixCls({
-    suffixCls: 'select-item-option-content-light'
+    suffixCls: 'select-item-option-content-light',
+    isPor: true
   })
   const optionCls = getPrefixCls({
-    suffixCls: 'select-item-option-content'
+    suffixCls: 'select-item-option-content',
+    isPor: true
   })
   const reg = new RegExp(
     words

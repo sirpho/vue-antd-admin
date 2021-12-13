@@ -1,5 +1,5 @@
 <template>
-  <g-page-wrapper :contentStyle="{ background: 'transparent', padding: 0 }">
+  <g-pro-page-wrapper :contentStyle="{ background: 'transparent', padding: 0 }">
     <div :class="$style.workplace">
       <a-page-header title="工作台" :backIcon="false">
         <template #extra>
@@ -162,7 +162,7 @@
         </a-row>
       </div>
     </div>
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
 </template>
 
 <script lang="ts">

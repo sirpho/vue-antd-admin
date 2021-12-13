@@ -22,7 +22,7 @@ const props = defineProps({
 
 const prefixCls = getPrefixCls({
   suffixCls: 'iframe-page',
-  defaultPrefixCls: 'gx'
+  isPor: true
 })
 
 const loading = ref(true)

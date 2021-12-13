@@ -13,6 +13,7 @@ import { message } from 'ant-design-vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
 import { download } from '/@/services/common'
 import global from '/@/common/global'
+import { useEffect } from '@gx-design/pro-hooks/core'
 import { getPrefixCls, getPropsSlot } from '@gx-design/pro-utils'
 import { fileName } from '/@/utils/uploadFile'
 import {
@@ -47,8 +48,7 @@ const GUpload = defineComponent({
       visible: false
     })
     const baseClassName = getPrefixCls({
-      suffixCls: 'upload',
-      defaultPrefixCls: 'gx'
+      suffixCls: 'upload'
     })
     const getClassName = computed(() => {
       return {
@@ -63,6 +63,7 @@ const GUpload = defineComponent({
       setDataValue,
       addDataValue,
       changeDataValue,
+      batchChangeDataValue,
       changeFileDataValue,
       deleteDataValue,
       deleteFileDataValue
@@ -73,6 +74,14 @@ const GUpload = defineComponent({
     onDeactivated(() => {
       setDataValue([])
     })
+    const handleProgress = () => {
+      batchChangeDataValue(getProps.value.progressInfo)
+    }
+    useEffect(() => {
+      handleProgress()
+    }, [
+      () => getProps.value.progressInfo
+    ])
     const beforeUpload = async (file) => {
       const fileSuffix = getFileSuffix(file.name)
       const fileType = checkFileType(file.name)

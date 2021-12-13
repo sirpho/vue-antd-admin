@@ -26,7 +26,8 @@ type ProCardDividerProps = {
 
 const ProCardDivider: FunctionalComponent<ProCardDividerProps> = (props) => {
   const baseClassName = getPrefixCls({
-    suffixCls: 'card'
+    suffixCls: 'card',
+    isPor: true
   })
 
   const { className, style = {}, type } = props

@@ -51,7 +51,8 @@ const FieldRadio = defineComponent({
   props: groupProps,
   setup(props) {
     const prefixCls = getPrefixCls({
-      suffixCls: 'field-radio'
+      suffixCls: 'field-radio',
+      isPor: true
     })
 
     const radioRef = ref<any>()

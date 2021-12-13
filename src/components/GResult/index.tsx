@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import Result403 from '/@/assets/error_images/403.png'
 import Result404 from '/@/assets/error_images/404.png'
 import ResultCloud from '/@/assets/error_images/cloud.png'
-import styles from './style.module.less'
+import './style.less'
 
 export interface subInfo {
   headline: string;
@@ -92,24 +92,24 @@ export default defineComponent({
       }, 1000)
     }
     return () => (
-      <div class={styles['error-container']}>
-        <div class={styles['error-content']}>
+      <div class="error-container">
+        <div class="error-content">
           <a-row gutter={20}>
             <a-col lg={12} md={12} sm={24} xl={12} xs={24}>
-              <div class={styles['pic-error']}>
-                <img class={styles['pic-error-parent']} src={state.exceptionImage} />
+              <div class="pic-error">
+                <img class="pic-error-parent" src={state.exceptionImage} />
                 <img
-                  class={[ styles['pic-error-child'], styles['left'] ]}
+                  class={[ 'pic-error-child', 'left' ]}
                   src={ResultCloud}
                 />
               </div>
             </a-col>
             <a-col lg={12} md={12} sm={24} xl={12} xs={24}>
-              <div class={styles['bullshit']}>
-                <div class={styles['bullshit-oops']}>{state.oops}</div>
-                <div class={styles['bullshit-headline']}>{state.headline}</div>
-                <div class={styles['bullshit-info']}>{state.info}</div>
-                <a class={styles['bullshit-return-home']} href="#/">
+              <div class="bullshit">
+                <div class="bullshit-oops">{state.oops}</div>
+                <div class="bullshit-headline">{state.headline}</div>
+                <div class="bullshit-info">{state.info}</div>
+                <a class="bullshit-return-home" href="#/">
                   {state.jumpTime}s&nbsp;{state.btn}
                 </a>
               </div>

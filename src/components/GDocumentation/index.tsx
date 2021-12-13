@@ -3,6 +3,8 @@ import { useMediaQuery } from '@gx-design/pro-hooks/event'
 import { getPrefixCls } from '@gx-design/pro-utils'
 import { PropTypes } from '/@/utils'
 
+import './style.less'
+
 export const documentationProps = {
   anchorLinks: {
     type: Array as PropType<any[]>,

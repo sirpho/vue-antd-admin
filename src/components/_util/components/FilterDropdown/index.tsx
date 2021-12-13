@@ -25,7 +25,8 @@ export type DropdownProps = {
 const FilterDropdown: FunctionalComponent<DropdownProps> = (props, { slots }) => {
   const { label, footer, disabled, onVisibleChange, visible, footerRender } = props
   const prefixCls = getPrefixCls({
-    suffixCls: 'core-field-dropdown'
+    suffixCls: 'core-field-dropdown',
+    isPor: true
   })
 
   return (

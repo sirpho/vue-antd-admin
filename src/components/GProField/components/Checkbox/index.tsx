@@ -43,7 +43,8 @@ const FieldCheckbox = defineComponent({
   props: groupProps,
   setup(props) {
     const prefixCls = getPrefixCls({
-      suffixCls: 'field-checkbox'
+      suffixCls: 'field-checkbox',
+      isPor: true
     })
 
     const getProps = computed(() => cloneDeep(props))

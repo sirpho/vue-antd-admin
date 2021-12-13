@@ -5,7 +5,7 @@
         <router-view />
       </a-config-provider>
     </g-bars>
-    <g-page-loading :loading="loading && routhPath === '/'" />
+    <g-pro-page-loading :loading="loading && routhPath === '/'" />
   </div>
 </template>
 

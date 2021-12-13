@@ -39,7 +39,8 @@ export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slot
   const flatMenuData = getMenuFirstChildren(context.menuData, context.selectedKeys[0])
   const { getPrefixCls } = toRefs(useRouteContext())
   const prefixCls = getPrefixCls.value({
-    suffixCls: 'main-content'
+    suffixCls: 'main-content',
+    isPor: true
   })
   const classNames = computed(() => {
     return {

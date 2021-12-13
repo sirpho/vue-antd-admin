@@ -34,7 +34,8 @@ const FieldDatePicker: ProFieldFC<{
   }
 ) => {
   const prefixCls = getPrefixCls({
-    suffixCls: 'field-date-picker'
+    suffixCls: 'field-date-picker',
+    isPor: true
   })
   const open = ref<boolean>(false)
   const setOpen = (value: boolean) => {

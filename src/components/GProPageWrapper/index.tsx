@@ -5,6 +5,7 @@ import { PropTypes } from '/@/utils'
 const { waterMark } = config.defaultSettings
 
 export default defineComponent({
+  name: 'GProPageWrapper',
   props: {
     contentStyle: PropTypes.style
   },

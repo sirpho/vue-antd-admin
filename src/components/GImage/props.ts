@@ -1,6 +1,6 @@
 import { PropTypes } from '/@/utils'
 
-export const wImagePorps = {
+export const gImagePorps = {
   appendToBody: {
     type: Boolean as PropType<boolean>,
     default: false
@@ -32,6 +32,9 @@ export const wImagePorps = {
   onError: {
     type: Function as PropType<(e: Error) => void>
   },
+  onClick: {
+    type: Function as PropType<(info: any) => void>
+  },
   disablePreview: PropTypes.bool,
   previewSrcList: {
     type: Array as PropType<string[]>,
@@ -45,12 +48,12 @@ export const wImagePorps = {
   }
 }
 
-export const wImageViewProps = {
+export const gImageViewProps = {
   urlList: {
     type: Array as PropType<string[]>,
     default: () => []
   },
-  zIndex: wImagePorps.zIndex,
+  zIndex: gImagePorps.zIndex,
   initialIndex: {
     type: Number as PropType<number>,
     default: 0
@@ -59,5 +62,5 @@ export const wImageViewProps = {
     type: Boolean as PropType<boolean>,
     default: true
   },
-  onHideOnClickModal: wImagePorps.hideOnClickModal
+  onHideOnClickModal: gImagePorps.hideOnClickModal
 }

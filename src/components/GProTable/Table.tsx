@@ -73,7 +73,8 @@ const GProTable = defineComponent({
   ],
   setup(props, { emit, slots, attrs }) {
     const baseClassName = getPrefixCls({
-      suffixCls: 'table'
+      suffixCls: 'table',
+      isPor: true
     })
     const screens = useBreakpoint()
     const tableRef = ref<any>()

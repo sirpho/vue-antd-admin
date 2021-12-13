@@ -1,5 +1,5 @@
 <template>
-  <g-page-wrapper>
+  <g-pro-page-wrapper>
     <g-image-viewer-group>
       <g-image
         fit="cover"
@@ -19,7 +19,7 @@
         </div>
       </g-bars>
     </div>
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
 </template>
 
 <script setup lang="ts">

@@ -34,7 +34,8 @@ const Group: FunctionalComponent<GroupProps> = (props, { slots }) => {
     collapsed.value = bool
   }
   const className = getPrefixCls({
-    suffixCls: 'form-group'
+    suffixCls: 'form-group',
+    isPor: true
   })
 
   const collapsibleButton = collapsible && (

@@ -8,13 +8,14 @@ import {
 import type { LegacyButtonType } from 'ant-design-vue/lib/button/buttonTypes'
 import { omit } from 'lodash-es'
 import { CloseOutlined, FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons-vue'
+import Nodata from '/@/assets/public_images/nodata.png'
 import { PropTypes } from '/@/utils'
 import { getRandomNumber } from '/@/utils/util'
 import type { SizeType } from '@gx-design/pro-utils'
 import { getPropsSlot, tuple, getPrefixCls } from '@gx-design/pro-utils'
 import { useModalDragMove } from './hooks/useModalDrag'
 
-import styles from './style.module.less'
+import './style.less'
 
 function noop() {}
 
@@ -117,13 +118,16 @@ export default defineComponent({
     },
     contentStyle: PropTypes.style,
     draggable: PropTypes.bool.def(true),
+    showClose: PropTypes.bool.def(true),
+    showDefaultFooter: PropTypes.bool.def(false),
     fullscreen: PropTypes.bool.def(true),
     content: PropTypes.VNodeChild,
     extra: PropTypes.VNodeChild
   },
   setup(props, { emit, slots, attrs }) {
     const modalClassName = getPrefixCls({
-      suffixCls: 'modal'
+      suffixCls: 'modal',
+      isPor: true
     })
     const modalWrapperRef = ref()
     const innerWidth = ref(window.innerWidth)
@@ -159,16 +163,16 @@ export default defineComponent({
       fullScreen.value = !fullScreen.value
     }
     const handleModalClass = computed(() => {
-      const publicClass = [ styles[modalClassName] ]
+      const publicClass = [ modalClassName ]
       let heightClass: string[] = []
       if (props.isFail) {
-        heightClass = [ styles['height-auto'] ]
+        heightClass = [ 'height-auto' ]
       } else if (props.fixHeight) {
         if (innerWidth.value < 1540) {
-          heightClass = [ styles['height-lower'] ]
+          heightClass = [ 'height-lower' ]
         }
       } else {
-        heightClass = [ styles['height-no-fixed'] ]
+        heightClass = [ 'height-no-fixed' ]
       }
       const fullScreenClass = fullScreen.value ? 'gx-pro-modal-full-screen' : ''
       return [
@@ -182,6 +186,8 @@ export default defineComponent({
       return Object.keys(slots).map((name) => {
         if (name === 'extra') {
           return <template></template>
+        } else if (name === 'footer') {
+          return <template></template>
         } else {
           return slots[name]?.()
         }
@@ -194,21 +200,21 @@ export default defineComponent({
       const extraRender = getPropsSlot(slots, props, 'extra')
       return (
         <div
-          class={
-            props.spinning
-              ? `${styles[`${modalClassName}-body`]} ${styles[`${modalClassName}-spinning`]} ${modalClassName}-body-wrap`
-              : `${styles[`${modalClassName}-body`]} ${modalClassName}-body-wrap`
-          }
+          class={{
+            [`${modalClassName}-body`]: true,
+            [`${modalClassName}-body-wrap`]: true,
+            [`${modalClassName}-spinning`]: props.spinning
+          }}
           style={props.contentStyle}
         >
           {props.spinning
             ? (
-              <div class={styles[`${modalClassName}-spinning-content`]} />
+              <div class={`${modalClassName}-spinning-content`} />
             )
             : null}
           {props.skeletonLoading
             ? (
-              <div class={styles[`${modalClassName}-skeleton`]}>
+              <div class={`${modalClassName}-skeleton`}>
                 <a-skeleton loading={props.skeletonLoading} active />
                 <a-skeleton loading={props.skeletonLoading} active />
                 {props.fixHeight && (
@@ -217,12 +223,7 @@ export default defineComponent({
               </div>
             )
             : props.isFail
-              ? (
-                <a-empty
-                  class={styles[`${modalClassName}-error-warp`]}
-                  image="/src/assets/public_image/nodata.png"
-                />
-              )
+              ? <a-empty className={`${modalClassName}-error-warp`} image={Nodata} />
               : slots.content
                 ? renderSolt()
                 : (
@@ -237,6 +238,7 @@ export default defineComponent({
       )
     }
     const renderFooter = () => {
+      const footerRender = getPropsSlot(slots, props, 'footer')
       const loading = props.skeletonLoading || props.isFail
       const defaultFooter = (
         <div class="modal-footer">
@@ -245,40 +247,48 @@ export default defineComponent({
           </a-button>
         </div>
       )
-      return !slots.footer || props.isFail || loading
-        ? defaultFooter
-        : slots.footer()
+      return footerRender
+        ? (
+          props.isFail || loading
+            ? defaultFooter
+            : footerRender
+        )
+        : props.showDefaultFooter ? defaultFooter : null
     }
     return () => {
       return (
         <a-modal
           {...getProps.value}
-          wrapClassName={getProps.value.visible ? '' : styles[`${modalClassName}-wrap`]}
+          wrapClassName={getProps.value.visible ? '' : `${modalClassName}-wrap`}
           class={handleModalClass.value}
           width={getModalWidth.value}
           onCancel={() => onCancel()}
           footer={renderFooter}
           bodyStyle={fullScreen.value ? { height: `${window.innerHeight - 110}px !important` } : undefined}
         >
-          <div class={styles[`${modalClassName}-close`]}>
-          <span class={styles[`${modalClassName}-close-x`]}>
-            <a-space size={24}>
-            {
-              fullScreen.value
-                ? <FullscreenExitOutlined role="full" onClick={(e) => handleFullScreen(e)} />
-                : <FullscreenOutlined role="full" onClick={(e) => handleFullScreen(e)} />
-            }
-              <CloseOutlined onClick={() => onCancel()} />
-          </a-space>
-          </span>
-          </div>
+          {props.fullscreen && props.showClose && (
+            <div class={`${modalClassName}-close`}>
+              <span class={`${modalClassName}-close-x`}>
+                <a-space size={24}>
+                  {props.fullscreen && (
+                    fullScreen.value
+                      ? <FullscreenExitOutlined role="full" onClick={(e) => handleFullScreen(e)} />
+                      : <FullscreenOutlined role="full" onClick={(e) => handleFullScreen(e)} />
+                  )}
+                  {props.showClose && (
+                    <CloseOutlined onClick={() => onCancel()} />
+                  )}
+                </a-space>
+              </span>
+            </div>
+          )}
           <div
             id={modalId.value}
-            class={styles[`${modalClassName}-content`]}
+            class={`${modalClassName}-content`}
             ref={e => modalWrapperRef.value = e}
           >
             {props.spinning && (
-              <div class={styles[`${modalClassName}-spin`]}>
+              <div class={`${modalClassName}-spin`}>
                 <a-spin spinning={props.spinning} tip={props.spinningTip} />
               </div>
             )}

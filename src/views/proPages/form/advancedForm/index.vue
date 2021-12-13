@@ -1,5 +1,5 @@
 <template>
-  <g-page-wrapper>
+  <g-pro-page-wrapper>
     <div style="padding: 24px;background: #f0f2f5;">
       <a-form
         :class="$style['advance-form-block']"
@@ -273,7 +273,7 @@
       </div>
     </div>
     <g-back-top />
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
 </template>
 
 <script lang="ts">
@@ -282,11 +282,11 @@ import { useStore } from 'vuex'
 import { cloneDeep } from 'lodash-es'
 import { Form } from 'ant-design-vue'
 import { PlusOutlined, CloseCircleOutlined } from '@ant-design/icons-vue'
-import { getAdvancedForm, getAdvancedFormTable } from '/@/services/form/advanced'
 import config from '/config/config'
+import { getAdvancedForm, getAdvancedFormTable } from '/@/services/form/advanced'
 import { handleOffsetTop, hanndleField } from '/@/utils/util'
 import { scrollTo } from '@gx-design/pro-utils'
-import type { TableFormDateType } from './types'
+import type { TableFormDateType } from './typings'
 import columns from './utils/columns'
 import { fieldLabels, rules } from './utils/config'
 
@@ -448,6 +448,7 @@ export default defineComponent({
           ...state.formState,
           member: cloneDeep(state.tableData)
         }
+        console.log(parames)
       }).catch(({ errorFields }) => {
         state.errorFields = errorFields
       })

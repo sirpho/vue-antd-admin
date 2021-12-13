@@ -39,6 +39,11 @@ export const proUploadProps = {
   downLoadAble: PropTypes.bool.def(true),
   // 是否展示进度条
   progress: PropTypes.bool.def(true),
+  // 进度条反馈
+  progressInfo:  {
+    type: Array as PropType<any[]>,
+    default: () => []
+  },
   wordExtra: PropTypes.VNodeChild,
   errorExtra: PropTypes.VNodeChild,
   uploadButton: PropTypes.VNodeChild,

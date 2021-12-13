@@ -8,7 +8,7 @@ import {
 } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { DownOutlined, UpOutlined } from '@ant-design/icons-vue'
-import WTagSelectOption from './TagSelectOption'
+import GTagSelectOption from './TagSelectOption'
 import type { actionsTextItem } from './props'
 import { tagSelectProps } from './props'
 import styles from './style.module.less'
@@ -20,8 +20,8 @@ export interface TagSelectOptionProps {
   onChange?: (value: string | number, state: boolean) => void;
 }
 
-const WTagSelect = defineComponent({
-  name: 'WTagSelect',
+const GTagSelect = defineComponent({
+  name: 'GTagSelect',
   props: tagSelectProps,
   emits: [ 'change', 'update:value' ],
   setup(props, { slots, emit }) {
@@ -75,7 +75,7 @@ const WTagSelect = defineComponent({
     const isTagSelectOption = (node) => {
       return node &&
         node.type &&
-        (node.type.isTagSelectOption || node.type.name === 'WTagSelectOption')
+        (node.type.isTagSelectOption || node.type.name === 'GTagSelectOption')
     }
     const toggle = () => {
       expand.value = !expand.value
@@ -153,6 +153,6 @@ const WTagSelect = defineComponent({
   }
 })
 
-WTagSelect.Option = WTagSelectOption
+GTagSelect.Option = GTagSelectOption
 
-export default WTagSelect
+export default GTagSelect

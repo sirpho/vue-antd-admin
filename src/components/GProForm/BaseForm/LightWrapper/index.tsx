@@ -64,7 +64,8 @@ const LightWrapper = defineComponent({
   props: lightWrapperProps,
   setup(props, { slots }) {
     const prefixCls = getPrefixCls({
-      suffixCls: 'field-light-wrapper'
+      suffixCls: 'field-light-wrapper',
+      isPor: true
     })
 
     const { handleChangeModel } = useFieldContext()

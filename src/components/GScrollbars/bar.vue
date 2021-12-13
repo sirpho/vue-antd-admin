@@ -1,14 +1,14 @@
 <template>
-  <transition name="gx-pro-scrollbar-fade">
+  <transition :name="`${className}-fade`">
     <div
       v-show="always || visible"
       ref="instance"
-      :class="['gx-pro-scrollbar-bar', 'is-' + bar.key]"
+      :class="[`${className}-bar`, 'is-' + bar.key]"
       @mousedown="clickTrackHandler"
     >
       <div
         ref="thumb"
-        class="gx-pro-scrollbar-thumb"
+        :class="`${className}-thumb`"
         :style="thumbStyle"
         @mousedown="clickThumbHandler"
       >
@@ -25,6 +25,7 @@ import { BAR_MAP, renderThumbStyle } from './utils/config'
 export default defineComponent({
   name: 'Bar',
   props: {
+    className: String,
     vertical: Boolean,
     size: String,
     move: Number,

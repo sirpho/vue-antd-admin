@@ -1,19 +1,18 @@
 import { computed, defineComponent, ExtractPropTypes } from 'vue'
-import wskeletonProps from './props'
+import gskeletonProps from './props'
 import './style.less'
 import { getPrefixCls } from '/@/components/_util'
 
 const button = [ 'circle', 'round', 'default' ]
 const avatar = [ 'circle', 'square' ]
 
-export type WSkeletonProps = Partial<ExtractPropTypes<typeof wskeletonProps>>;
+export type GSkeletonProps = Partial<ExtractPropTypes<typeof gskeletonProps>>;
 
 export default defineComponent({
-  props: wskeletonProps,
+  props: gskeletonProps,
   setup(props, { slots }) {
     const baseClassName = getPrefixCls({
-      suffixCls: 'skeleton',
-      defaultPrefixCls: 'gx'
+      suffixCls: 'skeleton'
     })
     const handelType = computed(() => {
       let show

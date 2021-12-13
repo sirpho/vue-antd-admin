@@ -1,7 +1,7 @@
 <template>
-  <g-page-wrapper>
+  <g-pro-page-wrapper>
     <g-color />
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
 </template>
 
 <script setup lang="ts">

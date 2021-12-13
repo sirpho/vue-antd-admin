@@ -40,14 +40,13 @@ const affixProps = {
 
 export type AffixProps = Partial<ExtractPropTypes<typeof affixProps>>;
 
-const WAffix = defineComponent({
-  name: 'WAffix',
+const GAffix = defineComponent({
+  name: 'GAffix',
   props: affixProps,
   emits: [ 'change', 'scroll' ],
   setup(props, { slots, emit }) {
     const className = getPrefixCls({
-      suffixCls: 'affix',
-      defaultPrefixCls: 'gx'
+      suffixCls: 'affix'
     })
     const affixShow = ref(false)
     const target = shallowRef<HTMLElement>()
@@ -189,4 +188,4 @@ const WAffix = defineComponent({
   }
 })
 
-export default WAffix
+export default GAffix

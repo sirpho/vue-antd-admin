@@ -1,7 +1,7 @@
 import { defineComponent, reactive } from 'vue'
 
 export default defineComponent({
-  name: 'WPageLoading',
+  name: 'GProPageLoading',
   props: {
     loading: {
       type: Boolean,

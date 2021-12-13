@@ -1,5 +1,5 @@
 <template>
-  <g-page-wrapper>
+  <g-pro-page-wrapper>
     <div :class="$style['search-header-row']">
       <div :class="$style['search-header-content']">
         <a-input-search
@@ -34,7 +34,7 @@
       </a-tabs>
     </div>
     <g-back-top />
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
 </template>
 
 <script lang="ts">

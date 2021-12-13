@@ -16,7 +16,8 @@ export default defineComponent({
   setup(props) {
     const { recordRoute } = config.defaultSettings
     const prefixCls = getPrefixCls({
-      suffixCls: 'header-search'
+      suffixCls: 'header-search',
+      isPor: true
     })
 
     const store = useStore()

@@ -1,5 +1,5 @@
 <template>
-  <g-page-wrapper>
+  <g-pro-page-wrapper>
     <g-pro-table
       headerTitle="查询表格"
       row-key="key"
@@ -46,13 +46,14 @@
       </template>
     </g-pro-table>
     <OperationModal ref="operation" @handleOk="tableRef.reload()" />
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance, reactive, ref, toRefs, createVNode } from 'vue'
-import { InfoCircleOutlined, PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue'
+import { defineComponent, reactive, ref, toRefs, createVNode } from 'vue'
 import { cloneDeep } from 'lodash-es'
+import { Modal, message } from 'ant-design-vue'
+import { InfoCircleOutlined, PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue'
 import { rule, removeRule } from '/@/services/list/table'
 import { handleSelectPage } from '/@/utils/util'
 import OperationModal from './components/OperationModal.vue'
@@ -65,7 +66,6 @@ export default defineComponent({
     InfoCircleOutlined
   },
   setup() {
-    const { proxy }: any = getCurrentInstance()
     const tableRef = ref()
     const operation = ref()
     const state = reactive({
@@ -111,7 +111,7 @@ export default defineComponent({
       operation.value?.edit(record.key)
     }
     const removeTableConfirm = (record) => {
-      proxy.$antdconfirm({
+      Modal.confirm({
         title: '确定要删除吗?',
         icon: createVNode(ExclamationCircleOutlined),
         okText: '确定',
@@ -128,7 +128,7 @@ export default defineComponent({
         key: record.key
       })
       if (response) {
-        proxy.$message.success('操作成功！')
+        message.success('操作成功！')
         await tableRef.value.reload({ removeTotal: 1 })
       }
       tableRef.value.loadingOperation(false)

@@ -29,7 +29,8 @@ const FieldCascader = defineComponent({
   props: groupProps,
   setup(props) {
     const prefixCls = getPrefixCls({
-      suffixCls: 'field-cascader'
+      suffixCls: 'field-cascader',
+      isPor: true
     })
 
     const cascaderRef = ref<any>()

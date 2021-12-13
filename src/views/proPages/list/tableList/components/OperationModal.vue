@@ -1,5 +1,5 @@
 <template>
-  <g-modal
+  <g-pro-modal
     :title="modalTitle"
     :fixHeight="false"
     :visible="visible"
@@ -192,13 +192,13 @@
         </a-button>
       </div>
     </template>
-  </g-modal>
+  </g-pro-modal>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRaw, getCurrentInstance, toRefs } from 'vue'
+import { defineComponent, reactive, toRaw, toRefs } from 'vue'
 import moment from 'moment'
-import { Form } from 'ant-design-vue'
+import { Form, message } from 'ant-design-vue'
 import { getRuleInfo, addRule, updateRule } from '/@/services/list/table'
 import { rules, dispatchRules, formItemLayout } from '../utils/config'
 import { hanndleField } from '/@/utils/util'
@@ -208,7 +208,6 @@ const useForm = Form.useForm
 export default defineComponent({
   emits: [ 'handleOk' ],
   setup(_, { emit }) {
-    const { proxy }: any = getCurrentInstance()
     const state = reactive({
       isFail: false,
       visible: false,
@@ -268,7 +267,6 @@ export default defineComponent({
         formState.key = key
       } else {
         state.isFail = true
-        proxy.$message.error((response && response.msg) || '系统错误，请稍后再试！')
       }
       state.skeletonLoading = false
     }
@@ -291,11 +289,9 @@ export default defineComponent({
             state.spinning = true
             response = await addRule(toRaw(formState))
             if (response) {
-              proxy.$message.success('操作成功！')
+              message.success('操作成功！')
               emit('handleOk')
               handleCancel()
-            } else {
-              proxy.$message.error((response && response.msg) || '系统错误，请稍后再试！')
             }
             state.spinning = false
           })
@@ -312,11 +308,9 @@ export default defineComponent({
             params.time = moment(params.time).format('YYYY-MM-DD HH:mm:ss')
             response = await updateRule(params)
             if (response) {
-              proxy.$message.success('操作成功！')
+              message.success('操作成功！')
               emit('handleOk')
               handleCancel()
-            } else {
-              proxy.$message.error((response && response.msg) || '系统错误，请稍后再试！')
             }
             state.spinning = false
           })

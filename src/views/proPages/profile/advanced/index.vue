@@ -1,5 +1,5 @@
 <template>
-  <g-page-wrapper>
+  <g-pro-page-wrapper>
     <div :class="$style['header-deading']">
       <div :class="$style['header-deading-left']">
         <div :class="$style['header-deading-title']">
@@ -222,14 +222,13 @@
         </template>
       </a-card>
     </div>
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
 </template>
 
 <script lang="ts">
 import {
   computed,
   defineComponent,
-  getCurrentInstance,
   onActivated,
   reactive,
   toRefs

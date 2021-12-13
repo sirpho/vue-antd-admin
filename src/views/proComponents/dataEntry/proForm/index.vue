@@ -1,5 +1,5 @@
 <template>
-  <g-page-wrapper>
+  <g-pro-page-wrapper>
     <!--<a-form>-->
     <!--  <a-form-item label="Activity name" v-bind="validateInfos.name">-->
     <!--    <a-input v-model:value="formState.name" />-->
@@ -34,7 +34,7 @@
         />
       </g-pro-form-group>
     </g-pro-form>
-  </g-page-wrapper>
+  </g-pro-page-wrapper>
 </template>
 
 <script lang="ts" setup>

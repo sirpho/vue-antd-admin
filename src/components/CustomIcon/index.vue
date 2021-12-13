@@ -3,7 +3,7 @@ import { defineComponent } from 'vue'
 import 'remixicon/fonts/remixicon.css'
 
 export default defineComponent({
-  name: 'VabIcon',
+  name: 'GIcon',
   props: {
     icon: {
       type: String,
