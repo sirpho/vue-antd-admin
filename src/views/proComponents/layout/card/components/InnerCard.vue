@@ -8,15 +8,15 @@
     可以放在卡片内部，展示多层级结构的信息。
   </div>
   <div class="gx-markdown-demo">
-    <w-pro-card title="横向内部卡片" bordered headerBordered :gutter="16">
-      <w-pro-card title="内部卡片标题" type="inner" bordered>
+    <g-pro-card title="横向内部卡片" bordered headerBordered :gutter="16">
+      <g-pro-card title="内部卡片标题" type="inner" bordered>
         内部卡片内容
-      </w-pro-card>
-      <w-pro-card title="内部卡片标题" type="inner" bordered>
+      </g-pro-card>
+      <g-pro-card title="内部卡片标题" type="inner" bordered>
         内部卡片内容
-      </w-pro-card>
-    </w-pro-card>
-    <w-pro-card
+      </g-pro-card>
+    </g-pro-card>
+    <g-pro-card
       style="margin-top: 8px"
       title="竖向内部卡片"
       bordered
@@ -24,13 +24,13 @@
       direction="column"
       :gutter="[0, 16]"
     >
-      <w-pro-card title="内部卡片标题" type="inner" bordered>
+      <g-pro-card title="内部卡片标题" type="inner" bordered>
         内部卡片内容
-      </w-pro-card>
-      <w-pro-card title="内部卡片标题" type="inner" bordered>
+      </g-pro-card>
+      <g-pro-card title="内部卡片标题" type="inner" bordered>
         内部卡片内容
-      </w-pro-card>
-    </w-pro-card>
+      </g-pro-card>
+    </g-pro-card>
   </div>
 </template>
 

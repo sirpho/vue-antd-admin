@@ -45,7 +45,7 @@
   <img
     style="width: 100%;"
     src="https://gw.alipayobjects.com/zos/alicdn/joeXYy8j3/jieping2021-01-11%252520xiawu4.47.15.png"
-  >
+  />
 </template>
 
 <script lang="js">

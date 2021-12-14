@@ -27,15 +27,13 @@ export default {
       title: '菜单类型',
       width: 90,
       align: 'center',
-      dataIndex: 'menuType',
-      slots: { customRender: 'menuType' }
+      dataIndex: 'menuType'
     },
     {
       title: '状态',
       width: 90,
       align: 'center',
-      dataIndex: 'visible',
-      slots: { customRender: 'visible' }
+      dataIndex: 'visible'
     }
   ]
 }

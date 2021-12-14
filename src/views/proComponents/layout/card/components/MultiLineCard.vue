@@ -11,20 +11,20 @@
     来让多个卡片之间可以换行，适用于多个卡片排版的情况。
   </div>
   <div class="gx-markdown-demo">
-    <w-pro-card :gutter="[16, 16]" wrap title="换行">
-      <w-pro-card :colSpan="{ xs: 24, sm: 12, md: 12, lg: 12, xl: 12 }" layout="center" bordered>
+    <g-pro-card :gutter="[16, 16]" wrap title="换行">
+      <g-pro-card :colSpan="{ xs: 24, sm: 12, md: 12, lg: 12, xl: 12 }" layout="center" bordered>
         Col
-      </w-pro-card>
-      <w-pro-card :colSpan="{ xs: 24, sm: 12, md: 12, lg: 12, xl: 12 }" layout="center" bordered>
+      </g-pro-card>
+      <g-pro-card :colSpan="{ xs: 24, sm: 12, md: 12, lg: 12, xl: 12 }" layout="center" bordered>
         Col
-      </w-pro-card>
-      <w-pro-card :colSpan="{ xs: 24, sm: 12, md: 12, lg: 12, xl: 12 }" layout="center" bordered>
+      </g-pro-card>
+      <g-pro-card :colSpan="{ xs: 24, sm: 12, md: 12, lg: 12, xl: 12 }" layout="center" bordered>
         Col
-      </w-pro-card>
-      <w-pro-card :colSpan="{ xs: 24, sm: 12, md: 12, lg: 12, xl: 12 }" layout="center" bordered>
+      </g-pro-card>
+      <g-pro-card :colSpan="{ xs: 24, sm: 12, md: 12, lg: 12, xl: 12 }" layout="center" bordered>
         Col
-      </w-pro-card>
-    </w-pro-card>
+      </g-pro-card>
+    </g-pro-card>
   </div>
 </template>
 

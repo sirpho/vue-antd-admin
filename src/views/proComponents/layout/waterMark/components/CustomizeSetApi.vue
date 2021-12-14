@@ -132,9 +132,9 @@ export default defineComponent({
       formState: {
         content: '示例水印',
         fontColor: 'rgba(0,0,0,.15)',
-        fontSize: '16',
-        zIndex: '9',
-        rotate: '-22'
+        fontSize: 16,
+        zIndex: 9,
+        rotate: -22
       }
     })
     

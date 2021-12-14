@@ -87,7 +87,7 @@ export default defineComponent({
   bottom: 0;
   left: 0;
   background: transparent;
-  animation-duration: 1s !important;
+  animation-duration: 0.3s !important;
 }
 
 .page-toggle-leave-active{
@@ -97,7 +97,7 @@ export default defineComponent({
   bottom: 0;
   left: 0;
   background: transparent;
-  animation-duration: .2s !important;
+  animation-duration: .3s !important;
 }
 
 .page-toggle-enter{

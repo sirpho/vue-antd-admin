@@ -18,7 +18,7 @@
             <MessageFilled /> {{ item.message }}
           </span>
         </template>
-        <a-list-meta>
+        <a-list-item-meta>
           <template #title>
             <a :class="$style.listItemMetaTitle" :href="item.href">
               {{ item.title }}
@@ -31,7 +31,7 @@
               <a-tag>蚂蚁金服</a-tag>
             </span>
           </template>
-        </a-list-meta>
+        </a-list-item-meta>
         <div :class="$style.listContent">
           <div :class="$style.description">{{ item.content }}</div>
           <div :class="$style.extra">
@@ -47,8 +47,8 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs, watch } from 'vue'
+import dayjs from 'dayjs'
 import { StarTwoTone, LikeOutlined, MessageFilled } from '@ant-design/icons-vue'
-import moment from 'moment'
 
 export default defineComponent({
   components: {
@@ -68,7 +68,7 @@ export default defineComponent({
       state.listData = (val || []).map((item: any) => {
         return {
           ...item,
-          updatedAt: moment(item.updatedAt).format('YYYY-MM-DD HH:mm')
+          updatedAt: dayjs(item.updatedAt).format('YYYY-MM-DD HH:mm')
         }
       })
     }, {

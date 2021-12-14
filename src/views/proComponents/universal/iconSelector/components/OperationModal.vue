@@ -48,6 +48,7 @@ import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   setup() {
+    const lookUp = ref(false)
     const isFail = ref(false)
     const visible = ref(false)
     const spinning = ref(false)
@@ -70,6 +71,7 @@ export default defineComponent({
       resetFields()
     }
     return {
+      lookUp,
       visible,
       spinning,
       skeletonLoading,

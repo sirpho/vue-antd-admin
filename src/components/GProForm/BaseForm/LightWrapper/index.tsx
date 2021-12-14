@@ -94,7 +94,7 @@ const LightWrapper = defineComponent({
 
     const labelText = ref<any>()
 
-    /** DataRange的转化，moment 的 toString 有点不好用 */
+    /** DataRange的转化，dayjs 的 toString 有点不好用 */
     const changeLabelText = (labelValue, valueType, labelFormatter) => {
       if (valueType?.toLowerCase()?.endsWith('range') && !labelFormatter) {
         return dateArrayFormatter(

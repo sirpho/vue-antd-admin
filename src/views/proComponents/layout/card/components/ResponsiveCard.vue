@@ -19,18 +19,18 @@
   </div>
   <div class="gx-markdown-demo">
     <g-pro-card title="24栅格" style="margin-top: 8px" :gutter="8">
-      <w-pro-card :colSpan="{ xs: 2, sm: 4, md: 6, lg: 8, xl: 10 }" layout="center" bordered>
+      <g-pro-card :colSpan="{ xs: 2, sm: 4, md: 6, lg: 8, xl: 10 }" layout="center" bordered>
         Col
-      </w-pro-card>
-      <w-pro-card :colSpan="{ xs: 20, sm: 16, md: 12, lg: 8, xl: 4 }" layout="center" bordered>
+      </g-pro-card>
+      <g-pro-card :colSpan="{ xs: 20, sm: 16, md: 12, lg: 8, xl: 4 }" layout="center" bordered>
         Col
-      </w-pro-card>
-      <w-pro-card :colSpan="{ xs: 2, sm: 4, md: 6, lg: 8, xl: 10 }" layout="center" bordered>
+      </g-pro-card>
+      <g-pro-card :colSpan="{ xs: 2, sm: 4, md: 6, lg: 8, xl: 10 }" layout="center" bordered>
         Col
-      </w-pro-card>
+      </g-pro-card>
     </g-pro-card>
-    <w-pro-card title="指定宽度px" :gutter="8" style="margin-top: 8px">
-      <w-pro-card
+    <g-pro-card title="指定宽度px" :gutter="8" style="margin-top: 8px">
+      <g-pro-card
         :colSpan="{
           xs: '50px',
           sm: '100px',
@@ -42,16 +42,16 @@
         bordered
       >
         Col
-      </w-pro-card>
-      <w-pro-card layout="center" bordered>
+      </g-pro-card>
+      <g-pro-card layout="center" bordered>
         Auto
-      </w-pro-card>
-    </w-pro-card>
-    <w-pro-card title="指定宽度百分比" :gutter="8" style="margin-top: 8px">
-      <w-pro-card layout="center" bordered>
+      </g-pro-card>
+    </g-pro-card>
+    <g-pro-card title="指定宽度百分比" :gutter="8" style="margin-top: 8px">
+      <g-pro-card layout="center" bordered>
         Auto
-      </w-pro-card>
-      <w-pro-card
+      </g-pro-card>
+      <g-pro-card
         :colSpan="{
           xs: '10%',
           sm: '20%',
@@ -63,8 +63,8 @@
         bordered
       >
         Col - 百分比
-      </w-pro-card>
-    </w-pro-card>
+      </g-pro-card>
+    </g-pro-card>
   </div>
 </template>
 

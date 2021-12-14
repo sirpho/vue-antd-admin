@@ -1,5 +1,5 @@
 import { MockMethod } from 'vite-plugin-mock'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash-es'
 import { builder, getRequestToken, requestParams } from '../../_util'
 
@@ -98,9 +98,9 @@ function basicList(count: number): CardListItemDataType[] {
       percent: Math.ceil(Math.random() * 50) + 50,
       logo: avatars[i % 8],
       href: 'https://ant.design',
-      updatedAt: moment(new Date(new Date().getTime() - 1000 * 60 * 60 * 2 * i).getTime())
+      updatedAt: dayjs(new Date(new Date().getTime() - 1000 * 60 * 60 * 2 * i).getTime())
         .format('YYYY-MM-DD HH:mm:ss'),
-      createdAt: moment(new Date(new Date().getTime() - 1000 * 60 * 60 * 2 * i).getTime())
+      createdAt: dayjs(new Date(new Date().getTime() - 1000 * 60 * 60 * 2 * i).getTime())
         .format('YYYY-MM-DD HH:mm:ss'),
       subDescription: desc[i % 5],
       description:

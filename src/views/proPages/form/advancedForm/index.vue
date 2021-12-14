@@ -193,36 +193,34 @@
             :pagination="pageConfig"
             @refresh="getTableData"
           >
-            <template
-              v-for="col in ['name', 'workId', 'department']"
-              #[col]="{ text, record }"
-              :key="col"
-            >
-              <div>
-                <a-input
-                  v-if="editableData[record.key]"
-                  v-model:value="editableData[record.key][col]"
-                  style="margin: -5px 0"
-                  placeholder="请输入"
-                />
-                <template v-else>
-                  {{ text || '-' }}
-                </template>
-              </div>
-            </template>
-            <template #action="{ record }">
-              <template v-if="editableData[record.key]">
-                <a-space align="center">
-                  <a @click="handleSave(record.key)">保存</a>
-                  <a-popconfirm title="确定要删除吗?" @confirm="handleDelete(record.key)">
-                    <a>删除</a>
-                  </a-popconfirm>
-                  <a-popconfirm title="确定要取消吗?" @confirm="handleCancel(record.key)">
-                    <a>取消</a>
-                  </a-popconfirm>
-                </a-space>
+            <template #bodyCell="{ column, record, text }">
+              <template v-if="column.dataIndex === 'name' || column.dataIndex === 'workId' || column.dataIndex === 'department'">
+                <div>
+                  <a-input
+                    v-if="editableData[record.key]"
+                    v-model:value="editableData[record.key][column.dataIndex]"
+                    style="margin: -5px 0"
+                    placeholder="请输入"
+                  />
+                  <template v-else>
+                    {{ text || '-' }}
+                  </template>
+                </div>
               </template>
-              <a v-else @click="handelEdit(record.key)">编辑</a>
+              <template v-if="column.dataIndex === 'action'">
+                <template v-if="editableData[record.key]">
+                  <a-space align="center">
+                    <a @click="handleSave(record.key)">保存</a>
+                    <a-popconfirm title="确定要删除吗?" @confirm="handleDelete(record.key)">
+                      <a>删除</a>
+                    </a-popconfirm>
+                    <a-popconfirm title="确定要取消吗?" @confirm="handleCancel(record.key)">
+                      <a>取消</a>
+                    </a-popconfirm>
+                  </a-space>
+                </template>
+                <a v-else @click="handelEdit(record.key)">编辑</a>
+              </template>
             </template>
           </g-pro-table>
           <a-button type="dashed" block @click="handelTableAdd">

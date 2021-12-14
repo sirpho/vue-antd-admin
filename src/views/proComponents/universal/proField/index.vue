@@ -84,6 +84,7 @@
       </a-descriptions-item>
       <a-descriptions-item label="选择框">
         <g-pro-field
+          light
           text="open"
           :mode="state"
           :valueEnum="{
@@ -319,7 +320,7 @@
             :plain="plain"
           />
           <g-pro-field
-            :text="moment('2013-11-16 12:50:26').valueOf()"
+            :text="dayjs('2013-11-16 12:50:26').valueOf()"
             valueType="fromNow"
             :mode="state"
             :plain="plain"
@@ -337,8 +338,8 @@
       <a-descriptions-item label="日期区间">
         <g-pro-field
           :text="[
-            moment('2019-11-16 12:50:26').add(-1, 'd').valueOf(),
-            moment('2019-11-16 12:50:26').valueOf(),
+            dayjs('2019-11-16 12:50:26').add(-1, 'd').valueOf(),
+            dayjs('2019-11-16 12:50:26').valueOf(),
           ]"
           valueType="dateRange"
           :mode="state"
@@ -348,8 +349,8 @@
       <a-descriptions-item label="日期时间区间">
         <g-pro-field
           :text="[
-            moment('2019-11-16 12:50:26').add(-1, 'd').valueOf(),
-            moment('2019-11-16 12:50:26').valueOf(),
+            dayjs('2019-11-16 12:50:26').add(-1, 'd').valueOf(),
+            dayjs('2019-11-16 12:50:26').valueOf(),
           ]"
           valueType="dateTimeRange"
           :mode="state"
@@ -358,7 +359,7 @@
       </a-descriptions-item>
       <a-descriptions-item label="时间">
         <g-pro-field
-          :text="moment('2019-11-16 12:50:26').valueOf()"
+          :text="dayjs('2019-11-16 12:50:26').valueOf()"
           valueType="time"
           :mode="state"
           :plain="plain"
@@ -401,11 +402,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 const state = ref('read')
 const plain = ref(false)
-const dateTime = moment('2019-11-16 12:50:26').valueOf()
+const dateTime = dayjs('2019-11-16 12:50:26').valueOf()
 const jsonCode = `{
   "compilerOptions": {
     "target": "esnext",

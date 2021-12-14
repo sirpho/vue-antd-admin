@@ -378,7 +378,9 @@ export default defineComponent({
             activeKey={state.tabActive}
             hideAdd
             type="editable-card"
-            rightExtra={tabBarExtraContent()}
+            v-slots={{
+              rightExtra: (_) => tabBarExtraContent()
+            }}
           >
             {
               visitedRoutes.value.map(item => (

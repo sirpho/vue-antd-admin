@@ -18,14 +18,14 @@
           <div :class="$style.cardItemContent">
             <span>{{ item.updatedAt }}</span>
             <div :class="$style.avatarList">
-              <a-avatarList size="small">
-                <a-avatarList-item
+              <AvatarList size="small">
+                <AvatarListItem
                   v-for="member in item.members"
                   :key="`${item.id}-avatar-${member.id}`"
                   :src="member.avatar"
                   :tips="member.name"
                 />
-              </a-avatarList>
+              </AvatarList>
             </div>
           </div>
         </a-card>
@@ -36,12 +36,19 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs, watch } from 'vue'
-import moment from 'moment'
+import dayjs from 'dayjs'
+import AvatarList from './AvatarList'
+
+const AvatarListItem = AvatarList.Item
 
 export default defineComponent({
   props: {
     datasource: Array,
     default: () => []
+  },
+  components: {
+    AvatarList,
+    AvatarListItem
   },
   setup(props) {
     const state = reactive({
@@ -51,7 +58,7 @@ export default defineComponent({
       state.listData = (val || []).map((item: any) => {
         return {
           ...item,
-          updatedAt: moment(item.updatedAt).fromNow()
+          updatedAt: dayjs(item.updatedAt).fromNow()
         }
       })
     }, {

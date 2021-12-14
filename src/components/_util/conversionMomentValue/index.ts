@@ -1,4 +1,5 @@
-import moment from 'moment'
+import type { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import type { InternalNamePath, NamePath } from 'ant-design-vue/lib/form/interface'
 import { get } from '../index'
 import isNil from '../isNil'
@@ -44,17 +45,17 @@ export function isPlainObject(o: { constructor: any }) {
 }
 
 /**
- * 根据不同的格式转化 moment
+ * 根据不同的格式转化 dayjs
  *
  * @param value
  * @param dateFormatter
  * @param valueType
  */
-const convertMoment = (value: moment.Moment, dateFormatter: string | false, valueType: string) => {
+const convertMoment = (value: Dayjs, dateFormatter: string | false, valueType: string) => {
   if (!dateFormatter) {
     return value
   }
-  if (moment.isMoment(value)) {
+  if (dayjs.isDayjs(value)) {
     if (dateFormatter === 'number') {
       return value.valueOf()
     }
@@ -69,7 +70,7 @@ const convertMoment = (value: moment.Moment, dateFormatter: string | false, valu
 }
 
 /**
- * 这里主要是来转化一下数据 将 moment 转化为 string 将 all 默认删除
+ * 这里主要是来转化一下数据 将 dayjs 转化为 string 将 all 默认删除
  *
  * @param value
  * @param dateFormatter
@@ -118,8 +119,8 @@ const conversionMomentValue = <T = any>(
       isPlainObject(itemValue) &&
       // 不是数组
       !Array.isArray(itemValue) &&
-      // 不是 moment
-      !moment.isMoment(itemValue)
+      // 不是 dayjs
+      !dayjs.isDayjs(itemValue)
     ) {
       tmpValue[key] = conversionMomentValue(
         itemValue,
@@ -133,7 +134,7 @@ const conversionMomentValue = <T = any>(
     // 处理 FormList 的 value
     if (Array.isArray(itemValue)) {
       tmpValue[key] = itemValue.map((arrayValue, index) => {
-        if (moment.isMoment(arrayValue)) {
+        if (dayjs.isDayjs(arrayValue)) {
           return convertMoment(arrayValue, dateFormat || dateFormatter, valueType)
         }
         return conversionMomentValue(arrayValue, dateFormatter, valueTypeMap, omitNil, [

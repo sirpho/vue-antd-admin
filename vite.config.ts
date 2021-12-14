@@ -1,4 +1,5 @@
 import type { UserConfig, ConfigEnv } from 'vite'
+import dayjs from 'dayjs'
 
 import { loadEnv } from 'vite'
 import { resolve } from 'path'
@@ -10,7 +11,6 @@ import { createVitePlugins } from './build/vite/plugin'
 import config, { createProxy } from './config/config'
 
 import pkg from './package.json'
-import moment from 'moment'
 
 function pathResolve(dir: string) {
   return resolve(process.cwd(), '.', dir)
@@ -22,7 +22,7 @@ const { dependencies, devDependencies, name, version } = pkg
 
 const __APP_INFO__ = {
   pkg: { dependencies, devDependencies, name, version },
-  lastBuildTime: moment().format('YYYY-MM-DD HH:mm:ss')
+  lastBuildTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
 }
 
 process.env.VUE_APP_VERSION = version
@@ -111,13 +111,12 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       brotliSize: false,
       chunkSizeWarningLimit: 2500,
       rollupOptions: {
-        external: [ 'vue', 'moment', 'vuex', 'vue-router', 'echarts' ],
+        external: [ 'vue', 'vuex', 'vue-router', 'echarts' ],
         plugins: [
           externalGlobals({
             vue: 'Vue',
             vuex: 'Vuex',
             'vue-router': 'VueRouter',
-            moment: 'moment',
             echarts: 'echarts'
           })
         ]
@@ -146,9 +145,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     optimizeDeps: {
       include: [
         'ant-design-vue/es/locale/zh_CN',
-        'moment/dist/locale/zh-cn',
         'ant-design-vue/es/locale/en_US',
-        'moment/dist/locale/eu'
       ],
       exclude: [ 'vue-demi' ]
     }

@@ -1,7 +1,9 @@
-import moment from 'moment'
-import 'moment/dist/locale/zh-cn'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import 'dayjs/locale/zh-cn'
 
-moment.locale('zh-cn')
+dayjs.locale('zh-cn')
+dayjs.extend(relativeTime)
 
 import antDesign from './ant-design'
 import gxDesign from './gx-design'

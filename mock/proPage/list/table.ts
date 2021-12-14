@@ -1,6 +1,6 @@
 import { MockMethod } from 'vite-plugin-mock'
+import dayjs from 'dayjs'
 import { builder, getRequestToken, requestParams } from '../../_util'
-import moment from 'moment'
 
 const momentFiled = [ 'updatedAt', 'createdAt' ]
 
@@ -50,8 +50,8 @@ const genList = (pageNum: number, pageSize: number) => {
       desc: '这是一段描述',
       callNo: Math.floor(Math.random() * 1000),
       status: (Math.floor(Math.random() * 10) % 4).toString(),
-      updatedAt: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      createdAt: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+      updatedAt: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+      createdAt: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss'),
       progress: Math.ceil(Math.random() * 100)
     })
   }
@@ -69,8 +69,8 @@ function getRule(params: TableListParams) {
   if (sortOrder) {
     dataSource = dataSource.sort((prev, next) => {
       let sortNumber = 0
-      const prevValue = momentFiled.includes(sortField) ? moment(prev[sortField]) : prev[sortField]
-      const nextValue = momentFiled.includes(sortField) ? moment(next[sortField]) : next[sortField]
+      const prevValue = momentFiled.includes(sortField) ? dayjs(prev[sortField]) : prev[sortField]
+      const nextValue = momentFiled.includes(sortField) ? dayjs(next[sortField]) : next[sortField]
       if (sortOrder === 'descend') {
         if (prevValue - nextValue > 0) {
           sortNumber += -1
@@ -146,8 +146,8 @@ function postRule(body, type) {
         desc,
         callNo: Math.floor(Math.random() * 1000),
         status: (Math.floor(Math.random() * 10) % 2).toString(),
-        updatedAt: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-        createdAt: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+        updatedAt: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+        createdAt: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss'),
         progress: Math.ceil(Math.random() * 100)
       }
       tableListDataSource.unshift(newRule)

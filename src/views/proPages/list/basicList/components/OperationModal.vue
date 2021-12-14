@@ -75,7 +75,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRaw, toRefs } from 'vue'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { Form, message } from 'ant-design-vue'
 import type { BasicListItemDataType } from '/@/services/list/basic'
 import { getBasicListInfo, updateBasicList, addBasicList } from '/@/services/list/basic'
@@ -93,6 +93,7 @@ export default defineComponent({
   emits: [ 'handleOk' ],
   setup(_, { emit }) {
     const state = reactive({
+      lookUp: false,
       isFail: false,
       visible: false,
       spinning: false,
@@ -137,7 +138,7 @@ export default defineComponent({
         for (let i in response.data) {
           switch (i) {
             case 'createdAt':
-              formState[i] = response.data[i] ? moment(response.data[i]) : null
+              formState[i] = response.data[i] ? dayjs(response.data[i]) : null
               break
             case 'owner':
               formState[i] = response.data[i] || null
@@ -160,7 +161,7 @@ export default defineComponent({
           let response
           state.spinning = true
           const params = toRaw(formState)
-          params.createdAt = moment(params.createdAt).format('YYYY-MM-DD HH:mm:ss')
+          params.createdAt = dayjs(params.createdAt).format('YYYY-MM-DD HH:mm:ss')
           if (formState.id) {
             response = await updateBasicList(toRaw(formState))
           } else {

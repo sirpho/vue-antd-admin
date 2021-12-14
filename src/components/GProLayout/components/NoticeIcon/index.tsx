@@ -1,7 +1,7 @@
 import { computed, defineComponent, onMounted, reactive } from 'vue'
-import { message } from 'ant-design-vue'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { groupBy } from 'lodash-es'
+import { message } from 'ant-design-vue'
 import { getNotices } from '/@/services/notices'
 import type { NoticeIconItem } from './NoticeList'
 import NoticeIcon from './NoticeIcon'
@@ -15,7 +15,7 @@ const getNoticeData = (notices: NoticeIconItem[]): Record<string, NoticeIconItem
     const newNotice = { ...notice }
 
     if (newNotice.datetime) {
-      newNotice.datetime = moment(notice.datetime as string).fromNow()
+      newNotice.datetime = dayjs(notice.datetime as string).fromNow()
     }
 
     if (newNotice.id) {

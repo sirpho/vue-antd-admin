@@ -1,4 +1,4 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 const guid = () => {
   const S4 = () => {
@@ -8,7 +8,7 @@ const guid = () => {
 }
 export const fileName = (file: File, bucketName?: string) => {
   const arr = file.name.split('.')
-  const time1 = moment().format('YYYYMMDD')
+  const time1 = dayjs().format('YYYYMMDD')
   const uuid = bucketName ?
     bucketName + '/' + time1 + '/' + guid()
     :

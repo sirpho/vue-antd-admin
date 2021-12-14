@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs } from 'vue'
+import { defineComponent, reactive, toRefs } from 'vue'
 import PositionApi from './components/PositionApi.vue'
 import ContentApi from './components/ContentApi.vue'
 import ImageApi from './components/ImageApi.vue'
@@ -36,7 +36,7 @@ export default defineComponent({
     ParameterApi
   },
   setup() {
-    const state = {
+    const state = reactive({
       links: [
         {
           link: '#watermark',
@@ -82,7 +82,7 @@ export default defineComponent({
           name: '水印 API 可视化'
         }
       ]
-    }
+    })
 
     return {
       ...toRefs(state)

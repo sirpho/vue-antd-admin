@@ -1,4 +1,4 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
 import type { MaterialInfo } from '@gx/pro-upload'
 import global from '/@/common/global'
 
@@ -536,7 +536,7 @@ export function mGetDate() {
 }
 
 export function momentFromNow(time) {
-  return moment(time).fromNow()
+  return dayjs(time).fromNow()
 }
 
 export function handleTimeShow(date: string) {
@@ -572,9 +572,9 @@ export function handleTimeShow(date: string) {
   } else if (
     days < mGetDate()
   ) {
-    return moment(date.replace(/\-/g, '/')).format('MM-dd hh:mm')
+    return dayjs(date.replace(/\-/g, '/')).format('MM-dd hh:mm')
   } else {
-    return moment(date.replace(/\-/g, '/')).format('yyyy-MM-dd')
+    return dayjs(date.replace(/\-/g, '/')).format('yyyy-MM-dd')
   }
 }
 
@@ -587,6 +587,7 @@ export function handleTimeShow(date: string) {
 export function getBlobUrl(blob: Blob) {
   return URL.createObjectURL(blob)
 }
+
 /**
  * @Author      gaoxiang
  * @DateTime    2020/7/25

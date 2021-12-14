@@ -12,18 +12,18 @@
     来配置卡片式页签。
   </div>
   <div class="gx-markdown-demo">
-    <w-pro-card
+    <g-pro-card
       :tabs="{
         type: 'card'
       }"
     >
-      <w-pro-card-tab-pane key="tab1" tab="产品一">
+      <g-pro-card-tab-pane key="tab1" tab="产品一">
         内容一
-      </w-pro-card-tab-pane>
-      <w-pro-card-tab-pane key="tab2" tab="产品二">
+      </g-pro-card-tab-pane>
+      <g-pro-card-tab-pane key="tab2" tab="产品二">
         内容二
-      </w-pro-card-tab-pane>
-    </w-pro-card>
+      </g-pro-card-tab-pane>
+    </g-pro-card>
   </div>
 </template>
 

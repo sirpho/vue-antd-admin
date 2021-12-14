@@ -80,13 +80,13 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs, watch } from 'vue'
+import dayjs from 'dayjs'
 import {
   DownloadOutlined,
   EditOutlined,
   ShareAltOutlined,
   EllipsisOutlined
 } from '@ant-design/icons-vue'
-import moment from 'moment'
 
 export default defineComponent({
   components: {
@@ -107,7 +107,7 @@ export default defineComponent({
       state.listData = (val || []).map((item: any) => {
         return {
           ...item,
-          updatedAt: moment(item.updatedAt).format('YYYY-MM-DD HH:mm')
+          updatedAt: dayjs(item.updatedAt).format('YYYY-MM-DD HH:mm')
         }
       })
     }, {

@@ -33,6 +33,7 @@ import FieldProgress from './components/Progress'
 import FieldPercent from './components/Percent'
 import FieldRate from './components/Rate'
 import FieldSelect from './components/Select'
+import { changeSelectParams } from './components/Select/SearchSelect'
 import FieldCheckbox from './components/Checkbox'
 import FieldRadio from './components/Radio'
 import FieldCascader from './components/Cascader'
@@ -360,10 +361,9 @@ export default defineComponent({
     const getFieldProps = computed(() => {
       return {
         value: fieldValue.value,
-        // fieldProps 优先级更高，在类似 LightFilter 场景下需要覆盖默认的 value 和 onChange
         ...omitUndefined(props.fieldProps) as object,
-        onChange: (params) => {
-          handleChange(params)
+        onChange: (params, options) => {
+          handleChange(params, options)
         }
       }
     })
@@ -382,11 +382,13 @@ export default defineComponent({
       immediate: true
     })
 
-    const handleChange = (params) => {
-      const defaultValue = defaultChangeValue(props.valueType || 'text', params, props)
+    const handleChange = (params, options) => {
+      let newParams = params
+      if (props.valueType === 'select') newParams = changeSelectParams(getFieldProps.value, params, options)?.value
+      const defaultValue = defaultChangeValue(props.valueType || 'text', newParams, props)
       fieldValue.value = defaultValue
-      emit('change', defaultValue)
-      emit('update:value', defaultValue)
+      emit('change', params)
+      emit('update:value', params)
     }
 
     return () => {

@@ -8,9 +8,9 @@
     当添加分隔线时会自动增加标题的高度与内容区域分开。
   </div>
   <div class="gx-markdown-demo">
-    <w-pro-card title="标题" extra="extra" tooltipText="这是提示" style="max-width: 300px" headerBordered>
+    <g-pro-card title="标题" extra="extra" tooltipText="这是提示" style="max-width: 300px" headerBordered>
       内容
-    </w-pro-card>
+    </g-pro-card>
   </div>
 </template>
 

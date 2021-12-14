@@ -121,7 +121,6 @@
 import {
   ref,
   defineComponent,
-  getCurrentInstance,
   onMounted,
   reactive,
   toRefs,
@@ -284,7 +283,6 @@ export default defineComponent({
       }
     }
     const onSearchReset = () => {
-      // state.inputSearchRef.changeValue('')
       state.tableParameters = {
         source: undefined,
         title: ''

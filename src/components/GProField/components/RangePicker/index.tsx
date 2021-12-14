@@ -1,4 +1,5 @@
-import moment from 'moment'
+import type { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import { DatePicker } from 'ant-design-vue'
 import { parseValueToMoment } from '@gx-design/pro-utils'
 import type { ProFieldFC } from '../../index'
@@ -15,10 +16,10 @@ const FieldRangePicker: ProFieldFC<{
 }> = ({ text, mode, format, render, renderFormItem, plain, showTime, fieldProps }) => {
   const [ startText, endText ] = Array.isArray(text) ? text : []
   const parsedStartText: string = startText
-    ? moment(startText).format(fieldProps?.format || format || 'YYYY-MM-DD')
+    ? dayjs(startText).format(fieldProps?.format || format || 'YYYY-MM-DD')
     : ''
   const parsedEndText: string = endText
-    ? moment(endText).format(fieldProps?.format || format || 'YYYY-MM-DD')
+    ? dayjs(endText).format(fieldProps?.format || format || 'YYYY-MM-DD')
     : ''
 
   if (mode === 'read') {
@@ -34,7 +35,7 @@ const FieldRangePicker: ProFieldFC<{
     return dom
   }
   if (mode === 'edit' || mode === 'update') {
-    const momentValue = parseValueToMoment(fieldProps.value) as moment.Moment
+    const momentValue = parseValueToMoment(fieldProps.value) as (Dayjs | Dayjs[])
     const dom = (
       <DatePicker.RangePicker
         format={format}

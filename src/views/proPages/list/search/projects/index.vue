@@ -95,8 +95,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onActivated, onMounted, reactive, toRefs } from 'vue'
-import moment from 'moment'
+import { defineComponent, reactive, toRefs } from 'vue'
+import dayjs from 'dayjs'
 import type { ListItemDataType } from '/@/services/list/search'
 import { onMountedOrActivated } from '@gx-design/pro-hooks/core'
 import { queryFakeList } from '/@/services/list/search'
@@ -169,7 +169,7 @@ export default defineComponent({
     const changeSearch = () => {
       onActiveLoad()
     }
-    const timeFromNow = (time) => moment(time).fromNow()
+    const timeFromNow = (time) => dayjs(time).fromNow()
     return {
       ...toRefs(state),
       formItemLayout,

@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'vue'
 import { VueElement } from 'vue'
-import type { Moment } from 'moment'
+import type { Dayjs } from 'dayjs'
 import type { NamePath } from 'ant-design-vue/lib/form/interface'
 import { FormInstance } from '../GProForm/typings'
 
@@ -81,7 +81,7 @@ export type LabelTooltipType = WrapperTooltipProps | VueNode;
 
 export type ProSchemaValueEnumObj = Record<string, ProSchemaValueEnumType | VueNode>;
 
-export type ProFieldTextType = VueNode | VueNode[] | Moment | Moment[];
+export type ProFieldTextType = VueNode | VueNode[] | Dayjs | Dayjs[];
 
 export type SearchTransformKeyFn = (
   value: any,

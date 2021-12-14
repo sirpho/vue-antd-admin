@@ -258,7 +258,7 @@ export default defineComponent({
     return () => {
       return (
         <a-modal
-          {...getProps.value}
+          {...omit(getProps.value, 'onCancel')}
           wrapClassName={getProps.value.visible ? '' : `${modalClassName}-wrap`}
           class={handleModalClass.value}
           width={getModalWidth.value}

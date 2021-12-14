@@ -20,29 +20,33 @@
           新建
         </a-button>
       </template>
-      <template #nameTitle>
-        规则名称
-        <a-tooltip title="规则名称是唯一的 key">
-          <InfoCircleOutlined />
-        </a-tooltip>
+      <template #headerCell="{ column }">
+        <template v-if="column.dataIndex === 'name'">
+          规则名称
+          <a-tooltip title="规则名称是唯一的 key">
+            <InfoCircleOutlined />
+          </a-tooltip>
+        </template>
       </template>
-      <template #name="{ record }">
-        <a v-if="record.name">{{ record.name }}</a>
-        <template v-else>-</template>
-      </template>
-      <template #callNo="{ record }">
-        {{ record.callNo > 0 ? `${record.callNo}万` : record.callNo }}
-      </template>
-      <template #status="{ record }">
-        <a-badge v-if="record.status === '0'" status="default" text="关闭" />
-        <a-badge v-if="record.status === '1'" status="processing" text="运行中" />
-        <a-badge v-if="record.status === '2'" status="success" text="已上线" />
-        <a-badge v-if="record.status === '3'" status="error" text="异常" />
-      </template>
-      <template #action="{ record }">
-        <a key="config" style="margin-right: 15px;" @click="updateTableRule(record)">配置</a>
-        <a key="config" style="margin-right: 15px;" @click="removeTableConfirm(record)">删除</a>
-        <a key="subscribeAlert" href="https://procomponents.ant.design/" target="_blank">订阅警报</a>
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.dataIndex === 'name'">
+          <a v-if="record.name" @click="updateTableRule(record, true)">{{ record.name }}</a>
+          <template v-else>-</template>
+        </template>
+        <template v-if="column.dataIndex === 'callNo'">
+          {{ record.callNo > 0 ? `${record.callNo}万` : record.callNo }}
+        </template>
+        <template v-if="column.dataIndex === 'status'">
+          <a-badge v-if="record.status === '0'" status="default" text="关闭" />
+          <a-badge v-if="record.status === '1'" status="processing" text="运行中" />
+          <a-badge v-if="record.status === '2'" status="success" text="已上线" />
+          <a-badge v-if="record.status === '3'" status="error" text="异常" />
+        </template>
+        <template v-if="column.dataIndex === 'action'">
+          <a key="config" style="margin-right: 15px;" @click="updateTableRule(record)">配置</a>
+          <a key="config" style="margin-right: 15px;" @click="removeTableConfirm(record)">删除</a>
+          <a key="subscribeAlert" href="https://procomponents.ant.design/" target="_blank">订阅警报</a>
+        </template>
       </template>
     </g-pro-table>
     <OperationModal ref="operation" @handleOk="tableRef.reload()" />
@@ -107,8 +111,8 @@ export default defineComponent({
     const handleTableAdd = () => {
       operation.value?.open()
     }
-    const updateTableRule = async (record) => {
-      operation.value?.edit(record.key)
+    const updateTableRule = async (record, lookUp) => {
+      operation.value?.edit(record.key, lookUp)
     }
     const removeTableConfirm = (record) => {
       Modal.confirm({

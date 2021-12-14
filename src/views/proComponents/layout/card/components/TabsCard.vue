@@ -25,7 +25,7 @@
         <a-select-option value="right">right</a-select-option>
       </a-select>
     </a-space>
-    <w-pro-card
+    <g-pro-card
       :tabs="{
         tabPosition,
         activeKey: tab,
@@ -34,13 +34,13 @@
         },
       }"
     >
-      <w-pro-card-tab-pane key="tab1" tab="产品一">
+      <g-pro-card-tab-pane key="tab1" tab="产品一">
         内容一
-      </w-pro-card-tab-pane>
-      <w-pro-card-tab-pane key="tab2" tab="产品二">
+      </g-pro-card-tab-pane>
+      <g-pro-card-tab-pane key="tab2" tab="产品二">
         内容二
-      </w-pro-card-tab-pane>
-    </w-pro-card>
+      </g-pro-card-tab-pane>
+    </g-pro-card>
   </div>
 </template>
 

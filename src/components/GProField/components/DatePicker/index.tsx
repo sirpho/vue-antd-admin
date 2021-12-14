@@ -1,5 +1,6 @@
 import { ref } from 'vue'
-import moment from 'moment'
+import type { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import { DatePicker, DatePickerProps } from 'ant-design-vue'
 import { FieldLabel, getPrefixCls, parseValueToMoment } from '@gx-design/pro-utils'
 import type { ProFieldFC } from '../../index'
@@ -44,7 +45,7 @@ const FieldDatePicker: ProFieldFC<{
   if (mode === 'read') {
     const dom = (
       <span>
-        {text ? moment(text).format(fieldProps.format || format || 'YYYY-MM-DD') : '-'}
+        {text ? dayjs(text).format(fieldProps.format || format || 'YYYY-MM-DD') : '-'}
       </span>
     )
     if (render) {
@@ -62,7 +63,7 @@ const FieldDatePicker: ProFieldFC<{
       placeholder = '请选择'
     } = fieldProps
 
-    const momentValue = parseValueToMoment(value) as moment.Moment
+    const momentValue = parseValueToMoment(value) as Dayjs
 
     if (light) {
       const valueStr: string = (momentValue && momentValue.format(format)) || ''

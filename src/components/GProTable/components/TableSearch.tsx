@@ -1,4 +1,4 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
 import {
   computed,
   defineComponent,
@@ -154,28 +154,28 @@ const TableSearch = defineComponent({
           break
         case 'date':
           modelRef[record.name] = val
-            ? moment(val).format(record.format || 'YYYY-MM-DD')
+            ? dayjs(val).format(record.format || 'YYYY-MM-DD')
             : record.initialValue || null
           if (!props.showSearch) changeTableParams()
           break
         case 'dateMonth':
           modelRef[record.name] = val
-            ? moment(val).format('YYYY-MM')
+            ? dayjs(val).format('YYYY-MM')
             : record.initialValue || null
           if (!props.showSearch) changeTableParams()
           break
         case 'dateRange':
           modelRef[record.name] = val && val.length > 0
             ? [
-              moment(val[0]).format(record.format || 'YYYY-MM-DD'),
-              moment(val[1]).format(record.format || 'YYYY-MM-DD')
+              dayjs(val[0]).format(record.format || 'YYYY-MM-DD'),
+              dayjs(val[1]).format(record.format || 'YYYY-MM-DD')
             ]
             : record.initialValue || null
           if (!props.showSearch) changeTableParams(val, record)
           break
         case 'time':
           modelRef[record.name] = val
-            ? moment(val).format(record.format || 'HH:mm:ss')
+            ? dayjs(val).format(record.format || 'HH:mm:ss')
             : record.initialValue || null
           if (!props.showSearch) changeTableParams()
           break
@@ -277,7 +277,10 @@ const TableSearch = defineComponent({
           show = (
             <a-date-picker
               style={{ width: '100%' }}
-              value={modelRef[record.name] ? moment(modelRef[record.name]) : null}
+              value={modelRef[record.name]
+                ? dayjs(modelRef[record.name], record.format || 'YYYY-MM-DD')
+                : null
+              }
               placeholder={record.placeholder || '请选择'}
               allowClear={record.allowClear || record.allowClear === false ? record.allowClear : true}
               format={record.format || 'YYYY-MM-DD'}
@@ -292,7 +295,11 @@ const TableSearch = defineComponent({
           show = (
             <a-month-picker
               style={{ width: '100%' }}
-              value={modelRef[record.name] ? moment(modelRef[record.name]) : null}
+              value={
+                modelRef[record.name]
+                  ? dayjs(modelRef[record.name], record.format || 'YYYY-MM')
+                  : null
+              }
               placeholder={record.placeholder || '请选择'}
               renderExtraFooter={record.renderExtraFooter || null}
               onChange={(e) => handleChange(e, record)}
@@ -303,10 +310,13 @@ const TableSearch = defineComponent({
           show = (
             <a-range-picker
               style={{ width: '100%' }}
-              value={modelRef[record.name] ? [
-                moment(modelRef[record.name][0]),
-                moment(modelRef[record.name][1])
-              ] : null}
+              value={modelRef[record.name]
+                ? [
+                  dayjs(modelRef[record.name][0], record.format || 'YYYY-MM-DD HH:mm:ss'),
+                  dayjs(modelRef[record.name][1], record.format || 'YYYY-MM-DD HH:mm:ss')
+                ]
+                : null
+              }
               placeholder={record.placeholder || '请选择'}
               format={record.format || 'YYYY-MM-DD HH:mm:ss'}
               renderExtraFooter={record.renderExtraFooter || null}
@@ -319,7 +329,10 @@ const TableSearch = defineComponent({
           show = (
             <a-time-picker
               style={{ width: '100%' }}
-              value={modelRef[record.name] ? moment(modelRef[record.name], 'HH:mm:ss') : null}
+              value={modelRef[record.name]
+                ? dayjs(modelRef[record.name], record.format || 'HH:mm:ss')
+                : null
+              }
               placeholder={record.placeholder || '请选择'}
               allowClear={record.allowClear || record.allowClear === false ? record.allowClear : true}
               use12Hours={record.use12Hours}

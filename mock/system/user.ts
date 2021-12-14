@@ -1,5 +1,5 @@
 import { MockMethod } from 'vite-plugin-mock'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { resultError, resultSuccess, getRequestToken, requestParams } from '../_util'
 
 interface RolesInfo {
@@ -156,7 +156,7 @@ export default [
             'https://ahtv-obs.obs.cn-north-4.myhuaweicloud.com/15922_100.gif',
             'https://ahtv-obs.obs.cn-north-4.myhuaweicloud.com/20211111162748.jpg'
           ],
-          loginDate: moment().format('YYYY-MM-DD HH:mm:ss')
+          loginDate: dayjs().format('YYYY-MM-DD HH:mm:ss')
         }
       }
     }

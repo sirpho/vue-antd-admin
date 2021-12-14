@@ -1,11 +1,11 @@
-import type { Moment } from 'moment'
+import type { Dayjs } from 'dayjs'
 import type { ProSchemaValueEnumMap, ProSchemaValueEnumObj } from '@gx-design/pro-utils'
 
 export type ProFieldFCMode = 'read' | 'edit' | 'update';
 
 export type BaseProFieldFC = {
   /** 值的类型 */
-  text: VueNode | VueNode[] | Moment | Moment[];
+  text: VueNode | VueNode[] | Dayjs | Dayjs[];
   /** 放置到组件上 props */
   fieldProps?: any;
   /** 模式类型 */

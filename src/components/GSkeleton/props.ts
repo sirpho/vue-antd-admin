@@ -6,7 +6,7 @@ export default {
   loading: PropTypes.looseBool,
   active: PropTypes.looseBool,
   size: {
-    type: String || Number,
+    type: [ String, Number ] as PropType<string | number>,
     default: 'default'
   },
   shape: {

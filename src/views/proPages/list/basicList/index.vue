@@ -110,12 +110,12 @@
         </a-list>
       </a-card>
     </div>
+    <a-button type="dashed" style="width: 100%;margin-bottom: 8px" @click="$refs.operation.open()">
+      <PlusOutlined />
+      添加
+    </a-button>
+    <OperationModal ref="operation" @handleOk="getListData" />
   </g-pro-page-wrapper>
-  <a-button type="dashed" style="width: 100%;margin-bottom: 8px" @click="$refs.operation.open()">
-    <PlusOutlined />
-    添加
-  </a-button>
-  <OperationModal ref="operation" @handleOk="getListData" />
 </template>
 
 <script lang="ts">
@@ -124,7 +124,8 @@ import {
   createVNode,
   defineComponent,
   onActivated,
-  reactive, ref,
+  reactive,
+  ref,
   toRefs
 } from 'vue'
 import { message, Modal } from 'ant-design-vue'

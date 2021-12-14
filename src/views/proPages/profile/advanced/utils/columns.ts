@@ -12,8 +12,7 @@ export const columns = [
   {
     title: '执行结果',
     dataIndex: 'status',
-    key: 'status',
-    slots: { customRender: 'status' }
+    key: 'status'
   },
 
   {

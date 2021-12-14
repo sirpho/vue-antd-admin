@@ -133,7 +133,8 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs, toRaw, onActivated } from 'vue'
-import moment, { Moment } from 'moment'
+import type { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import { Form } from 'ant-design-vue'
 import { QuestionCircleOutlined } from '@ant-design/icons-vue'
 import { getBasicForm } from '/@/services/form/basic'
@@ -143,7 +144,7 @@ const useForm = Form.useForm
 
 interface basicFormModel {
   title: string;
-  date: Moment[],
+  date: Dayjs[],
   goal: string;
   standard: string;
   client: string;
@@ -210,7 +211,7 @@ export default defineComponent({
           }
         }
         state.formState.date = response.data.startTime
-          ? [ moment(response.data.startTime), moment(response.data.endTime) ]
+          ? [ dayjs('2020-09-26 00:00:00', 'YYYY-MM-DD HH:mm:ss'), dayjs(response.data.endTime, 'YYYY-MM-DD HH:mm:ss') ]
           : []
       }
     })

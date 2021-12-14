@@ -91,7 +91,7 @@ const NoticeIcon = defineComponent({
 
       return (
         <a-spin spinning={loading} delay={300}>
-          <a-tabs className={`${prefixCls}-tabs`} activeKey={activeKey.value} onChange={onTabChange}>
+          <a-tabs class={`${prefixCls}-tabs`} activeKey={activeKey.value} onChange={onTabChange}>
             {getChildrenSlots.value.map((item: any) => {
               if (!item) {
                 return null

@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 type ArticleListContentProps = {
   content: VueNode;
@@ -28,7 +28,7 @@ export const articleListContentProps = {
 export default defineComponent({
   props: articleListContentProps,
   setup(props) {
-    const updatedTime = computed(() => moment(props.data?.updatedAt).format('YYYY-MM-DD HH:mm'))
+    const updatedTime = computed(() => dayjs(props.data?.updatedAt).format('YYYY-MM-DD HH:mm'))
     return {
       updatedTime
     }

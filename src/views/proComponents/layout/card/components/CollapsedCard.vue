@@ -28,7 +28,7 @@
       </template>
       内容
     </g-pro-card>
-    <w-pro-card
+    <g-pro-card
       style="margin-top: 16px"
       title="可折叠-受控自定义"
       headerBordered
@@ -41,7 +41,7 @@
         />
       </template>
       内容
-    </w-pro-card>
+    </g-pro-card>
   </div>
 </template>
 

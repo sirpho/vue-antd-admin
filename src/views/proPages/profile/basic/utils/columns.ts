@@ -12,8 +12,7 @@ export const progressColumns = [
   {
     title: '状态',
     dataIndex: 'status',
-    key: 'status',
-    slots: { customRender: 'status' }
+    key: 'status'
   },
 
   {

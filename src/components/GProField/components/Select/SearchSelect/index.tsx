@@ -236,6 +236,45 @@ export interface SearchSelectProps extends Omit<SelectProps, 'options'> {
    * @ignore
    */
   prefixCls?: string;
+  onSelect?: (value, optionList) => void
+}
+
+export const getMergeValue: SelectProps['onChange'] = (value, option) => {
+  if (Array.isArray(value) && value.length > 0) {
+    // 多选情况且用户有选择
+    return value.map((item, index) => {
+      const optionItem = option?.[index]
+      const dataItem = optionItem?.['data-item'] || {}
+      return {
+        ...dataItem,
+        ...item
+      }
+    })
+  }
+  return []
+}
+
+export function changeSelectParams(fieldProps, value, option) {
+  // 将搜索框置空 和 antd 行为保持一致
+  if (!fieldProps.labelInValue) {
+    return {
+      value,
+      option
+    }
+  }
+
+  if (fieldProps.mode !== 'multiple') {
+    // 单选情况且用户选择了选项
+    const dataItem = (option && option['data-item']) || {}
+    return {
+      value: { ...value, ...dataItem }, option
+    }
+  }
+  // 合并值
+  const mergeValue = getMergeValue(value, option) as any
+  return {
+    value: mergeValue, option
+  }
 }
 
 const SearchSelect: FunctionalComponent = (props: SearchSelectProps, { attrs }) => {
@@ -296,21 +335,6 @@ const SearchSelect: FunctionalComponent = (props: SearchSelectProps, { attrs }) 
     }
   })
 
-  const getMergeValue: SelectProps['onChange'] = (value, option) => {
-    if (Array.isArray(value) && value.length > 0) {
-      // 多选情况且用户有选择
-      return value.map((item, index) => {
-        const optionItem = option?.[index]
-        const dataItem = optionItem?.['data-item'] || {}
-        return {
-          ...dataItem,
-          ...item
-        }
-      })
-    }
-    return []
-  }
-
   const renderOptions = (mapOptions: RequestOptionsType[]) => {
     return mapOptions.map((item) => {
       const {
@@ -360,23 +384,6 @@ const SearchSelect: FunctionalComponent = (props: SearchSelectProps, { attrs }) 
         }
       }}
       {...restProps}
-      onChange={(value, optionList) => {
-        // 将搜索框置空 和 antd 行为保持一致
-        if (!props.labelInValue) {
-          onChange?.(value, optionList)
-          return
-        }
-
-        if (mode !== 'multiple') {
-          // 单选情况且用户选择了选项
-          const dataItem = (optionList && optionList['data-item']) || {}
-          onChange?.({ ...value, ...dataItem }, optionList)
-          return
-        }
-        // 合并值
-        const mergeValue = getMergeValue(value, optionList) as any
-        onChange?.(mergeValue, optionList)
-      }}
     >
       {renderOptions(options || [])}
     </a-select>

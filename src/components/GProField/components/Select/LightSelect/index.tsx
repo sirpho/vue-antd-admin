@@ -125,7 +125,7 @@ const LightSelect = defineComponent({
             size={size}
             disabled={disabled}
             onChange={(v, option) => {
-              onChange?.(v, option)
+              props.onChange?.(v, option)
               if (mode !== 'multiple') {
                 setTimeout(() => {
                   setOpen(false)
@@ -161,7 +161,7 @@ const LightSelect = defineComponent({
                 </div>
               )
             }}
-            open={open}
+            open={open.value}
             onDropdownVisibleChange={setOpen}
             prefixCls={customizePrefixCls}
             options={
@@ -185,7 +185,7 @@ const LightSelect = defineComponent({
             allowClear={allowClear}
             value={filterValue.value || value?.['label'] || value}
             onClear={() => {
-              onChange?.(undefined, undefined as any)
+              props.onChange?.(undefined, undefined as any)
             }}
           />
         </div>

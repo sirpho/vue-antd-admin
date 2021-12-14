@@ -11,7 +11,7 @@ export function useFetchList(
 ) {
   const loading = ref<boolean>(false)
   const keyWords = ref<string | undefined>('')
-  const requestData = ref<any>('')
+  const requestData = ref<any>([])
   const resOptions = ref<any>([])
 
   const getResOptionsRef = computed(() => {

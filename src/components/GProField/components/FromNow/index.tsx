@@ -1,8 +1,9 @@
 import { DatePicker } from 'ant-design-vue'
-import moment from 'moment'
+import type { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import { parseValueToMoment } from '@gx-design/pro-utils'
-
 import type { ProFieldFC } from '../../index'
+
 
 /**
  * 与当前的时间进行比较 http://momentjs.cn/docs/displaying/fromnow.html
@@ -16,8 +17,8 @@ const FieldFromNow: ProFieldFC<{
 
   if (mode === 'read') {
     const dom = (
-      <a-tooltip title={moment(text).format(fieldProps?.format || format || 'YYYY-MM-DD HH:mm:ss')}>
-        {moment(text).fromNow()}
+      <a-tooltip title={dayjs(text).format(fieldProps?.format || format || 'YYYY-MM-DD HH:mm:ss')}>
+        {dayjs(text).fromNow()}
       </a-tooltip>
     )
     if (render) {
@@ -27,7 +28,7 @@ const FieldFromNow: ProFieldFC<{
   }
   if (mode === 'edit' || mode === 'update') {
     const placeholder = '请选择'
-    const momentValue = parseValueToMoment(fieldProps.value) as moment.Moment
+    const momentValue = parseValueToMoment(fieldProps.value) as Dayjs
     const dom = (
       <DatePicker placeholder={placeholder} showTime {...fieldProps} value={momentValue} />
     )

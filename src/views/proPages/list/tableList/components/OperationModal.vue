@@ -14,6 +14,7 @@
         <a-form-item label="规则名称" v-bind="validateInfos.name">
           <a-input
             v-model:value="formState.name"
+            :disabled="lookUp"
             placeholder="请输入规则名称"
             allow-clear
           />
@@ -21,6 +22,7 @@
         <a-form-item label="规则描述" v-bind="validateInfos.desc">
           <a-textarea
             v-model:value="formState.desc"
+            :disabled="lookUp"
             :auto-size="{ minRows: 5 }"
             placeholder="请输入规则描述"
             allow-clear
@@ -43,6 +45,7 @@
             <a-form-item label="规则名称" v-bind="validateInfos.name">
               <a-input
                 v-model:value="formState.name"
+                :disabled="lookUp"
                 placeholder="请输入规则名称"
                 allow-clear
               />
@@ -50,6 +53,7 @@
             <a-form-item label="规则描述" v-bind="validateInfos.desc">
               <a-textarea
                 v-model:value="formState.desc"
+                :disabled="lookUp"
                 :auto-size="{ minRows: 5 }"
                 placeholder="请输入规则描述"
                 allow-clear
@@ -67,6 +71,7 @@
             <a-form-item label="规则名称">
               <a-select
                 style="width: 100%;"
+                :disabled="lookUp"
                 :options="[
                   {
                     value: '0',
@@ -85,6 +90,7 @@
             <a-form-item label="规则描述">
               <a-select
                 style="width: 100%;"
+                :disabled="lookUp"
                 :options="[
                   {
                     value: '0',
@@ -102,6 +108,7 @@
             </a-form-item>
             <a-form-item label="规则描述">
               <a-radio-group
+                :disabled="lookUp"
                 :options="[
                   {
                     value: '0',
@@ -125,10 +132,11 @@
         >
           <a-form :model="formDispatch" v-bind="formItemLayout">
             <a-form-item label="开始时间" v-bind="dispatchvalidateInfos.time">
-              <a-date-picker style="width: 100%;" showTime v-model:value="formDispatch.time" />
+              <a-date-picker :disabled="lookUp" style="width: 100%;" showTime v-model:value="formDispatch.time" />
             </a-form-item>
             <a-form-item label="监控对象" v-bind="dispatchvalidateInfos.frequency">
               <a-select
+                :disabled="lookUp"
                 style="width: 100%;"
                 :options="[
                   {
@@ -197,7 +205,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRaw, toRefs } from 'vue'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { Form, message } from 'ant-design-vue'
 import { getRuleInfo, addRule, updateRule } from '/@/services/list/table'
 import { rules, dispatchRules, formItemLayout } from '../utils/config'
@@ -209,6 +217,7 @@ export default defineComponent({
   emits: [ 'handleOk' ],
   setup(_, { emit }) {
     const state = reactive({
+      lookUp: false,
       isFail: false,
       visible: false,
       spinning: false,
@@ -248,9 +257,10 @@ export default defineComponent({
     const open = () => {
       state.visible = true
     }
-    const edit = async (key) => {
+    const edit = async (key, lookUp) => {
       state.modalTitle = '规则配置'
       state.formType = 1
+      state.lookUp = lookUp
       state.visible = true
       state.skeletonLoading = true
       const response: any = await getRuleInfo({
@@ -305,7 +315,7 @@ export default defineComponent({
               ...toRaw(formAttributes),
               ...toRaw(formDispatch)
             }
-            params.time = moment(params.time).format('YYYY-MM-DD HH:mm:ss')
+            params.time = dayjs(params.time).format('YYYY-MM-DD HH:mm:ss')
             response = await updateRule(params)
             if (response) {
               message.success('操作成功！')

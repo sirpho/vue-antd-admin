@@ -5,7 +5,7 @@
     <!--    <a-input v-model:value="formState.name" />-->
     <!--  </a-form-item>-->
     <!--</a-form>-->
-    <g-pro-form
+    <g-pro-form-light
       :model="formState"
       :formRef="e => formRef = e"
       :rules="rules"
@@ -33,7 +33,7 @@
           placeholder="请输入名称"
         />
       </g-pro-form-group>
-    </g-pro-form>
+    </g-pro-form-light>
   </g-pro-page-wrapper>
 </template>
 

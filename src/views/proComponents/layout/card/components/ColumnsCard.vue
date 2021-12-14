@@ -8,14 +8,14 @@
     通过卡片切分能力我们很容易实现左右分栏的效果，很适合左侧是列表，右侧是详情的结构。
   </div>
   <div class="gx-markdown-demo">
-    <w-pro-card split="vertical">
-      <w-pro-card title="左侧详情" colSpan="30%">
+    <g-pro-card split="vertical">
+      <g-pro-card title="左侧详情" colSpan="30%">
         左侧内容
-      </w-pro-card>
-      <w-pro-card title="左右分栏子卡片带标题" headerBordered>
+      </g-pro-card>
+      <g-pro-card title="左右分栏子卡片带标题" headerBordered>
         <div style="height: 360px">右侧内容</div>
-      </w-pro-card>
-    </w-pro-card>
+      </g-pro-card>
+    </g-pro-card>
   </div>
 </template>
 

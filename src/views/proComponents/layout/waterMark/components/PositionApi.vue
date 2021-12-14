@@ -21,36 +21,40 @@
         :dataSource="tableData"
         :row-key="(record) => record.sortIndex"
       >
-        <template #name="{ record }">
-          <a>{{ record.name }}</a>
+        <template #headerCell="{ column }">
+          <template v-if="column.dataIndex === 'createdAt'">
+            创建时间
+            <a-tooltip placement="top" title="这是一段描述">
+              <QuestionCircleOutlined style="margin-left: 4px" />
+            </a-tooltip>
+          </template>
         </template>
-        <template #createdAtTitle>
-          创建时间
-          <a-tooltip placement="top" title="这是一段描述">
-            <QuestionCircleOutlined style="margin-left: 4px" />
-          </a-tooltip>
-        </template>
-        <template #action>
-          <a-space align="center">
-            <a key="link">链路</a>
-            <a key="link2">报警</a>
-            <a key="link3">监控</a>
-            <a-dropdown>
-              <a @click.prevent>
-                <EllipsisOutlined />
-              </a>
-              <template #overlay>
-                <a-menu>
-                  <a-menu-item>
-                    复制
-                  </a-menu-item>
-                  <a-menu-item>
-                    删除
-                  </a-menu-item>
-                </a-menu>
-              </template>
-            </a-dropdown>
-          </a-space>
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.dataIndex === 'name'">
+            <a>{{ record.name }}</a>
+          </template>
+          <template v-if="column.dataIndex === 'action'">
+            <a-space align="center">
+              <a key="link">链路</a>
+              <a key="link2">报警</a>
+              <a key="link3">监控</a>
+              <a-dropdown>
+                <a @click.prevent>
+                  <EllipsisOutlined />
+                </a>
+                <template #overlay>
+                  <a-menu>
+                    <a-menu-item>
+                      复制
+                    </a-menu-item>
+                    <a-menu-item>
+                      删除
+                    </a-menu-item>
+                  </a-menu>
+                </template>
+              </a-dropdown>
+            </a-space>
+          </template>
         </template>
       </g-pro-table>
     </g-pro-watermark>

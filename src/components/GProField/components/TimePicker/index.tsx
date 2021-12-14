@@ -1,6 +1,7 @@
 import { ref } from 'vue'
+import type { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import { TimePicker } from 'ant-design-vue'
-import moment from 'moment'
 import { getPrefixCls, parseValueToMoment, FieldLabel } from '@gx-design/pro-utils'
 import type { ProFieldFC } from '../../index'
 
@@ -12,7 +13,17 @@ import type { ProFieldFC } from '../../index'
 const FieldTimePicker: ProFieldFC<{
   text: string | number;
   format: string;
-}> = ({ text, mode, light, label, format, render, renderFormItem, plain, fieldProps }) => {
+}> = ({
+  text,
+  mode,
+  light,
+  label,
+  format,
+  render,
+  renderFormItem,
+  plain,
+  fieldProps
+}) => {
   const prefixCls = getPrefixCls({
     suffixCls: 'field-date-picker',
     isPor: true
@@ -24,12 +35,12 @@ const FieldTimePicker: ProFieldFC<{
   }
   const finalFormat = fieldProps?.format || format || 'HH:mm:ss'
 
-  const isNumberOrMoment = moment.isMoment(text) || typeof text === 'number'
+  const isNumberOrMoment = dayjs.isDayjs(text) || typeof text === 'number'
 
   if (mode === 'read') {
     const dom = (
       <span>
-        {text ? moment(text, isNumberOrMoment ? undefined : finalFormat).format(finalFormat) : '-'}
+        {text ? dayjs(text, isNumberOrMoment ? undefined : finalFormat).format(finalFormat) : '-'}
       </span>
     )
     if (render) {
@@ -40,7 +51,7 @@ const FieldTimePicker: ProFieldFC<{
   if (mode === 'edit' || mode === 'update') {
     let dom
     const { disabled, onChange, placeholder, allowClear, value } = fieldProps
-    const momentValue = parseValueToMoment(value, finalFormat) as moment.Moment
+    const momentValue = parseValueToMoment(value, finalFormat) as Dayjs
     if (light) {
       const valueStr: string = (momentValue && momentValue.format(finalFormat)) || ''
       dom = (
@@ -106,10 +117,10 @@ const FieldTimeRangePicker: ProFieldFC<{
 }> = ({ text, mode, format, render, renderFormItem, plain, fieldProps }) => {
   const [ startText, endText ] = Array.isArray(text) ? text : []
   const parsedStartText: string = startText
-    ? moment(startText).format(fieldProps?.format || format || 'YYYY-MM-DD')
+    ? dayjs(startText).format(fieldProps?.format || format || 'YYYY-MM-DD')
     : ''
   const parsedEndText: string = endText
-    ? moment(endText).format(fieldProps?.format || format || 'YYYY-MM-DD')
+    ? dayjs(endText).format(fieldProps?.format || format || 'YYYY-MM-DD')
     : ''
 
   if (mode === 'read') {
@@ -126,7 +137,7 @@ const FieldTimeRangePicker: ProFieldFC<{
   }
   if (mode === 'edit' || mode === 'update') {
     const { value } = fieldProps
-    const momentValue = parseValueToMoment(value) as moment.Moment[]
+    const momentValue = parseValueToMoment(value) as Dayjs[]
 
     const dom = (
       <TimePicker.RangePicker

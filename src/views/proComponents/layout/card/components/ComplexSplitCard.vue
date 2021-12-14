@@ -28,15 +28,15 @@
               <g-pro-card title="历史试验总数">134 个</g-pro-card>
             </g-pro-card>
           </g-pro-card>
-          <w-pro-card title="流量趋势">
+          <g-pro-card title="流量趋势">
             <div>图表</div>
             <div>图表</div>
             <div>图表</div>
             <div>图表</div>
             <div>图表</div>
-          </w-pro-card>
+          </g-pro-card>
         </g-pro-card>
-        <w-pro-card title="流量占用情况">右侧内容</w-pro-card>
+        <g-pro-card title="流量占用情况">右侧内容</g-pro-card>
       </g-pro-card>
     </ResizeObserver>
   </div>

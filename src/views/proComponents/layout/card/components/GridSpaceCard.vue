@@ -15,22 +15,22 @@
     <span class="gx-markdown-code">[水平间距, 垂直间距][16, { xs: 8, sm: 16, md: 24, lg: 32 }]</span>。
   </div>
   <div class="gx-markdown-demo">
-    <w-pro-card :wrap="isMobile" :gutter="[16, 16]">
-      <w-pro-card :colSpan="isMobile ? '100%' : '30%'" title="title" headerBordered bordered>
+    <g-pro-card :wrap="isMobile" :gutter="[16, 16]">
+      <g-pro-card :colSpan="isMobile ? '100%' : '30%'" title="title" headerBordered bordered>
         300px
-      </w-pro-card>
-      <w-pro-card bordered>Auto</w-pro-card>
-    </w-pro-card>
-    <w-pro-card :wrap="isMobile" :gutter="[{ xs: 8, sm: 8, md: 16, lg: 24, xl: 32 }, 16]" style="margin-top: 16px">
-      <w-pro-card bordered>Responsive</w-pro-card>
-      <w-pro-card bordered>Responsive</w-pro-card>
-      <w-pro-card bordered>Responsive</w-pro-card>
-    </w-pro-card>
-    <w-pro-card :wrap="isMobile" :gutter="16" style="margin-top: 16px">
-      <w-pro-card bordered>Auto</w-pro-card>
-      <w-pro-card bordered>Auto</w-pro-card>
-      <w-pro-card bordered>Auto</w-pro-card>
-    </w-pro-card>
+      </g-pro-card>
+      <g-pro-card bordered>Auto</g-pro-card>
+    </g-pro-card>
+    <g-pro-card :wrap="isMobile" :gutter="[{ xs: 8, sm: 8, md: 16, lg: 24, xl: 32 }, 16]" style="margin-top: 16px">
+      <g-pro-card bordered>Responsive</g-pro-card>
+      <g-pro-card bordered>Responsive</g-pro-card>
+      <g-pro-card bordered>Responsive</g-pro-card>
+    </g-pro-card>
+    <g-pro-card :wrap="isMobile" :gutter="16" style="margin-top: 16px">
+      <g-pro-card bordered>Auto</g-pro-card>
+      <g-pro-card bordered>Auto</g-pro-card>
+      <g-pro-card bordered>Auto</g-pro-card>
+    </g-pro-card>
   </div>
 </template>
 

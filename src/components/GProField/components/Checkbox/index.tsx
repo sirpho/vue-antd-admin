@@ -65,7 +65,7 @@ const FieldCheckbox = defineComponent({
           }, {})
           : undefined
 
-        dom = proFieldParsingText(rest.text, ObjToMap(rest.valueEnum || optionsValueEnum))
+        dom = proFieldParsingText(rest.text as string, ObjToMap(rest.valueEnum || optionsValueEnum))
 
         if (render) {
           return render(rest.text, { mode, ...rest.fieldProps }, <>{dom}</>) || null
@@ -77,6 +77,7 @@ const FieldCheckbox = defineComponent({
         const dom = (
           <a-checkbox-group
             {...rest.fieldProps}
+            value={rest.fieldProps.value || []}
             class={{
               [`${prefixCls}-${layout}`]: true,
               [`${rest.fieldProps?.class}`]: rest.fieldProps?.class

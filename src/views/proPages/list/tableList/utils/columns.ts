@@ -7,7 +7,6 @@ export default {
         valueType: 'text',
         placeholder: '请输入规则名称'
       },
-      slots: { title: 'nameTitle', customRender: 'name' }
     },
     {
       title: '描述',
@@ -27,7 +26,6 @@ export default {
       },
       dataIndex: 'callNo',
       sorter: true,
-      slots: { customRender: 'callNo' }
     },
     {
       title: '状态',
@@ -55,7 +53,6 @@ export default {
         placeholder: '请选择状态'
       },
       dataIndex: 'status',
-      slots: { customRender: 'status' }
     },
     {
       title: '上次调度时间',
@@ -73,7 +70,6 @@ export default {
       title: '操作',
       width: 180,
       dataIndex: 'action',
-      slots: { customRender: 'action' }
     }
   ]
 }

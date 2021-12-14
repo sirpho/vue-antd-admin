@@ -60,11 +60,13 @@
         :dataSource="basicProgress"
         :columns="progressColumns"
       >
-        <template #status="{ text }">
-          <a-badge
-            :status="text === 'success' ? 'success' : 'processing'"
-            :text="text === 'success' ? '成功' : '进行中'"
-          />
+        <template #bodyCell="{ column, text }">
+          <template v-if="column.dataIndex === 'status'">
+            <a-badge
+              :status="text === 'success' ? 'success' : 'processing'"
+              :text="text === 'success' ? '成功' : '进行中'"
+            />
+          </template>
         </template>
       </g-pro-table>
     </a-card>

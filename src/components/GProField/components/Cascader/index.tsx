@@ -53,7 +53,7 @@ const FieldCascader = defineComponent({
           }, {})
           : undefined
 
-        dom = <>{proFieldParsingText(rest.text, ObjToMap(rest.valueEnum || optionsValueEnum))}</>
+        dom = <>{proFieldParsingText(rest.text as string, ObjToMap(rest.valueEnum || optionsValueEnum))}</>
 
         if (render) {
           return render(rest.text, { mode, ...rest.fieldProps }, dom) || null
@@ -71,7 +71,7 @@ const FieldCascader = defineComponent({
                 [`${prefixCls}`]: true,
                 [`${rest.fieldProps?.class}`]: rest.fieldProps?.class
               }}
-              options={getResOptionsRef.value}
+              options={getResOptionsRef.value || []}
             />
           </a-spin>
         )

@@ -124,7 +124,7 @@ const Highlight: FunctionalComponent<{
 
 export const fieldSelectProps = {
   ...proFieldPropsType,
-  text: PropTypes.string,
+  text: [ String, Array, Number, Object ],
   valueEnum: [ Object, Map ] as PropType<ProFieldValueEnumType>,
   request: Function as PropType<ProFieldRequestData>,
   params: PropTypes.any,
@@ -171,7 +171,7 @@ const FieldSelect = defineComponent({
       const dom = (
         <>
           {proFieldParsingText(
-            rest.text,
+            rest.text as string,
             ObjToMap(valueEnum || optionsValueEnum.value) as unknown as ProSchemaValueEnumObj
           )}
         </>

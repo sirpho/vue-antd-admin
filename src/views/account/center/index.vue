@@ -10,7 +10,7 @@
         >
           <div v-if="!loading && currentUser">
             <div :class="$style.avatarHolder">
-              <img :src="currentUser.avatar" alt="">
+              <img :src="currentUser.avatar" alt=""/>
               <div :class="$style.name">{{ currentUser.name }}</div>
               <div>{{ currentUser?.signature }}</div>
             </div>
@@ -69,7 +69,7 @@
           :activeTabKey="tabKey"
           @tabChange="handleTabChange"
         >
-          <template #customRender="item">
+          <template #customTab="item">
             <span>
               {{ item.name }} <span style="font-size: 14px">(30)</span>
             </span>

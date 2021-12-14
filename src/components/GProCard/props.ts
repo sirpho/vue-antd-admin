@@ -58,7 +58,7 @@ export const cardProps = {
     default: () => false
   },
   colSpan: {
-    type: [ Object, Number ] as PropType<ColSpanType | Partial<Record<Breakpoint, ColSpanType>>>,
+    type: [ Object, Number, String ] as PropType<ColSpanType | Partial<Record<Breakpoint, ColSpanType>>>,
     default: () => undefined
   },
   gutter: {

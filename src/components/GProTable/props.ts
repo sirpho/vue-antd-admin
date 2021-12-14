@@ -157,9 +157,9 @@ export const proTableProps = {
   },
   params: Object as PropType<DefaultRecordType>,
   search: Object as PropType<searchPorps>,
-  actionRef: Object as PropType<ProCoreActionType>,
+  actionRef: Function as PropType<ProCoreActionType>,
   toolBarBtn: {
-    type: [ Array, Function, Object ] as PropType<WithFalse<() => CustomRender>>,
+    type: [ Array, Function, Object, Boolean ] as PropType<WithFalse<() => CustomRender>>,
     default: () => undefined
   },
   tableClassName: String as PropType<String>,

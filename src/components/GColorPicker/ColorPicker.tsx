@@ -5,12 +5,11 @@ import {
   computed,
   toRef,
   watchEffect,
-  Transition,
   Ref,
   watch,
   nextTick
 } from 'vue'
-import { useIsMounted, useMergedState, onClickOutside } from '@gx-design/pro-hooks/core'
+import { useMergedState, onClickOutside } from '@gx-design/pro-hooks/core'
 import type { OnUpdateValueImpl } from '@gx-design/pro-utils'
 import { call, getPrefixCls } from '@gx-design/pro-utils'
 import { colorPickerPanelProps } from './props'
@@ -511,14 +510,7 @@ export default defineComponent({
       )
     }
 
-    const renderContent = () => (
-      <Transition
-        name="fade-in-scale-up-transition"
-        appear={useIsMounted().value}
-      >
-        {renderPanel()}
-      </Transition>
-    )
+    const renderContent = () => renderPanel()
 
     return () => {
       return (

@@ -3,8 +3,7 @@ export default {
     {
       title: '应用名称',
       align: 'center',
-      dataIndex: 'name',
-      slots: { customRender: 'name' }
+      dataIndex: 'name'
     },
     {
       title: '容器数量',
@@ -25,9 +24,7 @@ export default {
     {
       width: 140,
       dataIndex: 'createdAt',
-      key: 'createdAt',
-      sorter: (a, b) => a.createdAt - b.createdAt,
-      slots: { title: 'createdAtTitle' }
+      sorter: (a, b) => a.createdAt - b.createdAt
     },
     {
       title: '备注',
@@ -38,8 +35,7 @@ export default {
     {
       title: '操作',
       width: 180,
-      key: 'action',
-      slots: { customRender: 'action' }
+      dataIndex: 'action'
     }
   ],
   parameter: [

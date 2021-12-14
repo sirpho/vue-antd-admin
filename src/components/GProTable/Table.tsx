@@ -18,7 +18,7 @@ import {
   FullscreenExitOutlined,
   InfoCircleOutlined
 } from '@ant-design/icons-vue'
-import Nodata from '/@/assets/public_image/nodata.png'
+import Nodata from '/@/assets/public_images/nodata.png'
 import { hanndleField } from '/@/utils/util'
 import { isBoolean, isNum, isObject } from '/@/utils/validate'
 import { getPrefixCls, getPropsSlot } from '@gx-design/pro-utils'
@@ -83,11 +83,17 @@ const GProTable = defineComponent({
       return { ...cloneDeep(props) } as ProTableProps
     })
     const propsColumnsRef = computed(() => {
-      return cloneDeep(props.columns).map(column => {
+      return cloneDeep(props.columns).map((column, index) => {
         if (column.dataIndex !== 'action')
-          column.resizable = isBoolean(column.resizable)
-            ? column.resizable
-            : (isNum(column.width) && props.draggabled ? true : false)
+          if (index === 0 || index === (props.columns.length - 1)) {
+            column.resizable = false
+          } else {
+            column.resizable = isBoolean(column.resizable)
+              ? column.resizable
+              : (isNum(column.width) && props.draggabled
+                ? true : false)
+          }
+
         return column
       })
     })

@@ -11,7 +11,7 @@ export default [
       return builder(getRequestToken(request), {
         data: {
           name: 'gx12358',
-          avatar: 'https://zbbf9-hw.ahtv.cn/ahtv-obs/20210811/a8247f9a-1e29-8482-3902-5b50573e15e2.jpg',
+          avatar: 'https://ahtv-obs.obs.cn-north-4.myhuaweicloud.com/20211111162748.jpg',
           userid: '00000001',
           email: '2539306317@qq.com',
           signature: '海纳百川，有容乃大',

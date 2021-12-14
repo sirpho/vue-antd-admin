@@ -212,11 +212,13 @@
             :dataSource="item.tableData"
             :columns="columns"
           >
-            <template #status="{ text }">
-              <a-badge
-                :status="text === 'agree' ? 'success' : 'error'"
-                :text="text === 'agree' ? '成功' : '驳回'"
-              />
+            <template #bodyCell="{ column, text }">
+              <template v-if="column.dataIndex === 'status'">
+                <a-badge
+                  :status="text === 'agree' ? 'success' : 'error'"
+                  :text="text === 'agree' ? '成功' : '驳回'"
+                />
+              </template>
             </template>
           </g-pro-table>
         </template>

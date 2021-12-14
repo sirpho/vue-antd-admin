@@ -2,7 +2,6 @@ import type { CSSProperties } from 'vue'
 import {
   computed,
   defineComponent,
-  onMounted,
   ref,
   watch,
   Teleport,
@@ -15,7 +14,7 @@ import {
   getScrollContainer,
   isInContainer
 } from '@gx-design/pro-utils'
-import { useEventListener } from '@gx-design/pro-hooks/core'
+import { useEventListener, onMountedOrActivated } from '@gx-design/pro-hooks/core'
 import { useThrottleFn } from '@gx-design/pro-hooks/shared'
 import { isString } from '/@/utils/validate'
 import ImageViewer from './components/ImageViewer'
@@ -184,7 +183,7 @@ const GImage = defineComponent({
           'scroll',
           lazyLoadHandler
         )
-        setTimeout(() => handleLazyLoad(), 100)
+        setTimeout(() => handleLazyLoad(), 200)
       }
     }
 
@@ -252,7 +251,7 @@ const GImage = defineComponent({
       }
     })
 
-    onMounted(() => {
+    onMountedOrActivated(() => {
       if (props.lazy) {
         addLazyLoadListener()
       } else {

@@ -12,12 +12,12 @@
   </div>
   <div class="gx-markdown-demo">
     <ResizeObserver key="resize-observer" :onResize="({ width }) => { setResponsive(width < 596) }">
-      <w-pro-card
+      <g-pro-card
         :split="responsive ? 'horizontal' : 'vertical'"
         bordered
         :style="isMobile ? undefined : { height: '320px'}"
       >
-        <w-pro-card :colSpan="responsive ? 24 : 6">
+        <g-pro-card :colSpan="responsive ? 24 : 6">
           <a-steps
             style="height: 100%"
             :direction="responsive ? 'horizontal' : 'vertical'"
@@ -30,8 +30,8 @@
             <a-step title="配置部署和调度" />
             <a-step title="预览" />
           </a-steps>
-        </w-pro-card>
-        <w-pro-card title="流量占用情况" :colSpan="responsive ? 24 : 18">
+        </g-pro-card>
+        <g-pro-card title="流量占用情况" :colSpan="responsive ? 24 : 18">
           <a-space>
             <a-button
               key="primary"
@@ -45,8 +45,8 @@
               上一步
             </a-button>
           </a-space>
-        </w-pro-card>
-      </w-pro-card>
+        </g-pro-card>
+      </g-pro-card>
     </ResizeObserver>
   </div>
 </template>

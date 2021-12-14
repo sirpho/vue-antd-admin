@@ -2,17 +2,20 @@
   <g-pro-page-wrapper>
     <g-pro-table
       row-key="menuId"
+      draggabled
       :showIndex="false"
       :columns="columns"
       :data-source="tableData"
       :pagination="pagination"
       :loading="loading"
     >
-      <template #menuType="{ text }">
-        {{ menuTypeList[text] || '-' }}
-      </template>
-      <template #visible="{ text }">
-        {{ text === '0' ? '显示' : '隐藏' }}
+      <template #bodyCell="{ column, text }">
+        <template v-if="column.dataIndex === 'menuType'">
+          {{ menuTypeList[text] || '-' }}
+        </template>
+        <template v-if="column.dataIndex === 'visible'">
+          {{ text === '0' ? '显示' : '隐藏' }}
+        </template>
       </template>
     </g-pro-table>
   </g-pro-page-wrapper>

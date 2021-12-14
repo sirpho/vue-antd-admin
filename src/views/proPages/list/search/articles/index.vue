@@ -108,9 +108,9 @@
               </template>
               <template #description>
                 <span>
-                  <Tag>Ant Design</Tag>
-                  <Tag>设计语言</Tag>
-                  <Tag>蚂蚁金服</Tag>
+                  <a-tag>Ant Design</a-tag>
+                  <a-tag>设计语言</a-tag>
+                  <a-tag>蚂蚁金服</a-tag>
                 </span>
               </template>
             </a-list-item-meta>

@@ -1,4 +1,4 @@
-import { Slots } from 'vue'
+import { Fragment, Slots } from 'vue'
 import { camelize } from '@vue/shared'
 
 import LabelIconTip from './components/LabelIconTip'
@@ -220,6 +220,13 @@ export function set<Entity = any, Output = Entity, Value = any>(
 
   return internalSet(entity, paths, value, removeIfUndefined)
 }
+
+export const getSlotChildren = (slots, name = 'default') => (
+  slots[name]?.()[0].type === Fragment ||
+  String(slots[name]?.()[0].type) === String(Symbol())
+)
+  ? slots[name]?.()[0].children || []
+  : slots[name]?.() || []
 
 /** Type */
 export * from './typings'

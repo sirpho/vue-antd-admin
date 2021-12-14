@@ -4,8 +4,7 @@
       <div style="height: 729px; min-height: 729px;">
         <div style="height: 100%">
           <FlowChartToolbar :prefixCls="prefixCls" @view-data="handlePreview" />
-          <div ref="lfElRef" style="height: 100%" />
-          <JsonPreview ref="jsonRef" />
+          <div ref="lfElRef" style="height: 100%" ></div>
         </div>
       </div>
     </a-card>
@@ -35,7 +34,6 @@ export default defineComponent({
     const prefixCls = 'flow-chart'
     
     const lfElRef = ref(null)
-    const jsonRef: Ref<any> = ref(null)
     const graphData = ref({})
     const lfInstance = ref(null) as Ref<LogicFlow | null>
     createFlowChartContext({
@@ -113,7 +111,6 @@ export default defineComponent({
     
     return {
       lfElRef,
-      jsonRef,
       prefixCls,
       handlePreview
     }

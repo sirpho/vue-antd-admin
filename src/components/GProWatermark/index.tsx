@@ -116,13 +116,13 @@ const GPorWaterMark = defineComponent({
         <div
           class={waterMakrCls.value}
           style={{
-            zIndex: props.zIndex,
+            zIndex: Number(props.zIndex),
             position: 'absolute',
             left: 0,
             top: 0,
             width: '100%',
             height: '100%',
-            backgroundSize: `${props.gapX + props.width}px`,
+            backgroundSize: `${Number(props.gapX) + Number(props.width)}px`,
             pointerEvents: 'none',
             backgroundRepeat: 'repeat',
             backgroundImage: `url('${base64Url.value}')`,

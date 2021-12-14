@@ -25,7 +25,7 @@
             <Applications ref="applications" v-if="item.key === 'applications'" />
           </a-card>
         </a-tab-pane>
-        <template #tabBarExtraContent>
+        <template #rightExtra>
           <RedoOutlined
             @click="refreshData(tabActiveKey)"
             style="font-size: 18px;color: #8c8c8c;cursor: pointer;"

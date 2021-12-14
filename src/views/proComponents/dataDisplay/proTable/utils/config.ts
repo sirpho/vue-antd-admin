@@ -112,8 +112,7 @@ export default {
       name: 'name',
       valueType: 'text',
       placeholder: '请输入'
-    },
-    slots: { title: 'FullName', customRender: 'name' }
+    }
   },
   { title: 'Age', dataIndex: 'age', key: 'age', width: 150 },
   { title: 'Column 1', dataIndex: 'address', key: '1', width: 150 },
@@ -128,7 +127,7 @@ export default {
     width: 150,
     copyable: true,
     key: 'operation',
-    slots: { customRender: 'action' }
+    dataIndex: 'operation'
   }
 ]`,
   searchData: [
