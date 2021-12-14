@@ -153,7 +153,7 @@ const SettingDrawer = defineComponent({
             </div>
           }
         >
-          <div style={{ height: `${innerHeight.value}px` }}>
+          <div style={{ height: `${innerHeight.value - 34 * 2}px` }}>
             <g-bars>
               <div class={`${baseClassName}-content`}>
                 <Body title="整体风格设置" className={baseClassName}>
