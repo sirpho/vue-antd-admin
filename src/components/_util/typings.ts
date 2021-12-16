@@ -87,7 +87,7 @@ export type SearchTransformKeyFn = (
   value: any,
   field: string,
   object: any
-) => string | Record<string, any>;
+) => string | RecordType;
 
 export type ProSchemaValueEnumMap = Map<string | number, ProSchemaValueEnumType | VueNode>;
 
@@ -209,7 +209,7 @@ export type ProSchemaComponentTypes =
   | undefined;
 
 /** 各个组件公共支持的 render */
-export type ProSchema<Entity = Record<string, any>,
+export type ProSchema<Entity = RecordType,
   ExtraProps = unknown,
   ComponentsType = ProSchemaComponentTypes,
   ValueType = 'text',
@@ -312,7 +312,7 @@ export type ProSchema<Entity = Record<string, any>,
   /** @name 从服务器请求枚举 */
   request?: ProFieldRequestData;
   /** @name 从服务器请求的参数，改变了会触发 reload */
-  params?: Record<string, any>;
+  params?: RecordType;
   /** @name 依赖字段的name，暂时只在拥有 request 的项目中生效，会自动注入到 params 中 */
   dependencies?: NamePath[];
 

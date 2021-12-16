@@ -100,37 +100,6 @@ export const getScrollContainer = (
   return parent
 }
 
-export const isInContainer = (
-  el: HTMLElement,
-  container: HTMLElement
-): boolean => {
-  if (isServer || !el || !container) return false
-
-  const elRect = el.getBoundingClientRect()
-  let containerRect: any
-
-  if (
-    [ window, document, document.documentElement, null, undefined ].includes(
-      container
-    )
-  ) {
-    containerRect = {
-      top: 0,
-      right: window.innerWidth,
-      bottom: window.innerHeight,
-      left: 0
-    }
-  } else {
-    containerRect = container.getBoundingClientRect()
-  }
-  return (
-    elRect.top < containerRect.bottom &&
-    elRect.bottom > containerRect.top &&
-    elRect.right > containerRect.left &&
-    elRect.left < containerRect.right
-  )
-}
-
 export interface prefixCls {
   suffixCls?: string;
   customizePrefixCls?: string;
@@ -149,11 +118,11 @@ export const getPrefixCls = ({
   return suffixCls ? `${prefixCls}-${suffixCls}` : prefixCls
 }
 
-export function getPropsSlot(slots: Slots, props: Record<string, any>, prop = 'default') {
+export function getPropsSlot(slots: Slots, props: RecordType, prop = 'default') {
   return props[prop] || slots[prop]?.()
 }
 
-export function getPropsSlotfn(slots: Slots, props: Record<string, any>, prop = 'default') {
+export function getPropsSlotfn(slots: Slots, props: RecordType, prop = 'default') {
   return props[prop] || slots[prop]
 }
 
@@ -221,7 +190,7 @@ export function set<Entity = any, Output = Entity, Value = any>(
   return internalSet(entity, paths, value, removeIfUndefined)
 }
 
-export const getSlotChildren = (slots, name = 'default') => (
+export const getSlotChildren = (slots, name = 'default') => slots[name]?.().length === 1 && (
   slots[name]?.()[0].type === Fragment ||
   String(slots[name]?.()[0].type) === String(Symbol())
 )
@@ -235,6 +204,8 @@ export type {
   MaybeArray,
   ProRequestData
 }
+
+export { noteOnce } from 'ant-design-vue/es/vc-util/warning'
 
 export {
   isServer,
@@ -259,5 +230,4 @@ export {
   parseValueToMoment,
   transformKeySubmitValue,
   throttleByAnimationFrame
-
 }

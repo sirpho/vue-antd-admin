@@ -74,12 +74,16 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           replacement: pathResolve('src/components/GProCard') + '/'
         },
         {
-          find: '@gx/pro-upload',
+          find: '@gx-design/upload',
           replacement: pathResolve('src/components/GUpload') + '/'
         },
         {
-          find: '@gx-design/pro-field',
+          find: '@gx-pro/pro-field',
           replacement: pathResolve('src/components/GProField') + '/index.tsx'
+        },
+        {
+          find: '@gx-pro/pro-form',
+          replacement: pathResolve('src/components/GProForm') + '/index.tsx'
         },
         {
           find: '@gx-design/pro-utils',

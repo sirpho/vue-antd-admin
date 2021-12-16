@@ -49,7 +49,7 @@ type ProSchemaValueType<ValueType> = (ValueType | ProFieldValueType);
 
 type ProSchemaValueFormat<ValueType> = (ValueType | ProFieldValueFormat);
 
-export type ProSearchConfig<Entity = Record<string, any>,
+export type ProSearchConfig<Entity = RecordType,
   ValueType = 'text',
   ValueFormat = 'date',
   > = {
@@ -76,7 +76,7 @@ export type ProSearchConfig<Entity = Record<string, any>,
   loading?: boolean;
   /** valueType为date|dateMonth|dateRange|time生效 */
   renderExtraFooter?: (mode: 'date' | 'time' | 'year' | 'month' | 'decade') => any;
-  showTime?: Record<string, any> | boolean;
+  showTime?: RecordType | boolean;
   /** 搜索表单的默认值 */
   initialValue?: any;
   /**

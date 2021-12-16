@@ -9,11 +9,11 @@ import type { ColumnsState } from '../components/ActionColumns'
 
 export function useColumns(
   propsRef: ComputedRef<ProTableProps>,
-  propsColumnsRef: ComputedRef<ProColumns<DefaultRecordType>[] | ColumnsType<DefaultRecordType>[]>,
+  propsColumnsRef: ComputedRef<ProColumns<RecordType>[] | ColumnsType<RecordType>[]>,
   screensRef: Ref<Partial<Record<Breakpoint, boolean>>>,
   emit: EmitType
 ) {
-  const columnsRef = ref(unref(propsRef).columns) as unknown as Ref<ProColumns<DefaultRecordType>[]>
+  const columnsRef = ref(unref(propsRef).columns) as unknown as Ref<ProColumns<RecordType>[]>
   const actionColumsRef = ref(unref(propsRef).columns) as unknown as Ref<ColumnsState[]>
   let cacheColumns: any = unref(propsRef).columns
 
@@ -64,7 +64,7 @@ export function useColumns(
   )
 
   function resizeColumnWidth (w, col) {
-    let newColumns: ProColumns<DefaultRecordType>[] = cloneDeep(columnsRef.value)
+    let newColumns: ProColumns<RecordType>[] = cloneDeep(columnsRef.value)
 
     newColumns = newColumns.map(item => {
       if (item.uuid === col.uuid) {
@@ -76,8 +76,8 @@ export function useColumns(
     columnsRef.value = cloneDeep(newColumns)
   }
 
-  function setColumns(columnList: ProColumns<DefaultRecordType>[]) {
-    const columns: ProColumns<DefaultRecordType>[] = []
+  function setColumns(columnList: ProColumns<RecordType>[]) {
+    const columns: ProColumns<RecordType>[] = []
     if (!isArray(columns)) return
 
     if (columnList.length <= 0) {
@@ -89,7 +89,7 @@ export function useColumns(
   }
 
   function setActionColumns(columnList: ColumnsState[], type) {
-    const columns: ProColumns<DefaultRecordType>[] = []
+    const columns: ProColumns<RecordType>[] = []
     if (!isArray(columnList)) return
 
     if (columnList.length <= 0) {
@@ -102,7 +102,7 @@ export function useColumns(
         unref(cacheColumns).map(item => {
           columnList.map(el => {
             if (el.uuid === item.uuid) {
-              const record: ProColumns<DefaultRecordType> = cloneDeep(item)
+              const record: ProColumns<RecordType> = cloneDeep(item)
               switch (el.fixType) {
                 case 'fixedLeft':
                   record.fixed = 'left'
@@ -220,8 +220,8 @@ function handleActionsColumn(columns: any[]) {
 function handleActionColumn(
   propsRef: ComputedRef<ProTableProps>,
   screensRef: Ref<Partial<Record<Breakpoint, boolean>>>,
-  columns: ProColumns<DefaultRecordType>[] | ColumnsState[],
-  cacheColumns: ProColumns<DefaultRecordType>[],
+  columns: ProColumns<RecordType>[] | ColumnsState[],
+  cacheColumns: ProColumns<RecordType>[],
   type?: boolean
 ) {
   const { automaticScroll, scroll, neverScroll } = unref(propsRef)
@@ -280,11 +280,11 @@ function handleActionColumn(
 
 function handleShowIndex(
   propsRef: ComputedRef<ProTableProps>,
-  columns: ProColumns<DefaultRecordType>[]
+  columns: ProColumns<RecordType>[]
 ) {
   const { showIndex, align } = unref(propsRef)
   if (showIndex && columns.every(column => column.dataIndex !== 'sortIndex')) {
-    const firstColumsItem: ProColumns<DefaultRecordType> = columns[0]
+    const firstColumsItem: ProColumns<RecordType> = columns[0]
     columns.unshift({
       title: '序号',
       originAlign: '',
@@ -299,10 +299,10 @@ function handleShowIndex(
   }
 }
 
-function sortFixedColumn(columns: ProColumns<DefaultRecordType>[], columnList: ProColumns<DefaultRecordType>[] | ColumnsState[]) {
-  const fixedLeftColumns: ProColumns<DefaultRecordType>[] = []
-  const fixedRightColumns: ProColumns<DefaultRecordType>[] = []
-  const defColumns: ProColumns<DefaultRecordType>[] = []
+function sortFixedColumn(columns: ProColumns<RecordType>[], columnList: ProColumns<RecordType>[] | ColumnsState[]) {
+  const fixedLeftColumns: ProColumns<RecordType>[] = []
+  const fixedRightColumns: ProColumns<RecordType>[] = []
+  const defColumns: ProColumns<RecordType>[] = []
   columns.map(item => {
     columnList.map(el => {
       if (el.uuid === item.uuid) {

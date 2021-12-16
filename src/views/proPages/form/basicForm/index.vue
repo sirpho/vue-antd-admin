@@ -242,9 +242,9 @@ export default defineComponent({
 }
 
 .gx-form-item-tooltip {
+  margin-inline-start: 4px;
   color: #00000073;
   cursor: help;
   writing-mode: horizontal-tb;
-  margin-inline-start: 4px;
 }
 </style>

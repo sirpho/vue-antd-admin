@@ -53,7 +53,7 @@ export interface DescriptionsItemProps {
   span?: number;
 }
 
-export type ProDescriptionsItemProps<T = Record<string, any>, ValueType = 'text'> = ProSchema<T,
+export type ProDescriptionsItemProps<T = RecordType, ValueType = 'text'> = ProSchema<T,
   Omit<DescriptionsItemProps, 'children'> & {
   // 隐藏这个字段，是个语法糖，方便一下权限的控制
   hide?: boolean;

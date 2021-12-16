@@ -29,7 +29,7 @@ import type { ColumnsState } from './components/ActionColumns'
 
 export const tableProps = {
   prefixCls: { type: String as PropType<string>, default: undefined },
-  columns: { type: Array as PropType<ProColumns<DefaultRecordType>[]>, default: undefined },
+  columns: { type: Array as PropType<ProColumns<RecordType>[]>, default: undefined },
   rowKey: { type: [ String, Function ] as PropType<TableProps['rowKey']>, default: undefined },
   tableLayout: { type: String as PropType<TableProps['tableLayout']>, default: undefined },
   rowClassName: {
@@ -155,7 +155,7 @@ export const proTableProps = {
     type: Number as PropType<number>,
     default: 20
   },
-  params: Object as PropType<DefaultRecordType>,
+  params: Object as PropType<RecordType>,
   search: Object as PropType<searchPorps>,
   actionRef: Function as PropType<ProCoreActionType>,
   toolBarBtn: {

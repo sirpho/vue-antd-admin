@@ -1,24 +1,47 @@
-import type { Ref, WatchSource } from 'vue'
-import { ref, watch } from 'vue'
+import {
+  computed,
+  ref,
+  Ref,
+  watch,
+  ComputedRef,
+  WritableComputedRef
+} from 'vue'
 
-export function useMemo<T>(
-  getValue: () => T,
-  condition: (WatchSource<unknown> | object)[],
-  shouldUpdate?: (prev: any[], next: any[]) => boolean
-) {
-  const cacheRef: Ref<T> = ref(getValue() as any)
-  watch(() => condition, (next, pre) => {
-    if (shouldUpdate) {
-      if (shouldUpdate(next, pre)) {
-        cacheRef.value = getValue()
-      }
-    } else {
-      cacheRef.value = getValue()
-    }
-  }, {
-    deep: true,
-    immediate: true
-  })
+type MemoGetter<T> = () => T
+type MemoSetter<T> = (v: T) => void
 
-  return cacheRef
+interface WritableMemoOptions<T> {
+  get: MemoGetter<T>
+  set: MemoSetter<T>
 }
+
+function useMemo<T> (getter: MemoGetter<T>): ComputedRef<T>
+function useMemo<T> (options: WritableMemoOptions<T>): WritableComputedRef<T>
+function useMemo<T> (
+  getterOrOptions: MemoGetter<T> | WritableMemoOptions<T>
+): ComputedRef<T> | WritableComputedRef<T> {
+  const computedValueRef = computed(getterOrOptions as any) as
+    | WritableComputedRef<T>
+    | ComputedRef<T>
+  // Maybe it's not possible to lazy evaluate the value, since we can't make
+  // render phase capture the deps behind useMemo
+  const valueRef = ref(computedValueRef.value) as Ref<T>
+  watch(computedValueRef, (value) => {
+    valueRef.value = value
+  })
+  if (typeof getterOrOptions === 'function') {
+    return valueRef as ComputedRef<T>
+  } else {
+    return ({
+      __v_isRef: true,
+      get value () {
+        return valueRef.value
+      },
+      set value (v: T) {
+        (getterOrOptions as WritableMemoOptions<T>).set(v)
+      }
+    } as unknown) as WritableComputedRef<T>
+  }
+}
+
+export default useMemo

@@ -4,7 +4,7 @@ import { ColSpanType } from '../components/TableSearch'
 
 export type ProFieldEmptyText = string | false;
 
-export type ParamsType = Record<string, any>;
+export type ParamsType = RecordType;
 
 export declare type SortOrder = 'descend' | 'ascend' | null;
 
@@ -12,7 +12,7 @@ export type RequestData = {
   data: any[] | undefined;
   success?: boolean;
   total?: number;
-} & Record<string, any>;
+} & RecordType;
 
 export type requsetConfig = (
   params: {

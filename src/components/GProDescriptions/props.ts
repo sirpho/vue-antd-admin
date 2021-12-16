@@ -38,10 +38,10 @@ export const proDescriptionsProps = {
     type: Function as PropType<(e: Error) => void>
   },
   request: {
-    type: Function as PropType<(params: Record<string, any>) => Promise<any>>
+    type: Function as PropType<(params: RecordType) => Promise<any>>
   },
   columns: {
-    type: Array as PropType<ProDescriptionsItemProps<Record<string, any>, string>[]>
+    type: Array as PropType<ProDescriptionsItemProps<RecordType, string>[]>
   },
   actionRef: Function as PropType<ProCoreActionType>,
   loading: PropTypes.bool,
@@ -51,5 +51,5 @@ export const proDescriptionsProps = {
   formProps: Object as PropType<FormProps>,
   editable: Object as PropType<RowEditableConfig<Record<string, any>>>,
   dataSource: Array as PropType<Record<string, any>>,
-  onDataSourceChange: Function as PropType<(value: Record<string, any>) => void>
+  onDataSourceChange: Function as PropType<(value: RecordType) => void>
 }

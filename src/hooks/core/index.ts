@@ -4,11 +4,12 @@ export * from './onMountedOrActivated'
 export * from './useResizeObserver'
 export * from './useEventListener'
 export * from './useTimeout'
-export * from './useMemo'
+import useMemo from './useMemo'
 export * from './useMergedState'
 export * from './useIsMounted'
 export * from './onClickOutside'
 
 export {
+  useMemo,
   useEffect
 }

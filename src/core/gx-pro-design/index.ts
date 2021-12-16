@@ -9,13 +9,7 @@ import {
   GProCard,
   GProCardGroup,
   GProCardDivider,
-  GProCardTabPane,
-  GProField,
-  GProForm,
-  ProFormItem,
-  ProFormText,
-  ProFormGroup,
-  LightFilter
+  GProCardTabPane
 } from '/@/components'
 
 const gxProDesign = (app) => {
@@ -30,14 +24,7 @@ const gxProDesign = (app) => {
   app.component('g-pro-table', GProTable)
   // pro-modal
   app.component('g-pro-modal', GProModal)
-  // pro-field
-  app.component('g-pro-field', GProField)
-  // pro-form
-  app.component('g-pro-form', GProForm)
-  app.component('g-pro-form-light', LightFilter)
-  app.component('g-pro-form-group', ProFormGroup)
-  app.component('g-pro-form-item', ProFormItem)
-  app.component('g-pro-form-text', ProFormText)
+
   // pro-skeleton
   app.component('g-pro-skeleton', GProSkeleton)
   app.component('g-pro-watermark', GProWatermark)

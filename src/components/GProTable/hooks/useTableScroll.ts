@@ -5,7 +5,7 @@ import type { ProColumns } from '../types/column'
 export function useTableScroll(
   propsRef: ComputedRef<ProTableProps>,
   screensRef: Ref<Partial<Record<Breakpoint, boolean>>>,
-  columnsRef: ComputedRef<ProColumns<DefaultRecordType>[]>
+  columnsRef: ComputedRef<ProColumns<RecordType>[]>
 ) {
   const getScrollX = computed(() => {
     const { rowSelection } = unref(propsRef)

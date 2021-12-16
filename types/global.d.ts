@@ -5,8 +5,8 @@ import type {
   VNodeChild,
   ComponentPublicInstance,
   FunctionalComponent,
-  PropType as VuePropType,
-} from 'vue';
+  PropType as VuePropType
+} from 'vue'
 
 declare global {
   const __APP_INFO__: {
@@ -17,14 +17,15 @@ declare global {
       devDependencies: Recordable<string>;
     };
     lastBuildTime: string;
-  };
+  }
 
   // vue
-  declare type DefaultRecordType = Record<string, any>;
   declare type PropType<T> = VuePropType<T>;
   declare type VueNode = VNodeChild | JSX.Element;
 
   declare type WithFalse<T> = T | false;
+
+  declare type RecordType = Record<string, any>;
 
   declare type CustomRender =
     | Slot
@@ -67,6 +68,7 @@ declare global {
   declare interface WheelEvent {
     path?: EventTarget[];
   }
+
   interface ImportMetaEnv extends ViteEnv {
     __: unknown;
   }
@@ -79,7 +81,7 @@ declare global {
     VITE_APP_ENV: string;
     VUE_APP_VERSION: string;
     VUE_APP_AUTHOR: any;
-    VITE_PROXY: [string, string][];
+    VITE_PROXY: [ string, string ][];
     VITE_USE_CDN: boolean;
     VITE_DROP_CONSOLE: boolean;
     VITE_BUILD_COMPRESS: 'gzip' | 'brotli' | 'none';
@@ -100,12 +102,15 @@ declare global {
     type Element = VNode;
     // tslint:disable no-empty-interface
     type ElementClass = ComponentRenderProxy;
+
     interface ElementAttributesProperty {
       $props: any;
     }
+
     interface IntrinsicElements {
       [elem: string]: any;
     }
+
     interface IntrinsicAttributes {
       [elem: string]: any;
     }
@@ -114,7 +119,7 @@ declare global {
 
 declare module 'vue' {
   export type JSXComponent<Props = any> =
-    | { new (): ComponentPublicInstance<Props> }
+    | { new(): ComponentPublicInstance<Props> }
     | FunctionalComponent<Props>;
 }
 

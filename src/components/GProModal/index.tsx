@@ -1,6 +1,6 @@
 import {
   computed,
-  defineComponent,
+  defineComponent, ExtractPropTypes,
   onUnmounted,
   ref,
   watchEffect
@@ -105,25 +105,30 @@ export const modalProps = {
   focusTriggerAfterClose: PropTypes.looseBool
 }
 
-export default defineComponent({
-  props: {
-    ...modalProps,
-    isFail: PropTypes.bool,
-    skeletonLoading: PropTypes.bool,
-    fixHeight: PropTypes.bool.def(true),
-    spinning: PropTypes.bool,
-    spinningTip: {
-      type: String,
-      default: ''
-    },
-    contentStyle: PropTypes.style,
-    draggable: PropTypes.bool.def(true),
-    showClose: PropTypes.bool.def(true),
-    showDefaultFooter: PropTypes.bool.def(false),
-    fullscreen: PropTypes.bool.def(true),
-    content: PropTypes.VNodeChild,
-    extra: PropTypes.VNodeChild
+export const proModalProps = {
+  ...modalProps,
+  isFail: PropTypes.bool,
+  skeletonLoading: PropTypes.bool,
+  fixHeight: PropTypes.bool.def(true),
+  spinning: PropTypes.bool,
+  spinningTip: {
+    type: String,
+    default: ''
   },
+  contentStyle: PropTypes.style,
+  draggable: PropTypes.bool.def(true),
+  showClose: PropTypes.bool.def(true),
+  showDefaultFooter: PropTypes.bool.def(false),
+  fullscreen: PropTypes.bool.def(true),
+  content: PropTypes.VNodeChild,
+  extra: PropTypes.VNodeChild
+}
+
+export type ModalProps = Partial<ExtractPropTypes<typeof modalProps>>;
+export type ProModalProps = Partial<ExtractPropTypes<typeof proModalProps>>;
+
+export default defineComponent({
+  props: proModalProps,
   setup(props, { emit, slots, attrs }) {
     const modalClassName = getPrefixCls({
       suffixCls: 'modal',
@@ -196,6 +201,16 @@ export default defineComponent({
     const renderContentSlot = () => {
       return getPropsSlot(slots, props, 'content')
     }
+    const renderSlotContent = () => {
+      return slots.content
+        ? renderSolt()
+        : (
+          <>
+            {renderContentSlot()}
+            {renderSolt()}
+          </>
+        )
+    }
     const renderContent = () => {
       const extraRender = getPropsSlot(slots, props, 'extra')
       return (
@@ -212,27 +227,23 @@ export default defineComponent({
               <div class={`${modalClassName}-spinning-content`} />
             )
             : null}
-          {props.skeletonLoading
-            ? (
-              <div class={`${modalClassName}-skeleton`}>
+          {props.skeletonLoading && (
+            <div class={`${modalClassName}-skeleton`} style={{ marginTop: `${props.title ? '' : '55px'}` }}>
+              <a-skeleton loading={props.skeletonLoading} active />
+              <a-skeleton loading={props.skeletonLoading} active />
+              {props.fixHeight && (
                 <a-skeleton loading={props.skeletonLoading} active />
-                <a-skeleton loading={props.skeletonLoading} active />
-                {props.fixHeight && (
-                  <a-skeleton loading={props.skeletonLoading} active />
-                )}
-              </div>
-            )
-            : props.isFail
-              ? <a-empty className={`${modalClassName}-error-warp`} image={Nodata} />
-              : slots.content
-                ? renderSolt()
-                : (
-                  <>
-                    {renderContentSlot()}
-                    {renderSolt()}
-                  </>
-                )
-          }
+              )}
+            </div>
+          )}
+          {props.isFail && <a-empty className={`${modalClassName}-error-warp`} image={Nodata} />}
+          <div class={{
+            [`${modalClassName}-grid`]: true,
+            [`${modalClassName}-grid-active`]: props.skeletonLoading || props.isFail
+          }}
+          >
+            {renderSlotContent()}
+          </div>
           {extraRender}
         </div>
       )

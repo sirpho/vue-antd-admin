@@ -55,8 +55,7 @@
     :columns="proTable"
     :dataSource="proTableData"
     :row-key="(record) => record.attributes"
-  >
-  </g-pro-table>
+  />
 </template>
 
 <script lang="ts">

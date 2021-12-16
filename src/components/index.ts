@@ -25,14 +25,6 @@ export {
   Divider as GProCardDivider,
   TabPane as GProCardTabPane
 } from './GProCard/ProCard'
-export { default as GProField } from './GProField'
-export {
-  default as GProForm,
-  ProFormItem,
-  ProFormText,
-  ProFormGroup,
-  LightFilter
-} from './GProForm'
 
 // gx-admin-组件
 export { default as GTagSelect } from './GTagSelect'

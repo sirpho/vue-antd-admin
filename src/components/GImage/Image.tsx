@@ -4,26 +4,18 @@ import {
   defineComponent,
   ref,
   watch,
-  Teleport,
-  nextTick
+  Teleport
 } from 'vue'
 import {
   isServer,
   getPrefixCls,
-  getPropsSlot,
-  getScrollContainer,
-  isInContainer
+  getPropsSlot
 } from '@gx-design/pro-utils'
 import { useEventListener, onMountedOrActivated } from '@gx-design/pro-hooks/core'
-import { useThrottleFn } from '@gx-design/pro-hooks/shared'
-import { isString } from '/@/utils/validate'
 import ImageViewer from './components/ImageViewer'
 import { gImagePorps } from './props'
 
 import './style.less'
-
-const isHtmlElement = (e: any): e is Element =>
-  e && e.nodeType === Node.ELEMENT_NODE
 
 const isSupportObjectFit = () => document.documentElement.style.objectFit !== undefined
 
@@ -54,8 +46,6 @@ const GImage = defineComponent({
     const showViewer = ref(false)
     const container = ref<any>(null)
 
-    const _scrollContainer = ref<any>()
-    let stopScrollListener: () => void
     let stopWheelListener: () => void
 
     const imageWidthHeightStyle = computed(() => {
@@ -152,48 +142,6 @@ const GImage = defineComponent({
       img.src = props.src
     }
 
-    function handleLazyLoad() {
-      if (isInContainer(container.value, _scrollContainer.value)) {
-        loadImage()
-        removeLazyLoadListener()
-      }
-    }
-
-    const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200)
-
-    const addLazyLoadListener = async () => {
-      if (isServer) return
-
-      await nextTick()
-
-      const { scrollContainer } = props
-
-      if (isHtmlElement(scrollContainer)) {
-        _scrollContainer.value = scrollContainer
-      } else if (isString(scrollContainer) && scrollContainer !== '') {
-        _scrollContainer.value =
-          document.querySelector<HTMLElement>(scrollContainer) ?? undefined
-      } else if (container.value) {
-        _scrollContainer.value = getScrollContainer(container.value)
-      }
-
-      if (_scrollContainer.value) {
-        stopScrollListener = useEventListener(
-          _scrollContainer,
-          'scroll',
-          lazyLoadHandler
-        )
-        setTimeout(() => handleLazyLoad(), 200)
-      }
-    }
-
-    const removeLazyLoadListener = () => {
-      if (isServer || !_scrollContainer.value || !lazyLoadHandler) return
-
-      stopScrollListener()
-      _scrollContainer.value = undefined
-    }
-
     const handleLoad = (_: Event, img: HTMLImageElement) => {
       imgWidth.value = img.width
       imgHeight.value = img.height
@@ -225,7 +173,7 @@ const GImage = defineComponent({
       }
 
       stopWheelListener = useEventListener('wheel', wheelHandler, {
-        passive: false,
+        passive: false
       })
 
       prevOverflow = document.body.style.overflow
@@ -240,23 +188,11 @@ const GImage = defineComponent({
     }
 
     watch(() => props.src, () => {
-      if (props.lazy) {
-        // reset status
-        loading.value = true
-        hasLoadError.value = false
-        removeLazyLoadListener()
-        addLazyLoadListener()
-      } else {
-        loadImage()
-      }
+      loadImage()
     })
 
     onMountedOrActivated(() => {
-      if (props.lazy) {
-        addLazyLoadListener()
-      } else {
-        loadImage()
-      }
+      loadImage()
     })
 
     return () => {
@@ -272,8 +208,7 @@ const GImage = defineComponent({
             }}
             ref={e => container.value = e}
             style={{
-              ...(getAttrs.value.style || {}) as CSSProperties,
-              display: props.lazy ? 'block': undefined
+              ...(getAttrs.value.style || {}) as CSSProperties
             }}
             onClick={() => { emit('click') }}
           >

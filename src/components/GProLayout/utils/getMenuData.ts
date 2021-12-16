@@ -4,12 +4,12 @@ export { clearMenuItem, flatMap, getMenuFirstChildren } from './index'
 
 export type MenuData = {
   menuData: RouteRecordRaw[];
-  breadcrumb: Record<string, any>;
+  breadcrumb: RecordType;
 };
 
 const formatRelativePath = (
   routes: RouteRecordRaw[],
-  breadcrumb: Record<string, any>
+  breadcrumb: RecordType
 ): RouteRecordRaw[] => {
   // 计算路由绝对路径
   return routes.map(route => {
@@ -25,7 +25,7 @@ const formatRelativePath = (
 
 export const getMenuData = (routes: RouteRecordRaw[]): MenuData => {
   const childrenRoute = routes.find(route => route.path === '/')
-  const breadcrumb: Record<string, any> = {}
+  const breadcrumb: RecordType = {}
   return {
     menuData: formatRelativePath(childrenRoute?.children || ([] as RouteRecordRaw[]), breadcrumb),
     breadcrumb

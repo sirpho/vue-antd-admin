@@ -1,15 +1,16 @@
-import { computed, onMounted, reactive, watch } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { useTimeoutFn } from '/@/hooks/core/useTimeout'
 
 export type ProRequestData<T, U = Record<string, any>> = (params: U, props: any) => Promise<T>;
 
-export default function useFetchData<T, U extends Record<string, any> = Record<string, any>>(props: {
+export default function useFetchData<T, U extends RecordType = Record<string, any>>(props: {
   model?: any;
   changeModelRef?: any;
   params?: U;
   request?: ProRequestData<T, U>;
 }) {
+  const loading = ref(false)
   const modelRef = reactive({})
   const requestData = reactive({})
 
@@ -22,9 +23,11 @@ export default function useFetchData<T, U extends Record<string, any> = Record<s
   })
 
   const fetchData = async () => {
+    loading.value = true
     const loadData = await props.request?.(props.params as U, props)
     Object.assign(modelRef, loadData || {})
     Object.assign(requestData, loadData || {})
+    loading.value = false
   }
 
   watch(
@@ -64,6 +67,7 @@ export default function useFetchData<T, U extends Record<string, any> = Record<s
   })
 
   return {
+    requestLoading: loading,
     getModelRef,
     getResOptionsRef,
     fetchData
