@@ -7,6 +7,36 @@
 
 GX Pro Admin 是一个免费开源的中后台模版。使用了最新的`vue3.0+`,`vite2`,`TypeScript`, `Ant Design Vue3.0+`等主流技术开发，开箱即用的中后台前端解决方案，也可用于学习参考。
 
+- 后续会陆续更新相关业务性组件和修复bug等；
+- ProComponents组件比较庞大，代码不会很快更新，不过可以通过预览演示地址查看；
+- 更新文档会在下方展示每次更新的说明；
+
+## - [ProComponents](https://procomponents.ant.design/components)
+
+Ant Design 定义了基础的设计规范，对应也提供了大量的基础组件。但是对于中后台类应用，我们希望提供更高程度的抽象，提供更上层的设计规范，并且对应提供相应的组件使得开发者可以快速搭建出高质量的页面。
+
+在 ProComponents 中我们内置了一系列的设计规范，预设了常用的逻辑。在这个基础上我们同样提供了灵活的支持，比如对于 ProTable 来说你也可以把它完全当做 Ant Design 的 Table 来用，对于 ProForm 来说你也可以直接使用 Ant Design 的基础组件或者你的自定义组件。我们希望通过 Pro 系列组件提供快速高效大家高质量中后台应用的能力，进一步扩展 Ant Design 的能力，欢迎使用并提出宝贵的意见。
+
+- ProLayout - 高级布局
+- ProCard 高级卡片
+- WaterMark 水印组件
+- ProForm 高级表单（已完成60%，待开发中）
+- ProTable - 高级表格
+- ProSkeleton - 骨屏架
+- ProField - 原子组件
+- GUpload - 上传组件（自定义request、上传进度条回显等功能）
+- GImage - 图片组件（lazy懒加载等功能）
+- [更多组件待开发-参考React版本](https://procomponents.ant.design/components)
+
+## 预览
+
+- [🚀 pro 版演示地址](http://121.36.16.172:9000/ahtvWeb)
+
+## 更新文档
+
+- feat - 高级表单（完成60%）
+- fix - 相关bug
+
 ## 特性
 
 - **最新技术栈**：使用 Vue3/vite2 等前端前沿技术开发
@@ -15,10 +45,6 @@ GX Pro Admin 是一个免费开源的中后台模版。使用了最新的`vue3.0
 - **Mock 数据** 内置 Mock 数据方案
 - **权限** 内置完善的动态路由权限生成方案
 - **组件** 二次封装了多个常用的组件
-
-## 预览
-
-- [🚀 pro 版演示地址](http://121.36.16.172:9000/ahtvWeb)
 
 测试账号: admin/123456
 
