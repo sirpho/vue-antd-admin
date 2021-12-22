@@ -34,7 +34,7 @@
     "@logicflow/core": "^0.6.16",
     "@logicflow/extension": "^0.6.16",
     "animate.css": "^4.1.1",
-    "ant-design-vue": "3.0.0-alpha.13",
+    "ant-design-vue": "3.0.0-alpha.16",
     "axios": "^0.22.0",
     "body-parser": "^1.19.0",
     "chalk": "^4.1.2",

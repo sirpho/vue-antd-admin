@@ -5,6 +5,8 @@
  * For details, please see
  * https://pro.ant.design/docs/deploy
  */
+import defaultSettings from './defaultSettings'
+
 export function createProxy(prefix) {
   const ret = {
     dev: {},
@@ -12,7 +14,7 @@ export function createProxy(prefix) {
     pre: {}
   }
   const proxy = {
-    target: `http://localhost:9999${prefix}`,
+    target: `${defaultSettings.proxyTarget}`,
     changeOrigin: true,
     ws: true,
     rewrite: (path) => path.replace(new RegExp(`^${prefix}`), '')

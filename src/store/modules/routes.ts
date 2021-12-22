@@ -79,21 +79,24 @@ const actions = {
    */
   async setAllRoutes({ commit }) {
     commit('setMeunLoading', true)
-    const { data } = await getRouterList()
-    const notFoundRouter = {
-      path: '/:path(.*)*',
-      redirect: '/exception/404',
-      hidden: true
+    const response = await getRouterList()
+    if (response) {
+      const notFoundRouter = {
+        path: '/:path(.*)*',
+        redirect: '/exception/404',
+        hidden: true
+      }
+      const rootMenu = getRootMenu(response?.data || [])
+      const asyncRoutes = generator(rootMenu)
+      asyncRoutes[0].children = [ ...asyncRoutes[0].children, ...basicRoutes ]
+      const haveHomePage = getLevelData(asyncRoutes[0].children)
+        .find(item => item.meta ? item.meta.homePage === 1 : false)
+      asyncRoutes[0].redirect = haveHomePage ? haveHomePage.path : getFirstLastChild(asyncRoutes[0].children)
+      asyncRoutes.push(notFoundRouter)
+      commit('setRoutes', asyncRoutes)
+      return [ ...asyncRoutes ]
     }
-    const rootMenu = getRootMenu(data)
-    const asyncRoutes = generator(rootMenu)
-    asyncRoutes[0].children = [ ...asyncRoutes[0].children, ...basicRoutes ]
-    const haveHomePage = getLevelData(asyncRoutes[0].children)
-      .find(item => item.meta ? item.meta.homePage === 1 : false)
-    asyncRoutes[0].redirect = haveHomePage ? haveHomePage.path : getFirstLastChild(asyncRoutes[0].children)
-    asyncRoutes.push(notFoundRouter)
-    commit('setRoutes', asyncRoutes)
-    return [ ...asyncRoutes ]
+    return false
   },
   /**
    * @author gx12358 2539306317@qq.com

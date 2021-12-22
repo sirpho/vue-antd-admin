@@ -91,6 +91,7 @@ export type ProSearchConfig<Entity = RecordType,
 
 export interface ProColumns<RecordType> extends ColumnsType<RecordType> {
   originAlign?: string;
+  sortOrder?: boolean;
   uuid?: string;
   fixType?: 'nofixed' | 'fixedLeft' | 'fixedRight';
   checked?: boolean;

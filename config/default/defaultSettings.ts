@@ -26,6 +26,8 @@ const defaultSettings: settingConfig = {
   viewScrollRoot: '#gx-pro-admin>.gx-scrollbar>.gx-scrollbar-wrap',
   //开启cdn
   useCdn: true,
+  // proxy target
+  proxyTarget: 'http://localhost:9999',
   //开发环境端口号
   devPort: 9999,
   //pro版本copyright可随意修改

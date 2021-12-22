@@ -53,11 +53,23 @@ router.beforeEach(async (to, _, next) => {
           } else if (authentication === 'all') {
             accessRoutes = await store.dispatch('routes/setAllRoutes')
           }
-          accessRoutes.forEach((item) => {
-            router.addRoute(item)
-          })
-          store.dispatch('routes/setMeunLoading', false)
-          next({ ...to, replace: true })
+          if (accessRoutes) {
+            accessRoutes.forEach((item) => {
+              router.addRoute(item)
+            })
+            store.dispatch('routes/setMeunLoading', false)
+            next({ ...to, replace: true })
+          } else {
+            await store.dispatch('user/resetAll')
+            store.dispatch('routes/setMeunLoading', false)
+            if (recordRoute)
+              next({
+                path: '/user/login',
+                query: { redirect: to.path },
+                replace: true
+              })
+            else next({ path: '/user/login', replace: true })
+          }
           NProgress.done()
         } catch (e) {
           await store.dispatch('user/resetAll')
@@ -73,6 +85,7 @@ router.beforeEach(async (to, _, next) => {
       }
     }
   } else {
+    await store.dispatch('user/resetAll')
     if (routesWhiteList.indexOf(to.path) !== -1) {
       next()
     } else {

@@ -284,7 +284,7 @@ const GUpload = defineComponent({
           url: res.url,
           coverImg
         })
-        emit('change', getUrlValueRef, cloneDeep(unref(getDataValueRef)).filter(item => item.url))
+        emit('change', cloneDeep(unref(getUrlValueRef)), cloneDeep(unref(getDataValueRef)).filter(item => item.url))
       } else {
         changeDataValue(idName, {
           loadingText: '',
@@ -303,7 +303,7 @@ const GUpload = defineComponent({
         uploadLoading: false,
         url: res.url
       })
-      emit('change', getUrlValueRef, cloneDeep(unref(getDataValueRef)).filter(item => item.url))
+      emit('change', cloneDeep(unref(getUrlValueRef)), cloneDeep(unref(getDataValueRef)).filter(item => item.url))
     }
     const imageQuickEdit = (file, idName) => {
       const sizeSolt = (file.size / 1024 / 1024).toFixed(2)
@@ -383,7 +383,7 @@ const GUpload = defineComponent({
             loadingText: '',
             url: response.url
           })
-          emit('change', getUrlValueRef, cloneDeep(unref(getDataValueRef)).filter(item => item.url))
+          emit('change', cloneDeep(unref(getUrlValueRef)), cloneDeep(unref(getDataValueRef)).filter(item => item.url))
         } else {
           emit('errorRequest', response)
           changeDataValue(idName, {
@@ -400,7 +400,7 @@ const GUpload = defineComponent({
       const fileUrl = unref(getDataValueRef).find(item => item.id === idName)
       if (props.deleteBefore) await props.deleteBefore(fileUrl)
       deleteDataValue(idName)
-      emit('change', getUrlValueRef, cloneDeep(unref(getDataValueRef)).filter(item => item.url))
+      emit('change', cloneDeep(unref(getUrlValueRef)), cloneDeep(unref(getDataValueRef)).filter(item => item.url))
     }
     return () => {
       const wordExtraRender = getPropsSlot(slots, props, 'wordExtra')

@@ -1,6 +1,7 @@
 declare interface Result<T = any> extends TableResult{
   code: number;
   msg?: string;
+  message?: string;
   data?: T;
   roles?: T;
   user?: T;

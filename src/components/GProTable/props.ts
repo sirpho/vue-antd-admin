@@ -162,6 +162,10 @@ export const proTableProps = {
     type: [ Array, Function, Object, Boolean ] as PropType<WithFalse<() => CustomRender>>,
     default: () => undefined
   },
+  pageItemRender: {
+    type: [ Function, Object ] as PropType<WithFalse<() => CustomRender>>,
+    default: () => undefined
+  },
   tableClassName: String as PropType<String>,
   tableStyle: {
     type: Object as PropType<CSSProperties>
@@ -218,8 +222,9 @@ export const proTableProps = {
   refresh: Function as PropType<() => any>,
   sizeChange: Function as PropType<(size: string) => any>,
   loadingChange: Function as PropType<(loading: boolean) => any>,
-  beforeSearchSubmit: Function as PropType<(params: Partial<Record<string, any>>) => any>,
+  beforeSearchSubmit: Function as PropType<requsetConfig>,
   requestError: Function as PropType<(e: Error) => void>,
   columnsStateChange: Function as PropType<(data: ColumnsState[]) => void>,
-  postData: Function as PropType<(data: any[]) => void>
+  postData: Function as PropType<(data: any[]) => any>,
+  scrollBreakpoint: [ String, Number ] as PropType<string | number>
 }

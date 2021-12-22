@@ -160,13 +160,13 @@ export function buildMenu(list: any[]) {
       homePageFlag = 0, //是否为主页（选择后为登录后跳转改地址，不选择默认跳转 /）0:否 1:是
       isFrame = '1', //是否外链 0:是 1:否
       outLinkType = 0 //外链类型（选择是系统内则以iframe形式在系统内部展示，否则跳转新页面打开） 0:系统内 1:系统外
-    } = item.meta
+    } = item.meta ?? item
     const child = {
       title,
       level: 'tree',
-      name: item.name,
-      key: item.name,
-      icon: icon,
+      name: item.name || title,
+      key: item.name || title,
+      icon,
       iconType: iconType || 1,
       hidden: item.hidden,
       homePage: homePageFlag,
@@ -197,15 +197,26 @@ export function buildMenu(list: any[]) {
  */
 export function buildtree(list: any[], arr: any[], parentId: string | number) {
   list.forEach((item: any) => {
+    const {
+      title = '',
+      icon = '',
+      iconType = 1, //菜单图标类型 0:本地 1:自定义 2:图片
+      tagFixed = '1', //标签栏固定状态（标签栏路由地址是否固定（只有标签栏为显示转态才生效））0:是 1:否
+      tagHidden = '0', //标签栏显示状态（隐藏的路由是否显示在标签栏中（只有标签栏为显示转态才生效））0:显示 1:隐藏
+      homePageFlag = 0, //是否为主页（选择后为登录后跳转改地址，不选择默认跳转 /）0:否 1:是
+      isFrame = '1', //是否外链 0:是 1:否
+      outLinkType = 0 //外链类型（选择是系统内则以iframe形式在系统内部展示，否则跳转新页面打开） 0:系统内 1:系统外
+    } = item.meta ?? item
     if (item.parentId === parentId) {
       const child: any = {
         level: 'flat',
-        title: item.menuName,
-        name: item.menuName,
-        key: item.path,
-        icon: item.icon,
-        iconType: item.iconType || 1,
-        hidden: item.visible === '1',
+        title,
+        name: item.name || title,
+        key: item.name || title,
+        icon,
+        iconType,
+        hidden: item.hidden,
+        homePage: homePageFlag,
         path: item.path && item.path.length > 0
           ? item.path
           : undefined,
@@ -213,10 +224,10 @@ export function buildtree(list: any[], arr: any[], parentId: string | number) {
         redirect: item.redirect === 'noRedirect'
           ? ''
           : item.redirect,
-        tagFixed: item.tagFixed === '0',
-        tagHidden: item.tagHidden === '1',
-        target: item.isFrame === '0' ? item.target : '',
-        targetStatus: item.outLinkType || 0,
+        tagFixed: tagFixed === '0',
+        tagHidden: tagHidden === '1',
+        target: isFrame === '0' ? item.target : '',
+        targetStatus: outLinkType || 0,
         children: []
       }
       buildtree(list, child.children, item.menuId)

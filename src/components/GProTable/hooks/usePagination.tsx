@@ -1,9 +1,11 @@
+import type { Slots } from 'vue'
 import { computed, unref, ref, ComputedRef, watch } from 'vue'
 import { PaginationProps } from 'ant-design-vue/lib/pagination'
-import { isBoolean } from '/@/utils/validate'
+import { isBoolean, isFunction } from '/@/utils/validate'
+import { getPropsSlotfn } from '@gx-design/pro-utils'
 import { ProTableProps } from '@gx-pro/pro-table'
 
-export function usePagination(refProps: ComputedRef<ProTableProps>) {
+export function usePagination(refProps: ComputedRef<ProTableProps>, slots: Slots) {
   const configRef = ref<PaginationProps>({})
   const show = ref(unref(refProps).showPagination)
 
@@ -12,9 +14,10 @@ export function usePagination(refProps: ComputedRef<ProTableProps>) {
     (pagination) => {
       if (!isBoolean(pagination) && pagination) {
         configRef.value = {
-          ...unref(configRef),
           ...(pagination ?? {})
         }
+      } else {
+        configRef.value = {}
       }
     }
   )
@@ -28,10 +31,19 @@ export function usePagination(refProps: ComputedRef<ProTableProps>) {
 
   const getPaginationInfo = computed((): PaginationProps | boolean => {
     const { pagination } = unref(refProps)
+    const pageItemRender = getPropsSlotfn(slots, unref(refProps), 'pageItemRender')
 
     if (!unref(show) || (isBoolean(pagination) && !pagination)) {
       return false
     }
+
+    const itemRenderProps = isFunction(pageItemRender)
+      ? {
+        itemRender: ({page, type, originalElement}) => {
+          return pageItemRender({page, type, originalElement})
+        }
+      }
+      : {}
 
     return {
       current: 1,
@@ -42,7 +54,8 @@ export function usePagination(refProps: ComputedRef<ProTableProps>) {
       showSizeChanger: true,
       pageSizeOptions: [ '10', '20', '50', '100' ],
       ...(isBoolean(pagination) ? {} : pagination),
-      ...unref(configRef)
+      ...unref(configRef),
+      ...itemRenderProps
     }
   })
 

@@ -20,6 +20,7 @@ export interface settingConfig {
   waterMarkTitle: string;
   viewScrollRoot: string;
   useCdn: boolean;
+  proxyTarget: string;
   devPort: number;
   copyright: string;
   keepAliveMaxNum: number;

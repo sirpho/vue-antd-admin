@@ -229,17 +229,6 @@ export function isTel(value) {
 
 /**
  * @author gx12358 2539306317@qq.com
- * @description 判断是否为数字且最多两位小数
- * @param value
- * @returns {boolean}
- */
-export function isNum(value) {
-  const reg = /^\d+(\.\d{1,2})?$/
-  return reg.test(value)
-}
-
-/**
- * @author gx12358 2539306317@qq.com
  * @description 判断经度 -180.0～+180.0（整数部分为0～180，必须输入1到5位小数）
  * @param value
  * @returns {boolean}

@@ -1,3 +1,4 @@
+import type { Ref, ExtractPropTypes, CSSProperties, } from 'vue'
 import {
   defineComponent,
   ref,
@@ -5,12 +6,10 @@ import {
   toRaw,
   onMounted,
   computed,
-  Ref,
-  ExtractPropTypes,
-  CSSProperties
+  onUnmounted
 } from 'vue'
-import { Grid } from 'ant-design-vue'
 import { cloneDeep, omit } from 'lodash-es'
+import { Grid } from 'ant-design-vue'
 import {
   LoadingOutlined,
   ReloadOutlined,
@@ -20,7 +19,7 @@ import {
 } from '@ant-design/icons-vue'
 import Nodata from '/@/assets/public_images/nodata.png'
 import { hanndleField } from '/@/utils/util'
-import { isBoolean, isNum, isObject } from '/@/utils/validate'
+import { isBoolean, isNumber, isObject } from '/@/utils/validate'
 import { getPrefixCls, getPropsSlot } from '@gx-design/pro-utils'
 import type { OptionConfig } from './types/table'
 import { useLoading } from './hooks/useLoading'
@@ -77,6 +76,7 @@ const GProTable = defineComponent({
       isPor: true
     })
     const screens = useBreakpoint()
+    const innerWidth = ref<number>(window.innerWidth)
     const tableRef = ref<any>()
     const fullScreen: Ref<boolean> = ref(false)
     const getProps = computed(() => {
@@ -84,16 +84,14 @@ const GProTable = defineComponent({
     })
     const propsColumnsRef = computed(() => {
       return cloneDeep(props.columns).map((column, index) => {
-        if (column.dataIndex !== 'action')
-          if (index === 0 || index === (props.columns.length - 1)) {
-            column.resizable = false
-          } else {
-            column.resizable = isBoolean(column.resizable)
-              ? column.resizable
-              : (isNum(column.width) && props.draggabled
-                ? true : false)
-          }
-
+        if (column.dataIndex === 'action' || index === (props.columns.length - 1)) {
+          column.resizable = false
+        } else {
+          column.resizable = isBoolean(column.resizable)
+            ? column.resizable
+            : (isNumber(column.width) && props.draggabled
+              ? true : false)
+        }
         return column
       })
     })
@@ -103,7 +101,7 @@ const GProTable = defineComponent({
     const {
       getPaginationInfo,
       setPagination
-    } = usePagination(getProps)
+    } = usePagination(getProps, slots)
     const {
       getViewColumns,
       setColumns,
@@ -112,7 +110,13 @@ const GProTable = defineComponent({
       getColumnsRef,
       setActionColumns,
       getActionColumsRef
-    } = useColumns(getProps, propsColumnsRef, screens, emit)
+    } = useColumns({
+      propsRef: getProps,
+      propsColumnsRef,
+      screensRef: screens,
+      innerWidth,
+      emit,
+    })
     const {
       getFormParamsRef,
       getFormDataRef,
@@ -141,11 +145,12 @@ const GProTable = defineComponent({
       },
       emit
     )
-    const { getScrollRef } = useTableScroll(
-      getProps,
-      screens,
-      getColumnsRef
-    )
+    const { getScrollRef } = useTableScroll({
+      propsRef: getProps,
+      screensRef: screens,
+      columnsRef: getColumnsRef,
+      innerWidth
+    })
     const getActionsList = computed(() => unref(getActionColumsRef))
     const getOptionsRef = computed(() => {
       if (props.options) {
@@ -158,8 +163,23 @@ const GProTable = defineComponent({
       return {}
     })
     onMounted(() => {
+      window.addEventListener('resize', getWidth)
       if (props.actionRef) getProTable()
     })
+
+    onUnmounted(() => {
+      window.removeEventListener('resize', getWidth)
+    })
+
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/12/22
+     * @lastTime    2021/12/22
+     * @description 监听屏幕宽度
+     */
+    const getWidth = () => {
+      innerWidth.value = window.innerWidth
+    }
     /**
      * @Author      gx12358
      * @DateTime    2021/7/16
@@ -312,6 +332,10 @@ const GProTable = defineComponent({
      * @description ant-table原始方法
      */
     const changePage = async (pagination, filters, sorter) => {
+      setPagination({
+        current: pagination.pageNum,
+        pageSize: pagination.pageSize
+      })
       handleTableChange(pagination, filters, sorter)
     }
     const expandedRowsChange = (expandedRows) => {

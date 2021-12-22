@@ -2,17 +2,26 @@ import { ComputedRef, unref, computed, ref, Ref, watch } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import type { ProTableProps } from '@gx-pro/pro-table'
 import { getRandomNumber } from '/@/utils/util'
-import { isArray } from '/@/utils/validate'
+import { isArray, isNumber, isString } from '/@/utils/validate'
 import type { ColumnsType } from '../typings'
 import type { ProColumns } from '../types/column'
 import type { ColumnsState } from '../components/ActionColumns'
 
-export function useColumns(
+type useColumnsType = {
   propsRef: ComputedRef<ProTableProps>,
   propsColumnsRef: ComputedRef<ProColumns<RecordType>[] | ColumnsType<RecordType>[]>,
   screensRef: Ref<Partial<Record<Breakpoint, boolean>>>,
-  emit: EmitType
-) {
+  emit: EmitType,
+  innerWidth: Ref<number>
+}
+
+export function useColumns({
+  propsRef,
+  propsColumnsRef,
+  screensRef,
+  innerWidth,
+  emit
+}: useColumnsType) {
   const columnsRef = ref(unref(propsRef).columns) as unknown as Ref<ProColumns<RecordType>[]>
   const actionColumsRef = ref(unref(propsRef).columns) as unknown as Ref<ColumnsState[]>
   let cacheColumns: any = unref(propsRef).columns
@@ -28,7 +37,14 @@ export function useColumns(
 
   const getActionColumsRef = computed(() => {
     const columns = cloneDeep(unref(actionColumsRef))
-    cloneDeep(handleActionColumn(propsRef, screensRef, columns, cloneDeep(cacheColumns), true))
+    cloneDeep(handleActionColumn({
+      propsRef,
+      screensRef,
+      columns,
+      innerWidth,
+      cacheColumns: cloneDeep(cacheColumns),
+      type: true
+    }))
     return columns
   })
 
@@ -37,7 +53,13 @@ export function useColumns(
 
     const columns = cloneDeep(viewColumns)
 
-    cloneDeep(handleActionColumn(propsRef, screensRef, columns, cloneDeep(cacheColumns)))
+    cloneDeep(handleActionColumn({
+      propsRef,
+      screensRef,
+      columns,
+      innerWidth,
+      cacheColumns: cloneDeep(cacheColumns)
+    }))
 
     return columns
       .filter((column) => column.checked || column.checked === undefined)
@@ -63,7 +85,7 @@ export function useColumns(
     }
   )
 
-  function resizeColumnWidth (w, col) {
+  function resizeColumnWidth(w, col) {
     let newColumns: ProColumns<RecordType>[] = cloneDeep(columnsRef.value)
 
     newColumns = newColumns.map(item => {
@@ -217,15 +239,26 @@ function handleActionsColumn(columns: any[]) {
   })
 }
 
-function handleActionColumn(
+function handleActionColumn({
+  propsRef,
+  screensRef,
+  columns,
+  cacheColumns,
+  innerWidth,
+  type
+} : {
   propsRef: ComputedRef<ProTableProps>,
   screensRef: Ref<Partial<Record<Breakpoint, boolean>>>,
   columns: ProColumns<RecordType>[] | ColumnsState[],
   cacheColumns: ProColumns<RecordType>[],
+  innerWidth: Ref<number>,
   type?: boolean
-) {
-  const { automaticScroll, scroll, neverScroll } = unref(propsRef)
-  const { xl } = screensRef.value
+} ) {
+  const { automaticScroll, scroll, neverScroll, scrollBreakpoint } = unref(propsRef)
+  let breakpoint = screensRef.value?.xl
+  if (scrollBreakpoint) breakpoint = isNumber(scrollBreakpoint)
+    ? innerWidth.value > scrollBreakpoint
+    : isString(scrollBreakpoint) ? screensRef.value?.[scrollBreakpoint] : breakpoint
   columns.map(item => {
     if (!item.width || item.dataIndex === 'action') {
       if (item.dataIndex === 'action' && !neverScroll) {
@@ -254,7 +287,7 @@ function handleActionColumn(
               item.width = item.width || 100
               item.fixed = 'right'
             }
-          } else if (!xl) {
+          } else if (!breakpoint) {
             if (type) {
               item.fixType = 'fixedRight'
             } else {

@@ -25,8 +25,8 @@ interface ActionType {
   getPaginationInfo: ComputedRef<boolean | PaginationProps>;
   setPagination: (info: Partial<PaginationProps>) => void;
   setLoading: (loading: boolean) => void;
-  setColumns: (columnList: Partial<ProColumns>[]) => void;
-  getViewColumns: ComputedRef<ProColumns[]>;
+  setColumns: (columnList: Partial<ProColumns<RecordType>>[]) => void;
+  getViewColumns: ComputedRef<ProColumns<RecordType>[]>;
   getFormParamsRef: ComputedRef<Recordable>;
 }
 
@@ -79,7 +79,7 @@ export function useFetchData(
     () => unref(propsRef).dataSource,
     () => {
       const { dataSource, request } = unref(propsRef)
-      !request && dataSource && setList(dataSource)
+      !request && setList(dataSource || [])
     },
     {
       immediate: true
@@ -238,8 +238,6 @@ export function useFetchData(
           resultItems = (await postData(resultItems)) || resultItems
         }
         setDataAndLoading(resultItems, {
-          current: actionParams.pageNum,
-          pageSize: actionParams.pageSize,
           total: response.total || 0
         })
         return resultItems

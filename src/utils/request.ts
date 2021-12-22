@@ -11,6 +11,7 @@ import { AxiosCanceler } from './axios/axiosCancel'
 
 export interface CreateAxiosOptions extends AxiosRequestConfig {
   headers?: any;
+  customize?: boolean;
   isHttpsUrl?: string;
   ignoreCancelToken?: boolean;
 }
@@ -102,19 +103,24 @@ instance.interceptors.request.use(
  */
 instance.interceptors.response.use(
   (response: AxiosResponse<any>) => {
-    response && axiosCanceler.removePending(response.config)
+    response && axiosCanceler.removePending(response.config as CreateAxiosOptions)
     if (loadingInstance) loadingInstance.close()
-    const { data } = response
-    const { code, msg = '' } = data as Result
+    const { data, config }: {
+      data: any,
+      config: CreateAxiosOptions
+    } = response
+    const { code, msg = '', message = '' } = data as Result
     // 操作正常Code数组
     const codeVerificationArray: any = isArray(successCode)
       ? successCode
       : [ successCode ]
     // 是否操作正常
-    if (codeVerificationArray.includes(code)) {
+    if (config.customize) {
+      return data
+    } else if (codeVerificationArray.includes(code)) {
       return data
     } else {
-      handleCode(code, msg)
+      handleCode(code, msg || message)
       return Promise.resolve(false)
     }
   },

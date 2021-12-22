@@ -10,7 +10,8 @@ const data = [
     iconType: 1,
     menuId: 1,
     path: 'proComponents',
-    menuName: 'Pro组件',
+    title: 'Pro组件',
+    name: 'Pro组件',
     menuType: 'M',
     orderNum: '1',
     isFrame: '1',
@@ -19,9 +20,8 @@ const data = [
     perms: '',
     systemCategory: 'proComponents',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     component: 'PageView',
@@ -31,7 +31,8 @@ const data = [
     iconType: 1,
     menuId: 15,
     path: 'proPage',
-    menuName: 'Pro页面',
+    title: 'Pro页面',
+    name: 'Pro页面',
     menuType: 'M',
     orderNum: '1',
     isFrame: '1',
@@ -40,9 +41,8 @@ const data = [
     perms: '',
     systemCategory: 'proComponents',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     component: 'PageView',
@@ -52,7 +52,8 @@ const data = [
     iconType: 1,
     menuId: 2,
     path: 'account',
-    menuName: '个人页',
+    title: '个人页',
+    name: '个人页',
     menuType: 'M',
     orderNum: '2',
     isFrame: '1',
@@ -61,9 +62,8 @@ const data = [
     perms: '',
     systemCategory: 'account',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     component: 'PageView',
@@ -73,7 +73,8 @@ const data = [
     iconType: 1,
     menuId: 10,
     path: 'system',
-    menuName: '系统配置',
+    title: '系统配置',
+    name: '系统配置',
     menuType: 'M',
     orderNum: '3',
     isFrame: '1',
@@ -82,9 +83,8 @@ const data = [
     perms: '',
     systemCategory: 'system',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   // 二级菜单
   {
@@ -95,7 +95,8 @@ const data = [
     iconType: 1,
     menuId: 13,
     path: 'layout',
-    menuName: '布局',
+    title: '布局',
+    name: '布局',
     menuType: 'M',
     orderNum: '1',
     isFrame: '1',
@@ -103,9 +104,8 @@ const data = [
     parentId: 1,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     component: 'PageView',
@@ -115,7 +115,8 @@ const data = [
     iconType: 1,
     menuId: 39,
     path: 'dataEntry',
-    menuName: '数据录入',
+    title: '数据录入',
+    name: '数据录入',
     menuType: 'M',
     orderNum: '2',
     isFrame: '1',
@@ -123,7 +124,7 @@ const data = [
     parentId: 1,
     perms: '',
     target: '',
-    visible: '0',
+    hidden: false,
     outLinkType: 0,
     status: '1'
   },
@@ -135,7 +136,8 @@ const data = [
     iconType: 1,
     menuId: 3,
     path: 'dataDisplay',
-    menuName: '数据展示',
+    title: '数据展示',
+    name: '数据展示',
     menuType: 'M',
     orderNum: '3',
     isFrame: '1',
@@ -143,9 +145,8 @@ const data = [
     parentId: 1,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     component: 'PageView',
@@ -155,7 +156,8 @@ const data = [
     iconType: 1,
     menuId: 4,
     path: 'universal',
-    menuName: '通用',
+    title: '通用',
+    name: '通用',
     menuType: 'M',
     orderNum: '4',
     isFrame: '1',
@@ -163,9 +165,8 @@ const data = [
     parentId: 1,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     component: 'PageView',
@@ -175,7 +176,8 @@ const data = [
     iconType: 1,
     menuId: 16,
     path: 'form',
-    menuName: '表单页',
+    title: '表单页',
+    name: '表单页',
     menuType: 'M',
     orderNum: '1',
     isFrame: '1',
@@ -183,9 +185,8 @@ const data = [
     parentId: 15,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     component: 'PageView',
@@ -195,7 +196,8 @@ const data = [
     iconType: 1,
     menuId: 20,
     path: 'list',
-    menuName: '列表页',
+    title: '列表页',
+    name: '列表页',
     menuType: 'M',
     orderNum: '2',
     isFrame: '1',
@@ -203,9 +205,8 @@ const data = [
     parentId: 15,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     component: 'PageView',
@@ -215,7 +216,8 @@ const data = [
     iconType: 1,
     menuId: 25,
     path: 'profile',
-    menuName: '详情页',
+    title: '详情页',
+    name: '详情页',
     menuType: 'M',
     orderNum: '3',
     isFrame: '1',
@@ -223,9 +225,8 @@ const data = [
     parentId: 15,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     component: 'PageView',
@@ -235,7 +236,8 @@ const data = [
     iconType: 1,
     menuId: 28,
     path: 'result',
-    menuName: '结果页',
+    title: '结果页',
+    name: '结果页',
     menuType: 'M',
     orderNum: '4',
     isFrame: '1',
@@ -243,9 +245,8 @@ const data = [
     parentId: 15,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     component: 'PageView',
@@ -255,7 +256,8 @@ const data = [
     iconType: 1,
     menuId: 31,
     path: 'exception',
-    menuName: '异常页',
+    title: '异常页',
+    name: '异常页',
     menuType: 'M',
     orderNum: '5',
     isFrame: '1',
@@ -263,9 +265,8 @@ const data = [
     parentId: 15,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     component: 'PageView',
@@ -275,7 +276,8 @@ const data = [
     iconType: 1,
     menuId: 35,
     path: 'editor',
-    menuName: '图形编辑器',
+    title: '图形编辑器',
+    name: '图形编辑器',
     menuType: 'M',
     orderNum: '6',
     isFrame: '1',
@@ -283,9 +285,8 @@ const data = [
     parentId: 15,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     component: 'PageView',
@@ -295,7 +296,8 @@ const data = [
     iconType: 1,
     menuId: 41,
     path: 'webIframe',
-    menuName: '外部页面',
+    title: '外部页面',
+    name: '外部页面',
     menuType: 'M',
     orderNum: '7',
     isFrame: '1',
@@ -303,9 +305,8 @@ const data = [
     parentId: 15,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -313,7 +314,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 5,
     path: 'center',
-    menuName: '个人中心',
+    title: '个人中心',
+    name: '个人中心',
     menuType: 'C',
     orderNum: '1',
     isFrame: '1',
@@ -321,9 +323,8 @@ const data = [
     parentId: 2,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -331,7 +332,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 37,
     path: 'settings',
-    menuName: '个人设置',
+    title: '个人设置',
+    name: '个人设置',
     menuType: 'C',
     orderNum: '2',
     isFrame: '1',
@@ -339,9 +341,8 @@ const data = [
     parentId: 2,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -349,7 +350,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 11,
     path: 'menu',
-    menuName: '菜单管理',
+    title: '菜单管理',
+    name: '菜单管理',
     menuType: 'C',
     orderNum: '7',
     isFrame: '1',
@@ -357,9 +359,8 @@ const data = [
     parentId: 10,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   // 三级菜单
   {
@@ -369,7 +370,8 @@ const data = [
     tagFixed: '0',
     menuId: 6,
     path: 'proTable',
-    menuName: '高级表格',
+    title: '高级表格',
+    name: '高级表格',
     menuType: 'C',
     orderNum: '1',
     isFrame: '1',
@@ -377,9 +379,26 @@ const data = [
     parentId: 3,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
+  },
+  {
+    children: [],
+    component: 'proComponents/dataDisplay/proDescriptions/index',
+    createTime: '2020-06-30 22:48:57',
+    menuId: 46,
+    path: 'proDescriptions',
+    title: '高级定义列表',
+    name: '高级定义列表',
+    menuType: 'C',
+    orderNum: '2',
+    isFrame: '1',
+    params: {},
+    parentId: 3,
+    perms: '',
+    target: '',
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -387,7 +406,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 8,
     path: 'proSkeleton',
-    menuName: '骨架屏',
+    title: '骨架屏',
+    name: '骨架屏',
     menuType: 'C',
     orderNum: '1',
     isFrame: '1',
@@ -395,9 +415,26 @@ const data = [
     parentId: 4,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
+  },
+  {
+    children: [],
+    component: 'proComponents/universal/proField/index',
+    createTime: '2020-06-30 22:48:57',
+    menuId: 47,
+    path: 'proField',
+    title: '原子组件',
+    name: '原子组件',
+    menuType: 'C',
+    orderNum: '2',
+    isFrame: '1',
+    params: {},
+    parentId: 4,
+    perms: '',
+    target: '',
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -405,7 +442,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 44,
     path: 'image',
-    menuName: '图片',
+    title: '图片',
+    name: '图片',
     menuType: 'C',
     orderNum: '3',
     isFrame: '1',
@@ -413,9 +451,8 @@ const data = [
     parentId: 4,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -423,7 +460,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 7,
     path: 'iconSelector',
-    menuName: '图标选择',
+    title: '图标选择',
+    name: '图标选择',
     menuType: 'C',
     orderNum: '4',
     isFrame: '1',
@@ -431,9 +469,8 @@ const data = [
     parentId: 4,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -441,7 +478,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 14,
     path: 'waterMark',
-    menuName: '水印组件',
+    title: '水印组件',
+    name: '水印组件',
     menuType: 'C',
     orderNum: '1',
     isFrame: '1',
@@ -449,9 +487,8 @@ const data = [
     parentId: 13,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -459,7 +496,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 38,
     path: 'card',
-    menuName: '高级卡片',
+    title: '高级卡片',
+    name: '高级卡片',
     menuType: 'C',
     orderNum: '2',
     isFrame: '1',
@@ -467,17 +505,17 @@ const data = [
     parentId: 13,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
-    component: 'proComponents/dataEntry/proUpload/index',
+    component: 'proComponents/dataEntry/proForm/index',
     createTime: '2020-06-30 22:48:57',
     menuId: 45,
-    path: 'proUpload',
-    menuName: '高级上传',
+    path: 'proForm',
+    title: '高级表单',
+    name: '高级表单',
     menuType: 'C',
     orderNum: '2',
     isFrame: '1',
@@ -485,9 +523,26 @@ const data = [
     parentId: 39,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
+  },
+  {
+    children: [],
+    component: 'proComponents/dataEntry/proUpload/index',
+    createTime: '2020-06-30 22:48:57',
+    menuId: 45,
+    path: 'proUpload',
+    title: '高级上传',
+    name: '高级上传',
+    menuType: 'C',
+    orderNum: '2',
+    isFrame: '1',
+    params: {},
+    parentId: 39,
+    perms: '',
+    target: '',
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -495,7 +550,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 17,
     path: 'basicForm',
-    menuName: '基础表单',
+    title: '基础表单',
+    name: '基础表单',
     menuType: 'C',
     orderNum: '1',
     isFrame: '1',
@@ -503,9 +559,8 @@ const data = [
     parentId: 16,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -513,7 +568,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 18,
     path: 'stepForm',
-    menuName: '分布表单',
+    title: '分布表单',
+    name: '分布表单',
     menuType: 'C',
     orderNum: '2',
     isFrame: '1',
@@ -521,9 +577,8 @@ const data = [
     parentId: 16,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -531,7 +586,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 19,
     path: 'advancedForm',
-    menuName: '组合表单',
+    title: '组合表单',
+    name: '组合表单',
     menuType: 'C',
     orderNum: '2',
     isFrame: '1',
@@ -539,9 +595,8 @@ const data = [
     parentId: 16,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -549,7 +604,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 21,
     path: 'searchList',
-    menuName: '搜索列表',
+    title: '搜索列表',
+    name: '搜索列表',
     menuType: 'C',
     orderNum: '1',
     isFrame: '1',
@@ -557,9 +613,8 @@ const data = [
     parentId: 20,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -567,7 +622,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 22,
     path: 'tableList',
-    menuName: '查询表格',
+    title: '查询表格',
+    name: '查询表格',
     menuType: 'C',
     orderNum: '2',
     isFrame: '1',
@@ -575,9 +631,8 @@ const data = [
     parentId: 20,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -585,7 +640,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 23,
     path: 'basicList',
-    menuName: '标准列表',
+    title: '标准列表',
+    name: '标准列表',
     menuType: 'C',
     orderNum: '3',
     isFrame: '1',
@@ -593,9 +649,8 @@ const data = [
     parentId: 20,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -603,7 +658,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 24,
     path: 'cardList',
-    menuName: '卡片列表',
+    title: '卡片列表',
+    name: '卡片列表',
     menuType: 'C',
     orderNum: '4',
     isFrame: '1',
@@ -611,9 +667,8 @@ const data = [
     parentId: 20,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -621,7 +676,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 26,
     path: 'profileBasic',
-    menuName: '基础详情页',
+    title: '基础详情页',
+    name: '基础详情页',
     menuType: 'C',
     orderNum: '1',
     isFrame: '1',
@@ -629,9 +685,8 @@ const data = [
     parentId: 25,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -639,7 +694,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 27,
     path: 'advanced',
-    menuName: '高级详情页',
+    title: '高级详情页',
+    name: '高级详情页',
     menuType: 'C',
     orderNum: '2',
     isFrame: '1',
@@ -647,9 +703,8 @@ const data = [
     parentId: 25,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -657,7 +712,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 29,
     path: 'success',
-    menuName: '成功页',
+    title: '成功页',
+    name: '成功页',
     menuType: 'C',
     orderNum: '1',
     isFrame: '1',
@@ -665,9 +721,8 @@ const data = [
     parentId: 28,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -675,7 +730,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 30,
     path: 'fail',
-    menuName: '失败页',
+    title: '失败页',
+    name: '失败页',
     menuType: 'C',
     orderNum: '2',
     isFrame: '1',
@@ -683,9 +739,8 @@ const data = [
     parentId: 28,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -693,7 +748,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 32,
     path: '403',
-    menuName: '403',
+    title: '403',
+    name: '403',
     menuType: 'C',
     orderNum: '1',
     isFrame: '1',
@@ -701,9 +757,8 @@ const data = [
     parentId: 31,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -711,7 +766,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 33,
     path: '404',
-    menuName: '404',
+    title: '404',
+    name: '404',
     menuType: 'C',
     orderNum: '2',
     isFrame: '1',
@@ -719,9 +775,8 @@ const data = [
     parentId: 31,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -729,7 +784,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 34,
     path: '500',
-    menuName: '500',
+    title: '500',
+    name: '500',
     menuType: 'C',
     orderNum: '3',
     isFrame: '1',
@@ -737,9 +793,8 @@ const data = [
     parentId: 31,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
@@ -747,7 +802,8 @@ const data = [
     createTime: '2020-06-30 22:48:57',
     menuId: 36,
     path: 'flow',
-    menuName: '流程编辑器',
+    title: '流程编辑器',
+    name: '流程编辑器',
     menuType: 'C',
     orderNum: '3',
     isFrame: '1',
@@ -755,16 +811,16 @@ const data = [
     parentId: 35,
     perms: '',
     target: '',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
     component: 'IframeView',
     createTime: '2020-06-30 22:48:57',
     menuId: 42,
-    menuName: 'antVue文档(内嵌)',
+    title: 'antVue文档(内嵌)',
+    name: 'antVue文档(内嵌)',
     menuType: 'C',
     orderNum: '1',
     isFrame: '0',
@@ -773,16 +829,16 @@ const data = [
     perms: '',
     path: 'antVue',
     target: 'https://next.antdv.com/components/overview-cn/',
-    visible: '0',
-    outLinkType: 0,
-    status: '0'
+    hidden: false,
+    outLinkType: 0
   },
   {
     children: [],
     component: 'IframeView',
     createTime: '2020-06-30 22:48:57',
     menuId: 43,
-    menuName: 'procomponents(外链)',
+    title: 'procomponents(外链)',
+    name: 'procomponents(外链)',
     menuType: 'C',
     orderNum: '2',
     isFrame: '0',
@@ -790,9 +846,8 @@ const data = [
     parentId: 41,
     perms: '',
     target: 'https://procomponents.ant.design/',
-    visible: '0',
-    outLinkType: 1,
-    status: '0'
+    hidden: false,
+    outLinkType: 1
   }
 ]
 
