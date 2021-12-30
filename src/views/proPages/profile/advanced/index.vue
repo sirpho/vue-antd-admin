@@ -235,7 +235,7 @@ import {
   reactive,
   toRefs
 } from 'vue'
-import { Empty, Tabs, TabPane, Popover, Step, Steps, Badge, Statistic, Descriptions } from 'ant-design-vue'
+import { Empty, Tabs, Popover, Steps, Badge, Statistic, Descriptions } from 'ant-design-vue'
 import {
   DownOutlined,
   EllipsisOutlined,
@@ -252,6 +252,8 @@ type AdvancedState = {
   tabActiveKey: string;
 };
 
+const Step = Steps.Step
+const TabPane = Tabs.TabPane
 const DescriptionsItem = Descriptions.Item
 
 export default defineComponent({

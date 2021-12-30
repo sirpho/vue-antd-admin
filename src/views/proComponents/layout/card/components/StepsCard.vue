@@ -53,9 +53,11 @@
 
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue'
-import { Steps, Step } from 'ant-design-vue'
+import { Steps } from 'ant-design-vue'
 import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer'
 import useMediaQuery from '/@/hooks/event/useMediaQuery'
+
+const Step = Steps.Step
 
 export default defineComponent({
   components: { ResizeObserver, Steps, Step },

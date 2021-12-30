@@ -39,11 +39,13 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, Ref, ref } from 'vue'
-import { Tabs, TabPane } from 'ant-design-vue'
+import { Tabs } from 'ant-design-vue'
 import { RedoOutlined } from '@ant-design/icons-vue'
 import Articles from './articles/index.vue'
 import Projects from './projects/index.vue'
 import Applications from './applications/index.vue'
+
+const TabPane = Tabs.TabPane
 
 const tabList = [
   {

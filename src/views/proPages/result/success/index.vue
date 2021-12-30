@@ -66,9 +66,10 @@
 </template>
 
 <script lang="ts" setup>
-import { Result, Step, Steps, Descriptions } from 'ant-design-vue'
+import { Result, Steps, Descriptions } from 'ant-design-vue'
 import { DingdingOutlined } from '@ant-design/icons-vue'
 
+const Step = Steps.Step
 const DescriptionsItem = Descriptions.Item
 </script>
 

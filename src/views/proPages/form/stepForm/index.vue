@@ -176,13 +176,14 @@
 import { defineComponent, reactive, toRefs, onActivated, computed } from 'vue'
 import { useStore } from 'vuex'
 import { cloneDeep } from 'lodash-es'
-import { Form, Result, Step, Steps, Statistic, Descriptions } from 'ant-design-vue'
+import { Form, Result, Steps, Statistic, Descriptions } from 'ant-design-vue'
 import { getStepForm } from '/@/services/form/step'
 import { hanndleField } from '/@/utils/util'
 
 const useForm = Form.useForm
 
 const DescriptionsItem = Descriptions.Item
+const Step = Steps.Step
 
 export default defineComponent({
   components: { Result, Step, Steps, Statistic, Descriptions, DescriptionsItem },

@@ -1,12 +1,14 @@
 import type { CSSProperties, ExtractPropTypes } from 'vue'
 import { computed, defineComponent, ref } from 'vue'
-import { Tabs, TabPane, Badge } from 'ant-design-vue'
+import { Tabs, Badge } from 'ant-design-vue'
 import { BellOutlined } from '@ant-design/icons-vue'
 import { getPrefixCls } from '@gx-design/pro-utils'
 import { PropTypes } from '/@/utils'
 import NoticeList, { NoticeIconItem, NoticeIconTabProps } from './NoticeList'
 
 import './index.less'
+
+const TabPane = Tabs.TabPane
 
 export const noticeIconProps = {
   class: PropTypes.string,

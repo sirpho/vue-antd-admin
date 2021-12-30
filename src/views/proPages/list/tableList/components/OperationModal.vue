@@ -206,11 +206,12 @@
 <script lang="ts">
 import { defineComponent, reactive, toRaw, toRefs } from 'vue'
 import dayjs from 'dayjs'
-import { Form, message, Step, Steps } from 'ant-design-vue'
+import { Form, message, Steps } from 'ant-design-vue'
 import { getRuleInfo, addRule, updateRule } from '/@/services/list/table'
 import { rules, dispatchRules, formItemLayout } from '../utils/config'
 import { hanndleField } from '/@/utils/util'
 
+const Step = Steps.Step
 const useForm = Form.useForm
 
 export default defineComponent({

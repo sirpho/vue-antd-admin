@@ -14,6 +14,8 @@ import { EllipsisOutlined, ReloadOutlined, CloseOutlined } from '@ant-design/ico
 import config from '/config/config'
 import multiTabProps from './props'
 
+const TabPane = Tabs.TabPane
+
 export type MultiTabProps = Partial<ExtractPropTypes<typeof multiTabProps>>;
 
 export default defineComponent({
@@ -385,7 +387,7 @@ export default defineComponent({
           >
             {
               visitedRoutes.value.map(item => (
-                <a-tab-pane key={item.fullPath} closable={false} tab={defaultRenderTab(item)} />
+                <TabPane key={item.fullPath} closable={false} tab={defaultRenderTab(item)} />
               ))
             }
           </Tabs>
