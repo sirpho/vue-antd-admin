@@ -146,7 +146,7 @@ const TableSearch = defineComponent({
     const handleChange = (val, record) => {
       switch (record.valueType) {
         case 'text':
-          modelRef[record.name] = val.target.value || record.initialValue
+          modelRef[record.name] = val.target.value || record.initialValue || ''
           break
         case 'select':
           modelRef[record.name] = val || record.initialValue || undefined
@@ -317,7 +317,7 @@ const TableSearch = defineComponent({
                 ]
                 : null
               }
-              placeholder={record.placeholder || '请选择'}
+              placeholder={record.placeholder || ['开始日期', '结束日期']}
               format={record.format || 'YYYY-MM-DD HH:mm:ss'}
               renderExtraFooter={record.renderExtraFooter || null}
               showTime={record.showTime}

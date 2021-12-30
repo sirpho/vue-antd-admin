@@ -17,21 +17,21 @@
       </div>
     </div>
     <div :class="$style['search-content-warp']">
-      <a-tabs v-model:activeKey="tabActiveKey" @change="handleTabChange">
-        <a-tab-pane v-for="item in tabList" :key="item.key" :tab="item.tab">
+      <Tabs v-model:activeKey="tabActiveKey" @change="handleTabChange">
+        <TabPane v-for="item in tabList" :key="item.key" :tab="item.tab">
           <a-card :bordered="false">
             <Articles ref="articles" v-if="item.key === 'articles'" />
             <Projects ref="projects" v-if="item.key === 'projects'" />
             <Applications ref="applications" v-if="item.key === 'applications'" />
           </a-card>
-        </a-tab-pane>
+        </TabPane>
         <template #rightExtra>
           <RedoOutlined
             @click="refreshData(tabActiveKey)"
             style="font-size: 18px;color: #8c8c8c;cursor: pointer;"
           />
         </template>
-      </a-tabs>
+      </Tabs>
     </div>
     <g-back-top />
   </g-pro-page-wrapper>
@@ -39,6 +39,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { Tabs, TabPane } from 'ant-design-vue'
 import { RedoOutlined } from '@ant-design/icons-vue'
 import Articles from './articles/index.vue'
 import Projects from './projects/index.vue'
@@ -61,6 +62,8 @@ const tabList = [
 
 export default defineComponent({
   components: {
+    Tabs,
+    TabPane,
     Projects,
     Articles,
     Applications,

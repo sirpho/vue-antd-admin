@@ -1,7 +1,7 @@
 <template>
   <g-pro-page-wrapper>
     <a-card :bordered="false">
-      <a-result
+      <Result
         status="success"
         title="提交成功"
         subTitle="提交结果页用于反馈一系列操作任务的处理结果， 如果仅是简单操作，使用 Message 全局提示反馈即可。 本文字区域可以展示简单的补充说明，如果有类似展示 “单据”的需求，下面这个灰色区域可以呈现比较复杂的内容。"
@@ -12,14 +12,14 @@
           <a-button>查看项目</a-button>
           <a-button>打印</a-button>
         </template>
-        <a-descriptions>
-          <a-descriptions-item label="项目 ID">23421</a-descriptions-item>
-          <a-descriptions-item label="负责人">曲丽丽</a-descriptions-item>
-          <a-descriptions-item label="生效时间">2016-12-12 ~ 2017-12-12</a-descriptions-item>
-        </a-descriptions>
+        <Descriptions>
+          <DescriptionsItem label="项目 ID">23421</DescriptionsItem>
+          <DescriptionsItem label="负责人">曲丽丽</DescriptionsItem>
+          <DescriptionsItem label="生效时间">2016-12-12 ~ 2017-12-12</DescriptionsItem>
+        </Descriptions>
         <br />
-        <a-steps progressDot :current="1">
-          <a-step>
+        <Steps progressDot :current="1">
+          <Step>
             <template #title>
               <span style="font-size: 14px">创建项目</span>
             </template>
@@ -32,8 +32,8 @@
                 <div>2016-12-12 12:32</div>
               </div>
             </template>
-          </a-step>
-          <a-step>
+          </Step>
+          <Step>
             <template #title>
               <span style="font-size: 14px">部门初审</span>
             </template>
@@ -48,33 +48,28 @@
                 </div>
               </div>
             </template>
-          </a-step>
-          <a-step>
+          </Step>
+          <Step>
             <template #title>
               <span style="font-size: 14px">财务复核</span>
             </template>
-          </a-step>
-          <a-step>
+          </Step>
+          <Step>
             <template #title>
               <span style="font-size: 14px">完成</span>
             </template>
-          </a-step>
-        </a-steps>
-      </a-result>
+          </Step>
+        </Steps>
+      </Result>
     </a-card>
   </g-pro-page-wrapper>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
+import { Result, Step, Steps, Descriptions } from 'ant-design-vue'
 import { DingdingOutlined } from '@ant-design/icons-vue'
 
-export default defineComponent({
-  components: { DingdingOutlined },
-  setup() {
-    return {}
-  }
-})
+const DescriptionsItem = Descriptions.Item
 </script>
 
 <style lang="less" module>

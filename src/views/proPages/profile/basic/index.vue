@@ -1,38 +1,38 @@
 <template>
   <g-pro-page-wrapper>
     <a-card :bordered="false">
-      <a-descriptions title="退款申请" style="margin-bottom: 32px">
-        <a-descriptions-item label="取货单号">
+      <Descriptions title="退款申请" style="margin-bottom: 32px">
+        <DescriptionsItem label="取货单号">
           1000000000
-        </a-descriptions-item>
-        <a-descriptions-item label="状态">
+        </DescriptionsItem>
+        <DescriptionsItem label="状态">
           已取货
-        </a-descriptions-item>
-        <a-descriptions-item label="销售单号">
+        </DescriptionsItem>
+        <DescriptionsItem label="销售单号">
           1234123421
-        </a-descriptions-item>
-        <a-descriptions-item label="子订单">
+        </DescriptionsItem>
+        <DescriptionsItem label="子订单">
           3214321432
-        </a-descriptions-item>
-      </a-descriptions>
+        </DescriptionsItem>
+      </Descriptions>
       <a-divider style="margin-bottom: 32px" />
-      <a-descriptions title="用户信息" style="margin-bottom: 32px">
-        <a-descriptions-item label="用户姓名">
+      <Descriptions title="用户信息" style="margin-bottom: 32px">
+        <DescriptionsItem label="用户姓名">
           付小小
-        </a-descriptions-item>
-        <a-descriptions-item label="联系电话">
+        </DescriptionsItem>
+        <DescriptionsItem label="联系电话">
           18100000000
-        </a-descriptions-item>
-        <a-descriptions-item label="常用快递">
+        </DescriptionsItem>
+        <DescriptionsItem label="常用快递">
           菜鸟仓储
-        </a-descriptions-item>
-        <a-descriptions-item label="取货地址">
+        </DescriptionsItem>
+        <DescriptionsItem label="取货地址">
           浙江省杭州市西湖区万塘路18号
-        </a-descriptions-item>
-        <a-descriptions-item label="备注">
+        </DescriptionsItem>
+        <DescriptionsItem label="备注">
           无
-        </a-descriptions-item>
-      </a-descriptions>
+        </DescriptionsItem>
+      </Descriptions>
       <a-divider style="margin-bottom: 32px" />
       <div :class="$style.title">退货商品</div>
       <g-pro-table
@@ -62,7 +62,7 @@
       >
         <template #bodyCell="{ column, text }">
           <template v-if="column.dataIndex === 'status'">
-            <a-badge
+            <Badge
               :status="text === 'success' ? 'success' : 'processing'"
               :text="text === 'success' ? '成功' : '进行中'"
             />
@@ -82,10 +82,14 @@ import {
   reactive,
   toRefs
 } from 'vue'
+import { Badge, Descriptions } from 'ant-design-vue'
 import { queryBasicProfile } from '/@/services/profile/basic'
 import { progressColumns } from './utils/columns'
 
+const DescriptionsItem = Descriptions.Item
+
 export default defineComponent({
+  component: { Badge },
   setup() {
     const state = reactive({
       loading: false,

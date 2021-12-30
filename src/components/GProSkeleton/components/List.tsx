@@ -1,3 +1,4 @@
+import { Skeleton } from 'ant-design-vue'
 import { useMediaQuery } from '@gx-design/pro-hooks/event'
 
 export type ListPageSkeletonProps = {
@@ -64,10 +65,10 @@ const StatisticSkeleton = ({ size, active }: {
               marginRight: index === 0 ? '16px' : 0
             }}
           >
-            <a-skeleton
-              title={{ width: 100, style: { marginTop: 0, marginBottom: '.5rem' } }}
+            <Skeleton
+              title={{ width: 100 }}
               active={active}
-              paragraph={{ rows: 0, style: { margin: 0 } }}
+              paragraph={{ rows: 0 }}
             />
             <g-skeleton active={active} propsStyle={{ height: '48px' }} />
           </div>
@@ -101,10 +102,10 @@ export const ListSkeletonItem = ({ active }: { active: boolean }) => (
         <div
           style={{ maxWidth: '100%', flex: 1 }}
         >
-          <a-skeleton
-            title={{ width: 100, style: { marginTop: 0, marginBottom: '.5rem' } }}
+          <Skeleton
+            title={{ width: 100 }}
             active={active}
-            paragraph={{ rows: 1, style: { margin: 0 } }}
+            paragraph={{ rows: 1 }}
           />
         </div>
         <g-skeleton
@@ -161,10 +162,10 @@ export const ListSkeleton = ({ size, active = true, actionButton }: {
  */
 export const PageHeaderSkeleton = ({ active }: { active: boolean }) => (
   <div style={{ marginBottom: '16px' }}>
-    <a-skeleton
-      title={{ width: 185, style: { marginTop: 0, marginBottom: '.5rem' } }}
+    <Skeleton
+      title={{ width: 185 }}
       active={active}
-      paragraph={{ rows: 0, style: { margin: 0 } }}
+      paragraph={{ rows: 0 }}
     />
     <g-skeleton active={active} size="small" />
   </div>

@@ -1,26 +1,34 @@
 import config from '/config/config'
-import cookie from 'js-cookie'
+import {
+  setStorage,
+  getStorage,
+  removeStorage,
+  getCookie,
+  setCookie,
+  delCookie
+} from '/@/utils/storage'
 
 const { storage, tokenTableName } = config.defaultSettings
 
 /**
- * @author gx12358 2539306317@qq.com
+ * @Author      gx12358
+ * @DateTime    2021/12/27
+ * @lastTime    2021/12/27
  * @description 获取accessToken
- * @returns {string|ActiveX.IXMLDOMNode|Promise<any>|any|IDBRequest<any>|MediaKeyStatus|FormDataEntryValue|Function|Promise<Credential | null>}
  */
 export function getAccessToken() {
   if (storage) {
     if ('localStorage' === storage) {
-      return localStorage.getItem(tokenTableName)
+      return getStorage({ key: tokenTableName })
     } else if ('sessionStorage' === storage) {
-      return sessionStorage.getItem(tokenTableName)
+      return getStorage({ key: tokenTableName, type: 'session' })
     } else if ('cookie' === storage) {
-      return cookie.get(tokenTableName)
+      return getCookie(tokenTableName)
     } else {
-      return localStorage.getItem(tokenTableName)
+      return getStorage({ key: tokenTableName })
     }
   } else {
-    return localStorage.getItem(tokenTableName)
+    return getStorage({ key: tokenTableName })
   }
 }
 
@@ -30,19 +38,36 @@ export function getAccessToken() {
  * @param accessToken
  * @returns {void|*}
  */
-export function setAccessToken(accessToken: string) {
+export function setAccessToken(accessToken: string, expired?: number) {
   if (storage) {
     if ('localStorage' === storage) {
-      return localStorage.setItem(tokenTableName, accessToken)
+      return setStorage({
+        key: tokenTableName,
+        value: accessToken,
+        expired
+      })
     } else if ('sessionStorage' === storage) {
-      return sessionStorage.setItem(tokenTableName, accessToken)
+      return setStorage({
+        key: tokenTableName,
+        value: accessToken,
+        expired,
+        type: 'session'
+      })
     } else if ('cookie' === storage) {
-      return cookie.set(tokenTableName, accessToken)
+      return setCookie(tokenTableName, accessToken, expired)
     } else {
-      return localStorage.setItem(tokenTableName, accessToken)
+      return setStorage({
+        key: tokenTableName,
+        value: accessToken,
+        expired
+      })
     }
   } else {
-    return localStorage.setItem(tokenTableName, accessToken)
+    return setStorage({
+      key: tokenTableName,
+      value: accessToken,
+      expired
+    })
   }
 }
 
@@ -54,15 +79,15 @@ export function setAccessToken(accessToken: string) {
 export function removeAccessToken() {
   if (storage) {
     if ('localStorage' === storage) {
-      return localStorage.removeItem(tokenTableName)
+      return removeStorage(tokenTableName)
     } else if ('sessionStorage' === storage) {
-      return sessionStorage.clear()
+      return removeStorage(tokenTableName, 'session')
     } else if ('cookie' === storage) {
-      return cookie.remove(tokenTableName)
+      return delCookie(tokenTableName)
     } else {
-      return localStorage.removeItem(tokenTableName)
+      return removeStorage(tokenTableName)
     }
   } else {
-    return localStorage.removeItem(tokenTableName)
+    return removeStorage(tokenTableName)
   }
 }

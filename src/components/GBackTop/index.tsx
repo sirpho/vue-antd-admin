@@ -13,7 +13,6 @@ import {
 import { VerticalAlignTopOutlined } from '@ant-design/icons-vue'
 import {
   getPrefixCls,
-  addEventListener,
   getScroll,
   scrollTo,
   throttleByAnimationFrame
@@ -45,7 +44,7 @@ const GBackTop = defineComponent({
     const bindScrollEvent = () => {
       const { root } = props
       const container = (document.querySelector(root) as HTMLInputElement)
-      state.scrollEvent = addEventListener(container, 'scroll', (e: Event) => {
+      container.addEventListener('scroll', (e: Event) => {
         handleScroll(e)
       })
       handleScroll({
@@ -53,8 +52,12 @@ const GBackTop = defineComponent({
       })
     }
     const scrollRemove = () => {
-      if (state.scrollEvent) {
-        state.scrollEvent.remove()
+      const { root } = props
+      const container = (document.querySelector(root) as HTMLInputElement)
+      if (container) {
+        container.removeEventListener('scroll', (e: Event) => {
+          handleScroll(e)
+        })
       }
       (handleScroll as any).cancel()
     }

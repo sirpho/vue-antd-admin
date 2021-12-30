@@ -26,9 +26,9 @@
           </template>
           <template #description>
             <span>
-              <a-tag>Ant Design</a-tag>
-              <a-tag>设计语言</a-tag>
-              <a-tag>蚂蚁金服</a-tag>
+              <Tag>Ant Design</Tag>
+              <Tag>设计语言</Tag>
+              <Tag>蚂蚁金服</Tag>
             </span>
           </template>
         </a-list-item-meta>
@@ -48,10 +48,12 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs, watch } from 'vue'
 import dayjs from 'dayjs'
+import { Tag } from 'ant-design-vue'
 import { StarTwoTone, LikeOutlined, MessageFilled } from '@ant-design/icons-vue'
 
 export default defineComponent({
   components: {
+    Tag,
     StarTwoTone,
     LikeOutlined,
     MessageFilled

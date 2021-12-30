@@ -8,7 +8,6 @@ export { default as GSkeleton } from './GSkeleton'
 export { default as GColorPicker } from './GColorPicker'
 export { default as GDocumentation } from './GDocumentation'
 export { default as GImage, GImageViewer, GImageViewerGroup } from './GImage'
-export { default as GUpload } from './GUpload'
 export { default as GMaterialView } from './GMaterialView'
 
 // gx-pro-组件

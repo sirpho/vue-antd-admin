@@ -37,10 +37,10 @@
           {{ record.callNo > 0 ? `${record.callNo}万` : record.callNo }}
         </template>
         <template v-if="column.dataIndex === 'status'">
-          <a-badge v-if="record.status === '0'" status="default" text="关闭" />
-          <a-badge v-if="record.status === '1'" status="processing" text="运行中" />
-          <a-badge v-if="record.status === '2'" status="success" text="已上线" />
-          <a-badge v-if="record.status === '3'" status="error" text="异常" />
+          <Badge v-if="record.status === '0'" status="default" text="关闭" />
+          <Badge v-if="record.status === '1'" status="processing" text="运行中" />
+          <Badge v-if="record.status === '2'" status="success" text="已上线" />
+          <Badge v-if="record.status === '3'" status="error" text="异常" />
         </template>
         <template v-if="column.dataIndex === 'action'">
           <a key="config" style="margin-right: 15px;" @click="updateTableRule(record)">配置</a>
@@ -56,7 +56,7 @@
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs, createVNode } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { Modal, message } from 'ant-design-vue'
+import { Modal, message, Badge } from 'ant-design-vue'
 import { InfoCircleOutlined, PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue'
 import { rule, removeRule } from '/@/services/list/table'
 import { handleSelectPage } from '/@/utils/util'
@@ -65,6 +65,7 @@ import columns from './utils/columns'
 
 export default defineComponent({
   components: {
+    Badge,
     PlusOutlined,
     OperationModal,
     InfoCircleOutlined

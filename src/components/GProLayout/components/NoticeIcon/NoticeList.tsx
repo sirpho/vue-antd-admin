@@ -1,7 +1,5 @@
-import type {
-  FunctionalComponent as FC,
-  CSSProperties
-} from 'vue'
+import type { FunctionalComponent as FC, CSSProperties } from 'vue'
+import { Tag } from 'ant-design-vue'
 
 import styles from './NoticeList.module.less'
 
@@ -46,14 +44,14 @@ const NoticeListExtra = (extra, status) => {
   }[status]
 
   return (extra && (
-    <a-tag
+    <Tag
       color={color}
       style={{
         marginRight: 0
       }}
     >
       {extra}
-    </a-tag>
+    </Tag>
   ))
 }
 

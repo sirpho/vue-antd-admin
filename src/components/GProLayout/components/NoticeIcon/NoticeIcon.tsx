@@ -1,5 +1,6 @@
 import type { CSSProperties, ExtractPropTypes } from 'vue'
 import { computed, defineComponent, ref } from 'vue'
+import { Tabs, TabPane, Badge } from 'ant-design-vue'
 import { BellOutlined } from '@ant-design/icons-vue'
 import { getPrefixCls } from '@gx-design/pro-utils'
 import { PropTypes } from '/@/utils'
@@ -73,9 +74,9 @@ const NoticeIcon = defineComponent({
         }}
         onClick={() => onChange(true)}
       >
-        <a-badge count={props.count} style={{ boxShadow: 'none' }} class={`${prefixCls}-badge`}>
+        <Badge count={props.count} style={{ boxShadow: 'none' }} class={`${prefixCls}-badge`}>
           {NoticeBellIcon}
-        </a-badge>
+        </Badge>
       </span>
     ))
 
@@ -91,7 +92,7 @@ const NoticeIcon = defineComponent({
 
       return (
         <a-spin spinning={loading} delay={300}>
-          <a-tabs class={`${prefixCls}-tabs`} activeKey={activeKey.value} onChange={onTabChange}>
+          <Tabs class={`${prefixCls}-tabs`} activeKey={activeKey.value} onChange={onTabChange}>
             {getChildrenSlots.value.map((item: any) => {
               if (!item) {
                 return null
@@ -102,7 +103,7 @@ const NoticeIcon = defineComponent({
               const msgCount = count || count === 0 ? count : len
               const tabTitle: string = msgCount > 0 ? `${title} (${msgCount})` : title
               return (
-                <a-tab-pane tab={tabTitle} key={tabKey}>
+                <TabPane tab={tabTitle} key={tabKey}>
                   <NoticeList
                     clearText={clearText}
                     viewMoreText={viewMoreText}
@@ -116,10 +117,10 @@ const NoticeIcon = defineComponent({
                     showViewMore={showViewMore}
                     title={title}
                   />
-                </a-tab-pane>
+                </TabPane>
               )
             })}
-          </a-tabs>
+          </Tabs>
         </a-spin>
       )
     }

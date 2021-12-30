@@ -101,8 +101,10 @@ export default defineComponent({
       return state.redirect === '/exception/404' || state.redirect === '/exception/403' ? '/' : state.redirect
     }
     const handleSubmit = async () => {
-      await store.dispatch('user/login', state.form)
-      await router.push(handleRoute())
+      const response: any = await store.dispatch('user/login', state.form)
+      if (response) {
+        await router.push(handleRoute())
+      }
     }
     return {
       logo: store.getters['settings/logo'],

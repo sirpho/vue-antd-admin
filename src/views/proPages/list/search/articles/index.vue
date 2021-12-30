@@ -108,9 +108,9 @@
               </template>
               <template #description>
                 <span>
-                  <a-tag>Ant Design</a-tag>
-                  <a-tag>设计语言</a-tag>
-                  <a-tag>蚂蚁金服</a-tag>
+                  <Tag>Ant Design</Tag>
+                  <Tag>设计语言</Tag>
+                  <Tag>蚂蚁金服</Tag>
                 </span>
               </template>
             </a-list-item-meta>
@@ -124,6 +124,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
+import { Tag } from 'ant-design-vue'
 import { StarOutlined, LikeOutlined, MessageOutlined, LoadingOutlined } from '@ant-design/icons-vue'
 import { onMountedOrActivated } from '@gx-design/pro-hooks/core'
 import type { ListItemDataType } from '/@/services/list/search'
@@ -142,6 +143,7 @@ interface articleStateType {
 
 export default defineComponent({
   components: {
+    Tag,
     StarOutlined,
     LikeOutlined,
     LoadingOutlined,

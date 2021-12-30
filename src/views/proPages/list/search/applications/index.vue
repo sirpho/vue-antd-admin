@@ -127,9 +127,7 @@
                   </div>
                   <div>
                     <p>新增用户</p>
-                    <p>
-                      <a-statistic :value="item.newUser" />
-                    </p>
+                    <p><Statistic :value="item.newUser" /></p>
                   </div>
                 </div>
               </div>
@@ -143,6 +141,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
+import { Statistic } from 'ant-design-vue'
 import {
   DownloadOutlined,
   EditOutlined,
@@ -163,6 +162,7 @@ interface articleStateType {
 
 export default defineComponent({
   components: {
+    Statistic,
     DownloadOutlined,
     EditOutlined,
     ShareAltOutlined,

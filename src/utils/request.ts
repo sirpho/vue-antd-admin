@@ -35,10 +35,10 @@ const handleCode = (code: number, msg: string) => {
     switch (code) {
       case 401:
         message.error(msg || '登录失效')
-        store.dispatch('user/resetAll').catch(() => {})
+        store.dispatch('user/resetPermissions')
         break
       case 403:
-        router.push({ path: '/401' }).catch(() => {})
+        router.push({ path: '/exception/403' })
         break
       default:
         message.error(msg || `后端接口${code}异常`)

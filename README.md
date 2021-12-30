@@ -34,31 +34,13 @@ Ant Design 定义了基础的设计规范，对应也提供了大量的基础组
 
 ## 更新文档
 
-- feat - GProTable:
-  1.新增pageItemRender属性，可自定义翻页；
-  2.新增scrollBreakpoint属性，可自定义表格断点：scroll生效以及action列固定；
-  3.新增相关types属性定义ts类型）；
-  defaultSetting.ts以及proxy.ts:
-  新增proxyTarget字段：可配置proxy转接地址；
-  request.ts:
-  新增customize字段，用于不需要统一判断code值是否符合success，直接返回接口数据；
-  新增相关types属性定义（ts类型）
-- fix - GProTable:
-  1.没有request时，表格翻页没用；
-  2.修复screens 断点一开始位undefined时，导致表格计算scroll方法出错；
-  GUpload:
-  修复change事件返回上传list数据为ref
-  routers:
-  1.将mock menu.js 的数据相关字段改换；
-  2.routers.ts 判断后台菜单数据方法内：相关字段改换
-  3.store获取菜单接口判断是否出错，配合permissions.ts 错误是页面跳转loin页面，并清楚相关用户信息以及token信息
-- perf - GProTable：
-  usePagination hooks 方法优化；
-  ant-design-vue 更新最新版本；
-- style - GProTable：
-  修复gx-pro-table css 错误，没有生效，以及对应匹配新版本的ant-deign-vue table css；
-  design/styles/input.css
-  新增input-textarea allow-clear 时，css没有对应生效；
+-refactor resetAll方法重构(resetPermissions)、store-setToken方法名重新修改
+-refactor localstoreg、sessionStorage存储规则修改，value值加密、方法名重新定义
+-feat 新增退出提示操作
+-perf 去除全局引入ant-design-vue 部分组件，改成按需引入
+-fix 修复没有权限时跳转到白名单页面无需调用resetPermissions方法
+-chore 去除image压缩插件
+-refactor 菜单部分参数修改并修改对应生成路由方法
 
 ## 特性
 

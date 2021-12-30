@@ -50,21 +50,21 @@
         <div :class="$style['container-main']">
           <div :class="$style['container-row']">
             <div :class="$style['container-content']">
-              <a-descriptions :class="$style.headerList" size="small" :column="isMobile ? 1 : 2">
-                <a-descriptions-item label="创建人">曲丽丽</a-descriptions-item>
-                <a-descriptions-item label="订购产品">XX 服务</a-descriptions-item>
-                <a-descriptions-item label="创建时间">2017-07-07</a-descriptions-item>
-                <a-descriptions-item label="关联单据">
+              <Descriptions :class="$style.headerList" size="small" :column="isMobile ? 1 : 2">
+                <DescriptionsItem label="创建人">曲丽丽</DescriptionsItem>
+                <DescriptionsItem label="订购产品">XX 服务</DescriptionsItem>
+                <DescriptionsItem label="创建时间">2017-07-07</DescriptionsItem>
+                <DescriptionsItem label="关联单据">
                   <a>12421</a>
-                </a-descriptions-item>
-                <a-descriptions-item label="生效日期">2017-07-07 ~ 2017-08-08</a-descriptions-item>
-                <a-descriptions-item label="备注">请于两个工作日内确认</a-descriptions-item>
-              </a-descriptions>
+                </DescriptionsItem>
+                <DescriptionsItem label="生效日期">2017-07-07 ~ 2017-08-08</DescriptionsItem>
+                <DescriptionsItem label="备注">请于两个工作日内确认</DescriptionsItem>
+              </Descriptions>
             </div>
             <div :class="$style['container-extraContent']">
               <div :class="$style.moreInfo">
-                <a-statistic title="状态" value="待审批" />
-                <a-statistic title="订单金额" :value="568.08" prefix="¥" />
+                <Statistic title="状态" value="待审批" />
+                <Statistic title="订单金额" :value="568.08" prefix="¥" />
               </div>
             </div>
           </div>
@@ -72,9 +72,9 @@
       </div>
     </div>
     <div :class="$style['header-footer']">
-      <a-tabs v-model:activeKey="tabStatus.tabActiveKey" @change="onTabChange">
-        <a-tab-pane v-for="item in tabList" :key="item.key" :tab="item.tab" />
-      </a-tabs>
+      <Tabs v-model:activeKey="tabStatus.tabActiveKey" @change="onTabChange">
+        <TabPane v-for="item in tabList" :key="item.key" :tab="item.tab" />
+      </Tabs>
     </div>
     <div :class="$style.main">
       <a-card
@@ -83,29 +83,29 @@
         style="margin-bottom: 24px"
         :bordered="false"
       >
-        <a-steps :direction="isMobile ? 'vertical' : 'horizontal'" :current="1">
+        <Steps :direction="isMobile ? 'vertical' : 'horizontal'" :current="1">
           <template #progressDot="{ status, prefixCls }">
-            <a-popover v-if="status === 'process'" placement="topLeft" arrowPointAtCenter>
+            <Popover v-if="status === 'process'" placement="topLeft" arrowPointAtCenter>
               <template #content>
                 <div style="width: 160px">
                   吴加号
                   <span style="float: right;">
-                    <a-badge status="default">
+                    <Badge status="default">
                       <template #text>
                         <span style="color: rgba(0, 0, 0, 0.45)">未响应</span>
                       </template>
-                    </a-badge>
+                    </Badge>
                   </span>
                   <div style="margin-top: 4px">
                     耗时：2小时25分钟
                   </div>
                 </div>
               </template>
-              <span :class="`${prefixCls}-icon-dot`" />
-            </a-popover>
-            <span v-else :class="`${prefixCls}-icon-dot`" />
+              <span :class="`${prefixCls}-icon-dot`"></span>
+            </Popover>
+            <span v-else :class="`${prefixCls}-icon-dot`"></span>
           </template>
-          <a-step title="创建项目">
+          <Step title="创建项目">
             <template #description>
               <div :class="$style.stepDescription">
                 <div>
@@ -115,8 +115,8 @@
                 <div>2016-12-12 12:32</div>
               </div>
             </template>
-          </a-step>
-          <a-step title="部门初审">
+          </Step>
+          <Step title="部门初审">
             <template #description>
               <div :class="$style.stepDescription">
                 <div>
@@ -126,10 +126,10 @@
                 <div><a>催一下</a></div>
               </div>
             </template>
-          </a-step>
-          <a-step title="财务复核" />
-          <a-step title="完成" />
-        </a-steps>
+          </Step>
+          <Step title="财务复核" />
+          <Step title="完成" />
+        </Steps>
       </a-card>
       <a-card
         :class="$style['main-card']"
@@ -137,19 +137,19 @@
         style="margin-bottom: 24px"
         :bordered="false"
       >
-        <a-descriptions style="margin-bottom: 24px">
-          <a-descriptions-item label="用户姓名">付小小</a-descriptions-item>
-          <a-descriptions-item label="会员卡号">32943898021309809423</a-descriptions-item>
-          <a-descriptions-item label="身份证">3321944288191034921</a-descriptions-item>
-          <a-descriptions-item label="联系方式">18112345678</a-descriptions-item>
-          <a-descriptions-item label="联系地址">
+        <Descriptions style="margin-bottom: 24px">
+          <DescriptionsItem label="用户姓名">付小小</DescriptionsItem>
+          <DescriptionsItem label="会员卡号">32943898021309809423</DescriptionsItem>
+          <DescriptionsItem label="身份证">3321944288191034921</DescriptionsItem>
+          <DescriptionsItem label="联系方式">18112345678</DescriptionsItem>
+          <DescriptionsItem label="联系地址">
             曲丽丽 18100000000 浙江省杭州市西湖区黄姑山路工专路交叉路口
-          </a-descriptions-item>
-        </a-descriptions>
-        <a-descriptions style="margin-bottom: 24px" title="信息组">
-          <a-descriptions-item label="某某数据">725</a-descriptions-item>
-          <a-descriptions-item label="该数据更新时间">2017-08-08</a-descriptions-item>
-          <a-descriptions-item>
+          </DescriptionsItem>
+        </Descriptions>
+        <Descriptions style="margin-bottom: 24px" title="信息组">
+          <DescriptionsItem label="某某数据">725</DescriptionsItem>
+          <DescriptionsItem label="该数据更新时间">2017-08-08</DescriptionsItem>
+          <DescriptionsItem>
             <template #label>
               <span>
                 某某数据
@@ -158,32 +158,32 @@
                 </a-tooltip>
               </span>
             </template>
-          </a-descriptions-item>
-          <a-descriptions-item label="该数据更新时间">2017-08-08</a-descriptions-item>
-        </a-descriptions>
+          </DescriptionsItem>
+          <DescriptionsItem label="该数据更新时间">2017-08-08</DescriptionsItem>
+        </Descriptions>
         <h4 style="margin-bottom: 16px">信息组</h4>
         <a-card type="inner" title="多层级信息组">
-          <a-descriptions style="margin-bottom: 16px" title="组名称">
-            <a-descriptions-item label="负责人">林东东</a-descriptions-item>
-            <a-descriptions-item label="角色码">1234567</a-descriptions-item>
-            <a-descriptions-item label="所属部门">XX公司 - YY部</a-descriptions-item>
-            <a-descriptions-item label="过期时间">2017-08-08</a-descriptions-item>
-            <a-descriptions-item label="描述">
+          <Descriptions style="margin-bottom: 16px" title="组名称">
+            <DescriptionsItem label="负责人">林东东</DescriptionsItem>
+            <DescriptionsItem label="角色码">1234567</DescriptionsItem>
+            <DescriptionsItem label="所属部门">XX公司 - YY部</DescriptionsItem>
+            <DescriptionsItem label="过期时间">2017-08-08</DescriptionsItem>
+            <DescriptionsItem label="描述">
               这段描述很长很长很长很长很长很长很长很长很长很长很长很长很长很长...
-            </a-descriptions-item>
-          </a-descriptions>
+            </DescriptionsItem>
+          </Descriptions>
           <a-divider style="margin: 16px 0" />
-          <a-descriptions style="margin-bottom: 16px" title="组名称" :column="1">
-            <a-descriptions-item label="学名">
+          <Descriptions style="margin-bottom: 16px" title="组名称" :column="1">
+            <DescriptionsItem label="学名">
               Citrullus lanatus (Thunb.) Matsum. et
               Nakai一年生蔓生藤本；茎、枝粗壮，具明显的棱。卷须较粗..
-            </a-descriptions-item>
-          </a-descriptions>
+            </DescriptionsItem>
+          </Descriptions>
           <a-divider style="margin: 16px 0" />
-          <a-descriptions title="组名称">
-            <a-descriptions-item label="负责人">付小小</a-descriptions-item>
-            <a-descriptions-item label="角色码">1234568</a-descriptions-item>
-          </a-descriptions>
+          <Descriptions title="组名称">
+            <DescriptionsItem label="负责人">付小小</DescriptionsItem>
+            <DescriptionsItem label="角色码">1234568</DescriptionsItem>
+          </Descriptions>
         </a-card>
       </a-card>
       <a-card
@@ -192,7 +192,7 @@
         style="margin-bottom: 24px"
         :bordered="false"
       >
-        <a-empty />
+        <Empty />
       </a-card>
       <a-card
         :class="[ $style['main-card'], $style.tabsCard ]"
@@ -214,7 +214,7 @@
           >
             <template #bodyCell="{ column, text }">
               <template v-if="column.dataIndex === 'status'">
-                <a-badge
+                <Badge
                   :status="text === 'agree' ? 'success' : 'error'"
                   :text="text === 'agree' ? '成功' : '驳回'"
                 />
@@ -235,6 +235,7 @@ import {
   reactive,
   toRefs
 } from 'vue'
+import { Empty, Tabs, TabPane, Popover, Step, Steps, Badge, Statistic, Descriptions } from 'ant-design-vue'
 import {
   DownOutlined,
   EllipsisOutlined,
@@ -251,9 +252,21 @@ type AdvancedState = {
   tabActiveKey: string;
 };
 
+const DescriptionsItem = Descriptions.Item
+
 export default defineComponent({
   components: {
+    Step,
+    Tabs,
+    Empty,
+    Steps,
+    Badge,
+    TabPane,
+    Popover,
+    Statistic,
+    Descriptions,
     DownOutlined,
+    DescriptionsItem,
     EllipsisOutlined,
     DingdingOutlined,
     InfoCircleOutlined

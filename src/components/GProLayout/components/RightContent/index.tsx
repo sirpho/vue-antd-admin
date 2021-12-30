@@ -1,7 +1,8 @@
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, createVNode } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
-import { LogoutOutlined, SearchOutlined } from '@ant-design/icons-vue'
+import { AutoComplete, Modal } from 'ant-design-vue'
+import { LogoutOutlined, SearchOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue'
 import config from '/config/config'
 import { getPrefixCls } from '@gx-design/pro-utils'
 import { globalHeaderProps } from '../GlobalHeader/props'
@@ -38,13 +39,27 @@ export default defineComponent({
     const userName = computed(() => store.getters['user/loginName'])
 
     const logout = async () => {
-      await store.dispatch('user/logout')
-      if (recordRoute) {
-        const fullPath = route.fullPath
-        router.push(`/user/login?redirect=${fullPath}`)
-      } else {
-        router.push('/user/login')
-      }
+      Modal.confirm({
+        title: '温馨提醒',
+        icon: createVNode(ExclamationCircleOutlined),
+        content: '是否确认退出系统?',
+        okText: '确认',
+        cancelText: '取消',
+        onOk() {
+          return new Promise((resolve) => {
+            setTimeout(resolve, 200)
+            store.dispatch('user/logout').then(() => {
+              if (recordRoute) {
+                const fullPath = route.fullPath
+                router.push(`/user/login?redirect=${fullPath}`)
+              } else {
+                router.push({ path: '/user/login' })
+              }
+            })
+          })
+        },
+        onCancel() {}
+      })
     }
 
     const onChange = (value: string) => {
@@ -72,7 +87,7 @@ export default defineComponent({
               cursor: 'pointer'
             }}
           />
-          <a-auto-complete
+          <AutoComplete
             key="AutoComplete"
             class={inputClass.value}
             options={[
@@ -105,7 +120,7 @@ export default defineComponent({
                 onVisibleChange(false)
               }}
             />
-          </a-auto-complete>
+          </AutoComplete>
         </div>
         <NoticeIcon />
         <AvatarDropdown

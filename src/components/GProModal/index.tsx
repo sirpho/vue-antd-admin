@@ -5,6 +5,7 @@ import {
   ref,
   watchEffect
 } from 'vue'
+import { Modal, Empty, Skeleton } from 'ant-design-vue'
 import type { LegacyButtonType } from 'ant-design-vue/lib/button/buttonTypes'
 import { omit } from 'lodash-es'
 import { CloseOutlined, FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons-vue'
@@ -41,7 +42,7 @@ export const buttonTypes = () => ({
   ghost: PropTypes.looseBool,
   block: PropTypes.looseBool,
   danger: PropTypes.looseBool,
-  icon: PropTypes.VNodeChild,
+  icon: PropTypes.VueNode,
   href: PropTypes.string,
   target: PropTypes.string,
   title: PropTypes.string,
@@ -120,8 +121,8 @@ export const proModalProps = {
   showClose: PropTypes.bool.def(true),
   showDefaultFooter: PropTypes.bool.def(false),
   fullscreen: PropTypes.bool.def(true),
-  content: PropTypes.VNodeChild,
-  extra: PropTypes.VNodeChild
+  content: PropTypes.VueNode,
+  extra: PropTypes.VueNode
 }
 
 export type ModalProps = Partial<ExtractPropTypes<typeof modalProps>>;
@@ -229,14 +230,14 @@ export default defineComponent({
             : null}
           {props.skeletonLoading && (
             <div class={`${modalClassName}-skeleton`} style={{ marginTop: `${props.title ? '' : '55px'}` }}>
-              <a-skeleton loading={props.skeletonLoading} active />
-              <a-skeleton loading={props.skeletonLoading} active />
+              <Skeleton loading={props.skeletonLoading} active />
+              <Skeleton loading={props.skeletonLoading} active />
               {props.fixHeight && (
-                <a-skeleton loading={props.skeletonLoading} active />
+                <Skeleton loading={props.skeletonLoading} active />
               )}
             </div>
           )}
-          {props.isFail && <a-empty className={`${modalClassName}-error-warp`} image={Nodata} />}
+          {props.isFail && <Empty className={`${modalClassName}-error-warp`} image={Nodata} />}
           <div class={{
             [`${modalClassName}-grid`]: true,
             [`${modalClassName}-grid-active`]: props.skeletonLoading || props.isFail
@@ -268,7 +269,7 @@ export default defineComponent({
     }
     return () => {
       return (
-        <a-modal
+        <Modal
           {...omit(getProps.value, 'onCancel')}
           wrapClassName={getProps.value.visible ? '' : `${modalClassName}-wrap`}
           class={handleModalClass.value}
@@ -312,7 +313,7 @@ export default defineComponent({
               : (renderContent())
             }
           </div>
-        </a-modal>
+        </Modal>
       )
     }
   }

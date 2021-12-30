@@ -1,6 +1,9 @@
 import { MockMethod } from 'vite-plugin-mock'
 import dayjs from 'dayjs'
+import config from '/config/config'
 import { resultError, resultSuccess, getRequestToken, requestParams } from '../_util'
+
+const { tokenName } = config.defaultSettings
 
 interface RolesInfo {
   roleId: number;
@@ -32,7 +35,10 @@ export default [
       return {
         code: 200,
         msg: 'success',
-        data: { accessToken }
+        data: {
+          tokenName,
+          expires_in: 720
+        }
       }
     }
   },
@@ -68,7 +74,8 @@ export default [
     url: '/mock-server/userInfo',
     method: 'post',
     response: ({ body }) => {
-      const { accessToken } = body
+      const { GxAccessToken } = body
+      console.log(GxAccessToken)
       let userId: number | null = null
       let roles: string[] = []
       let rolesInfo: RolesInfo[] = []
@@ -76,85 +83,93 @@ export default [
       let permissions: string[] = []
       let userName = ''
       let nickName = ''
-      if ('gx-accessToken' === accessToken) {
-        userId = 999
-        rolesInfo = [
-          {
-            roleId: 1,
-            roleKey: 'gx-admin',
-            roleName: 'gx12358-超级管理员',
-            status: '0'
+      switch (GxAccessToken) {
+        case 'gx-accessToken':
+          userId = 0
+          rolesInfo = [
+            {
+              roleId: 1,
+              roleKey: 'gx-admin',
+              roleName: 'gx12358-超级管理员',
+              status: '0'
+            }
+          ]
+          roles = rolesInfo.map(item => item.roleKey)
+          roleIds = rolesInfo.map(item => item.roleId)
+          permissions = ['*:*:*']
+          userName = '高翔'
+          nickName = 'gx12358'
+          break
+        case 'admin-accessToken':
+          userId = 1
+          rolesInfo = [
+            {
+              roleId: 1,
+              roleKey: 'admin',
+              roleName: '超级管理员',
+              status: '0'
+            }
+          ]
+          roles = rolesInfo.map(item => item.roleKey)
+          roleIds = rolesInfo.map(item => item.roleId)
+          permissions = [
+            'proTable:button:add',
+            'proTable:button:1',
+            'proTable:button:2',
+            'proTable:button:3'
+          ]
+          userName = 'admin'
+          nickName = 'admin'
+          break
+        case 'editor-accessToken':
+          userId = 2
+          rolesInfo = [
+            {
+              roleId: 2,
+              roleKey: 'editor',
+              roleName: '编辑人员',
+              status: '0'
+            }
+          ]
+          roles = rolesInfo.map(item => item.roleKey)
+          roleIds = rolesInfo.map(item => item.roleId)
+          permissions = []
+          userName = '高翔-editor'
+          nickName = 'gx12358-editor'
+          break
+        case 'test-accessToken':
+          userId = 3
+          rolesInfo = [
+            {
+              roleId: 1,
+              roleKey: 'admin',
+              roleName: '超级管理员',
+              status: '0'
+            },
+            {
+              roleId: 2,
+              roleKey: 'editor',
+              roleName: '编辑人员',
+              status: '0'
+            }
+          ]
+          roles = rolesInfo.map(item => item.roleKey)
+          roleIds = rolesInfo.map(item => item.roleId)
+          permissions = [
+            'proTable:button:add',
+            'proTable:button:1',
+            'proTable:button:2',
+            'proTable:button:3'
+          ]
+          userName = '高翔-test'
+          nickName = 'gx12358-test'
+          break
+        default:
+          return {
+            code: 500,
+            msg: 'token 失效，请重新登录！'
           }
-        ]
-        roles = rolesInfo.map(item => item.roleKey)
-        roleIds = rolesInfo.map(item => item.roleId)
-        permissions = ['*:*:*']
-        userName = '高翔'
-        nickName = 'gx12358'
-      }
-      if ('admin-accessToken' === accessToken) {
-        userId = 1
-        rolesInfo = [
-          {
-            roleId: 1,
-            roleKey: 'admin',
-            roleName: '超级管理员',
-            status: '0'
-          }
-        ]
-        roles = rolesInfo.map(item => item.roleKey)
-        roleIds = rolesInfo.map(item => item.roleId)
-        permissions = [
-          'proTable:button:add',
-          'proTable:button:1',
-          'proTable:button:2',
-          'proTable:button:3'
-        ]
-        userName = 'admin'
-        nickName = 'admin'
-      }
-      if ('editor-accessToken' === accessToken) {
-        userId = 2
-        rolesInfo = [
-          {
-            roleId: 2,
-            roleKey: 'editor',
-            roleName: '编辑人员',
-            status: '0'
-          }
-        ]
-        roles = rolesInfo.map(item => item.roleKey)
-        roleIds = rolesInfo.map(item => item.roleId)
-        permissions = []
-        userName = '高翔-editor'
-        nickName = 'gx12358-editor'
-      }
-      if ('test-accessToken' === accessToken) {
-        userId = 3
-        rolesInfo = [
-          {
-            roleId: 1,
-            roleKey: 'admin',
-            roleName: '超级管理员',
-            status: '0'
-          },
-          {
-            roleId: 2,
-            roleKey: 'editor',
-            roleName: '编辑人员',
-            status: '0'
-          }
-        ]
-        roles = rolesInfo.map(item => item.roleKey)
-        roleIds = rolesInfo.map(item => item.roleId)
-        permissions = [
-          'proTable:button:add',
-          'proTable:button:1',
-          'proTable:button:2',
-          'proTable:button:3'
-        ]
-        userName = '高翔-test'
-        nickName = 'gx12358-test'
+          break
       }
       return {
         code: 200,
@@ -162,7 +177,7 @@ export default [
         roles,
         permissions,
         user: {
-          admin: userId === 1 || userId === 999,
+          admin: userId === 0 || userId === 1,
           userId,
           roles: rolesInfo,
           roleIds,

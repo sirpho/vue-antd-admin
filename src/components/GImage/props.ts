@@ -17,6 +17,7 @@ export const gImagePorps = {
     type: String as PropType<string>,
     default: ''
   },
+  lazy: PropTypes.bool,
   scrollContainer: {
     type: [String, Object] as PropType<string | HTMLElement | undefined>,
   },

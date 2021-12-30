@@ -1,4 +1,4 @@
-import type { CSSProperties, ExtractPropTypes, } from 'vue'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
 import {
   computed,
   defineComponent,
@@ -8,6 +8,7 @@ import {
   onDeactivated,
   onUnmounted
 } from 'vue'
+import { Empty } from 'ant-design-vue'
 import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer'
 import Player from 'xgplayer'
 import Music from 'xgplayer-music'
@@ -214,7 +215,7 @@ export default defineComponent({
               </div>
             )
             : (
-              <a-empty image={Nodata} description="该格式不支持在线播放" />
+              <Empty image={Nodata} description="该格式不支持在线播放" />
             )
         }
       </>

@@ -41,9 +41,9 @@ const defaultSettings: settingConfig = {
   //加载时显示文字
   loadingText: '正在加载中...',
   //token名称
-  tokenName: 'accessToken',
+  tokenName: 'GxAccessToken',
   //token在localStorage、sessionStorage、cookie存储的key的名称
-  tokenTableName: 'accessToken',
+  tokenTableName: 'GxAccessToken',
   //token存储位置localStorage sessionStorage cookie
   storage: 'localStorage',
   //token失效回退到登录页时是否记录本次的路由

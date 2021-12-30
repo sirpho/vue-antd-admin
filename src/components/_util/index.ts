@@ -2,9 +2,6 @@ import { Fragment, Slots } from 'vue'
 import { camelize } from '@vue/shared'
 
 import LabelIconTip from './components/LabelIconTip'
-import FieldLabel from './components/FieldLabel'
-import FilterDropdown from './components/FilterDropdown'
-import DropdownFooter from './components/DropdownFooter'
 
 import isServer from './isServer'
 
@@ -17,7 +14,6 @@ import pickProFormItemProps from './pickProFormItemProps'
 import scrollTo from './scroll/scrollTo'
 import getScroll from './scroll/getScroll'
 import throttleByAnimationFrame from './scroll/throttleByAnimationFrame'
-import addEventListener from './dom/addEventListener'
 
 /** Hooks */
 import useFetchData from './hooks/useFetchData'
@@ -98,6 +94,37 @@ export const getScrollContainer = (
     parent = parent.parentNode as HTMLElement
   }
   return parent
+}
+
+export const isInContainer = (
+  el: HTMLElement,
+  container: HTMLElement
+): boolean => {
+  if (isServer || !el || !container) return false
+
+  const elRect = el.getBoundingClientRect()
+  let containerRect: any
+
+  if (
+    [ window, document, document.documentElement, null, undefined ].includes(
+      container
+    )
+  ) {
+    containerRect = {
+      top: 0,
+      right: window.innerWidth,
+      bottom: window.innerHeight,
+      left: 0
+    }
+  } else {
+    containerRect = container.getBoundingClientRect()
+  }
+  return (
+    elRect.top < containerRect.bottom &&
+    elRect.bottom > containerRect.top &&
+    elRect.right > containerRect.left &&
+    elRect.left < containerRect.right
+  )
 }
 
 export interface prefixCls {
@@ -190,12 +217,47 @@ export function set<Entity = any, Output = Entity, Value = any>(
   return internalSet(entity, paths, value, removeIfUndefined)
 }
 
+export const isSlotFragment = (slots, name = 'default') => slots[name]?.().length === 1 &&
+  !slots[name]?.()[0].children && (
+    slots[name]?.()[0].type === Fragment ||
+    String(slots[name]?.()[0].type) === String(Symbol()) ||
+    String(slots[name]?.()[0].type) === String(Symbol('Comment'))
+  )
+
 export const getSlotChildren = (slots, name = 'default') => slots[name]?.().length === 1 && (
   slots[name]?.()[0].type === Fragment ||
-  String(slots[name]?.()[0].type) === String(Symbol())
+  String(slots[name]?.()[0].type) === String(Symbol()) ||
+  String(slots[name]?.()[0].type) === String(Symbol('Comment'))
 )
   ? slots[name]?.()[0].children || []
   : slots[name]?.() || []
+
+const merge = <T>(...rest: any[]): T => {
+  const obj = {};
+  const il = rest.length;
+  let key;
+  let i = 0;
+  for (; i < il; i += 1) {
+    for (key in rest[i]) {
+      if (rest[i].hasOwnProperty(key)) {
+        if (
+          typeof obj[key] === 'object' &&
+          typeof rest[i][key] === 'object' &&
+          !Array.isArray(obj[key]) &&
+          !Array.isArray(rest[i][key])
+        ) {
+          obj[key] = {
+            ...obj[key],
+            ...rest[i][key],
+          };
+        } else {
+          obj[key] = rest[i][key];
+        }
+      }
+    }
+  }
+  return obj as T;
+}
 
 /** Type */
 export * from './typings'
@@ -209,23 +271,20 @@ export { noteOnce } from 'ant-design-vue/es/vc-util/warning'
 
 export {
   isServer,
+  merge,
   isNil,
   call,
   scrollTo,
   getScroll,
   pickProProps,
   omitUndefined,
-  FieldLabel,
   LabelIconTip,
-  FilterDropdown,
-  DropdownFooter,
   useFetchData,
   dateFormatterMap,
   isDeepEqualReact,
   dateArrayFormatter,
   isDropdownValueType,
   pickProFormItemProps,
-  addEventListener,
   conversionMomentValue,
   parseValueToMoment,
   transformKeySubmitValue,

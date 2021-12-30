@@ -62,9 +62,9 @@ const mutations: MutationTree<any> = {
    * @param {*} state
    * @param {*} accessToken
    */
-  setAccessToken(state: UserState, accessToken: string) {
-    state.accessToken = accessToken
-    setAccessToken(accessToken)
+  setToken(state: UserState, { token, expires }: { token: string, expires?: number }) {
+    state.accessToken = token
+    setAccessToken(token, expires)
   },
   /**
    * @author gx12358 2539306317@qq.com
@@ -113,6 +113,7 @@ const actions: ActionTree<UserState, any> = {
     dispatch('acl/setFull', true, { root: true })
     commit('setAvatar', 'https://i.gtimg.cn/club/item/face/img/2/15922_100.gif')
     commit('setUserName', 'admin(未开启登录拦截)')
+    return true
   },
   /**
    * @author gx12358 2539306317@qq.com
@@ -121,13 +122,17 @@ const actions: ActionTree<UserState, any> = {
    * @param {*} userInfo
    */
   async login({ commit }, userInfo) {
-    const { data } = await login(userInfo)
-    const accessToken = data[tokenName]
+    const response: any = await login(userInfo)
+    const accessToken = response?.data[tokenName]
     if (accessToken) {
-      commit('setAccessToken', accessToken)
-    } else {
-      message.error(`登录接口异常，未正确返回${tokenName}...`)
+      const expires_in = response?.data?.expires_in
+      commit('setToken', {
+        token: accessToken,
+        expires: expires_in ? expires_in * 60 * 1000 : 0
+      })
+      return true
     }
+    return false
   },
   /**
    * @author gx12358 2539306317@qq.com
@@ -156,7 +161,9 @@ const actions: ActionTree<UserState, any> = {
       })
     } else {
       message.error('用户信息接口异常')
+      return false
     }
+    return true
   },
   /**
    * @author gx12358 2539306317@qq.com
@@ -167,26 +174,20 @@ const actions: ActionTree<UserState, any> = {
     await logout({
       userName: state.userName
     })
-    await dispatch('resetAll')
+    await dispatch('resetPermissions')
   },
   /**
    * @author gx12358 2539306317@qq.com
    * @description 重置accessToken、roles、buttons、router等
    * @param {*} { commit, dispatch }
    */
-  async resetAll({ dispatch }) {
-    await dispatch('setAccessToken', '')
+  async resetPermissions({ dispatch, commit }) {
+    commit('setToken', { token: '' })
     await dispatch('acl/setFull', false, { root: true })
     await dispatch('acl/setRole', [], { root: true })
     await dispatch('acl/setAbility', [], { root: true })
+    await dispatch('routes/reSetRouterLoadList', [], { root: true })
     removeAccessToken()
-  },
-  /**
-   * @author gx12358 2539306317@qq.com
-   * @description 设置token
-   */
-  setAccessToken({ commit }, accessToken) {
-    commit('setAccessToken', accessToken)
   }
 }
 export default { state, getters, mutations, actions }

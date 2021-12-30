@@ -3,7 +3,7 @@ export default {
     {
       title: '权限名称',
       ellipsis: true,
-      dataIndex: 'menuName'
+      dataIndex: 'title'
     },
     {
       title: '路由唯一键',

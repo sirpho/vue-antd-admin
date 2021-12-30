@@ -30,11 +30,11 @@
         </a-form-item>
       </a-form>
       <div v-else :class="$style['step-form']">
-        <a-steps :current="stepCurrent">
-          <a-step title="基本信息" />
-          <a-step title="配置规则属性" />
-          <a-step title="设定调度周期" />
-        </a-steps>
+        <Steps :current="stepCurrent">
+          <Step title="基本信息" />
+          <Step title="配置规则属性" />
+          <Step title="设定调度周期" />
+        </Steps>
         <div
           :class="{
             [`${$style['step-form-content']}`]: true,
@@ -206,7 +206,7 @@
 <script lang="ts">
 import { defineComponent, reactive, toRaw, toRefs } from 'vue'
 import dayjs from 'dayjs'
-import { Form, message } from 'ant-design-vue'
+import { Form, message, Step, Steps } from 'ant-design-vue'
 import { getRuleInfo, addRule, updateRule } from '/@/services/list/table'
 import { rules, dispatchRules, formItemLayout } from '../utils/config'
 import { hanndleField } from '/@/utils/util'
@@ -214,6 +214,7 @@ import { hanndleField } from '/@/utils/util'
 const useForm = Form.useForm
 
 export default defineComponent({
+  components: { Step, Steps },
   emits: [ 'handleOk' ],
   setup(_, { emit }) {
     const state = reactive({

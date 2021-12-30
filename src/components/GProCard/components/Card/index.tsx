@@ -7,7 +7,7 @@ import {
   cloneVNode,
   watch
 } from 'vue'
-import { Grid } from 'ant-design-vue'
+import { Grid, Tabs } from 'ant-design-vue'
 import { RightOutlined } from '@ant-design/icons-vue'
 import { isArray } from '/@/utils/validate'
 import { getPrefixCls, getPropsSlot, LabelIconTip } from '@gx-design/pro-utils'
@@ -268,9 +268,9 @@ const ProCard = defineComponent({
           )}
           {props.tabs ? (
             <div class={`${baseClassName}-tabs`}>
-              <a-tabs onChange={props.tabs?.onChange} {...props.tabs}>
+              <Tabs onChange={props.tabs?.onChange} {...props.tabs}>
                 {getPropsSlot(slots, props, 'loading') ? loadingRender : slots.default?.()}
-              </a-tabs>
+              </Tabs>
             </div>
           ) : (
             <div class={bodyCls.value} style={cardBodyStyle.value}>

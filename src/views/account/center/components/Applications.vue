@@ -67,7 +67,7 @@
               <div>
                 <p>新增用户</p>
                 <p>
-                  <a-statistic :value="item.newUser" />
+                  <Statistic :value="item.newUser" />
                 </p>
               </div>
             </div>
@@ -81,6 +81,7 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs, watch } from 'vue'
 import dayjs from 'dayjs'
+import { Statistic } from 'ant-design-vue'
 import {
   DownloadOutlined,
   EditOutlined,
@@ -90,6 +91,7 @@ import {
 
 export default defineComponent({
   components: {
+    Statistic,
     DownloadOutlined,
     EditOutlined,
     ShareAltOutlined,

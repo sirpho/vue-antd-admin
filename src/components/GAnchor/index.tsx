@@ -14,7 +14,6 @@ import { cloneDeep } from 'lodash-es'
 import config from '/config/config'
 import { useMediaQuery } from '@gx-design/pro-hooks/event'
 import {
-  addEventListener,
   getPrefixCls,
   getScroll,
   scrollTo,
@@ -36,7 +35,6 @@ export const handelInkStyle = (level = 1, isMobile?) => {
 export interface anchorState {
   visible: boolean;
   dataSource: any[];
-  scrollEvent: { remove: () => void } | null;
 }
 
 export const anchorProps = {
@@ -71,14 +69,13 @@ const GAnchor = defineComponent({
 
     const state: anchorState = reactive({
       visible: false,
-      dataSource: [],
-      scrollEvent: null
+      dataSource: []
     })
 
     const bindScrollEvent = () => {
       const { root } = props
       const container = (document.querySelector(root) as HTMLInputElement)
-      state.scrollEvent = addEventListener(container, 'scroll', (e: Event) => {
+      container.addEventListener('scroll', (e: Event) => {
         handleScroll(e)
       })
       handleScroll({
@@ -87,8 +84,12 @@ const GAnchor = defineComponent({
     }
 
     const scrollRemove = () => {
-      if (state.scrollEvent) {
-        state.scrollEvent.remove()
+      const { root } = props
+      const container = (document.querySelector(root) as HTMLInputElement)
+      if (container) {
+        container.removeEventListener('scroll', (e: Event) => {
+          handleScroll(e)
+        })
       }
       (handleScroll as any).cancel()
     }

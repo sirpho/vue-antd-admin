@@ -1,7 +1,7 @@
 <template>
   <g-pro-page-wrapper :contentStyle="{ background: 'transparent', padding: 0 }">
     <div :class="$style.workplace">
-      <a-page-header title="工作台" :backIcon="false">
+      <PageHeader title="工作台" :backIcon="false">
         <template #extra>
         <span :class="$style.refresh" @click="reloadCurrentPage">
           <RedoOutlined />&nbsp;刷新
@@ -31,15 +31,15 @@
             class="gx-pro-page-container-extraContent">
             <div :class="$style['extra-content']">
               <div :class="$style['stat-item']">
-                <a-statistic title="项目数" :value="3" />
+                <Statistic title="项目数" :value="3" />
               </div>
               <div :class="$style['stat-item']">
-                <a-statistic title="项目访问" :value="2223" />
+                <Statistic title="项目访问" :value="2223" />
               </div>
             </div>
           </div>
         </div>
-      </a-page-header>
+      </PageHeader>
       <div style="margin: 24px">
         <a-row :gutter="24">
           <a-col :xl="16" :lg="24" :md="24" :sm="24" :xs="24">
@@ -176,6 +176,7 @@ import {
   inject
 } from 'vue'
 import { useStore } from 'vuex'
+import { Statistic, PageHeader } from 'ant-design-vue'
 import { PlusOutlined, RedoOutlined, LoadingOutlined } from '@ant-design/icons-vue'
 import { notice, activities, radar } from '/@/services/workplace'
 import useMediaQuery from '/@/hooks/event/useMediaQuery'
@@ -195,7 +196,7 @@ interface stateTypes {
 }
 
 export default defineComponent({
-  components: { PlusOutlined, RedoOutlined, LoadingOutlined, Radar },
+  components: { PlusOutlined, RedoOutlined, LoadingOutlined, Radar, Statistic, PageHeader },
   setup() {
     const store = useStore()
     const colSize = useMediaQuery()

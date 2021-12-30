@@ -2,9 +2,9 @@
   <g-pro-page-wrapper>
     <div :class="$style['steps-form']">
       <div :class="$style['steps-form-steps-container']" style="max-width: 960px">
-        <a-steps :current="current">
-          <a-step v-for="item in steps" :key="item" :title="item" />
-        </a-steps>
+        <Steps :current="current">
+          <Step v-for="item in steps" :key="item" :title="item" />
+        </Steps>
       </div>
       <div :class="$style['steps-form-container']">
         <div
@@ -84,29 +84,24 @@
               message="确认转账后，资金将直接打入对方账户，无法退回。"
               style="margin-bottom: 24px"
             />
-            <a-descriptions :column="1" bordered>
-              <a-descriptions-item label="付款账户">
+            <Descriptions :column="1" bordered>
+              <DescriptionsItem label="付款账户">
                 {{ stepData.payAccount || '-' }}
-              </a-descriptions-item>
-              <a-descriptions-item label="收款账户">
+              </DescriptionsItem>
+              <DescriptionsItem label="收款账户">
                 {{ stepData.receiverAccount || '-' }}
-              </a-descriptions-item>
-              <a-descriptions-item label="收款人姓名">
+              </DescriptionsItem>
+              <DescriptionsItem label="收款人姓名">
                 {{ stepData.receiverName || '-' }}
-              </a-descriptions-item>
-              <a-descriptions-item label="转账金额">
-                <a-statistic
-                  :value="stepData.amount"
-                  :precision="2"
-                >
+              </DescriptionsItem>
+              <DescriptionsItem label="转账金额">
+                <Statistic :value="stepData.amount" :precision="2">
                   <template #suffix>
-                    <span style="font-size: 14px">
-                      元
-                    </span>
+                    <span style="font-size: 14px">元</span>
                   </template>
-                </a-statistic>
-              </a-descriptions-item>
-            </a-descriptions>
+                </Statistic>
+              </DescriptionsItem>
+            </Descriptions>
             <a-divider style="margin: 24px 0" />
             <a-form :model="stepTwoData" layout="vertical">
               <a-form-item label="支付密码" v-bind="stepTwoValidateInfos.password">
@@ -124,7 +119,7 @@
           v-show="current === 2"
         >
           <div :class="$style.result">
-            <a-result
+            <Result
               status="success"
               title="操作成功"
               sub-title="预计两小时内到账"
@@ -135,30 +130,25 @@
                 </a-button>
                 <a-button>查看账单</a-button>
               </template>
-              <a-descriptions :column="1">
-                <a-descriptions-item label="付款账户">
+              <Descriptions :column="1">
+                <DescriptionsItem label="付款账户">
                   {{ stepData.payAccount || '-' }}
-                </a-descriptions-item>
-                <a-descriptions-item label="收款账户">
+                </DescriptionsItem>
+                <DescriptionsItem label="收款账户">
                   {{ stepData.receiverAccount || '-' }}
-                </a-descriptions-item>
-                <a-descriptions-item label="收款人姓名">
+                </DescriptionsItem>
+                <DescriptionsItem label="收款人姓名">
                   {{ stepData.receiverName || '-' }}
-                </a-descriptions-item>
-                <a-descriptions-item label="转账金额">
-                  <a-statistic
-                    :value="stepData.amount"
-                    :precision="2"
-                  >
+                </DescriptionsItem>
+                <DescriptionsItem label="转账金额">
+                  <Statistic :value="stepData.amount" :precision="2">
                     <template #suffix>
-                      <span style="font-size: 14px">
-                        元
-                      </span>
+                      <span style="font-size: 14px">元</span>
                     </template>
-                  </a-statistic>
-                </a-descriptions-item>
-              </a-descriptions>
-            </a-result>
+                  </Statistic>
+                </DescriptionsItem>
+              </Descriptions>
+            </Result>
           </div>
         </div>
         <a-space align="center">
@@ -186,13 +176,16 @@
 import { defineComponent, reactive, toRefs, onActivated, computed } from 'vue'
 import { useStore } from 'vuex'
 import { cloneDeep } from 'lodash-es'
-import { Form } from 'ant-design-vue'
+import { Form, Result, Step, Steps, Statistic, Descriptions } from 'ant-design-vue'
 import { getStepForm } from '/@/services/form/step'
 import { hanndleField } from '/@/utils/util'
 
 const useForm = Form.useForm
 
+const DescriptionsItem = Descriptions.Item
+
 export default defineComponent({
+  components: { Result, Step, Steps, Statistic, Descriptions, DescriptionsItem },
   setup() {
     const store = useStore()
     const state = reactive({

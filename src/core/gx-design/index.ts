@@ -1,6 +1,5 @@
 import {
   GImage,
-  GUpload,
   GResult,
   GSkeleton,
   GMaterialView,
@@ -17,7 +16,6 @@ import { GScrollbars } from '/@/components/export'
 const gxDesign = (app) => {
   app.component('g-image', GImage)
   app.component('g-affix', GAffix)
-  app.component('g-upload', GUpload)
   app.component('g-result', GResult)
   app.component('g-anchor', GAnchor)
   app.component('g-bars', GScrollbars)

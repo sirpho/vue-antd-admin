@@ -9,6 +9,7 @@ import {
   watch,
   nextTick
 } from 'vue'
+import { Popover } from 'ant-design-vue'
 import { useMergedState, onClickOutside } from '@gx-design/pro-hooks/core'
 import type { OnUpdateValueImpl } from '@gx-design/pro-utils'
 import { call, getPrefixCls } from '@gx-design/pro-utils'
@@ -523,7 +524,7 @@ export default defineComponent({
           }}
           ref={e => selfRef.value = e}
         >
-          <a-popover
+          <Popover
             trigger="click"
             placement="right"
             get-popup-container={() => selfRef.value}
@@ -539,7 +540,7 @@ export default defineComponent({
               hsla={hslaRef.value}
               onClick={() => !props.readonly && handleTriggerClick()}
             />
-          </a-popover>
+          </Popover>
         </div>
       )
     }

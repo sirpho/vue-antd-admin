@@ -34,7 +34,7 @@
         </a-col>
         
         <a-col v-if="queryIcon.length > 0" :span="24">
-          <a-pagination
+          <Pagination
             show-quick-jumper
             v-model:current="queryForm.current"
             v-model:pageSize="queryForm.pageSize"
@@ -50,14 +50,13 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { Pagination } from 'ant-design-vue'
 import { getIconList } from '/@/services/icon'
 import clip from '/@/utils/clipboard'
 import OperationModal from './components/OperationModal.vue'
 
 export default defineComponent({
-  components: {
-    OperationModal
-  },
+  components: { Pagination, OperationModal },
   data() {
     return {
       total: 0,
@@ -101,23 +100,23 @@ export default defineComponent({
 </script>
 
 <style lang="less">
-.icon-container{
-  .icon-list{
+.icon-container {
+  .icon-list {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     
-    .icon-list_item{
+    .icon-list_item {
       margin-right: 20px;
     }
   }
   
   .ant-input-search,
-  .ant-alert{
+  .ant-alert {
     margin-bottom: 20px;
   }
   
-  .ant-card-body{
+  .ant-card-body {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -126,7 +125,7 @@ export default defineComponent({
     height: 68px;
     cursor: pointer;
     
-    i{
+    i {
       font-size: 28px;
       text-align: center;
       pointer-events: none;
@@ -134,7 +133,7 @@ export default defineComponent({
     }
   }
   
-  .icon-text{
+  .icon-text {
     height: 30px;
     overflow: hidden;
     font-size: 12px;

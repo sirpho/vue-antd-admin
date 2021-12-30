@@ -9,7 +9,7 @@ import {
   onUnmounted
 } from 'vue'
 import { cloneDeep, omit } from 'lodash-es'
-import { Grid } from 'ant-design-vue'
+import { ConfigProvider, Grid, Table } from 'ant-design-vue'
 import {
   LoadingOutlined,
   ReloadOutlined,
@@ -22,6 +22,7 @@ import { hanndleField } from '/@/utils/util'
 import { isBoolean, isNumber, isObject } from '/@/utils/validate'
 import { getPrefixCls, getPropsSlot } from '@gx-design/pro-utils'
 import type { OptionConfig } from './types/table'
+import type { ProColumns } from './types/column'
 import { useLoading } from './hooks/useLoading'
 import { useTableSize } from './hooks/useTableSize'
 import { useColumns } from './hooks/useColums'
@@ -544,16 +545,16 @@ const GProTable = defineComponent({
                 {Object.keys(getOptionsRef.value).length > 0 ? toolBarRight() : null}
               </div>
             )}
-            <a-config-provider renderEmpty={defaultEmpty}>
-              <a-table
+            <ConfigProvider renderEmpty={defaultEmpty}>
+              <Table
                 {...getBindValues.value}
                 transformCellText={({ text, column }) => {
                   const { value, success } = hanndleField(
                     text,
-                    column?.columnEmptyText || props?.columnEmptyText
+                    (column as ProColumns<RecordType>)?.columnEmptyText || props?.columnEmptyText
                   )
-                  return column?.ellipsis
-                    ? tooltipSlot(value, success, column)
+                  return (column as ProColumns<RecordType>)?.ellipsis
+                    ? tooltipSlot(value, success, (column as ProColumns<RecordType>))
                     : value
                 }}
                 onChange={changePage}
@@ -562,8 +563,8 @@ const GProTable = defineComponent({
                 onResizeColumn={handleResizeColumn}
               >
                 {handleSlots(slots)}
-              </a-table>
-            </a-config-provider>
+              </Table>
+            </ConfigProvider>
           </div>
         </div>
       )

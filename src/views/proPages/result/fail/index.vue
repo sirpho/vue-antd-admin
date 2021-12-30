@@ -1,7 +1,7 @@
 <template>
   <g-pro-page-wrapper>
     <a-card :bordered="false">
-      <a-result
+      <Result
         status="error"
         title="提交失败"
         subTitle="请核对并修改以下信息后，再重新提交。"
@@ -31,21 +31,14 @@
             <RightOutlined />
           </a>
         </div>
-      </a-result>
+      </Result>
     </a-card>
   </g-pro-page-wrapper>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
+import { Result } from 'ant-design-vue'
 import { CloseCircleOutlined, RightOutlined } from '@ant-design/icons-vue'
-
-export default defineComponent({
-  components: { CloseCircleOutlined, RightOutlined },
-  setup() {
-    return {}
-  }
-})
 </script>
 
 <style lang="less" module>

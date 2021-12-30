@@ -97,7 +97,7 @@
                   <p>{{ item.createdAt }}</p>
                 </div>
                 <div :class="$style.listContentItem">
-                  <a-progress
+                  <Progress
                     style="width: 180px"
                     :strokeWidth="6"
                     :percent="item.percent"
@@ -128,7 +128,7 @@ import {
   ref,
   toRefs
 } from 'vue'
-import { message, Modal } from 'ant-design-vue'
+import { message, Modal, Progress } from 'ant-design-vue'
 import {
   PlusOutlined,
   DownOutlined,
@@ -141,6 +141,7 @@ import OperationModal from './components/OperationModal.vue'
 
 export default defineComponent({
   components: {
+    Progress,
     RedoOutlined,
     PlusOutlined,
     DownOutlined,

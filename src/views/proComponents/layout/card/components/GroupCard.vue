@@ -13,19 +13,19 @@
     <ResizeObserver key="resize-observer" :onResize="({ width }) => { setResponsive(width < 596) }">
       <g-pro-card-group title="核心指标" :direction="responsive ? 'column' : 'row'">
         <g-pro-card>
-          <a-statistic title="今日UV" :value="79.0" :precision="2" />
+          <Statistic title="今日UV" :value="79.0" :precision="2" />
         </g-pro-card>
         <g-pro-card-divider :type="responsive ? 'horizontal' : 'vertical'" />
         <g-pro-card>
-          <a-statistic title="冻结金额" :value="112893.0" :precision="2" />
+          <Statistic title="冻结金额" :value="112893.0" :precision="2" />
         </g-pro-card>
         <g-pro-card-divider :type="responsive ? 'horizontal' : 'vertical'" />
         <g-pro-card>
-          <a-statistic title="信息完整度" :value="93" suffix="/ 100" />
+          <Statistic title="信息完整度" :value="93" suffix="/ 100" />
         </g-pro-card>
         <g-pro-card-divider :type="responsive ? 'horizontal' : 'vertical'" />
         <g-pro-card>
-          <a-statistic title="冻结金额" :value="112893.0" />
+          <Statistic title="冻结金额" :value="112893.0" />
         </g-pro-card>
       </g-pro-card-group>
     </ResizeObserver>
@@ -34,12 +34,11 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import { Statistic } from 'ant-design-vue'
 import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer'
 
 export default defineComponent({
-  components: {
-    ResizeObserver
-  },
+  components: { Statistic, ResizeObserver },
   setup() {
     const responsive = ref(false)
     const setResponsive = (value: boolean) => {

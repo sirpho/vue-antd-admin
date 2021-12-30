@@ -9,6 +9,7 @@ import {
 } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import { Tabs } from 'ant-design-vue'
 import { EllipsisOutlined, ReloadOutlined, CloseOutlined } from '@ant-design/icons-vue'
 import config from '/config/config'
 import multiTabProps from './props'
@@ -373,7 +374,7 @@ export default defineComponent({
             ['gx-pro-multi-tab-wrap-loading']: loading.value
           }}
         >
-          <a-tabs
+          <Tabs
             onTabClick={handleTabClick}
             activeKey={state.tabActive}
             hideAdd
@@ -387,7 +388,7 @@ export default defineComponent({
                 <a-tab-pane key={item.fullPath} closable={false} tab={defaultRenderTab(item)} />
               ))
             }
-          </a-tabs>
+          </Tabs>
         </div>
       </>
     )

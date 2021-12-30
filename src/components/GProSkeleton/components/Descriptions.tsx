@@ -1,3 +1,4 @@
+import { Skeleton } from 'ant-design-vue'
 import { useMediaQuery } from '@gx-design/pro-hooks/event'
 import { PageHeaderSkeleton, Line } from './List'
 
@@ -35,9 +36,9 @@ const DescriptionsLargeItemSkeleton = ({ active }: {
           maxWidth: '300px'
         }}
       >
-        <a-skeleton active={active} paragraph={false} title={{ style: { marginTop: 0 } }} />
-        <a-skeleton active={active} paragraph={false} title={{ style: { marginTop: '8px' } }} />
-        <a-skeleton active={active} paragraph={false} title={{ style: { marginTop: '8px' } }} />
+        <Skeleton active={active} paragraph={false} />
+        <Skeleton active={active} paragraph={false} />
+        <Skeleton active={active} paragraph={false} />
       </div>
       <div
         style={{
@@ -52,8 +53,8 @@ const DescriptionsLargeItemSkeleton = ({ active }: {
             margin: 'auto'
           }}
         >
-          <a-skeleton active={active} paragraph={false} title={{ style: { marginTop: 0 } }} />
-          <a-skeleton active={active} paragraph={false} title={{ style: { marginTop: '8px' } }} />
+          <Skeleton active={active} paragraph={false} />
+          <Skeleton active={active} paragraph={false} />
         </div>
       </div>
     </div>
@@ -77,9 +78,9 @@ const DescriptionsItemSkeleton = ({ size, active }: {
             paddingRight: `${index === arraySize - 1 ? 0 : 24}px`
           }}
         >
-          <a-skeleton active={active} paragraph={false} title={{ style: { marginTop: 0 } }} />
-          <a-skeleton active={active} paragraph={false} title={{ style: { marginTop: '8px' } }} />
-          <a-skeleton active={active} paragraph={false} title={{ style: { marginTop: '8px' } }} />
+          <Skeleton active={active} paragraph={false} />
+          <Skeleton active={active} paragraph={false} />
+          <Skeleton active={active} paragraph={false} />
         </div>
       ))}
     </div>
@@ -113,16 +114,10 @@ export const TableItemSkeleton = ({
               paddingRight: '32px'
             }}
           >
-            <a-skeleton
+            <Skeleton
               active={active}
               paragraph={false}
-              title={{
-                style: {
-                  margin: 0,
-                  height: '24px',
-                  width: header ? '75px' : '100%'
-                }
-              }}
+              title={{ width: header ? '75px' : '100%' }}
             />
           </div>
         ))}
@@ -132,12 +127,10 @@ export const TableItemSkeleton = ({
             paddingLeft: '32px'
           }}
         >
-          <a-skeleton
+          <Skeleton
             active={active}
             paragraph={false}
-            title={{
-              style: { margin: 0, height: '24px', width: header ? '75px' : '100%' }
-            }}
+            title={{ width: header ? '75px' : '100%' }}
           />
         </div>
       </div>
@@ -163,18 +156,7 @@ export const TableSkeleton = ({ active, size = 4 }: {
         paddingTop: '16px'
       }}
     >
-      <a-skeleton
-        active={active}
-        paragraph={false}
-        title={{
-          style: {
-            margin: 0,
-            height: '32px',
-            float: 'right',
-            maxWidth: '630px'
-          }
-        }}
-      />
+      <Skeleton active={active} paragraph={false} />
     </div>
   </a-card>
 )

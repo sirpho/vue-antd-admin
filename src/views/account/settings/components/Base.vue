@@ -2,7 +2,7 @@
   <div :class="$style.baseView">
     <template v-if="loading">
       <div :class="$style.skeletonContent">
-        <a-skeleton avatar :paragraph="{ rows: 6 }" />
+        <Skeleton avatar :paragraph="{ rows: 6 }" />
       </div>
     </template>
     <template v-else>
@@ -153,14 +153,14 @@
         <div :class="$style.avatar">
           <img :src="getAvatarURL" alt="avatar" />
         </div>
-        <a-upload :showUploadList="false">
+        <g-upload :showUploadList="false">
           <div :class="$style.button_view">
             <a-button>
               <UploadOutlined />
               更换头像
             </a-button>
           </div>
-        </a-upload>
+        </g-upload>
       </div>
     </template>
   </div>
@@ -173,10 +173,9 @@ import {
   onMounted,
   reactive,
   toRefs,
-  getCurrentInstance,
   toRaw
 } from 'vue'
-import { Form, message } from 'ant-design-vue'
+import { Form, message, Skeleton } from 'ant-design-vue'
 import { UploadOutlined } from '@ant-design/icons-vue'
 import type { CurrentUser } from '/@/services/account/typings'
 import { queryCurrent, queryProvince, queryCity } from '/@/services/account/settings'
@@ -187,12 +186,8 @@ import { rules } from '../utils/config'
 const useForm = Form.useForm
 
 export default defineComponent({
-  components: {
-    UploadOutlined
-  },
+  components: { UploadOutlined, Skeleton },
   setup() {
-    const { proxy }: any = getCurrentInstance()
-
     const colSize = useMediaQuery()
 
     const state = reactive({

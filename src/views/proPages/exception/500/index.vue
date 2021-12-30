@@ -1,5 +1,5 @@
 <template>
-  <a-result
+  <Result
     status="500"
     title="500"
     style="background: none"
@@ -10,17 +10,11 @@
         <a-button type="primary">返回首页</a-button>
       </router-link>
     </template>
-  </a-result>
+  </Result>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  setup() {
-    return {}
-  }
-})
+<script lang="ts" setup>
+import { Result } from 'ant-design-vue'
 </script>
 
 <style scoped>

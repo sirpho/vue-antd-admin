@@ -29,10 +29,12 @@ router.beforeEach(async (to, _, next) => {
     store.dispatch('routes/toggleRouterLoading', true)
   }
   let hasToken = store.getters['user/accessToken']
+  let hasUserInfo = true
+  let accessRoutes: any[] = []
   if (!loginInterception) hasToken = true
   if (hasToken) {
     if (to.path === '/user/login') {
-      next({ path: '/user/login' })
+      next({ path: '/', replace: true })
       NProgress.done()
     } else {
       const hasRoles = store.getters['acl/role'].length > 0
@@ -42,26 +44,26 @@ router.beforeEach(async (to, _, next) => {
       } else {
         try {
           if (loginInterception) {
-            await store.dispatch('user/getUserInfo')
+            hasUserInfo = await store.dispatch('user/getUserInfo')
           } else {
             //loginInterception为false（关闭登录拦截时）时，创建虚拟角色
-            await store.dispatch('user/setVirtualRoles')
+            hasUserInfo = await store.dispatch('user/setVirtualRoles')
           }
-          let accessRoutes = []
-          if (authentication === 'intelligence') {
-            accessRoutes = await store.dispatch('routes/setRoutes')
-          } else if (authentication === 'all') {
-            accessRoutes = await store.dispatch('routes/setAllRoutes')
+          if (hasUserInfo) {
+            if (authentication === 'intelligence') {
+              accessRoutes = await store.dispatch('routes/setRoutes')
+            } else if (authentication === 'all') {
+              accessRoutes = await store.dispatch('routes/setAllRoutes')
+            }
           }
-          if (accessRoutes) {
-            accessRoutes.forEach((item) => {
-              router.addRoute(item)
-            })
-            store.dispatch('routes/setMeunLoading', false)
+          (accessRoutes as any[]).forEach((item) => {
+            router.addRoute(item)
+          })
+          if (hasUserInfo && accessRoutes.length) {
             next({ ...to, replace: true })
-          } else {
-            await store.dispatch('user/resetAll')
             store.dispatch('routes/setMeunLoading', false)
+          } else {
+            await store.dispatch('user/resetPermissions')
             if (recordRoute)
               next({
                 path: '/user/login',
@@ -72,7 +74,7 @@ router.beforeEach(async (to, _, next) => {
           }
           NProgress.done()
         } catch (e) {
-          await store.dispatch('user/resetAll')
+          await store.dispatch('user/resetPermissions')
           if (recordRoute)
             next({
               path: '/user/login',
@@ -85,13 +87,13 @@ router.beforeEach(async (to, _, next) => {
       }
     }
   } else {
-    await store.dispatch('user/resetAll')
     if (routesWhiteList.indexOf(to.path) !== -1) {
       next()
     } else {
-      if (recordRoute)
+      await store.dispatch('user/resetPermissions')
+      if (recordRoute) {
         next({ path: '/user/login', query: { redirect: to.path }, replace: true })
-      else next({ path: '/user/login', replace: true })
+      } else next({ path: '/user/login', replace: true })
     }
     NProgress.done()
   }

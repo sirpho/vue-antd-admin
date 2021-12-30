@@ -18,18 +18,18 @@
         :style="isMobile ? undefined : { height: '320px'}"
       >
         <g-pro-card :colSpan="responsive ? 24 : 6">
-          <a-steps
+          <Steps
             style="height: 100%"
             :direction="responsive ? 'horizontal' : 'vertical'"
             size="small"
             :current="current"
           >
-            <a-step title="填写基本信息" />
-            <a-step title="配置模板" />
-            <a-step title="配置访问" />
-            <a-step title="配置部署和调度" />
-            <a-step title="预览" />
-          </a-steps>
+            <Step title="填写基本信息" />
+            <Step title="配置模板" />
+            <Step title="配置访问" />
+            <Step title="配置部署和调度" />
+            <Step title="预览" />
+          </Steps>
         </g-pro-card>
         <g-pro-card title="流量占用情况" :colSpan="responsive ? 24 : 18">
           <a-space>
@@ -53,13 +53,12 @@
 
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue'
+import { Steps, Step } from 'ant-design-vue'
 import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer'
 import useMediaQuery from '/@/hooks/event/useMediaQuery'
 
 export default defineComponent({
-  components: {
-    ResizeObserver
-  },
+  components: { ResizeObserver, Steps, Step },
   setup() {
     const colSize = useMediaQuery()
     const isMobile = computed(

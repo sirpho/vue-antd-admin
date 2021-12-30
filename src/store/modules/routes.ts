@@ -12,8 +12,7 @@ const state = () => ({
   routerLoading: false,
   routerLoadList: [],
   meunLoading: false,
-  routes: [],
-  partialRoutes: []
+  routes: []
 })
 const getters = {
   routes: (state) => state.routes,
@@ -29,14 +28,14 @@ const mutations = {
   setRouterLoadList(state, path) {
     state.routerLoadList.push(path)
   },
+  reSetRouterLoadList(state, data) {
+    state.routerLoadList = data
+  },
   toggleRouterLoading: (state, loading) => {
     state.routerLoading = loading
   },
   setRoutes(state, routes) {
     state.routes = routes
-  },
-  setPartialRoutes(state, routes) {
-    state.partialRoutes = routes
   }
 }
 const actions = {
@@ -57,6 +56,9 @@ const actions = {
   },
   setRouterLoadList({ commit }, path) {
     commit('setRouterLoadList', path)
+  },
+  reSetRouterLoadList({ commit }, data) {
+    commit('reSetRouterLoadList', data)
   },
   /**
    * @author gx12358 2539306317@qq.com
@@ -96,16 +98,7 @@ const actions = {
       commit('setRoutes', asyncRoutes)
       return [ ...asyncRoutes ]
     }
-    return false
-  },
-  /**
-   * @author gx12358 2539306317@qq.com
-   * @description 画廊布局、综合布局设置路由
-   * @param {*} { commit }
-   * @param accessedRoutes 画廊布局、综合布局设置路由
-   */
-  setPartialRoutes({ commit }, accessedRoutes) {
-    commit('setPartialRoutes', accessedRoutes)
+    return []
   }
 }
 export default { state, getters, mutations, actions }

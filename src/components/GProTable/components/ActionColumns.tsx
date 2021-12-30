@@ -9,6 +9,7 @@ import {
   unref
 } from 'vue'
 import { cloneDeep } from 'lodash-es'
+import { Popover } from 'ant-design-vue'
 import {
   SettingOutlined,
   VerticalAlignTopOutlined,
@@ -506,7 +507,7 @@ const ActionColumns = defineComponent({
 
     return () => (
       <div class={`${unref(baseClassName)}`} ref={e => actionRef.value = e}>
-        <a-popover
+        <Popover
           title={popoverTitle()}
           content={popoverContent()}
           placement="bottomRight"
@@ -516,7 +517,7 @@ const ActionColumns = defineComponent({
           <a-tooltip title="列配置">
             <SettingOutlined />
           </a-tooltip>
-        </a-popover>
+        </Popover>
       </div>
     )
   }

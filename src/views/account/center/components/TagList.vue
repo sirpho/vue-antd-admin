@@ -1,9 +1,9 @@
 <template>
   <div :class="$style.tags">
     <div :class="$style.tagsTitle">标签</div>
-    <a-tag :key="item.key" v-for="item in (tags || []).concat(newTags)">
+    <Tag :key="item.key" v-for="item in (tags || []).concat(newTags)">
       {{ item.label }}
-    </a-tag>
+    </Tag>
     <a-input
       v-show="inputVisible"
       ref="inputRef"
@@ -15,14 +15,15 @@
       @blur="handleInputConfirm"
       @pressEnter="handleInputConfirm"
     />
-    <a-tag v-if="!inputVisible" style="border-style: dashed" @click="showInput">
+    <Tag v-if="!inputVisible" style="border-style: dashed" @click="showInput">
       <PlusOutlined />
-    </a-tag>
+    </Tag>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, Ref, ref, toRefs } from 'vue'
+import { Tag } from 'ant-design-vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
 import type { CurrentUser, TagType } from '/@/services/account/typings'
 
@@ -30,9 +31,7 @@ export default defineComponent({
   props: {
     tags: Array as PropType<CurrentUser['tags']>
   },
-  components: {
-    PlusOutlined
-  },
+  components: { PlusOutlined, Tag },
   setup() {
     const inputRef: Ref<any> = ref(null)
     const state = reactive({

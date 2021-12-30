@@ -239,7 +239,7 @@
           v-if="errorFields.length > 0 && errorFields.filter((item) => item.errors.length > 0).length > 0"
           :class="$style.errorIcon"
         >
-          <a-popover
+          <Popover
             title="表单校验信息"
             :overlayClassName="$style.errorPopover"
             trigger="click"
@@ -264,7 +264,7 @@
             </template>
             <CloseCircleOutlined />
             {{ errorFields.filter((item) => item.errors.length > 0).length }}
-          </a-popover>
+          </Popover>
         </span>
         <a-button @click="resetForm">重置</a-button>
         <a-button type="primary" @click="submitForm">提交</a-button>
@@ -278,7 +278,7 @@
 import { defineComponent, reactive, toRefs, onActivated, computed } from 'vue'
 import { useStore } from 'vuex'
 import { cloneDeep } from 'lodash-es'
-import { Form } from 'ant-design-vue'
+import { Form, Popover } from 'ant-design-vue'
 import { PlusOutlined, CloseCircleOutlined } from '@ant-design/icons-vue'
 import config from '/config/config'
 import { getAdvancedForm, getAdvancedFormTable } from '/@/services/form/advanced'
@@ -311,7 +311,7 @@ interface ErrorField {
 const useForm = Form.useForm
 
 export default defineComponent({
-  components: { PlusOutlined, CloseCircleOutlined },
+  components: { PlusOutlined, CloseCircleOutlined, Popover },
   setup() {
     const store = useStore()
     const state: advanceState = reactive({
