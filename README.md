@@ -69,13 +69,13 @@ Ant Design 定义了基础的设计规范，对应也提供了大量的基础组
 - 获取项目代码
 
 ```bash
-git clone https://github.com/anncwb/vue-vben-admin.git
+git clone https://gitee.com/gx12358/vite-admin-pro
 ```
 
 - 安装依赖
 
 ```bash
-cd vue-vben-admin
+cd gx-admin-pro
 
 yarn install
 
