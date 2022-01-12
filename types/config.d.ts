@@ -20,7 +20,9 @@ export interface settingConfig {
   waterMarkTitle: string;
   viewScrollRoot: string;
   useCdn: boolean;
+  useProxy: boolean;
   proxyTarget: string;
+  requestPrefix?: string | object;
   devPort: number;
   copyright: string;
   keepAliveMaxNum: number;
@@ -54,7 +56,7 @@ export type MenuTheme = Theme;
 
 export interface themeConfig {
   theme: MenuTheme | undefined;
-  primaryColor: string;
+  primaryColor: stringshowProgressBar
   layout: 'side' | 'mix';
   fixedMultiTab: boolean;
   fixedHeader: boolean;

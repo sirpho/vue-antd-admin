@@ -1,36 +1,31 @@
-import {
-  GProLayout,
-  GProTable,
-  GProModal,
-  GProPageWrapper,
-  GProPageLoading,
-  GProSkeleton,
-  GProWatermark,
-  GProCard,
+import ProLayout, { ProPageWrapper } from '@gx-design/ProLayout'
+import ProTable from '@gx-design/ProTable'
+import ProModal from '@gx-design/ProModal'
+import ProWatermark from '@gx-design/ProWatermark'
+import ProSkeleton from '@gx-design/ProSkeleton'
+import ProCard, {
   GProCardGroup,
   GProCardDivider,
   GProCardTabPane
-} from '/@/components'
+} from '@gx-design/ProCard'
 
 const gxProDesign = (app) => {
   // pro-layout
-  app.component('g-pro-layout', GProLayout)
+  app.component('g-pro-layout', ProLayout)
+  // pro-wrapper
+  app.component('g-pro-page-wrapper', ProPageWrapper)
   // pro-card
-  app.component('g-pro-card', GProCard)
+  app.component('g-pro-card', ProCard)
   app.component('g-pro-card-group', GProCardGroup)
   app.component('g-pro-card-divider', GProCardDivider)
   app.component('g-pro-card-tab-pane', GProCardTabPane)
   // pro-table
-  app.component('g-pro-table', GProTable)
+  app.component('g-pro-table', ProTable)
   // pro-modal
-  app.component('g-pro-modal', GProModal)
-
+  app.component('g-pro-modal', ProModal)
   // pro-skeleton
-  app.component('g-pro-skeleton', GProSkeleton)
-  app.component('g-pro-watermark', GProWatermark)
-  // pro-wrapper
-  app.component('g-pro-page-wrapper', GProPageWrapper)
-  // pro-loading
-  app.component('g-pro-page-loading', GProPageLoading)
+  app.component('g-pro-skeleton', ProSkeleton)
+  // pro-watermark
+  app.component('g-pro-watermark', ProWatermark)
 }
 export default gxProDesign

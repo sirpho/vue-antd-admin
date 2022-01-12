@@ -1,14 +1,14 @@
 import { computed, reactive } from 'vue'
-import { useStore } from 'vuex'
+import { useStore } from '@gx-vuex'
 import { getDicts } from '/@/services/system/dictData'
-import { onMountedOrActivated } from '@gx-design/pro-hooks/core'
+import { onMountedOrActivated } from '@gx-admin/hooks/core'
 import { isArray } from '/@/utils/validate'
 
 export function useDict(val: string | string[]) {
   const dictData: any = reactive({})
   const store = useStore()
 
-  const dict = store.getters['dict/data']
+  const dict = store.dict.data
 
   const getDictData = computed(() => {
     return dictData
@@ -25,10 +25,7 @@ export function useDict(val: string | string[]) {
         response = await getDicts(val)
         if (response) {
           const data = (response.data || [])
-          store.dispatch('dict/setDictData', {
-            type: val,
-            data
-          })
+          store.dict.setDictData(val, data)
           dictData[val].data = data
         }
         dictData[val].loading = false
@@ -47,10 +44,7 @@ export function useDict(val: string | string[]) {
           response = await getDicts(dictType)
           if (response) {
             const data = (response.data || [])
-            store.dispatch('dict/setDictData', {
-              type: dictType,
-              data
-            })
+            store.dict.setDictData(dictType, data)
             dictData[dictType].data = data
           }
           dictData[dictType].loading = false

@@ -1,5 +1,5 @@
 import { h, ref, defineComponent } from 'vue'
-import { RenderableComponent } from '@gx-design/pro-hooks/typings'
+import { RenderableComponent } from '@gx-admin/hooks/typings'
 import { onClickOutside } from './index'
 
 export const OnClickOutside = defineComponent<RenderableComponent>({

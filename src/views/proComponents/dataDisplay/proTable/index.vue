@@ -129,7 +129,7 @@ import {
 import { message } from 'ant-design-vue'
 import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons-vue'
 import { getList } from '/@/services/table'
-import { useDict } from '@gx-design/pro-hooks/web'
+import { useDict } from '@gx-admin/hooks/web'
 import { deepCopy, handleSelectPage } from '/@/utils/util'
 import ProTableApi from './components/ProTableApi.vue'
 import ProTableSearch from './components/ProTableSearch.vue'

@@ -148,7 +148,7 @@ import {
   ShareAltOutlined,
   EllipsisOutlined
 } from '@ant-design/icons-vue'
-import { onMountedOrActivated } from '@gx-design/pro-hooks/core'
+import { onMountedOrActivated } from '@gx-admin/hooks/core'
 import type { ListItemDataType } from '/@/services/list/search'
 import { queryFakeList } from '/@/services/list/search'
 import { formItemLayout } from '../utils/config'

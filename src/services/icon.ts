@@ -4,6 +4,7 @@ export function getIconList(params) {
   return request({
     url: '/icon/getList',
     method: 'get',
+    isMock: true,
     params
   })
 }

@@ -1,26 +1,29 @@
-/**
- * @author gx12358 2539306317@qq.com
- * @description 导入所有 vuex 模块，自动加入namespaced:true，用于解决vuex命名冲突，请勿修改。
- */
-import { createStore } from 'vuex'
+import { createPinia } from 'pinia'
+import { useStoreDict } from './modules/dict'
+import { useStoreUser } from './modules/user'
+import { useStoreRoutes } from './modules/routes'
+import { useStoreSettings } from './modules/settings'
+import { useStorePermission } from './modules/permission'
+import { useStoreTabsRouter } from './modules/tabsRouter'
 
-const modulesFiles = import.meta.globEager('./modules/*.ts');
-const pathList: string[] = [];
-
-for (const path in modulesFiles) {
-  pathList.push(path);
+export {
+  useStoreDict,
+  useStoreUser,
+  useStoreRoutes,
+  useStoreSettings,
+  useStorePermission,
+  useStoreTabsRouter
 }
 
-const modules = pathList.reduce((modules: { [x: string]: any }, modulePath: string) => {
-  const moduleName = modulePath.replace(/^\.\/modules\/(.*)\.\w+$/, '$1');
-  const value = modulesFiles[modulePath];
-  modules[moduleName] = value.default;
-  return modules;
-}, {});
+export function useStore() {
+  return {
+    user: useStoreUser(),
+    dict: useStoreDict(),
+    routes: useStoreRoutes(),
+    settings: useStoreSettings(),
+    permission: useStorePermission(),
+    tabsRouter: useStoreTabsRouter(),
+  }
+}
 
-Object.keys(modules).forEach((key) => {
-  modules[key]['namespaced'] = true
-})
-export default createStore({
-  modules
-})
+export default createPinia()

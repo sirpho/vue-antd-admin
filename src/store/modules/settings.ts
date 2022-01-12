@@ -1,8 +1,30 @@
-/**
- * @author gx12358 2539306317@qq.com
- * @description 所有全局配置的状态管理，如无必要请勿修改
- */
+import { reactive, toRefs } from 'vue'
+import { defineStore } from 'pinia'
 import config from '/config/config'
+import { MenuTheme, themeConfig } from '/types/config'
+
+/**
+ * @Author      gx12358
+ * @DateTime    2022/1/11
+ * @lastTime    2022/1/11
+ * @description store-settings 系统配置
+ */
+export interface SettingsState {
+  logo: string | boolean;
+  title: themeConfig['title'];
+  animate: themeConfig['animate'];
+  layout: themeConfig['layout'];
+  fixSiderbar: themeConfig['fixSiderbar'];
+  fixedHeader: themeConfig['fixedHeader'];
+  fixedMultiTab: themeConfig['fixedMultiTab'];
+  showTabsBar: themeConfig['showTabsBar'];
+  autoHideHeader: themeConfig['autoHideHeader'];
+  showProgressBar: themeConfig['showProgressBar'];
+  primaryColor: themeConfig['primaryColor'];
+  keepAlive: boolean;
+  collapse: boolean;
+  theme: MenuTheme | undefined;
+}
 
 const { logo, title } = config.defaultSettings
 
@@ -19,127 +41,53 @@ const {
   showProgressBar
 } = config.theme
 
-const state = () => ({
-  logo,
-  title,
-  collapse: false,
-  theme,
-  primaryColor,
-  layout,
-  animate: animate || {
-    name: 'fade',
-    direction: 'default'
-  },
-  autoHideHeader,
-  showTabsBar,
-  fixedMultiTab,
-  fixedHeader: layout === 'mix' ? true : fixedHeader,
-  fixSiderbar: layout === 'mix' ? true : fixSiderbar,
-  keepAlive: false,
-  showProgressBar
-})
-const getters = {
-  collapse: (state) => state.collapse,
-  layout: (state) => state.layout,
-  logo: (state) => state.logo,
-  title: (state) => state.title,
-  showProgressBar: (state) => state.showProgressBar,
-  theme: (state) => state.theme,
-  primaryColor: (state) => state.primaryColor,
-  fixedMultiTab: (state) => state.fixedMultiTab,
-  fixedHeader: (state) => state.fixedHeader,
-  fixSiderbar: (state) => state.fixSiderbar,
-  autoHideHeader: (state) => state.autoHideHeader,
-  showTabsBar: (state) => state.showTabsBar,
-  animate: (state) => state.animate,
-  keepAlive: (state) => state.keepAlive
-}
-const mutations = {
-  toggleCollapse(state) {
+export const useStoreSettings = defineStore('settings', () => {
+  const state = reactive({
+    logo,
+    title,
+    collapse: false,
+    theme,
+    primaryColor,
+    layout,
+    animate: animate || {
+      name: 'fade',
+      direction: 'default'
+    },
+    autoHideHeader,
+    showTabsBar,
+    fixedMultiTab,
+    fixedHeader: layout === 'mix' ? true : fixedHeader,
+    fixSiderbar: layout === 'mix' ? true : fixSiderbar,
+    keepAlive: false,
+    showProgressBar
+  } as SettingsState)
+
+  const toggleCollapse = () => {
     state.collapse = !state.collapse
-  },
-  changeLayout(state, layout) {
-    state.layout = layout
-  },
-  changeTheme(state, theme) {
-    state.theme = theme
-  },
-  changePrimaryColor(state, primaryColor) {
-    state.primaryColor = primaryColor
-  },
-  changeFixedHeader(state, type) {
-    state.fixedHeader = type
-  },
-  changeFixSiderbar(state, type) {
-    state.fixSiderbar = type
-  },
-  handleShowTabsBar(state, type) {
-    state.showTabsBar = type
-  },
-  changeFixedMultiTab(state, type) {
-    state.fixedMultiTab = type
-  },
-  handleShowProgressBar(state, type) {
-    state.showProgressBar = type
-  },
-  handleShowAnimate(state, type) {
-    state.animate.disabled = type
-  },
-  changeAnimateMode(state, mode) {
-    state.animate.name = mode
-  },
-  changeAnimateDirections(state, direction) {
-    state.animate.direction = direction
-  },
-  openSideBar(state) {
-    state.collapse = false
-  },
-  foldSideBar(state) {
-    state.collapse = true
   }
-}
-const actions = {
-  changeTheme({ commit }, theme) {
-    commit('changeTheme', theme)
-  },
-  changePrimaryColor({ commit }, primaryColor) {
-    commit('changePrimaryColor', primaryColor)
-  },
-  changeLayout({ commit }, layout) {
-    commit('changeLayout', layout)
-  },
-  changeFixedHeader({ commit }, type) {
-    commit('changeFixedHeader', type)
-  },
-  changeFixSiderbar({ commit }, type) {
-    commit('changeFixSiderbar', type)
-  },
-  handleShowTabsBar({ commit }, type) {
-    commit('handleShowTabsBar', type)
-  },
-  changeFixedMultiTab({ commit }, type) {
-    commit('changeFixedMultiTab', type)
-  },
-  handleShowProgressBar: ({ commit }, type) => {
-    commit('handleShowProgressBar', type)
-  },
-  handleShowAnimate: ({ commit }, type) => {
-    commit('handleShowAnimate', type)
-  },
-  changeAnimateMode: ({ commit }, mode) => {
-    commit('changeAnimateMode', mode)
-  },
-  changeAnimateDirections: ({ commit }, directions) => {
-    commit('changeAnimateDirections', directions)
-  },
-  toggleCollapse({ commit }) {
-    commit('toggleCollapse')
-  },
-  openSideBar({ commit }) {
-    commit('openSideBar')
-  },
-  foldSideBar({ commit }) {
-    commit('foldSideBar')
+
+  const changeAnimateMode = (value: string) => {
+    state.animate.name = value
   }
-}
-export default { state, getters, mutations, actions }
+
+  const changeAnimateDirections = (value: string) => {
+    state.animate.direction = value
+  }
+
+  const handleShowAnimate = (value: boolean) => {
+    state.animate.disabled = value
+  }
+
+  const changeValue = (type, value) => {
+    state[type] = value
+  }
+
+  return {
+    ...toRefs(state),
+    changeValue,
+    toggleCollapse,
+    changeAnimateMode,
+    handleShowAnimate,
+    changeAnimateDirections
+  }
+})

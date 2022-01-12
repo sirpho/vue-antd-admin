@@ -9,6 +9,7 @@ import type {
 } from 'vue'
 
 declare global {
+
   const __APP_INFO__: {
     pkg: {
       name: string;

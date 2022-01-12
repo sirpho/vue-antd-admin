@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import type { MaterialInfo } from '@gx-design/upload'
+import type { MaterialInfo } from '@gx-design/Upload'
 import global from '/@/common/global'
 
 export function timeFix() {

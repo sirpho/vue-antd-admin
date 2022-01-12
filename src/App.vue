@@ -1,24 +1,26 @@
 <template>
   <div id="gx-pro-admin">
     <g-bars>
-      <a-config-provider :locale="locale">
+      <config-provider :locale="locale">
         <router-view />
-      </a-config-provider>
+      </config-provider>
     </g-bars>
-    <g-pro-page-loading :loading="loading && routhPath === '/'" />
+    <g-page-loading :loading="loading && routhPath === '/'" />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, watch, ref } from 'vue'
+import { useStore } from '@gx-vuex'
 import { useRoute } from 'vue-router'
-import { useStore } from 'vuex'
+import { ConfigProvider } from 'ant-design-vue'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 
 export default defineComponent({
+  components: { ConfigProvider },
   setup() {
-    const route = useRoute()
     const store = useStore()
+    const route = useRoute()
     const locale = ref(zhCN)
     const routhPath = ref(route.fullPath)
     watch(
@@ -34,7 +36,7 @@ export default defineComponent({
     return {
       locale,
       routhPath,
-      loading: computed(() => store.getters['routes/routerLoading'])
+      loading: computed(() => store.routes.routerLoading)
     }
   }
 })

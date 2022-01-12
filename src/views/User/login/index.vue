@@ -48,9 +48,9 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, reactive, toRefs, watch } from 'vue'
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
-import { useStore } from 'vuex'
+import { useStore } from '@gx-vuex'
 import { useRoute, useRouter } from 'vue-router'
+import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 
 interface formState {
   userName: string;
@@ -101,14 +101,14 @@ export default defineComponent({
       return state.redirect === '/exception/404' || state.redirect === '/exception/403' ? '/' : state.redirect
     }
     const handleSubmit = async () => {
-      const response: any = await store.dispatch('user/login', state.form)
+      const response: any = await store.user.userLogin(state.form)
       if (response) {
         await router.push(handleRoute())
       }
     }
     return {
-      logo: store.getters['settings/logo'],
-      title: store.getters['settings/title'],
+      logo: store.settings.logo,
+      title: store.settings.title,
       ...toRefs(state),
       handleSubmit
     }

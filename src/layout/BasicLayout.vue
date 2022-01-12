@@ -24,9 +24,9 @@ import {
   nextTick
 } from 'vue'
 import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
 import config from '/config/config'
-import { RouteContextProps, getMenuData, clearMenuItem, SettingDrawer } from '@gx-pro/pro-layout'
+import { useStore } from '@gx-vuex'
+import { RouteContextProps, getMenuData, clearMenuItem, SettingDrawer } from '@gx-design/ProLayout'
 import WProContent from './ContentView.vue'
 
 const { animate } = config
@@ -50,16 +50,16 @@ export default defineComponent({
     })
     const state = reactive({
       menuData,
-      layout: computed(() => store.getters['settings/layout']),
-      theme: computed(() => store.getters['settings/theme']),
-      primaryColor: computed(() => store.getters['settings/primaryColor']),
-      fixedMultiTab: computed(() => store.getters['settings/fixedMultiTab']),
-      fixedHeader: computed(() => store.getters['settings/fixedHeader']),
-      fixSiderbar: computed(() => store.getters['settings/fixSiderbar']),
-      showTabsBar: computed(() => store.getters['settings/showTabsBar']),
-      autoHideHeader: computed(() => store.getters['settings/autoHideHeader']),
-      showProgressBar: computed(() => store.getters['settings/showProgressBar']),
-      animate: computed(() => store.getters['settings/animate'])
+      layout: computed(() => store.settings.layout),
+      theme: computed(() => store.settings.theme),
+      primaryColor: computed(() => store.settings.primaryColor),
+      fixedMultiTab: computed(() => store.settings.fixedMultiTab),
+      fixedHeader: computed(() => store.settings.fixedHeader),
+      fixSiderbar: computed(() => store.settings.fixSiderbar),
+      showTabsBar: computed(() => store.settings.showTabsBar),
+      autoHideHeader: computed(() => store.settings.autoHideHeader),
+      showProgressBar: computed(() => store.settings.showProgressBar),
+      animate: computed(() => store.settings.animate)
     })
     watchEffect(() => {
       if (router.currentRoute) {
@@ -73,55 +73,54 @@ export default defineComponent({
     const handleSettingChange = ({ type, value }) => {
       switch (type) {
         case 'theme':
-          store.dispatch('settings/changeTheme', value)
+          store.settings.changeValue('theme', value)
           break
         case 'primaryColor':
-          store.dispatch('settings/changePrimaryColor', value)
+          store.settings.changeValue('primaryColor', value)
           break
         case 'layout':
-          store.dispatch('settings/changeLayout', value)
+          store.settings.changeValue('layout', value)
           if (value === 'mix') {
-            store.dispatch('settings/changeFixedHeader', true)
-            store.dispatch('settings/changeFixSiderbar', true)
+            store.settings.changeValue('fixedHeader', true)
+            store.settings.changeValue('fixSiderbar', true)
           }
           break
         case 'fixedHeader':
-          store.dispatch('settings/changeFixedHeader', value)
-          if (state.layout === 'side' && !value) store.dispatch(
-            'settings/changeFixedMultiTab',
+          store.settings.changeValue('fixedHeader', value)
+          if (state.layout === 'side' && !value) store.settings.changeValue(
+            'fixedMultiTab',
             value
           )
           break
         case 'fixSiderbar':
-          store.dispatch('settings/changeFixSiderbar', value)
+          store.settings.changeValue('fixSiderbar', value)
           break
         case 'showTabsBar':
-          store.dispatch('settings/handleShowTabsBar', value)
+          store.settings.changeValue('showTabsBar', value)
           break
         case 'fixedMultiTab':
-          store.dispatch('settings/changeFixedMultiTab', value)
-          if (state.layout === 'side' && value) store.dispatch(
-            'settings/changeFixedHeader',
+          store.settings.changeValue('fixedMultiTab', value)
+          if (state.layout === 'side' && value) store.settings.changeValue(
+            'fixedHeader',
             value
           )
           break
         case 'showProgressBar':
-          store.dispatch('settings/handleShowProgressBar', value)
+          store.settings.changeValue('showProgressBar', value)
           break
         case 'showAnimate':
-          store.dispatch('settings/handleShowAnimate', !value)
+          store.settings.handleShowAnimate(!value)
           break
         case 'changeAnimateMode':
-          store.dispatch('settings/changeAnimateMode', value)
-          store.dispatch(
-            'settings/changeAnimateDirections',
+          store.settings.changeAnimateMode(value)
+          store.settings.changeAnimateDirections(
             preset.find((el: any) => el.name === value)?.directions.includes('default')
               ? 'default'
               : preset.find((el: any) => el.name === value)?.directions[0]
           )
           break
         case 'changeAnimateDirections':
-          store.dispatch('settings/changeAnimateDirections', value)
+          store.settings.changeAnimateDirections(value)
           break
       }
     }
@@ -133,17 +132,17 @@ export default defineComponent({
     }
     provide('reloadPage', handleReloadPage)
     return {
-      loading: computed(() => store.getters['routes/routerLoading']),
-      layout: computed(() => store.getters['settings/layout']),
-      collapsed: computed(() => store.getters['settings/collapse']),
-      animate: computed(() => store.getters['settings/animate']),
+      loading: computed(() => store.routes.routerLoading),
+      layout: computed(() => store.settings.layout),
+      collapsed: computed(() => store.settings.collapse),
+      animate: computed(() => store.settings.animate),
       isRouterAlive,
       state,
       baseState,
       handleReloadPage,
       handleSettingChange,
       toggleCollapse: () => {
-        store.dispatch('settings/toggleCollapse')
+        store.settings.toggleCollapse()
       },
       menuHeaderClick: () => {
         router.push('/')

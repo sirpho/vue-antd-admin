@@ -1,10 +1,11 @@
 import { message, MessageArgsProps } from 'ant-design-vue'
 import config from '/config/config'
-import store from '/@/store'
+import { useStoreUser } from '@gx-vuex'
 import { tansParams } from '/@/utils/util'
 
 const { tokenName } = config.defaultSettings
 export default async function fetchFile(options) {
+  const user = useStoreUser()
   if (options.showTip) {
     message.loading({
       content: `下载中，请耐心等待。。。。`,
@@ -23,8 +24,8 @@ export default async function fetchFile(options) {
       'Content-Type': 'application/json'
     }
   } as any
-  if (store.getters['user/accessToken'])
-    opations.headers[tokenName] = `${store.getters['user/accessToken']}`
+  if (user.accessToken)
+    opations.headers[tokenName] = `${user.accessToken}`
   if (options.params || options.data) {
     let url = newUrl + '?' + tansParams(options.params || options.data)
     url = url.slice(0, -1)

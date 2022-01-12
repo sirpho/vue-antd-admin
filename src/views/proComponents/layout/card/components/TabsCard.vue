@@ -46,7 +46,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, Ref } from 'vue'
-import type { ProCardTabsProps } from '@gx-pro/pro-card'
+import type { ProCardTabsProps } from '@gx-design/ProCard'
 
 export default defineComponent({
   setup() {

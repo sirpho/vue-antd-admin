@@ -9,6 +9,7 @@ import purgeIcons from 'vite-plugin-purge-icons'
 import { configHtmlPlugin } from './html'
 import { configPwaConfig } from './pwa'
 import { configMockPlugin } from './mock'
+import { createAutoImport } from './autoImport'
 import { configCompressPlugin } from './compress'
 import { configStyleImportPlugin } from './styleImport'
 import { configVisualizerConfig } from './visualizer'
@@ -53,6 +54,9 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
 
   // rollup-plugin-visualizer
   vitePlugins.push(configVisualizerConfig())
+
+  // unplugin-auto-import/vite
+  vitePlugins.push(createAutoImport())
 
   //vite-plugin-theme
   // vitePlugins.push(configThemePlugin())

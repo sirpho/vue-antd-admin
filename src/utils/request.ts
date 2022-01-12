@@ -1,24 +1,29 @@
 import type { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
-import axios from 'axios'
+import axios, { Axios, AxiosPromise } from 'axios'
 import qs from 'qs'
 import { message } from 'ant-design-vue'
 import config from '/config/config'
-import store from '/@/store'
 import router from '/@/router'
+import { useStoreUser } from '@gx-vuex'
 import { tansParams } from '/@/utils/util'
-import { isArray } from '/@/utils/validate'
+import { isArray, checkURL } from '/@/utils/validate'
 import { AxiosCanceler } from './axios/axiosCancel'
 
 export interface CreateAxiosOptions extends AxiosRequestConfig {
   headers?: any;
+  isMock?: boolean;
   customize?: boolean;
-  isHttpsUrl?: string;
   ignoreCancelToken?: boolean;
+}
+
+export interface GAxiosInstance extends Axios {
+  (config: CreateAxiosOptions): AxiosPromise;
+  (url: string, config?: CreateAxiosOptions): AxiosPromise;
 }
 
 let loadingInstance
 
-const { debounce, tokenName } = config.defaultSettings
+const { debounce, tokenName, requestPrefix } = config.defaultSettings
 
 const { contentType, requestTimeout, successCode } = config.network
 
@@ -31,11 +36,12 @@ const axiosCanceler = new AxiosCanceler()
  * @param {*} msg
  */
 const handleCode = (code: number, msg: string) => {
+  const user = useStoreUser()
   setTimeout(() => {
     switch (code) {
       case 401:
         message.error(msg || '登录失效')
-        store.dispatch('user/resetPermissions')
+        user.resetPermissions()
         break
       case 403:
         router.push({ path: '/exception/403' })
@@ -50,7 +56,7 @@ const handleCode = (code: number, msg: string) => {
  * @author gx12358 2539306317@qq.com
  * @description axios初始化
  */
-const instance = axios.create({
+const instance: GAxiosInstance = axios.create({
   timeout: requestTimeout,
   headers: {
     'Content-Type': contentType
@@ -62,6 +68,8 @@ const instance = axios.create({
  */
 instance.interceptors.request.use(
   (config: CreateAxiosOptions) => {
+    const user = useStoreUser()
+
     const {
       headers: { ignoreCancelToken }
     } = config
@@ -79,9 +87,16 @@ instance.interceptors.request.use(
       config.params = {}
       config.url = url
     }
-    config.url = `${import.meta.env.VITE_BASE_URL}${config.url}`
-    if (store.getters['user/accessToken'])
-      (config).headers[tokenName] = store.getters['user/accessToken']
+    const { DEV } = import.meta.env
+    if (!checkURL(config.url)) {
+      if (config.isMock) {
+        config.url = `/mock-server${config.url}`
+      } else {
+        config.url = `${import.meta.env.VITE_BASE_URL}${DEV ? requestPrefix || '' : ''}${config.url}`
+      }
+    }
+    if (user.accessToken)
+      (config).headers[tokenName] = user.accessToken
     if (
       config.data &&
       config.headers['Content-Type'] ===

@@ -26,6 +26,7 @@ export function queryBasicProfile(): Promise<{
 }> {
   return request({
     url: '/profile/basic',
-    method: 'post'
+    method: 'post',
+    isMock: true
   })
 }

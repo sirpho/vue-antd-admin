@@ -43,6 +43,7 @@ export function queryFakeList(params: Params): Promise<{ data: ListItemDataType[
   return request({
     url: `/fake_list?${stringify(params.query)}`,
     method: 'post',
-    data: params.data
+    data: params.data,
+    isMock: true
   })
 }

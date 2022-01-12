@@ -1,17 +1,27 @@
-const state = () => ({
-  data: {}
+import { reactive, toRefs } from 'vue'
+import { defineStore } from 'pinia'
+
+/**
+ * @Author      gx12358
+ * @DateTime    2022/1/11
+ * @lastTime    2022/1/11
+ * @description store-dict 数字字典
+ */
+export interface DictState {
+  data: RecordType;
+}
+
+export const useStoreDict = defineStore('dict', () => {
+  const state = reactive({
+    data: {}
+  } as DictState)
+
+  const setDictData = (type, value) => {
+    state.data[type] = value
+  }
+
+  return {
+    ...toRefs(state),
+    setDictData
+  }
 })
-const getters = {
-  data: (state) => state.data
-}
-const mutations = {
-  setDictData(state, { type, data }) {
-    state.data[type] = data
-  }
-}
-const actions = {
-  setDictData({ commit }, { type, data }) {
-    commit('setDictData', { type, data })
-  }
-}
-export default { state, getters, mutations, actions }

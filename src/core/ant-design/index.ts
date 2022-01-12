@@ -21,13 +21,10 @@ import {
   TimePicker,
   Typography,
   Tree,
-  Drawer,
-  Alert,
-  Layout,
   DatePicker,
   Select,
   Switch,
-  Checkbox,
+  Checkbox
 } from 'ant-design-vue'
 
 const antDesign = (app) => {
@@ -40,9 +37,6 @@ const antDesign = (app) => {
   app.use(Typography)
   app.use(Space)
   app.use(Tree)
-  app.use(Drawer)
-  app.use(Alert)
-  app.use(Layout)
   app.use(Card)
   app.use(Form)
   app.use(DatePicker)

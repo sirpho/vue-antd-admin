@@ -98,7 +98,7 @@
 import { defineComponent, reactive, toRefs } from 'vue'
 import dayjs from 'dayjs'
 import type { ListItemDataType } from '/@/services/list/search'
-import { onMountedOrActivated } from '@gx-design/pro-hooks/core'
+import { onMountedOrActivated } from '@gx-admin/hooks/core'
 import { queryFakeList } from '/@/services/list/search'
 import AvatarList from './components/AvatarList.vue'
 import { formItemLayout } from '../utils/config'

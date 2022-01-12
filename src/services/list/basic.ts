@@ -41,7 +41,8 @@ export function getBasicList(
   return request({
     url: '/get_basic_list',
     method: 'post',
-    data: params
+    data: params,
+    isMock: true
   })
 }
 
@@ -51,7 +52,8 @@ export function getBasicListInfo(
   return request({
     url: '/basic_list_info',
     method: 'post',
-    data: params
+    data: params,
+    isMock: true
   })
 }
 
@@ -61,7 +63,8 @@ export function updateBasicList(
   return request({
     url: '/post_basic_list',
     method: 'PUT',
-    data: params
+    data: params,
+    isMock: true
   })
 }
 
@@ -71,7 +74,8 @@ export function addBasicList(
   return request({
     url: '/post_basic_list',
     method: 'POST',
-    data: params
+    data: params,
+    isMock: true
   })
 }
 
@@ -81,6 +85,7 @@ export function removeBasicList(
   return request({
     url: '/post_basic_list',
     method: 'DELETE',
-    data: params
+    data: params,
+    isMock: true
   })
 }

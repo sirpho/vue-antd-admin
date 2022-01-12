@@ -276,14 +276,14 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs, onActivated, computed } from 'vue'
-import { useStore } from 'vuex'
+import { useStore } from '@gx-vuex'
 import { cloneDeep } from 'lodash-es'
 import { Form, Popover } from 'ant-design-vue'
 import { PlusOutlined, CloseCircleOutlined } from '@ant-design/icons-vue'
 import config from '/config/config'
 import { getAdvancedForm, getAdvancedFormTable } from '/@/services/form/advanced'
+import { scrollTo } from '@gx-design/utils'
 import { handleOffsetTop, hanndleField } from '/@/utils/util'
-import { scrollTo } from '@gx-design/pro-utils'
 import type { TableFormDateType } from './typings'
 import columns from './utils/columns'
 import { fieldLabels, rules } from './utils/config'
@@ -344,7 +344,7 @@ export default defineComponent({
       }
     })
     const rulesRef = reactive({ ...rules })
-    const userInfo = computed(() => store.getters['user/userInfo'])
+    const userInfo = computed(() => store.user.userInfo)
     onActivated(async () => {
       const response = await getAdvancedForm({
         userId: userInfo.value.userId

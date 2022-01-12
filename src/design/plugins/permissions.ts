@@ -7,7 +7,7 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import config from '/config/config'
 import router from '/@/router'
-import store from '/@/store'
+import { useStoreUser, useStoreRoutes, useStoreSettings, useStorePermission } from '@gx-vuex'
 import getPageTitle from '/@/utils/pageTitle'
 
 const {
@@ -19,16 +19,20 @@ const {
 
 NProgress.configure({ showSpinner: false })
 router.beforeEach(async (to, _, next) => {
+  const user = useStoreUser()
+  const routes = useStoreRoutes()
+  const settings = useStoreSettings()
+  const permission = useStorePermission()
   message.destroy()
-  if (store.getters['settings/showProgressBar']) NProgress.start()
+  if (settings.showProgressBar) NProgress.start()
   if (
-    store.getters['routes/routerLoadList'].every(item => item !== to.path) &&
+    routes.routerLoadList.every(item => item !== to.path) &&
     routesWhiteList.indexOf(to.path) === -1
   ) {
-    store.dispatch('routes/setRouterLoadList', to.path)
-    store.dispatch('routes/toggleRouterLoading', true)
+    routes.addRouterLoadList(to.path)
+    routes.changeValue('routerLoading', true)
   }
-  let hasToken = store.getters['user/accessToken']
+  let hasToken: any = user.accessToken
   let hasUserInfo = true
   let accessRoutes: any[] = []
   if (!loginInterception) hasToken = true
@@ -37,23 +41,23 @@ router.beforeEach(async (to, _, next) => {
       next({ path: '/', replace: true })
       NProgress.done()
     } else {
-      const hasRoles = store.getters['acl/role'].length > 0
+      const hasRoles = permission.role.length > 0
       if (hasRoles) {
         next()
         NProgress.done()
       } else {
         try {
           if (loginInterception) {
-            hasUserInfo = await store.dispatch('user/getUserInfo')
+            hasUserInfo = await user.queryUserInfo()
           } else {
             //loginInterception为false（关闭登录拦截时）时，创建虚拟角色
-            hasUserInfo = await store.dispatch('user/setVirtualRoles')
+            hasUserInfo = await user.setVirtualRoles()
           }
           if (hasUserInfo) {
             if (authentication === 'intelligence') {
-              accessRoutes = await store.dispatch('routes/setRoutes')
+              accessRoutes = await routes.setRoutes()
             } else if (authentication === 'all') {
-              accessRoutes = await store.dispatch('routes/setAllRoutes')
+              accessRoutes = await routes.setAllRoutes()
             }
           }
           (accessRoutes as any[]).forEach((item) => {
@@ -61,9 +65,9 @@ router.beforeEach(async (to, _, next) => {
           })
           if (hasUserInfo && accessRoutes.length) {
             next({ ...to, replace: true })
-            store.dispatch('routes/setMeunLoading', false)
+            routes.changeValue('meunLoading', false)
           } else {
-            await store.dispatch('user/resetPermissions')
+            await user.resetPermissions()
             if (recordRoute)
               next({
                 path: '/user/login',
@@ -74,7 +78,7 @@ router.beforeEach(async (to, _, next) => {
           }
           NProgress.done()
         } catch (e) {
-          await store.dispatch('user/resetPermissions')
+          await user.resetPermissions()
           if (recordRoute)
             next({
               path: '/user/login',
@@ -90,7 +94,7 @@ router.beforeEach(async (to, _, next) => {
     if (routesWhiteList.indexOf(to.path) !== -1) {
       next()
     } else {
-      await store.dispatch('user/resetPermissions')
+      await user.resetPermissions()
       if (recordRoute) {
         next({ path: '/user/login', query: { redirect: to.path }, replace: true })
       } else next({ path: '/user/login', replace: true })
@@ -99,10 +103,11 @@ router.beforeEach(async (to, _, next) => {
   }
 })
 router.afterEach((to) => {
+  const routes = useStoreRoutes()
   const { meta }: any = to
   document.title = getPageTitle(meta.title || '')
   NProgress.done()
   setTimeout(() => {
-    store.dispatch('routes/toggleRouterLoading', false)
+    routes.changeValue('routerLoading', false)
   }, 200)
 })

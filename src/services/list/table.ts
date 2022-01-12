@@ -29,7 +29,8 @@ export function rule(
   return request({
     url: '/rule_list',
     method: 'post',
-    data: params
+    data: params,
+    isMock: true
   })
 }
 
@@ -37,7 +38,8 @@ export function getRuleInfo(options?: { [key: string]: any }) {
   return request({
     url: '/rule_info',
     method: 'post',
-    data: options
+    data: options,
+    isMock: true
   })
 }
 
@@ -45,7 +47,8 @@ export function updateRule(options?: { [key: string]: any }) {
   return request({
     url: '/rule',
     method: 'PUT',
-    data: options
+    data: options,
+    isMock: true
   })
 }
 
@@ -53,7 +56,8 @@ export function addRule(options?: { [key: string]: any }) {
   return request({
     url: '/rule',
     method: 'POST',
-    data: options
+    data: options,
+    isMock: true
   })
 }
 
@@ -61,6 +65,7 @@ export function removeRule(options?: { [key: string]: any }): Promise<Record<str
   return request({
     url: '/rule',
     method: 'DELETE',
-    data: options
+    data: options,
+    isMock: true
   })
 }

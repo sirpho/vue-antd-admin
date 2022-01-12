@@ -1,6 +1,6 @@
 import type { CSSProperties, FunctionalComponent as FC } from 'vue'
 import { cloneVNode } from 'vue'
-import { getSlotChildren } from '@gx-design/pro-utils'
+import { getSlotChildren } from '@gx-admin/utils'
 
 import styles from './index.module.less'
 

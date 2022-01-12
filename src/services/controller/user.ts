@@ -7,6 +7,7 @@ export async function login(data) {
   return request({
     url: '/login',
     method: 'post',
+    isMock: true,
     data
   })
 }
@@ -15,6 +16,7 @@ export async function socialLogin(data) {
   return request({
     url: '/socialLogin',
     method: 'post',
+    isMock: true,
     data
   })
 }
@@ -24,6 +26,7 @@ export function getUserInfo(accessToken) {
   return request({
     url: '/userInfo',
     method: 'post',
+    isMock: true,
     data: {
       [tokenName]: accessToken
     }
@@ -34,6 +37,7 @@ export function logout(params) {
   return request({
     url: '/logout',
     method: 'get',
+    isMock: true,
     params
   })
 }
@@ -41,6 +45,7 @@ export function logout(params) {
 export function register() {
   return request({
     url: '/register',
-    method: 'post'
+    method: 'post',
+    isMock: true
   })
 }

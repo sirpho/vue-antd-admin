@@ -4,7 +4,7 @@
       <a-button @click="$refs.operation.open()" style="margin-bottom: 20px" type="primary">
         打开Modal
       </a-button>
-      <a-alert message="点击图标即可复制代码" type="success" show-icon />
+      <Alert message="点击图标即可复制代码" type="success" show-icon />
       <a-row>
         <a-col :xxl="6" :xl="6" :lg="8" :md="8" :sm="8" :xs="24">
           <a-input-search
@@ -50,13 +50,13 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { Pagination } from 'ant-design-vue'
+import { Pagination, Alert } from 'ant-design-vue'
 import { getIconList } from '/@/services/icon'
 import clip from '/@/utils/clipboard'
 import OperationModal from './components/OperationModal.vue'
 
 export default defineComponent({
-  components: { Pagination, OperationModal },
+  components: { Pagination, OperationModal, Alert },
   data() {
     return {
       total: 0,

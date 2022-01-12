@@ -78,7 +78,7 @@
           v-show="current === 1"
         >
           <div :class="$style.result">
-            <a-alert
+            <Alert
               closable
               showIcon
               message="确认转账后，资金将直接打入对方账户，无法退回。"
@@ -174,9 +174,9 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs, onActivated, computed } from 'vue'
-import { useStore } from 'vuex'
+import { useStore } from '@gx-vuex'
 import { cloneDeep } from 'lodash-es'
-import { Form, Result, Steps, Statistic, Descriptions } from 'ant-design-vue'
+import { Form, Result, Steps, Statistic, Descriptions, Alert } from 'ant-design-vue'
 import { getStepForm } from '/@/services/form/step'
 import { hanndleField } from '/@/utils/util'
 
@@ -186,7 +186,7 @@ const DescriptionsItem = Descriptions.Item
 const Step = Steps.Step
 
 export default defineComponent({
-  components: { Result, Step, Steps, Statistic, Descriptions, DescriptionsItem },
+  components: { Result, Step, Steps, Statistic, Descriptions, DescriptionsItem, Alert },
   setup() {
     const store = useStore()
     const state = reactive({
@@ -227,7 +227,7 @@ export default defineComponent({
         { required: true, message: '需要支付密码才能进行支付' }
       ]
     })
-    const userInfo = computed(() => store.getters['user/userInfo'])
+    const userInfo = computed(() => store.user.userInfo)
     onActivated(async () => {
       const response = await getStepForm({
         userId: userInfo.value.userId

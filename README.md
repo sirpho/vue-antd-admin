@@ -34,13 +34,13 @@ Ant Design 定义了基础的设计规范，对应也提供了大量的基础组
 
 ## 更新文档
 
--refactor resetAll方法重构(resetPermissions)、store-setToken方法名重新修改
--refactor localstoreg、sessionStorage存储规则修改，value值加密、方法名重新定义
--feat 新增退出提示操作
--perf 去除全局引入ant-design-vue 部分组件，改成按需引入
--fix 修复没有权限时跳转到白名单页面无需调用resetPermissions方法
--chore 去除image压缩插件
--refactor 菜单部分参数修改并修改对应生成路由方法
+-refactor: 重构GDesign-组件，将组件放到GDesign文件夹中；别名重新定义；部分__util方法转移到GDesign组件内部
+-refactor: vuex换成pinia，并相应修改store使用方法
+-perf：去除vue、vue-router的cdn链接，并动态配置useCdn
+-perf：去除ant-design部分全局引入组件，改为组件内部引入
+-feat：添加useProxy属性，控制是否使用proxy代理设置
+-fix: 修复菜单权限为空时，跳转到403页面
+-fix：切花当前展示多少页时，没有正确展示total
 
 ## 特性
 

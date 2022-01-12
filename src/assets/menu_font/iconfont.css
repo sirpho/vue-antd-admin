@@ -17,6 +17,10 @@
   content: "\e60b";
 }
 
+.gx-17:before {
+  content: "\e616";
+}
+
 .gx-tuxingbianji:before {
   content: "\e626";
 }

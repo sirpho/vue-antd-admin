@@ -4,7 +4,8 @@ import type { CurrentUser, ListItemDataType } from './typings'
 export function queryCurrent(): Promise<{ data: CurrentUser }> {
   return request({
     url: '/currentUserDetail',
-    method: 'post'
+    method: 'post',
+    isMock: true
   })
 }
 
@@ -14,6 +15,7 @@ export function queryFakeList(params: {
   return request({
     url: '/fake_list_Detail',
     method: 'post',
-    data: params
+    data: params,
+    isMock: true
   })
 }

@@ -11,8 +11,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue'
-import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
+import { useStore } from '@gx-vuex'
 import { getRandomNumber } from '/@/utils/util'
 
 export default defineComponent({
@@ -27,13 +27,13 @@ export default defineComponent({
       () => route,
       () => {
         uuid.value = getRandomNumber().uuid(15)
-        if (!store.getters['settings/showTabsBar'] && !meta.keepAlive) {
+        if (!store.settings.showTabsBar && !meta.keepAlive) {
           keepAlive.value = false
         } else {
           keepAlive.value =
-            store.getters['settings/keepAlive'] ||
-            store.getters['settings/showTabsBar'] ||
-            meta.keepAlive
+            store.settings.keepAlive ||
+            store.settings.showTabsBar ||
+            (meta.keepAlive as boolean)
         }
       },
       {

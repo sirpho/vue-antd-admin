@@ -283,3 +283,10 @@ export function isJSONStr(str: any) {
   }
   return false
 }
+
+export function checkURL(URL) {
+  const str = URL,
+    Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/,
+    objExp = new RegExp(Expression)
+  return objExp.test(str)
+}

@@ -126,7 +126,7 @@
 import { defineComponent, reactive, toRefs } from 'vue'
 import { Tag } from 'ant-design-vue'
 import { StarOutlined, LikeOutlined, MessageOutlined, LoadingOutlined } from '@ant-design/icons-vue'
-import { onMountedOrActivated } from '@gx-design/pro-hooks/core'
+import { onMountedOrActivated } from '@gx-admin/hooks/core'
 import type { ListItemDataType } from '/@/services/list/search'
 import { queryFakeList } from '/@/services/list/search'
 import ArticleListContent from './components/ArticleListContent.vue'

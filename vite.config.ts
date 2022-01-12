@@ -1,9 +1,7 @@
 import type { UserConfig, ConfigEnv } from 'vite'
-import dayjs from 'dayjs'
-
 import { loadEnv } from 'vite'
 import { resolve } from 'path'
-
+import dayjs from 'dayjs'
 import externalGlobals from 'rollup-plugin-external-globals'
 import { generateModifyVars } from './build/generate/generateModifyVars'
 import { wrapperEnv } from './build/utils'
@@ -16,7 +14,7 @@ function pathResolve(dir: string) {
   return resolve(process.cwd(), '.', dir)
 }
 
-const { publicPath, outputDir, assetsDir, devPort } = config.defaultSettings
+const { publicPath, outputDir, assetsDir, devPort, useCdn, useProxy } = config.defaultSettings
 
 const { dependencies, devDependencies, name, version } = pkg
 
@@ -62,35 +60,19 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           replacement: pathResolve('build') + '/'
         },
         {
-          find: '@gx-pro/pro-layout',
-          replacement: pathResolve('src/components/GProLayout') + '/'
+          find: '@gx-vuex',
+          replacement: pathResolve('src/store') + '/index.ts'
         },
         {
-          find: '@gx-pro/pro-table',
-          replacement: pathResolve('src/components/GProTable') + '/'
+          find: '@gx-design',
+          replacement: pathResolve('src/components/GDesign') + '/'
         },
         {
-          find: '@gx-pro/pro-card',
-          replacement: pathResolve('src/components/GProCard') + '/'
-        },
-        {
-          find: '@gx-design/upload',
-          replacement: pathResolve('src/components/GUpload') + '/'
-        },
-        {
-          find: '@gx-pro/pro-field',
-          replacement: pathResolve('src/components/GProField') + '/index.tsx'
-        },
-        {
-          find: '@gx-pro/pro-form',
-          replacement: pathResolve('src/components/GProForm') + '/index.tsx'
-        },
-        {
-          find: '@gx-design/pro-utils',
+          find: '@gx-admin/utils',
           replacement: pathResolve('src/components/_util') + '/'
         },
         {
-          find: '@gx-design/pro-hooks',
+          find: '@gx-admin/hooks',
           replacement: pathResolve('src/hooks') + '/'
         },
         { find: /^~/, replacement: '' }
@@ -100,7 +82,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       open: true,
       host: true,
       port: devPort,
-      proxy: createProxy(VITE_BASE_URL)[VITE_APP_ENV]
+      proxy: useProxy ? createProxy(VITE_BASE_URL)[VITE_APP_ENV] : {}
     },
     build: {
       target: 'es2015',
@@ -114,17 +96,15 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       },
       brotliSize: false,
       chunkSizeWarningLimit: 2500,
-      rollupOptions: {
-        external: [ 'vue', 'vuex', 'vue-router', 'echarts' ],
-        plugins: [
-          externalGlobals({
-            vue: 'Vue',
-            vuex: 'Vuex',
-            'vue-router': 'VueRouter',
-            echarts: 'echarts'
-          })
-        ]
-      }
+      rollupOptions: useCdn
+        ? {
+          external: [ 'echarts' ],
+          plugins: [
+            externalGlobals({
+              echarts: 'echarts'
+            })
+          ]
+        } : {}
     },
     define: {
       __INTLIFY_PROD_DEVTOOLS__: false,

@@ -36,7 +36,7 @@ export default [
         code: 200,
         msg: 'success',
         data: {
-          tokenName,
+          [tokenName]: accessToken,
           expires_in: 720
         }
       }
@@ -75,7 +75,6 @@ export default [
     method: 'post',
     response: ({ body }) => {
       const { GxAccessToken } = body
-      console.log(GxAccessToken)
       let userId: number | null = null
       let roles: string[] = []
       let rolesInfo: RolesInfo[] = []

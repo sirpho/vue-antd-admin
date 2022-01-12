@@ -25,14 +25,10 @@
       "/types/*": ["types/*"],
       "/build/*": ["build/*"],
       "/config/*": ["config/*"],
-      "@gx-design/pro-hooks/*": ["src/hooks/*"],
-      "@gx-design/pro-utils": ["src/components/_util/index.ts"],
-      "@gx-pro/pro-field*": ["src/components/GProField/index.tsx"],
-      "@gx-design/upload": ["src/components/GUpload/index.ts"],
-      "@gx-pro/pro-card": ["src/components/GProCard/index.ts"],
-      "@gx-pro/pro-table": ["src/components/GProTable/index.ts"],
-      "@gx-pro/pro-layout": ["src/components/GProLayout/index.ts"],
-      "@gx-pro/pro-form": ["src/components/GProForm/index.tsx"],
+      "@gx-vuex": ["src/store/index.ts"],
+      "@gx-design/*": ["src/components/GDesign/*"],
+      "@gx-admin/hooks/*": ["src/hooks/*"],
+      "@gx-admin/utils": ["src/components/_util/index.ts"]
     }
   },
   "include": [

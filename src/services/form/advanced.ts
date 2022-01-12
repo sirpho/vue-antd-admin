@@ -16,6 +16,7 @@ export function updateBasicForm(data: basicFormParameters) {
   return request({
     url: '/update/basicForm',
     method: 'post',
+    isMock: true,
     data
   })
 }
@@ -24,6 +25,7 @@ export function getAdvancedForm(data) {
   return request({
     url: '/advancedForm',
     method: 'post',
+    isMock: true,
     data
   })
 }
@@ -32,6 +34,7 @@ export function getAdvancedFormTable(data) {
   return request({
     url: '/advancedFormTable',
     method: 'post',
+    isMock: true,
     data
   })
 }

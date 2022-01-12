@@ -4,6 +4,7 @@ import request from '/@/utils/request'
 export function getDicts(dictCode) {
   return request({
     url: '/dict/data/type/' + dictCode,
-    method: 'get'
+    method: 'get',
+    isMock: true
   })
 }

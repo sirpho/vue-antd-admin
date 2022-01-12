@@ -41,6 +41,7 @@ export function getCardList(
   return request({
     url: '/card_fake_list',
     method: 'post',
-    data: params
+    data: params,
+    isMock: true
   })
 }

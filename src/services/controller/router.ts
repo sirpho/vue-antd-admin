@@ -4,6 +4,7 @@ import { stringify } from 'qs'
 export function getRouterList(params?: any) {
   return request({
     url: `/menu/navigate?${stringify(params)}`,
-    method: 'post'
+    method: 'post',
+    isMock: true
   })
 }

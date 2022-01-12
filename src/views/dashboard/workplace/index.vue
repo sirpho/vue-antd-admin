@@ -175,7 +175,7 @@ import {
   onMounted,
   inject
 } from 'vue'
-import { useStore } from 'vuex'
+import { useStore } from '@gx-vuex'
 import { Statistic, PageHeader } from 'ant-design-vue'
 import { PlusOutlined, RedoOutlined, LoadingOutlined } from '@ant-design/icons-vue'
 import { notice, activities, radar } from '/@/services/workplace'
@@ -302,7 +302,7 @@ export default defineComponent({
     return {
       ...toRefs(state),
       isMobile,
-      userInfo: computed(() => store.getters['user/userInfo']),
+      userInfo: computed(() => store.user.userInfo),
       welcome,
       momentFromNow,
       reloadCurrentPage
