@@ -1,41 +1,39 @@
-import type { Ref, ExtractPropTypes, CSSProperties, } from 'vue'
+import type { ExtractPropTypes } from 'vue'
 import {
   defineComponent,
   ref,
+  toRef,
   unref,
   toRaw,
   onMounted,
   computed,
-  onUnmounted
+  onUnmounted,
+  watchEffect
 } from 'vue'
 import { cloneDeep, omit } from 'lodash-es'
-import { ConfigProvider, Grid, Table } from 'ant-design-vue'
-import {
-  LoadingOutlined,
-  ReloadOutlined,
-  FullscreenOutlined,
-  FullscreenExitOutlined,
-  InfoCircleOutlined
-} from '@ant-design/icons-vue'
+import { useFullscreen } from '@vueuse/core'
+import { PaginationProps } from 'ant-design-vue/lib/pagination'
+import { Grid, Table, Spin, Pagination, Tooltip, TypographyParagraph } from 'ant-design-vue'
 import Nodata from '/@/assets/public_images/nodata.png'
-import { hanndleField } from '/@/utils/util'
-import { isBoolean, isNumber, isObject } from '/@/utils/validate'
 import { getPrefixCls, getPropsSlot } from '@gx-admin/utils'
+import { isArray, isObject } from '/@/utils/validate'
+import { getRandomNumber, hanndleField } from '/@/utils/util'
 import type { OptionConfig } from './types/table'
-import type { ProColumns } from './types/column'
+import type { ProColumns, ProColumn } from './types/column'
 import { useLoading } from './hooks/useLoading'
 import { useTableSize } from './hooks/useTableSize'
-import { useColumns } from './hooks/useColums'
 import { usePagination } from './hooks/usePagination'
-import { useTableScroll } from './hooks/useTableScroll'
-import { useFetchData } from './hooks/useFetchData'
+import { useRowSelection } from './hooks/useRowSelection'
+import { useFetchData, useConfigFetchData } from './hooks/useFetchData'
 import { useTableForm } from './hooks/useTableForm'
+import { useColumnSetting } from './hooks/useColumnSetting'
+import { useColumns, useConfigColumns } from './hooks/useColums'
+import { useTableScroll, useConfigScroll } from './hooks/useTableScroll'
+import { provideTableContext } from './context/TableContext'
+import Form from './components/Form'
+import Toolbar from './components/ToolBar'
 import { proTableProps } from './props'
-import { proTableSlots } from './utils'
-
-import TableSearch from './components/TableSearch'
-import ActionColumns from './components/ActionColumns'
-import { ActionSize } from './components/ActionSize'
+import { proTableSlots, handleShowIndex } from './utils'
 
 import './style.less'
 
@@ -61,7 +59,6 @@ const GProTable = defineComponent({
     'reset',
     'submit',
     'sizeChange',
-    'refresh',
     'expandedRowsChange',
     'expand',
     'change',
@@ -77,82 +74,161 @@ const GProTable = defineComponent({
       isPor: true
     })
     const screens = useBreakpoint()
+
     const innerWidth = ref<number>(window.innerWidth)
     const tableRef = ref<any>()
-    const fullScreen: Ref<boolean> = ref(false)
-    const getProps = computed(() => {
-      return { ...cloneDeep(props) } as ProTableProps
+
+    const { toggle, isFullscreen } = useFullscreen(tableRef)
+
+    const getProps = computed<ProTableProps>(() => {
+      return { ...props }
     })
-    const propsColumnsRef = computed(() => {
-      return cloneDeep(props.columns || []).map((column, index) => {
-        if (column.dataIndex === 'action' || index === (props.columns.length - 1)) {
-          column.resizable = false
-        } else {
-          column.resizable = isBoolean(column.resizable)
-            ? column.resizable
-            : (isNumber(column.width) && props.draggabled
-              ? true : false)
+
+    const cacheColumns = computed(() => {
+      const columsList: ProColumns = (props.columns || []).map(item => {
+        return {
+          ...item,
+          key: item.key || item.dataIndex as string,
+          align: item.align || props.align,
+          uuid: getRandomNumber().uuid(15)
         }
-        return column
+      })
+      return handleShowIndex(columsList, {
+        align: props.align,
+        showIndex: props.showIndex
       })
     })
-    const propsParamsRef = computed(() => cloneDeep(props.params))
-    const { getLoading, setLoading } = useLoading(getProps, emit)
-    const { getSize, setSize } = useTableSize(getProps, emit)
-    const {
-      getPaginationInfo,
-      setPagination
-    } = usePagination(getProps, slots)
-    const {
-      getViewColumns,
-      setColumns,
-      reSetColumns,
-      resizeColumnWidth,
-      getColumnsRef,
-      setActionColumns,
-      getActionColumsRef
-    } = useColumns({
-      propsRef: getProps,
-      propsColumnsRef,
-      screensRef: screens,
-      innerWidth,
+
+    /**
+     * @Author      gx12358
+     * @DateTime    2022/1/21
+     * @lastTime    2022/1/21
+     * @description Tabel-loading hooks 方法
+     */
+    const { getLoading, setLoading } = useLoading({
       emit,
+      loading: toRef(props, 'loading')
     })
+
+    /**
+     * @Author      gx12358
+     * @DateTime    2022/1/21
+     * @lastTime    2022/1/21
+     * @description Tabel-size hooks 方法
+     */
+    const { sizeRef, setTableSize } = useTableSize({ emit, size: toRef(props, 'size') })
+
+    /**
+     * @Author      gx12358
+     * @DateTime    2022/1/21
+     * @lastTime    2022/1/21
+     * @description Tabel-pagetion hooks 方法
+     */
+    const { getPaginationInfo, setPagination } = usePagination({
+      slots,
+      props: getProps,
+      pagination: toRef(props, 'pagination')
+    })
+
+    /**
+     * @Author      gx12358
+     * @DateTime    2022/1/21
+     * @lastTime    2022/1/21
+     * @description Tabel-scroll hooks 方法
+     */
+    const configScroll = useConfigScroll(props)
+    const { getScrollRef, breakpoint } = useTableScroll({
+      ...configScroll,
+      innerWidth,
+      columns: cacheColumns,
+      screensRef: screens
+    })
+
+    /**
+     * @Author      gx12358
+     * @DateTime    2022/1/21
+     * @lastTime    2022/1/21
+     * @description Tabel-colums hooks 方法
+     */
+    const configColums = useConfigColumns(props)
     const {
-      getFormParamsRef,
-      getFormDataRef,
-      setFormParams
-    } = useTableForm(
-      getProps,
-      {
-        propsParamsRef
-      }
-    )
+      getProColumns,
+      cacheProColumns,
+      setColumns,
+      changeColumns,
+      resizeColumnWidth
+    } = useColumns({
+      ...configColums,
+      breakpoint,
+      scroll: getScrollRef,
+      columns: cacheColumns
+    })
+
+    /**
+     * @Author      gx12358
+     * @DateTime    2022/1/21
+     * @lastTime    2022/1/21
+     * @description Tabel-settingColums hooks 方法
+     */
+    const {
+      columnsMap,
+      operationType,
+      setColumnsMap,
+      sortKeyColumns,
+      cacheColumnsMap,
+      setSortKeyColumns
+    } = useColumnSetting({
+      columns: cacheProColumns,
+      columnsState: toRef(props, 'columnsState'),
+      changeColumns
+    })
+
+    /**
+     * @Author      gx12358
+     * @DateTime    2022/1/21
+     * @lastTime    2022/1/21
+     * @description Tabel-Form(搜索) hooks 方法
+     */
+    const { formDataRef, formParamsRef, defaultParamsRef, setFormParams } = useTableForm({
+      searchMap: toRef(props, 'searchMap'),
+      params: toRef(props, 'params'),
+      columns: cacheColumns
+    })
+
+    /**
+     * @Author      gx12358
+     * @DateTime    2022/1/21
+     * @lastTime    2022/1/21
+     * @description Tabel-datasource hooks 方法
+     */
+    const configFetchData = useConfigFetchData(props)
     const {
       reload,
+      reSetDataList,
+      changeDataValue,
       isTreeDataRef,
       getDataSourceRef,
       handleTableChange
     } = useFetchData(
-      getProps,
+      { ...configFetchData },
       {
         getLoading,
         getPaginationInfo,
         setPagination,
         setLoading,
         setColumns,
-        getViewColumns,
-        getFormParamsRef
+        columns: getProColumns,
+        formParamsRef,
+        beforeSearchSubmit: props.beforeSearchSubmit
       },
       emit
     )
-    const { getScrollRef } = useTableScroll({
-      propsRef: getProps,
-      screensRef: screens,
-      columnsRef: getColumnsRef,
-      innerWidth
-    })
-    const getActionsList = computed(() => unref(getActionColumsRef))
+
+    const { selectedKey, changeRowKey, selectRowKey, selectAllRowKey } = useRowSelection(
+      toRef(props, 'rowKey'),
+      toRef(props, 'rowSelection')
+    )
+
     const getOptionsRef = computed(() => {
       if (props.options) {
         const propsOptions = cloneDeep(isObject(props.options) ? props.options : {})
@@ -163,9 +239,29 @@ const GProTable = defineComponent({
       }
       return {}
     })
+
+    /**
+     * @Author      gx12358
+     * @DateTime    2021/7/16
+     * @lastTime    2021/7/16
+     * @description 获取pro-table内部方法
+     */
+    const getProTable = () => {
+      props.actionRef({
+        reload: (info) => reload(info),
+        reloadAndRest: () => reload({ current: 1, pageSize: 10 }),
+        reSetDataList,
+        changeDataValue: ({ key, value }) => changeDataValue({ key, value }),
+        loadingOperation: (loading) => setLoading(loading)
+      })
+    }
+
+    watchEffect(() => {
+      if (props.actionRef) getProTable()
+    })
+
     onMounted(() => {
       window.addEventListener('resize', getWidth)
-      if (props.actionRef) getProTable()
     })
 
     onUnmounted(() => {
@@ -181,30 +277,7 @@ const GProTable = defineComponent({
     const getWidth = () => {
       innerWidth.value = window.innerWidth
     }
-    /**
-     * @Author      gx12358
-     * @DateTime    2021/7/16
-     * @lastTime    2021/7/16
-     * @description 获取pro-table内部方法
-     */
-    const getProTable = () => {
-      props.actionRef({
-        reload: (info) => reload(info),
-        loadingOperation: (loading) => setLoading(loading),
-        reloadAndRest: () => reload({ current: 1, pageSize: 10 })
-      })
-    }
-    const toolBarStyle = computed(() => {
-      const style: CSSProperties = props.search ? { paddingTop: '0' } : {}
-      if (!screens.value.lg) style.flexWrap = 'wrap'
-      return style
-    })
-    const toolBarItemStyle = computed(() => {
-      if (!screens.value.lg) return {
-        width: '100%'
-      }
-      return undefined
-    })
+
     /**
      * @Author      gx12358
      * @DateTime    2021/7/14
@@ -215,11 +288,11 @@ const GProTable = defineComponent({
       const dataSource = unref(getDataSourceRef)
       let propsData: RecordType = {
         ...attrs,
-        ...unref(getProps),
-        size: unref(getSize),
+        ...props,
+        size: unref(sizeRef),
         scroll: unref(getScrollRef),
-        loading: unref(getLoading),
-        columns: toRaw(unref(getViewColumns)),
+        loading: false,
+        columns: toRaw(unref(getProColumns).filter((column) => column.show || column.show === undefined)),
         pagination: toRaw(unref(getPaginationInfo)),
         dataSource
       }
@@ -234,9 +307,32 @@ const GProTable = defineComponent({
         [`${props.tableClassName}`]: props.tableClassName,
         [`${baseClassName}-no-scroll`]: !Object.keys(getBindValues.value?.scroll || {}).length,
         [`${baseClassName}-table-tree`]: isTreeDataRef.value,
-        [`${baseClassName}-full-screen`]: fullScreen.value
+        [`${baseClassName}-full-screen`]: isFullscreen.value
       }
     ])
+
+    provideTableContext({
+      tableSize: sizeRef,
+      columns: getProColumns,
+      cacheColumns,
+      action: {
+        setTableSize,
+        reload: (info) => reload(info),
+        toggle
+      },
+      settingsAction: {
+        autoScroll: toRef(props, 'autoScroll'),
+        columnsMap,
+        operationType,
+        setColumnsMap,
+        sortKeyColumns,
+        cacheColumnsMap,
+        setSortKeyColumns
+      },
+      changeColumns,
+      slots
+    })
+
     const handleSlots = (children) => {
       const tableSlots = {}
       Object.keys(children).map(item => {
@@ -247,70 +343,32 @@ const GProTable = defineComponent({
       })
       return tableSlots
     }
-    /**
-     * @Author      gx12358
-     * @DateTime    2021/7/14
-     * @lastTime    2021/7/14
-     * @description 表格列设置-是否展示
-     */
-    const onColumnsChange = (data) => {
-      setActionColumns(data, 'visible')
-      emit('columnsStateChange')
-    }
-    /**
-     * @Author      gx12358
-     * @DateTime    2021/7/14
-     * @lastTime    2021/7/14
-     * @description 表格列设置-拖拽
-     */
-    const onColumnsDrop = (data) => {
-      setActionColumns(data, 'drop')
-      emit('columnsStateChange')
-    }
-    /**
-     * @Author      gx12358
-     * @DateTime    2021/7/14
-     * @lastTime    2021/7/14
-     * @description 表格列设置-是否固定
-     */
-    const onChangeFixedColums = (data) => {
-      setActionColumns(data, 'fixed')
-      emit('columnsStateChange')
-    }
-    /**
-     * @Author      gx12358
-     * @DateTime    2021/7/14
-     * @lastTime    2021/7/14
-     * @description 表格列设置-重置
-     */
-    const onResetColums = () => {
-      reSetColumns()
-    }
-    /**
-     * @Author      gx12358
-     * @DateTime    2021/7/14
-     * @lastTime    2021/7/14
-     * @description 切换全屏
-     */
-    const handleFullScreen = () => {
-      fullScreen.value = !fullScreen.value
-    }
-    /**
-     * @Author      gx12358
-     * @DateTime    2021/7/21
-     * @lastTime    2021/7/21
-     * @description 判断是否展示头部
-     */
-    const handleShowProTool = () => {
-      return Object.keys(getOptionsRef.value).length > 0 ||
-        slots.headerTitle ||
-        props.headerTitle ||
-        props.titleTip ||
-        (props.toolBarBtn && props.toolBarBtn.length > 0)
-    }
-    const changeTableParams = async (params, reset) => {
+
+    const handlePagePosition = computed(() => {
+      const defaultPosition = unref(getProps).direction === 'rtl' ? 'left' : 'right'
+      let { position } = unref(getPaginationInfo) as (PaginationProps & { position?: string })
+      if (position !== null && Array.isArray(position)) {
+        const topPos = position.find(p => p.indexOf('top') !== -1)
+        const bottomPos = position.find(p => p.indexOf('bottom') !== -1)
+        const isDisable = position.every(p => `${p}` === 'none')
+        if (!topPos && !bottomPos && !isDisable) {
+          position = defaultPosition
+        }
+        if (topPos) {
+          position = topPos!.toLowerCase().replace('top', '')
+        }
+        if (bottomPos) {
+          position = bottomPos!.toLowerCase().replace('bottom', '')
+        }
+      } else {
+        position = defaultPosition
+      }
+      return position
+    })
+
+    const handleTableSubmit = async (params: RecordType, reset?: boolean) => {
       if (reset) {
-        emit('reset', props.search.type === 'slots' ? undefined : params)
+        emit('reset', params)
         if (props.request) {
           setFormParams(params)
         }
@@ -339,6 +397,19 @@ const GProTable = defineComponent({
       })
       handleTableChange(pagination, filters, sorter)
     }
+
+    const handleChangePage = (page, pageSize) => {
+      setPagination({
+        current: page,
+        pageSize: pageSize
+      })
+      handleTableChange({
+        current: page,
+        pageSize: pageSize,
+        total: unref(getPaginationInfo)['total'] || 0 as number
+      }, false, false)
+    }
+
     const expandedRowsChange = (expandedRows) => {
       emit('expandedRowsChange', expandedRows)
     }
@@ -347,19 +418,6 @@ const GProTable = defineComponent({
     }
     const handleResizeColumn = (w, col) => {
       resizeColumnWidth(w, col)
-    }
-    /**
-     * @Author      gx12358
-     * @DateTime    2021/7/14
-     * @lastTime    2021/7/14
-     * @description 表格刷新
-     */
-    const refresh = async () => {
-      if (props.request) {
-        reload()
-      } else {
-        emit('refresh')
-      }
     }
     /**
      * @Author      gx12358
@@ -376,15 +434,17 @@ const GProTable = defineComponent({
           : 'topRight'
       if (success && record.copyable) {
         show =
-          <a-typography-paragraph style={{ margin: '0', width: '100%', padding: '0' }} copyable>
-            <a-tooltip title={value} placement={placement}>
+          <TypographyParagraph class={`${baseClassName}-copyable`}
+            style={{ margin: '0', width: '100%', padding: '0' }}
+            copyable>
+            <Tooltip title={value} placement={placement}>
               <div class={`${baseClassName}-ellipsis`}>
                 {value}
               </div>
-            </a-tooltip>
-          </a-typography-paragraph>
+            </Tooltip>
+          </TypographyParagraph>
       } else if (success && !record.copyable) {
-        show = <a-tooltip title={value} placement={placement}>
+        show = <Tooltip title={value} placement={placement}>
           {
             isTreeDataRef.value
               ? value
@@ -394,126 +454,29 @@ const GProTable = defineComponent({
                 </div>
               )
           }
-        </a-tooltip>
+        </Tooltip>
       }
       return show
     }
-    const toolBarLeft = (dom: any, tipDom: any, toolbarDom: any) => (
-      <div
-        class={`${baseClassName}-list-toolbar-left`}
-        style={{ ...toolBarItemStyle.value, flexWrap: 'wrap' }}
-      >
-        {(dom || tipDom) && (
-          <div
-            class={`${baseClassName}-list-toolbar-title`}
-            style={screens.value.lg ? undefined : { width: '100%', marginRight: '0' }}
-          >
-            {dom}
-            {tipDom && (
-              <span class={`${baseClassName}-list-toolbar-tip-icon`}>
-                <a-tooltip title={props.titleTipText}>
-                  {
-                    isBoolean(tipDom) && tipDom
-                      ? <InfoCircleOutlined />
-                      : tipDom
-                  }
-                </a-tooltip>
-              </span>
-            )}
-          </div>
-        )}
-        {toolbarDom && (
-          <div
-            class={`${baseClassName}-list-toolbar-btns`}
-            style={screens.value.lg
-              ? undefined
-              : {
-                width: '100%',
-                marginTop: '16px',
-                marginLeft: 0
-              }
-            }
-          >
-            <a-space direction={screens.value.lg ? 'horizontal' : 'vertical'}>{toolbarDom}</a-space>
-          </div>
-        )}
-      </div>
+
+    const toolbarDom = (headerTitle, toolBarBtn, titleTip) => (
+      <Toolbar
+        headerTitle={headerTitle}
+        titleTip={titleTip}
+        titleTipText={props.titleTipText}
+        options={unref(getOptionsRef)}
+        settingExtra={getPropsSlot(slots, props, 'settingExtra')}
+        optionsExtra={getPropsSlot(slots, props, 'optionsExtra')}
+        toolBarBtn={toolBarBtn}
+      />
     )
-    const toolBarRight = () => (
-      <div
-        class={`${baseClassName}-list-toolbar-right`}
-        style={{ ...toolBarItemStyle.value }}
-      >
-        {getOptionsRef.value.reload && (
-          <a-tooltip title="刷新">
-            {
-              typeof getOptionsRef.value.reload === 'function'
-                ? getOptionsRef.value.reload()
-                : getBindValues.value.loading
-                  ? <LoadingOutlined class={`${baseClassName}-list-toolbar-setting-items`} />
-                  : (
-                    <ReloadOutlined
-                      class={`${baseClassName}-list-toolbar-setting-items`}
-                      onClick={refresh}
-                    />
-                  )
-            }
-          </a-tooltip>
-        )}
-        {getOptionsRef.value.density && (
-          <ActionSize
-            className={baseClassName}
-            size={unref(getSize)}
-            class={`${baseClassName}-list-toolbar-setting-items`}
-            onInput={(size) => setSize(size)}
-          />
-        )}
-        {getOptionsRef.value.setting && (
-          <ActionColumns
-            className={baseClassName}
-            columns={unref(getActionsList)}
-            scroll={getBindValues.value.scroll || false}
-            class={`${baseClassName}-list-toolbar-setting-items`}
-            onChange={onColumnsChange}
-            onDrop={onColumnsDrop}
-            onReset={onResetColums}
-            onChangeFixed={onChangeFixedColums}
-            v-slots={{
-              ...slots
-            }}
-          />
-        )}
-        {
-          getOptionsRef.value.fullScreen
-            ? typeof getOptionsRef.value.fullScreen === 'function'
-              ? getOptionsRef.value.fullScreen()
-              : (
-                <a-tooltip title="全屏">
-                  {
-                    fullScreen.value
-                      ? (
-                        <FullscreenExitOutlined
-                          class={`${baseClassName}-list-toolbar-setting-items`}
-                          onClick={() => handleFullScreen()}
-                        />
-                      )
-                      : (
-                        <FullscreenOutlined
-                          class={`${baseClassName}-list-toolbar-setting-items`}
-                          onClick={() => handleFullScreen()}
-                        />
-                      )
-                  }
-                </a-tooltip>
-              )
-            : null
-        }
-      </div>
-    )
+
     return () => {
       const headerTitleRender = getPropsSlot(slots, props, 'headerTitle')
       const titleTipRender = getPropsSlot(slots, props, 'titleTip')
       const toolBarBtnRender = getPropsSlot(slots, props, 'toolBarBtn')
+      const customizeRender = getPropsSlot(slots, props, 'customize')
+
       return (
         <div
           ref={e => tableRef.value = e}
@@ -521,50 +484,70 @@ const GProTable = defineComponent({
           class={proTableClassNames.value}
         >
           <div class="gx-pro-table-content">
-            {props.search && (
-              <TableSearch
-                {...props.search}
-                baseClassName={baseClassName}
-                loading={getBindValues.value.loading}
-                searchData={getFormDataRef.value}
-                onTableSearch={changeTableParams}
-              >
-                {slots.search?.()}
-              </TableSearch>
-            )}
-            {handleShowProTool() && (
-              <div
-                style={toolBarStyle.value}
-                class={`${baseClassName}-list-toolbar`}
-              >
-                {(headerTitleRender || titleTipRender || toolBarBtnRender) && toolBarLeft(
-                  headerTitleRender,
-                  titleTipRender,
-                  toolBarBtnRender
-                )}
-                {Object.keys(getOptionsRef.value).length > 0 ? toolBarRight() : null}
-              </div>
-            )}
-            <ConfigProvider renderEmpty={defaultEmpty}>
-              <Table
-                {...getBindValues.value}
-                transformCellText={({ text, column }) => {
-                  const { value, success } = hanndleField(
-                    text,
-                    (column as ProColumns<RecordType>)?.columnEmptyText || props?.columnEmptyText
-                  )
-                  return (column as ProColumns<RecordType>)?.ellipsis
-                    ? tooltipSlot(value, success, (column as ProColumns<RecordType>))
-                    : value
+            {!!formDataRef.value.length && (
+              <Form
+                search={props.search}
+                searchMap={formDataRef.value}
+                prefixCls={baseClassName}
+                loading={!!unref(getLoading)}
+                onSearch={handleTableSubmit}
+                defaultParams={defaultParamsRef}
+                v-slots={{
+                  default: () => slots.search?.()
                 }}
-                onChange={changePage}
-                onExpandedRowsChange={expandedRowsChange}
-                onExpand={expand}
-                onResizeColumn={handleResizeColumn}
-              >
-                {handleSlots(slots)}
-              </Table>
-            </ConfigProvider>
+              />
+            )}
+            {toolbarDom(headerTitleRender, toolBarBtnRender, titleTipRender)}
+            <Spin spinning={!!unref(getLoading)}>
+              {
+                customizeRender
+                  ? props.customize
+                    ? props.customize(unref(getDataSourceRef))
+                    : slots.customize(unref(getDataSourceRef))
+                  : (
+                    <Table
+                      {...getBindValues.value}
+                      rowKey={(record) => record[props.rowKey || 'sortIndex']}
+                      transformCellText={({ text, column }) => {
+                        const { value, success } = hanndleField(
+                          isArray(text) && text?.length === 1 && !isObject(text[0]) ? text[0] : text,
+                          (column as ProColumn)?.columnEmptyText || props?.columnEmptyText
+                        )
+                        return (column as ProColumn)?.ellipsis
+                          ? tooltipSlot(value, success, (column as ProColumns))
+                          : value
+                      }}
+                      rowSelection={props.rowSelection ? {
+                        ...omit(props.rowSelection, 'onSelect', 'onSelectAll', 'onChange', 'selectedRowKeys'),
+                        selectedRowKeys: selectedKey.value,
+                        onSelect: selectRowKey,
+                        onSelectAll: selectAllRowKey,
+                        onChange: changeRowKey,
+                      } : undefined}
+                      onChange={changePage}
+                      onExpandedRowsChange={expandedRowsChange}
+                      onExpand={expand}
+                      onResizeColumn={handleResizeColumn}
+                      v-slots={{
+                        emptyText: defaultEmpty,
+                        ...handleSlots(slots)
+                      }}
+                    />
+                  )
+              }
+              {
+                customizeRender && (
+                  <Pagination
+                    class={{
+                      ['ant-table-pagination']: true,
+                      [`ant-table-pagination-${handlePagePosition.value}`]: handlePagePosition.value
+                    }}
+                    {...toRaw(unref(getPaginationInfo)) as PaginationProps}
+                    onChange={handleChangePage}
+                  />
+                )
+              }
+            </Spin>
           </div>
         </div>
       )

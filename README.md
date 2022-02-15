@@ -34,13 +34,23 @@ Ant Design 定义了基础的设计规范，对应也提供了大量的基础组
 
 ## 更新文档
 
--refactor: 重构GDesign-组件，将组件放到GDesign文件夹中；别名重新定义；部分__util方法转移到GDesign组件内部
--refactor: vuex换成pinia，并相应修改store使用方法
--perf：去除vue、vue-router的cdn链接，并动态配置useCdn
--perf：去除ant-design部分全局引入组件，改为组件内部引入
--feat：添加useProxy属性，控制是否使用proxy代理设置
--fix: 修复菜单权限为空时，跳转到403页面
--fix：切花当前展示多少页时，没有正确展示total
+- 🎉 Chore - 更新Vue、Ant-Design-Vue组件、引入highlight.js组件
+- 🎉 Refactor - 重构GProTable
+- 🎉 Feat - GProTable添加customize属性，可自定义数据展示
+- 🎉 Feat - GProTable添加searchMap属性（原味search的data），定义表格搜索数据
+- 🎉 Feat - GProTable-search 移除type、data属性，只有基本设置；表格搜索展示有searchMap、columns的searchConfig以及slot-search联合组成
+- 🎉 Feat - GProTable添加columnsState属性，可控制columnsSetting的列是否展示
+- 🎉 Feat - GProTable移除automaticScroll属性，新增autoScroll属性（控制列-key-action是否固定）
+- 🎉 Feat - GProTable新增scrollBreakpoint属性（action列固定条件，支持xxl/xl/lg/md/xs或者屏幕宽度数字）
+- 🎉 Feat - GProTable移除showPagination属性(使用ant-design-vue-table-pagination:false)
+- 🎉 Feat - GProTable移除showPagination属性(使用ant-design-vue-table-pagination:false)
+- 🎉 Feat - GProTable新增modalScroll属性，模态框下的Table
+- 🎉 Feat - GProTable新增modalScroll属性，模态框下的Table
+- 🎉 Feat - 新增GCode组件-代码展示
+- Feat - GAnchor新增actionRef用于导出相关功能函数及属性
+- Fix - GAnchor以及GAffix组件不能切换路由不能正常展示
+- Fix - 因ant-design-vue更新导致GProTable-Footer展示错误
+- Fix - 后端导出路由为空时，跳转403页面
 
 ## 特性
 

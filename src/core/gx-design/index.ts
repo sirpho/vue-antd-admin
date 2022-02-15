@@ -1,3 +1,4 @@
+import Code from '@gx-design/Code'
 import Affix from '@gx-design/Affix'
 import Result from '@gx-design/Result'
 import Anchor from '@gx-design/Anchor'
@@ -11,6 +12,8 @@ import TagSelectOption from '@gx-design/TagSelect/TagSelectOption'
 import Image, { ImageViewer, ImageViewerGroup } from '@gx-design/Image'
 
 const gxDesign = (app) => {
+  // Code
+  app.component('g-code', Code)
   // image
   app.component('g-image', Image)
   app.component('g-image-viewer', ImageViewer)

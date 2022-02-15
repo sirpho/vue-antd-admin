@@ -205,7 +205,7 @@
             v-if="item.key === tabStatus.operationKey"
             :key="index"
             :showIndex="false"
-            :showPagination="false"
+            :pagination="false"
             :options="false"
             :loading="false"
             :toolBarBtn="false"

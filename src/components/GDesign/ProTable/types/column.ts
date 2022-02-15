@@ -1,5 +1,22 @@
 import { VNodeChild } from 'vue'
-import { ColumnsType } from '../typings'
+import {
+  ColumnFilterItem,
+  ColumnTitle,
+  CompareFn,
+  FilterDropdownProps,
+  FilterValue,
+  Key,
+  SortOrder
+} from 'ant-design-vue/lib/table/interface'
+import { TooltipProps } from 'ant-design-vue/lib/tooltip/Tooltip'
+import {
+  AlignType,
+  CellEllipsisType,
+  DataIndex,
+  FixedType,
+  GetComponentProps,
+  RenderedCell
+} from 'ant-design-vue/lib/vc-table/interface'
 
 /**
  * @param text 文本框
@@ -13,6 +30,7 @@ export type ProFieldValueType =
   | 'text'
   | 'date'
   | 'select'
+  | 'treeSelect'
   | 'dateMonth'
   | 'dateRange'
   | 'time'
@@ -43,13 +61,11 @@ export type ProSchemaValueEnumType = {
   disabled?: boolean;
 };
 
-export type ProSchemaValueEnumObj = Record<string, ProSchemaValueEnumType | VNodeChild | JSX.Element>;
-
 type ProSchemaValueType<ValueType> = (ValueType | ProFieldValueType);
 
 type ProSchemaValueFormat<ValueType> = (ValueType | ProFieldValueFormat);
 
-export type ProSearchConfig<Entity = RecordType,
+export type ProSearchMap<
   ValueType = 'text',
   ValueFormat = 'date',
   > = {
@@ -57,7 +73,7 @@ export type ProSearchConfig<Entity = RecordType,
   /** 选择如何渲染相应的模式 */
   valueType?: ProSchemaValueType<ValueType>;
   ValueFormat?: ProSchemaValueFormat<ValueFormat>;
-  placeholder?: string | boolean;
+  placeholder?: string | string[];
   /** valueType为select生效 */
   allowClear?: boolean;
   /** valueType为select生效 */
@@ -74,33 +90,111 @@ export type ProSearchConfig<Entity = RecordType,
   use12Hours?: boolean;
   /** valueType为select生效 */
   loading?: boolean;
-  /** valueType为date|dateMonth|dateRange|time生效 */
-  renderExtraFooter?: (mode: 'date' | 'time' | 'year' | 'month' | 'decade') => any;
   showTime?: RecordType | boolean;
   /** 搜索表单的默认值 */
   initialValue?: any;
+  /** 针对select、treeselect取值的key */
+  valueKey?: string;
+  /** 表单的属性值（ant-design）*/
+  field?: RecordType;
   /**
    * 支持 object 和Map，Map 是支持其他基础类型作为 key
    *
    * @name 映射值的类型
    */
-  valueEnum?:
-    | ((row: Entity) => ProSchemaValueEnumObj)
-    | ProSchemaValueEnumObj
+  valueEnum?: ProSchemaValueEnumType[]
 };
 
-export interface ProColumns<RecordType> extends ColumnsType<RecordType> {
-  originAlign?: string;
-  columnEmptyText?: string;
-  sortOrder?: boolean;
+export type ProColumn = {
+  title?: ColumnTitle<any>;
+  // Sorter
+  sorter?:
+    | boolean
+    | CompareFn<RecordType>
+    | {
+    compare?: CompareFn<RecordType>;
+    /** Config multiple sorter order priority */
+    multiple?: number;
+  };
+  sortOrder?: SortOrder;
+  defaultSortOrder?: SortOrder;
+  sortDirections?: SortOrder[];
+  showSorterTooltip?: boolean | TooltipProps;
+
+  // Filter
+  filtered?: boolean;
+  filters?: ColumnFilterItem[];
+  filterDropdown?: VueNode | ((props: FilterDropdownProps<RecordType>) => VueNode);
+  filterMultiple?: boolean;
+  filteredValue?: FilterValue | null;
+  defaultFilteredValue?: FilterValue | null;
+  filterIcon?: VueNode | ((opt: { filtered: boolean; column: ProColumns }) => VueNode);
+  onFilter?: (value: string | number | boolean, record: RecordType) => boolean;
+  filterDropdownVisible?: boolean;
+  onFilterDropdownVisibleChange?: (visible: boolean) => void;
+
+  // Responsive
+  responsive?: Breakpoint[];
+
+  // Children
+  children?: ProColumns[];
+
+  colSpan?: number;
+  dataIndex?: DataIndex;
+  customRender?: (opt: {
+    value: any;
+    text: any; // 兼容 V2
+    record: RecordType;
+    index: number;
+    column: ProColumns;
+  }) => any | RenderedCell<RecordType>;
+  rowSpan?: number;
+  width?: number | string;
+  minWidth?: number;
+  maxWidth?: number;
+  resizable?: boolean;
+  customCell?: GetComponentProps<RecordType>;
+  /** @deprecated Please use `onCell` instead */
+  onCellClick?: (record: RecordType, e: MouseEvent) => void;
+
+  key?: Key;
+  class?: string;
+  className?: string;
+  fixed?: FixedType;
+  customHeaderCell?: GetComponentProps<ProColumns[]>;
+  ellipsis?: CellEllipsisType;
+  align?: AlignType;
+
+  customFilterDropdown?: boolean;
+
+  /** @deprecated Please use `v-slot:filterIcon` `v-slot:bodyCell` `v-slot:headerCell` instead */
+  slots?: {
+    filterIcon?: string;
+    filterDropdown?: string;
+    customRender?: string;
+    title?: string;
+  };
+
+  /**
+   * @private Internal usage.
+   *
+   * !!! DO NOT USE IN PRODUCTION ENVIRONMENT !!!
+   */
+  __originColumn__?: any;
+
   uuid?: string;
-  fixType?: 'nofixed' | 'fixedLeft' | 'fixedRight';
-  checked?: boolean;
-  hasTableTree?: boolean;
+  /** 不在列表中显示 */
+  show?: boolean;
+  /** 列表顺序值 */
+  order?: number;
+  /** 不在配置工具中显示 */
+  hideInSetting?: boolean;
   /** 表单搜索配置 */
-  searchConfig?: ProSearchConfig;
-  /** 是否缩略 */
-  ellipsis?: boolean;
+  searchConfig?: ProSearchMap;
   /** 是否拷贝 */
   copyable?: boolean;
+  /** 值为空时，默认取值 */
+  columnEmptyText?: string;
 }
+
+export type ProColumns = ProColumn[]

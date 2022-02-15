@@ -1,6 +1,4 @@
-import type { VNodeChild, CSSProperties } from 'vue'
-import { ProSearchConfig } from './column'
-import { ColSpanType } from '../components/TableSearch'
+import type { VNodeChild } from 'vue'
 
 export type ProFieldEmptyText = string | false;
 
@@ -24,9 +22,9 @@ export type requsetConfig = (
   filter: Record<string, any[] | null>
 ) => Promise<Partial<RequestData>>
 
-export interface searchPorps {
-  type: 'dataSouce' | 'columns' | 'slots';
-  searchStyle?: CSSProperties;
+export type ColConfig = Partial<Record<Breakpoint, number>>
+
+export type SearchConfig = {
   searchText?: string;
   resetText?: string;
   className?: string;
@@ -34,23 +32,31 @@ export interface searchPorps {
   showSearch?: boolean;
   showReset?: boolean;
   collapseRender?: WithFalse<(collapsed?: boolean) => CustomRender>;
-  span?: ColSpanType | Partial<Record<Breakpoint, ColSpanType>>;
-  searchData: ProSearchConfig[]
+  span?: ColConfig;
 }
 
 export interface OptionConfig {
   reload?: (() => VNodeChild | JSX.Element) | boolean;
   density?: boolean;
-  setting?: boolean;
-  fullScreen?: (() => VNodeChild | JSX.Element) | boolean;
+  setting?: boolean | {
+    draggable?: boolean;
+    checkable?: boolean;
+    checkedReset?: boolean;
+    extra?: VueNode;
+  };
+  fullScreen?: (() => VNodeChild | JSX.Element) | boolean | (() => Promise<void>);
 }
 
 /** 操作类型 */
-export type ProCoreActionType = ({ reload, loadingOperation, reloadAndRest }: {
+export type ProCoreActionType = ({ reload, reloadAndRest, changeDataValue, loadingOperation }: {
   /** @name 刷新 */
   reload: (info?: any) => void;
-  /** @name 改变loading状态 */
-  loadingOperation: (loading: boolean) => void;
   /** @name 刷新并清空表单，重置为第一页 */
-  reloadAndRest?: () => void;
+  reloadAndRest: () => void;
+  /** @name 更新TableData属性值 */
+  reSetDataList?: (data: RecordType[]) => void;
+  /** @name 更新TableData属性值 */
+  changeDataValue?: ({ key, value }: { key?: string; value: RecordType }) => void;
+  /** @name 改变loading状态 */
+  loadingOperation?: (loading: boolean) => void;
 }) => void;

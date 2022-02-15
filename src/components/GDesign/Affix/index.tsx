@@ -159,7 +159,7 @@ const GAffix = defineComponent({
         useEventListener(scrollContainer, 'scroll', onScroll)
         useResizeObserver(root, () => setTimeout(() => update()))
         useResizeObserver(target, () => setTimeout(() => update()))
-      })
+      },0)
     })
 
     onDeactivated(() => {

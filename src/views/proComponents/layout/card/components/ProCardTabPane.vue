@@ -6,12 +6,12 @@
   </a-typography>
   <g-pro-table
     :showIndex="false"
-    :showPagination="false"
+    :pagination="false"
     :options="false"
     size="default"
     :columns="parameter"
     :dataSource="proCardTabPaneData"
-    :row-key="(record) => record.attributes"
+    row-key="attributes"
   >
     <template #headerTitle>
       支持&nbsp;&nbsp;<a target="_blank" href="https://2x.antdv.com/components/tabs-cn#API">Tab</a>&nbsp;&nbsp;的所有属性。

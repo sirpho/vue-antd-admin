@@ -27,6 +27,7 @@ export interface settingConfig {
   copyright: string;
   keepAliveMaxNum: number;
   routerMode: string;
+  routerLoadTime: number;
   routesWhiteList: Array<string>;
   loadingText: string;
   tokenName: string;

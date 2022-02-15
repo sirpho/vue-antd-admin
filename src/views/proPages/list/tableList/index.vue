@@ -5,7 +5,6 @@
       row-key="key"
       align="center"
       :showIndex="false"
-      :search="{ type: 'columns' }"
       :actionRef="info => tableRef = info"
       :columns="columns"
       :request="(params, sort, filter) => getTableList(params, sort, filter)"

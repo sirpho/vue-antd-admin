@@ -1,5 +1,6 @@
 import type { ExtractPropTypes, FunctionalComponent } from 'vue'
 import { computed } from 'vue'
+import { Tooltip } from 'ant-design-vue'
 import { PropTypes } from '/@/utils'
 import { handelInkStyle } from './index'
 
@@ -47,7 +48,7 @@ export const DefaultAnchor: FunctionalComponent<DefaultAnchorProps> = (props) =>
             }}
             onClick={() => onGoAnchor && onGoAnchor(item.link)}
           >
-            {item.name}
+            <Tooltip title={item.name}>{item.name}</Tooltip>
           </div>
         ))
       }

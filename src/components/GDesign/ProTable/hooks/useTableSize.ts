@@ -1,22 +1,21 @@
-import { ref, ComputedRef, unref, computed, watch } from 'vue'
-import type { ProTableProps } from '../'
+import { Ref, ref, watchEffect } from 'vue'
+import type { SizeType } from '@gx-design/utils'
 
-export function useTableSize(props: ComputedRef<ProTableProps>, emit: EmitType) {
-  const sizeRef = ref(unref(props).size)
+export function useTableSize({ size, emit }: {
+  size: Ref<SizeType>,
+  emit: EmitType
+}) {
 
-  watch(
-    () => unref(props).size,
-    (size) => {
-      sizeRef.value = size || 'middle'
-    }
-  )
+  const sizeRef: Ref<SizeType> = ref('middle')
 
-  const getSize = computed(() => unref(sizeRef))
+  watchEffect(() => {
+    sizeRef.value = size.value
+  })
 
-  function setSize(size: string) {
+  function setTableSize(size: SizeType) {
     sizeRef.value = size
     emit('sizeChange', true)
   }
 
-  return { getSize, setSize }
+  return { sizeRef, setTableSize }
 }

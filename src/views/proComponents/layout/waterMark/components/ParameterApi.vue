@@ -12,12 +12,12 @@
   <g-pro-table
     style="margin-top: 15px"
     :showIndex="false"
-    :showPagination="false"
+    :pagination="false"
     :options="false"
     size="default"
     :columns="parameter"
     :dataSource="parameterData"
-    :row-key="(record) => record.attributes"
+    row-key="attributes"
   />
   <a-typography id="watermark-high-api" style="margin-top: 15px">
     <a-typography-title
@@ -30,12 +30,12 @@
   <g-pro-table
     style="margin-top: 15px"
     :showIndex="false"
-    :showPagination="false"
+    :pagination="false"
     :options="false"
     size="default"
     :columns="parameter"
     :dataSource="parameterLevelData"
-    :row-key="(record) => record.attributes"
+    row-key="attributes"
   />
   <a-typography id="watermark-visualization-api" style="margin-top: 15px">
     <a-typography-title :level="4"

@@ -6,12 +6,12 @@
   </a-typography>
   <g-pro-table
     :showIndex="false"
-    :showPagination="false"
+    :pagination="false"
     :options="false"
     size="default"
     :columns="parameter"
     :dataSource="proCardTabsData"
-    :row-key="(record) => record.attributes"
+    row-key="attributes"
   >
     <template #headerTitle>
       更多属性见 antd&nbsp;&nbsp;

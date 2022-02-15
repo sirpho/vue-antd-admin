@@ -1,42 +1,34 @@
-import type { Slots } from 'vue'
-import { computed, unref, ref, ComputedRef, watch } from 'vue'
+import { computed, unref, reactive, watchEffect, Ref, Slots, ComputedRef } from 'vue'
 import { PaginationProps } from 'ant-design-vue/lib/pagination'
-import { getPropsSlotfn } from '@gx-admin/utils'
 import { isBoolean, isFunction } from '/@/utils/validate'
-import type { ProTableProps } from '../'
+import { ProTableProps } from '../Table'
+import { getPropsSlotfn } from '@gx-admin/utils'
 
-export function usePagination(refProps: ComputedRef<ProTableProps>, slots: Slots) {
-  const configRef = ref<PaginationProps>({})
-  const show = ref(unref(refProps).showPagination)
+export type GProTablePaginationProps = (PaginationProps & {
+  position?: string;
+})
 
-  watch(
-    () => unref(refProps).pagination,
-    (pagination) => {
-      if (!isBoolean(pagination) && pagination) {
-        configRef.value = {
-          ...(pagination ?? {})
-        }
-      } else {
-        configRef.value = {}
-      }
+export function usePagination({ slots, props, pagination }: {
+  slots: Slots
+  props: ComputedRef<ProTableProps>;
+  pagination: Ref<ProTableProps['pagination']>;
+}) {
+  const configRef = reactive<PaginationProps>({})
+
+  watchEffect(() => {
+    if (pagination.value || pagination.value === undefined) {
+      Object.assign(configRef, { ...(pagination.value ?? {}) })
+    } else {
+      for (const key in configRef) delete configRef[key]
     }
-  )
+  })
 
-  watch(
-    () => unref(refProps).showPagination,
-    (value) => {
-      show.value = value
-    }
-  )
-
-  const getPaginationInfo = computed((): PaginationProps | boolean => {
-    const { pagination } = unref(refProps)
-    const pageItemRender = getPropsSlotfn(slots, unref(refProps), 'pageItemRender')
-
-    if (!unref(show) || (isBoolean(pagination) && !pagination)) {
+  const getPaginationInfo = computed((): GProTablePaginationProps | boolean => {
+    if (isBoolean(pagination.value) && !pagination.value) {
       return false
     }
 
+    const pageItemRender = getPropsSlotfn(slots, unref(props), 'pageItemRender')
     const itemRenderProps = isFunction(pageItemRender)
       ? {
         itemRender: ({ page, type, originalElement }) => {
@@ -52,29 +44,26 @@ export function usePagination(refProps: ComputedRef<ProTableProps>, slots: Slots
       showQuickJumper: true,
       showSizeChanger: true,
       pageSizeOptions: [ '10', '20', '50', '100' ],
-      ...(isBoolean(pagination) ? {} : pagination),
+      ...(pagination.value || {}),
       ...unref(configRef),
       ...itemRenderProps
+    } as GProTablePaginationProps
+
+    if (!pagination.value?.showTotal) {
+      pageInfo.showTotal = (total) => `共${total < pageInfo.pageSize
+        ? 1
+        : Math.ceil(total / pageInfo.pageSize)}页 ${total}条记录`
     }
-
-    pageInfo.showTotal = (total) => pageInfo.showTotal || `共${total < pageInfo.pageSize
-      ? 1
-      : Math.ceil(total / pageInfo.pageSize)}页 ${total}条记录`
-
     return pageInfo
   })
 
   function setPagination(info: Partial<PaginationProps>) {
     const paginationInfo = unref(getPaginationInfo)
-    configRef.value = {
-      ...(!isBoolean(paginationInfo) ? paginationInfo : {}),
+    Object.assign(configRef, {
+      ...(paginationInfo as GProTablePaginationProps || {}),
       ...info
-    }
+    })
   }
 
-  function getPagination() {
-    return unref(getPaginationInfo)
-  }
-
-  return { getPagination, getPaginationInfo, setPagination }
+  return { getPaginationInfo, setPagination }
 }

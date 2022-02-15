@@ -7,12 +7,12 @@
   <g-pro-table
     style="margin-top: 15px"
     :showIndex="false"
-    :showPagination="false"
+    :pagination="false"
     :options="false"
     size="default"
     :columns="parameter"
     :dataSource="basicData"
-    :row-key="(record) => record.attributes"
+    row-key="attributes"
   />
 </template>
 

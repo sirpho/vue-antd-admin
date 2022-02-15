@@ -17,9 +17,8 @@ function handleRandomImage(width = 50, height = 50) {
 
 for (let i = 0; i < count; i++) {
   List.push(
-    // @ts-ignore
     mock({
-      uuid: '@uuid',
+      uuid: Random.guid(),
       id: '@id',
       title: '@title(1, 2)',
       description: '@csentence',
@@ -43,12 +42,12 @@ export default [
     url: '/mock-server/table/getList',
     type: 'get',
     response({ query }) {
-      const { title, current = 1, pageSize = 10 } = query
+      const { title, pageNum = 1, pageSize = 10 } = query
       const mockList = List.filter((item: any) => {
         return !(title && item.title.indexOf(title) < 0)
       })
       const pageList = mockList.filter(
-        (_, index) => index < pageSize * current && index >= pageSize * (current - 1)
+        (_, index) => index < pageSize * pageNum && index >= pageSize * (pageNum - 1)
       )
       return {
         code: 200,

@@ -6,29 +6,70 @@ import type { ProTableProps } from '../'
 import type { TableProps } from '../typings'
 import type { ProColumns } from '../types/column'
 
+type ConfigScroll = {
+  scroll: ComputedRef<ProTableProps['scroll']>;
+  autoScroll: ComputedRef<ProTableProps['autoScroll']>;
+  modalScroll: ComputedRef<ProTableProps['modalScroll']>;
+  neverScroll: ComputedRef<ProTableProps['neverScroll']>;
+  rowSelection: ComputedRef<ProTableProps['rowSelection']>;
+  scrollBreakpoint: ComputedRef<ProTableProps['scrollBreakpoint']>;
+}
+
 type useTableScrollType = {
-  propsRef: ComputedRef<ProTableProps>,
+  columns: ComputedRef<ProColumns>;
+  innerWidth: Ref<number>;
   screensRef: Ref<Partial<Record<Breakpoint, boolean>>>,
-  columnsRef: ComputedRef<ProColumns<RecordType>[]>,
-  innerWidth: Ref<number>
+} & ConfigScroll
+
+export function useConfigScroll(props: ProTableProps): ConfigScroll {
+  const scroll = computed(() => props.scroll)
+  const autoScroll = computed(() => props.autoScroll)
+  const modalScroll = computed(() => props.modalScroll)
+  const neverScroll = computed(() => props.neverScroll)
+  const rowSelection = computed(() => props.rowSelection)
+  const scrollBreakpoint = computed(() => props.scrollBreakpoint)
+
+  return {
+    scroll,
+    neverScroll,
+    rowSelection,
+    autoScroll,
+    modalScroll,
+    scrollBreakpoint
+  }
 }
 
 export function useTableScroll({
-  propsRef,
+  scroll,
+  columns,
+  autoScroll,
+  modalScroll,
+  neverScroll,
+  rowSelection,
   screensRef,
-  columnsRef,
-  innerWidth
+  innerWidth,
+  scrollBreakpoint,
 } : useTableScrollType) {
+  const breakpoint: ComputedRef<boolean> = computed(() => {
+    if (unref(scrollBreakpoint)) {
+      return isNumber(unref(scrollBreakpoint))
+        ? innerWidth.value > unref(scrollBreakpoint)
+        : isString(unref(scrollBreakpoint))
+          ? screensRef.value?.[unref(scrollBreakpoint)]
+          : screensRef.value?.xl
+    }
+    return screensRef.value?.xl
+  })
+
   const getScrollX = computed(() => {
-    const { rowSelection } = unref(propsRef)
     let width = 0
-    const rowSelectWidth = rowSelection ? 60 : 0
+    const rowSelectWidth = unref(rowSelection) ? 60 : 0
     const NORMAL_WIDTH = 150
-    const columns = cloneDeep(unref(columnsRef))
-    columns.forEach((item) => {
+    const viewColumns = cloneDeep(unref(columns))
+    viewColumns.forEach((item) => {
       width += Number.parseInt(item.width as string) || 0
     })
-    const unsetWidthColumns = columns.filter((item) => !Reflect.has(item, 'width'))
+    const unsetWidthColumns = viewColumns.filter((item) => !Reflect.has(item, 'width'))
 
     const len = unsetWidthColumns.length
     if (len !== 0) {
@@ -37,26 +78,21 @@ export function useTableScroll({
     if (rowSelectWidth) width += rowSelectWidth
     return width
   })
+
   const getScrollRef = computed(() => {
-    const { lg } = screensRef.value
-    let breakpoint = screensRef.value.xl
-    const { scroll = {}, automaticScroll, neverScroll, scrollBreakpoint } = unref(propsRef)
-    if (neverScroll && lg) return {}
-    if (automaticScroll) {
+    const { lg, xl } = screensRef.value
+    if (unref(neverScroll) && lg) return {}
+    if (unref(modalScroll)) {
       return {
-        y: (scroll as TableProps['scroll'])?.y || (breakpoint ? 400 : 235)
+        y: (unref(scroll) as TableProps['scroll'])?.y || (xl ? 400 : 235)
       }
     }
-    if (scroll && Object.keys(scroll).length) return scroll
-    if (scrollBreakpoint) {
-      breakpoint = isNumber(scrollBreakpoint)
-        ? innerWidth.value > scrollBreakpoint
-        : isString(scrollBreakpoint) ? screensRef.value?.[scrollBreakpoint] : breakpoint
-    }
-    return breakpoint
+    if (unref(scroll) && Object.keys(unref(scroll)).length) return unref(scroll)
+    if (!unref(autoScroll)) return {}
+    return breakpoint.value
       ? {}
-      : isBoolean(breakpoint) ? { x: unref(getScrollX) } : {}
+      : isBoolean(breakpoint.value) ? { x: unref(getScrollX) } : {}
   })
 
-  return { getScrollRef }
+  return { getScrollRef, breakpoint }
 }

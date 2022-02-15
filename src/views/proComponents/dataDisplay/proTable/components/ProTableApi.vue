@@ -34,7 +34,7 @@
       <a-typography-text type="danger" code style="font-size: 14px;">params</a-typography-text>
       参数也会带入。
     </a-typography-paragraph>
-    <a-typography-paragraph copyable class="gx-code">
+    <a-typography-paragraph copyable class="gx-code-block">
       <pre>{{ requestCode }}</pre>
     </a-typography-paragraph>
   </a-typography>
@@ -49,13 +49,28 @@
   <g-pro-table
     style="margin-top: 15px"
     :showIndex="false"
-    :showPagination="false"
+    :pagination="false"
     :options="false"
     size="default"
     :columns="proTable"
     :dataSource="proTableData"
-    :row-key="(record) => record.attributes"
-  />
+    row-key="attributes"
+  >
+    <template #bodyCell="{ column, record }">
+      <template v-if="column.dataIndex === 'typesof'">
+        <template v-if="record.attributes === 'search'">
+          false | <a @click="handleTarget('#search-SearchConfig')">SearchConfig</a>
+        </template>
+        <template v-else-if="record.attributes === 'searchMap'">
+          <a @click="handleTarget('#search-proSearchMap')">ProSearchMap</a>
+        </template>
+        <template v-else-if="record.attributes === 'columnsState'">
+          <a>ColumnsStateType</a>
+        </template>
+        <template v-else>{{ record.typesof }}</template>
+      </template>
+    </template>
+  </g-pro-table>
 </template>
 
 <script lang="ts">
@@ -64,15 +79,22 @@ import columns from '../utils/columns'
 import config from '../utils/config'
 
 export default defineComponent({
-  setup() {
+  emits: [ 'targetTo' ],
+  setup(_, { emit }) {
     const state = reactive({
+      typesof: config.typesof,
       proTable: columns.proTable,
       requestCode: config.requestCode,
       proTableData: config.proTableData,
     })
     
+    const handleTarget = (value) => {
+      emit('targetTo', value)
+    }
+    
     return {
-      ...toRefs(state)
+      ...toRefs(state),
+      handleTarget
     }
   }
 })

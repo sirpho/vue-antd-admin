@@ -6,7 +6,7 @@ import {
   onMounted,
   onUnmounted,
   reactive,
-  watch
+  watch, watchEffect
 } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { Drawer } from 'ant-design-vue'
@@ -35,6 +35,7 @@ export interface anchorState {
 }
 
 export const anchorProps = {
+  actionRef: Function,
   links: {
     type: Array as PropType<any[]>,
     default: () => []
@@ -122,6 +123,14 @@ const GAnchor = defineComponent({
       scrollRemove()
     })
 
+    const handelAnchorActive = (scrollTop, anchor, afterAnchor) => {
+      if (!anchor) return false
+      return scrollTop >= handleOffsetTop(anchor).top - defaultOffsetTop.value &&
+        scrollTop < (afterAnchor
+          ? handleOffsetTop(afterAnchor).top - defaultOffsetTop.value
+          : 10000)
+    }
+
     const handleScroll = throttleByAnimationFrame((e: Event | { target: any }) => {
       const scrollTop = getScroll(e.target, true)
       setTimeout(() => {
@@ -129,14 +138,14 @@ const GAnchor = defineComponent({
           const anchor = document.querySelector(item.link)
           const afterAnchor = index + 1 === state.dataSource.length ?
             null : document.querySelector(state.dataSource[index + 1]['link'])
-          item.active = scrollTop >= handleOffsetTop(anchor).top - defaultOffsetTop.value &&
-            scrollTop < (afterAnchor ? handleOffsetTop(afterAnchor).top - defaultOffsetTop.value : 10000)
+          item.active = handelAnchorActive(scrollTop, anchor, afterAnchor)
           return item
         })
-      }, 50)
+      }, 0)
     })
 
     const goAnchor = (selector) => {
+      console.log(selector)
       const targetNode = document.querySelector(selector) || { offsetTop: 0 }
       const { root } = props
       scrollTo(handleOffsetTop(targetNode).top - defaultOffsetTop.value, {
@@ -144,6 +153,12 @@ const GAnchor = defineComponent({
         duration: 450
       })
     }
+
+    watchEffect(() => {
+      if (props.actionRef) props.actionRef({
+        goAnchor
+      })
+    })
 
     return () => (
       <>

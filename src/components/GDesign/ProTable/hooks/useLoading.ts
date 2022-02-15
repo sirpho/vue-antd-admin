@@ -1,17 +1,14 @@
-import { ref, ComputedRef, unref, computed, watch } from 'vue'
-import type { ProTableProps } from '../'
+import { ref, unref, computed, watchEffect, Ref } from 'vue'
 
-export function useLoading(props: ComputedRef<ProTableProps>, emit: EmitType) {
-  const loadingRef = ref(unref(props).loading)
+export function useLoading({ emit, loading }: { loading: Ref<boolean>, emit: EmitType }) {
 
-  watch(
-    () => unref(props).loading,
-    (loading) => {
-      loadingRef.value = loading
-    }
-  )
+  const loadingRef = ref(loading.value)
 
-  const getLoading = computed(() => unref(loadingRef))
+  watchEffect(() => {
+    loadingRef.value = loading.value
+  })
+
+  const getLoading = computed(() => unref(loadingRef) || false)
 
   function setLoading(loading: boolean) {
     loadingRef.value = loading

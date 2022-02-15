@@ -6,12 +6,12 @@
   </a-typography>
   <g-pro-table
     :showIndex="false"
-    :showPagination="false"
+    :pagination="false"
     :options="false"
     size="default"
     :columns="columnsConfig"
     :dataSource="columnsTableData"
-    :row-key="(record) => record.attributes"
+    row-key="attributes"
   />
 </template>
 

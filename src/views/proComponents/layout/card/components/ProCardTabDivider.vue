@@ -6,13 +6,13 @@
   </a-typography>
   <g-pro-table
     :showIndex="false"
-    :showPagination="false"
+    :pagination="false"
     :options="false"
     size="default"
     headerTitle="用于在将内容进行分组时进行分隔。"
     :columns="parameter"
     :dataSource="proCardTabDividerData"
-    :row-key="(record) => record.attributes"
+    row-key="attributes"
   />
 </template>
 

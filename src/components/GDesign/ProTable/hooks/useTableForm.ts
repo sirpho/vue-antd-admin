@@ -1,97 +1,44 @@
-import { ref, ComputedRef, unref, computed, watch } from 'vue'
-import { cloneDeep, isEqual } from 'lodash-es'
-import type { ProTableProps } from '../'
+import { ComputedRef, reactive, ref, Ref, watch } from 'vue'
+import { cloneDeep } from 'lodash-es'
+import type { ProTableProps } from '../Table'
+import { ProSearchMap } from '../types/column'
+import { handleFormDefaultValue } from '../utils'
 
-export function useTableForm(
-  props: ComputedRef<ProTableProps>,
-  {
-    propsParamsRef
-  }
-) {
-  const formDataRef = ref<any[]>(unref(props).search?.searchData || [])
-  const formParamsRef = ref(unref(props).params || {})
+export function useTableForm({ searchMap, params, columns }: {
+  searchMap: Ref<ProSearchMap[]>;
+  params: Ref<ProTableProps['params']>;
+  columns: ComputedRef<ProTableProps['columns']>;
+}) {
+  const formParamsRef = reactive<RecordType>({})
+  const defaultParamsRef = reactive<RecordType>({})
+  const formDataRef: Ref<ProSearchMap[]> = ref([])
 
-  watch(
-    () => unref(props).search,
-    (search, oldSearch) => {
-      if (!isEqual(search, oldSearch)) {
-        let searchData = search ? search.searchData : []
-        if (search && search.type === 'columns') {
-          searchData = []
-          unref(props).columns.map(item => {
-            if (item.searchConfig) searchData.push(item.searchConfig)
-            return item
-          })
-        }
-        if (search && (search.type === 'columns' || search.type === 'dataSouce')) {
-          const defaultParams = {}
-          cloneDeep(searchData).map(item => {
-            let initialValue = item.initialValue
-            const valueUndefined = [ 'select' ]
-            const valueNull = [ 'date', 'time', 'dateRange' ]
-            if (!initialValue && valueUndefined.includes(item.valueType)) {
-              initialValue = undefined
-            } else if (!initialValue && valueNull.includes(item.valueType)) {
-              initialValue = null
-            } else if (!initialValue) {
-              initialValue = ''
-            }
-            if (item.name === 'dateRange') {
-              defaultParams[item.rangeStartName || 'start'] = initialValue ? initialValue[0] : null
-              defaultParams[item.rangeEndName || 'end'] = initialValue ? initialValue[1] : null
-            } else {
-              defaultParams[item.name] = initialValue
-            }
-            return item
-          })
-          formParamsRef.value = {
-            ...formParamsRef.value as object,
-            ...defaultParams
-          }
-        }
-        formDataRef.value = cloneDeep(searchData)
-      }
-    },
-    {
-      deep: true,
-      immediate: true
-    }
-  )
+  watch([ () => searchMap.value, () => columns.value, ], () => {
+    let defaultParams = {}
+    let searchData = cloneDeep(searchMap.value || [])
 
-  watch(
-    () => unref(propsParamsRef),
-    (params) => {
-      formParamsRef.value = {
-        ...formParamsRef.value as object,
-        ...params
-      }
-    },
-    {
-      deep: true,
-      immediate: true
-    }
-  )
+    columns.value.map(item => {
+      if (item.searchConfig) searchData.push(item.searchConfig)
+      return item
+    })
 
-  const getFormParamsRef = computed(() => {
-    return {
-      ...unref(formParamsRef as object)
-    }
+    formDataRef.value = cloneDeep(searchData)
+    defaultParams = handleFormDefaultValue(searchData)
+
+    Object.assign(defaultParamsRef, { ...defaultParams })
+
+    Object.assign(formParamsRef, {
+      ...((params.value as RecordType) || {}),
+      ...defaultParams
+    })
+  }, {
+    deep: true,
+    immediate: true
   })
-
-  const getFormDataRef = computed(() => {
-    return unref(formDataRef)
-  })
-
-  function getFormParams() {
-    return unref(getFormParamsRef)
-  }
 
   function setFormParams(params) {
-    formParamsRef.value = {
-      ...formParamsRef.value as object,
-      ...cloneDeep(params)
-    }
+    Object.assign(formParamsRef, params)
   }
 
-  return { getFormParamsRef, getFormDataRef, getFormParams, setFormParams }
+  return { formDataRef, formParamsRef, defaultParamsRef, setFormParams }
 }

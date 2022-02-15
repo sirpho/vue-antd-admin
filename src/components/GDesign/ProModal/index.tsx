@@ -167,7 +167,7 @@ export default defineComponent({
           class={handleModalClass.value}
           width={getModalWidth.value}
           onCancel={() => onCancel()}
-          footer={renderFooter}
+          footer={renderFooter()}
           bodyStyle={fullScreen.value ? { height: `${window.innerHeight - 110}px !important` } : undefined}
         >
           {props.fullscreen && props.showClose && (

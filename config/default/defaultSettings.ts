@@ -38,6 +38,8 @@ const defaultSettings: settingConfig = {
   copyright: 'gx12358 2539306317@qq.com',
   //缓存路由的最大数量
   keepAliveMaxNum: 99,
+  //初次页面加载时间
+  routerLoadTime: 200,
   //路由模式，可选值为 browser 或 hash
   routerMode: 'hash',
   //不经过token校验的路由
