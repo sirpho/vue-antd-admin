@@ -33,8 +33,10 @@ export default defineComponent({
 
     const advanced = ref(false)
 
-    const hasReset = computed(() => props.search.showReset === undefined ? true : props.search.showReset)
     const hasSearch = computed(() => !!props.search.showSearch)
+    const hasReset = computed(() =>
+      props.search.showReset === undefined ? hasSearch.value : props.search.showReset
+    )
 
     const responsiveArray: { value: Breakpoint; span: number; }[] = [
       { value: 'xxl', span: 4 },
