@@ -32,7 +32,11 @@
           <InfoCircleOutlined style="margin-left: 5px" />
         </a-tooltip>
       </template>
-      <a-switch v-model:checked="state.showScrollBreakpoint" :disabled="tableConfig.neverScroll" @change="changeScrollBreakpoint" />
+      <a-switch
+        v-model:checked="state.showScrollBreakpoint"
+        :disabled="tableConfig.neverScroll || !tableConfig.autoScroll"
+        @change="changeScrollBreakpoint"
+      />
     </a-form-item>
     <a-form-item label="NeverScroll">
       <a-switch v-model:checked="tableConfig.neverScroll" />
@@ -296,15 +300,14 @@ watch(() => state.showScroll, () => {
   immediate: true
 })
 
-watch(() => state.showScrollBreakpoint, () => {
-  state.showScrollBreakpoint = !!tableConfig.scrollBreakpoint
-}, {
-  deep: true,
-  immediate: true
-})
-
 watch(() => tableConfig.autoScroll, (value) => {
-  if (!value) tableConfig.scrollBreakpoint = undefined
+  if (value) {
+    state.showScrollBreakpoint = true
+    tableConfig.scrollBreakpoint = 'xl'
+  } else {
+    state.showScrollBreakpoint = false
+    tableConfig.scrollBreakpoint = undefined
+  }
 }, {
   deep: true,
   immediate: true
