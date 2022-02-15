@@ -58,8 +58,21 @@ export function useColumns({
     immediate: true,
   })
 
-  const getProColumns = computed(() => unref(proColumnsRef)
-    .sort((a, b) => compareToMax(a, b, 'order')))
+  const getProColumns = computed(() => {
+    const leftColumnsData = handleTableSort(unref(proColumnsRef).filter(item => item.fixed === 'left'))
+    const middleColumnsData = handleTableSort(unref(proColumnsRef).filter(item => item.fixed !== 'left' && item.fixed !== 'right'))
+    const rightColumnsData = handleTableSort(unref(proColumnsRef).filter(item => item.fixed === 'right'))
+
+    return [
+      ...leftColumnsData,
+      ...middleColumnsData,
+      ...rightColumnsData
+    ]
+  })
+
+  function handleTableSort(data) {
+    return data.sort((a, b) => compareToMax(a, b, 'order'))
+  }
 
   function handleColumns(columnsList: ProColumn[]) {
     return cloneDeep(columnsList).map((item, index) => {
@@ -105,7 +118,7 @@ export function useColumns({
     proColumnsRef.value = cloneDeep(columnList)
   }
 
-  function changeColumns(columnState: Record<string, ColumnsState>, fixed: boolean) {
+  function changeColumns(columnState: Record<string, ColumnsState>) {
     let columnsList: ProColumn[] = cloneDeep(columns.value)
     columnsList = columnsList.map((item) => {
       return {
@@ -115,18 +128,7 @@ export function useColumns({
         order: columnState[item.key]?.order
       }
     })
-    const leftColumnsData = columnsList.filter(item => item.fixed === 'left')
-    const middleColumnsData = columnsList.filter(item => item.fixed !== 'left' && item.fixed !== 'right')
-    const rightColumnsData = columnsList.filter(item => item.fixed === 'right')
-    if (fixed) {
-      setColumns([
-        ...leftColumnsData,
-        ...middleColumnsData,
-        ...rightColumnsData
-      ])
-    } else {
-      setColumns(columnsList)
-    }
+    setColumns(columnsList)
   }
 
   return {
