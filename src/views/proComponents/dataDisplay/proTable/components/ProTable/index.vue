@@ -380,8 +380,6 @@ const changeScrollBreakpoint = (value) => {
   if (value) {
     tableConfig.scrollBreakpoint = 'xl'
     scrollBreakpointModal.value.opneVisible(tableConfig.scrollBreakpoint)
-  } else {
-    tableConfig.scroll = undefined
   }
 }
 
