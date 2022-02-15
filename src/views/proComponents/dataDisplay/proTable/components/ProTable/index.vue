@@ -130,7 +130,7 @@
         新建
       </a-button>
       <a-button key="button" type="primary" @click="handlePolling">
-        <loadingIcon v-if="tableConfig.polling" />
+        <LoadingIcon v-if="tableConfig.polling" />
         <ReloadOutlined v-else  />
         {{ tableConfig.polling ? '停止轮询' : '开始轮询' }}
       </a-button>
@@ -199,7 +199,7 @@ import OperationModal from './components/OperationModal.vue'
 import ScrollBreakpointModal from './components/ScrollBreakpointModal.vue'
 import columns from '../../utils/columns'
 
-const loadingIcon = h(LoadingOutlined)
+const LoadingIcon = h(LoadingOutlined)
 
 const { getDictData } = useDict([ 'sys_common_status' ])
 
@@ -354,7 +354,7 @@ const handlePolling = () => {
 const changeScroll = (value) => {
   if (value) {
     tableConfig.scroll = { x: 1850 }
-    scrollModal.value.opneVisible()
+    scrollModal.value.open()
   } else {
     tableConfig.scroll = undefined
   }
@@ -367,7 +367,7 @@ const handleScroll = (params) => {
 const changeScrollBreakpoint = (value) => {
   if (value) {
     tableConfig.scrollBreakpoint = 'xl'
-    scrollBreakpointModal.value.opneVisible(tableConfig.scrollBreakpoint)
+    scrollBreakpointModal.value.open(tableConfig.scrollBreakpoint)
   }
 }
 

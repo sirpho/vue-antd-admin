@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang='ts'>
-import { reactive, ref, watch } from 'vue'
+import { reactive, ref, unref, watchEffect } from 'vue'
 import { Form } from 'ant-design-vue'
 import { getList } from '/@/services/table'
 import { useDict } from '@gx-admin/hooks/web'
@@ -79,22 +79,15 @@ const params = reactive({
   age: ''
 })
 
-watch(
-  () => getDictData.value,
-  (data) => {
-    searchMap.value[0].loading = data.sys_common_status?.loading
-    searchMap.value[0].valueEnum = (data.sys_common_status?.data || []).map(item => {
-      return {
-        text: item.dictLabel,
-        value: item.dictValue
-      }
-    })
-  },
-  {
-    deep: true,
-    immediate: true
-  }
-)
+watchEffect(() => {
+  searchMap.value[0].loading = unref(getDictData.value).sys_common_status?.loading
+  searchMap.value[0].valueEnum = (unref(getDictData.value).sys_common_status?.data || []).map(item => {
+    return {
+      text: item.dictLabel,
+      value: item.dictValue
+    }
+  })
+})
 
 const getTableData = async (params) => {
   const response: any = await getList(params)

@@ -3,37 +3,28 @@
     title="Scroll"
     width="450px"
     :visible="visible"
-    :fixHeight="false"
+    :adaptive="false"
+    @ok="handleSubmit"
     @cancel="handleCancel"
   >
-    <template #content>
-      <a-form v-bind="formItemLayout">
-        <a-form-item label="x" v-bind="validateInfos.x">
-          <a-input
-            style="width: 100%;"
-            v-model:value="scrollRef.x"
-            placeholder="请输入横向x"
-            allow-clear
-          />
-        </a-form-item>
-        <a-form-item label="y" v-bind="validateInfos.y">
-          <a-input
-            style="width: 100%;"
-            v-model:value="scrollRef.y"
-            placeholder="请输入纵向y"
-            allow-clear
-          />
-        </a-form-item>
-      </a-form>
-    </template>
-    <template #footer>
-      <div class="modal-footer">
-        <a-button key="submit" type="primary" @click="handleSubmit">
-          确定
-        </a-button>
-        <a-button key="cancel" @click="handleCancel">关闭</a-button>
-      </div>
-    </template>
+    <a-form v-bind="formItemLayout">
+      <a-form-item label="x" v-bind="validateInfos.x">
+        <a-input
+          style="width: 100%;"
+          v-model:value="scrollRef.x"
+          placeholder="请输入横向x"
+          allow-clear
+        />
+      </a-form-item>
+      <a-form-item label="y" v-bind="validateInfos.y">
+        <a-input
+          style="width: 100%;"
+          v-model:value="scrollRef.y"
+          placeholder="请输入纵向y"
+          allow-clear
+        />
+      </a-form-item>
+    </a-form>
   </g-pro-modal>
 </template>
 
@@ -58,14 +49,14 @@ const scrollRef = reactive({
   y: undefined
 })
 
-const { resetFields, validate, validateInfos } = useForm(scrollRef, {})
+const { resetFields, validate, validateInfos } = useForm(scrollRef)
 
 const resetModalState = () => {
   visible.value = false
   resetFields()
 }
 
-const opneVisible = () => {
+const open = () => {
   visible.value = true
 }
 
@@ -74,7 +65,7 @@ const handleSubmit = () => {
     const params = cloneDeep(scrollRef)
     Object.keys(params).map(item => {
       if (params[item]) {
-        params[item] =Number(params[item])
+        params[item] = Number(params[item])
       } else {
         delete params[item]
       }
@@ -90,7 +81,7 @@ const handleCancel = () => {
 }
 
 defineExpose({
-  opneVisible
+  open
 })
 
 </script>

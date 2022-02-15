@@ -3,46 +3,37 @@
     title="ScrollBreakpoint"
     width="450px"
     :visible="visible"
-    :fixHeight="false"
+    :adaptive="false"
+    @ok="handleSubmit"
     @cancel="handleCancel"
   >
-    <template #content>
-      <a-form  v-model="scrollRef" v-bind="formItemLayout">
-        <a-form-item label="模式">
-          <a-radio-group v-model:value="scrollRef.mode">
-            <a-radio value="grid">Grid</a-radio>
-            <a-radio value="width">Width</a-radio>
-          </a-radio-group>
-        </a-form-item>
-        <a-form-item v-if="scrollRef.mode === 'grid'" label="Grid">
-          <a-radio-group v-model:value="scrollRef.grid">
-            <a-radio-button value="xxxl">xxxl</a-radio-button>
-            <a-radio-button value="xxl">xxl</a-radio-button>
-            <a-radio-button value="xl">xl</a-radio-button>
-            <a-radio-button value="lg">lg</a-radio-button>
-            <a-radio-button value="md">md</a-radio-button>
-            <a-radio-button value="xs">xs</a-radio-button>
-          </a-radio-group>
+    <a-form  v-model="scrollRef" v-bind="formItemLayout">
+      <a-form-item label="模式">
+        <a-radio-group v-model:value="scrollRef.mode">
+          <a-radio value="grid">Grid</a-radio>
+          <a-radio value="width">Width</a-radio>
+        </a-radio-group>
+      </a-form-item>
+      <a-form-item v-if="scrollRef.mode === 'grid'" label="Grid">
+        <a-radio-group v-model:value="scrollRef.grid">
+          <a-radio-button value="xxxl">xxxl</a-radio-button>
+          <a-radio-button value="xxl">xxl</a-radio-button>
+          <a-radio-button value="xl">xl</a-radio-button>
+          <a-radio-button value="lg">lg</a-radio-button>
+          <a-radio-button value="md">md</a-radio-button>
+          <a-radio-button value="xs">xs</a-radio-button>
+        </a-radio-group>
     
-        </a-form-item>
-        <a-form-item v-if="scrollRef.mode === 'width'" label="Width">
-          <a-input
-            style="width: 100%;"
-            v-model:value="scrollRef.width"
-            placeholder="请输入断点数值"
-            allow-clear
-          />
-        </a-form-item>
-      </a-form>
-    </template>
-    <template #footer>
-      <div class="modal-footer">
-        <a-button key="submit" type="primary" @click="handleSubmit">
-          确定
-        </a-button>
-        <a-button key="cancel" @click="handleCancel">关闭</a-button>
-      </div>
-    </template>
+      </a-form-item>
+      <a-form-item v-if="scrollRef.mode === 'width'" label="Width">
+        <a-input
+          style="width: 100%;"
+          v-model:value="scrollRef.width"
+          placeholder="请输入断点数值"
+          allow-clear
+        />
+      </a-form-item>
+    </a-form>
   </g-pro-modal>
 </template>
 
@@ -75,7 +66,7 @@ const resetModalState = () => {
   scrollRef.width = ''
 }
 
-const opneVisible = (params = 'xl') => {
+const open = (params = 'xl') => {
   visible.value = true
   if (isString(params)) {
     scrollRef.mode = 'grid'
@@ -96,7 +87,7 @@ const handleCancel = () => {
 }
 
 defineExpose({
-  opneVisible
+  open
 })
 
 </script>
