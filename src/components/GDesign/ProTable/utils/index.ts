@@ -1,4 +1,4 @@
-import type { ProSearchConfig } from '../types/column'
+import type { ProSearchMap } from '../types/column'
 import { ProColumns } from '../types/column'
 import { AlignType } from '@gx-design/ProTable/typings'
 import { getRandomNumber } from '/@/utils/util'
@@ -57,7 +57,7 @@ export function handleShowIndex(
   return columnsList
 }
 
-export function handleFormDefaultValue(data: ProSearchConfig[]) {
+export function handleFormDefaultValue(data: ProSearchMap[]) {
   const defaultParams = {}
   data.map(item => {
     let initialValue = item.initialValue

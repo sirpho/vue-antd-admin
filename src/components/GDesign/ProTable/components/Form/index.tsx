@@ -19,6 +19,7 @@ const { MonthPicker, RangePicker, TimePicker } = DatePicker
 export default defineComponent({
   props: {
     search: proTableProps.search,
+    modal: proTableProps.modalScroll,
     searchMap: Array as PropType<ProSearchMap[]>,
     loading: PropTypes.bool,
     prefixCls: PropTypes.string,
@@ -28,10 +29,9 @@ export default defineComponent({
   setup(props, { emit, slots }) {
     const screens = useBreakpoint()
 
-    const { formState, changeFormState } = useForm(props.defaultParams)
+    const { formState, resetFormState, changeFormState } = useForm(props.defaultParams, props.searchMap)
 
     const advanced = ref(false)
-
 
     const hasReset = computed(() => props.search.showReset === undefined ? true : props.search.showReset)
     const hasSearch = computed(() => !!props.search.showSearch)
@@ -52,13 +52,13 @@ export default defineComponent({
     })
 
     const getColSpanStyle = (colSpan: ColConfig) => {
-      let span: number | string | undefined = 5
+      let span: number | string | undefined = 4
 
       // colSpan 响应式
       for (let i = 0; i < responsiveArray.length; i += 1) {
         const breakpoint: Breakpoint = responsiveArray[i].value
         if (screens.value[breakpoint]) {
-          span = colSpan?.[breakpoint] || responsiveArray[i].span
+          span = colSpan?.[breakpoint] || (props.modal ? 3 : responsiveArray[i].span)
           break
         }
       }
@@ -163,23 +163,21 @@ export default defineComponent({
               : ''
           }
         }
-        if (!hasSearch || isManual) emit('search', params)
+        if (!hasSearch.value || isManual) emit('search', params)
       })
     }
 
     const resetForm = () => {
-      Object.keys(props.defaultParams).map(item => {
-        changeFormState(item, props.defaultParams[item])
-      })
+      resetFormState()
       handleSubmit(true)
     }
 
-    const optionRender = () => (hasSearch || hasReset) && (
+    const optionRender = () => (hasSearch.value || hasReset.value) && (
       <Space>
-        {hasReset && (
+        {hasReset.value && (
           <Button onClick={() => resetForm()}>{props.search.resetText || '重置'}</Button>
         )}
-        {hasSearch && (
+        {hasSearch.value && (
           <Button
             loading={props.loading}
             type="primary"
@@ -333,7 +331,7 @@ export default defineComponent({
           show = (
             <RangePicker
               style={{ width: '100%' }}
-              value={formState[record.name]
+              value={formState[record.name]?.length
                 ? [
                   dayjs(formState[record.name][0], record.format || 'YYYY-MM-DD HH:mm:ss'),
                   dayjs(formState[record.name][1], record.format || 'YYYY-MM-DD HH:mm:ss')

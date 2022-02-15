@@ -487,6 +487,7 @@ const GProTable = defineComponent({
             {!!formDataRef.value.length && (
               <Form
                 search={props.search}
+                modal={props.modalScroll}
                 searchMap={formDataRef.value}
                 prefixCls={baseClassName}
                 loading={!!unref(getLoading)}

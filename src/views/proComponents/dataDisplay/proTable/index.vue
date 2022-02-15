@@ -5,9 +5,9 @@
         <a-typography-title :level="2" :style="{color: '#454d64'}">ProTable - 高级表格</a-typography-title>
       </a-typography>
       <ProTable />
-      <ProTableApi @targetTo="targetTo" />
-      <ProTableSearch @targetTo="targetTo" />
-      <ProTableColums />
+      <!--<ProTableApi @targetTo="targetTo" />-->
+      <!--<ProTableSearch @targetTo="targetTo" />-->
+      <!--<ProTableColums />-->
     </g-doc>
     <g-back-top />
   </g-pro-page-wrapper>

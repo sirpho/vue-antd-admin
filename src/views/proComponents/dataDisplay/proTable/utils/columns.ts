@@ -39,6 +39,40 @@ export default {
       key: 'action',
     }
   ],
+  operationModal: [
+    {
+      dataIndex: 'name',
+      ellipsis: true,
+      key: 'name',
+      width: 150,
+      searchConfig: {
+        name: 'name',
+        valueType: 'text',
+        placeholder: '请输入'
+      },
+    },
+    {
+      title: '地址',
+      dataIndex: 'address',
+      key: 'address',
+      width: 150,
+      searchConfig: {
+        name: 'createTime',
+        valueType: 'dateRange',
+        placeholder: ['请选择' , '请选择'],
+        showTime: false,
+        format: 'YYYY-MM-DD',
+      }
+    },
+    { title: '作者', dataIndex: 'author', key: 'author' },
+    { title: '简介', dataIndex: 'description', key: 'description', ellipsis: true },
+    {
+      title: 'Action',
+      width: 150,
+      dataIndex: 'action',
+      key: 'action',
+    }
+  ],
   proTable: [
     { title: '属性', dataIndex: 'attributes' },
     { title: '描述', dataIndex: 'description' },

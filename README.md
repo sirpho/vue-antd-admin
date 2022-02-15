@@ -44,8 +44,7 @@ Ant Design 定义了基础的设计规范，对应也提供了大量的基础组
 - 🎉 Feat - GProTable新增scrollBreakpoint属性（action列固定条件，支持xxl/xl/lg/md/xs或者屏幕宽度数字）
 - 🎉 Feat - GProTable移除showPagination属性(使用ant-design-vue-table-pagination:false)
 - 🎉 Feat - GProTable移除showPagination属性(使用ant-design-vue-table-pagination:false)
-- 🎉 Feat - GProTable新增modalScroll属性，模态框下的Table
-- 🎉 Feat - GProTable新增modalScroll属性，模态框下的Table
+- 🎉 Feat - GProTable新增modalScroll属性，模态框下的Table，为true时，autoScroll、scrollBreakpoint两个属性失效
 - 🎉 Feat - 新增GCode组件-代码展示
 - Feat - GAnchor新增actionRef用于导出相关功能函数及属性
 - Fix - GAnchor以及GAffix组件不能切换路由不能正常展示

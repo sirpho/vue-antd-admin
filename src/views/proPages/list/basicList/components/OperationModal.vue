@@ -1,81 +1,54 @@
 <template>
   <g-pro-modal
     :title="infoParams.done ? null : `任务${infoParams.current ? '编辑' : '添加'}`"
-    :fixHeight="false"
+    :view="lookUp"
+    :adaptive="false"
     :visible="visible"
     :isFail="isFail"
     :spinning="spinning"
     :skeletonLoading="skeletonLoading"
-    destroyOnClose
+    @ok="handleOk"
     @cancel="handleCancel"
+    @changeView="() => { this.lookUp = false }"
   >
-    <template #content>
-      <a-form :model="formState" v-bind="formItemLayout">
-        <a-form-item label="任务名称" v-bind="validateInfos.title">
-          <a-input
-            v-model:value="formState.title"
-            placeholder="请输入任务名称"
-            allow-clear
-          />
-        </a-form-item>
-        <a-form-item label="开始时间" v-bind="validateInfos.createdAt">
-          <a-date-picker style="width: 100%;" showTime v-model:value="formState.createdAt" />
-        </a-form-item>
-        <a-form-item label="任务负责人" v-bind="validateInfos.owner">
-          <a-select
-            v-model:value="formState.owner"
-            placeholder="请选择管理员"
-            allow-clear
-          >
-            <a-select-option :key="item" :value="item" v-for="item in user">
-              {{ item }}
-            </a-select-option>
-          </a-select>
-        </a-form-item>
-        <a-form-item label="产品描述" v-bind="validateInfos.subDescription">
-          <a-textarea
-            v-model:value="formState.subDescription"
-            :auto-size="{ minRows: 5 }"
-            placeholder="请输入产品描述"
-            allow-clear
-          />
-        </a-form-item>
-      </a-form>
-    </template>
-    <template #footer>
-      <div class="modal-footer">
-        <a-button
-          v-if="lookUp"
-          type="primary"
-          key="back"
-          @click="
-            () => {
-              this.lookUp = false
-            }
-          "
+    <a-form :model="formState" v-bind="formItemLayout">
+      <a-form-item label="任务名称" v-bind="validateInfos.title">
+        <a-input
+          v-model:value="formState.title"
+          placeholder="请输入任务名称"
+          allow-clear
+        />
+      </a-form-item>
+      <a-form-item label="开始时间" v-bind="validateInfos.createdAt">
+        <a-date-picker style="width: 100%;" showTime v-model:value="formState.createdAt" />
+      </a-form-item>
+      <a-form-item label="任务负责人" v-bind="validateInfos.owner">
+        <a-select
+          v-model:value="formState.owner"
+          placeholder="请选择管理员"
+          allow-clear
         >
-          编辑
-        </a-button>
-        <a-button
-          v-else
-          :loading="spinning"
-          key="submit"
-          type="primary"
-          @click="handleOk"
-        >
-          确定
-        </a-button>
-        <a-button key="cancel" :loading="spinning" @click="handleCancel">
-          {{ lookUp ? '关闭' : '取消' }}
-        </a-button>
-      </div>
-    </template>
+          <a-select-option :key="item" :value="item" v-for="item in user">
+            {{ item }}
+          </a-select-option>
+        </a-select>
+      </a-form-item>
+      <a-form-item label="产品描述" v-bind="validateInfos.subDescription">
+        <a-textarea
+          v-model:value="formState.subDescription"
+          :auto-size="{ minRows: 5 }"
+          placeholder="请输入产品描述"
+          allow-clear
+        />
+      </a-form-item>
+    </a-form>
   </g-pro-modal>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, toRaw, toRefs } from 'vue'
 import dayjs from 'dayjs'
+import { cloneDeep } from 'lodash-es'
 import { Form, message } from 'ant-design-vue'
 import type { BasicListItemDataType } from '/@/services/list/basic'
 import { getBasicListInfo, updateBasicList, addBasicList } from '/@/services/list/basic'
@@ -160,12 +133,12 @@ export default defineComponent({
         .then(async () => {
           let response
           state.spinning = true
-          const params = toRaw(formState)
+          const params = cloneDeep(formState)
           params.createdAt = dayjs(params.createdAt).format('YYYY-MM-DD HH:mm:ss')
           if (formState.id) {
-            response = await updateBasicList(toRaw(formState))
+            response = await updateBasicList(params)
           } else {
-            response = await addBasicList(toRaw(formState))
+            response = await addBasicList(params)
           }
           if (response) {
             message.success('操作成功！')

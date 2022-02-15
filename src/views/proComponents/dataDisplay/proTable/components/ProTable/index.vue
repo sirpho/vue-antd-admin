@@ -126,7 +126,7 @@
       <div>高级列表</div>
     </template>
     <template #toolBarBtn>
-      <a-button key="button" type="primary">
+      <a-button key="button" type="primary" @click="operation?.open()">
         新建
       </a-button>
       <a-button key="button" type="primary" @click="handlePolling">
@@ -183,6 +183,7 @@
     </template>
   </g-pro-table>
   <ScrollModal ref="scrollModal" @handleOk="handleScroll" />
+  <OperationModal ref="operation" />
   <ScrollBreakpointModal ref="scrollBreakpointModal" @handleOk="handleScrollBreakpoint" />
 </template>
 
@@ -194,6 +195,7 @@ import { getList } from '/@/services/table'
 import { useDict } from '@gx-admin/hooks/web'
 import { deepCopy } from '/@/utils/util'
 import ScrollModal from './components/ScrollModal.vue'
+import OperationModal from './components/OperationModal.vue'
 import ScrollBreakpointModal from './components/ScrollBreakpointModal.vue'
 import columns from '../../utils/columns'
 
@@ -201,23 +203,9 @@ const loadingIcon = h(LoadingOutlined)
 
 const { getDictData } = useDict([ 'sys_common_status' ])
 
+const operation = ref(null)
 const scrollModal = ref(null)
 const scrollBreakpointModal = ref(null)
-
-const searchData = ref([
-  {
-    name: 'status',
-    valueType: 'select',
-    placeholder: '请选择操作状态',
-    loading: true,
-    valueEnum: []
-  },
-  {
-    name: 'dateRange',
-    valueType: 'date',
-    placeholder: '请选择'
-  }
-])
 
 const state = reactive({
   inputSearchRef: '',
@@ -263,7 +251,7 @@ const tableConfig = reactive({
       valueEnum: []
     },
     {
-      name: 'dateRange',
+      name: 'date',
       valueType: 'date',
       placeholder: '请选择'
     }

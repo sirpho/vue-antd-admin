@@ -1,78 +1,76 @@
 <template>
   <g-pro-modal
     :title="modalTitle"
-    :fixHeight="false"
+    :adaptive="false"
     :visible="visible"
     :isFail="isFail"
     :spinning="spinning"
     :skeletonLoading="skeletonLoading"
-    destroyOnClose
     @cancel="handleCancel"
   >
-    <template #content>
-      <a-form v-if="formType === 0" :model="formState" v-bind="formItemLayout">
-        <a-form-item label="规则名称" v-bind="validateInfos.name">
-          <a-input
-            v-model:value="formState.name"
-            :disabled="lookUp"
-            placeholder="请输入规则名称"
-            allow-clear
-          />
-        </a-form-item>
-        <a-form-item label="规则描述" v-bind="validateInfos.desc">
-          <a-textarea
-            v-model:value="formState.desc"
-            :disabled="lookUp"
-            :auto-size="{ minRows: 5 }"
-            placeholder="请输入规则描述"
-            allow-clear
-          />
-        </a-form-item>
-      </a-form>
-      <div v-else :class="$style['step-form']">
-        <Steps :current="stepCurrent">
-          <Step title="基本信息" />
-          <Step title="配置规则属性" />
-          <Step title="设定调度周期" />
-        </Steps>
-        <div
-          :class="{
+    <a-form v-if="formType === 0" :model="formState" v-bind="formItemLayout">
+      <a-form-item label="规则名称" v-bind="validateInfos.name">
+        <a-input
+          v-model:value="formState.name"
+          :disabled="lookUp"
+          placeholder="请输入规则名称"
+          allow-clear
+        />
+      </a-form-item>
+      <a-form-item label="规则描述" v-bind="validateInfos.desc">
+        <a-textarea
+          v-model:value="formState.desc"
+          :disabled="lookUp"
+          :auto-size="{ minRows: 5 }"
+          placeholder="请输入规则描述"
+          allow-clear
+        />
+      </a-form-item>
+    </a-form>
+    <div v-else :class="$style['step-form']">
+      <Steps :current="stepCurrent">
+        <Step title="基本信息" />
+        <Step title="配置规则属性" />
+        <Step title="设定调度周期" />
+      </Steps>
+      <div
+        :class="{
             [`${$style['step-form-content']}`]: true,
             [`${$style['step-form-content-active']}`]: stepCurrent === 0
           }"
-        >
-          <a-form :model="formState" v-bind="formItemLayout">
-            <a-form-item label="规则名称" v-bind="validateInfos.name">
-              <a-input
-                v-model:value="formState.name"
-                :disabled="lookUp"
-                placeholder="请输入规则名称"
-                allow-clear
-              />
-            </a-form-item>
-            <a-form-item label="规则描述" v-bind="validateInfos.desc">
-              <a-textarea
-                v-model:value="formState.desc"
-                :disabled="lookUp"
-                :auto-size="{ minRows: 5 }"
-                placeholder="请输入规则描述"
-                allow-clear
-              />
-            </a-form-item>
-          </a-form>
-        </div>
-        <div
-          :class="{
+      >
+        <a-form :model="formState" v-bind="formItemLayout">
+          <a-form-item label="规则名称" v-bind="validateInfos.name">
+            <a-input
+              v-model:value="formState.name"
+              :disabled="lookUp"
+              placeholder="请输入规则名称"
+              allow-clear
+            />
+          </a-form-item>
+          <a-form-item label="规则描述" v-bind="validateInfos.desc">
+            <a-textarea
+              v-model:value="formState.desc"
+              :disabled="lookUp"
+              :auto-size="{ minRows: 5 }"
+              placeholder="请输入规则描述"
+              allow-clear
+            />
+          </a-form-item>
+        </a-form>
+      </div>
+      <div
+        :class="{
             [`${$style['step-form-content']}`]: true,
             [`${$style['step-form-content-active']}`]: stepCurrent === 1
           }"
-        >
-          <a-form :model="formAttributes">
-            <a-form-item label="规则名称">
-              <a-select
-                style="width: 100%;"
-                :disabled="lookUp"
-                :options="[
+      >
+        <a-form :model="formAttributes">
+          <a-form-item label="规则名称">
+            <a-select
+              style="width: 100%;"
+              :disabled="lookUp"
+              :options="[
                   {
                     value: '0',
                     label: '表一',
@@ -82,16 +80,16 @@
                     label: '表二',
                   }
                 ]"
-                placeholder="请选择"
-                v-model:value="formAttributes.target"
-                allow-clear
-              />
-            </a-form-item>
-            <a-form-item label="规则描述">
-              <a-select
-                style="width: 100%;"
-                :disabled="lookUp"
-                :options="[
+              placeholder="请选择"
+              v-model:value="formAttributes.target"
+              allow-clear
+            />
+          </a-form-item>
+          <a-form-item label="规则描述">
+            <a-select
+              style="width: 100%;"
+              :disabled="lookUp"
+              :options="[
                   {
                     value: '0',
                     label: '规则模板一',
@@ -101,15 +99,15 @@
                     label: '规则模板二',
                   }
                 ]"
-                placeholder="请选择"
-                v-model:value="formAttributes.template"
-                allow-clear
-              />
-            </a-form-item>
-            <a-form-item label="规则描述">
-              <a-radio-group
-                :disabled="lookUp"
-                :options="[
+              placeholder="请选择"
+              v-model:value="formAttributes.template"
+              allow-clear
+            />
+          </a-form-item>
+          <a-form-item label="规则描述">
+            <a-radio-group
+              :disabled="lookUp"
+              :options="[
                   {
                     value: '0',
                     label: '强',
@@ -119,26 +117,26 @@
                     label: '弱',
                   }
                 ]"
-                v-model:value="formAttributes.type"
-              />
-            </a-form-item>
-          </a-form>
-        </div>
-        <div
-          :class="{
+              v-model:value="formAttributes.type"
+            />
+          </a-form-item>
+        </a-form>
+      </div>
+      <div
+        :class="{
             [`${$style['step-form-content']}`]: true,
             [`${$style['step-form-content-active']}`]: stepCurrent === 2
           }"
-        >
-          <a-form :model="formDispatch" v-bind="formItemLayout">
-            <a-form-item label="开始时间" v-bind="dispatchvalidateInfos.time">
-              <a-date-picker :disabled="lookUp" style="width: 100%;" showTime v-model:value="formDispatch.time" />
-            </a-form-item>
-            <a-form-item label="监控对象" v-bind="dispatchvalidateInfos.frequency">
-              <a-select
-                :disabled="lookUp"
-                style="width: 100%;"
-                :options="[
+      >
+        <a-form :model="formDispatch" v-bind="formItemLayout">
+          <a-form-item label="开始时间" v-bind="dispatchvalidateInfos.time">
+            <a-date-picker :disabled="lookUp" style="width: 100%;" showTime v-model:value="formDispatch.time" />
+          </a-form-item>
+          <a-form-item label="监控对象" v-bind="dispatchvalidateInfos.frequency">
+            <a-select
+              :disabled="lookUp"
+              style="width: 100%;"
+              :options="[
                   {
                     value: 'month',
                     label: '月',
@@ -148,17 +146,16 @@
                     label: '周',
                   }
                 ]"
-                placeholder="请选择"
-                v-model:value="formDispatch.frequency"
-                allow-clear
-              />
-            </a-form-item>
-          </a-form>
-        </div>
+              placeholder="请选择"
+              v-model:value="formDispatch.frequency"
+              allow-clear
+            />
+          </a-form-item>
+        </a-form>
       </div>
-    </template>
+    </div>
     <template #footer>
-      <div class="modal-footer">
+      <div class="gx-pro-modal-footer">
         <a-button
           v-if="stepCurrent > 0 && formType === 1"
           key="back"

@@ -80,14 +80,15 @@ export function useTableScroll({
   })
 
   const getScrollRef = computed(() => {
-    const { lg, xl } = screensRef.value
-    if (unref(neverScroll) && lg) return {}
+    const { xl } = screensRef.value
+    if (unref(neverScroll)) return {}
+    if (unref(scroll) && Object.keys(unref(scroll)).length) return unref(scroll)
     if (unref(modalScroll)) {
-      return {
+      let modalScrollConfig: { x?: number | string; y?: number | string } = {
         y: (unref(scroll) as TableProps['scroll'])?.y || (xl ? 400 : 235)
       }
+      return modalScrollConfig
     }
-    if (unref(scroll) && Object.keys(unref(scroll)).length) return unref(scroll)
     if (!unref(autoScroll)) return {}
     return breakpoint.value
       ? {}

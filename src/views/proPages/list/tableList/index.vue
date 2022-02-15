@@ -9,7 +9,6 @@
       :columns="columns"
       :request="(params, sort, filter) => getTableList(params, sort, filter)"
       :row-selection="{
-        selectedRowKeys: selectedRowKeys,
         onChange: onSelectChange
       }"
     >
