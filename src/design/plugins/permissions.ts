@@ -14,6 +14,7 @@ const {
   authentication,
   loginInterception,
   recordRoute,
+  routerLoadTime,
   routesWhiteList
 } = config.defaultSettings
 
@@ -60,11 +61,15 @@ router.beforeEach(async (to, _, next) => {
               accessRoutes = await routes.setAllRoutes()
             }
           }
-          (accessRoutes as any[]).forEach((item) => {
-            router.addRoute(item)
-          })
-          if (hasUserInfo && accessRoutes.length) {
-            next({ ...to, replace: true })
+          if (hasUserInfo) {
+            if (accessRoutes.length) {
+              (accessRoutes as any[]).forEach((item) => {
+                router.addRoute(item)
+              })
+              next({ ...to, replace: true })
+            } else {
+              next({ path: '/exception/403' })
+            }
             routes.changeValue('meunLoading', false)
           } else {
             await user.resetPermissions()
@@ -109,5 +114,5 @@ router.afterEach((to) => {
   NProgress.done()
   setTimeout(() => {
     routes.changeValue('routerLoading', false)
-  }, 200)
+  }, routerLoadTime || 200)
 })

@@ -141,7 +141,7 @@ const GAnchor = defineComponent({
           item.active = handelAnchorActive(scrollTop, anchor, afterAnchor)
           return item
         })
-      }, 0)
+      }, 150)
     })
 
     const goAnchor = (selector) => {
