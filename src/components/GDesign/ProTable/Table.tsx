@@ -13,7 +13,7 @@ import {
 import { cloneDeep, omit } from 'lodash-es'
 import { useFullscreen } from '@vueuse/core'
 import { PaginationProps } from 'ant-design-vue/lib/pagination'
-import { Grid, Table, Spin, Pagination, Tooltip, TypographyParagraph } from 'ant-design-vue'
+import { Grid, Table, Spin, Pagination, Tooltip, Typography } from 'ant-design-vue'
 import Nodata from '/@/assets/public_images/nodata.png'
 import { getPrefixCls, getPropsSlot } from '@gx-admin/utils'
 import { isArray, isObject } from '/@/utils/validate'
@@ -434,7 +434,7 @@ const GProTable = defineComponent({
           : 'topRight'
       if (success && record.copyable) {
         show =
-          <TypographyParagraph class={`${baseClassName}-copyable`}
+          <Typography.Paragraph class={`${baseClassName}-copyable`}
             style={{ margin: '0', width: '100%', padding: '0' }}
             copyable>
             <Tooltip title={value} placement={placement}>
@@ -442,7 +442,7 @@ const GProTable = defineComponent({
                 {value}
               </div>
             </Tooltip>
-          </TypographyParagraph>
+          </Typography.Paragraph>
       } else if (success && !record.copyable) {
         show = <Tooltip title={value} placement={placement}>
           {

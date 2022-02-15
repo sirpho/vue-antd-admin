@@ -1,7 +1,7 @@
 import { computed, defineComponent, nextTick, ref, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash-es'
-import { Button, DatePicker, Form, Grid, InputSearch, Select, Space, TreeSelect } from 'ant-design-vue'
+import { Button, DatePicker, Form, Grid, Input, Select, Space, TreeSelect } from 'ant-design-vue'
 import { DownOutlined, SearchOutlined, UpOutlined } from '@ant-design/icons-vue'
 import { PropTypes } from '/@/utils'
 import { isArray } from '/@/utils/validate'
@@ -215,7 +215,7 @@ export default defineComponent({
       switch (record.valueType) {
         case 'text':
           show = (
-            <InputSearch
+            <Input.Search
               style={{ width: '100%' }}
               value={formState[record.name]}
               placeholder={record.placeholder || '请输入'}
