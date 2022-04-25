@@ -17,7 +17,7 @@ import backTopProps from './props'
 
 import './style.less'
 
-export type BackTopProps = Partial<ExtractPropTypes<typeof backTopProps>>;
+export type BackTopProps = Partial<ExtractPropTypes<typeof backTopProps>>
 
 const GBackTop = defineComponent({
   props: backTopProps,
@@ -32,14 +32,14 @@ const GBackTop = defineComponent({
       animatedCssName: '',
       scrollEvent: null
     }) as {
-      visible: boolean;
-      animated: boolean;
-      animatedCssName: string;
-      scrollEvent: { remove: () => void } | null;
+      visible: boolean
+      animated: boolean
+      animatedCssName: string
+      scrollEvent: { remove: () => void } | null
     }
     const bindScrollEvent = () => {
       const { root } = props
-      const container = (document.querySelector(root) as HTMLInputElement)
+      const container = document.querySelector(root) as HTMLInputElement
       container.addEventListener('scroll', (e: Event) => {
         handleScroll(e)
       })
@@ -49,13 +49,13 @@ const GBackTop = defineComponent({
     }
     const scrollRemove = () => {
       const { root } = props
-      const container = (document.querySelector(root) as HTMLInputElement)
+      const container = document.querySelector(root) as HTMLInputElement
       if (container) {
         container.removeEventListener('scroll', (e: Event) => {
           handleScroll(e)
         })
       }
-      (handleScroll as any).cancel()
+      ;(handleScroll as any).cancel()
     }
     watch(
       () => props.root,
@@ -86,10 +86,11 @@ const GBackTop = defineComponent({
     })
     const targetStyle = computed(() => {
       const style = props.targetStyle
-      if (innerWidth.value < 992) return {
-        right: '50px',
-        ...style
-      }
+      if (innerWidth.value < 992)
+        return {
+          right: '50px',
+          ...style
+        }
       return style
     })
     /**
@@ -109,26 +110,26 @@ const GBackTop = defineComponent({
     const scrollToTop = (e) => {
       const { root, duration } = props
       scrollTo(0, {
-        getContainer: () => (document.querySelector(root) as HTMLInputElement),
+        getContainer: () => document.querySelector(root) as HTMLInputElement,
         duration
       })
       emit('click', e)
     }
-    const contentSlots = () => <div class={`${prefixCls}-icon`}>
-      <VerticalAlignTopOutlined />
-    </div>
-    return () => state.visible ?
-      <div
-        class={[ prefixCls, 'animated', state.animatedCssName ]}
-        onClick={scrollToTop}
-        style={targetStyle.value}
-      >
-        <div class={`${prefixCls}-content`}>
-          {slots.default?.() || contentSlots()}
-        </div>
+    const contentSlots = () => (
+      <div class={`${prefixCls}-icon`}>
+        <VerticalAlignTopOutlined />
       </div>
-      :
-      null
+    )
+    return () =>
+      state.visible ? (
+        <div
+          class={[prefixCls, 'animated', state.animatedCssName]}
+          onClick={scrollToTop}
+          style={targetStyle.value}
+        >
+          <div class={`${prefixCls}-content`}>{slots.default?.() || contentSlots()}</div>
+        </div>
+      ) : null
   }
 })
 

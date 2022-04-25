@@ -27,15 +27,15 @@ export default defineComponent({
     },
     onComplete: Function as PropType<() => void>
   },
-  setup (props) {
+  setup(props) {
     const railRef = ref<HTMLElement | null>(null)
-    function handleMouseDown (e: MouseEvent): void {
+    function handleMouseDown(e: MouseEvent): void {
       if (!railRef.value) return
       on(document, 'mousemove', handleMouseMove)
       on(document, 'mouseup', handleMouseUp)
       handleMouseMove(e)
     }
-    function handleMouseMove (e: MouseEvent): void {
+    function handleMouseMove(e: MouseEvent): void {
       const { value: railEl } = railRef
       if (!railEl) return
       const { width, left } = railEl.getBoundingClientRect()
@@ -44,7 +44,7 @@ export default defineComponent({
       )
       props.onUpdateHue(newHue)
     }
-    function handleMouseUp (): void {
+    function handleMouseUp(): void {
       off(document, 'mousemove', handleMouseMove)
       off(document, 'mouseup', handleMouseUp)
       props.onComplete?.()
@@ -54,7 +54,7 @@ export default defineComponent({
       handleMouseDown
     }
   },
-  render () {
+  render() {
     const { clsPrefix } = this
     return (
       <div

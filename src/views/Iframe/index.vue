@@ -3,7 +3,7 @@
     <a-spin :spinning="loading" size="large" :style="getWrapStyle">
       <iframe
         :src="frameSrc"
-        :class="[ `${prefixCls}-main` ]"
+        :class="[`${prefixCls}-main`]"
         ref="frameRef"
         @load="hideLoading"
       ></iframe>
@@ -30,12 +30,16 @@ const topRef = ref(48 + 24 * 5 + 30 + 52)
 const frameRef = ref()
 const heightRef = ref(window.innerHeight)
 
-watch(() => props.frameSrc, (_) => {
-  loading.value = true
-}, {
-  deep: true,
-  immediate: true
-})
+watch(
+  () => props.frameSrc,
+  (_) => {
+    loading.value = true
+  },
+  {
+    deep: true,
+    immediate: true
+  }
+)
 
 onMounted(() => {
   window.addEventListener('resize', calcHeight)

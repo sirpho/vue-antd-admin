@@ -1,6 +1,6 @@
 <template>
   <a-typography id="g-skeleton-demo">
-    <a-typography-title :level="2" :style="{color: '#454d64'}">Skeleton</a-typography-title>
+    <a-typography-title :level="2" :style="{ color: '#454d64' }">Skeleton</a-typography-title>
   </a-typography>
   <a-space>
     <g-skeleton :loading="loading" :shape="buttonShape" :active="active" :size="size">
@@ -12,15 +12,11 @@
     <g-skeleton type="avatar" :shape="avatarShape" :loading="loading" :active="active" :size="size">
       头像
     </g-skeleton>
-    <g-skeleton type="input" :loading="loading" :active="active" :size="size">
-      输入框
-    </g-skeleton>
+    <g-skeleton type="input" :loading="loading" :active="active" :size="size"> 输入框 </g-skeleton>
   </a-space>
   <br />
   <br />
-  <g-skeleton type="image" :loading="loading">
-    图片
-  </g-skeleton>
+  <g-skeleton type="image" :loading="loading"> 图片 </g-skeleton>
   <a-divider orientation="left">骨架按钮、头像、输入框和图像。</a-divider>
   <a-form layout="inline">
     <a-form-item label="Loading">
@@ -51,10 +47,12 @@
     </a-form-item>
   </a-form>
   <a-typography id="g-skeleton-api" style="margin-top: 15px">
-    <a-typography-title :level="2" :style="{color: '#454d64'}">API</a-typography-title>
+    <a-typography-title :level="2" :style="{ color: '#454d64' }">API</a-typography-title>
   </a-typography>
   <a-typography>
-    <a-typography-title :level="3" :style="{color: '#454d64'}">WSkeletonButtonProps</a-typography-title>
+    <a-typography-title :level="3" :style="{ color: '#454d64' }"
+      >WSkeletonButtonProps</a-typography-title
+    >
   </a-typography>
   <g-pro-table
     :showIndex="false"

@@ -9,25 +9,21 @@
     :skeletonLoading="skeletonLoading"
     @ok="handleOk"
     @cancel="handleCancel"
-    @changeView="() => { this.lookUp = false }"
+    @changeView="
+      () => {
+        this.lookUp = false
+      }
+    "
   >
     <a-form :model="formState" v-bind="formItemLayout">
       <a-form-item label="任务名称" v-bind="validateInfos.title">
-        <a-input
-          v-model:value="formState.title"
-          placeholder="请输入任务名称"
-          allow-clear
-        />
+        <a-input v-model:value="formState.title" placeholder="请输入任务名称" allow-clear />
       </a-form-item>
       <a-form-item label="开始时间" v-bind="validateInfos.createdAt">
-        <a-date-picker style="width: 100%;" showTime v-model:value="formState.createdAt" />
+        <a-date-picker style="width: 100%" showTime v-model:value="formState.createdAt" />
       </a-form-item>
       <a-form-item label="任务负责人" v-bind="validateInfos.owner">
-        <a-select
-          v-model:value="formState.owner"
-          placeholder="请选择管理员"
-          allow-clear
-        >
+        <a-select v-model:value="formState.owner" placeholder="请选择管理员" allow-clear>
           <a-select-option :key="item" :value="item" v-for="item in user">
             {{ item }}
           </a-select-option>
@@ -56,14 +52,14 @@ import { hanndleField } from '/@/utils/util'
 import { rules, formItemLayout, user } from '../utils/config'
 
 interface infoParamsItem {
-  done: boolean;
-  current: Partial<BasicListItemDataType> | undefined;
+  done: boolean
+  current: Partial<BasicListItemDataType> | undefined
 }
 
 const useForm = Form.useForm
 
 export default defineComponent({
-  emits: [ 'handleOk' ],
+  emits: ['handleOk'],
   setup(_, { emit }) {
     const state = reactive({
       lookUp: false,
@@ -147,7 +143,7 @@ export default defineComponent({
           }
           state.spinning = false
         })
-        .catch(_ => {})
+        .catch((_) => {})
     }
     const handleCancel = () => {
       resetModalState()
@@ -168,6 +164,4 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

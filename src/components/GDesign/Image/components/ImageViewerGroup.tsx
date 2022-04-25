@@ -17,11 +17,10 @@ const gImageViewerGroup = defineComponent({
     const showViewer = ref(false)
     const initialSrc = ref('')
 
-    const getChildrenSlots: any = computed(() => slots.default?.().length === 1 &&
-      (
-        String(slots.default?.()[0].type) === String(Symbol('Fragment')) ||
-        String(slots.default?.()[0].type) === String(Symbol())
-      )
+    const getChildrenSlots: any = computed(() =>
+      slots.default?.().length === 1 &&
+      (String(slots.default?.()[0].type) === String(Symbol('Fragment')) ||
+        String(slots.default?.()[0].type) === String(Symbol()))
         ? slots.default?.()[0].children || []
         : slots.default?.() || []
     )
@@ -40,14 +39,12 @@ const gImageViewerGroup = defineComponent({
     })
 
     const isWImage = (node) => {
-      return node &&
-        node.type &&
-        (node.type.isWImage || node.type.name === 'WImage')
+      return node && node.type && (node.type.isWImage || node.type.name === 'WImage')
     }
 
     const imageIndex = () => {
       let previewIndex = 0
-      const srcIndex = previewSrcList.value.findIndex(item => item === initialSrc.value)
+      const srcIndex = previewSrcList.value.findIndex((item) => item === initialSrc.value)
       if (srcIndex >= 0) {
         previewIndex = srcIndex
       }

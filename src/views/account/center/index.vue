@@ -10,7 +10,7 @@
         >
           <div v-if="!loading && currentUser">
             <div :class="$style.avatarHolder">
-              <img :src="currentUser.avatar" alt=""/>
+              <img :src="currentUser.avatar" alt="" />
               <div :class="$style.name">{{ currentUser.name }}</div>
               <div>{{ currentUser?.signature }}</div>
             </div>
@@ -44,12 +44,7 @@
               <div :class="$style.teamTitle">团队</div>
               <a-row :gutter="36">
                 <template v-if="currentUser.notice">
-                  <a-col
-                    :key="item.id"
-                    v-for="item in currentUser.notice"
-                    :lg="24"
-                    :xl="12"
-                  >
+                  <a-col :key="item.id" v-for="item in currentUser.notice" :lg="24" :xl="12">
                     <router-link :to="item.href">
                       <a-avatar size="small" :src="item.logo" />
                       {{ item.member }}
@@ -63,16 +58,14 @@
       </a-col>
       <a-col :lg="17" :md="24">
         <a-card
-          :class="[ `${$style.tabsCard}`, `${$style.mainCard}` ]"
+          :class="[`${$style.tabsCard}`, `${$style.mainCard}`]"
           :bordered="false"
           :tab-list="operationTabList"
           :activeTabKey="tabKey"
           @tabChange="handleTabChange"
         >
           <template #customTab="item">
-            <span>
-              {{ item.name }} <span style="font-size: 14px">(30)</span>
-            </span>
+            <span> {{ item.name }} <span style="font-size: 14px">(30)</span> </span>
           </template>
           <Projects v-if="tabKey === 'projects'" :datasource="listData" />
           <Applications v-if="tabKey === 'applications'" :datasource="listData" />
@@ -102,7 +95,6 @@ export default defineComponent({
     HomeOutlined,
     ClusterOutlined,
     ContactsOutlined
-
   },
   setup() {
     const state = reactive({
@@ -147,5 +139,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" module>
-@import "./style";
+@import './style';
 </style>

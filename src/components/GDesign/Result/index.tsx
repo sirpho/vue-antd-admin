@@ -7,24 +7,24 @@ import ResultCloud from '/@/assets/error_images/cloud.png'
 import './style.less'
 
 export interface subInfo {
-  headline: string;
-  info: string;
-  exceptionImage: string;
+  headline: string
+  info: string
+  exceptionImage: string
 }
 
 interface resultSubInfo {
-  404: subInfo;
-  403: subInfo;
+  404: subInfo
+  403: subInfo
 }
 
 interface resultState {
-  jumpTime: number;
-  oops: string;
-  headline: string;
-  info: string;
-  btn: string;
-  timer: number | any;
-  exceptionImage: any;
+  jumpTime: number
+  oops: string
+  headline: string
+  info: string
+  btn: string
+  timer: number | any
+  exceptionImage: any
 }
 
 const resultSubInfo: resultSubInfo = {
@@ -54,7 +54,7 @@ export default defineComponent({
 
     const routers = computed(() => store.routes.routes)
 
-    const backRouter = computed(() => routers.value?.length ? '/' : '/user/login')
+    const backRouter = computed(() => (routers.value?.length ? '/' : '/user/login'))
 
     const state = reactive<resultState>({
       jumpTime: 5,
@@ -74,20 +74,24 @@ export default defineComponent({
       clearInterval(state.timer)
     })
 
-    watch(() => props.status, (val: string) => {
-      Object.keys(resultSubInfo).map((item: string) => {
-        if (item === val) {
-          Object.keys(resultSubInfo[item]).map((el: any) => {
-            state[el] = resultSubInfo[item][el]
-            return el
-          })
-        }
-        return item
-      })
-    }, {
-      deep: true,
-      immediate: true
-    })
+    watch(
+      () => props.status,
+      (val: string) => {
+        Object.keys(resultSubInfo).map((item: string) => {
+          if (item === val) {
+            Object.keys(resultSubInfo[item]).map((el: any) => {
+              state[el] = resultSubInfo[item][el]
+              return el
+            })
+          }
+          return item
+        })
+      },
+      {
+        deep: true,
+        immediate: true
+      }
+    )
 
     const timeChange = () => {
       state.timer = setInterval(() => {
@@ -116,10 +120,7 @@ export default defineComponent({
             <a-col lg={12} md={12} sm={24} xl={12} xs={24}>
               <div class="pic-error">
                 <img class="pic-error-parent" src={state.exceptionImage} />
-                <img
-                  class={[ 'pic-error-child', 'left' ]}
-                  src={ResultCloud}
-                />
+                <img class={['pic-error-child', 'left']} src={ResultCloud} />
               </div>
             </a-col>
             <a-col lg={12} md={12} sm={24} xl={12} xs={24}>

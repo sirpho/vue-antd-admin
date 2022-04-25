@@ -6,7 +6,7 @@
  * @param value
  */
 const dateArrayFormatter = (value: any[], format: string) => {
-  const [ startText, endText ] = Array.isArray(value) ? value : []
+  const [startText, endText] = Array.isArray(value) ? value : []
   // activePickerIndex for https://github.com/ant-design/ant-design/issues/22158
   const parsedStartText: string = startText ? dayjs(startText).format(format) : ''
   const parsedEndText: string = endText ? dayjs(endText).format(format) : ''

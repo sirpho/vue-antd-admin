@@ -15,9 +15,9 @@ interface WritableMemoOptions<T> {
   set: MemoSetter<T>
 }
 
-function useMemo<T>(getter: MemoGetter<T>): ComputedRef<T>
-function useMemo<T>(options: WritableMemoOptions<T>): WritableComputedRef<T>
-function useMemo<T>(
+function useMemo<T> (getter: MemoGetter<T>): ComputedRef<T>
+function useMemo<T> (options: WritableMemoOptions<T>): WritableComputedRef<T>
+function useMemo<T> (
   getterOrOptions: MemoGetter<T> | WritableMemoOptions<T>
 ): ComputedRef<T> | WritableComputedRef<T> {
   const computedValueRef = computed(getterOrOptions as any) as
@@ -34,10 +34,10 @@ function useMemo<T>(
   } else {
     return ({
       __v_isRef: true,
-      get value() {
+      get value () {
         return valueRef.value
       },
-      set value(v: T) {
+      set value (v: T) {
         (getterOrOptions as WritableMemoOptions<T>).set(v)
       }
     } as unknown) as WritableComputedRef<T>

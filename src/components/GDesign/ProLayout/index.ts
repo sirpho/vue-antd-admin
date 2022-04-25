@@ -4,7 +4,7 @@ export * from './utils/getMenuData'
 export { createContext, useContext } from './hooks/context'
 export type { ContextType, CreateContext } from './hooks/context'
 
-export { default as ProPageWrapper } from './PageWrapper'
+export { default as ProPageWrapper } from './components/PageContainer'
 export { default as PageLoading } from './PageLoading'
 export { default as SiderMenuWrapper } from './components/SiderMenu'
 export { default as BaseMenu } from './components/SiderMenu/BaseMenu'

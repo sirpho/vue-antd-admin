@@ -17,11 +17,15 @@ import { defaultSettings } from '../../defaultSettings'
 import { isImg, isUrl } from '../../utils'
 
 export interface CustomMenuRender {
-  menuItemRender?: WithFalse<(args: { item: MenuDataItem; title?: JSX.Element; icon?: JSX.Element }) => CustomRender>;
-  subMenuItemRender?: WithFalse<(args: { item: MenuDataItem; children?: CustomRender[] }) => CustomRender>;
+  menuItemRender?: WithFalse<
+    (args: { item: MenuDataItem; title?: JSX.Element; icon?: JSX.Element }) => CustomRender
+  >
+  subMenuItemRender?: WithFalse<
+    (args: { item: MenuDataItem; children?: CustomRender[] }) => CustomRender
+  >
 }
 
-export type BaseMenuProps = ExtractPropTypes<typeof baseMenuProps>;
+export type BaseMenuProps = ExtractPropTypes<typeof baseMenuProps>
 
 const IconFont: any = (iconfontUrl) => {
   return createFromIconfontCN({
@@ -30,9 +34,9 @@ const IconFont: any = (iconfontUrl) => {
 }
 
 const LazyIcon = (props: {
-  icon: VNodeChild | string;
-  iconType?: number;
-  iconfontUrl?: string;
+  icon: VNodeChild | string
+  iconType?: number
+  iconfontUrl?: string
 }) => {
   const { icon, iconType, iconfontUrl } = props
   if (!icon) {
@@ -43,10 +47,7 @@ const LazyIcon = (props: {
       return <img src={icon} alt="icon" class={`gx-pro-sider-menu-icon customimg`} />
     }
     if (iconType === 1) {
-      return iconfontUrl ?
-        <IconFont type={icon} />
-        :
-        <i class={`iconfont ${icon} customicon`}></i>
+      return iconfontUrl ? <IconFont type={icon} /> : <i class={`iconfont ${icon} customicon`}></i>
     }
   }
   if (isVNode(icon)) {
@@ -58,7 +59,7 @@ const LazyIcon = (props: {
 
 LazyIcon.props = {
   icon: {
-    type: [ String, Function, Object ] as PropType<string | Function | VNode | JSX.Element>
+    type: [String, Function, Object] as PropType<string | Function | VNode | JSX.Element>
   },
   iconType: Number,
   iconfontUrl: String
@@ -67,25 +68,25 @@ LazyIcon.props = {
 export default defineComponent({
   name: 'BaseMenu',
   props: baseMenuProps,
-  emits: [ 'update:openKeys', 'update:selectedKeys', 'click' ],
+  emits: ['update:openKeys', 'update:selectedKeys', 'click'],
   setup(props, { emit }) {
     const router = useRouter()
     const handleOpenChange = (openKeys: string[]): void => {
       emit('update:openKeys', openKeys)
     }
     const handleSelect = (params: {
-      key: string | number;
-      keyPath: string[] | number[];
-      item: VNodeChild | any;
-      domEvent: MouseEvent;
-      selectedKeys: string[];
+      key: string | number
+      keyPath: string[] | number[]
+      item: VNodeChild | any
+      domEvent: MouseEvent
+      selectedKeys: string[]
     }): void => {
       emit('update:selectedKeys', params.selectedKeys)
     }
     const handleClick = (args: {
-      item: VNodeChild;
-      key: string | number;
-      keyPath: string | string[] | number | number[];
+      item: VNodeChild
+      key: string | number
+      keyPath: string | string[] | number | number[]
     }) => {
       emit('click', args)
     }
@@ -100,7 +101,7 @@ export default defineComponent({
     }
     const RouterLink = resolveComponent('router-link') as ConcreteComponent
     const getNavMenuItems = (menusData: MenuDataItem[] = []) => {
-      return menusData.map(item => getSubMenuOrItem(item)).filter(item => item)
+      return menusData.map((item) => getSubMenuOrItem(item)).filter((item) => item)
     }
     const getSubMenuOrItem = (item: MenuDataItem): VNode => {
       if (
@@ -133,24 +134,24 @@ export default defineComponent({
             title={defaultTitle}
             key={item.path}
             icon={
-              hasGroup ?
-                null :
+              hasGroup ? null : (
                 <LazyIcon
                   icon={item.meta?.icon}
                   iconfontUrl={props.iconfontUrl}
                   iconType={item.meta?.iconType}
-                />}
+                />
+              )
+            }
           >
             {getNavMenuItems(item.children)}
           </MenuComponent>
         )
       }
 
-      const [ title, icon ] = getMenuItem(item)
+      const [title, icon] = getMenuItem(item)
 
       return (
-        ((props.menuItemRender &&
-          props.menuItemRender({ item, title, icon })) as VNode) || (
+        ((props.menuItemRender && props.menuItemRender({ item, title, icon })) as VNode) || (
           <Menu.Item
             disabled={item.meta?.disabled}
             danger={item.meta?.danger}
@@ -166,6 +167,7 @@ export default defineComponent({
       const meta = { ...item.meta }
       const CustomTag: any = meta.targetStatus === 1 && meta.target ? 'a' : RouterLink
       const parames = { to: item.linkPath || item.path || '' }
+      if (parames.to === '/live/list/operation/:id') parames.to = '/live/list/operation/add'
 
       const menuTitle = item.meta?.title
       const defaultTitle = item.meta?.icon ? (
@@ -186,15 +188,17 @@ export default defineComponent({
         </CustomTag>
       )
 
-      const icon = (
-        item.meta?.icon &&
-        <LazyIcon
-          icon={item.meta?.icon}
-          iconfontUrl={props.iconfontUrl}
-          iconType={item.meta?.iconType}
-        />) || undefined
+      const icon =
+        (item.meta?.icon && (
+          <LazyIcon
+            icon={item.meta?.icon}
+            iconfontUrl={props.iconfontUrl}
+            iconType={item.meta?.iconType}
+          />
+        )) ||
+        undefined
 
-      return [ defaultTitle, icon ]
+      return [defaultTitle, icon]
     }
     const getMenuItems = computed(() => {
       return getNavMenuItems(props.menuData)

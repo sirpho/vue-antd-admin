@@ -1,18 +1,11 @@
 import type { CSSProperties, ExtractPropTypes } from 'vue'
-import {
-  computed,
-  defineComponent,
-  reactive,
-  watch,
-  shallowRef,
-  ref,
-  onDeactivated
-} from 'vue'
+import { computed, defineComponent, reactive, watch, shallowRef, ref, onDeactivated } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import config from '/config/config'
+import { useEventListener, useResizeObserver } from '@vueuse/core'
 import { getPrefixCls } from '@gx-admin/utils'
 import { getScrollContainer } from '@gx-design/utils'
-import { useEventListener, useResizeObserver, onMountedOrActivated } from '@gx-admin/hooks/core'
+import { onMountedOrActivated } from '@gx-admin/hooks/core'
 import { PropTypes } from '/@/utils'
 
 import './style.less'
@@ -34,17 +27,17 @@ const affixProps = {
   target: PropTypes.string.def(defaultSettings.viewScrollRoot),
   position: {
     type: String,
-    values: [ 'top', 'bottom' ],
+    values: ['top', 'bottom'],
     default: 'top'
   }
 }
 
-export type AffixProps = Partial<ExtractPropTypes<typeof affixProps>>;
+export type AffixProps = Partial<ExtractPropTypes<typeof affixProps>>
 
 const GAffix = defineComponent({
   name: 'GAffix',
   props: affixProps,
-  emits: [ 'change', 'scroll' ],
+  emits: ['change', 'scroll'],
   setup(props, { slots, emit }) {
     const className = getPrefixCls({
       suffixCls: 'affix'
@@ -67,9 +60,7 @@ const GAffix = defineComponent({
       if (!state.fixed) return
 
       const offset = props.offset ? `${props.offset}px` : 0
-      const transform = state.transform
-        ? `translateY(${state.transform}px)`
-        : ''
+      const transform = state.transform ? `translateY(${state.transform}px)` : ''
 
       return {
         height: `${state.height}px`,
@@ -78,16 +69,12 @@ const GAffix = defineComponent({
         bottom: props.position === 'bottom' ? offset : '',
         transform,
         zIndex: props.zIndex,
-        maxHeight: `calc(90vh - ${(offset || 114) as number + 32}px)`
+        maxHeight: `calc(90vh - ${((offset || 114) as number) + 32}px)`
       }
     })
 
     const update = () => {
-      if (
-        !root.value ||
-        !target.value ||
-        !scrollContainer.value
-      ) {
+      if (!root.value || !target.value || !scrollContainer.value) {
         return
       }
 
@@ -111,8 +98,7 @@ const GAffix = defineComponent({
         }
       } else {
         if (props.target) {
-          const difference =
-            state.clientHeight - targetRect.top - props.offset - state.height
+          const difference = state.clientHeight - targetRect.top - props.offset - state.height
           state.fixed =
             state.clientHeight - props.offset < rootRect.bottom &&
             state.clientHeight > targetRect.top
@@ -141,8 +127,7 @@ const GAffix = defineComponent({
 
     const init = () => {
       if (props.target) {
-        target.value =
-          document.querySelector<HTMLElement>(props.target) ?? undefined
+        target.value = document.querySelector<HTMLElement>(props.target) ?? undefined
         if (!target.value) {
           throw new Error(`Target is not existed: ${props.target}`)
         }
@@ -159,7 +144,7 @@ const GAffix = defineComponent({
         useEventListener(scrollContainer, 'scroll', onScroll)
         useResizeObserver(root, () => setTimeout(() => update()))
         useResizeObserver(target, () => setTimeout(() => update()))
-      },100)
+      }, 100)
     })
 
     onDeactivated(() => {
@@ -170,17 +155,15 @@ const GAffix = defineComponent({
     return () => {
       return (
         affixShow.value && (
-          <div ref={e => root.value = e} class={className} style={rootStyle.value}>
+          <div ref={(e) => (root.value = e)} class={className} style={rootStyle.value}>
             <div
               class={{ [`${className}-fixed`]: state.fixed }}
               style={{
                 ...affixStyle.value,
-                maxHeight: `calc(90vh - ${(affixStyle.value?.top || 114) as number + 32}px)`
+                maxHeight: `calc(90vh - ${((affixStyle.value?.top || 114) as number) + 32}px)`
               }}
             >
-              <g-bars style={{ height: '100%' }}>
-                {slots.default?.()}
-              </g-bars>
+              <g-bars style={{ height: '100%' }}>{slots.default?.()}</g-bars>
             </div>
           </div>
         )

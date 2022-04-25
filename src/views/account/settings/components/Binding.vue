@@ -1,8 +1,5 @@
 <template>
-  <a-list
-    itemLayout="horizontal"
-    :data-source="data"
-  >
+  <a-list itemLayout="horizontal" :data-source="data">
     <template #renderItem="{ item }">
       <a-list-item>
         <template #actions>

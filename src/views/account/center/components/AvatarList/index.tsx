@@ -4,22 +4,22 @@ import { getSlotChildren } from '@gx-admin/utils'
 
 import styles from './index.module.less'
 
-export declare type SizeType = number | 'small' | 'default' | 'large';
+export declare type SizeType = number | 'small' | 'default' | 'large'
 
 export type AvatarItemProps = {
-  tips: VueNode;
-  src: string;
-  size?: SizeType;
-  style?: CSSProperties;
-  onClick?: () => void;
+  tips: VueNode
+  src: string
+  size?: SizeType
+  style?: CSSProperties
+  onClick?: () => void
 }
 
 export type AvatarListProps = {
-  Item?: VueNode;
-  size?: SizeType;
-  maxLength?: number;
-  excessItemsStyle?: CSSProperties;
-  style?: CSSProperties;
+  Item?: VueNode
+  size?: SizeType
+  maxLength?: number
+  excessItemsStyle?: CSSProperties
+  style?: CSSProperties
 }
 
 const avatarSizeToClassName = (size?: SizeType | 'mini') => {
@@ -47,12 +47,10 @@ const Item: FC<AvatarItemProps> = ({ src, size, tips, onClick = () => {} }) => {
   )
 }
 
-const AvatarList: FC<AvatarListProps> & { Item: typeof Item } = ({
-  size,
-  maxLength = 5,
-  excessItemsStyle,
-  ...other
-}, { slots }) => {
+const AvatarList: FC<AvatarListProps> & { Item: typeof Item } = (
+  { size, maxLength = 5, excessItemsStyle, ...other },
+  { slots }
+) => {
   const children = getSlotChildren(slots)
   const numOfChildren = children.length
   const numToShow = maxLength >= numOfChildren ? numOfChildren : maxLength

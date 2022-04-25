@@ -11,20 +11,27 @@ const BlockCheckboxProps = {
 
 const BlockCheckbox = defineComponent({
   props: BlockCheckboxProps,
-  emits: [ 'change' ],
+  emits: ['change'],
   setup(props, { emit }) {
     const baseClassName = computed(() => `${props.className}-block-checbox`)
 
-    const items = computed(() => props.list || [
-      {
-        key: 'side',
-        title: '侧边菜单布局'
-      },
-      {
-        key: 'mix',
-        title: '混合菜单布局'
-      }
-    ])
+    const items = computed(
+      () =>
+        props.list || [
+          {
+            key: 'side',
+            title: '侧边菜单布局'
+          },
+          {
+            key: 'mix',
+            title: '混合菜单布局'
+          },
+          {
+            key: 'simple',
+            title: '简单菜单布局'
+          }
+        ]
+    )
 
     const disableStyle = {
       cursor: 'not-allowed'
@@ -41,7 +48,7 @@ const BlockCheckbox = defineComponent({
           {items.value.map((item: any) => (
             <Tooltip title={item.title} key={item.title}>
               <div
-                class={[ `${baseClassName.value}-item`, `${baseClassName.value}-item-${item.key}` ]}
+                class={[`${baseClassName.value}-item`, `${baseClassName.value}-item-${item.key}`]}
                 style={item.disable && disableStyle}
                 onClick={() => !item.disabled && handleChange(item.key)}
               >

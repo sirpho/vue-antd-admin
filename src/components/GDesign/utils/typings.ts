@@ -2,7 +2,7 @@ import type { CSSProperties } from 'vue'
 import { VueElement } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type { NamePath } from 'ant-design-vue/lib/form/interface'
-import { FormInstance } from '@gx-design/ProForm/typings'
+import type { FormInstance } from '@gx-design/ProForm/typings'
 
 export type SizeType = 'small' | 'middle' | 'large' | undefined;
 

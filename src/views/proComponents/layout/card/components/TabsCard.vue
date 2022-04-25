@@ -1,8 +1,6 @@
 <template>
   <a-typography style="margin-top: 16px" id="tabsCard">
-    <a-typography-title :level="4" :style="{color: '#454d64'}">
-      页签
-    </a-typography-title>
+    <a-typography-title :level="4" :style="{ color: '#454d64' }"> 页签 </a-typography-title>
   </a-typography>
   <div style="margin: 16px 0">
     配置
@@ -16,7 +14,11 @@
       Tab position：
       <a-select
         v-model:value="tabPosition"
-        @change="(value) => { tabPosition = value }"
+        @change="
+          (value) => {
+            tabPosition = value
+          }
+        "
         :dropdownMatchSelectWidth="false"
       >
         <a-select-option value="top">top</a-select-option>
@@ -30,16 +32,12 @@
         tabPosition,
         activeKey: tab,
         onChange: (key) => {
-          setTab(key);
-        },
+          setTab(key)
+        }
       }"
     >
-      <g-pro-card-tab-pane key="tab1" tab="产品一">
-        内容一
-      </g-pro-card-tab-pane>
-      <g-pro-card-tab-pane key="tab2" tab="产品二">
-        内容二
-      </g-pro-card-tab-pane>
+      <g-pro-card-tab-pane key="tab1" tab="产品一"> 内容一 </g-pro-card-tab-pane>
+      <g-pro-card-tab-pane key="tab2" tab="产品二"> 内容二 </g-pro-card-tab-pane>
     </g-pro-card>
   </div>
 </template>
@@ -52,7 +50,7 @@ export default defineComponent({
   setup() {
     const tab: Ref<string> = ref('')
     const tabPosition: Ref<ProCardTabsProps['tabPosition']> = ref('top')
-    
+
     onMounted(() => {
       setTimeout(() => {
         tab.value = 'tab2'

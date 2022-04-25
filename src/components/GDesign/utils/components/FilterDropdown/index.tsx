@@ -7,20 +7,20 @@ import './index.less'
 
 export type FooterRender =
   | ((
-  onConfirm?: (e?: MouseEvent) => void,
-  onClear?: (e?: MouseEvent) => void
-) => JSX.Element | false)
-  | false;
+      onConfirm?: (e?: MouseEvent) => void,
+      onClear?: (e?: MouseEvent) => void
+    ) => JSX.Element | false)
+  | false
 
 export type DropdownProps = {
-  label?: VueNode;
-  footer?: DropdownFooterProps;
-  footerRender?: FooterRender;
-  padding?: number;
-  disabled?: boolean;
-  onVisibleChange?: (visible: boolean) => void;
-  visible?: boolean;
-};
+  label?: VueNode
+  footer?: DropdownFooterProps
+  footerRender?: FooterRender
+  padding?: number
+  disabled?: boolean
+  onVisibleChange?: (visible: boolean) => void
+  visible?: boolean
+}
 
 const FilterDropdown: FunctionalComponent<DropdownProps> = (props, { slots }) => {
   const { label, footer, disabled, onVisibleChange, visible, footerRender } = props
@@ -32,7 +32,7 @@ const FilterDropdown: FunctionalComponent<DropdownProps> = (props, { slots }) =>
   return (
     <Dropdown
       disabled={disabled}
-      trigger={[ 'click' ]}
+      trigger={['click']}
       visible={visible}
       onVisibleChange={onVisibleChange}
       overlay={

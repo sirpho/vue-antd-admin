@@ -1,75 +1,44 @@
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import type { Ref } from 'vue'
+import { reactive } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { useTimeoutFn } from '/@/hooks/core/useTimeout'
 
-export type ProRequestData<T, U = Record<string, any>> = (params: U, props: any) => Promise<T>;
+export type FetchResult = {
+  code: number
+  data: RecordType
+}
 
-export default function useFetchData<T, U extends RecordType = Record<string, any>>(props: {
-  model?: any;
-  changeModelRef?: any;
-  params?: U;
-  request?: ProRequestData<T, U>;
+export type ProRequestData<T, U = Record<string, any>> = (params: U, props: any) => Promise<T>
+
+export default function useFetchData<T, U extends Record<string, any> = FetchResult>(props: {
+  params?: Ref<U>
+  request?: Ref<ProRequestData<T, U>>
 }) {
   const loading = ref(false)
-  const modelRef = reactive({})
-  const requestData = reactive({})
-
-  const getResOptionsRef = computed(() => {
-    return requestData
-  })
-
-  const getModelRef = computed(() => {
-    return modelRef
-  })
+  const result = reactive({
+    code: -1 // -1初始化 0成功 1失败
+  } as FetchResult)
 
   const fetchData = async () => {
-    loading.value = true
-    const loadData = await props.request?.(props.params as U, props)
-    Object.assign(modelRef, loadData || {})
-    Object.assign(requestData, loadData || {})
+    loading.value = !!props.request.value
+    const loadData = await props.request.value?.(props.params.value as U, props)
+    Object.assign(result, cloneDeep(loadData))
     loading.value = false
   }
 
   watch(
-    () => props.params,
-    (_) => {
+    [() => props.request.value, () => props.params.value],
+    () => {
+      result.code = -1
       fetchData()
-    }, {
+    },
+    {
       deep: true,
       immediate: true
     }
   )
-
-  watch(
-    () => props.model,
-    (val) => {
-      Object.assign(modelRef, cloneDeep(val || {}))
-    }, {
-      deep: true,
-      immediate: true
-    }
-  )
-
-  watch(
-    () => props.changeModelRef,
-    (val) => {
-      Object.assign(modelRef, cloneDeep(val || {}))
-    }, {
-      deep: true,
-      immediate: true
-    }
-  )
-
-  onMounted(() => {
-    useTimeoutFn(() => {
-      fetchData()
-    }, 16)
-  })
 
   return {
-    requestLoading: loading,
-    getModelRef,
-    getResOptionsRef,
-    fetchData
+    result,
+    loading
   }
 }

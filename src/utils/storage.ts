@@ -1,13 +1,13 @@
 import dayjs from 'dayjs'
 import config from '/config/config'
+import { isPro } from '/@/utils'
 import { Decrypt, Encrypt } from '/@/utils/crypto'
 import { isJSONStr, isObject } from '/@/utils/validate'
 
 const { shortName } = config.defaultSettings
 
 function isEncryption(status: boolean) {
-  const { DEV } = import.meta.env
-  return DEV ? false : status
+  return isPro() ? status : false
 }
 
 function handleStorageValue(value: string) {
@@ -23,8 +23,7 @@ function handleStorageValue(value: string) {
  */
 export function getStorageKey(key: string) {
   const { pkg } = __APP_INFO__
-  const { DEV } = import.meta.env
-  return `${shortName}_${pkg.version}_${DEV ? 'dev' : 'pro'}_${key}`
+  return `${shortName}_${pkg.version}_${isPro ? 'pro' : 'dev'}_${key}`
 }
 
 /**

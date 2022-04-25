@@ -13,7 +13,7 @@
           xl: 4,
           xxl: 4
         }"
-        :dataSource="[ nullData, ...list ]"
+        :dataSource="[nullData, ...list]"
       >
         <template #renderItem="{ item }">
           <a-list-item v-if="item && item.id">
@@ -48,13 +48,7 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onActivated,
-  reactive, ref,
-  toRefs
-} from 'vue'
+import { computed, defineComponent, onActivated, reactive, ref, toRefs } from 'vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
 import type { CardListItemDataType } from '/@/services/list/card'
 import { getCardList } from '/@/services/list/card'
@@ -80,7 +74,7 @@ export default defineComponent({
         showSizeChanger: true,
         showQuickJumper: true,
         pageSize: state.pageConfig.pageSize,
-        pageSizeOptions: [ '5', '10', '30', '50', '100' ],
+        pageSizeOptions: ['5', '10', '30', '50', '100'],
         total: state.pageConfig.total,
         onChange: (page: number, pageSize: number) => {
           state.pageConfig.pageNum = page
@@ -115,5 +109,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" module>
-@import "./style";
+@import './style';
 </style>

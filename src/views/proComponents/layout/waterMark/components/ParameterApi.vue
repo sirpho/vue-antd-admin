@@ -1,12 +1,10 @@
 <template>
   <a-typography id="watermark-api" style="margin-top: 15px">
-    <a-typography-title :level="2" :style="{color: '#454d64'}">
-      API
-    </a-typography-title>
+    <a-typography-title :level="2" :style="{ color: '#454d64' }"> API </a-typography-title>
   </a-typography>
   <a-typography id="watermark-basic-api">
-    <a-typography-title :level="4"
-      style="font-weight: normal;color: #454d64;">基础参数
+    <a-typography-title :level="4" style="font-weight: normal; color: #454d64"
+      >基础参数
     </a-typography-title>
   </a-typography>
   <g-pro-table
@@ -20,10 +18,7 @@
     row-key="attributes"
   />
   <a-typography id="watermark-high-api" style="margin-top: 15px">
-    <a-typography-title
-      :level="4"
-      style="font-weight: normal;color: #454d64;"
-    >
+    <a-typography-title :level="4" style="font-weight: normal; color: #454d64">
       高级参数
     </a-typography-title>
   </a-typography>
@@ -38,12 +33,12 @@
     row-key="attributes"
   />
   <a-typography id="watermark-visualization-api" style="margin-top: 15px">
-    <a-typography-title :level="4"
-      style="font-weight: normal;color: #454d64;">水印 API 可视化
+    <a-typography-title :level="4" style="font-weight: normal; color: #454d64"
+      >水印 API 可视化
     </a-typography-title>
   </a-typography>
   <img
-    style="width: 100%;"
+    style="width: 100%"
     src="https://gw.alipayobjects.com/zos/alicdn/joeXYy8j3/jieping2021-01-11%252520xiawu4.47.15.png"
   />
 </template>

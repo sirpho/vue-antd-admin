@@ -2,18 +2,19 @@
   "name": "gx-pro-admin",
   "version": "1.0.0",
   "scripts": {
-    "bootstrap": "yarn install",
-    "serve": "npm run dev",
-    "dev": "npm run start:dev",
+    "bootstrap": "pnpm i",
+    "serve": "pnpm run dev",
+    "dev": "pnpm run start:dev",
     "start:dev": "cross-env VITE_APP_ENV=dev vite",
     "start:pre": "cross-env VITE_APP_ENV=pre vite",
     "start:test": "cross-env VITE_APP_ENV=test vite",
-    "build": "cross-env NODE_ENV=production vite build && esno ./build/script/postBuild.ts",
+    "build": "cross-env vite build && esno ./build/script/postBuild.ts",
+    "build:pro": "cross-env vite build --mode pro && esno ./build/script/postBuild.ts",
     "build:test": "cross-env vite build --mode test && esno ./build/script/postBuild.ts",
     "build:no-cache": "yarn clean:cache && npm run build",
     "report": "cross-env REPORT=true npm run build",
     "type:check": "vue-tsc --noEmit --skipLibCheck",
-    "preview": "npm run build && vite preview",
+    "preview": "pnpm run build && vite preview",
     "preview:dist": "vite preview",
     "log": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "clean:cache": "rimraf node_modules/.cache/ && rimraf node_modules/.vite",
@@ -26,32 +27,39 @@
     "test:unit-coverage": "jest --coverage",
     "test:gzip": "http-server dist --cors --gzip -c-1",
     "test:br": "http-server dist --cors --brotli -c-1",
-    "reinstall": "rimraf yarn.lock && rimraf package.lock.json && rimraf node_modules && npm run bootstrap"
+    "reinstall": "rimraf yarn.lock && rimraf package.lock.json && rimraf node_modules && pnpm run bootstrap",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@logicflow/core": "^0.6.16",
     "@logicflow/extension": "^0.6.16",
+    "@packy-tang/vue-tinymce": "^1.1.2",
+    "@rollup/plugin-commonjs": "^21.0.3",
     "@vueuse/core": "^6.8.0",
     "@vueuse/shared": "^6.8.0",
     "animate.css": "^4.1.1",
-    "ant-design-vue": "3.0.0-beta.9",
+    "ant-design-vue": "3.1.1",
     "axios": "^0.22.0",
     "body-parser": "^1.19.0",
     "chalk": "^4.1.2",
     "clipboard": "^2.0.8",
     "crypto-js": "^4.1.1",
+    "dayjs": "^1.11.0",
     "echarts": "^5.2.1",
     "highlight.js": "^11.4.0",
+    "husky": "^7.0.4",
     "lodash-es": "^4.17.21",
     "md5": "^2.3.0",
     "mockjs": "^1.1.0",
-    "moment": "^2.29.1",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.9",
     "remixicon": "^2.5.0",
     "resize-observer-polyfill": "^1.5.1",
+    "tinymce": "^5.5.0",
+    "umi-request": "^1.4.0",
     "unplugin-auto-import": "^0.5.5",
-    "vue": "3.2.27",
+    "unplugin-vue-components": "^0.18.3",
+    "vue": "3.2.31",
     "vue-router": "^4.0.12",
     "vue-types": "^4.0.0",
     "xgplayer": "^2.31.1",
@@ -87,7 +95,6 @@
     "eslint-plugin-vue": "^7.14.0",
     "esno": "^0.7.3",
     "fs-extra": "^10.0.0",
-    "http-server": "^0.12.3",
     "jest": "^27.0.6",
     "less": "^4.1.1",
     "less-loader": "^10.0.1",
@@ -97,7 +104,6 @@
     "prettier": "^2.3.2",
     "pretty-quick": "^3.1.1",
     "rimraf": "^3.0.2",
-    "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-external-globals": "^0.6.1",
     "rollup-plugin-visualizer": "5.5.2",
     "stylelint": "^13.13.1",
@@ -108,7 +114,7 @@
     "ts-jest": "^27.0.4",
     "ts-node": "^10.1.0",
     "typescript": "4.4.3",
-    "vite": "2.6.3",
+    "vite": "2.9.1",
     "vite-plugin-compression": "^0.3.5",
     "vite-plugin-html": "^2.1.1",
     "vite-plugin-mock": "^2.9.6",
@@ -116,18 +122,36 @@
     "vite-plugin-pwa": "^0.11.3",
     "vite-plugin-style-import": "^1.2.1",
     "vite-plugin-svg-icons": "^1.0.5",
-    "vite-plugin-theme": "^0.8.1",
     "vite-plugin-vue-setup-extend": "^0.1.0",
     "vue-eslint-parser": "^7.9.0",
     "vue-tsc": "^0.2.2"
   },
-  "resolutions": {
-    "//": "Used to install imagemin dependencies, because imagemin may not be installed in China. If it is abroad, you can delete it",
-    "bin-wrapper": "npm:bin-wrapper-china",
-    "rollup": "^2.53.3"
-  },
   "license": "MIT",
   "engines": {
     "node": "^12 || >=14"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "{!(package)*.json,*.code-snippets,.!(browserslist)*rc}": [
+      "prettier --write--parser json"
+    ],
+    "package.json": [
+      "prettier --write"
+    ],
+    "*.vue": [
+      "eslint --fix",
+      "prettier --write",
+      "stylelint --fix"
+    ],
+    "*.{scss,less,styl,html}": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.md": [
+      "prettier --write"
+    ]
   }
 }

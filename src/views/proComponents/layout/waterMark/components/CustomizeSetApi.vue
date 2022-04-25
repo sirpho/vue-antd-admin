@@ -1,26 +1,38 @@
 <template>
   <a-typography id="watermark-customize">
-    <a-typography-title
-      :level="4"
-      style="font-weight: normal;color: #454d64;"
-    >
+    <a-typography-title :level="4" style="font-weight: normal; color: #454d64">
       自定义配置
     </a-typography-title>
   </a-typography>
   <a-typography>
-    <a-typography style="color: #454d64;">
+    <a-typography style="color: #454d64">
       这里给出一些通用配置项。如需进一步配置请联系我们。
     </a-typography>
   </a-typography>
-  <div style="position: relative;z-index: 90;margin-top: 15px;background-color: rgb(240, 242, 245);border: 1px solid #ebedf1;border-radius: 1px;">
-    <div style="padding: 40px 24px;">
+  <div
+    style="
+      position: relative;
+      z-index: 90;
+      margin-top: 15px;
+      background-color: rgb(240, 242, 245);
+      border: 1px solid #ebedf1;
+      border-radius: 1px;
+    "
+  >
+    <div style="padding: 40px 24px">
       <a-card
         :class="$style['gx-pro-card-contain-card']"
         title="水印自定义配置器"
         :headStyle="{ borderBottom: '1px solid #f0f0f0', marginBottom: 0 }"
         :bodyStyle="{ display: 'flex', padding: 0, flexWrap: isMobile ? 'wrap' : '' }"
       >
-        <div :style="{ flexShrink: 0, width: isMobile ? '100%' : '70%', borderRight: '1px solid #f0f0f0' }">
+        <div
+          :style="{
+            flexShrink: 0,
+            width: isMobile ? '100%' : '70%',
+            borderRight: '1px solid #f0f0f0'
+          }"
+        >
           <a-card :bordered="false">
             <g-pro-watermark
               :content="formState.content"
@@ -33,30 +45,29 @@
                 <p>
                   Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quisquam aliquid
                   perferendis, adipisci dolorum officia odio natus facere cumque iusto libero
-                  repellendus praesentium ipsa cupiditate iure autem eos repudiandae delectus
-                  totam?
+                  repellendus praesentium ipsa cupiditate iure autem eos repudiandae delectus totam?
                 </p>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo praesentium,
-                  aperiam numquam voluptatibus asperiores odio? Doloribus saepe, eligendi facere
-                  inventore culpa, exercitationem explicabo earum laborum deleniti reiciendis
-                  deserunt accusantium ullam.
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo praesentium, aperiam
+                  numquam voluptatibus asperiores odio? Doloribus saepe, eligendi facere inventore
+                  culpa, exercitationem explicabo earum laborum deleniti reiciendis deserunt
+                  accusantium ullam.
                 </p>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia voluptas
-                  numquam impedit architecto facilis aliquam at assumenda, nostrum explicabo
-                  accusantium ipsam error provident voluptate molestias magnam quisquam
-                  excepturi illum sit!
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia voluptas numquam
+                  impedit architecto facilis aliquam at assumenda, nostrum explicabo accusantium
+                  ipsam error provident voluptate molestias magnam quisquam excepturi illum sit!
                 </p>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, accusantium
-                  quo corporis fugit possimus quaerat ad consequatur veniam voluptatum ut cumque
-                  illo beatae. Magni assumenda eligendi itaque eum voluptate non!
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, accusantium quo
+                  corporis fugit possimus quaerat ad consequatur veniam voluptatum ut cumque illo
+                  beatae. Magni assumenda eligendi itaque eum voluptate non!
                 </p>
               </div>
               <h4>
                 下面是一张zIndex 为 10 的 position 为 relative 图片，
-                <br /> 如果要在图片中展示水印尝试调大右侧的 zIndex 滑块试试。
+                <br />
+                如果要在图片中展示水印尝试调大右侧的 zIndex 滑块试试。
               </h4>
               <img
                 src="https://gw.alipayobjects.com/zos/bmw-prod/d283f09a-64d6-4d59-bfc7-37b49ea0da2b.svg"
@@ -68,11 +79,7 @@
           </a-card>
         </div>
         <div style="width: 100%">
-          <a-card
-            :bordered="false"
-            title="配置面板"
-            :headStyle="{ borderBottom: 0 }"
-          >
+          <a-card :bordered="false" title="配置面板" :headStyle="{ borderBottom: 0 }">
             <a-form layout="vertical" :model="formState">
               <a-form-item label="水印文字">
                 <a-input v-model:value="formState.content" placeholder="Basic usage" />
@@ -92,7 +99,7 @@
             </a-form>
             <a-divider />
           </a-card>
-          <a-typography-paragraph style="margin: 0 24px 0 24px;" copyable class="gx-code">
+          <a-typography-paragraph style="margin: 0 24px 0 24px" copyable class="gx-code-block">
             <pre>{{ code }}</pre>
           </a-typography-paragraph>
         </div>
@@ -108,13 +115,10 @@ import config from '../utils/config'
 
 export default defineComponent({
   setup() {
-
     const colSize = useMediaQuery()
 
-    const isMobile = computed(
-      () => (colSize.value === 'sm' || colSize.value === 'xs')
-    )
-    
+    const isMobile = computed(() => colSize.value === 'sm' || colSize.value === 'xs')
+
     const state = reactive({
       code: config.code,
       predefineColors: [
@@ -137,7 +141,7 @@ export default defineComponent({
         rotate: -22
       }
     })
-    
+
     return {
       isMobile,
       ...toRefs(state)
@@ -152,14 +156,14 @@ export default defineComponent({
     margin-top: 0;
     margin-bottom: 1em;
   }
-  
+
   h4 {
     margin-top: 0;
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
     font-weight: 500;
-    color: rgba(0, 0, 0, .85);
+    color: rgba(0, 0, 0, 0.85);
   }
-  
+
   img {
     vertical-align: middle;
     border-style: none;

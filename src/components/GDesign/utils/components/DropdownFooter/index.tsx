@@ -5,19 +5,19 @@ import './index.less'
 
 type LightFilterFooterRender =
   | ((
-  onConfirm?: (e?: MouseEvent) => void,
-  onClear?: (e?: MouseEvent) => void
-) => JSX.Element | false)
-  | false;
+      onConfirm?: (e?: MouseEvent) => void,
+      onClear?: (e?: MouseEvent) => void
+    ) => JSX.Element | false)
+  | false
 
-type OnClick = (e?: MouseEvent) => void;
+type OnClick = (e?: MouseEvent) => void
 
 export type DropdownFooterProps = {
-  onClear?: OnClick;
-  onConfirm?: OnClick;
-  disabled?: boolean;
-  footerRender?: LightFilterFooterRender;
-};
+  onClear?: OnClick
+  onConfirm?: OnClick
+  disabled?: boolean
+  footerRender?: LightFilterFooterRender
+}
 
 const DropdownFooter: FunctionalComponent<DropdownFooterProps> = (props) => {
   const { onClear, onConfirm, disabled, footerRender } = props

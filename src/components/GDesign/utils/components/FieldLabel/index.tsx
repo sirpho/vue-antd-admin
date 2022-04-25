@@ -6,20 +6,20 @@ import { getPrefixCls } from '@gx-admin/utils'
 import './index.less'
 
 export type FieldLabelProps = {
-  label?: VueNode;
-  value?: any;
-  disabled?: boolean;
-  onClear?: () => void;
-  size?: SizeType;
-  ellipsis?: boolean;
-  placeholder?: VueNode;
-  expanded?: boolean;
-  class?: string;
-  formatter?: (value: any) => string;
-  style?: CSSProperties;
-  bordered?: boolean;
-  allowClear?: boolean;
-};
+  label?: VueNode
+  value?: any
+  disabled?: boolean
+  onClear?: () => void
+  size?: SizeType
+  ellipsis?: boolean
+  placeholder?: VueNode
+  expanded?: boolean
+  class?: string
+  formatter?: (value: any) => string
+  style?: CSSProperties
+  bordered?: boolean
+  allowClear?: boolean
+}
 
 const FieldLabel: FunctionalComponent<FieldLabelProps> = (props) => {
   const {
@@ -45,10 +45,7 @@ const FieldLabel: FunctionalComponent<FieldLabelProps> = (props) => {
     return Array.isArray(aValue) ? aValue.join(',') : String(aValue)
   }
 
-  const getTextByValue = (
-    aLabel?: VueNode | VueNode[],
-    aValue?: string | string[]
-  ): VueNode => {
+  const getTextByValue = (aLabel?: VueNode | VueNode[], aValue?: string | string[]): VueNode => {
     if (
       aValue !== undefined &&
       aValue !== null &&
@@ -110,7 +107,7 @@ const FieldLabel: FunctionalComponent<FieldLabelProps> = (props) => {
       {getTextByValue(label, value)}
       {(value || value === 0) && allowClear && (
         <CloseOutlined
-          class={[ `${prefixCls}-icon`, `${prefixCls}-close` ]}
+          class={[`${prefixCls}-icon`, `${prefixCls}-close`]}
           onClick={(e) => {
             if (onClear && !disabled) {
               onClear()
@@ -119,7 +116,7 @@ const FieldLabel: FunctionalComponent<FieldLabelProps> = (props) => {
           }}
         />
       )}
-      <DownOutlined class={[ `${prefixCls}-icon`, `${prefixCls}-arrow` ]} />
+      <DownOutlined class={[`${prefixCls}-icon`, `${prefixCls}-arrow`]} />
     </span>
   )
 }

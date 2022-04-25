@@ -1,6 +1,53 @@
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
 
 export { PropTypes }
+
+/**
+ * @Author      gx12358
+ * @DateTime    2022/4/1
+ * @lastTime    2022/4/1
+ * @description 环境：开发
+ */
+export function isDev(): boolean {
+  const { VITE_USE_MODE } = import.meta.env
+  const DEV = VITE_USE_MODE === 'development'
+  return DEV
+}
+
+/**
+ * @Author      gx12358
+ * @DateTime    2022/4/1
+ * @lastTime    2022/4/1
+ * @description 环境：测试
+ */
+export function isTest(): boolean {
+  const { VITE_USE_MODE } = import.meta.env
+  const PRO = VITE_USE_MODE === 'test'
+  return PRO
+}
+
+/**
+ * @Author      gx12358
+ * @DateTime    2022/4/1
+ * @lastTime    2022/4/1
+ * @description 环境：正式
+ */
+export function isPro(): boolean {
+  const { VITE_USE_MODE } = import.meta.env
+  return VITE_USE_MODE === 'production'
+}
+
+/**
+ * @Author      gx12358
+ * @DateTime    2022/4/1
+ * @lastTime    2022/4/1
+ * @description 环境：测试、正式
+ */
+export function isBuild(): boolean {
+  const { VITE_USE_MODE } = import.meta.env
+  return VITE_USE_MODE !== 'development'
+}
+
 /**
  * @author gx12358 2539306317@qq.com
  * @description 格式化时间

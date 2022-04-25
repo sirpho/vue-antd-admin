@@ -17,7 +17,8 @@ import throttleByAnimationFrame from './scroll/throttleByAnimationFrame'
 
 /** Hooks */
 import useFetchData from './hooks/useFetchData'
-import type { ProRequestData } from './hooks/useFetchData'
+import usePrevious from './hooks/usePrevious'
+import type { FetchResult, ProRequestData } from './hooks/useFetchData'
 import dateArrayFormatter from './dateArrayFormatter'
 import parseValueToMoment from './parseValueToMoment'
 import conversionMomentValue, { dateFormatterMap } from './conversionMomentValue'
@@ -92,6 +93,7 @@ export * from './typings'
 
 export type {
   MaybeArray,
+  FetchResult,
   ProRequestData
 }
 
@@ -113,6 +115,7 @@ export {
   FilterDropdown,
   DropdownFooter,
   useFetchData,
+  usePrevious,
   dateFormatterMap,
   dateArrayFormatter,
   isDropdownValueType,

@@ -25,9 +25,9 @@
             </template>
             <template #description>
               <div :class="$style.title">
-                <div style="margin:  8px 0 4px">
+                <div style="margin: 8px 0 4px">
                   <span>曲丽丽</span>
-                  <DingdingOutlined style="margin-left: 8px;color: #00A0E9" />
+                  <DingdingOutlined style="margin-left: 8px; color: #00a0e9" />
                 </div>
                 <div>2016-12-12 12:32</div>
               </div>
@@ -39,10 +39,10 @@
             </template>
             <template #description>
               <div style="font-size: 12px" :class="$style.title">
-                <div style="margin:  8px 0 4px">
+                <div style="margin: 8px 0 4px">
                   <span>周毛毛</span>
                   <a>
-                    <DingdingOutlined style="margin-left: 8px;color: #00A0E9" />
+                    <DingdingOutlined style="margin-left: 8px; color: #00a0e9" />
                     <span>催一下</span>
                   </a>
                 </div>

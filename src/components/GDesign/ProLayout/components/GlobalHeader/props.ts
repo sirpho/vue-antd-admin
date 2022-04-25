@@ -1,13 +1,17 @@
 import type { Theme } from '/types/config'
 import { PropTypes } from '/@/utils'
+import logoContentProps from '../LogoContent/props'
 import { siderMenuProps } from '../SiderMenu/props'
+import type { RightContentRender } from '../../RenderTypings'
 import type { MenuDataItem } from '../../typings'
 import { defaultSettingProps } from '../../defaultSettings'
+import { ExtraRightDropdownRender } from '../../RenderTypings'
 
 export const globalHeaderProps = {
   ...defaultSettingProps,
-  logo: siderMenuProps.logo,
-  logoStyle: siderMenuProps.logoStyle,
+  logo: logoContentProps.logo,
+  logoStyle: logoContentProps.logoStyle,
+  logoDirection: logoContentProps.logoDirection,
   menuLoading: PropTypes.looseBool,
   autoHideHeader: PropTypes.looseBool,
   collapsed: PropTypes.looseBool,
@@ -27,22 +31,15 @@ export const globalHeaderProps = {
     default: () => undefined
   },
   extraRightDropdownRender: {
-    type: [ Array ] as PropType<VueNode[]>,
+    type: [ Object, Function ] as PropType<ExtraRightDropdownRender>,
     default: () => undefined
   },
   rightContentRender: {
-    type: [ Object, Function ] as PropType<WithFalse<(props: any) => CustomRender>>,
-    default: () => undefined
+    type: [Object, Function] as PropType<RightContentRender>,
+    default: () => undefined,
   },
   collapsedButtonRender: siderMenuProps.collapsedButtonRender,
   matchMenuKeys: siderMenuProps.matchMenuKeys,
-  headerRender: {
-    type: [ Object, Function ] as PropType<WithFalse<(
-      props: any,
-      defaultDom: CustomRender
-    ) => CustomRender>>,
-    default: () => undefined
-  },
   onCollapse: siderMenuProps.onCollapse,
   onOpenKeys: siderMenuProps.onOpenKeys,
   onMenuHeaderClick: PropTypes.func,
@@ -51,13 +48,6 @@ export const globalHeaderProps = {
 
 export const headerViewProps = {
   ...globalHeaderProps,
-  headerRender: {
-    type: [ Object, Function ] as PropType<WithFalse<(
-      props: any,
-      defaultDom: CustomRender
-    ) => CustomRender>>,
-    default: () => undefined
-  },
   headerTitleRender: {
     type: [ Object, Function ] as PropType<WithFalse<(
       props: any,
@@ -65,9 +55,13 @@ export const headerViewProps = {
     ) => CustomRender>>,
     default: () => undefined
   },
+  headerRender: {
+    type: [Object, Function] as PropType<WithFalse<(props: any, defaultDom: CustomRender) => CustomRender>>,
+    default: () => undefined,
+  },
   headerContentRender: {
-    type: [ Object, Function ] as PropType<WithFalse<(props: any) => CustomRender>>,
-    default: () => undefined
+    type: [Object, Function] as PropType<WithFalse<(props: any) => CustomRender>>,
+    default: () => undefined,
   },
   hasSiderMenu: PropTypes.looseBool,
   collapsedWidth: siderMenuProps.collapsedWidth,

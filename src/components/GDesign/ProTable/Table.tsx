@@ -15,11 +15,11 @@ import { useFullscreen } from '@vueuse/core'
 import { PaginationProps } from 'ant-design-vue/lib/pagination'
 import { Grid, Table, Spin, Pagination, Tooltip, Typography } from 'ant-design-vue'
 import Nodata from '/@/assets/public_images/nodata.png'
-import { getPrefixCls, getPropsSlot } from '@gx-admin/utils'
+import { getPrefixCls, getSlotVNode } from '@gx-admin/utils'
 import { isArray, isObject } from '/@/utils/validate'
 import { getRandomNumber, hanndleField } from '/@/utils/util'
 import type { OptionConfig } from './types/table'
-import type { ProColumns, ProColumn } from './types/column'
+import type { ProColumns } from './types/column'
 import { useLoading } from './hooks/useLoading'
 import { useTableSize } from './hooks/useTableSize'
 import { usePagination } from './hooks/usePagination'
@@ -37,7 +37,7 @@ import { proTableSlots, handleShowIndex } from './utils'
 
 import './style.less'
 
-export type ProTableProps = Partial<ExtractPropTypes<typeof proTableProps>>;
+export type ProTableProps = Partial<ExtractPropTypes<typeof proTableProps>>
 
 const { useBreakpoint } = Grid
 
@@ -54,6 +54,7 @@ const defaultOptions: OptionConfig = {
   fullScreen: true
 }
 const GProTable = defineComponent({
+  name: 'GProTable',
   props: proTableProps,
   emits: [
     'reset',
@@ -85,10 +86,10 @@ const GProTable = defineComponent({
     })
 
     const cacheColumns = computed(() => {
-      const columsList: ProColumns = (props.columns || []).map(item => {
+      const columsList: ProColumns = (props.columns || []).map((item) => {
         return {
           ...item,
-          key: item.key || item.dataIndex as string,
+          key: item.key || (item.dataIndex as string),
           align: item.align || props.align,
           uuid: getRandomNumber().uuid(15)
         }
@@ -151,18 +152,13 @@ const GProTable = defineComponent({
      * @description Tabel-colums hooks 方法
      */
     const configColums = useConfigColumns(props)
-    const {
-      getProColumns,
-      cacheProColumns,
-      setColumns,
-      changeColumns,
-      resizeColumnWidth
-    } = useColumns({
-      ...configColums,
-      breakpoint,
-      scroll: getScrollRef,
-      columns: cacheColumns
-    })
+    const { getProColumns, cacheProColumns, setColumns, changeColumns, resizeColumnWidth } =
+      useColumns({
+        ...configColums,
+        breakpoint,
+        scroll: getScrollRef,
+        columns: cacheColumns
+      })
 
     /**
      * @Author      gx12358
@@ -190,6 +186,7 @@ const GProTable = defineComponent({
      * @description Tabel-Form(搜索) hooks 方法
      */
     const { formDataRef, formParamsRef, defaultParamsRef, setFormParams } = useTableForm({
+      search: toRef(props, 'search'),
       searchMap: toRef(props, 'searchMap'),
       params: toRef(props, 'params'),
       columns: cacheColumns
@@ -248,6 +245,8 @@ const GProTable = defineComponent({
      */
     const getProTable = () => {
       props.actionRef({
+        formParams: formParamsRef.value,
+        pageParams: getPaginationInfo.value,
         reload: (info) => reload(info),
         reloadAndRest: () => reload({ current: 1, pageSize: 10 }),
         reSetDataList,
@@ -291,13 +290,15 @@ const GProTable = defineComponent({
         ...props,
         size: unref(sizeRef),
         scroll: unref(getScrollRef),
-        loading: false,
-        columns: toRaw(unref(getProColumns).filter((column) => column.show || column.show === undefined)),
+        loading: !!unref(getLoading),
+        columns: toRaw(
+          unref(getProColumns).filter((column) => column.show || column.show === undefined)
+        ),
         pagination: toRaw(unref(getPaginationInfo)),
         dataSource
       }
 
-      propsData = omit(propsData, [ 'class', 'onChange', 'onExpand', 'onExpandedRowsChange' ])
+      propsData = omit(propsData, ['class', 'onChange', 'onExpand', 'onExpandedRowsChange'])
       return propsData
     })
     const proTableClassNames = computed(() => [
@@ -335,7 +336,7 @@ const GProTable = defineComponent({
 
     const handleSlots = (children) => {
       const tableSlots = {}
-      Object.keys(children).map(item => {
+      Object.keys(children).map((item) => {
         if (!proTableSlots.includes(item)) {
           tableSlots[item] = children[item]
         }
@@ -346,11 +347,11 @@ const GProTable = defineComponent({
 
     const handlePagePosition = computed(() => {
       const defaultPosition = unref(getProps).direction === 'rtl' ? 'left' : 'right'
-      let { position } = unref(getPaginationInfo) as (PaginationProps & { position?: string })
+      let { position } = unref(getPaginationInfo) as PaginationProps & { position?: string }
       if (position !== null && Array.isArray(position)) {
-        const topPos = position.find(p => p.indexOf('top') !== -1)
-        const bottomPos = position.find(p => p.indexOf('bottom') !== -1)
-        const isDisable = position.every(p => `${p}` === 'none')
+        const topPos = position.find((p) => p.indexOf('top') !== -1)
+        const bottomPos = position.find((p) => p.indexOf('bottom') !== -1)
+        const isDisable = position.every((p) => `${p}` === 'none')
         if (!topPos && !bottomPos && !isDisable) {
           position = defaultPosition
         }
@@ -366,20 +367,24 @@ const GProTable = defineComponent({
       return position
     })
 
-    const handleTableSubmit = async (params: RecordType, reset?: boolean) => {
+    const handleTableSearch = (params: RecordType) => {
+      if (props.search.showSearch) {
+        setFormParams({ ...params, ...((props.params || {}) as RecordType) })
+        reload()
+      } else {
+        setFormParams(params)
+      }
+    }
+
+    const handleTableSubmit = (params: RecordType, reset?: boolean) => {
       if (reset) {
         emit('reset', params)
         if (props.request) {
-          setFormParams(params)
+          handleTableSearch(params)
         }
       } else if (props.request) {
         emit('submit', params)
-        if (props.search.showSearch) {
-          setFormParams(params)
-          reload()
-        } else {
-          setFormParams(params)
-        }
+        handleTableSearch(params)
       } else {
         emit('submit', params)
       }
@@ -403,11 +408,15 @@ const GProTable = defineComponent({
         current: page,
         pageSize: pageSize
       })
-      handleTableChange({
-        current: page,
-        pageSize: pageSize,
-        total: unref(getPaginationInfo)['total'] || 0 as number
-      }, false, false)
+      handleTableChange(
+        {
+          current: page,
+          pageSize: pageSize,
+          total: unref(getPaginationInfo)['total'] || (0 as number)
+        },
+        false,
+        false
+      )
     }
 
     const expandedRowsChange = (expandedRows) => {
@@ -427,34 +436,30 @@ const GProTable = defineComponent({
      */
     const tooltipSlot = (value, success, record) => {
       let show = value
-      const placement = record.align === 'center'
-        ? 'top'
-        : record.align === 'left' || !record.align
+      const placement =
+        record.align === 'center'
+          ? 'top'
+          : record.align === 'left' || !record.align
           ? 'topLeft'
           : 'topRight'
       if (success && record.copyable) {
-        show =
-          <Typography.Paragraph class={`${baseClassName}-copyable`}
+        show = (
+          <Typography.Paragraph
+            class={`${baseClassName}-copyable`}
             style={{ margin: '0', width: '100%', padding: '0' }}
-            copyable>
+            copyable
+          >
             <Tooltip title={value} placement={placement}>
-              <div class={`${baseClassName}-ellipsis`}>
-                {value}
-              </div>
+              <div class={`${baseClassName}-ellipsis`}>{value}</div>
             </Tooltip>
           </Typography.Paragraph>
+        )
       } else if (success && !record.copyable) {
-        show = <Tooltip title={value} placement={placement}>
-          {
-            isTreeDataRef.value
-              ? value
-              : (
-                <div class={`${baseClassName}-ellipsis`}>
-                  {value}
-                </div>
-              )
-          }
-        </Tooltip>
+        show = (
+          <Tooltip title={value} placement={placement}>
+            {isTreeDataRef.value ? value : <div class={`${baseClassName}-ellipsis`}>{value}</div>}
+          </Tooltip>
+        )
       }
       return show
     }
@@ -465,26 +470,26 @@ const GProTable = defineComponent({
         titleTip={titleTip}
         titleTipText={props.titleTipText}
         options={unref(getOptionsRef)}
-        settingExtra={getPropsSlot(slots, props, 'settingExtra')}
-        optionsExtra={getPropsSlot(slots, props, 'optionsExtra')}
+        settingExtra={getSlotVNode(slots, props, 'settingExtra')}
+        optionsExtra={getSlotVNode(slots, props, 'optionsExtra')}
         toolBarBtn={toolBarBtn}
       />
     )
 
     return () => {
-      const headerTitleRender = getPropsSlot(slots, props, 'headerTitle')
-      const titleTipRender = getPropsSlot(slots, props, 'titleTip')
-      const toolBarBtnRender = getPropsSlot(slots, props, 'toolBarBtn')
-      const customizeRender = getPropsSlot(slots, props, 'customize')
+      const headerTitleRender = getSlotVNode(slots, props, 'headerTitle')
+      const titleTipRender = getSlotVNode(slots, props, 'titleTip')
+      const toolBarBtnRender = getSlotVNode(slots, props, 'toolBarBtn')
+      const customizeRender = getSlotVNode(slots, props, 'customize')
 
       return (
         <div
-          ref={e => tableRef.value = e}
+          ref={(e) => (tableRef.value = e)}
           style={props.tableStyle || null}
           class={proTableClassNames.value}
         >
           <div class="gx-pro-table-content">
-            {!!formDataRef.value.length && (
+            {(!!formDataRef.value.length || !!slots.search?.()) && (
               <Form
                 search={props.search}
                 modal={props.modalScroll}
@@ -499,56 +504,60 @@ const GProTable = defineComponent({
               />
             )}
             {toolbarDom(headerTitleRender, toolBarBtnRender, titleTipRender)}
-            <Spin spinning={!!unref(getLoading)}>
-              {
-                customizeRender
-                  ? props.customize
-                    ? props.customize(unref(getDataSourceRef))
-                    : slots.customize(unref(getDataSourceRef))
-                  : (
-                    <Table
-                      {...getBindValues.value}
-                      rowKey={(record) => record[props.rowKey || 'sortIndex']}
-                      transformCellText={({ text, column }) => {
-                        const { value, success } = hanndleField(
-                          isArray(text) && text?.length === 1 && !isObject(text[0]) ? text[0] : text,
-                          (column as ProColumn)?.columnEmptyText || props?.columnEmptyText
-                        )
-                        return (column as ProColumn)?.ellipsis
-                          ? tooltipSlot(value, success, (column as ProColumns))
-                          : value
-                      }}
-                      rowSelection={props.rowSelection ? {
-                        ...omit(props.rowSelection, 'onSelect', 'onSelectAll', 'onChange', 'selectedRowKeys'),
+            {customizeRender ? (
+              <Spin spinning={!!unref(getLoading)}>
+                {props.customize
+                  ? props.customize(unref(getDataSourceRef))
+                  : slots.customize(unref(getDataSourceRef))}
+                <Pagination
+                  class={{
+                    ['ant-table-pagination']: true,
+                    [`ant-table-pagination-${handlePagePosition.value}`]: handlePagePosition.value
+                  }}
+                  {...(toRaw(unref(getPaginationInfo)) as PaginationProps)}
+                  onChange={handleChangePage}
+                />
+              </Spin>
+            ) : (
+              <Table
+                {...getBindValues.value}
+                rowKey={(record) => record[props.rowKey || 'sortIndex']}
+                transformCellText={({ text, column }) => {
+                  const { value, success } = hanndleField(
+                    isArray(text) && text?.length === 1 && !isObject(text[0]) ? text[0] : text,
+                    (column as any)?.columnEmptyText || props?.columnEmptyText
+                  )
+                  return (column as any)?.ellipsis
+                    ? tooltipSlot(value, success, column as ProColumns)
+                    : value
+                }}
+                rowSelection={
+                  props.rowSelection
+                    ? {
+                        ...omit(
+                          props.rowSelection,
+                          'onSelect',
+                          'onSelectAll',
+                          'onChange',
+                          'selectedRowKeys'
+                        ),
                         selectedRowKeys: selectedKey.value,
                         onSelect: selectRowKey,
                         onSelectAll: selectAllRowKey,
-                        onChange: changeRowKey,
-                      } : undefined}
-                      onChange={changePage}
-                      onExpandedRowsChange={expandedRowsChange}
-                      onExpand={expand}
-                      onResizeColumn={handleResizeColumn}
-                      v-slots={{
-                        emptyText: defaultEmpty,
-                        ...handleSlots(slots)
-                      }}
-                    />
-                  )
-              }
-              {
-                customizeRender && (
-                  <Pagination
-                    class={{
-                      ['ant-table-pagination']: true,
-                      [`ant-table-pagination-${handlePagePosition.value}`]: handlePagePosition.value
-                    }}
-                    {...toRaw(unref(getPaginationInfo)) as PaginationProps}
-                    onChange={handleChangePage}
-                  />
-                )
-              }
-            </Spin>
+                        onChange: changeRowKey
+                      }
+                    : undefined
+                }
+                onChange={changePage}
+                onExpandedRowsChange={expandedRowsChange}
+                onExpand={expand}
+                onResizeColumn={handleResizeColumn}
+                v-slots={{
+                  emptyText: defaultEmpty,
+                  ...handleSlots(slots)
+                }}
+              />
+            )}
           </div>
         </div>
       )

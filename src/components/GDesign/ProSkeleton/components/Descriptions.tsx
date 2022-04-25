@@ -3,9 +3,9 @@ import { useMediaQuery } from '@gx-admin/hooks/event'
 import { PageHeaderSkeleton, Line } from './List'
 
 export type DescriptionsPageSkeletonProps = {
-  active?: boolean;
-  pageHeader?: false;
-  list?: false | number;
+  active?: boolean
+  pageHeader?: false
+  list?: false | number
 }
 
 const MediaQueryKeyEnum = {
@@ -17,11 +17,13 @@ const MediaQueryKeyEnum = {
   xxl: 4
 }
 
-const DescriptionsLargeItemSkeleton = ({ active }: {
-  active?: boolean;
-}) => (
+const DescriptionsLargeItemSkeleton = ({ active }: { active?: boolean }) => (
   <div style={{ marginTop: '32px' }}>
-    <g-skeleton active={active} size="small" propsStyle={{ width: '100px', marginBottom: '16px' }} />
+    <g-skeleton
+      active={active}
+      size="small"
+      propsStyle={{ width: '100px', marginBottom: '16px' }}
+    />
     <div
       style={{
         width: '100%',
@@ -61,10 +63,7 @@ const DescriptionsLargeItemSkeleton = ({ active }: {
   </div>
 )
 
-const DescriptionsItemSkeleton = ({ size, active }: {
-  size?: number;
-  active?: boolean;
-}) => {
+const DescriptionsItemSkeleton = ({ size, active }: { size?: number; active?: boolean }) => {
   const colSize = useMediaQuery()
   const arraySize = size === undefined ? MediaQueryKeyEnum[colSize.value] || 3 : size
   return (
@@ -91,8 +90,8 @@ export const TableItemSkeleton = ({
   active,
   header = false
 }: {
-  active: boolean;
-  header?: boolean;
+  active: boolean
+  header?: boolean
 }) => {
   const colSize = useMediaQuery()
   const arraySize = MediaQueryKeyEnum[colSize.value] || 3
@@ -127,11 +126,7 @@ export const TableItemSkeleton = ({
             paddingLeft: '32px'
           }}
         >
-          <Skeleton
-            active={active}
-            paragraph={false}
-            title={{ width: header ? '75px' : '100%' }}
-          />
+          <Skeleton active={active} paragraph={false} title={{ width: header ? '75px' : '100%' }} />
         </div>
       </div>
       <Line padding="0px 0px" />
@@ -139,12 +134,13 @@ export const TableItemSkeleton = ({
   )
 }
 
-export const TableSkeleton = ({ active, size = 4 }: {
-  active: boolean;
-  size?: number;
-}) => (
+export const TableSkeleton = ({ active, size = 4 }: { active: boolean; size?: number }) => (
   <a-card bordered={false}>
-    <g-skeleton active={active} propsStyle={{ width: '100px', marginBottom: '16px' }} size="small" />
+    <g-skeleton
+      active={active}
+      propsStyle={{ width: '100px', marginBottom: '16px' }}
+      size="small"
+    />
     <TableItemSkeleton header active={active} />
     {new Array(size).fill(null).map((_, index) => (
       <TableItemSkeleton key={index} active={active} />
@@ -169,7 +165,11 @@ export const DescriptionsSkeleton = ({ active }: { active: boolean }) => (
       borderTopLeftRadius: 0
     }}
   >
-    <g-skeleton active={active} size="small" propsStyle={{ width: '100px', marginBottom: '16px' }} />
+    <g-skeleton
+      active={active}
+      size="small"
+      propsStyle={{ width: '100px', marginBottom: '16px' }}
+    />
     <DescriptionsItemSkeleton active={active} />
     <DescriptionsLargeItemSkeleton active={active} />
   </a-card>

@@ -86,10 +86,9 @@ const NoticeIconView = defineComponent({
         <NoticeIcon
           class="gx-pro-right-content-action"
           count={
-            unreadMsg.value && unreadMsg.value.notification ?
-              unreadMsg.value.notification + unreadMsg.value.message + unreadMsg.value.event
-              :
-              0
+            unreadMsg.value && unreadMsg.value.notification
+              ? unreadMsg.value.notification + unreadMsg.value.message + unreadMsg.value.event
+              : 0
           }
           onItemClick={(item) => {
             changeReadState(item.id!)

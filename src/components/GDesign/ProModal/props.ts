@@ -61,19 +61,22 @@ export const modalProps = {
 
 export const proModalProps = {
   ...modalProps,
+  view: PropTypes.bool,
   isFail: PropTypes.bool,
   skeletonLoading: PropTypes.bool,
-  fixHeight: PropTypes.bool.def(true),
-  spinning: PropTypes.bool,
-  spinningTip: {
-    type: String,
-    default: ''
+  skeletonRow: PropTypes.number,
+  type: {
+    type: String as PropType<'fixed' | 'normal'>,
+    default: 'fixed'
   },
+  spinning: PropTypes.bool,
+  spinningTip: PropTypes.string,
+  errorText: PropTypes.string.def('暂无数据'),
   contentStyle: PropTypes.style,
   draggable: PropTypes.bool.def(true),
   showClose: PropTypes.bool.def(true),
   showDefaultFooter: PropTypes.bool.def(false),
   fullscreen: PropTypes.bool.def(true),
-  content: PropTypes.VueNode,
-  extra: PropTypes.VueNode
+  extra: PropTypes.VueNode,
+  onChangeView: [ Function ] as PropType<() => void>
 }

@@ -1,10 +1,8 @@
 <template>
   <a-typography style="margin-top: 16px" id="loadingCard">
-    <a-typography-title :level="4" :style="{color: '#454d64'}">
-      加载中
-    </a-typography-title>
+    <a-typography-title :level="4" :style="{ color: '#454d64' }"> 加载中 </a-typography-title>
   </a-typography>
-  <div style="margin: 16px 0;font-size: 15px;line-height: 24px">
+  <div style="margin: 16px 0; font-size: 15px; line-height: 24px">
     配置
     <span class="gx-markdown-code">loading</span>
     属性为
@@ -14,17 +12,11 @@
     来自定义 loading 展示。
   </div>
   <div class="gx-markdown-demo">
-    <g-pro-card loading style="max-width: 300px">
+    <g-pro-card loading style="max-width: 300px"> 内容 </g-pro-card>
+    <g-pro-card loading style="max-width: 300px; margin-top: 16px" layout="center">
       内容
     </g-pro-card>
-    <g-pro-card loading style="max-width: 300px;margin-top: 16px" layout="center">
-      内容
-    </g-pro-card>
-    <g-pro-card
-      title="自定义 Loading"
-      extra="extra"
-      style="max-width: 300px;margin-top: 16px"
-    >
+    <g-pro-card title="自定义 Loading" extra="extra" style="max-width: 300px; margin-top: 16px">
       <template #loading>
         <div>加载中</div>
       </template>
@@ -43,6 +35,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="less" module>
-
-</style>
+<style lang="less" module></style>

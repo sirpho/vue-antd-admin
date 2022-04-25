@@ -8,17 +8,20 @@
       </div>
       <div :class="$style['steps-form-container']">
         <div
-          :class="{ [`${$style['steps-form-step']}`]: true, [`${$style['steps-form-step-active']}`]: current === 0 }"
+          :class="{
+            [`${$style['steps-form-step']}`]: true,
+            [`${$style['steps-form-step-active']}`]: current === 0
+          }"
           v-show="current === 0"
         >
           <a-form :model="stepData" layout="vertical" ref="setpOne">
             <a-form-item label="付款账户" v-bind="validateInfos.payAccount">
               <a-select
-                style="width: 328px;"
+                style="width: 328px"
                 :options="[
                   {
                     value: 'ant-design@alipay.com',
-                    label: 'ant-design@alipay.com',
+                    label: 'ant-design@alipay.com'
                   }
                 ]"
                 placeholder="请选择付款账户"
@@ -31,15 +34,15 @@
               <a-space :class="$style['form-group-container']" align="center">
                 <a-form-item v-bind="validateInfos.receiverMode">
                   <a-select
-                    style="width: 100px;"
+                    style="width: 100px"
                     :options="[
                       {
                         value: 'alipay',
-                        label: '支付宝',
+                        label: '支付宝'
                       },
                       {
                         value: 'bank',
-                        label: '银行账户',
+                        label: '银行账户'
                       }
                     ]"
                     placeholder="请选择付款账户"
@@ -58,7 +61,7 @@
             </div>
             <a-form-item label="收款人姓名" v-bind="validateInfos.receiverName">
               <a-input
-                style="width: 328px;"
+                style="width: 328px"
                 placeholder="请输入收款人姓名"
                 v-model:value="stepData.receiverName"
                 allow-clear
@@ -66,7 +69,7 @@
             </a-form-item>
             <a-form-item label="转账金额" v-bind="validateInfos.amount">
               <a-input-number
-                style="width: 328px;"
+                style="width: 328px"
                 placeholder="请输入金额"
                 v-model:value="stepData.amount"
               />
@@ -74,7 +77,10 @@
           </a-form>
         </div>
         <div
-          :class="{ [`${$style['steps-form-step']}`]: true, [`${$style['steps-form-step-active']}`]: current === 1 }"
+          :class="{
+            [`${$style['steps-form-step']}`]: true,
+            [`${$style['steps-form-step-active']}`]: current === 1
+          }"
           v-show="current === 1"
         >
           <div :class="$style.result">
@@ -106,7 +112,7 @@
             <a-form :model="stepTwoData" layout="vertical">
               <a-form-item label="支付密码" v-bind="stepTwoValidateInfos.password">
                 <a-input-password
-                  style="width: 328px;"
+                  style="width: 328px"
                   placeholder="请输入支付密码"
                   v-model:value="stepTwoData.password"
                 />
@@ -115,19 +121,16 @@
           </div>
         </div>
         <div
-          :class="{ [`${$style['steps-form-step']}`]: true, [`${$style['steps-form-step-active']}`]: current === 2 }"
+          :class="{
+            [`${$style['steps-form-step']}`]: true,
+            [`${$style['steps-form-step-active']}`]: current === 2
+          }"
           v-show="current === 2"
         >
           <div :class="$style.result">
-            <Result
-              status="success"
-              title="操作成功"
-              sub-title="预计两小时内到账"
-            >
+            <Result status="success" title="操作成功" sub-title="预计两小时内到账">
               <template #extra>
-                <a-button type="primary" @click="onFinish">
-                  再转一笔
-                </a-button>
+                <a-button type="primary" @click="onFinish"> 再转一笔 </a-button>
                 <a-button>查看账单</a-button>
               </template>
               <Descriptions :column="1">
@@ -152,7 +155,15 @@
           </div>
         </div>
         <a-space align="center">
-          <a-button v-if="current > 0 && current < 2" @click="() => { current -= 1 }">上一步</a-button>
+          <a-button
+            v-if="current > 0 && current < 2"
+            @click="
+              () => {
+                current -= 1
+              }
+            "
+            >上一步</a-button
+          >
           <a-button v-if="current < 2" type="primary" @click="nextStep">下一步</a-button>
         </a-space>
       </div>
@@ -191,7 +202,7 @@ export default defineComponent({
     const store = useStore()
     const state = reactive({
       current: 0,
-      steps: [ '填写转账信息', '确认转账信息', '完成' ],
+      steps: ['填写转账信息', '确认转账信息', '完成'],
       stepData: {
         payAccount: 'ant-design@alipay.com',
         receiverAccount: 'test@example.com',
@@ -204,28 +215,20 @@ export default defineComponent({
       }
     })
     const rulesRef = reactive({
-      payAccount: [
-        { required: true, message: '请选择付款账户' }
-      ],
-      receiverMode: [
-        { required: true, message: '请选择付款账户' }
-      ],
+      payAccount: [{ required: true, message: '请选择付款账户' }],
+      receiverMode: [{ required: true, message: '请选择付款账户' }],
       receiverAccount: [
         { required: true, message: '请输入收款人账户' },
         { type: 'email', message: '账户名应为邮箱格式' }
       ],
-      receiverName: [
-        { required: true, message: '请输入收款人姓名' }
-      ],
+      receiverName: [{ required: true, message: '请输入收款人姓名' }],
       amount: [
         { required: true, message: '请输入转账金额' },
         { pattern: /^(\d+)((?:\.\d+)?)$/, message: '请输入合法金额数字' }
       ]
     })
     const stepTwoRulesRef = reactive({
-      password: [
-        { required: true, message: '需要支付密码才能进行支付' }
-      ]
+      password: [{ required: true, message: '需要支付密码才能进行支付' }]
     })
     const userInfo = computed(() => store.user.userInfo)
     onActivated(async () => {
@@ -250,14 +253,19 @@ export default defineComponent({
     const stepTwoUseForm = useForm(state.stepTwoData, stepTwoRulesRef)
     const nextStep = () => {
       if (state.current === 0) {
-        validate().then(() => {
-          state.current += 1
-        }).catch(() => {})
+        validate()
+          .then(() => {
+            state.current += 1
+          })
+          .catch(() => {})
       }
       if (state.current > 0) {
-        stepTwoUseForm.validate().then(() => {
-          state.current += 1
-        }).catch(() => {})
+        stepTwoUseForm
+          .validate()
+          .then(() => {
+            state.current += 1
+          })
+          .catch(() => {})
       }
     }
     const onFinish = () => {
@@ -277,5 +285,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" module>
-@import "./style";
+@import './style';
 </style>

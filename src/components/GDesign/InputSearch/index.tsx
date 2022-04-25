@@ -4,7 +4,7 @@ import { SearchOutlined } from '@ant-design/icons-vue'
 const WInputSearch = defineComponent({
   props: {
     searchValue: {
-      type: [ String, Number ],
+      type: [String, Number],
       required: true
     },
     actionRef: {
@@ -19,12 +19,16 @@ const WInputSearch = defineComponent({
     onMounted(() => {
       if (props.actionRef) getInputSearch()
     })
-    watch(() => props, (val) => {
-      state.value = val.searchValue
-    }, {
-      deep: true,
-      immediate: true
-    })
+    watch(
+      () => props,
+      (val) => {
+        state.value = val.searchValue
+      },
+      {
+        deep: true,
+        immediate: true
+      }
+    )
     /**
      * @Author      gx12358
      * @DateTime    2021/7/16
@@ -33,7 +37,7 @@ const WInputSearch = defineComponent({
      */
     const getInputSearch = () => {
       props.actionRef({
-        changeValue: (value) => state.value = value
+        changeValue: (value) => (state.value = value)
       })
     }
     const handleChange = (e) => {
@@ -47,7 +51,11 @@ const WInputSearch = defineComponent({
       <a-input-search
         {...props}
         value={state.value}
-        enterButton={<a-button><SearchOutlined /></a-button>}
+        enterButton={
+          <a-button>
+            <SearchOutlined />
+          </a-button>
+        }
         onChange={handleChange}
         onSearch={handleSearch}
       />

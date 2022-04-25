@@ -32,7 +32,7 @@
             {{ item }}
           </div>
         </a-col>
-        
+
         <a-col v-if="queryIcon.length > 0" :span="24">
           <Pagination
             show-quick-jumper
@@ -105,17 +105,17 @@ export default defineComponent({
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    
+
     .icon-list_item {
       margin-right: 20px;
     }
   }
-  
+
   .ant-input-search,
   .ant-alert {
     margin-bottom: 20px;
   }
-  
+
   .ant-card-body {
     position: relative;
     display: flex;
@@ -124,7 +124,7 @@ export default defineComponent({
     justify-content: center;
     height: 68px;
     cursor: pointer;
-    
+
     i {
       font-size: 28px;
       text-align: center;
@@ -132,7 +132,7 @@ export default defineComponent({
       cursor: pointer;
     }
   }
-  
+
   .icon-text {
     height: 30px;
     overflow: hidden;

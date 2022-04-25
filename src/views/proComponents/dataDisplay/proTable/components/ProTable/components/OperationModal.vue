@@ -19,9 +19,7 @@
       @reset="onReset"
     >
       <template #headerCell="{ column }">
-        <template v-if="column.dataIndex === 'name'">
-          FullName
-        </template>
+        <template v-if="column.dataIndex === 'name'"> FullName </template>
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'name'">
@@ -38,7 +36,7 @@
   </g-pro-modal>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 import { reactive, ref, unref, watchEffect } from 'vue'
 import { Form } from 'ant-design-vue'
 import { getList } from '/@/services/table'
@@ -48,9 +46,9 @@ import columns from '../../../utils/columns'
 
 const useForm = Form.useForm
 
-const emits = defineEmits([ 'handleOk' ])
+const emits = defineEmits(['handleOk'])
 
-const { getDictData } = useDict([ 'sys_common_status' ])
+const { getDictData } = useDict(['sys_common_status'])
 
 const visible = ref(false)
 const isFail = ref(false)
@@ -81,12 +79,14 @@ const params = reactive({
 
 watchEffect(() => {
   searchMap.value[0].loading = unref(getDictData.value).sys_common_status?.loading
-  searchMap.value[0].valueEnum = (unref(getDictData.value).sys_common_status?.data || []).map(item => {
-    return {
-      text: item.dictLabel,
-      value: item.dictValue
+  searchMap.value[0].valueEnum = (unref(getDictData.value).sys_common_status?.data || []).map(
+    (item) => {
+      return {
+        text: item.dictLabel,
+        value: item.dictValue
+      }
     }
-  })
+  )
 })
 
 const getTableData = async (params) => {
@@ -131,9 +131,6 @@ const handleCancel = () => {
 defineExpose({
   open
 })
-
 </script>
 
-<style lang='less' module>
-
-</style>
+<style lang="less" module></style>

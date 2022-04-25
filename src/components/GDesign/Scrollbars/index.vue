@@ -1,18 +1,18 @@
 <template>
-  <div ref="scrollbar" :class="`${baseClassName}`">
+  <div ref="scrollbar$" :class="baseClassName">
     <div
-      ref="wrap"
+      ref="wrap$"
       :class="[
         wrapClass,
         `${baseClassName}-wrap`,
-        native ? '' : `${baseClassName}-wrap-hidden-default`,
+        native ? '' : `${baseClassName}-wrap-hidden-default`
       ]"
       :style="style"
       @scroll="handleScroll"
     >
       <component
         :is="tag"
-        ref="resize"
+        ref="resize$"
         :class="[`${baseClassName}-view`, viewClass]"
         :style="viewStyle"
       >
@@ -20,180 +20,175 @@
       </component>
     </div>
     <template v-if="!native">
-      <bar :className="baseClassName" :move="moveX" :size="sizeWidth" :always="always" />
       <bar
+        ref="barRef"
         :className="baseClassName"
-        :move="moveY"
-        :size="sizeHeight"
-        vertical
+        :height="sizeHeight"
+        :width="sizeWidth"
         :always="always"
+        :ratio-x="ratioX"
+        :ratio-y="ratioY"
       />
     </template>
   </div>
 </template>
 <script lang="ts">
-import type { CSSProperties, PropType } from 'vue'
-import {
-  computed,
-  defineComponent,
-  nextTick,
-  onBeforeUnmount,
-  onMounted,
-  provide,
-  Ref,
-  ref
-} from 'vue'
+import type { StyleValue } from 'vue'
+import { useEventListener, useResizeObserver } from '@vueuse/core'
 import { getPrefixCls } from '@gx-admin/utils'
-import { isArray, isString, isNumber } from '/@/utils/validate'
+import { isNumber, isObject } from '/@/utils/validate'
+import { scrollbarContextKey } from './context'
 import Bar from './bar.vue'
-import { warn } from './utils/error'
-import { addResizeListener, removeResizeListener } from './utils/resize-event'
-import { addUnit, toObject } from './utils/utils'
+import { scrollbarEmits, scrollbarProps } from './scrollbar'
+import { addUnit } from './util'
 
 export default defineComponent({
   name: 'GScrollbar',
-  components: { Bar },
-  props: {
-    height: {
-      type: [ String, Number ],
-      default: ''
-    },
-    maxHeight: {
-      type: [ String, Number ],
-      default: ''
-    },
-    native: {
-      type: Boolean,
-      default: false
-    },
-    wrapStyle: {
-      type: [ String, Array ] as PropType<string | CSSProperties[]>,
-      default: ''
-    },
-    wrapClass: {
-      type: [ String, Array ],
-      default: ''
-    },
-    viewClass: {
-      type: [ String, Array ],
-      default: ''
-    },
-    viewStyle: {
-      type: [ String, Array ],
-      default: ''
-    },
-    noresize: Boolean, // 如果 container 尺寸不会发生变化，最好设置它可以优化性能
-    tag: {
-      type: String,
-      default: 'div'
-    },
-    always: {
-      type: Boolean,
-      default: false
-    }
+  components: {
+    Bar
   },
-  emits: [ 'scroll' ],
+  props: scrollbarProps,
+  emits: scrollbarEmits,
+
   setup(props, { emit }) {
     const baseClassName = getPrefixCls({
       suffixCls: 'scrollbar'
     })
-    
+
+    let stopResizeObserver: (() => void) | undefined = undefined
+    let stopResizeListener: (() => void) | undefined = undefined
+
+    const scrollbar$ = ref<HTMLDivElement>()
+    const wrap$ = ref<HTMLDivElement>()
+    const resize$ = ref<HTMLElement>()
+
     const sizeWidth = ref('0')
     const sizeHeight = ref('0')
+    const barRef = ref()
     const moveX = ref(0)
     const moveY = ref(0)
-    const scrollbar = ref(null)
-    const wrap: Ref<Element | null> = ref(null)
-    const resize = ref(null)
-    
+    const ratioY = ref(1)
+    const ratioX = ref(1)
     const SCOPE = 'ElScrollbar'
-    
-    provide('scrollbar', scrollbar)
-    provide('scrollbar-wrap', wrap)
-    
+    const GAP = 4 // top 2 + bottom 2 of bar instance
+
+    const style = computed<StyleValue>(() => {
+      const style: any = {}
+      if (props.height) style.height = addUnit(props.height)
+      if (props.maxHeight) style.maxHeight = addUnit(props.maxHeight)
+      return [props.wrapStyle, style]
+    })
+
     const handleScroll = () => {
-      if (wrap.value) {
-        moveY.value = (wrap.value.scrollTop * 100) / wrap.value.clientHeight
-        moveX.value = (wrap.value.scrollLeft * 100) / wrap.value.clientWidth
+      if (wrap$.value) {
+        barRef.value?.handleScroll(wrap$.value)
+
         emit('scroll', {
-          scrollLeft: moveX.value,
-          scrollTop: moveY.value
+          scrollTop: wrap$.value.scrollTop,
+          scrollLeft: wrap$.value.scrollLeft
         })
       }
     }
-    
+
+    function scrollTo(xCord: number, yCord?: number): void
+    function scrollTo(options: ScrollToOptions): void
+    function scrollTo(arg1: unknown, arg2?: number) {
+      if (isObject(arg1)) {
+        wrap$.value!.scrollTo(arg1)
+      } else if (isNumber(arg1) && isNumber(arg2)) {
+        wrap$.value!.scrollTo(arg1, arg2)
+      }
+    }
+
     const setScrollTop = (value: number) => {
       if (!isNumber(value)) {
-        if (process.env.NODE_ENV !== 'production') {
-          warn(SCOPE, 'value must be a number')
-        }
+        console.warn(SCOPE, 'value 必须为数字')
         return
       }
-      if (wrap.value) wrap.value.scrollTop = value
+      wrap$.value!.scrollTop = value
     }
-    
+
     const setScrollLeft = (value: number) => {
       if (!isNumber(value)) {
-        if (process.env.NODE_ENV !== 'production') {
-          warn(SCOPE, 'value must be a number')
-        }
+        console.warn(SCOPE, 'value 必须为数字')
         return
       }
-      if (wrap.value) wrap.value.scrollLeft = value
+      wrap$.value!.scrollLeft = value
     }
-    
+
     const update = () => {
-      if (!wrap.value) return
-      
-      const heightPercentage = (wrap.value.clientHeight * 100) / wrap.value.scrollHeight
-      const widthPercentage = (wrap.value.clientWidth * 100) / wrap.value.scrollWidth
-      
-      sizeHeight.value = heightPercentage < 100 ? heightPercentage + '%' : ''
-      sizeWidth.value = widthPercentage < 100 ? widthPercentage + '%' : ''
+      if (!wrap$.value) return
+      const offsetHeight = wrap$.value.offsetHeight - GAP
+      const offsetWidth = wrap$.value.offsetWidth - GAP
+
+      const originalHeight = offsetHeight ** 2 / wrap$.value.scrollHeight
+      const originalWidth = offsetWidth ** 2 / wrap$.value.scrollWidth
+      const height = Math.max(originalHeight, props.minSize)
+      const width = Math.max(originalWidth, props.minSize)
+
+      ratioY.value =
+        originalHeight / (offsetHeight - originalHeight) / (height / (offsetHeight - height))
+      ratioX.value = originalWidth / (offsetWidth - originalWidth) / (width / (offsetWidth - width))
+
+      sizeHeight.value = height + GAP < offsetHeight ? `${height}px` : ''
+      sizeWidth.value = width + GAP < offsetWidth ? `${width}px` : ''
     }
-    
-    const style = computed(() => {
-      let style: any = props.wrapStyle
-      if (isArray(style)) {
-        style = toObject(style)
-        style.height = addUnit(props.height)
-        style.maxHeight = addUnit(props.maxHeight)
-      } else if (isString(style)) {
-        style += addUnit(props.height) ? `height: ${addUnit(props.height)};` : ''
-        style += addUnit(props.maxHeight) ? `max-height: ${addUnit(props.maxHeight)};` : ''
+
+    watch(
+      () => props.noresize,
+      (noresize) => {
+        if (noresize) {
+          stopResizeObserver?.()
+          stopResizeListener?.()
+        } else {
+          ;({ stop: stopResizeObserver } = useResizeObserver(resize$, update))
+          stopResizeListener = useEventListener('resize', update)
+        }
+      },
+      { immediate: true }
+    )
+
+    watch(
+      () => [props.maxHeight, props.height],
+      () => {
+        if (!props.native)
+          nextTick(() => {
+            update()
+            if (wrap$.value) {
+              barRef.value?.handleScroll(wrap$.value)
+            }
+          })
       }
-      return style
-    })
-    
+    )
+
+    provide(
+      scrollbarContextKey,
+      reactive({
+        scrollbarElement: scrollbar$,
+        wrapElement: wrap$
+      })
+    )
+
     onMounted(() => {
-      if (!props.native) {
-        nextTick(update)
-      }
-      if (!props.noresize) {
-        addResizeListener(resize.value, update)
-        addEventListener('resize', update)
-      }
+      if (!props.native) nextTick(() => update())
     })
-    
-    onBeforeUnmount(() => {
-      if (!props.noresize) {
-        removeResizeListener(resize.value, update)
-        removeEventListener('resize', update)
-      }
-    })
-    
+
     return {
+      baseClassName,
+      scrollbar$,
+      wrap$,
+      resize$,
+      barRef,
       moveX,
       moveY,
+      ratioX,
+      ratioY,
       sizeWidth,
       sizeHeight,
       style,
-      scrollbar,
-      wrap,
-      resize,
       update,
-      baseClassName,
       handleScroll,
+      scrollTo,
       setScrollTop,
       setScrollLeft
     }
@@ -202,5 +197,5 @@ export default defineComponent({
 </script>
 
 <style lang="less">
-@import "./style";
+@import './style';
 </style>

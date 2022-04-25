@@ -1,8 +1,4 @@
-import {
-  defineComponent,
-  computed,
-  toRefs
-} from 'vue'
+import { defineComponent, computed, toRefs } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
 import { Layout } from 'ant-design-vue'
 import { headerViewProps } from './props'
@@ -16,33 +12,28 @@ export default defineComponent({
   inheritAttrs: false,
   props: headerViewProps,
   setup(props) {
-    const {
-      theme,
-      isMobile,
-      fixedHeader,
-      headerHeight,
-      layout,
-      onCollapse
-    } = toRefs(props)
+    const { theme, isMobile, fixedHeader, headerHeight, layout, onCollapse, splitMenus } =
+      toRefs(props)
     const context = useRouteContext()
-    const needFixedHeader = computed(
-      () => fixedHeader.value || context.fixedHeader
-    )
-    const hTheme = computed(() => (layout.value === 'side' && 'light') || theme.value)
-    const className = computed(() => {
-      return [
-        needFixedHeader.value && 'gx-pro-fixed-header'
-      ]
+    const baseClassName = context.getPrefixCls({
+      suffixCls: 'fixed-header',
+      isPor: true
     })
-    const needSettingWidth = computed(
-      () => needFixedHeader.value && !isMobile.value
-    )
+    const needFixedHeader = computed(() => fixedHeader.value || context.fixedHeader)
+    const isMix = computed(() => layout.value === 'mix')
+    const layoutSide = computed(() => layout.value === 'side' || layout.value === 'simple')
+    const hTheme = computed(() => (layoutSide.value && 'light') || theme.value)
+    const className = computed(() => [needFixedHeader.value && baseClassName])
+    const needSettingWidth = computed(() => needFixedHeader.value && !isMobile.value)
+
     // cache menu
-    const clearMenuData = computed(
-      () => (context.menuData && flatMap(context.menuData as RouteRecordRaw[])) || []
+    const clearMenuData = computed(() =>
+      splitMenus.value
+        ? (context.menuData && flatMap(context.menuData as RouteRecordRaw[])) || []
+        : []
     )
     const width = computed(() => {
-      return layout.value === 'side' && needSettingWidth.value
+      return layoutSide.value && needSettingWidth.value
         ? `calc(100% - ${props.collapsed ? props.collapsedWidth : props.siderWidth}px)`
         : '100%'
     })
@@ -56,13 +47,20 @@ export default defineComponent({
           mode="horizontal"
           onCollapse={onCollapse.value}
           menuData={clearMenuData.value}
-        />
+        >
+          {!isMix.value
+            ? props.headerContentRender && typeof props.headerContentRender === 'function'
+              ? props.headerContentRender(props)
+              : props.headerContentRender
+            : null}
+        </DefaultHeader>
       )
       if (props.headerRender) {
         return props.headerRender(props, defaultDom)
       }
       return defaultDom
     }
+
     return () => (
       <>
         {needFixedHeader.value && (
@@ -81,7 +79,7 @@ export default defineComponent({
             height: `${headerHeight.value}px`,
             lineHeight: `${headerHeight.value}px`,
             width: width.value,
-            zIndex: layout.value === 'side' ? 100 : 101,
+            zIndex: layoutSide.value ? 100 : 101,
             right: right.value
           }}
         >

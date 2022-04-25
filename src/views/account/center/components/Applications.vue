@@ -8,10 +8,7 @@
   >
     <template #renderItem="{ item }">
       <a-list-item :key="item.id">
-        <a-card
-          hoverable
-          :bodyStyle="{ paddingBottom: 20 }"
-        >
+        <a-card hoverable :bodyStyle="{ paddingBottom: 20 }">
           <template #actions>
             <a-tooltip key="download" title="下载">
               <DownloadOutlined />
@@ -58,7 +55,7 @@
                   {{ formatWan(item.activeUser) }}
                   <span
                     v-if="(item.activeUser || 0) > 10000"
-                    style="font-size: 14px;font-style: normal;"
+                    style="font-size: 14px; font-style: normal"
                   >
                     万
                   </span>
@@ -105,17 +102,21 @@ export default defineComponent({
     const state = reactive({
       listData: [] as any
     })
-    watch(() => props.datasource, (val) => {
-      state.listData = (val || []).map((item: any) => {
-        return {
-          ...item,
-          updatedAt: dayjs(item.updatedAt).format('YYYY-MM-DD HH:mm')
-        }
-      })
-    }, {
-      deep: true,
-      immediate: true
-    })
+    watch(
+      () => props.datasource,
+      (val) => {
+        state.listData = (val || []).map((item: any) => {
+          return {
+            ...item,
+            updatedAt: dayjs(item.updatedAt).format('YYYY-MM-DD HH:mm')
+          }
+        })
+      },
+      {
+        deep: true,
+        immediate: true
+      }
+    )
 
     const formatWan = (val: number) => {
       const v = val * 1
@@ -135,52 +136,52 @@ export default defineComponent({
 <style lang="less" module>
 .filterCardList {
   margin-bottom: -24px;
-  
+
   :global {
     .ant-card-meta-content {
       margin-top: 0;
     }
-    
+
     // disabled white space
     .ant-card-meta-avatar {
       font-size: 0;
     }
-    
+
     .ant-list .ant-list-item-content-single {
       max-width: 100%;
     }
   }
-  
+
   .cardInfo {
     margin-top: 16px;
     margin-left: 40px;
     zoom: 1;
-    
+
     &::before,
     &::after {
       display: table;
-      content: " ";
+      content: ' ';
     }
-    
+
     &::after {
       clear: both;
       height: 0;
       font-size: 0;
       visibility: hidden;
     }
-    
+
     & > div {
       position: relative;
       float: left;
       width: 50%;
       text-align: left;
-      
+
       p {
         margin: 0;
         font-size: 24px;
         line-height: 32px;
       }
-      
+
       p:first-child {
         margin-bottom: 4px;
         color: @text-color-secondary;

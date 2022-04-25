@@ -13,10 +13,10 @@ const DensityIcon: FC = () => {
         <Menu
           selectedKeys={[tableSize.value as string]}
           onClick={({ key }) => {
-            action.setTableSize?.(key as SizeType);
+            action.setTableSize?.(key as SizeType)
           }}
           style={{
-            width: 80,
+            width: 80
           }}
         >
           <Menu.Item key="large">默认</Menu.Item>
@@ -30,7 +30,7 @@ const DensityIcon: FC = () => {
         <ColumnHeightOutlined />
       </Tooltip>
     </Dropdown>
-  );
+  )
 }
 
 export default DensityIcon

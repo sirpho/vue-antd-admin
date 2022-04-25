@@ -1,16 +1,8 @@
 import type { ExtractPropTypes } from 'vue'
-import {
-  defineComponent,
-  ref,
-  computed,
-  toRef,
-  watchEffect,
-  Ref,
-  watch,
-  nextTick
-} from 'vue'
+import { defineComponent, ref, computed, toRef, watchEffect, Ref, watch, nextTick } from 'vue'
 import { Popover } from 'ant-design-vue'
-import { useMergedState, onClickOutside } from '@gx-admin/hooks/core'
+import { onClickOutside } from '@vueuse/core'
+import { useMergedState } from '@gx-admin/hooks/core'
 import { getPrefixCls } from '@gx-admin/utils'
 import type { OnUpdateValueImpl } from '@gx-design/utils'
 import { call } from '@gx-design/utils'
@@ -49,7 +41,7 @@ import ColorPickerSwatches from './components/ColorPickerSwatches'
 
 import './style.less'
 
-export type ColorPickerProps = Partial<ExtractPropTypes<typeof colorPickerPanelProps>>;
+export type ColorPickerProps = Partial<ExtractPropTypes<typeof colorPickerPanelProps>>
 
 export default defineComponent({
   name: 'GColorPicker',
@@ -58,18 +50,16 @@ export default defineComponent({
     const baseClassName = getPrefixCls({
       suffixCls: 'color'
     })
+
     const selfRef = ref<any>(null)
     const wrap = ref<any>()
     const trigger = ref<any>()
-    const initState = ref<boolean>(false)
+    const popoverRef = ref<any>()
     let upcomingValue: string | null = null
 
     const uncontrolledShowRef = ref(props.defaultShow)
 
-    const mergedShowRef = useMergedState(
-      toRef(props, 'show'),
-      uncontrolledShowRef
-    )
+    const mergedShowRef = useMergedState(toRef(props, 'show'), uncontrolledShowRef)
 
     function doUpdateShow(value: boolean): void {
       const { onUpdateShow, 'onUpdate:show': _onUpdateShow } = props
@@ -83,19 +73,14 @@ export default defineComponent({
         ? deriveDefaultValue(props.modes, props.showAlpha)
         : props.defaultValue
     )
-    const mergedValueRef = useMergedState(
-      toRef(props, 'value'),
-      uncontrolledValueRef
-    )
+    const mergedValueRef = useMergedState(toRef(props, 'value'), uncontrolledValueRef)
 
-    const undoStackRef: Ref<Array<string | null>> = ref([ mergedValueRef.value ])
+    const undoStackRef: Ref<Array<string | null>> = ref([mergedValueRef.value])
     const valueIndexRef = ref(0)
 
     const valueModeRef = computed(() => getModeFromValue(mergedValueRef.value))
 
-    const displayedModeRef = ref<ColorPickerMode>(
-      getModeFromValue(mergedValueRef.value) || 'rgb'
-    )
+    const displayedModeRef = ref<ColorPickerMode>(getModeFromValue(mergedValueRef.value) || 'rgb')
 
     function handleUpdateDisplayedMode(): void {
       const { modes } = props
@@ -124,12 +109,12 @@ export default defineComponent({
         case 'hsv':
           return hsva(mergedValue)
         case 'hsl':
-          ;[ _h, s, l, a ] = hsla(mergedValue)
-          return [ ...hsl2hsv(_h, s, l), a ]
+          ;[_h, s, l, a] = hsla(mergedValue)
+          return [...hsl2hsv(_h, s, l), a]
         case 'rgb':
         case 'hex':
-          ;[ r, g, b, a ] = rgba(mergedValue)
-          return [ ...rgb2hsv(r, g, b), a ]
+          ;[r, g, b, a] = rgba(mergedValue)
+          return [...rgb2hsv(r, g, b), a]
       }
       return null
     })
@@ -142,11 +127,11 @@ export default defineComponent({
         case 'hex':
           return rgba(mergedValue)
         case 'hsv':
-          ;[ _h, s, v, a ] = hsva(mergedValue)
-          return [ ...hsv2rgb(_h, s, v), a ]
+          ;[_h, s, v, a] = hsva(mergedValue)
+          return [...hsv2rgb(_h, s, v), a]
         case 'hsl':
-          ;[ _h, s, l, a ] = hsla(mergedValue)
-          return [ ...hsl2rgb(_h, s, l), a ]
+          ;[_h, s, l, a] = hsla(mergedValue)
+          return [...hsl2rgb(_h, s, l), a]
       }
       return null
     })
@@ -158,12 +143,12 @@ export default defineComponent({
         case 'hsl':
           return hsla(mergedValue)
         case 'hsv':
-          ;[ _h, s, v, a ] = hsva(mergedValue)
-          return [ ...hsv2hsl(_h, s, v), a ]
+          ;[_h, s, v, a] = hsva(mergedValue)
+          return [...hsv2hsl(_h, s, v), a]
         case 'rgb':
         case 'hex':
-          ;[ r, g, b, a ] = rgba(mergedValue)
-          return [ ...rgb2hsl(r, g, b), a ]
+          ;[r, g, b, a] = rgba(mergedValue)
+          return [...rgb2hsl(r, g, b), a]
       }
       return null
     })
@@ -183,46 +168,34 @@ export default defineComponent({
 
     const displayedHueRef = ref<number>(0)
     const displayedAlphaRef = ref<number>(1)
-    const displayedSvRef = ref<[ number, number ]>([ 0, 0 ])
+    const displayedSvRef = ref<[number, number]>([0, 0])
 
     function handleUpdateSv(s: number, v: number): void {
       const { value: hsvaArr } = hsvaRef
       const hue = displayedHueRef.value
       const alpha = hsvaArr ? hsvaArr[3] : 1
-      displayedSvRef.value = [ s, v ]
+      displayedSvRef.value = [s, v]
       const { showAlpha } = props
       switch (displayedModeRef.value) {
         case 'hsv':
-          doUpdateValue(
-            (showAlpha ? toHsvaString : toHsvString)([ hue, s, v, alpha ]),
-            'cursor'
-          )
+          doUpdateValue((showAlpha ? toHsvaString : toHsvString)([hue, s, v, alpha]), 'cursor')
           emit('change', '')
           break
         case 'hsl':
           doUpdateValue(
-            (showAlpha ? toHslaString : toHslString)([
-              ...hsv2hsl(hue, s, v),
-              alpha
-            ]),
+            (showAlpha ? toHslaString : toHslString)([...hsv2hsl(hue, s, v), alpha]),
             'cursor'
           )
           break
         case 'rgb':
           doUpdateValue(
-            (showAlpha ? toRgbaString : toRgbString)([
-              ...hsv2rgb(hue, s, v),
-              alpha
-            ]),
+            (showAlpha ? toRgbaString : toRgbString)([...hsv2rgb(hue, s, v), alpha]),
             'cursor'
           )
           break
         case 'hex':
           doUpdateValue(
-            (showAlpha ? toHexaString : toHexString)([
-              ...hsv2rgb(hue, s, v),
-              alpha
-            ]),
+            (showAlpha ? toHexaString : toHexString)([...hsv2rgb(hue, s, v), alpha]),
             'cursor'
           )
           break
@@ -235,39 +208,27 @@ export default defineComponent({
       if (!hsvaArr) {
         return
       }
-      const [ , s, v, a ] = hsvaArr
+      const [, s, v, a] = hsvaArr
       const { showAlpha } = props
       switch (displayedModeRef.value) {
         case 'hsv':
-          doUpdateValue(
-            (showAlpha ? toHsvaString : toHsvString)([ hue, s, v, a ]),
-            'cursor'
-          )
+          doUpdateValue((showAlpha ? toHsvaString : toHsvString)([hue, s, v, a]), 'cursor')
           break
         case 'rgb':
           doUpdateValue(
-            (showAlpha ? toRgbaString : toRgbString)([
-              ...hsv2rgb(hue, s, v),
-              a
-            ]),
+            (showAlpha ? toRgbaString : toRgbString)([...hsv2rgb(hue, s, v), a]),
             'cursor'
           )
           break
         case 'hex':
           doUpdateValue(
-            (showAlpha ? toHexaString : toHexString)([
-              ...hsv2rgb(hue, s, v),
-              a
-            ]),
+            (showAlpha ? toHexaString : toHexString)([...hsv2rgb(hue, s, v), a]),
             'cursor'
           )
           break
         case 'hsl':
           doUpdateValue(
-            (showAlpha ? toHslaString : toHslString)([
-              ...hsv2hsl(hue, s, v),
-              a
-            ]),
+            (showAlpha ? toHslaString : toHslString)([...hsv2hsl(hue, s, v), a]),
             'cursor'
           )
           break
@@ -277,29 +238,26 @@ export default defineComponent({
     function handleUpdateAlpha(alpha: number): void {
       switch (displayedModeRef.value) {
         case 'hsv':
-          ;[ _h, s, v ] = hsvaRef.value!
-          doUpdateValue(toHsvaString([ _h, s, v, alpha ]), 'cursor')
+          ;[_h, s, v] = hsvaRef.value!
+          doUpdateValue(toHsvaString([_h, s, v, alpha]), 'cursor')
           break
         case 'rgb':
-          ;[ r, g, b ] = rgbaRef.value!
-          doUpdateValue(toRgbaString([ r, g, b, alpha ]), 'cursor')
+          ;[r, g, b] = rgbaRef.value!
+          doUpdateValue(toRgbaString([r, g, b, alpha]), 'cursor')
           break
         case 'hex':
-          ;[ r, g, b ] = rgbaRef.value!
-          doUpdateValue(toHexaString([ r, g, b, alpha ]), 'cursor')
+          ;[r, g, b] = rgbaRef.value!
+          doUpdateValue(toHexaString([r, g, b, alpha]), 'cursor')
           break
         case 'hsl':
-          ;[ _h, s, l ] = hslaRef.value!
-          doUpdateValue(toHslaString([ _h, s, l, alpha ]), 'cursor')
+          ;[_h, s, l] = hslaRef.value!
+          doUpdateValue(toHslaString([_h, s, l, alpha]), 'cursor')
           break
       }
       displayedAlphaRef.value = alpha
     }
 
-    function doUpdateValue(
-      value: string | null,
-      updateSource: 'cursor' | 'input'
-    ): void {
+    function doUpdateValue(value: string | null, updateSource: 'cursor' | 'input'): void {
       if (updateSource === 'cursor') {
         upcomingValue = value
       } else {
@@ -360,7 +318,7 @@ export default defineComponent({
 
     watch(mergedShowRef, (value) => {
       if (!value) {
-        undoStackRef.value = [ mergedValueRef.value ]
+        undoStackRef.value = [mergedValueRef.value]
         valueIndexRef.value = 0
       }
     })
@@ -373,7 +331,7 @@ export default defineComponent({
         if (value) {
           displayedHueRef.value = value[0]
           displayedAlphaRef.value = value[3]
-          displayedSvRef.value = [ value[1], value[2] ]
+          displayedSvRef.value = [value[1], value[2]]
         }
       }
       upcomingValue = null
@@ -383,136 +341,125 @@ export default defineComponent({
       doUpdateShow(true)
     }
 
-    const handleClickOutside = () => {
-      doUpdateShow(false)
-    }
-
-    watch(() => mergedShowRef.value, (val) => {
-      if (val) {
-        setTimeout(() => {
-          if (!initState.value) {
-            initState.value = true
-            onClickOutside(wrap.value, () => {
-              handleClickOutside()
-            }, {}, [ trigger.value ])
-          }
-        }, 500)
+    watch(
+      () => mergedShowRef.value,
+      (value) => {
+        value &&
+          onClickOutside(wrap, (event: any) => {
+            if (
+              event.path &&
+              event.path
+                .map((item) => item.className)
+                .filter((item) => item)
+                .every(
+                  (item) =>
+                    !item.includes(`${baseClassName}-picker-popover`) &&
+                    !item.includes(`${baseClassName}-picker`)
+                )
+            ) {
+              doUpdateShow(false)
+            }
+          })
       }
-    }, {
-      deep: true,
-      immediate: true
-    })
+    )
 
     const renderPanel = () => {
       const { value: rgba } = rgbaRef
       const { value: displayedHue } = displayedHueRef
       const { internalActions, modes, actions } = props
       return (
-        <div
-          ref={e => wrap.value = e}
-          class={`${baseClassName}-picker-panel`}
-          onDragstart={(e) => {
-            e.preventDefault()
-          }}
-        >
-          <div class={`${baseClassName}-picker-control`}>
-            <Pallete
-              clsPrefix={baseClassName}
-              rgba={rgba}
-              displayedHue={displayedHue}
-              displayedSv={displayedSvRef.value}
-              onUpdateSV={handleUpdateSv}
-              onComplete={handleComplete}
-            />
-            <div class={`${baseClassName}-picker-preview`}>
-              <div class={`${baseClassName}-picker-preview-sliders`}>
-                <HueSlider
+        <>
+          {mergedShowRef.value && (
+            <div
+              ref={(e) => (wrap.value = e)}
+              class={`${baseClassName}-picker-panel`}
+              onDragstart={(e) => e.preventDefault()}
+            >
+              <div class={`${baseClassName}-picker-control`}>
+                <Pallete
                   clsPrefix={baseClassName}
-                  hue={displayedHue}
-                  onUpdateHue={handleUpdateHue}
+                  rgba={rgba}
+                  displayedHue={displayedHue}
+                  displayedSv={displayedSvRef.value}
+                  onUpdateSV={handleUpdateSv}
                   onComplete={handleComplete}
                 />
-                {props.showAlpha && (
-                  <AlphaSlider
+                <div class={`${baseClassName}-picker-preview`}>
+                  <div class={`${baseClassName}-picker-preview-sliders`}>
+                    <HueSlider
+                      clsPrefix={baseClassName}
+                      hue={displayedHue}
+                      onUpdateHue={handleUpdateHue}
+                      onComplete={handleComplete}
+                    />
+                    {props.showAlpha && (
+                      <AlphaSlider
+                        clsPrefix={baseClassName}
+                        rgba={rgba}
+                        alpha={displayedAlphaRef.value}
+                        onUpdateAlpha={handleUpdateAlpha}
+                        onComplete={handleComplete}
+                      />
+                    )}
+                  </div>
+                  {props.showPreview && (
+                    <ColorPreview
+                      clsPrefix={baseClassName}
+                      mode={displayedModeRef.value}
+                      color={rgbaRef.value && toHexString(rgbaRef.value)}
+                      onUpdateColor={(color) => doUpdateValue(color, 'input')}
+                    />
+                  )}
+                </div>
+                <ColorInput
+                  clsPrefix={baseClassName}
+                  showAlpha={props.showAlpha}
+                  mode={displayedModeRef.value}
+                  modes={modes}
+                  onUpdateMode={handleUpdateDisplayedMode}
+                  value={mergedValueRef.value}
+                  valueArr={mergedValueArrRef.value}
+                  onUpdateValue={handleInputUpdateValue}
+                />
+                {props.swatches?.length && (
+                  <ColorPickerSwatches
                     clsPrefix={baseClassName}
-                    rgba={rgba}
-                    alpha={displayedAlphaRef.value}
-                    onUpdateAlpha={handleUpdateAlpha}
-                    onComplete={handleComplete}
+                    mode={displayedModeRef.value}
+                    swatches={props.swatches}
+                    onUpdateColor={(color) => doUpdateValue(color, 'input')}
                   />
                 )}
               </div>
-              {props.showPreview && (
-                <ColorPreview
-                  clsPrefix={baseClassName}
-                  mode={displayedModeRef.value}
-                  color={rgbaRef.value && toHexString(rgbaRef.value)}
-                  onUpdateColor={(color) => doUpdateValue(color, 'input')}
-                />
+              {actions?.length && (
+                <div class={`${baseClassName}-picker-action`}>
+                  {actions.includes('confirm') && (
+                    <a-button size="small" onClick={handleConfirm}>
+                      确定
+                    </a-button>
+                  )}
+                </div>
               )}
-            </div>
-            <ColorInput
-              clsPrefix={baseClassName}
-              showAlpha={props.showAlpha}
-              mode={displayedModeRef.value}
-              modes={modes}
-              onUpdateMode={handleUpdateDisplayedMode}
-              value={mergedValueRef.value}
-              valueArr={mergedValueArrRef.value}
-              onUpdateValue={handleInputUpdateValue}
-            />
-            {props.swatches?.length && (
-              <ColorPickerSwatches
-                clsPrefix={baseClassName}
-                mode={displayedModeRef.value}
-                swatches={props.swatches}
-                onUpdateColor={(color) => doUpdateValue(color, 'input')}
-              />
-            )}
-          </div>
-          {actions?.length && (
-            <div class={`${baseClassName}-picker-action`}>
-              {actions.includes('confirm') && (
-                <a-button
-                  size="small"
-                  onClick={handleConfirm}
-                >
-                  确定
-                </a-button>
-              )}
+              {slots.action ? (
+                <div class={`${baseClassName}-picker-action`}>{slots.action?.()}</div>
+              ) : internalActions ? (
+                <div class={`${baseClassName}-picker-action`}>
+                  {internalActions.includes('undo') && (
+                    <a-button size="small" onClick={undo} disabled={!undoableRef.value}>
+                      撤销
+                    </a-button>
+                  )}
+                  {internalActions.includes('redo') && (
+                    <a-button size="small" onClick={redo} disabled={!redoableRef.value}>
+                      重做
+                    </a-button>
+                  )}
+                </div>
+              ) : null}
             </div>
           )}
-          {slots.action ? (
-            <div class={`${baseClassName}-picker-action`}>
-              {slots.action?.()}
-            </div>
-          ) : internalActions ? (
-            <div class={`${baseClassName}-picker-action`}>
-              {internalActions.includes('undo') && (
-                <a-button
-                  size="small"
-                  onClick={undo}
-                  disabled={!undoableRef.value}
-                >
-                  撤销
-                </a-button>
-              )}
-              {internalActions.includes('redo') && (
-                <a-button
-                  size="small"
-                  onClick={redo}
-                  disabled={!redoableRef.value}
-                >
-                  重做
-                </a-button>
-              )}
-            </div>
-          ) : null}
-        </div>
+        </>
       )
     }
-
-    const renderContent = () => renderPanel()
 
     return () => {
       return (
@@ -523,24 +470,29 @@ export default defineComponent({
             [`${baseClassName}-picker-md`]: props.size === 'middle',
             [`${baseClassName}-picker-lg`]: props.size === 'large'
           }}
-          ref={e => selfRef.value = e}
+          ref={(e) => (selfRef.value = e)}
         >
           <Popover
+            ref={(e) => (popoverRef.value = e)}
             trigger="click"
             placement="right"
             get-popup-container={() => selfRef.value}
             visible={mergedShowRef.value}
             overlayClassName={`${baseClassName}-picker-popover`}
-            content={renderContent()}
+            content={renderPanel()}
           >
             <ColorPickerTrigger
-              ref={e => trigger.value = e}
+              ref={(e) => (trigger.value = e)}
               clsPrefix={baseClassName}
               size={props.size || 'middle'}
               value={mergedValueRef.value}
               hsla={hslaRef.value}
               onClick={() => !props.readonly && handleTriggerClick()}
-            />
+            >
+              {{
+                label: slots.label
+              }}
+            </ColorPickerTrigger>
           </Popover>
         </div>
       )

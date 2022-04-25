@@ -11,10 +11,10 @@ import './index.less'
  * @param props
  */
 const LabelIconTip: FunctionalComponent<{
-  label: VueNode;
-  subTitle?: VueNode;
-  tooltip?: string | LabelTooltipType;
-  ellipsis?: boolean;
+  label: VueNode
+  subTitle?: VueNode
+  tooltip?: string | LabelTooltipType
+  ellipsis?: boolean
 }> = (props) => {
   const { label, tooltip, ellipsis, subTitle } = props
 
@@ -26,9 +26,7 @@ const LabelIconTip: FunctionalComponent<{
     isPor: true
   })
   const tooltipProps =
-    typeof tooltip === 'string'
-      ? { title: tooltip }
-      : (tooltip as WrapperTooltipProps)
+    typeof tooltip === 'string' ? { title: tooltip } : (tooltip as WrapperTooltipProps)
 
   const icon = tooltipProps?.icon || <InfoCircleOutlined />
   return (

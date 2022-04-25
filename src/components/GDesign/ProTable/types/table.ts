@@ -49,6 +49,8 @@ export interface OptionConfig {
 
 /** 操作类型 */
 export type ProCoreActionType = ({ reload, reloadAndRest, changeDataValue, loadingOperation }: {
+  formParams: RecordType;
+  pageParams: RecordType | boolean;
   /** @name 刷新 */
   reload: (info?: any) => void;
   /** @name 刷新并清空表单，重置为第一页 */

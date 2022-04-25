@@ -9,6 +9,8 @@ import type {
 
 declare global {
 
+  const GBars: typeof import('../src/components/GDesign/Scrollbars/index.vue')
+
   const __APP_INFO__: {
     pkg: {
       name: string;
@@ -38,16 +40,17 @@ declare global {
     | Slot
     | VNodeChild
     | VNode
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     | ((...props: any[]) => Slot)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     | ((...props: any[]) => VNode)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     | ((...args: any[]) => VNode)
     | VNode[]
     | JSX.Element
-    | boolean
     | string
-    | number
     | null
-    | undefined;
+    | undefined
 
   declare type GProVueNode = VueNode | VueNode[] | WithFalse<() => CustomRender>;
 
@@ -71,7 +74,9 @@ declare global {
 
   declare interface ViteEnv {
     VITE_PORT: number;
+    VITE_USE_MODE: string;
     VITE_USE_MOCK: boolean;
+    VITE_NODE_ENV: string;
     VITE_USE_PWA: boolean;
     VITE_BASE_URL: string;
     VITE_APP_ENV: string;

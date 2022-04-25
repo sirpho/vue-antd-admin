@@ -16,7 +16,7 @@ import multiTabProps from './props'
 
 const TabPane = Tabs.TabPane
 
-export type MultiTabProps = Partial<ExtractPropTypes<typeof multiTabProps>>;
+export type MultiTabProps = Partial<ExtractPropTypes<typeof multiTabProps>>
 
 export default defineComponent({
   props: multiTabProps,
@@ -26,12 +26,7 @@ export default defineComponent({
     CloseOutlined
   },
   setup(props) {
-    const {
-      isMobile,
-      loading,
-      isFixedMultiTab,
-      onReloadPage
-    } = toRefs(props)
+    const { isMobile, loading, isFixedMultiTab, onReloadPage } = toRefs(props)
     const $route = useRoute()
     const router = useRouter()
     const store = useStore()
@@ -45,9 +40,7 @@ export default defineComponent({
     const routes = computed(() => store.routes.routes)
     const visitedRoutes = computed(() => store.tabsRouter.visitedRoutes)
     const needFixedMultiTab = computed(() => isFixedMultiTab.value)
-    const needSettingWidth = computed(
-      () => needFixedMultiTab.value && !isMobile.value
-    )
+    const needSettingWidth = computed(() => needFixedMultiTab.value && !isMobile.value)
     const width = computed(() => {
       return needSettingWidth.value
         ? `calc(100% - ${props.collapsed ? props.collapsedWidth : props.siderWidth}px)`
@@ -79,7 +72,7 @@ export default defineComponent({
         tag.meta.tagHidden !== true &&
         !routesWhiteList.includes(tag.path)
       ) {
-        let matched = [ tag.name ]
+        let matched = [tag.name]
         if (tag.matched) matched = tag.matched.map((item) => item.name)
         await store.tabsRouter.addVisitedRoute({
           tagFixed: tag.meta && tag.meta.tagFixed,
@@ -174,19 +167,24 @@ export default defineComponent({
       state.tabContextActive = path
     }
     const tabBarExtraState = (type, path: any) => {
-      const currentIndex = visitedRoutes.value.findIndex(item => item.fullPath === path)
+      const currentIndex = visitedRoutes.value.findIndex((item) => item.fullPath === path)
       let status = false
       switch (type) {
         case 1:
-          status = visitedRoutes.value.length === 1 ||
-            (visitedRoutes.value.findIndex(item => item.meta.tagFixed) === 0 && visitedRoutes.value.length === 2)
+          status =
+            visitedRoutes.value.length === 1 ||
+            (visitedRoutes.value.findIndex((item) => item.meta.tagFixed) === 0 &&
+              visitedRoutes.value.length === 2)
           break
         case 2:
-          status = currentIndex === 0 ||
-            (currentIndex === 1 && visitedRoutes.value.findIndex(item => item.meta.tagFixed) === 0)
+          status =
+            currentIndex === 0 ||
+            (currentIndex === 1 &&
+              visitedRoutes.value.findIndex((item) => item.meta.tagFixed) === 0)
           break
         case 3:
-          status = currentIndex === visitedRoutes.value.length - 1 || visitedRoutes.value.length === 1
+          status =
+            currentIndex === visitedRoutes.value.length - 1 || visitedRoutes.value.length === 1
           break
       }
       return status
@@ -265,15 +263,13 @@ export default defineComponent({
      */
     const toThisTag = (stateType) => {
       const currentPath = stateType === 'tabActive' ? $route.fullPath : state[stateType]
-      const view = visitedRoutes.value.find((item) =>
-        item.fullPath === currentPath
-      )
+      const view = visitedRoutes.value.find((item) => item.fullPath === currentPath)
       if (currentPath !== view?.path || '') router.push(view)
       return view
     }
 
     const defaultRenderTabMenu = (record) => (
-      <Menu onClick={e => handleClick(e, 'tabContextActive')}>
+      <Menu onClick={(e) => handleClick(e, 'tabContextActive')}>
         <Menu.Item
           disabled={tabBarExtraState(1, record.fullPath || record.path)}
           key="closeOthersTabs"
@@ -299,7 +295,7 @@ export default defineComponent({
       <Dropdown
         trigger="contextmenu"
         overlay={defaultRenderTabMenu(record)}
-        onVisibleChange={_ => dropdownVisible(record.fullPath)}
+        onVisibleChange={(_) => dropdownVisible(record.fullPath)}
       >
         <div class="gx-pro-multi-tab-content">
           {record.meta.title}
@@ -308,39 +304,31 @@ export default defineComponent({
               class="gx-pro-multi-tab-reload-btn"
               style={{ marginRight: 0 }}
               spin={state.reloadSpin}
-              onClick={() => { state.reloadSpin ? null : reloadPage() }}
+              onClick={() => {
+                state.reloadSpin ? null : reloadPage()
+              }}
             />
           )}
-          {(visitedRoutes.value.length > 1 && !isFixed(record)) && (
+          {visitedRoutes.value.length > 1 && !isFixed(record) && (
             <CloseOutlined
               class="gx-pro-multi-tab-close-btn"
               style={{ marginRight: 0 }}
-              onClick={e => handleTabRemove(e, record.fullPath)}
+              onClick={(e) => handleTabRemove(e, record.fullPath)}
             />
           )}
         </div>
-
       </Dropdown>
     )
 
     const defaultExtraMenu = () => (
-      <Menu click={e => handleClick(e, 'tabActive')}>
-        <Menu.Item
-          disabled={tabBarExtraState(1, state.tabActive)}
-          key="closeOthersTabs"
-        >
+      <Menu onClick={(e) => handleClick(e, 'tabActive')}>
+        <Menu.Item disabled={tabBarExtraState(1, state.tabActive)} key="closeOthersTabs">
           关闭其他
         </Menu.Item>
-        <Menu.Item
-          disabled={tabBarExtraState(2, state.tabActive)}
-          key="closeLeftTabs"
-        >
+        <Menu.Item disabled={tabBarExtraState(2, state.tabActive)} key="closeLeftTabs">
           关闭左侧
         </Menu.Item>
-        <Menu.Item
-          disabled={tabBarExtraState(3, state.tabActive)}
-          key="closeRightTabs"
-        >
+        <Menu.Item disabled={tabBarExtraState(3, state.tabActive)} key="closeRightTabs">
           关闭右侧
         </Menu.Item>
       </Menu>
@@ -385,11 +373,9 @@ export default defineComponent({
               rightExtra: (_) => tabBarExtraContent()
             }}
           >
-            {
-              visitedRoutes.value.map(item => (
-                <TabPane key={item.fullPath} closable={false} tab={defaultRenderTab(item)} />
-              ))
-            }
+            {visitedRoutes.value.map((item) => (
+              <TabPane key={item.fullPath} closable={false} tab={defaultRenderTab(item)} />
+            ))}
           </Tabs>
         </div>
       </>

@@ -2,44 +2,19 @@
   <g-pro-modal
     title="Title"
     class="test"
+    :view="lookUp"
     :visible="visible"
     :isFail="isFail"
     :spinning="spinning"
     :skeletonLoading="skeletonLoading"
-    destroyOnClose
     @cancel="handleCancel"
+    @changeView="
+      () => {
+        this.lookUp = false
+      }
+    "
   >
-    <template #content>
-      <div style="height: 1100px">这是一个modal</div>
-    </template>
-    <template #footer>
-      <div class="modal-footer">
-        <a-button
-          v-if="lookUp"
-          type="primary"
-          key="back"
-          @click="
-            () => {
-              this.lookUp = false
-            }
-          "
-        >
-          编辑
-        </a-button>
-        <a-button
-          v-else
-          :loading="spinning"
-          key="submit"
-          type="primary"
-          @click="handleCancel"
-        >
-          确定
-        </a-button>
-        <a-button key="cancel" :loading="spinning" @click="handleCancel">
-          {{ lookUp ? '关闭' : '取消' }}
-        </a-button>
-      </div>
-    </template>
+    <div style="height: 1100px">这是一个modal</div>
   </g-pro-modal>
 </template>
 

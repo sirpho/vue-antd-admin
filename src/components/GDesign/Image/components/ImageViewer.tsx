@@ -1,11 +1,5 @@
 import type { CSSProperties } from 'vue'
-import {
-  defineComponent,
-  ref,
-  computed,
-  nextTick,
-  watch
-} from 'vue'
+import { defineComponent, ref, computed, nextTick, watch } from 'vue'
 import {
   OneToOneOutlined,
   CloseOutlined,
@@ -59,7 +53,7 @@ export function rafThrottle<T extends AnyFunction<any>>(fn: T): AnyFunction<void
 
 const GImageViewer = defineComponent({
   props: gImageViewProps,
-  emits: [ 'close', 'switch' ],
+  emits: ['close', 'switch'],
   setup(props, { emit }) {
     let _keyDownHandler: any = null
     let _mouseWheelHandler: any = null
@@ -153,7 +147,7 @@ const GImageViewer = defineComponent({
         }
       })
 
-      _mouseWheelHandler = rafThrottle(e => {
+      _mouseWheelHandler = rafThrottle((e) => {
         const delta = e.wheelDelta ? e.wheelDelta : -e.detail
         if (delta > 0) {
           handleActions('zoomIn', {
@@ -194,7 +188,7 @@ const GImageViewer = defineComponent({
       const { offsetX, offsetY } = transform.value
       const startX = e.pageX
       const startY = e.pageY
-      _dragHandler = rafThrottle(ev => {
+      _dragHandler = rafThrottle((ev) => {
         transform.value = {
           ...transform.value,
           offsetX: offsetX + ev.pageX - startX,
@@ -225,7 +219,7 @@ const GImageViewer = defineComponent({
       const modeNames = Object.keys(Mode)
       const modeValues = Object.values(Mode)
       const currentMode = mode.value.name
-      const index = modeValues.findIndex(i => i.name === currentMode)
+      const index = modeValues.findIndex((i) => i.name === currentMode)
       const nextIndex = (index + 1) % modeNames.length
       mode.value = Mode[modeNames[nextIndex]]
       reset()
@@ -279,7 +273,7 @@ const GImageViewer = defineComponent({
       })
     })
 
-    watch(index, val => {
+    watch(index, (val) => {
       reset()
       emit('switch', val)
     })
@@ -292,13 +286,13 @@ const GImageViewer = defineComponent({
     return () => {
       return (
         <div
-          ref={e => wrapper.value = e}
+          ref={(e) => (wrapper.value = e)}
           tabindex={1}
-          class={[ `${baseClassName}-wrapper`, `${animateCss.value}` ]}
+          class={[`${baseClassName}-wrapper`, `${animateCss.value}`]}
           style={{ zIndex: props.zIndex }}
         >
           <div class={`${baseClassName}-mask`} onClick={() => props.onHideOnClickModal && hide()} />
-          <span class={[ `${baseClassName}-btn`, `${baseClassName}-close` ]} onClick={() => hide()}>
+          <span class={[`${baseClassName}-btn`, `${baseClassName}-close`]} onClick={() => hide()}>
             <CloseOutlined />
           </span>
           {!isSingle.value && (
@@ -325,7 +319,7 @@ const GImageViewer = defineComponent({
               </span>
             </>
           )}
-          <div class={[ `${baseClassName}-btn`, `${baseClassName}-actions` ]}>
+          <div class={[`${baseClassName}-btn`, `${baseClassName}-actions`]}>
             <div class={`${baseClassName}-actions-inner`}>
               <ZoomOutOutlined onClick={() => handleActions('zoomOut')} />
               <ZoomInOutlined onClick={() => handleActions('zoomIn')} />
@@ -338,26 +332,24 @@ const GImageViewer = defineComponent({
           </div>
           {loading.value && (
             <div class={`${baseClassName}-canvas`}>
-              <a-spin indicator={<LoadingOutlined style={{ color: '#fff', fontSize: '40px' }} />}  />
+              <a-spin indicator={<LoadingOutlined style={{ color: '#fff', fontSize: '40px' }} />} />
             </div>
           )}
           <div class={`${baseClassName}-canvas`}>
-            {
-              props.urlList.map((url, i) => {
-                return (
-                  <img
-                    ref={e => img.value = e}
-                    class={`${baseClassName}-img`}
-                    key={url}
-                    style={{ ...imgStyle.value, display: i === index.value ? 'block' : 'none' }}
-                    src={url}
-                    onLoad={() => handleImgLoad()}
-                    onError={e => handleImgError(e)}
-                    onMousedown={e => handleMouseDown(e)}
-                  />
-                )
-              })
-            }
+            {props.urlList.map((url, i) => {
+              return (
+                <img
+                  ref={(e) => (img.value = e)}
+                  class={`${baseClassName}-img`}
+                  key={url}
+                  style={{ ...imgStyle.value, display: i === index.value ? 'block' : 'none' }}
+                  src={url}
+                  onLoad={() => handleImgLoad()}
+                  onError={(e) => handleImgError(e)}
+                  onMousedown={(e) => handleMouseDown(e)}
+                />
+              )
+            })}
           </div>
         </div>
       )

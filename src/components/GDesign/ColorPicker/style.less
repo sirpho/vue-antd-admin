@@ -1,5 +1,4 @@
 .@{gx-prefix}-color {
-  
   &-picker {
     position: relative;
     width: 48px;
@@ -8,7 +7,7 @@
     cursor: pointer;
     border: 1px solid rgb(221, 221, 221);
     border-radius: 2px;
-    
+
     &-panel {
       width: 240px;
       margin: 4px 0;
@@ -16,33 +15,37 @@
       color: rgb(51, 54, 57);
       background-color: #ffffff;
       border-radius: 2px;
-      box-shadow: 0 3px 6px -4px rgba(0, 0, 0, .12), 0 6px 16px 0 rgba(0, 0, 0, .08), 0 9px 28px 8px rgba(0, 0, 0, .05);
-      transition: box-shadow .3s cubic-bezier(.4, 0, .2, 1),
-      color .3s cubic-bezier(.4, 0, .2, 1),
-      background-color .3s cubic-bezier(.4, 0, .2, 1);
-      
+      box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+        0 9px 28px 8px rgba(0, 0, 0, 0.05);
+      transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
       &.fade-in-scale-up-transition-leave-active {
-        transition: opacity .2s cubic-bezier(.4, 0, 1, 1), transform .2s cubic-bezier(.4, 0, 1, 1);
+        transition: opacity 0.2s cubic-bezier(0.4, 0, 1, 1),
+          transform 0.2s cubic-bezier(0.4, 0, 1, 1);
         transform-origin: inherit;
       }
-      
+
       &.fade-in-scale-up-transition-enter-active {
-        transition: opacity .2s cubic-bezier(0, 0, .2, 1), transform .2s cubic-bezier(0, 0, .2, 1);
+        transition: opacity 0.2s cubic-bezier(0, 0, 0.2, 1),
+          transform 0.2s cubic-bezier(0, 0, 0.2, 1);
         transform-origin: inherit;
       }
-      
-      &.fade-in-scale-up-transition-enter-from, &.fade-in-scale-up-transition-leave-to {
+
+      &.fade-in-scale-up-transition-enter-from,
+      &.fade-in-scale-up-transition-leave-to {
         opacity: 0;
-        transform: scale(.9);
+        transform: scale(0.9);
       }
-      
-      &.fade-in-scale-up-transition-leave-from, &.fade-in-scale-up-transition-enter-to {
+
+      &.fade-in-scale-up-transition-leave-from,
+      &.fade-in-scale-up-transition-enter-to {
         opacity: 1;
         transform: scale(scale(1));
       }
     }
   }
-  
+
   &.@{gx-prefix}-color-picker-sm {
     &.@{gx-prefix}-color-picker-trigger {
       .@{gx-prefix}-color-picker-checkboard {
@@ -52,7 +55,7 @@
       }
     }
   }
-  
+
   &.@{gx-prefix}-color-picker-md {
     &.@{gx-prefix}-color-picker-trigger {
       .@{gx-prefix}-color-picker-checkboard {
@@ -62,12 +65,12 @@
       }
     }
   }
-  
+
   &.@{gx-prefix}-color-picker-lg {
     &.@{gx-prefix}-color-picker-panel {
       font-size: 15px;
     }
-    
+
     &.@{gx-prefix}-color-picker-trigger {
       .@{gx-prefix}-color-picker-checkboard {
         &::after {
@@ -76,7 +79,7 @@
       }
     }
   }
-  
+
   &-picker-checkboard {
     position: absolute;
     top: 0;
@@ -84,33 +87,35 @@
     bottom: 0;
     left: 0;
     background: white;
-    
+
     &::after {
       position: absolute;
       top: 0;
       right: 0;
       bottom: 0;
       left: 0;
-      content: "";
-      background-image: linear-gradient(45deg, #DDD 25%, #0000 25%), linear-gradient(-45deg, #DDD 25%, #0000 25%), linear-gradient(45deg, #0000 75%, #DDD 75%), linear-gradient(-45deg, #0000 75%, #DDD 75%);
+      content: '';
+      background-image: linear-gradient(45deg, #ddd 25%, #0000 25%),
+        linear-gradient(-45deg, #ddd 25%, #0000 25%), linear-gradient(45deg, #0000 75%, #ddd 75%),
+        linear-gradient(-45deg, #0000 75%, #ddd 75%);
       background-repeat: repeat;
       background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
       background-size: 12px 12px;
     }
   }
-  
+
   &-picker-slider {
     position: relative;
     box-sizing: border-box;
     margin-bottom: 8px;
-    
+
     .@{gx-prefix}-color-picker-slider-image {
       position: absolute;
       top: 0;
       right: 0;
       bottom: 0;
       left: 0;
-      
+
       &::after {
         position: absolute;
         top: 0;
@@ -118,50 +123,50 @@
         bottom: 0;
         left: 0;
         pointer-events: none;
-        content: "";
+        content: '';
         border-radius: inherit;
-        box-shadow: inset 0 0 2px 0 rgba(0, 0, 0, .24);
+        box-shadow: inset 0 0 2px 0 rgba(0, 0, 0, 0.24);
       }
     }
   }
-  
+
   &-picker-handle {
     position: absolute;
     overflow: hidden;
     background-color: white;
-    box-shadow: 0 0 2px 0 rgba(0, 0, 0, .45);
-    
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.45);
+
     .@{gx-prefix}-color-picker-handle-fill {
       box-sizing: border-box;
       border: 2px solid white;
     }
   }
-  
+
   &-picker-pallete {
     position: relative;
     height: 180px;
     margin-bottom: 8px;
-    
+
     .@{gx-prefix}-color-picker-pallete-layer {
       position: absolute;
       top: 0;
       right: 0;
       bottom: 0;
       left: 0;
-      
+
       &.@{gx-prefix}-color-picker-pallete-layer-shadowed {
-        box-shadow: inset 0 0 2px 0 rgba(0, 0, 0, .24);
+        box-shadow: inset 0 0 2px 0 rgba(0, 0, 0, 0.24);
       }
     }
   }
-  
+
   &-picker-preview {
     display: flex;
-    
+
     .@{gx-prefix}-color-picker-preview-sliders {
       flex: 1 0 auto;
     }
-    
+
     .@{gx-prefix}-color-picker-preview-preview {
       position: relative;
       width: 30px;
@@ -169,15 +174,15 @@
       margin: 0 0 8px 6px;
       overflow: hidden;
       border-radius: 50%;
-      box-shadow: rgba(0, 0, 0, .15) 0px 0px 0px 1px inset;
+      box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;
     }
-    
+
     .@{gx-prefix}-color-picker-preview-fill {
       display: block;
       width: 30px;
       height: 30px;
     }
-    
+
     .@{gx-prefix}-color-picker-preview-input {
       position: absolute;
       top: 0;
@@ -188,51 +193,51 @@
       opacity: 0;
     }
   }
-  
+
   &-picker-input {
     display: flex;
     align-items: center;
-    
+
     .ant-input {
       flex-basis: 0;
       flex-grow: 1;
     }
-    
+
     .@{gx-prefix}-color-picker-input-mode {
       width: 72px;
       text-align: center;
     }
   }
-  
+
   &-picker-control {
     padding: 12px;
   }
-  
+
   &-picker-action {
     display: flex;
     justify-content: flex-end;
     padding: 8px 12px;
     margin-top: -4px;
     border-top: 1px solid rgb(239, 239, 245);
-    
+
     .@{gx-prefix}-color-picker-action-button {
       margin-left: 8px;
     }
   }
-  
+
   &-picker-trigger {
     box-sizing: border-box;
     height: 100%;
     cursor: pointer;
     border: 1px solid rgb(224, 224, 230);
     border-radius: 2px;
-    transition: border-color .3s cubic-bezier(.4, 0, .2, 1);
-    
+    transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
     .@{gx-prefix}-color-picker-trigger-value {
       position: relative;
       white-space: nowrap;
     }
-    
+
     .@{gx-prefix}-color-picker-trigger-fill {
       position: absolute;
       top: 4px;
@@ -244,18 +249,19 @@
       justify-content: center;
       border-radius: 2px;
     }
-    
+
     .@{gx-prefix}-color-picker-checkboard {
       border-radius: 2px;
-      
+
       &::after {
         --block-size: calc((24px - 8px) / 3);
-        background-position: 0 0, 0 var(--block-size), var(--block-size) calc(-1 * var(--block-size)), calc(-1 * var(--block-size)) 0px;
+        background-position: 0 0, 0 var(--block-size),
+          var(--block-size) calc(-1 * var(--block-size)), calc(-1 * var(--block-size)) 0px;
         background-size: calc(var(--block-size) * 2) calc(var(--block-size) * 2);
       }
     }
   }
-  
+
   &-picker-swatches {
     position: relative;
     display: grid;
@@ -263,27 +269,29 @@
     grid-template-columns: repeat(auto-fill, 18px);
     grid-gap: 8px;
     margin-top: 10px;
-    
+
     .@{gx-prefix}-color-picker-swatch {
       width: 18px;
       height: 18px;
-      background-image: linear-gradient(45deg, #DDD 25%, #0000 25%), linear-gradient(-45deg, #DDD 25%, #0000 25%), linear-gradient(45deg, #0000 75%, #DDD 75%), linear-gradient(-45deg, #0000 75%, #DDD 75%);
+      background-image: linear-gradient(45deg, #ddd 25%, #0000 25%),
+        linear-gradient(-45deg, #ddd 25%, #0000 25%), linear-gradient(45deg, #0000 75%, #ddd 75%),
+        linear-gradient(-45deg, #0000 75%, #ddd 75%);
       background-repeat: repeat;
       background-position: 0px 0, 0px 4px, 4px -4px, -4px 0px;
       background-size: 8px 8px;
-      
+
       .@{gx-prefix}-color-picker-swatch-fill {
         position: relative;
         width: 100%;
         height: 100%;
         cursor: pointer;
         border-radius: 3px;
-        box-shadow: rgba(0, 0, 0, .15) 0px 0px 0px 1px inset;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;
       }
-      
+
       &:focus {
         outline: none;
-        
+
         .@{gx-prefix}-color-picker-swatch-fill {
           &::after {
             position: absolute;
@@ -291,7 +299,7 @@
             right: 0;
             bottom: 0;
             left: 0;
-            content: "";
+            content: '';
             background: inherit;
             filter: blur(2px);
           }
@@ -299,7 +307,7 @@
       }
     }
   }
-  
+
   &-picker-popover {
     .ant-popover-inner-content {
       padding: 0;

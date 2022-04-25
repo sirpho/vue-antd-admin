@@ -7,15 +7,7 @@ import Card from '../Card'
 import './style.less'
 
 const TabPane: FunctionalComponent<ProCardTabPaneProps> = (props, { slots, attrs }) => {
-  const {
-    key,
-    tab,
-    tabKey,
-    disabled,
-    destroyInactiveTabPane,
-    cardProps = {},
-    ...rest
-  } = props
+  const { key, tab, tabKey, disabled, destroyInactiveTabPane, cardProps = {}, ...rest } = props
 
   const baseClassName = getPrefixCls({
     suffixCls: 'card',

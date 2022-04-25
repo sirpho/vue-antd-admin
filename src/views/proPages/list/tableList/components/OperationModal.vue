@@ -35,9 +35,9 @@
       </Steps>
       <div
         :class="{
-            [`${$style['step-form-content']}`]: true,
-            [`${$style['step-form-content-active']}`]: stepCurrent === 0
-          }"
+          [`${$style['step-form-content']}`]: true,
+          [`${$style['step-form-content-active']}`]: stepCurrent === 0
+        }"
       >
         <a-form :model="formState" v-bind="formItemLayout">
           <a-form-item label="规则名称" v-bind="validateInfos.name">
@@ -61,25 +61,25 @@
       </div>
       <div
         :class="{
-            [`${$style['step-form-content']}`]: true,
-            [`${$style['step-form-content-active']}`]: stepCurrent === 1
-          }"
+          [`${$style['step-form-content']}`]: true,
+          [`${$style['step-form-content-active']}`]: stepCurrent === 1
+        }"
       >
         <a-form :model="formAttributes">
           <a-form-item label="规则名称">
             <a-select
-              style="width: 100%;"
+              style="width: 100%"
               :disabled="lookUp"
               :options="[
-                  {
-                    value: '0',
-                    label: '表一',
-                  },
-                  {
-                    value: '1',
-                    label: '表二',
-                  }
-                ]"
+                {
+                  value: '0',
+                  label: '表一'
+                },
+                {
+                  value: '1',
+                  label: '表二'
+                }
+              ]"
               placeholder="请选择"
               v-model:value="formAttributes.target"
               allow-clear
@@ -87,18 +87,18 @@
           </a-form-item>
           <a-form-item label="规则描述">
             <a-select
-              style="width: 100%;"
+              style="width: 100%"
               :disabled="lookUp"
               :options="[
-                  {
-                    value: '0',
-                    label: '规则模板一',
-                  },
-                  {
-                    value: '1',
-                    label: '规则模板二',
-                  }
-                ]"
+                {
+                  value: '0',
+                  label: '规则模板一'
+                },
+                {
+                  value: '1',
+                  label: '规则模板二'
+                }
+              ]"
               placeholder="请选择"
               v-model:value="formAttributes.template"
               allow-clear
@@ -108,15 +108,15 @@
             <a-radio-group
               :disabled="lookUp"
               :options="[
-                  {
-                    value: '0',
-                    label: '强',
-                  },
-                  {
-                    value: '1',
-                    label: '弱',
-                  }
-                ]"
+                {
+                  value: '0',
+                  label: '强'
+                },
+                {
+                  value: '1',
+                  label: '弱'
+                }
+              ]"
               v-model:value="formAttributes.type"
             />
           </a-form-item>
@@ -124,28 +124,33 @@
       </div>
       <div
         :class="{
-            [`${$style['step-form-content']}`]: true,
-            [`${$style['step-form-content-active']}`]: stepCurrent === 2
-          }"
+          [`${$style['step-form-content']}`]: true,
+          [`${$style['step-form-content-active']}`]: stepCurrent === 2
+        }"
       >
         <a-form :model="formDispatch" v-bind="formItemLayout">
           <a-form-item label="开始时间" v-bind="dispatchvalidateInfos.time">
-            <a-date-picker :disabled="lookUp" style="width: 100%;" showTime v-model:value="formDispatch.time" />
+            <a-date-picker
+              :disabled="lookUp"
+              style="width: 100%"
+              showTime
+              v-model:value="formDispatch.time"
+            />
           </a-form-item>
           <a-form-item label="监控对象" v-bind="dispatchvalidateInfos.frequency">
             <a-select
               :disabled="lookUp"
-              style="width: 100%;"
+              style="width: 100%"
               :options="[
-                  {
-                    value: 'month',
-                    label: '月',
-                  },
-                  {
-                    value: 'week',
-                    label: '周',
-                  }
-                ]"
+                {
+                  value: 'month',
+                  label: '月'
+                },
+                {
+                  value: 'week',
+                  label: '周'
+                }
+              ]"
               placeholder="请选择"
               v-model:value="formDispatch.frequency"
               allow-clear
@@ -159,7 +164,11 @@
         <a-button
           v-if="stepCurrent > 0 && formType === 1"
           key="back"
-          @click="() => { stepCurrent -= 1 }"
+          @click="
+            () => {
+              stepCurrent -= 1
+            }
+          "
         >
           上一步
         </a-button>
@@ -213,7 +222,7 @@ const useForm = Form.useForm
 
 export default defineComponent({
   components: { Step, Steps },
-  emits: [ 'handleOk' ],
+  emits: ['handleOk'],
   setup(_, { emit }) {
     const state = reactive({
       lookUp: false,
@@ -285,7 +294,7 @@ export default defineComponent({
           .then(() => {
             state.stepCurrent += 1
           })
-          .catch(_ => {})
+          .catch((_) => {})
       } else {
         state.stepCurrent += 1
       }
@@ -304,9 +313,10 @@ export default defineComponent({
             }
             state.spinning = false
           })
-          .catch(_ => {})
+          .catch((_) => {})
       } else {
-        useFormDispatch.validate()
+        useFormDispatch
+          .validate()
           .then(async () => {
             state.spinning = true
             const params = {
@@ -323,7 +333,7 @@ export default defineComponent({
             }
             state.spinning = false
           })
-          .catch(_ => {})
+          .catch((_) => {})
       }
     }
     const handleCancel = () => {
@@ -349,5 +359,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" module>
-@import "./index";
+@import './index';
 </style>

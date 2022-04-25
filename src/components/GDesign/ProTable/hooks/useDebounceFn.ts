@@ -22,9 +22,9 @@ function useDebounceFn<T extends any[]>(
     }
   }
 
-  function run(...args: any) {
+  async function run(...args: any) {
     cancel()
-    timer.value = setTimeout(async () => {
+    timer.value = args[0]?.immediate ? await fnRef.value(...args) : setTimeout(async () => {
       await fnRef.value(...args)
     }, hookWait)
   }

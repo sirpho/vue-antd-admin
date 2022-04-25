@@ -8,7 +8,7 @@ export interface RenderSetting {
   headerRender?: false;
   footerRender?: false;
   menuRender?: false;
-  headerLogoRender?: false;
+  menuHeaderRender?: false
 }
 
 export type ProSettings = themeConfig & RenderSetting;
@@ -21,7 +21,7 @@ export const defaultSettings: themeConfig = {
   // 主题色
   primaryColor: '#1890FF',
   // logo标题
-  title: title || 'GX Pro Admin',
+  title: title || '互动直播',
   // 头部菜单高度
   headerHeight: 48,
   // 头部菜单是否固定
@@ -32,6 +32,8 @@ export const defaultSettings: themeConfig = {
   fixedMultiTab: false,
   //是否显示顶部进度条
   showProgressBar: true,
+  //菜单是否自动分割
+  splitMenus: true,
   //是否显示多标签页
   showTabsBar: true,
   //是否显示全屏组件
@@ -59,6 +61,10 @@ export const defaultSettingProps = {
   layout: {
     type: String as PropType<themeConfig['layout']>,
     default: defaultSettings.layout
+  },
+  splitMenus: {
+    type: Boolean as PropType<themeConfig['splitMenus']>,
+    default: defaultSettings.splitMenus
   },
   fixedMultiTab: {
     type: Boolean as PropType<themeConfig['fixedMultiTab']>,

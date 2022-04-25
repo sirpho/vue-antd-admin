@@ -1,4 +1,4 @@
-import { computed, ref, watch, defineComponent, ExtractPropTypes } from 'vue'
+import { computed, ref, defineComponent, ExtractPropTypes, watchEffect } from 'vue'
 import config from '/config/config'
 import { getPrefixCls } from '@gx-admin/utils'
 import { waterMarkProps } from './props'
@@ -7,7 +7,7 @@ import './style.less'
 
 const { waterMarkTitle } = config.defaultSettings
 
-export type WaterMarkProps = Partial<ExtractPropTypes<typeof waterMarkProps>>;
+export type WaterMarkProps = Partial<ExtractPropTypes<typeof waterMarkProps>>
 
 /**
  * 返回当前显示设备的物理像素分辨率与CSS像素分辨率之比
@@ -33,11 +33,13 @@ const getPixelRatio = (context: any) => {
 const GPorWaterMark = defineComponent({
   props: waterMarkProps,
   setup(props, { slots }) {
-    const base64Url = ref('')
     const prefixCls = getPrefixCls({
       suffixCls: 'watermark',
       isPor: true
     })
+
+    const base64Url = ref('')
+
     const wrapperCls = computed(() => `${prefixCls}-wrapper`)
     const waterMakrCls = computed(() => {
       return {
@@ -45,7 +47,8 @@ const GPorWaterMark = defineComponent({
         [`${props.markClassName}`]: props.markClassName
       }
     })
-    watch(() => props, (newVal) => {
+
+    watchEffect(() => {
       const {
         gapX = 212,
         gapY = 222,
@@ -61,7 +64,7 @@ const GPorWaterMark = defineComponent({
         fontColor = 'rgba(0,0,0,.15)',
         fontSize = 16,
         fontFamily = 'sans-serif'
-      } = newVal
+      } = props
       const canvas = document.createElement('canvas')
       const ctx = canvas.getContext('2d')
       const ratio = getPixelRatio(ctx)
@@ -100,9 +103,6 @@ const GPorWaterMark = defineComponent({
       } else {
         console.error('当前环境不支持Canvas')
       }
-    }, {
-      deep: true,
-      immediate: true
     })
 
     return () => (
@@ -122,7 +122,7 @@ const GPorWaterMark = defineComponent({
             top: 0,
             width: '100%',
             height: '100%',
-            backgroundSize: `${Number(props.gapX) + Number(props.width)}px`,
+            backgroundSize: `${Number(props.gapX || 212) + Number(props.width || 120)}px`,
             pointerEvents: 'none',
             backgroundRepeat: 'repeat',
             backgroundImage: `url('${base64Url.value}')`,

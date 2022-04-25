@@ -1,14 +1,17 @@
 <template>
   <a-typography style="margin-top: 16px" id="complexSplitCard">
-    <a-typography-title :level="4" :style="{color: '#454d64'}">
-      复杂切分
-    </a-typography-title>
+    <a-typography-title :level="4" :style="{ color: '#454d64' }"> 复杂切分 </a-typography-title>
   </a-typography>
-  <div style="margin: 16px 0">
-    通过卡片切分能力我们可以实现更加复杂的数据展现形式。
-  </div>
+  <div style="margin: 16px 0"> 通过卡片切分能力我们可以实现更加复杂的数据展现形式。 </div>
   <div class="gx-markdown-demo">
-    <ResizeObserver key="resize-observer" :onResize="({ width }) => { setResponsive(width < 596) }">
+    <ResizeObserver
+      key="resize-observer"
+      :onResize="
+        ({ width }) => {
+          setResponsive(width < 596)
+        }
+      "
+    >
       <g-pro-card
         title="复杂切分"
         extra="2019年9月28日"
@@ -63,6 +66,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="less" module>
-
-</style>
+<style lang="less" module></style>

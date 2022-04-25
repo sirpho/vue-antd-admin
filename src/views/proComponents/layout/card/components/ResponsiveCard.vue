@@ -1,8 +1,6 @@
 <template>
   <a-typography style="margin-top: 16px" id="responsiveCard">
-    <a-typography-title :level="4" :style="{color: '#454d64'}">
-      响应式
-    </a-typography-title>
+    <a-typography-title :level="4" :style="{ color: '#454d64' }"> 响应式 </a-typography-title>
   </a-typography>
   <div style="margin: 16px 0">
     <span class="gx-markdown-code">colSpan</span>
@@ -36,28 +34,24 @@
           sm: '100px',
           md: '200px',
           lg: '300px',
-          xl: '400px',
+          xl: '400px'
         }"
         layout="center"
         bordered
       >
         Col
       </g-pro-card>
-      <g-pro-card layout="center" bordered>
-        Auto
-      </g-pro-card>
+      <g-pro-card layout="center" bordered> Auto </g-pro-card>
     </g-pro-card>
     <g-pro-card title="指定宽度百分比" :gutter="8" style="margin-top: 8px">
-      <g-pro-card layout="center" bordered>
-        Auto
-      </g-pro-card>
+      <g-pro-card layout="center" bordered> Auto </g-pro-card>
       <g-pro-card
         :colSpan="{
           xs: '10%',
           sm: '20%',
           md: '30%',
           lg: '40%',
-          xl: '50%',
+          xl: '50%'
         }"
         layout="center"
         bordered
@@ -78,6 +72,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="less" module>
-
-</style>
+<style lang="less" module></style>

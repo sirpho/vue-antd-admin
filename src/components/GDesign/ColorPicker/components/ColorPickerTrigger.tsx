@@ -14,22 +14,20 @@ export default defineComponent({
       default: null
     },
     hsla: {
-      type: (Array as unknown) as PropType<HSLA | null>,
+      type: Array as unknown as PropType<HSLA | null>,
       default: null
     },
     onClick: Function as PropType<() => void>
   },
   setup(props) {
-    const heightRef = computed(() => props.size === 'small'
-      ? 14
-      : props.size === 'middle'
-        ? 22
-        : 30)
+    const heightRef = computed(() =>
+      props.size === 'small' ? 14 : props.size === 'middle' ? 22 : 30
+    )
 
     return () => {
       const { hsla, clsPrefix, onClick } = props
       return (
-        <div class={`${clsPrefix}-picker-trigger`} onClick={_ => onClick()}>
+        <div class={`${clsPrefix}-picker-trigger`} onClick={(_) => onClick()}>
           <div class={`${clsPrefix}-picker-trigger-fill`}>
             <div class={`${clsPrefix}-picker-checkboard`} />
             <div
@@ -45,7 +43,6 @@ export default defineComponent({
             />
           </div>
         </div>
-
       )
     }
   }

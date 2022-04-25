@@ -1,8 +1,7 @@
 import type { FunctionalComponent } from 'vue'
 import { computed, defineComponent } from 'vue'
-import { Tooltip } from 'ant-design-vue'
+import { Tooltip, ConfigProvider } from 'ant-design-vue'
 import { CheckOutlined } from '@ant-design/icons-vue'
-import { genThemeToString } from '/config/default/themeColor'
 import { PropTypes } from '/@/utils'
 
 const ThemeColorProps = {
@@ -17,27 +16,26 @@ const Tag: FunctionalComponent<{ color: string; check: boolean; className: strin
   check,
   className
 }) => {
-
   return (
     <div class={`${className}-block`} style={{ backgroundColor: color }}>
-      { check ? <CheckOutlined /> : null }
+      {check ? <CheckOutlined /> : null}
     </div>
   )
 }
 
 const ThemeColor = defineComponent({
   props: ThemeColorProps,
-  emits: [ 'change' ],
+  emits: ['change'],
   setup(props, { emit }) {
     const baseClassName = computed(() => `${props.className}-theme-color`)
 
-    const toggleTheme = (scopeName) => {
-      document.documentElement.className = scopeName
-    }
-
     const handleChange = (key: string) => {
       emit('change', key)
-      toggleTheme(genThemeToString(key))
+      ConfigProvider.config({
+        theme: {
+          primaryColor: key
+        }
+      })
     }
 
     return () => {

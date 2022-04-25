@@ -13,7 +13,7 @@ export const documentationProps = {
   contentStyle: PropTypes.style
 }
 
-export type DocumentationProps = Partial<ExtractPropTypes<typeof documentationProps>>;
+export type DocumentationProps = Partial<ExtractPropTypes<typeof documentationProps>>
 
 export default defineComponent({
   name: 'GDocumentation',
@@ -27,9 +27,7 @@ export default defineComponent({
 
     const anchor = ref()
 
-    const isMobile = computed(
-      () => (colSize.value === 'sm' || colSize.value === 'xs')
-    )
+    const isMobile = computed(() => colSize.value === 'sm' || colSize.value === 'xs')
 
     const classNames = computed(() => {
       return {
@@ -48,7 +46,7 @@ export default defineComponent({
     const { classNames, isMobile } = this
     return (
       <div class={classNames} style={this.$props.contentStyle}>
-        <g-anchor actionRef={ref => this.anchor = ref} links={this.$props.anchorLinks} />
+        <g-anchor actionRef={(ref) => (this.anchor = ref)} links={this.$props.anchorLinks} />
         <div style={{ paddingRight: isMobile ? undefined : '208px' }}>
           {this.$slots.default?.()}
         </div>

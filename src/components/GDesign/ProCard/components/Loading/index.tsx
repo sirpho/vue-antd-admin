@@ -4,12 +4,12 @@ import './style.less'
 
 type LoadingProps = {
   /** 类名 */
-  class?: string;
+  class?: string
   /** 样式属性 */
-  style?: CSSProperties;
+  style?: CSSProperties
   /** Prefix */
-  prefix?: string;
-};
+  prefix?: string
+}
 
 const Loading: FunctionalComponent<LoadingProps> = (props) => {
   const { style, prefix } = props

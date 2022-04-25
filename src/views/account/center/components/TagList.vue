@@ -52,9 +52,12 @@ export default defineComponent({
     }
 
     const handleInputConfirm = () => {
-      let tempsTags = [ ...state.newTags ]
-      if (state.inputValue && tempsTags.filter((tag) => tag.label === state.inputValue).length === 0) {
-        tempsTags = [ ...tempsTags, { key: `new-${tempsTags.length}`, label: state.inputValue } ]
+      let tempsTags = [...state.newTags]
+      if (
+        state.inputValue &&
+        tempsTags.filter((tag) => tag.label === state.inputValue).length === 0
+      ) {
+        tempsTags = [...tempsTags, { key: `new-${tempsTags.length}`, label: state.inputValue }]
       }
       state.newTags = tempsTags
       state.inputVisible = false
@@ -73,5 +76,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" module>
-@import "../style";
+@import '../style';
 </style>

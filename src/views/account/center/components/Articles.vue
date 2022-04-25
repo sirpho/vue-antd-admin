@@ -8,15 +8,9 @@
     <template #renderItem="{ item }">
       <a-list-item :key="item.id">
         <template #actions>
-          <span key="star">
-            <StarTwoTone /> {{ item.star }}
-          </span>
-          <span key="like">
-            <LikeOutlined /> {{ item.like }}
-          </span>
-          <span key="message">
-            <MessageFilled /> {{ item.message }}
-          </span>
+          <span key="star"> <StarTwoTone /> {{ item.star }} </span>
+          <span key="like"> <LikeOutlined /> {{ item.like }} </span>
+          <span key="message"> <MessageFilled /> {{ item.message }} </span>
         </template>
         <a-list-item-meta>
           <template #title>
@@ -36,7 +30,8 @@
           <div :class="$style.description">{{ item.content }}</div>
           <div :class="$style.extra">
             <a-avatar :src="item.avatar" size="small" />
-            <a :href="item.href">{{ item.owner }}</a> 发布在 <a :href="item.href">{{ item.href }}</a>
+            <a :href="item.href">{{ item.owner }}</a> 发布在
+            <a :href="item.href">{{ item.href }}</a>
             <em>{{ item.updatedAt }}</em>
           </div>
         </div>
@@ -66,17 +61,21 @@ export default defineComponent({
     const state = reactive({
       listData: [] as any
     })
-    watch(() => props.datasource, (val) => {
-      state.listData = (val || []).map((item: any) => {
-        return {
-          ...item,
-          updatedAt: dayjs(item.updatedAt).format('YYYY-MM-DD HH:mm')
-        }
-      })
-    }, {
-      deep: true,
-      immediate: true
-    })
+    watch(
+      () => props.datasource,
+      (val) => {
+        state.listData = (val || []).map((item: any) => {
+          return {
+            ...item,
+            updatedAt: dayjs(item.updatedAt).format('YYYY-MM-DD HH:mm')
+          }
+        })
+      },
+      {
+        deep: true,
+        immediate: true
+      }
+    )
     return {
       ...toRefs(state)
     }
@@ -102,12 +101,12 @@ a.listItemMetaTitle {
     max-width: 720px;
     line-height: 22px;
   }
-  
+
   .extra {
     margin-top: 16px;
     line-height: 22px;
     color: @text-color-secondary;
-    
+
     & > :global(.ant-avatar) {
       position: relative;
       top: 1px;
@@ -116,7 +115,7 @@ a.listItemMetaTitle {
       margin-right: 8px;
       vertical-align: top;
     }
-    
+
     & > em {
       margin-left: 16px;
       font-style: normal;

@@ -1,45 +1,105 @@
 .@{gx-prefix-pro}-modal {
   padding-bottom: 0;
-  
-  &.height-no-fixed {
-    .ant-modal-body {
-      height: 100%;
+
+  &.ant-modal {
+    padding-bottom: 0;
+  }
+
+  &-hidden {
+    .@{gx-prefix-pro}-modal-grid {
+      display: none;
     }
   }
-  
-  &.height-auto {
+
+  &.fail {
     .ant-modal-body {
       height: 300px;
       overflow: hidden;
     }
   }
-  
-  &.height-lower {
+
+  &.small {
     .ant-modal-body {
       height: 450px;
       overflow: hidden;
     }
   }
-  
-  &-wrap {
-    .@{gx-prefix-pro}-modal-grid {
-      display: none;
+
+  &.default {
+    .ant-modal-body {
+      height: 100%;
     }
   }
-  
-  &-grid-active {
-    display: none;
+
+  &.spinning {
+    .@{gx-prefix-pro}-modal-spinning-content {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.5);
+    }
   }
-  
+
+  &-full-screen {
+    &.ant-modal {
+      top: 0;
+      max-width: 100%;
+      padding-bottom: 0;
+      margin: 0;
+
+      .ant-modal-content {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh);
+      }
+      .ant-modal-body {
+        flex: 1;
+      }
+    }
+  }
+
+  &-spin {
+    position: absolute;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+
+    .ant-spin-spinning {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &-wrap {
+    position: relative;
+    height: 100%;
+    background: #ffffff;
+  }
+
   &-body {
     height: 100%;
     padding: 24px;
   }
-  
+
+  &-skeleton {
+    .ant-skeleton {
+      margin-bottom: 24px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
   &-spinning {
     position: relative;
     opacity: 0.5;
-    
+
     .@{gx-prefix-pro}-modal-spinning-content {
       position: absolute;
       top: 0;
@@ -51,37 +111,20 @@
       padding: 24px 24px 24px 24px;
     }
   }
-  
+
   &-error-warp {
-    position: absolute;
-    top: 40%;
-    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     margin: 0;
-    transform: translate(-50%, -50%);
-    
+
     .ant-empty-image {
-      height: 150px;
+      height: 120px;
     }
   }
-  
-  &-skeleton {
-    
-    .ant-skeleton {
-      margin-bottom: 24px;
-      
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
-  
-  &-content {
-    position: relative;
-    height: 100%;
-    background: #ffffff;
-  }
-  
+
   &-close {
     position: absolute;
     top: 0;
@@ -98,7 +141,7 @@
     outline: 0;
     transition: color 0.3s;
   }
-  
+
   &-close-x {
     display: inline-block;
     height: 56px;
@@ -109,25 +152,46 @@
     text-transform: none;
     text-rendering: auto;
   }
-  
-  &-spin {
-    position: absolute;
-    z-index: 100;
-    width: 100%;
-    height: 100%;
-    
-    .ant-spin-spinning {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+
+  &-footer {
+    text-align: center;
+
+    .ant-space-item {
+      &:first-child {
+        .ant-btn {
+          margin-right: 50px;
+        }
+      }
+    }
+
+    .ant-btn {
+      padding: 0 30px;
+      margin-right: 50px;
+
+      &:last-child {
+        margin-right: 0;
+      }
     }
   }
-  
-  &.ant-modal {
-    padding-bottom: 0;
+
+  .ant-modal-title {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    color: rgba(38, 38, 38, 1);
+
+    &::before {
+      display: inline-block;
+      width: 3px;
+      height: 16px;
+      margin-right: 8px;
+      content: '';
+      background-color: #309cfe;
+    }
   }
-  
+
   .ant-modal-body {
     height: 640px;
     padding: 0;

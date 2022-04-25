@@ -1,9 +1,10 @@
-import type { CSSProperties } from 'vue'
 import type { MenuTheme } from '/types/config'
 import { PropTypes } from '/@/utils'
 import type { CustomMenuRender } from './BaseMenu'
 import type { SiderProps, MenuMode } from './typings'
+import logoContentProps from '../LogoContent/props'
 import type { MenuDataItem, LayoutType } from '../../typings'
+import type { MenuHeaderRender, LinksRender } from '../../RenderTypings'
 import { defaultSettingProps } from '../../defaultSettings'
 
 export const baseMenuProps = {
@@ -56,23 +57,18 @@ export const siderMenuProps = {
   ...defaultSettingProps,
   ...baseMenuProps,
   menuLoading: PropTypes.looseBool,
-  logo: {
-    type: [ Object, String, Function ] as PropType<CustomRender>,
-    default: () => undefined
-  },
-  logoStyle: {
-    type: Object as PropType<CSSProperties>,
-    default: () => undefined
-  },
+  logo: logoContentProps.logo,
+  logoStyle: logoContentProps.logoStyle,
+  logoDirection: logoContentProps.logoDirection,
   siderWidth: PropTypes.number.def(208),
   headerHeight: PropTypes.number.def(48),
   collapsedWidth: PropTypes.number.def(48),
-  headerLogoRender: {
-    type: [ Function, Object ] as PropType<WithFalse<(
-      logo: CustomRender,
-      title: CustomRender,
-      props?: any
-    ) => CustomRender>>,
+  links: {
+    type: [ Function, Object, Array ] as PropType<LinksRender>,
+    default: () => undefined
+  },
+  menuHeaderRender: {
+    type: [ Function, Object ] as PropType<MenuHeaderRender>,
     default: () => undefined
   },
   menuContentRender: {

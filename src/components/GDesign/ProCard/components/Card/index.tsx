@@ -1,16 +1,8 @@
-import {
-  defineComponent,
-  ref,
-  Ref,
-  CSSProperties,
-  computed,
-  cloneVNode,
-  watch
-} from 'vue'
+import { defineComponent, ref, Ref, CSSProperties, computed, cloneVNode, watch } from 'vue'
 import { Grid, Tabs } from 'ant-design-vue'
 import { RightOutlined } from '@ant-design/icons-vue'
 import { isArray } from '/@/utils/validate'
-import { getPrefixCls, getPropsSlot } from '@gx-admin/utils'
+import { getPrefixCls, getSlotVNode } from '@gx-admin/utils'
 import { LabelIconTip } from '@gx-design/utils'
 import type { Gutter, CardProps } from '../../typings'
 import { cardProps } from '../../props'
@@ -25,7 +17,7 @@ const ProCard = defineComponent({
   name: 'GProCard',
   inheritAttrs: false,
   props: cardProps,
-  emits: [ 'collapse' ],
+  emits: ['collapse'],
   setup(props, { emit, slots, attrs }) {
     const baseClassName = getPrefixCls({
       suffixCls: 'card',
@@ -36,15 +28,19 @@ const ProCard = defineComponent({
 
     const collapsed: Ref<boolean> = ref(false)
 
-    watch(() => props.collapsed, (value: boolean) => {
-      collapsed.value = value
-    }, {
-      deep: true,
-      immediate: true
-    })
+    watch(
+      () => props.collapsed,
+      (value: boolean) => {
+        collapsed.value = value
+      },
+      {
+        deep: true,
+        immediate: true
+      }
+    )
 
     // 顺序决定如何进行响应式取值，按最大响应值依次取值，请勿修改。
-    const responsiveArray: Breakpoint[] = [ 'xxl', 'xl', 'lg', 'md', 'sm', 'xs' ]
+    const responsiveArray: Breakpoint[] = ['xxl', 'xl', 'lg', 'md', 'sm', 'xs']
 
     const onCollapse = (val: boolean) => {
       collapsed.value = val
@@ -52,13 +48,13 @@ const ProCard = defineComponent({
     }
 
     const childrenModified = (data: any[]) => {
-      const childrenArray = data.length === 1 &&
-      ((
-        String(data[0].type) === String(Symbol('Fragment')) ||
-        String(data[0].type) === String(Symbol())
-      ) && data[0].children)
-        ? data[0].children
-        : data
+      const childrenArray =
+        data.length === 1 &&
+        (String(data[0].type) === String(Symbol('Fragment')) ||
+          String(data[0].type) === String(Symbol())) &&
+        data[0].children
+          ? data[0].children
+          : data
       if (isArray(childrenArray)) {
         return childrenArray.map((element: any, index) => {
           if (isProCard(element)) {
@@ -70,8 +66,10 @@ const ProCard = defineComponent({
 
             const columnClassName = {
               [`${baseClassName}-col`]: true,
-              [`${baseClassName}-split-vertical`]: props.split === 'vertical' && index !== childrenArray.length - 1,
-              [`${baseClassName}-split-horizontal`]: props.split === 'horizontal' && index !== childrenArray.length - 1,
+              [`${baseClassName}-split-vertical`]:
+                props.split === 'vertical' && index !== childrenArray.length - 1,
+              [`${baseClassName}-split-horizontal`]:
+                props.split === 'horizontal' && index !== childrenArray.length - 1,
               [`${baseClassName}-col-${span}`]: typeof span === 'number' && span >= 0 && span <= 24
             }
 
@@ -107,8 +105,8 @@ const ProCard = defineComponent({
      * @param gutter Gutter
      */
     const getNormalizedGutter = (gut: Gutter | Gutter[]) => {
-      const results: [ number, number ] = [ 0, 0 ]
-      const normalizedGutter = Array.isArray(gut) ? gut : [ gut, 0 ]
+      const results: [number, number] = [0, 0]
+      const normalizedGutter = Array.isArray(gut) ? gut : [gut, 0]
       normalizedGutter.forEach((g, index) => {
         if (typeof g === 'object') {
           for (let i = 0; i < responsiveArray.length; i += 1) {
@@ -164,16 +162,12 @@ const ProCard = defineComponent({
     const containProCard: Ref<boolean> = ref(false)
 
     const isProCard = (node) => {
-      return node &&
-        node.type &&
-        (node.type.isProCard || node.type.name === 'GProCard')
+      return node && node.type && (node.type.isProCard || node.type.name === 'GProCard')
     }
 
     const actionsArray = computed(() => {
-      return (getPropsSlot(slots, props, 'actions') || []).map((element: any) => {
-        return (
-          <>{cloneVNode(element)}</>
-        )
+      return (getSlotVNode(slots, props, 'actions') || []).map((element: any) => {
+        return <>{cloneVNode(element)}</>
       })
     })
 
@@ -183,7 +177,7 @@ const ProCard = defineComponent({
         [`${baseClassName}`]: true,
         [`${baseClassName}-border`]: props.bordered,
         [`${baseClassName}-contain-card`]: containProCard.value,
-        [`${baseClassName}-loading`]: getPropsSlot(slots, props, 'loading'),
+        [`${baseClassName}-loading`]: getSlotVNode(slots, props, 'loading'),
         [`${baseClassName}-split`]: props.split === 'vertical' || props.split === 'horizontal',
         [`${baseClassName}-ghost`]: props.ghost,
         [`${baseClassName}-hoverable`]: props.hoverable,
@@ -191,7 +185,6 @@ const ProCard = defineComponent({
         [`${baseClassName}-size-${props.size}`]: props.size,
         [`${baseClassName}-type-${props.type}`]: props.type,
         [`${baseClassName}-collapse`]: collapsed.value
-
       }
     })
 
@@ -199,7 +192,8 @@ const ProCard = defineComponent({
       return {
         [`${baseClassName}-body`]: true,
         [`${baseClassName}-body-center`]: props.layout === 'center',
-        [`${baseClassName}-body-direction-column`]: props.split === 'horizontal' || props.direction === 'column',
+        [`${baseClassName}-body-direction-column`]:
+          props.split === 'horizontal' || props.direction === 'column',
         [`${baseClassName}-body-wrap`]: props.wrap && containProCard.value
       }
     })
@@ -230,19 +224,20 @@ const ProCard = defineComponent({
     )
 
     // 非受控情况下展示
-    const collapsibleButton = computed(() => props.collapsible && props.collapsed === undefined && (
-      <RightOutlined
-        rotate={!collapsed.value ? 90 : undefined}
-        class={`${baseClassName}-collapsible-icon`}
-      />
-    ))
+    const collapsibleButton = computed(
+      () =>
+        props.collapsible &&
+        props.collapsed === undefined && (
+          <RightOutlined
+            rotate={!collapsed.value ? 90 : undefined}
+            class={`${baseClassName}-collapsible-icon`}
+          />
+        )
+    )
 
     return () => {
       return (
-        <div
-          class={cardCls.value}
-          style={{ ...((attrs.style as any) || {}) }}
-        >
+        <div class={cardCls.value} style={{ ...((attrs.style as any) || {}) }}>
           {(props.title || props.extra || collapsibleButton.value) && (
             <div
               class={{
@@ -258,39 +253,32 @@ const ProCard = defineComponent({
               <div class={`${baseClassName}-title`}>
                 {collapsibleButton.value}
                 <LabelIconTip
-                  label={getPropsSlot(slots, props, 'title')}
-                  tooltipText={getPropsSlot(slots, props, 'tooltipText')}
-                  tooltipIcon={getPropsSlot(slots, props, 'tooltipIcon')}
-                  subTitle={getPropsSlot(slots, props, 'subTitle')}
+                  label={getSlotVNode(slots, props, 'title')}
+                  tooltipText={getSlotVNode(slots, props, 'tooltipText')}
+                  tooltipIcon={getSlotVNode(slots, props, 'tooltipIcon')}
+                  subTitle={getSlotVNode(slots, props, 'subTitle')}
                 />
               </div>
-              <div class={`${baseClassName}-extra`}>{getPropsSlot(slots, props, 'extra')}</div>
+              <div class={`${baseClassName}-extra`}>{getSlotVNode(slots, props, 'extra')}</div>
             </div>
           )}
           {props.tabs ? (
             <div class={`${baseClassName}-tabs`}>
               <Tabs onChange={props.tabs?.onChange} {...props.tabs}>
-                {getPropsSlot(slots, props, 'loading') ? loadingRender : slots.default?.()}
+                {getSlotVNode(slots, props, 'loading') ? loadingRender : slots.default?.()}
               </Tabs>
             </div>
           ) : (
             <div class={bodyCls.value} style={cardBodyStyle.value}>
-              {
-                getPropsSlot(
-                  slots,
-                  props,
-                  'loading'
-                )
-                  ? loadingRender
-                  : childrenModified(slots.default?.() || [])
-              }
+              {getSlotVNode(slots, props, 'loading')
+                ? loadingRender
+                : childrenModified(slots.default?.() || [])}
             </div>
           )}
           {<Actions actions={actionsArray.value} prefixCls={baseClassName} />}
         </div>
       )
     }
-
   }
 })
 

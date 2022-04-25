@@ -3,11 +3,7 @@
     <a-card :bordered="false" :bodyStyle="{ padding: 0 }">
       <a-form :class="$style['page-list-search']" layout="inline" :model="listParams">
         <a-form-item :class="$style['form-list-row']" style="padding-bottom: 11px" label="所属类目">
-          <g-tag-select
-            v-model:value="listParams.category"
-            expandable
-            @change="changeSearch"
-          >
+          <g-tag-select v-model:value="listParams.category" expandable @change="changeSearch">
             <g-tag-select-option :key="item" v-for="item in 12" :value="`cat${item}`">
               {{ `类目${item}` }}
             </g-tag-select-option>
@@ -26,12 +22,12 @@
             :options="owners"
             @change="changeSearch"
           />
-          <a :class="$style.selfTrigger" @click="setOwner">
-            只看自己的
-          </a>
+          <a :class="$style.selfTrigger" @click="setOwner"> 只看自己的 </a>
         </a-form-item>
-        <a-form-item :class="[ $style['form-list-row'], $style['form-list-row-last'] ]"
-          label="其它选项">
+        <a-form-item
+          :class="[$style['form-list-row'], $style['form-list-row-last']]"
+          label="其它选项"
+        >
           <a-row>
             <a-col :xl="8" :lg="10" :md="12" :sm="24" :xs="24">
               <a-form-item :wrapper-col="formItemLayout.wrapperCol" label="活跃用户">
@@ -39,7 +35,7 @@
                   v-model:value="listParams.user"
                   placeholder="不限"
                   allow-clear
-                  style="width: 100%;max-width: 200px;"
+                  style="width: 100%; max-width: 200px"
                   @change="changeSearch"
                 >
                   <a-select-option value="lisa">李三</a-select-option>
@@ -52,7 +48,7 @@
                   v-model:value="listParams.rate"
                   placeholder="不限"
                   allow-clear
-                  style="width: 100%;max-width: 200px;"
+                  style="width: 100%; max-width: 200px"
                   @change="changeSearch"
                 >
                   <a-select-option value="good">优秀</a-select-option>
@@ -68,18 +64,11 @@
       :body-style="{ padding: '8px 32px 32px 32px' }"
       style="margin-top: 24px"
     >
-      <a-list
-        size="large"
-        rowKey="id"
-        item-layout="vertical"
-        :data-source="listSource"
-      >
+      <a-list size="large" rowKey="id" item-layout="vertical" :data-source="listSource">
         <template #loadMore>
           <div v-if="!loading || loadingMore" :style="{ textAlign: 'center', marginTop: '16px' }">
             <a-button @click="loadMore">
-              <span v-if="loadingMore">
-                <LoadingOutlined /> 加载中...
-              </span>
+              <span v-if="loadingMore"> <LoadingOutlined /> 加载中... </span>
               <template v-else>加载更多</template>
             </a-button>
           </div>
@@ -133,12 +122,12 @@ import ArticleListContent from './components/ArticleListContent.vue'
 import { owners, formItemLayout } from '../utils/config'
 
 interface articleStateType {
-  pageConfig: any;
-  listParams: any;
-  loading: boolean;
-  loadMore: boolean;
-  loadingMore: boolean;
-  listSource: any[];
+  pageConfig: any
+  listParams: any
+  loading: boolean
+  loadMore: boolean
+  loadingMore: boolean
+  listSource: any[]
 }
 
 export default defineComponent({
@@ -158,7 +147,7 @@ export default defineComponent({
       },
       listParams: {
         category: [],
-        owner: [ 'wjh', 'zxx' ],
+        owner: ['wjh', 'zxx'],
         user: undefined,
         rate: undefined
       },
@@ -175,7 +164,7 @@ export default defineComponent({
         state.loading = true
         state.listParams = {
           category: [],
-          owner: [ 'wjh', 'zxx' ],
+          owner: ['wjh', 'zxx'],
           user: undefined,
           rate: undefined
         }
@@ -199,10 +188,7 @@ export default defineComponent({
       })
       if (response) {
         const list: ListItemDataType[] = response?.data || []
-        state.listSource = [
-          ...state.listSource,
-          ...list
-        ]
+        state.listSource = [...state.listSource, ...list]
         state.loadMore = list.length === 0
       }
       state.loading = false
@@ -217,7 +203,7 @@ export default defineComponent({
       }, 500)
     }
     const setOwner = () => {
-      state.listParams.owner = [ 'wzj' ]
+      state.listParams.owner = ['wzj']
       changeSearch()
     }
     const changeSearch = () => {
@@ -238,6 +224,6 @@ export default defineComponent({
 </script>
 
 <style lang="less" module>
-@import "./style";
-@import "../style";
+@import './style';
+@import '../style';
 </style>

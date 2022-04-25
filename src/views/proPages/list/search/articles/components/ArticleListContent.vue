@@ -14,11 +14,11 @@ import { computed, defineComponent } from 'vue'
 import dayjs from 'dayjs'
 
 type ArticleListContentProps = {
-  content: VueNode;
-  updatedAt: number;
-  avatar: string;
-  owner: string;
-  href: string;
+  content: VueNode
+  updatedAt: number
+  avatar: string
+  owner: string
+  href: string
 }
 
 export const articleListContentProps = {
@@ -37,5 +37,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" module>
-@import "./index";
+@import './index';
 </style>

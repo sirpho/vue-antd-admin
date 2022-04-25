@@ -58,7 +58,8 @@ export type MenuTheme = Theme;
 export interface themeConfig {
   theme: MenuTheme | undefined;
   primaryColor: stringshowProgressBar
-  layout: 'side' | 'mix';
+  layout: 'side' | 'mix' | 'simple';
+  splitMenus: boolean;
   fixedMultiTab: boolean;
   fixedHeader: boolean;
   fixSiderbar: boolean;

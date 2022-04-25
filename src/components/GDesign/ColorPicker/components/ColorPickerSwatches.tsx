@@ -5,8 +5,8 @@ import { ColorPickerMode, convertColor, getModeFromValue } from '../utils'
 // Try to normalize the color values to ensure that they are valid CSS colors
 function normalizeColor(color: string, mode: ColorPickerMode | null): string {
   if (mode === 'hsv') {
-    const [ h, s, v, a ] = hsva(color)
-    return toRgbaString([ ...hsv2rgb(h, s, v), a ])
+    const [h, s, v, a] = hsva(color)
+    return toRgbaString([...hsv2rgb(h, s, v), a])
   }
   // For the mode that is not in preset, we keep the original value.
   // For color names, they are legal to CSS, so we don’t deal with them,
@@ -15,9 +15,7 @@ function normalizeColor(color: string, mode: ColorPickerMode | null): string {
 }
 
 function getHexFromName(color: string): string {
-  const ctx = document
-    .createElement('canvas')
-    .getContext('2d') as CanvasRenderingContext2D
+  const ctx = document.createElement('canvas').getContext('2d') as CanvasRenderingContext2D
   ctx.fillStyle = color
   return ctx.fillStyle
 }

@@ -61,12 +61,14 @@
                   option-filter-prop="text"
                   v-model:value="formState.province"
                   :class="$style.item"
-                  :getPopupContainer="(trigger) => {
-                    if (trigger && trigger.parentNode) {
-                      return trigger.parentNode
+                  :getPopupContainer="
+                    (trigger) => {
+                      if (trigger && trigger.parentNode) {
+                        return trigger.parentNode
+                      }
+                      return trigger
                     }
-                    return trigger
-                  }"
+                  "
                   :not-found-content="provinceFetching ? undefined : null"
                   @change="handleChangeProvince"
                 >
@@ -91,12 +93,14 @@
                   placeholder="请输入您的所在城市"
                   option-filter-prop="text"
                   v-model:value="formState.city"
-                  :getPopupContainer="(trigger) => {
-                    if (trigger && trigger.parentNode) {
-                      return trigger.parentNode
+                  :getPopupContainer="
+                    (trigger) => {
+                      if (trigger && trigger.parentNode) {
+                        return trigger.parentNode
+                      }
+                      return trigger
                     }
-                    return trigger
-                  }"
+                  "
                   :class="$style.item"
                   :disabled="!formState.province"
                   :not-found-content="cityFetching ? undefined : null"
@@ -131,13 +135,13 @@
                   :style="{ width: isMobile ? '100%' : '80px' }"
                   placeholder="请输入"
                   v-model:value="formState.phoneCode"
-                  @change="e => handleChangePhone(e, 0)"
+                  @change="(e) => handleChangePhone(e, 0)"
                 />
                 <a-input
                   :style="{ width: isMobile ? '100%' : '214px' }"
                   placeholder="请输入电话号码"
                   v-model:value="formState.phoneNumber"
-                  @change="e => handleChangePhone(e, 1)"
+                  @change="(e) => handleChangePhone(e, 1)"
                 />
               </a-space>
             </a-input-group>
@@ -167,14 +171,7 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onMounted,
-  reactive,
-  toRefs,
-  toRaw
-} from 'vue'
+import { computed, defineComponent, onMounted, reactive, toRefs, toRaw } from 'vue'
 import { Form, message, Skeleton } from 'ant-design-vue'
 import { UploadOutlined } from '@ant-design/icons-vue'
 import type { CurrentUser } from '/@/services/account/typings'
@@ -213,9 +210,7 @@ export default defineComponent({
 
     const rulesRef = reactive({ ...rules })
 
-    const isMobile = computed(
-      () => (colSize.value === 'sm' || colSize.value === 'xs')
-    )
+    const isMobile = computed(() => colSize.value === 'sm' || colSize.value === 'xs')
 
     onMounted(async () => {
       state.loading = true
@@ -235,19 +230,16 @@ export default defineComponent({
               state.formState[i] = response.data[i] || undefined
               break
             case 'geographic':
-              if (response.data[i] && response.data[i]?.province?.key) handleChangeProvince(
-                response.data[i]?.province?.key || '',
-                response.data[i]?.city?.key || ''
-              )
+              if (response.data[i] && response.data[i]?.province?.key)
+                handleChangeProvince(
+                  response.data[i]?.province?.key || '',
+                  response.data[i]?.city?.key || ''
+                )
               state.formState[i] = response.data[i]
               break
             case 'phone':
-              state.formState.phoneCode = response.data[i]
-                ? response.data[i].split('-')[0]
-                : ''
-              state.formState.phoneNumber = response.data[i]
-                ? response.data[i].split('-')[1]
-                : ''
+              state.formState.phoneCode = response.data[i] ? response.data[i].split('-')[0] : ''
+              state.formState.phoneNumber = response.data[i] ? response.data[i].split('-')[1] : ''
               state.formState[i] = response.data[i] || ''
               break
             default:
@@ -276,7 +268,7 @@ export default defineComponent({
       state.provinceFetching = true
       const response = await queryProvince()
       if (response) {
-        state.provinceData = (response.data || []).map(item => {
+        state.provinceData = (response.data || []).map((item) => {
           return {
             label: item.name,
             value: item.id
@@ -291,7 +283,7 @@ export default defineComponent({
       state.cityFetching = true
       const response = await queryCity(value)
       if (response) {
-        state.cityData = (response.data || []).map(item => {
+        state.cityData = (response.data || []).map((item) => {
           return {
             label: item.name,
             value: item.id
@@ -324,12 +316,8 @@ export default defineComponent({
             newValues[i] = state.currentUser[i] || undefined
             break
           case 'phone':
-            newValues.phoneCode = state.currentUser[i]
-              ? state.currentUser[i].split('-')[0]
-              : ''
-            newValues.phoneNumber = state.currentUser[i]
-              ? state.currentUser[i].split('-')[1]
-              : ''
+            newValues.phoneCode = state.currentUser[i] ? state.currentUser[i].split('-')[0] : ''
+            newValues.phoneNumber = state.currentUser[i] ? state.currentUser[i].split('-')[1] : ''
             newValues[i] = state.currentUser[i] || ''
             break
           default:
@@ -345,7 +333,7 @@ export default defineComponent({
         .then(() => {
           console.log(toRaw(state.formState))
         })
-        .catch((_ => {}))
+        .catch((_) => {})
     }
 
     const handleFinish = async () => {
@@ -372,26 +360,26 @@ export default defineComponent({
 .baseView {
   display: flex;
   padding-top: 12px;
-  
+
   :global {
     .ant-legacy-form-item .ant-legacy-form-item-control-wrapper {
       width: 100%;
     }
   }
-  
+
   .skeletonContent {
     flex: 1;
   }
-  
+
   .left {
     min-width: 224px;
     max-width: 448px;
   }
-  
+
   .right {
     flex: 1;
     padding-left: 104px;
-    
+
     .avatar_title {
       height: 22px;
       margin-bottom: 8px;
@@ -399,18 +387,18 @@ export default defineComponent({
       line-height: 22px;
       color: @heading-color;
     }
-    
+
     .avatar {
       width: 144px;
       height: 144px;
       margin-bottom: 12px;
       overflow: hidden;
-      
+
       img {
         width: 100%;
       }
     }
-    
+
     .button_view {
       width: 144px;
       text-align: center;
@@ -429,26 +417,27 @@ export default defineComponent({
 .formGroupContainer {
   flex-wrap: wrap;
   max-width: 100%;
-  
+
   &.mobile {
     flex: 1;
     width: 100%;
-    
+
     :global {
       div.ant-space-item {
         flex: 1;
       }
     }
   }
-  
+
   :global {
     div.ant-space-item {
       max-width: 100%;
-      
+
       .ant-form-item {
         margin-bottom: 0;
-        
-        .ant-form-item-explain, .ant-form-item-extra {
+
+        .ant-form-item-explain,
+        .ant-form-item-extra {
           display: none;
         }
       }
@@ -459,14 +448,14 @@ export default defineComponent({
 @media screen and (max-width: @screen-xl) {
   .baseView {
     flex-direction: column-reverse;
-    
+
     .right {
       display: flex;
       flex-direction: column;
       align-items: center;
       max-width: 448px;
       padding: 20px;
-      
+
       .avatar_title {
         display: none;
       }

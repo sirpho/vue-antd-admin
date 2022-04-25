@@ -10,10 +10,10 @@ export function useEffect<T>(
   watch(condition, (next, pre) => {
     if (shouldUpdate) {
       if (shouldUpdate(next, pre)) {
-        isMomunt.value && getValue()
+        getValue()
       }
     } else {
-      isMomunt.value && getValue()
+      getValue()
     }
   })
 

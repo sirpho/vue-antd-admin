@@ -1,11 +1,7 @@
 <template>
   <a-typography id="search-SearchConfig" style="margin-top: 15px">
     <!--Search-->
-    <a-typography-title
-      style="margin-top: 12px"
-      :level="3"
-      :style="{color: '#454d64'}"
-    >
+    <a-typography-title style="margin-top: 12px" :level="3" :style="{ color: '#454d64' }">
       Search - SearchConfig
     </a-typography-title>
   </a-typography>
@@ -32,7 +28,7 @@
     id="search-colConfig"
     style="margin-top: 15px"
     :level="4"
-    :style="{color: '#454d64'}"
+    :style="{ color: '#454d64' }"
   >
     Pro Table - Search ColConfig示例：
   </a-typography-title>
@@ -44,7 +40,7 @@
     id="search-type-dataSouce"
     style="margin-top: 15px"
     :level="4"
-    :style="{color: '#454d64'}"
+    :style="{ color: '#454d64' }"
   >
     Pro Table - Search SearchMap示例：
   </a-typography-title>
@@ -55,7 +51,7 @@
     id="search-type-slots"
     style="margin-top: 15px"
     :level="4"
-    :style="{color: '#454d64'}"
+    :style="{ color: '#454d64' }"
   >
     Pro Table - Search slots示例：
   </a-typography-title>
@@ -66,7 +62,7 @@
     id="search-type-columns"
     style="margin-top: 15px"
     :level="4"
-    :style="{color: '#454d64'}"
+    :style="{ color: '#454d64' }"
   >
     Pro Table - Search columns示例：
   </a-typography-title>
@@ -74,11 +70,7 @@
     <pre>{{ searchColumnsCode }}</pre>
   </a-typography-paragraph>
   <a-typography id="search-proSearchMap" style="margin-top: 15px">
-    <a-typography-title
-      style="margin-top: 12px"
-      :level="3"
-      :style="{color: '#454d64'}"
-    >
+    <a-typography-title style="margin-top: 12px" :level="3" :style="{ color: '#454d64' }">
       Pro Table - Search：ProSearchMap（searchMap和columns的表单数据配置）
     </a-typography-title>
   </a-typography>
@@ -99,7 +91,7 @@ import columns from '../utils/columns'
 import config from '../utils/config'
 
 export default defineComponent({
-  emits: [ 'targetTo' ],
+  emits: ['targetTo'],
   setup(_, { emit }) {
     const state = reactive({
       searchConfig: columns.searchConfig,
@@ -109,9 +101,9 @@ export default defineComponent({
       searchColConfig: config.searchColConfig,
       searchDataCode: config.searchDataCode,
       searchSlotsCode: config.searchSlotsCode,
-      searchColumnsCode: config.searchColumnsCode,
+      searchColumnsCode: config.searchColumnsCode
     })
-  
+
     const handleTarget = (value) => {
       emit('targetTo', value)
     }
@@ -124,6 +116,4 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

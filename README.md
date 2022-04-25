@@ -20,12 +20,13 @@ Ant Design 定义了基础的设计规范，对应也提供了大量的基础组
 - ProLayout - 高级布局
 - ProCard 高级卡片
 - WaterMark 水印组件
-- ProForm 高级表单（已完成60%，待开发中）
 - ProTable - 高级表格
 - ProSkeleton - 骨屏架
 - ProField - 原子组件
 - GUpload - 上传组件（自定义request、上传进度条回显等功能）
 - GImage - 图片组件（lazy懒加载等功能）
+- GProEditor - 富文本编辑器
+- ProForm 高级表单（待开发中）
 - [更多组件待开发-参考React版本](https://procomponents.ant.design/components)
 
 ## 预览
@@ -33,23 +34,34 @@ Ant Design 定义了基础的设计规范，对应也提供了大量的基础组
 - [🚀 pro 版演示地址](http://121.36.16.172:9000/gx.pro.admin)
 
 ## 更新文档
-
-- 🎉 Chore - 更新Vue、Ant-Design-Vue组件、引入highlight.js组件
-- 🎉 Refactor - 重构GProTable
-- 🎉 Feat - GProTable添加customize属性，可自定义数据展示
-- 🎉 Feat - GProTable添加searchMap属性（原味search的data），定义表格搜索数据
-- 🎉 Feat - GProTable-search 移除type、data属性，只有基本设置；表格搜索展示有searchMap、columns的searchConfig以及slot-search联合组成
-- 🎉 Feat - GProTable添加columnsState属性，可控制columnsSetting的列是否展示
-- 🎉 Feat - GProTable移除automaticScroll属性，新增autoScroll属性（控制列-key-action是否固定）
-- 🎉 Feat - GProTable新增scrollBreakpoint属性（action列固定条件，支持xxl/xl/lg/md/xs或者屏幕宽度数字）
-- 🎉 Feat - GProTable移除showPagination属性(使用ant-design-vue-table-pagination:false)
-- 🎉 Feat - GProTable移除showPagination属性(使用ant-design-vue-table-pagination:false)
-- 🎉 Feat - GProTable新增modalScroll属性，模态框下的Table，为true时，autoScroll、scrollBreakpoint两个属性失效
-- 🎉 Feat - 新增GCode组件-代码展示
-- Feat - GAnchor新增actionRef用于导出相关功能函数及属性
-- Fix - GAnchor以及GAffix组件不能切换路由不能正常展示
-- Fix - 因ant-design-vue更新导致GProTable-Footer展示错误
-- Fix - 后端导出路由为空时，跳转403页面
+    GProLayout（重大更新）
+      - 🎉 重构样式、整体布局
+      - 🎉 menuData 初始分割、分发下去，以便在其他组件可以获取
+      - 修复相关bug
+    GProTable
+      - 🎉 重构ColumnSetting组件
+      - 🎉 重构Form组件
+      - 🎉 rowSelection属性既可在内部逻辑判断也可以外部传递
+      - 🎉 表格刷新 reload 方法
+          去除 removeTotal 属性
+          新增 removeKeys (用于删除rowSelection的选项值)
+          新增 immediate (可直接调取接口，无需走防抖方法)
+      - 修复相关bug
+    GProTModal
+      - 🎉 footer 默认生成确定、取消按钮；并新增onOk方法
+      - 🎉 新增 view 属性值（观看模式）：为true时，确定按钮改为编辑
+      - 🎉 去除 fixHeight 属性 改为 type 属性： type为fixed时，宽高固定；type为normal时，宽高自定义
+      - 🎉 去除slot content 改为 default
+    GProEditor
+      - 🎉 新增组件
+    页面相关
+      - 🎉 替换相关Logo、ico等图片；重新布局登录页
+    插件
+      - 🎉 vue、ant-design-vue 相关插件向上更新
+      - 🎉 命令改为pnpm
+      - 🎉 新增unplugin-vue-components、unplugin-auto-import插件，由于生成全局vue相关api、组件
+    环境变量
+      - 🎉 新增.pro 文件 用于打包生产包
 
 ## 特性
 
@@ -78,28 +90,30 @@ Ant Design 定义了基础的设计规范，对应也提供了大量的基础组
 - 获取项目代码
 
 ```bash
-git clone https://gitee.com/gx12358/vite-admin-pro
+git clone https://gitee.com/gx12358/vue-antd-admin.git
 ```
 
 - 安装依赖
 
 ```bash
+npm install -g pnpm
+
 cd gx-admin-pro
 
-yarn install
+pnpm i
 
 ```
 
 - 运行
 
 ```bash
-yarn serve
+pnpm run serve
 ```
 
 - 打包
 
 ```bash
-yarn build
+pnpm run build
 ```
 
 ## Git 贡献提交规范
@@ -137,7 +151,6 @@ yarn build
 - [vite-plugin-mock](https://github.com/anncwb/vite-plugin-mock) - 用于本地及开发环境数据 mock
 - [vite-plugin-html](https://github.com/anncwb/vite-plugin-html) - 用于 html 模版转换及压缩
 - [vite-plugin-style-import](https://github.com/anncwb/vite-plugin-style-import) - 用于组件库样式按需引入
-- [vite-plugin-theme](https://github.com/anncwb/vite-plugin-theme) - 用于在线切换主题色等颜色相关配置
 - [vite-plugin-imagemin](https://github.com/anncwb/vite-plugin-imagemin) - 用于打包压缩图片资源
 - [vite-plugin-compression](https://github.com/anncwb/vite-plugin-compression) - 用于打包输出.gz|.brotil 文件
 - [vite-plugin-svg-icons](https://github.com/anncwb/vite-plugin-svg-icons) - 用于快速生成 svg 雪碧图

@@ -1,6 +1,6 @@
 <template>
   <a-typography style="margin-top: 16px" id="proCardTabGroup">
-    <a-typography-title :level="4" :style="{color: '#454d64'}">
+    <a-typography-title :level="4" :style="{ color: '#454d64' }">
       ProCard.Group
     </a-typography-title>
   </a-typography>

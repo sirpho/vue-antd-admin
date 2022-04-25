@@ -7,7 +7,7 @@
     @ok="handleSubmit"
     @cancel="handleCancel"
   >
-    <a-form  v-model="scrollRef" v-bind="formItemLayout">
+    <a-form v-model="scrollRef" v-bind="formItemLayout">
       <a-form-item label="模式">
         <a-radio-group v-model:value="scrollRef.mode">
           <a-radio value="grid">Grid</a-radio>
@@ -23,11 +23,10 @@
           <a-radio-button value="md">md</a-radio-button>
           <a-radio-button value="xs">xs</a-radio-button>
         </a-radio-group>
-    
       </a-form-item>
       <a-form-item v-if="scrollRef.mode === 'width'" label="Width">
         <a-input
-          style="width: 100%;"
+          style="width: 100%"
           v-model:value="scrollRef.width"
           placeholder="请输入断点数值"
           allow-clear
@@ -37,14 +36,14 @@
   </g-pro-modal>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { Form } from 'ant-design-vue'
 import { isString } from '/@/utils/validate'
 
 const useForm = Form.useForm
 
-const emits = defineEmits([ 'handleOk' ])
+const emits = defineEmits(['handleOk'])
 
 const visible = ref(false)
 
@@ -89,9 +88,6 @@ const handleCancel = () => {
 defineExpose({
   open
 })
-
 </script>
 
-<style lang='less' module>
-
-</style>
+<style lang="less" module></style>

@@ -3,12 +3,12 @@
     <a-spin :spinning="loading">
       <a-card :bordered="false" :bodyStyle="{ padding: 0 }">
         <a-form :class="$style['page-list-search']" :model="listParams">
-          <a-form-item :class="$style['form-list-row']" style="padding-bottom: 11px" label="所属类目">
-            <g-tag-select
-              v-model:value="listParams.category"
-              expandable
-              @change="changeSearch"
-            >
+          <a-form-item
+            :class="$style['form-list-row']"
+            style="padding-bottom: 11px"
+            label="所属类目"
+          >
+            <g-tag-select v-model:value="listParams.category" expandable @change="changeSearch">
               <g-tag-select-option :key="item" v-for="item in 12" :value="`cat${item}`">
                 {{ `类目${item}` }}
               </g-tag-select-option>
@@ -25,7 +25,7 @@
                     v-model:value="listParams.author"
                     placeholder="不限"
                     allow-clear
-                    style="width: 100%;max-width: 200px;"
+                    style="width: 100%; max-width: 200px"
                     @change="changeSearch"
                   >
                     <a-select-option value="lisa">王昭君</a-select-option>
@@ -38,7 +38,7 @@
                     v-model:value="listParams.rate"
                     placeholder="不限"
                     allow-clear
-                    style="width: 100%;max-width: 200px;"
+                    style="width: 100%; max-width: 200px"
                     @change="changeSearch"
                   >
                     <a-select-option value="good">优秀</a-select-option>
@@ -66,11 +66,7 @@
       >
         <template #renderItem="{ item }">
           <a-list-item :key="item.id">
-            <a-card
-              :class="$style.cardItem"
-              hoverable
-              :body-style="{ paddingBottom: '20px' }"
-            >
+            <a-card :class="$style.cardItem" hoverable :body-style="{ paddingBottom: '20px' }">
               <template #actions>
                 <a-tooltip key="download" title="下载">
                   <DownloadOutlined />
@@ -114,15 +110,21 @@
                   <div>
                     <p>活跃用户</p>
                     <p>
-                    <span>
-                      {{ formatWan(item.activeUser) }}
-                      <span
-                        v-if="(item.activeUser || 0) > 10000"
-                        style="position: relative;top: -2px;margin-left: 2px;font-size: 14px;font-style: normal;"
-                      >
-                        万
+                      <span>
+                        {{ formatWan(item.activeUser) }}
+                        <span
+                          v-if="(item.activeUser || 0) > 10000"
+                          style="
+                            position: relative;
+                            top: -2px;
+                            margin-left: 2px;
+                            font-size: 14px;
+                            font-style: normal;
+                          "
+                        >
+                          万
+                        </span>
                       </span>
-                    </span>
                     </p>
                   </div>
                   <div>
@@ -154,10 +156,10 @@ import { queryFakeList } from '/@/services/list/search'
 import { formItemLayout } from '../utils/config'
 
 interface articleStateType {
-  pageConfig: any;
-  listParams: any;
-  loading: boolean;
-  listSource: any[];
+  pageConfig: any
+  listParams: any
+  loading: boolean
+  listSource: any[]
 }
 
 export default defineComponent({
@@ -213,10 +215,7 @@ export default defineComponent({
       })
       if (response) {
         const list: ListItemDataType[] = response?.data || []
-        state.listSource = [
-          ...state.listSource,
-          ...list
-        ]
+        state.listSource = [...state.listSource, ...list]
       }
       state.loading = false
     }
@@ -242,6 +241,6 @@ export default defineComponent({
 </script>
 
 <style lang="less" module>
-@import "./style";
-@import "../style";
+@import './style';
+@import '../style';
 </style>

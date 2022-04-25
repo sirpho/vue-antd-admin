@@ -1,11 +1,9 @@
 <template>
   <a-typography style="margin-top: 16px" id="collapsedCard">
-    <a-typography-title :level="4" :style="{color: '#454d64'}">
-      可折叠
-    </a-typography-title>
+    <a-typography-title :level="4" :style="{ color: '#454d64' }"> 可折叠 </a-typography-title>
   </a-typography>
-  <div style="margin: 16px 0;font-size: 15px;line-height: 24px">
-    <ul style="margin-top: 16px;list-style-type: disc;">
+  <div style="margin: 16px 0; font-size: 15px; line-height: 24px">
+    <ul style="margin-top: 16px; list-style-type: disc">
       <li>
         你可以使用
         <span class="gx-markdown-code">padding</span>
@@ -17,14 +15,9 @@
     </ul>
   </div>
   <div class="gx-markdown-demo">
-    <g-pro-card
-      title="可折叠"
-      headerBordered
-      collapsible
-      defaultCollapsed
-    >
+    <g-pro-card title="可折叠" headerBordered collapsible defaultCollapsed>
       <template #extra>
-        <a-button size="small" @click="e => e.stopPropagation()">提交</a-button>
+        <a-button size="small" @click="(e) => e.stopPropagation()">提交</a-button>
       </template>
       内容
     </g-pro-card>
@@ -37,7 +30,11 @@
       <template #extra>
         <RightOutlined
           :rotate="!collapsed ? 90 : undefined"
-          @click="() => { setCollapsed(!collapsed) }"
+          @click="
+            () => {
+              setCollapsed(!collapsed)
+            }
+          "
         />
       </template>
       内容
@@ -66,6 +63,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="less" module>
-
-</style>
+<style lang="less" module></style>

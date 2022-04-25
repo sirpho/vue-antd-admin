@@ -5,7 +5,7 @@
         status="error"
         title="提交失败"
         subTitle="请核对并修改以下信息后，再重新提交。"
-        style="margin-top: 48px;margin-bottom: 16px"
+        style="margin-top: 48px; margin-bottom: 16px"
       >
         <template #extra>
           <a-button type="primary">

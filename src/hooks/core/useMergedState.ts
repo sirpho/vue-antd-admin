@@ -1,6 +1,6 @@
 import { Ref, watch, ComputedRef, computed } from 'vue'
 
-export function useMergedState<T>(
+export default function useMergedState<T> (
   controlledStateRef: Ref<T | undefined>,
   uncontrolledStateRef: Ref<T>
 ): ComputedRef<T> {

@@ -2,7 +2,7 @@
   <g-pro-page-wrapper :contentStyle="{ position: 'relative' }">
     <g-doc :anchorLinks="links">
       <a-typography id="watermark">
-        <a-typography-title :level="2" :style="{color: '#454d64'}">
+        <a-typography-title :level="2" :style="{ color: '#454d64' }">
           WaterMark 水印组件
           <a style="font-size: 14px" href="https://procomponents.ant.design/components/water-mark">
             （参照react-pro-components：water-mark）
@@ -91,6 +91,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="less" module>
-
-</style>
+<style lang="less" module></style>

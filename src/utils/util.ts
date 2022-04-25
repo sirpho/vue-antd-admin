@@ -1,4 +1,6 @@
 import dayjs from 'dayjs'
+import type { MaterialInfo } from '@gx-design/Upload'
+import global from '/@/common/global'
 
 export function timeFix() {
   const time = new Date()
@@ -647,8 +649,120 @@ export function checkFileType(url: any) {
  * @Author      gaoxiang
  * @DateTime    2020/11/13
  * @lastTime    2020/11/13
+ * @description 获取文件信息(支持链接地址，file文件，base64编码)
+ */
+
+export function getMediaInfos(mediaInfo: {
+  url: any;
+  fileType?: string;
+}): Promise<MaterialInfo> {
+  const { url = '', fileType = '1' } = mediaInfo
+  let mediaUrl = ''
+  if (url instanceof File) {
+    mediaUrl = URL.createObjectURL(url)
+  } else if (isBase64(url)) {
+    mediaUrl = url
+  } else if (url instanceof Blob) {
+    mediaUrl = URL.createObjectURL(url)
+  } else if (url.includes('https') || url.includes('http')) {
+    mediaUrl = fileType === '1' ? url : url
+  }
+  return new Promise(function (resolve) {
+    let elememt: any
+    if (fileType === '1') {
+      elememt = document.createElement('img')
+      elememt.src = mediaUrl
+    } else if (fileType === '2') {
+      elememt = document.createElement('audio')
+      elememt.src = mediaUrl
+    } else if (fileType === '3') {
+      elememt = document.createElement('video')
+      elememt.src = mediaUrl
+    }
+    if (fileType === '1') {
+      elememt.onload = function () {
+        resolve({
+          play: true,
+          width: elememt.width || 0,
+          height: elememt.height
+        })
+        elememt = null
+      }
+    } else {
+      elememt.oncanplay = function () {
+        resolve({
+          play: true,
+          duration: elememt.duration
+        })
+        elememt = null
+      }
+    }
+    elememt.onerror = function () {
+      resolve({
+        play: false
+      })
+      elememt = null
+    }
+  })
+}
+
+/**
+ * @Author      gaoxiang
+ * @DateTime    2020/11/13
+ * @lastTime    2020/11/13
  * @description 获取视频封面图(支持链接地址，file文件，base64编码)
  */
+export async function getVideoCoverPicture(videoInfo: {
+  url: any;
+  currentTime?: number;
+  videoSuffix?: string;
+  vidoeAllowPlay?: boolean;
+}): Promise<string> {
+  const { url = '', currentTime, videoSuffix = '', vidoeAllowPlay = false } = videoInfo
+  let videoUrl = ''
+  let fileSuffix: string = videoSuffix
+  let fileType = '1'
+  let videoPlayInfo
+  if (url instanceof File) {
+    videoUrl = URL.createObjectURL(url)
+    fileSuffix = getFileSuffix(url.name)
+    fileType = checkFileType(url.name)
+  } else if (url instanceof Blob) {
+    videoUrl = URL.createObjectURL(url)
+    fileType = checkFileType(url)
+  } else if (isBase64(url)) {
+    videoUrl = url
+    fileType = checkFileType(url)
+  } else if (url.includes('https') || url.includes('http')) {
+    videoUrl = url
+    fileSuffix = getFileSuffix(url)
+    fileType = checkFileType(url)
+  }
+  const videoExplan = fileSuffix ?
+    global.videoAllowType.includes(fileSuffix.toLowerCase()) : false
+  if (videoExplan) {
+    if (vidoeAllowPlay) {
+      return generateVidoePicture(videoUrl, currentTime)
+    } else {
+      videoPlayInfo = await getMediaInfos({
+        url: videoUrl,
+        fileType
+      })
+      if (videoPlayInfo.play) {
+        return generateVidoePicture(videoUrl, currentTime)
+      } else {
+        return new Promise(function (resolve) {
+          resolve('')
+        })
+      }
+    }
+  } else {
+    return new Promise(function (resolve) {
+      resolve('')
+    })
+  }
+}
+
 export async function generateVidoePicture(
   videoUrl: string,
   currentTime?: number

@@ -9,19 +9,32 @@ import {
   onMounted,
   unref
 } from 'vue'
-import { omit } from 'lodash-es'
 import { Layout } from 'ant-design-vue'
 import { useMediaQuery } from '@gx-admin/hooks/event'
-import { getPropsSlotfn, getPropsSlot } from '@gx-admin/utils'
+import { getSlot, getPrefixCls } from '@gx-admin/utils'
 import { basicLayoutProps } from './props'
+import type {
+  CopyrightRender,
+  HeaderContentRender,
+  HeaderRender,
+  LinksRender,
+  FooterRender,
+  RightContentRender,
+  HeaderLogoRender,
+  MenuItemRender,
+  SubMenuItemRender,
+  CollapsedButtonRender,
+  ExtraRightDropdownRender
+} from './RenderTypings'
 import { provideRouteContext, defaultRouteContext, RouteContextProps } from './RouteContext'
 import { WrapContent } from './WrapContent'
 import GlobalHeader from './components/GlobalHeader'
 import GlobalFooter from './components/GlobalFooter'
 import SiderMenuWrapper from './components/SiderMenu'
+import { getMenuFirstChildren, pick } from './utils'
 import './style.less'
 
-export type BasicLayoutProps = Partial<ExtractPropTypes<typeof basicLayoutProps>>;
+export type BasicLayoutProps = Partial<ExtractPropTypes<typeof basicLayoutProps>>
 
 export default defineComponent({
   name: 'ProLayout',
@@ -44,8 +57,18 @@ export default defineComponent({
     'menuClick'
   ],
   setup(props, { emit, slots }) {
-    const width = ref(document.body.getBoundingClientRect().width)
+    const baseClassName = getPrefixCls({
+      suffixCls: 'basic-layout',
+      isPor: true
+    })
     const colSize = useMediaQuery()
+    const width = ref(document.body.getBoundingClientRect().width)
+
+    const hasSide = computed(() => props.layout === 'mix' || props.layout === 'side' || false)
+    const hasFlatMenu = computed(() => hasSide.value)
+
+    const siderWidth = computed(() => (props.collapsed ? props.collapsedWidth : props.siderWidth))
+
     onMounted(() => {
       window.addEventListener('resize', handleLayouts)
       handleLayouts()
@@ -53,13 +76,20 @@ export default defineComponent({
     onBeforeUnmount(() => {
       window.removeEventListener('resize', handleLayouts)
     })
+
     const isMobile = computed(
-      () => (colSize.value === 'sm' || colSize.value === 'xs')
+      () => (colSize.value === 'sm' || colSize.value === 'xs') && !props.disableMobile
     )
+
     const genLayoutStyle = reactive<CSSProperties>({
-      position: 'relative',
-      minHeight: '100vh'
+      position: 'relative'
     })
+
+    // if is some layout children, don't need min height
+    if (props.isChildrenLayout || (props.contentStyle && props.contentStyle.minHeight)) {
+      genLayoutStyle.minHeight = 0
+    }
+
     const handleLayouts = () => {
       const clientWidth = document.body.getBoundingClientRect().width
       if (width.value !== clientWidth) {
@@ -67,19 +97,29 @@ export default defineComponent({
         width.value = clientWidth
       }
     }
+
     const headerRender = (
       p: BasicLayoutProps & {
-        hasSiderMenu: boolean;
-        headerRender: WithFalse<CustomRender>;
-        rightContentRender: WithFalse<CustomRender>;
+        hasSiderMenu: boolean
+        headerRender: HeaderRender
+        rightContentRender: RightContentRender
       },
       matchMenuKeys?: string[]
     ): CustomRender | null => {
-      if (p.headerRender === false) {
+      if (p.headerRender === false || p.pure) {
         return null
       }
       return <GlobalHeader {...p} matchMenuKeys={matchMenuKeys || []} />
     }
+
+    const flatMenuData = computed(
+      () =>
+        (hasFlatMenu.value &&
+          props.selectedKeys &&
+          getMenuFirstChildren(props.menuData, props.selectedKeys[0])) ||
+        []
+    )
+
     const onCollapse = (collapsed: boolean) => {
       emit('update:collapsed', collapsed)
       emit('collapse', collapsed)
@@ -105,28 +145,51 @@ export default defineComponent({
 
     const routeContext = reactive<RouteContextProps>({
       ...defaultRouteContext,
-      ...(omit(toRefs(props), [ 'onCollapse', 'onOpenKeys', 'onSelect', 'onMenuClick' ]) as any)
+      ...(pick(toRefs(props), [
+        'menuData',
+        'openKeys',
+        'selectedKeys',
+        'disableMobile',
+        'fixSiderbar',
+        'fixedHeader'
+        // 'hasSideMenu',
+        // 'hasHeader',
+        // 'hasFooter',
+        // 'hasFooterToolbar',
+        // 'setHasFooterToolbar',
+      ]) as any),
+      isMobile,
+      siderWidth,
+      flatMenuData,
+      hasSide,
+      flatMenu: hasFlatMenu
     })
     provideRouteContext(routeContext)
 
     return () => {
-      const {
-        ...restProps
-      } = props
+      const { pure, ...restProps } = props
 
-      const collapsedButtonRender =
-        props.collapsedButtonRender === false
-          ? false
-          : getPropsSlot(slots, props, 'collapsedButtonRender')
-      const headerContentRender = getPropsSlot(slots, props, 'headerContentRender')
-      const extraRightDropdownRender = getPropsSlot(slots, props, 'extraRightDropdownRender')
-      const rightContentRender = getPropsSlot(slots, props, 'rightContentRender')
-      const customHeaderRender = getPropsSlot(slots, props, 'headerRender')
-      const headerLogoRender = getPropsSlot(slots, props, 'headerLogoRender')
+      const collapsedButtonRender = getSlot<CollapsedButtonRender>(
+        slots,
+        props,
+        'collapsedButtonRender'
+      )
+      const headerContentRender = getSlot<HeaderContentRender>(slots, props, 'headerContentRender')
+      const rightContentRender = getSlot<RightContentRender>(slots, props, 'rightContentRender')
+      const customHeaderRender = getSlot<HeaderRender>(slots, props, 'headerRender')
+      const footerRender = getSlot<FooterRender>(slots, props, 'footerRender')
+      const linksRender = getSlot<LinksRender>(slots, props, 'links')
+      const copyrightRender = getSlot<CopyrightRender>(slots, props, 'copyrightRender')
+      const extraRightDropdownRender = getSlot<ExtraRightDropdownRender>(
+        slots,
+        props,
+        'extraRightDropdownRender'
+      )
+      const menuHeaderRender = getSlot<HeaderLogoRender>(slots, props, 'menuHeaderRender')
+
       // menu render
-      const footerRender = getPropsSlotfn(slots, props, 'footerRender')
-      const menuItemRender = getPropsSlotfn(slots, props, 'menuItemRender')
-      const subMenuItemRender = getPropsSlotfn(slots, props, 'subMenuItemRender')
+      const menuItemRender = getSlot<MenuItemRender>(slots, props, 'menuItemRender')
+      const subMenuItemRender = getSlot<SubMenuItemRender>(slots, props, 'subMenuItemRender')
       const menuRenders = {
         menuItemRender,
         subMenuItemRender
@@ -137,7 +200,7 @@ export default defineComponent({
           {
             ...props,
             ...menuRenders,
-            hasSiderMenu: true,
+            hasSiderMenu: hasSide.value,
             menuData: props.menuData,
             isMobile: unref(isMobile),
             onCollapse,
@@ -146,48 +209,61 @@ export default defineComponent({
             onMenuHeaderClick,
             rightContentRender,
             extraRightDropdownRender,
-            headerLogoRender,
+            headerTitleRender: menuHeaderRender,
             headerContentRender,
             headerRender: customHeaderRender,
-            theme: (props.theme || 'dark').toLocaleLowerCase().includes('dark')
-              ? 'dark'
-              : 'light'
+            theme: (props.theme || 'dark').toLocaleLowerCase().includes('dark') ? 'dark' : 'light'
           },
           props.matchMenuKeys
         )
       )
 
       return (
-        <Layout class="gx-pro-basic-layout">
-          <SiderMenuWrapper
-            {...restProps}
-            {...menuRenders}
-            isMobile={isMobile.value}
-            headerLogoRender={headerLogoRender}
-            collapsedButtonRender={collapsedButtonRender}
-            onCollapse={onCollapse}
-            onSelect={onSelect}
-            onOpenKeys={onOpenKeys}
-            onMenuClick={onMenuClick}
-          />
-          <Layout style={genLayoutStyle}>
-            {headerDom.value}
-            <WrapContent
-              isMobile={isMobile.value}
-              isChildrenLayout={props.isChildrenLayout}
-              loading={props.loading}
-              isShowTabsBar={props.showTabsBar}
-              isFixedMultiTab={props.fixedMultiTab}
-              siderWidth={props.siderWidth}
-              collapsed={props.collapsed}
-              style={props.disableContentMargin ? undefined : props.contentStyle}
-              onReloadPage={onReloadPage}
-            >
-              {slots.default?.()}
-            </WrapContent>
-            {footerRender ? footerRender(props) : <GlobalFooter />}
-          </Layout>
-        </Layout>
+        <>
+          {pure ? (
+            slots.default?.()
+          ) : (
+            <div class={baseClassName}>
+              <Layout>
+                <SiderMenuWrapper
+                  {...restProps}
+                  isMobile={isMobile.value}
+                  menuHeaderRender={menuHeaderRender}
+                  // menuContentRender={menuContentRender}
+                  // menuExtraRender={menuExtraRender}
+                  // menuFooterRender={menuFooterRender}
+                  links={linksRender}
+                  collapsedButtonRender={collapsedButtonRender}
+                  onCollapse={onCollapse}
+                  onSelect={onSelect}
+                  onOpenKeys={onOpenKeys}
+                  onMenuClick={onMenuClick}
+                />
+                <Layout style={genLayoutStyle}>
+                  {headerDom.value}
+                  <WrapContent
+                    isMobile={isMobile.value}
+                    isChildrenLayout={props.isChildrenLayout}
+                    loading={props.loading}
+                    isShowTabsBar={props.showTabsBar}
+                    isFixedMultiTab={props.fixedMultiTab}
+                    siderWidth={props.siderWidth}
+                    collapsed={props.collapsed}
+                    style={props.disableContentMargin ? undefined : props.contentStyle}
+                    onReloadPage={onReloadPage}
+                  >
+                    {slots.default?.()}
+                  </WrapContent>
+                  {footerRender === false ? null : footerRender ? (
+                    footerRender(props)
+                  ) : (
+                    <GlobalFooter copyright={copyrightRender} />
+                  )}
+                </Layout>
+              </Layout>
+            </div>
+          )}
+        </>
       )
     }
   }

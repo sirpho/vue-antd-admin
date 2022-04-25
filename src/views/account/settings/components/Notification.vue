@@ -1,12 +1,13 @@
 <template>
-  <a-list
-    itemLayout="horizontal"
-    :data-source="data"
-  >
+  <a-list itemLayout="horizontal" :data-source="data">
     <template #renderItem="{ item }">
       <a-list-item>
         <template #actions>
-          <a-switch checkedChildren="开" unCheckedChildren="关" v-model:checked="item.checkedValue" />
+          <a-switch
+            checkedChildren="开"
+            unCheckedChildren="关"
+            v-model:checked="item.checkedValue"
+          />
         </template>
         <a-list-item-meta :title="item.title" :description="item.description" />
       </a-list-item>

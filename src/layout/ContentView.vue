@@ -13,13 +13,13 @@
   <Iframe v-if="iframeSrc" :frameSrc="iframeSrc" />
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import PageTransition from '/@/components/PageTransition/index.vue'
 import Iframe from '/@/views/Iframe/index.vue'
 
-defineProps({
+const props = defineProps({
   isRouterAlive: {
     type: Boolean,
     required: false,

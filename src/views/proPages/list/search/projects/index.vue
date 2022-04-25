@@ -3,19 +3,21 @@
     <a-spin :spinning="loading">
       <a-card :bordered="false" :bodyStyle="{ padding: 0 }">
         <a-form :class="$style['page-list-search']" layout="inline" :model="listParams">
-          <a-form-item :class="$style['form-list-row']" style="padding-bottom: 11px" label="所属类目">
-            <g-tag-select
-              v-model:value="listParams.category"
-              expandable
-              @change="changeSearch"
-            >
+          <a-form-item
+            :class="$style['form-list-row']"
+            style="padding-bottom: 11px"
+            label="所属类目"
+          >
+            <g-tag-select v-model:value="listParams.category" expandable @change="changeSearch">
               <g-tag-select-option :key="item" v-for="item in 12" :value="`cat${item}`">
                 {{ `类目${item}` }}
               </g-tag-select-option>
             </g-tag-select>
           </a-form-item>
-          <a-form-item :class="[ $style['form-list-row'], $style['form-list-row-last'] ]"
-            label="其它选项">
+          <a-form-item
+            :class="[$style['form-list-row'], $style['form-list-row-last']]"
+            label="其它选项"
+          >
             <a-row>
               <a-col :xl="8" :lg="10" :md="12" :sm="24" :xs="24">
                 <a-form-item :wrapper-col="formItemLayout.wrapperCol" label="活跃用户">
@@ -23,7 +25,7 @@
                     v-model:value="listParams.user"
                     placeholder="不限"
                     allow-clear
-                    style="width: 100%;max-width: 200px;"
+                    style="width: 100%; max-width: 200px"
                     @change="changeSearch"
                   >
                     <a-select-option value="lisa">李三</a-select-option>
@@ -36,7 +38,7 @@
                     v-model:value="listParams.rate"
                     placeholder="不限"
                     allow-clear
-                    style="width: 100%;max-width: 200px;"
+                    style="width: 100%; max-width: 200px"
                     @change="changeSearch"
                   >
                     <a-select-option value="good">优秀</a-select-option>
@@ -57,7 +59,7 @@
             md: 3,
             lg: 3,
             xl: 4,
-            xxl: 4,
+            xxl: 4
           }"
           :data-source="listSource"
         >
@@ -104,10 +106,10 @@ import AvatarList from './components/AvatarList.vue'
 import { formItemLayout } from '../utils/config'
 
 interface articleStateType {
-  pageConfig: any;
-  listParams: any;
-  loading: boolean;
-  listSource: any[];
+  pageConfig: any
+  listParams: any
+  loading: boolean
+  listSource: any[]
 }
 
 export default defineComponent({
@@ -159,10 +161,7 @@ export default defineComponent({
       })
       if (response) {
         let list: ListItemDataType[] = response?.data || []
-        state.listSource = [
-          ...state.listSource,
-          ...list
-        ]
+        state.listSource = [...state.listSource, ...list]
       }
       state.loading = false
     }
@@ -183,6 +182,6 @@ export default defineComponent({
 </script>
 
 <style lang="less" module>
-@import "./style";
-@import "../style";
+@import './style';
+@import '../style';
 </style>

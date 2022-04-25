@@ -57,35 +57,27 @@ export default defineComponent({
       handleUnitUpdateValue(index: number, value: number | string) {
         const { showAlpha } = props
         if (props.mode === 'hex') {
-          props.onUpdateValue(
-            (showAlpha ? toHexaString : toHexString)(value as string)
-          )
+          props.onUpdateValue((showAlpha ? toHexaString : toHexString)(value as string))
           return
         }
         let nextValueArr: any
         if (props.valueArr === null) {
-          nextValueArr = [ 0, 0, 0, 0 ]
+          nextValueArr = [0, 0, 0, 0]
         } else {
           nextValueArr = Array.from(props.valueArr) as typeof props.valueArr
         }
         switch (props.mode) {
           case 'hsv':
             nextValueArr[index] = value
-            props.onUpdateValue(
-              (showAlpha ? toHsvaString : toHsvString)(nextValueArr)
-            )
+            props.onUpdateValue((showAlpha ? toHsvaString : toHsvString)(nextValueArr))
             break
           case 'rgb':
             nextValueArr[index] = value
-            props.onUpdateValue(
-              (showAlpha ? toRgbaString : toRgbString)(nextValueArr)
-            )
+            props.onUpdateValue((showAlpha ? toRgbaString : toRgbString)(nextValueArr))
             break
           case 'hsl':
             nextValueArr[index] = value
-            props.onUpdateValue(
-              (showAlpha ? toHslaString : toHslString)(nextValueArr)
-            )
+            props.onUpdateValue((showAlpha ? toHslaString : toHslString)(nextValueArr))
             break
         }
       }
@@ -114,9 +106,7 @@ export default defineComponent({
                   hexValue =
                     valueArr === null
                       ? null
-                      : (showAlpha ? toHexaString : toHexString)(
-                        valueArr as RGBA
-                      )
+                      : (showAlpha ? toHexaString : toHexString)(valueArr as RGBA)
                 } catch {}
                 return (
                   <ColorInputUnit

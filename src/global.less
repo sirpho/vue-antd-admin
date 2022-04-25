@@ -1,24 +1,24 @@
-@import "./design/styles/index.less";
-@import "./assets/menu_font/index.less";
-@import "./assets/material_font/index.less";
+@import './design/styles/index.less';
+@import './assets/menu_font/index.less';
+@import './assets/material_font/index.less';
 
 .gx-pro-full-screen {
-  scrollbar-color: @primary-color @primary-2;
+  scrollbar-color: var(--ant-primary-color) var(--ant-primary-2);
   scrollbar-width: thin;
   -ms-overflow-style: none;
   position: relative;
   padding: 24px;
-  
+
   &::-webkit-scrollbar {
     width: 3px;
     height: 1px;
   }
-  
+
   &::-webkit-scrollbar-thumb {
-    background: @primary-color;
+    background: var(--ant-primary-color);
     border-radius: 3px;
   }
-  
+
   &::-webkit-scrollbar-track {
     background: @primary-3;
     border-radius: 3px;
@@ -30,13 +30,24 @@
   height: 100%;
 }
 
-.@{gx-prefix}-code {
+.@{gx-prefix}-code-block {
   position: relative;
-  
-  .ant-typography-expand, .ant-typography-edit, .ant-typography-copy {
+
+  .ant-typography-expand,
+  .ant-typography-edit,
+  .ant-typography-copy {
     position: absolute;
     top: 5px;
     right: 10px;
+  }
+
+  .@{gx-prefix}-code {
+    padding: 0.2em 0.4em 0.1em;
+    margin: 0 0.2em;
+    font-size: 85%;
+    background: rgba(150, 150, 150, 0.1);
+    border: 1px solid rgba(100, 100, 100, 0.2);
+    border-radius: 3px;
   }
 }
 
@@ -68,11 +79,11 @@
   height: 100%;
   color: #909399;
   background: #fafafa;
-  
+
   .iconfont {
     font-size: 24px;
   }
-  
+
   .anticon {
     font-size: 24px;
   }

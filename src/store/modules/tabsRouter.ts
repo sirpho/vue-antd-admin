@@ -56,8 +56,13 @@ export const useStoreTabsRouter = defineStore('tabsRouter', () => {
     state.visitedRoutes = state.visitedRoutes.filter((item) => item.meta.tagFixed)
   }
 
+  const blankingTabs = () => {
+    state.visitedRoutes = []
+  }
+
   return {
     ...toRefs(state),
+    blankingTabs,
     addVisitedRoute,
     delVisitedRoute,
     delOthersVisitedRoutes,

@@ -1,6 +1,6 @@
 .card {
   margin-bottom: 24px;
-  
+
   :global {
     .ant-legacy-form-item .ant-legacy-form-item-control-wrapper {
       width: 100%;
@@ -29,13 +29,14 @@
   line-height: 44px;
   background: #fff;
   border-top: 1px solid #f0f0f0;
-  box-shadow: 0 -6px 16px -8px rgb(0 0 0 / 8%), 0 -9px 28px 0 rgb(0 0 0 / 5%), 0 -12px 48px 16px rgb(0 0 0 / 3%);
+  box-shadow: 0 -6px 16px -8px rgb(0 0 0 / 8%), 0 -9px 28px 0 rgb(0 0 0 / 5%),
+    0 -12px 48px 16px rgb(0 0 0 / 3%);
   transition: width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  
+
   &-left {
     flex: 1 1;
   }
-  
+
   &-right {
     & > * {
       margin-right: 8px;
@@ -47,7 +48,7 @@
   margin-right: 24px;
   color: @error-color;
   cursor: pointer;
-  
+
   span.anticon {
     margin-right: 4px;
   }
@@ -70,15 +71,15 @@
   cursor: pointer;
   border-bottom: 1px solid @border-color-split;
   transition: all 0.3s;
-  
+
   &:hover {
     background: @item-active-bg;
   }
-  
+
   &:last-child {
     border: 0;
   }
-  
+
   .errorIcon {
     float: left;
     padding-bottom: 22px;
@@ -86,7 +87,7 @@
     margin-right: 12px;
     color: @error-color;
   }
-  
+
   .errorField {
     margin-top: 2px;
     font-size: 12px;

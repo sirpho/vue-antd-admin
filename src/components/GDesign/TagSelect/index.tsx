@@ -1,29 +1,26 @@
 import type { CSSProperties } from 'vue'
-import {
-  computed,
-  ref,
-  reactive,
-  cloneVNode,
-  defineComponent
-} from 'vue'
+import { computed, ref, reactive, cloneVNode, defineComponent } from 'vue'
 import { cloneDeep } from 'lodash-es'
+import { Tag } from 'ant-design-vue'
 import { DownOutlined, UpOutlined } from '@ant-design/icons-vue'
 import GTagSelectOption from './TagSelectOption'
 import type { actionsTextItem } from './props'
 import { tagSelectProps } from './props'
 import styles from './style.module.less'
 
+const { CheckableTag } = Tag
+
 export interface TagSelectOptionProps {
-  value: string | number;
-  style?: CSSProperties;
-  checked?: boolean;
-  onChange?: (value: string | number, state: boolean) => void;
+  value: string | number
+  style?: CSSProperties
+  checked?: boolean
+  onChange?: (value: string | number, state: boolean) => void
 }
 
 const GTagSelect = defineComponent({
   name: 'GTagSelect',
   props: tagSelectProps,
-  emits: [ 'change', 'update:value' ],
+  emits: ['change', 'update:value'],
   setup(props, { slots, emit }) {
     const expand = ref(false)
 
@@ -48,11 +45,10 @@ const GTagSelect = defineComponent({
       return checkedTags || []
     })
 
-    const getChildrenSlots: any = computed(() => slots.default?.().length === 1 &&
-      (
-        String(slots.default?.()[0].type) === String(Symbol('Fragment')) ||
-        String(slots.default?.()[0].type) === String(Symbol())
-      )
+    const getChildrenSlots: any = computed(() =>
+      slots.default?.().length === 1 &&
+      (String(slots.default?.()[0].type) === String(Symbol('Fragment')) ||
+        String(slots.default?.()[0].type) === String(Symbol()))
         ? slots.default?.()[0].children || []
         : slots.default?.() || []
     )
@@ -73,9 +69,9 @@ const GTagSelect = defineComponent({
     })
 
     const isTagSelectOption = (node) => {
-      return node &&
-        node.type &&
-        (node.type.isTagSelectOption || node.type.name === 'GTagSelectOption')
+      return (
+        node && node.type && (node.type.isTagSelectOption || node.type.name === 'GTagSelectOption')
+      )
     }
     const toggle = () => {
       expand.value = !expand.value
@@ -96,7 +92,7 @@ const GTagSelect = defineComponent({
     }
 
     const handleTagChange = (tag: string | number, checked: boolean) => {
-      const checkedTags: (string | number)[] = [ ...(state.value || []) ]
+      const checkedTags: (string | number)[] = [...(state.value || [])]
 
       const index = checkedTags.indexOf(tag)
       if (checked && index === -1) {
@@ -112,13 +108,9 @@ const GTagSelect = defineComponent({
     return () => (
       <div class={cls.value} style={props.style}>
         {props.hideCheckAll ? null : (
-          <a-checkable-tag
-            checked={checkedAll.value}
-            key="tag-select-__all__"
-            onChange={onSelectAll}
-          >
+          <CheckableTag checked={checkedAll.value} key="tag-select-__all__" onChange={onSelectAll}>
             {actionsText.value.selectAllText}
-          </a-checkable-tag>
+          </CheckableTag>
         )}
         {getChildrenSlots.value.map((child: any) => {
           if (isTagSelectOption(child)) {
@@ -134,7 +126,9 @@ const GTagSelect = defineComponent({
         {props.expandable && (
           <a
             class={styles.trigger}
-            onClick={() => {toggle()}}
+            onClick={() => {
+              toggle()
+            }}
           >
             {expand.value ? (
               <>

@@ -1,10 +1,8 @@
 <template>
   <a-typography style="margin-top: 16px" id="multiLineCard">
-    <a-typography-title :level="4" :style="{color: '#454d64'}">
-      多行卡片
-    </a-typography-title>
+    <a-typography-title :level="4" :style="{ color: '#454d64' }"> 多行卡片 </a-typography-title>
   </a-typography>
-  <div style="margin: 16px 0;font-size: 15px;line-height: 24px">
+  <div style="margin: 16px 0; font-size: 15px; line-height: 24px">
     默认卡片布局不可换行，你可以配置
     <span class="gx-markdown-code">wrap</span>为
     <span class="gx-markdown-code">true</span>
@@ -38,6 +36,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="less" module>
-
-</style>
+<style lang="less" module></style>

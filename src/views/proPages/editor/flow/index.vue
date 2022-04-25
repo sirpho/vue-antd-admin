@@ -1,10 +1,10 @@
 <template>
   <g-pro-page-wrapper>
     <a-card :bordered="false">
-      <div style="height: 729px; min-height: 729px;">
+      <div style="height: 729px; min-height: 729px">
         <div style="height: 100%">
           <FlowChartToolbar :prefixCls="prefixCls" @view-data="handlePreview" />
-          <div ref="lfElRef" style="height: 100%" ></div>
+          <div ref="lfElRef" style="height: 100%"></div>
         </div>
       </div>
     </a-card>
@@ -32,17 +32,17 @@ export default defineComponent({
   },
   setup() {
     const prefixCls = 'flow-chart'
-    
+
     const lfElRef = ref(null)
     const graphData = ref({})
     const lfInstance = ref(null) as Ref<LogicFlow | null>
     createFlowChartContext({
       logicFlow: lfInstance as unknown as LogicFlow
     })
-    
+
     const getFlowOptions = computed(() => {
       const flowOptions: Definition | Object = {}
-      
+
       const defaultOptions: Partial<Definition> = {
         grid: true,
         background: {
@@ -55,32 +55,32 @@ export default defineComponent({
       }
       return defaultOptions as Definition
     })
-    
+
     watch(
       () => unref(getFlowOptions),
       (options) => {
         unref(lfInstance)?.updateEditConfig(options)
       }
     )
-    
+
     onMounted(() => {
       init()
     })
-    
+
     const init = async () => {
       await nextTick()
-      
+
       const lfEl = unref(lfElRef)
       if (!lfEl) {
         return
       }
       LogicFlow.use(DndPanel)
-      
+
       LogicFlow.use(Snapshot)
       LogicFlow.use(BpmnElement)
       LogicFlow.use(Menu)
       LogicFlow.use(SelectionSelect)
-      
+
       lfInstance.value = new LogicFlow({
         ...unref(getFlowOptions),
         container: lfEl
@@ -90,7 +90,7 @@ export default defineComponent({
       onRender()
       lf?.setPatternItems(configDefaultDndPanel(lf))
     }
-    
+
     const onRender = async () => {
       await nextTick()
       const lf = unref(lfInstance)
@@ -100,7 +100,7 @@ export default defineComponent({
       const lFData = toLogicFlowData(demoData)
       lf.render(lFData)
     }
-    
+
     const handlePreview = () => {
       const lf = unref(lfInstance)
       if (!lf) {
@@ -108,7 +108,7 @@ export default defineComponent({
       }
       graphData.value = unref(lf).getGraphData()
     }
-    
+
     return {
       lfElRef,
       prefixCls,

@@ -25,11 +25,14 @@ export default defineComponent({
     prefixCls: PropTypes.string,
     defaultParams: Object as PropType<RecordType>
   },
-  emits: [ 'search' ],
+  emits: ['search'],
   setup(props, { emit, slots }) {
     const screens = useBreakpoint()
 
-    const { formState, resetFormState, changeFormState } = useForm(props.defaultParams, props.searchMap)
+    const { formState, resetFormState, changeFormState } = useForm(
+      props.defaultParams,
+      props.searchMap
+    )
 
     const advanced = ref(false)
 
@@ -38,7 +41,7 @@ export default defineComponent({
       props.search.showReset === undefined ? hasSearch.value : props.search.showReset
     )
 
-    const responsiveArray: { value: Breakpoint; span: number; }[] = [
+    const responsiveArray: { value: Breakpoint; span: number }[] = [
       { value: 'xxl', span: 4 },
       { value: 'xl', span: 3 },
       { value: 'lg', span: 2 },
@@ -49,9 +52,12 @@ export default defineComponent({
 
     const rowLength = computed(() => getColSpanStyle(props.search.span))
 
-    watch(() => props.search.defaultCollapsed, (value) => {
-      advanced.value = advanced.value || value
-    })
+    watch(
+      () => props.search.defaultCollapsed,
+      (value) => {
+        advanced.value = advanced.value || value
+      }
+    )
 
     const getColSpanStyle = (colSpan: ColConfig) => {
       let span: number | string | undefined = 4
@@ -68,18 +74,20 @@ export default defineComponent({
       return span as number
     }
 
-    const changeAdvanced = (status: boolean) => { advanced.value = status }
+    const changeAdvanced = (status: boolean) => {
+      advanced.value = status
+    }
 
     const getStyleWidth = (index, rowLength, rowWidth) => {
       return (index + 1) % rowLength === 0
         ? {
-          ...rowWidth,
-          marginRight: 0
-        }
+            ...rowWidth,
+            marginRight: 0
+          }
         : {
-          ...rowWidth,
-          marginRight: '2%'
-        }
+            ...rowWidth,
+            marginRight: '2%'
+          }
     }
 
     const handleChange = (value, record) => {
@@ -91,9 +99,12 @@ export default defineComponent({
           changeFormState(record.name, value || record.initialValue || undefined)
           break
         case 'treeSelect':
-          changeFormState(record.name, value ||
-            record.initialValue ||
-            (record.fidle?.treeCheckable || record.field?.multiple ? [] : null))
+          changeFormState(
+            record.name,
+            value ||
+              record.initialValue ||
+              (record.fidle?.treeCheckable || record.field?.multiple ? [] : null)
+          )
           break
         case 'date':
           changeFormState(
@@ -112,18 +123,16 @@ export default defineComponent({
             record.name,
             value && value.length > 0
               ? [
-                dayjs(value[0]).format(record.format || 'YYYY-MM-DD'),
-                dayjs(value[1]).format(record.format || 'YYYY-MM-DD')
-              ]
+                  dayjs(value[0]).format(record.format || 'YYYY-MM-DD'),
+                  dayjs(value[1]).format(record.format || 'YYYY-MM-DD')
+                ]
               : record.initialValue || null
           )
           break
         case 'time':
           changeFormState(
             record.name,
-            value
-              ? dayjs(value).format(record.format || 'HH:mm:ss')
-              : record.initialValue || null
+            value ? dayjs(value).format(record.format || 'HH:mm:ss') : record.initialValue || null
           )
           break
       }
@@ -142,7 +151,8 @@ export default defineComponent({
         const textRecord = props.searchMap.find((item) => item.valueType === 'text')
         const dateRangeRecord = props.searchMap.find((item) => item.valueType === 'dateRange')
         const treeSelectRecord = props.searchMap.find((item) => item.valueType === 'treeSelect')
-        if (textRecord) params[textRecord.name] = formState[textRecord.name] || textRecord.initialValue || ''
+        if (textRecord)
+          params[textRecord.name] = formState[textRecord.name] || textRecord.initialValue || ''
         if (dateRangeRecord) {
           params[dateRangeRecord.rangeStartName || 'start'] = params[dateRangeRecord.name]
             ? params[dateRangeRecord.name][0]
@@ -155,13 +165,16 @@ export default defineComponent({
         if (treeSelectRecord) {
           if (isArray(formState[treeSelectRecord.name])) {
             params[treeSelectRecord.name] = formState[treeSelectRecord.name].length
-              ? formState[treeSelectRecord.name].map(item => item[treeSelectRecord.valueKey === 'text' ? 'label' : 'value']).join()
+              ? formState[treeSelectRecord.name]
+                  .map((item) => item[treeSelectRecord.valueKey === 'text' ? 'label' : 'value'])
+                  .join()
               : ''
           }
           if (treeSelectRecord && isArray(params[treeSelectRecord.name])) {
             params[treeSelectRecord.name] = params[treeSelectRecord.name].length
-              ? params[treeSelectRecord.name].map(item =>
-                item[treeSelectRecord.valueKey === 'text' ? 'label' : 'value'])
+              ? params[treeSelectRecord.name].map(
+                  (item) => item[treeSelectRecord.valueKey === 'text' ? 'label' : 'value']
+                )
               : ''
           }
         }
@@ -174,41 +187,39 @@ export default defineComponent({
       handleSubmit(true)
     }
 
-    const optionRender = () => (hasSearch.value || hasReset.value) && (
-      <Space>
-        {hasReset.value && (
-          <Button onClick={() => resetForm()}>{props.search.resetText || '重置'}</Button>
-        )}
-        {hasSearch.value && (
-          <Button
-            loading={props.loading}
-            type="primary"
-            onClick={() => handleSubmit(true)}
-          >
-            {props.search.searchText || '查询'}
-          </Button>
-        )}
-      </Space>
-    )
+    const optionRender = () =>
+      (hasSearch.value || hasReset.value) && (
+        <Space>
+          {hasReset.value && (
+            <Button onClick={() => resetForm()}>{props.search.resetText || '重置'}</Button>
+          )}
+          {hasSearch.value && (
+            <Button loading={props.loading} type="primary" onClick={() => handleSubmit(true)}>
+              {props.search.searchText || '查询'}
+            </Button>
+          )}
+        </Space>
+      )
 
-    const AdvancedSlot = ({ formItemStyle, advanced, showAdvanced = true }) =>
+    const AdvancedSlot = ({ formItemStyle, advanced, showAdvanced = true }) => (
       <div style={formItemStyle} class={`${unref(props.prefixCls)}-form-collapse-button`}>
         <Space size={16}>
           {optionRender()}
           {showAdvanced && (
             <a onClick={() => changeAdvanced(!advanced)}>
               {advanced ? '收起' : '展开'}
-              {
-                props.search.collapseRender ?
-                  props.search.collapseRender()
-                  : advanced
-                    ? <UpOutlined />
-                    : <DownOutlined />
-              }
+              {props.search.collapseRender ? (
+                props.search.collapseRender()
+              ) : advanced ? (
+                <UpOutlined />
+              ) : (
+                <DownOutlined />
+              )}
             </a>
           )}
         </Space>
       </div>
+    )
 
     const FormItemContainer = (record) => {
       let show
@@ -219,10 +230,16 @@ export default defineComponent({
               style={{ width: '100%' }}
               value={formState[record.name]}
               placeholder={record.placeholder || '请输入'}
-              allowClear={record.allowClear || record.allowClear === false ? record.allowClear : true}
-              enterButton={<a-button><SearchOutlined /></a-button>}
+              allowClear={
+                record.allowClear || record.allowClear === false ? record.allowClear : true
+              }
+              enterButton={
+                <a-button>
+                  <SearchOutlined />
+                </a-button>
+              }
               onChange={(e) => handleChange(e.target.value, record)}
-              onSearch={_ => handleSubmit()}
+              onSearch={(_) => handleSubmit()}
             />
           )
           break
@@ -234,7 +251,9 @@ export default defineComponent({
               optionFilterProp="label"
               placeholder={record.placeholder || '请选择'}
               showSearch={record.showSearch}
-              allowClear={record.allowClear || record.allowClear === false ? record.allowClear : true}
+              allowClear={
+                record.allowClear || record.allowClear === false ? record.allowClear : true
+              }
               getPopupContainer={(trigger) => {
                 if (trigger && trigger.parentNode) {
                   return trigger.parentNode
@@ -242,19 +261,17 @@ export default defineComponent({
                 return trigger
               }}
               notFoundContent={
-                record.loading === undefined
-                  ? undefined
-                  : record.loading
-                    ? <a-spin size="small" />
-                    : undefined
+                record.loading === undefined ? undefined : record.loading ? (
+                  <a-spin size="small" />
+                ) : undefined
               }
               onChange={(e) => handleChange(e, record)}
             >
-              {
-                record.valueEnum.map(item => <a-select-option key={item.value} value={item.value}>
+              {record.valueEnum.map((item) => (
+                <a-select-option key={item.value} value={item.value}>
                   {item.text}
-                </a-select-option>)
-              }
+                </a-select-option>
+              ))}
             </Select>
           )
           break
@@ -264,7 +281,9 @@ export default defineComponent({
               style={{ width: '100%' }}
               value={formState[record.name]}
               placeholder={record.placeholder || '请选择'}
-              allowClear={record.allowClear || record.allowClear === false ? record.allowClear : true}
+              allowClear={
+                record.allowClear || record.allowClear === false ? record.allowClear : true
+              }
               treeData={record.valueEnum}
               getPopupContainer={(trigger) => {
                 if (trigger && trigger.parentNode) {
@@ -273,11 +292,9 @@ export default defineComponent({
                 return trigger
               }}
               notFoundContent={
-                record.loading === undefined
-                  ? undefined
-                  : record.loading
-                    ? <a-spin size="small" />
-                    : undefined
+                record.loading === undefined ? undefined : record.loading ? (
+                  <a-spin size="small" />
+                ) : undefined
               }
               onChange={(e) => handleChange(e, record)}
               {...(record.field || {})}
@@ -288,18 +305,21 @@ export default defineComponent({
           show = (
             <DatePicker
               style={{ width: '100%' }}
-              value={formState[record.name]
-                ? dayjs(formState[record.name], record.format || 'YYYY-MM-DD')
-                : null
+              value={
+                formState[record.name]
+                  ? dayjs(formState[record.name], record.format || 'YYYY-MM-DD')
+                  : null
               }
-              getPopupContainer={trigger => {
+              getPopupContainer={(trigger) => {
                 if (trigger && trigger.parentNode) {
                   return trigger.parentNode as HTMLElement
                 }
                 return trigger
               }}
               placeholder={record.placeholder || '请选择'}
-              allowClear={record.allowClear || record.allowClear === false ? record.allowClear : true}
+              allowClear={
+                record.allowClear || record.allowClear === false ? record.allowClear : true
+              }
               format={record.format || 'YYYY-MM-DD'}
               showTime={record.showTime}
               showToday={record.showToday || true}
@@ -317,7 +337,7 @@ export default defineComponent({
                   ? dayjs(formState[record.name], record.format || 'YYYY-MM')
                   : null
               }
-              getPopupContainer={trigger => {
+              getPopupContainer={(trigger) => {
                 if (trigger && trigger.parentNode) {
                   return trigger.parentNode as HTMLElement
                 }
@@ -333,20 +353,21 @@ export default defineComponent({
           show = (
             <RangePicker
               style={{ width: '100%' }}
-              value={formState[record.name]?.length
-                ? [
-                  dayjs(formState[record.name][0], record.format || 'YYYY-MM-DD HH:mm:ss'),
-                  dayjs(formState[record.name][1], record.format || 'YYYY-MM-DD HH:mm:ss')
-                ]
-                : null
+              value={
+                formState[record.name]?.length
+                  ? [
+                      dayjs(formState[record.name][0], record.format || 'YYYY-MM-DD HH:mm:ss'),
+                      dayjs(formState[record.name][1], record.format || 'YYYY-MM-DD HH:mm:ss')
+                    ]
+                  : null
               }
-              getPopupContainer={trigger => {
+              getPopupContainer={(trigger) => {
                 if (trigger && trigger.parentNode) {
                   return trigger.parentNode as HTMLElement
                 }
                 return trigger
               }}
-              placeholder={record.placeholder || [ '开始日期', '结束日期' ]}
+              placeholder={record.placeholder || ['开始日期', '结束日期']}
               format={record.format || 'YYYY-MM-DD HH:mm:ss'}
               renderExtraFooter={record.renderExtraFooter || null}
               showTime={record.showTime}
@@ -358,18 +379,21 @@ export default defineComponent({
           show = (
             <TimePicker
               style={{ width: '100%' }}
-              value={formState[record.name]
-                ? dayjs(formState[record.name], record.format || 'HH:mm:ss')
-                : null
+              value={
+                formState[record.name]
+                  ? dayjs(formState[record.name], record.format || 'HH:mm:ss')
+                  : null
               }
-              getPopupContainer={trigger => {
+              getPopupContainer={(trigger) => {
                 if (trigger && trigger.parentNode) {
                   return trigger.parentNode as HTMLElement
                 }
                 return trigger
               }}
               placeholder={record.placeholder || '请选择'}
-              allowClear={record.allowClear || record.allowClear === false ? record.allowClear : true}
+              allowClear={
+                record.allowClear || record.allowClear === false ? record.allowClear : true
+              }
               use12Hours={record.use12Hours}
               format={record.format || 'HH:mm:ss'}
               renderExtraFooter={record.renderExtraFooter || null}
@@ -383,17 +407,12 @@ export default defineComponent({
 
     const FormItemWrapper = ({ formItemStyle, item }) => (
       <Form.Item style={formItemStyle}>
-        {
-          item.__v_isVNode ? item : FormItemContainer(item)
-        }
+        {item.__v_isVNode ? item : FormItemContainer(item)}
       </Form.Item>
     )
 
     const FormItemRender = () => {
-      const formNode = [
-        ...props.searchMap,
-        ...slots.default?.()
-      ]
+      const formNode = [...props.searchMap, ...slots.default?.()]
 
       return formNode.map((item, index) => {
         const rowWidth = {
@@ -401,39 +420,44 @@ export default defineComponent({
         }
         const formItemStyle = getStyleWidth(index, rowLength.value, rowWidth)
 
-        if ((formNode.length < rowLength.value) || advanced.value) {
+        if (formNode.length < rowLength.value || advanced.value) {
           return (
             <>
               {FormItemWrapper({ formItemStyle, item })}
-              {(index === formNode.length - 1) && AdvancedSlot({
-                formItemStyle: {
-                  flex: 1,
-                  justifyContent: 'flex-end'
-                },
-                advanced: advanced.value,
-                showAdvanced: advanced.value
-              })}
+              {index === formNode.length - 1 &&
+                AdvancedSlot({
+                  formItemStyle: {
+                    flex: 1,
+                    justifyContent: 'flex-end'
+                  },
+                  advanced: advanced.value,
+                  showAdvanced: advanced.value
+                })}
             </>
           )
         } else {
           return (
             <>
-              {index < rowLength.value - 1 && FormItemWrapper({
-                formItemStyle,
-                item
-              })}
-              {(index === rowLength.value - 1 && rowLength.value - 1 === 0) && FormItemWrapper({
-                formItemStyle,
-                item
-              })}
-              {index === rowLength.value - 1 && AdvancedSlot({
-                formItemStyle: {
-                  flex: 1,
-                  justifyContent: 'flex-end'
-                },
-                advanced: false,
-                showAdvanced: formNode.length >= rowLength.value
-              })}
+              {index < rowLength.value - 1 &&
+                FormItemWrapper({
+                  formItemStyle,
+                  item
+                })}
+              {index === rowLength.value - 1 &&
+                rowLength.value - 1 === 0 &&
+                FormItemWrapper({
+                  formItemStyle,
+                  item
+                })}
+              {index === rowLength.value - 1 &&
+                AdvancedSlot({
+                  formItemStyle: {
+                    flex: 1,
+                    justifyContent: 'flex-end'
+                  },
+                  advanced: false,
+                  showAdvanced: formNode.length >= rowLength.value
+                })}
             </>
           )
         }
@@ -444,14 +468,12 @@ export default defineComponent({
     return () => (
       <div
         class={{
-          [`${unref(props.prefixCls)}`]: true,
+          [`${unref(props.prefixCls)}-search`]: true,
           [`${props.search.className}`]: props.search.className
         }}
       >
         <Form class={`${unref(props.prefixCls)}-form`} layout="horizontal">
-          <div class={`${unref(props.prefixCls)}-form-container`}>
-            {FormItemRender()}
-          </div>
+          <div class={`${unref(props.prefixCls)}-form-container`}>{FormItemRender()}</div>
         </Form>
       </div>
     )

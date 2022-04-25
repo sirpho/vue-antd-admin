@@ -1,29 +1,29 @@
-.error-container{
+.error-container {
   position: relative;
   height: 100vh;
-  
-  .error-content{
+
+  .error-content {
     position: absolute;
     top: 55%;
     left: 50%;
     width: 40vw;
     height: 400px;
     transform: translate(-50%, -50%);
-    
-    .pic-error{
+
+    .pic-error {
       position: relative;
       float: left;
       width: 100%;
       overflow: hidden;
-      
-      .pic-error-parent{
+
+      .pic-error-parent {
         width: 100%;
       }
-      
-      .pic-error-child{
+
+      .pic-error-child {
         position: absolute;
-        
-        &.left{
+
+        &.left {
           top: 17px;
           left: 220px;
           width: 80px;
@@ -34,27 +34,27 @@
           animation-delay: 1s;
           animation-fill-mode: forwards;
         }
-        
-        @keyframes cloudLeft{
-          0%{
+
+        @keyframes cloudLeft {
+          0% {
             top: 17px;
             left: 220px;
             opacity: 0;
           }
-          
-          20%{
+
+          20% {
             top: 33px;
             left: 188px;
             opacity: 1;
           }
-          
-          80%{
+
+          80% {
             top: 81px;
             left: 92px;
             opacity: 1;
           }
-          
-          100%{
+
+          100% {
             top: 97px;
             left: 60px;
             opacity: 0;
@@ -62,15 +62,15 @@
         }
       }
     }
-    
-    .bullshit{
+
+    .bullshit {
       position: relative;
       float: left;
       width: 300px;
       padding: 30px 0;
       overflow: hidden;
-      
-      .bullshit-oops{
+
+      .bullshit-oops {
         margin-bottom: 20px;
         font-size: 32px;
         font-weight: bold;
@@ -80,8 +80,8 @@
         animation-duration: 0.5s;
         animation-fill-mode: forwards;
       }
-      
-      .bullshit-headline{
+
+      .bullshit-headline {
         margin-bottom: 10px;
         font-size: 20px;
         font-weight: bold;
@@ -93,8 +93,8 @@
         animation-delay: 0.1s;
         animation-fill-mode: forwards;
       }
-      
-      .bullshit-info{
+
+      .bullshit-info {
         margin-bottom: 30px;
         font-size: 13px;
         line-height: 21px;
@@ -104,8 +104,8 @@
         animation-delay: 0.2s;
         animation-fill-mode: forwards;
       }
-      
-      .bullshit-return-home{
+
+      .bullshit-return-home {
         display: block;
         float: left;
         width: 110px;
@@ -115,7 +115,7 @@
         color: #fff;
         text-align: center;
         cursor: pointer;
-        background: @primary-color;
+        background: var(--ant-primary-color);
         border-radius: 100px;
         opacity: 0;
         animation-name: slideUp;
@@ -127,13 +127,13 @@
   }
 }
 
-@keyframes slideUp{
-  0%{
+@keyframes slideUp {
+  0% {
     opacity: 0;
     transform: translateY(60px);
   }
-  
-  100%{
+
+  100% {
     opacity: 1;
     transform: translateY(0);
   }

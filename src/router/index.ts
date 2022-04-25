@@ -28,19 +28,15 @@ export const constantRoutes: AppRouteModule[] = [
     path: '/user',
     component: UserLayout,
     redirect: '/user/login',
-    meta: {
-      hideInMenu: true,
-      title: 'user'
-    },
     children: [
       {
         path: '/user/login',
         name: 'Login',
         meta: {
           hideInMenu: true,
-          title: 'user'
+          title: '登录'
         },
-        component: () => import('/@/views/User/login/index.vue')
+        component: () => import('/@/views/user/login/index.vue')
       }
     ]
   },

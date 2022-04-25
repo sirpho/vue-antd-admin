@@ -3,37 +3,37 @@ import { Tag, List, Avatar } from 'ant-design-vue'
 
 import styles from './NoticeList.module.less'
 
-export type NoticeIconItemType = 'notification' | 'message' | 'event';
+export type NoticeIconItemType = 'notification' | 'message' | 'event'
 
 export type NoticeIconItem = {
-  props?: any;
-  id?: string;
-  extra?: string;
-  key?: string;
-  read?: boolean;
-  avatar?: string;
-  title?: string;
-  status?: string;
-  datetime?: string;
-  description?: string;
-  type?: NoticeIconItemType;
-};
+  props?: any
+  id?: string
+  extra?: string
+  key?: string
+  read?: boolean
+  avatar?: string
+  title?: string
+  status?: string
+  datetime?: string
+  description?: string
+  type?: NoticeIconItemType
+}
 
 export type NoticeIconTabProps = {
-  count?: number;
-  showClear?: boolean;
-  showViewMore?: boolean;
-  style?: CSSProperties;
-  title: string;
-  tabKey: NoticeIconItemType;
-  onClick?: (item: NoticeIconItem) => void;
-  onClear?: () => void;
-  emptyText?: string;
-  clearText?: string;
-  viewMoreText?: string;
-  list: NoticeIconItem[];
-  onViewMore?: (e: any) => void;
-};
+  count?: number
+  showClear?: boolean
+  showViewMore?: boolean
+  style?: CSSProperties
+  title: string
+  tabKey: NoticeIconItemType
+  onClick?: (item: NoticeIconItem) => void
+  onClear?: () => void
+  emptyText?: string
+  clearText?: string
+  viewMoreText?: string
+  list: NoticeIconItem[]
+  onViewMore?: (e: any) => void
+}
 
 const NoticeListExtra = (extra, status) => {
   const color = {
@@ -43,16 +43,18 @@ const NoticeListExtra = (extra, status) => {
     doing: 'gold'
   }[status]
 
-  return (extra && (
-    <Tag
-      color={color}
-      style={{
-        marginRight: 0
-      }}
-    >
-      {extra}
-    </Tag>
-  ))
+  return (
+    extra && (
+      <Tag
+        color={color}
+        style={{
+          marginRight: 0
+        }}
+      >
+        {extra}
+      </Tag>
+    )
+  )
 }
 
 const NoticeList: FC<NoticeIconTabProps> = ({

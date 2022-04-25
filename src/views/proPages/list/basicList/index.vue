@@ -25,7 +25,7 @@
           </a-col>
         </a-row>
       </a-card>
-      
+
       <a-card
         style="margin-top: 24px"
         title="基本列表"
@@ -51,7 +51,7 @@
             />
             <RedoOutlined
               @click="getListData"
-              style="font-size: 18px;color: #8c8c8c;cursor: pointer;"
+              style="font-size: 18px; color: #8c8c8c; cursor: pointer"
             />
           </a-space>
         </template>
@@ -110,7 +110,7 @@
         </a-list>
       </a-card>
     </div>
-    <a-button type="dashed" style="width: 100%;margin-bottom: 8px" @click="$refs.operation.open()">
+    <a-button type="dashed" style="width: 100%; margin-bottom: 8px" @click="$refs.operation.open()">
       <PlusOutlined />
       添加
     </a-button>
@@ -119,15 +119,7 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  createVNode,
-  defineComponent,
-  onActivated,
-  reactive,
-  ref,
-  toRefs
-} from 'vue'
+import { computed, createVNode, defineComponent, onActivated, reactive, ref, toRefs } from 'vue'
 import { message, Modal, Progress } from 'ant-design-vue'
 import {
   PlusOutlined,
@@ -167,7 +159,7 @@ export default defineComponent({
         showSizeChanger: true,
         showQuickJumper: true,
         pageSize: state.pageConfig.pageSize,
-        pageSizeOptions: [ '5', '10', '30', '50', '100' ],
+        pageSizeOptions: ['5', '10', '30', '50', '100'],
         total: state.pageConfig.total,
         onChange: (page: number, pageSize: number) => {
           state.pageConfig.pageNum = page
@@ -231,5 +223,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" module>
-@import "./style";
+@import './style';
 </style>

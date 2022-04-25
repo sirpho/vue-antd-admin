@@ -8,13 +8,13 @@ import { proTableProps } from '../../props'
 import './style.less'
 
 export type ListToolBarSetting = {
-  icon: VueNode;
-  tooltip?: string;
-  key?: string;
-  onClick?: (key?: string) => void;
-};
+  icon: VueNode
+  tooltip?: string
+  key?: string
+  onClick?: (key?: string) => void
+}
 
-type SettingPropType = VueNode | ListToolBarSetting;
+type SettingPropType = VueNode | ListToolBarSetting
 
 const { useBreakpoint } = Grid
 
@@ -54,7 +54,7 @@ function getSettingItem(setting: SettingPropType) {
 const ListToolBar = defineComponent({
   props: {
     actions: proTableProps.toolBarBtn,
-    settings: [ Array ] as PropType<VueNode[]>,
+    settings: [Array] as PropType<VueNode[]>,
     titleTip: proTableProps.titleTip,
     prefixCls: String,
     headerTitle: proTableProps.headerTitle,
@@ -64,7 +64,9 @@ const ListToolBar = defineComponent({
   setup(props) {
     const screens = useBreakpoint()
 
-    const hasLeft = computed(() => !!(props.titleTip || props.headerTitle || (props.actions as any[])?.length))
+    const hasLeft = computed(
+      () => !!(props.titleTip || props.headerTitle || (props.actions as any[])?.length)
+    )
 
     const hasRight = computed(() => !!(props.settings?.length || props.optionsExtra))
 
@@ -106,31 +108,22 @@ const ListToolBar = defineComponent({
               {props.headerTitle}
               {props.titleTip && (
                 <Tooltip title={props.titleTipText}>
-                  {
-                    isBoolean(props.titleTip) && props.titleTip
-                      ? <InfoCircleOutlined />
-                      : props.titleTip
-                  }
+                  {isBoolean(props.titleTip) && props.titleTip ? (
+                    <InfoCircleOutlined />
+                  ) : (
+                    props.titleTip
+                  )}
                 </Tooltip>
               )}
-
             </Space>
-            {actionDom.value && (
-              <div class={`${props.prefixCls}-actions`}>
-                {actionDom.value}
-              </div>
-            )}
+            {actionDom.value && <div class={`${props.prefixCls}-actions`}>{actionDom.value}</div>}
           </Space>
         )
       }
 
       return (
         <Space class={`${props.prefixCls}-left`}>
-          {actionDom.value && (
-            <div class={`${props.prefixCls}-actions`}>
-              {actionDom.value}
-            </div>
-          )}
+          {actionDom.value && <div class={`${props.prefixCls}-actions`}>{actionDom.value}</div>}
         </Space>
       )
     })
@@ -178,14 +171,9 @@ const ListToolBar = defineComponent({
     })
 
     return () => {
-      return (
-        <div class={`${props.prefixCls}`}>
-          {titleNode.value}
-        </div>
-      )
+      return <div class={`${props.prefixCls}`}>{titleNode.value}</div>
     }
   }
 })
 
 export default ListToolBar
-

@@ -2,36 +2,18 @@
   <g-pro-page-wrapper>
     <a-card :bordered="false">
       <Descriptions title="退款申请" style="margin-bottom: 32px">
-        <DescriptionsItem label="取货单号">
-          1000000000
-        </DescriptionsItem>
-        <DescriptionsItem label="状态">
-          已取货
-        </DescriptionsItem>
-        <DescriptionsItem label="销售单号">
-          1234123421
-        </DescriptionsItem>
-        <DescriptionsItem label="子订单">
-          3214321432
-        </DescriptionsItem>
+        <DescriptionsItem label="取货单号"> 1000000000 </DescriptionsItem>
+        <DescriptionsItem label="状态"> 已取货 </DescriptionsItem>
+        <DescriptionsItem label="销售单号"> 1234123421 </DescriptionsItem>
+        <DescriptionsItem label="子订单"> 3214321432 </DescriptionsItem>
       </Descriptions>
       <a-divider style="margin-bottom: 32px" />
       <Descriptions title="用户信息" style="margin-bottom: 32px">
-        <DescriptionsItem label="用户姓名">
-          付小小
-        </DescriptionsItem>
-        <DescriptionsItem label="联系电话">
-          18100000000
-        </DescriptionsItem>
-        <DescriptionsItem label="常用快递">
-          菜鸟仓储
-        </DescriptionsItem>
-        <DescriptionsItem label="取货地址">
-          浙江省杭州市西湖区万塘路18号
-        </DescriptionsItem>
-        <DescriptionsItem label="备注">
-          无
-        </DescriptionsItem>
+        <DescriptionsItem label="用户姓名"> 付小小 </DescriptionsItem>
+        <DescriptionsItem label="联系电话"> 18100000000 </DescriptionsItem>
+        <DescriptionsItem label="常用快递"> 菜鸟仓储 </DescriptionsItem>
+        <DescriptionsItem label="取货地址"> 浙江省杭州市西湖区万塘路18号 </DescriptionsItem>
+        <DescriptionsItem label="备注"> 无 </DescriptionsItem>
       </Descriptions>
       <a-divider style="margin-bottom: 32px" />
       <div :class="$style.title">退货商品</div>
@@ -74,14 +56,7 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  h,
-  onActivated,
-  reactive,
-  toRefs
-} from 'vue'
+import { computed, defineComponent, h, onActivated, reactive, toRefs } from 'vue'
 import { Badge, Descriptions } from 'ant-design-vue'
 import { queryBasicProfile } from '/@/services/profile/basic'
 import { progressColumns } from './utils/columns'
@@ -102,8 +77,8 @@ export default defineComponent({
     })
     const renderContent = ({ text, index }) => {
       const obj: {
-        children: any;
-        props: { colSpan?: number };
+        children: any
+        props: { colSpan?: number }
       } = {
         children: text,
         props: {}
@@ -215,5 +190,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" module>
-@import "./style";
+@import './style';
 </style>

@@ -30,12 +30,12 @@ import type { CSSProperties } from 'vue'
 import { defineComponent, getCurrentInstance } from 'vue'
 import { PropTypes } from '/@/utils'
 
-export declare type SizeType = number | 'small' | 'default' | 'large';
+export declare type SizeType = number | 'small' | 'default' | 'large'
 
 type AvatarItemProps = {
-  name: VueNode;
-  avatar: string;
-  size?: SizeType;
+  name: VueNode
+  avatar: string
+  size?: SizeType
 }
 
 export const avatarListProps = {
@@ -70,5 +70,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" module>
-@import "./index";
+@import './index';
 </style>

@@ -28,7 +28,7 @@
         <template #rightExtra>
           <RedoOutlined
             @click="refreshData(tabActiveKey)"
-            style="font-size: 18px;color: #8c8c8c;cursor: pointer;"
+            style="font-size: 18px; color: #8c8c8c; cursor: pointer"
           />
         </template>
       </Tabs>
@@ -133,7 +133,7 @@ export default defineComponent({
 .search-header-row {
   display: flex;
   width: 100%;
-  
+
   .search-header-content {
     flex: auto;
     width: 100%;

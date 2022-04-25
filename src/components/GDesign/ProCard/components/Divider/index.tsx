@@ -9,20 +9,20 @@ type ProCardDividerProps = {
    *
    * @ignore
    */
-  style?: CSSProperties;
+  style?: CSSProperties
   /**
    * ClassName
    *
    * @ignore
    */
-  className?: string;
+  className?: string
   /**
    * 布局类型
    *
    * @default vertical
    */
-  type?: 'horizontal' | 'vertical';
-};
+  type?: 'horizontal' | 'vertical'
+}
 
 const ProCardDivider: FunctionalComponent<ProCardDividerProps> = (props) => {
   const baseClassName = getPrefixCls({

@@ -13,11 +13,13 @@ import DescriptionsPageSkeleton, {
 } from './components/Descriptions'
 import ResultPageSkeleton from './components/Result'
 
-const PageSkeleton = (props: ListPageSkeletonProps &
-  DescriptionsPageSkeletonProps & {
-  type?: 'list' | 'result' | 'descriptions';
-  active?: boolean;
-}) => {
+const PageSkeleton = (
+  props: ListPageSkeletonProps &
+    DescriptionsPageSkeletonProps & {
+      type?: 'list' | 'result' | 'descriptions'
+      active?: boolean
+    }
+) => {
   const { type = 'list', ...rest } = props
   if (type === 'result') {
     return <ResultPageSkeleton {...rest} />

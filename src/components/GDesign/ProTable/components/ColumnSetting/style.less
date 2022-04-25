@@ -17,26 +17,26 @@
       padding: 0px;
       padding-bottom: 8px;
     }
-  
+
     .ant-tree {
       .@{ant-prefix}-tree-node-content-wrapper:hover {
         background-color: transparent;
       }
-  
+
       .@{ant-prefix}-tree-draggable-icon {
         cursor: grab;
       }
-  
+
       .@{ant-prefix}-tree-treenode {
         align-items: center;
-    
+
         &:hover {
           background-color: @item-active-bg;
           .@{pro-column-setting-prefix-cls}-list-item-option {
             display: block;
           }
         }
-    
+
         .@{ant-prefix}-tree-checkbox {
           top: 0;
           margin: 0;
@@ -79,7 +79,7 @@
       cursor: pointer;
       > span {
         > span.anticon {
-          color: @primary-color;
+          color: var(--ant-primary-color);
         }
       }
       > span + span {

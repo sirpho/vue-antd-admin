@@ -15,9 +15,6 @@
 
 <script lang="ts" setup>
 import { Result } from 'ant-design-vue'
-
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

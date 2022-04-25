@@ -1,9 +1,11 @@
 import type { CSSProperties, ExtractPropTypes } from 'vue'
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import Logo from '/@/assets/logo.png'
+import { useMemo } from '@gx-admin/hooks/core'
 import logoContentProps from './props'
+import { useRouteContext } from '../../RouteContext'
 
-export type LogoContentProps = Partial<ExtractPropTypes<typeof logoContentProps>>;
+export type LogoContentProps = Partial<ExtractPropTypes<typeof logoContentProps>>
 
 export const defaultRenderLogo = (logo?: CustomRender, logoStyle?: CSSProperties): CustomRender => {
   if (!logo) {
@@ -20,58 +22,61 @@ export const defaultRenderLogo = (logo?: CustomRender, logoStyle?: CSSProperties
 
 export const defaultRenderLogoAndTitle = (
   props: LogoContentProps,
-  renderKey: string | undefined = 'headerLogoRender'
+  renderKey: string | undefined = 'menuHeaderRender'
 ) => {
-  const {
-    logo = Logo,
-    logoStyle,
-    disabledTitle,
-    title
-  } = props
+  const { logo = Logo, logoStyle, title } = props
   const renderFunction = (props as any)[renderKey || '']
   if (renderFunction === false) {
     return null
   }
 
   const logoDom = defaultRenderLogo(logo, logoStyle)
-  const titleDom = <h1>{title}</h1>
+  const titleDom = title && <h1>{title}</h1>
 
   if (typeof renderFunction === 'function') {
     return renderFunction(logoDom, props.collapsed ? null : titleDom, props)
   }
+
   return (
     <>
       {logoDom || null}
-      {disabledTitle ? null : titleDom}
+      {props.collapsed ? null : titleDom}
     </>
   )
 }
 
-export default defineComponent({
+const LogoContent = defineComponent({
   name: 'LogoContent',
   props: logoContentProps,
   setup(props) {
+    const context = useRouteContext()
 
-    return () => {
-      const headerDom = defaultRenderLogoAndTitle(props)
+    const layoutSide = computed(() => props.layout === 'side' || props.layout === 'simple')
 
-      return (
-        <div
-          id="logo"
-          class={[
-            props.layout === 'side' || props.drawer
-              ? 'gx-pro-sider-logo'
-              : 'gx-pro-global-header-logo',
-            props.theme
-          ]}
-          style={props.disabledTitle ? { minWidth: 'auto' } : undefined}
-          onClick={props.onMenuHeaderClick}
-        >
-          <a href="#/">
-            {headerDom || null}
-          </a>
-        </div>
-      )
-    }
+    const baseClassName = computed(() =>
+      context.getPrefixCls({
+        suffixCls: layoutSide.value || props.drawer ? 'sider' : 'global-header',
+        isPor: true
+      })
+    )
+
+    const headerDom = useMemo(() => defaultRenderLogoAndTitle(props, props.renderKey))
+
+    return () => (
+      <div
+        id="logo"
+        class={{
+          [`${baseClassName.value}-logo`]: true,
+          [`${baseClassName.value}-logo-${props.logoDirection}`]: layoutSide.value
+        }}
+        onClick={props.onMenuHeaderClick}
+      >
+        <a>{headerDom.value || null}</a>
+      </div>
+    )
   }
 })
+
+LogoContent.inheritAttrs = false
+
+export default LogoContent

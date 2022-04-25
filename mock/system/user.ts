@@ -19,6 +19,13 @@ const accessTokens = {
   test: 'test-accessToken'
 }
 
+const account = {
+  admin: 'gx.design',
+  gx12358: 'aa123456',
+  editor: 'gx.design',
+  test: 'gx.design',
+}
+
 export default [
   {
     url: '/mock-server/login',
@@ -26,7 +33,7 @@ export default [
     response: ({ body }) => {
       const { userName, password } = body
       const accessToken = accessTokens[userName]
-      if (!accessToken || (userName === 'gx12358' && password !== 'aa123456')) {
+      if (account[userName] !== password || !accessToken) {
         return {
           code: 500,
           msg: '帐户或密码不正确。'

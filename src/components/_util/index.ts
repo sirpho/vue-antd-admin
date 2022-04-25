@@ -20,12 +20,19 @@ export const getPrefixCls = ({
   return suffixCls ? `${prefixCls}-${suffixCls}` : prefixCls
 }
 
-export function getPropsSlot(slots: Slots, props: RecordType, prop = 'default') {
-  return props[prop] || slots[prop]?.()
+export function getSlotVNode<T>(slots: Slots, props: Record<string, unknown>, prop = 'default'): T | false {
+  if (props[prop] === false) {
+    return false
+  }
+  return (props[prop] || slots[prop]?.()) as T
 }
 
-export function getPropsSlotfn(slots: Slots, props: RecordType, prop = 'default') {
-  return props[prop] || slots[prop]
+export function getSlot<T>(slots: Slots, props: Record<string, unknown>, prop = 'default'): T | false {
+  if (props[prop] === false) {
+    // force not render
+    return false
+  }
+  return (props[prop] || slots[prop]) as T
 }
 
 export function get(entity: any, path: (string | number)[]) {

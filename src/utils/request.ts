@@ -5,6 +5,7 @@ import { message } from 'ant-design-vue'
 import config from '/config/config'
 import router from '/@/router'
 import { useStoreUser } from '@gx-vuex'
+import { isDev } from '/@/utils'
 import { tansParams } from '/@/utils/util'
 import { isArray, checkURL } from '/@/utils/validate'
 import { AxiosCanceler } from './axios/axiosCancel'
@@ -42,6 +43,7 @@ const handleCode = (code: number, msg: string) => {
       case 401:
         message.error(msg || '登录失效')
         user.resetPermissions()
+        router.push({ path: '/user/login' })
         break
       case 403:
         router.push({ path: '/exception/403' })
@@ -87,16 +89,18 @@ instance.interceptors.request.use(
       config.params = {}
       config.url = url
     }
-    const { DEV } = import.meta.env
+
     if (!checkURL(config.url)) {
       if (config.isMock) {
         config.url = `/mock-server${config.url}`
       } else {
-        config.url = `${import.meta.env.VITE_BASE_URL}${DEV ? requestPrefix || '' : ''}${config.url}`
+        config.url = `${import.meta.env.VITE_BASE_URL}${isDev ? requestPrefix || '' : ''}${config.url}`
       }
     }
+
     if (user.accessToken)
       (config).headers[tokenName] = user.accessToken
+
     if (
       config.data &&
       config.headers['Content-Type'] ===

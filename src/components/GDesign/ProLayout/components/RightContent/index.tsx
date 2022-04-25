@@ -1,23 +1,28 @@
-import { computed, defineComponent, ref, createVNode } from 'vue'
+import { computed, defineComponent, createVNode } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { AutoComplete, Modal, Input, Space } from 'ant-design-vue'
-import { LogoutOutlined, SearchOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue'
+import { Modal, Space } from 'ant-design-vue'
+import { LogoutOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue'
 import config from '/config/config'
 import { useStore } from '@gx-vuex'
-import { getPrefixCls } from '@gx-admin/utils'
 import { globalHeaderProps } from '../GlobalHeader/props'
+import HeaderSearch from './HeaderSearch'
 import AvatarDropdown from './AvatarDropdown'
 import NoticeIcon from '../NoticeIcon'
+import { useRouteContext } from '../../RouteContext'
 
 export default defineComponent({
   components: { LogoutOutlined },
   props: {
+    theme: globalHeaderProps.theme,
     extra: globalHeaderProps.extraRightDropdownRender
   },
   setup(props) {
     const { recordRoute } = config.defaultSettings
-    const prefixCls = getPrefixCls({
-      suffixCls: 'header-search',
+
+    const context = useRouteContext()
+
+    const baseClassName = context.getPrefixCls({
+      suffixCls: 'header-right',
       isPor: true
     })
 
@@ -25,16 +30,6 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
 
-    const inputRef = ref<any>()
-    const searchValue = ref<string>('GX Design')
-    const searchMode = ref<boolean>(false)
-
-    const inputClass = computed(() => {
-      return {
-        [`${prefixCls}-input`]: true,
-        [`${prefixCls}-show`]: searchMode.value
-      }
-    })
     const avatar = computed(() => store.user.avatar)
     const userName = computed(() => store.user.loginName)
 
@@ -62,66 +57,33 @@ export default defineComponent({
       })
     }
 
-    const onChange = (value: string) => {
-      searchValue.value = value
-    }
-
-    const onVisibleChange = (value) => {
-      searchMode.value = value
-    }
-
     return () => (
-      <Space>
-        <div
-          class={[ prefixCls, 'gx-pro-right-content-action gx-pro-header-search' ]}
-          onClick={() => {
-            onVisibleChange(true)
-            if (searchMode.value && inputRef.value) {
-              inputRef.value.focus()
+      <Space class={[baseClassName, props.theme]}>
+        <HeaderSearch
+          class={[`${baseClassName}-action`, `${baseClassName}-search`]}
+          placeholder="站内搜索"
+          defaultValue="umi ui"
+          options={[
+            {
+              label: <a href="https://umijs.org/zh/guide/umi-ui.html">umi ui</a>,
+              value: 'umi ui'
+            },
+            {
+              label: <a href="next.ant.design">Ant Design</a>,
+              value: 'Ant Design'
+            },
+            {
+              label: <a href="https://protable.ant.design/">Pro Table</a>,
+              value: 'Pro Table'
+            },
+            {
+              label: <a href="https://prolayout.ant.design/">Pro Layout</a>,
+              value: 'Pro Layout'
             }
-          }}
-        >
-          <SearchOutlined
-            key="Icon"
-            style={{
-              cursor: 'pointer'
-            }}
-          />
-          <AutoComplete
-            key="AutoComplete"
-            class={inputClass.value}
-            options={[
-              {
-                label: <a>GX Design</a>,
-                value: 'GX Design'
-              },
-              {
-                label: <a>Ant Design</a>,
-                value: 'Ant Design'
-              },
-              {
-                label: <a>Pro Table</a>,
-                value: 'Pro Table'
-              },
-              {
-                label: <a>Pro Layout</a>,
-                value: 'Pro Layout'
-              }
-            ]}
-            onChange={onChange}
-          >
-            <Input
-              size="small"
-              ref={e => inputRef.value = e}
-              defaultValue={searchValue.value}
-              aria-label="站内搜索"
-              placeholder="站内搜索"
-              onBlur={() => {
-                onVisibleChange(false)
-              }}
-            />
-          </AutoComplete>
-        </div>
+          ]} // onSearch={value => {
+          //   console.log('input', value);
+          // }}
+        />
         <NoticeIcon />
         <AvatarDropdown
           avatar={avatar.value}

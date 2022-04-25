@@ -1,20 +1,16 @@
 <template>
   <g-pro-page-wrapper>
-    <a-form
-      style="max-width: 600px;margin: 8px auto auto;"
-      :model="formState"
-      layout="vertical"
-    >
+    <a-form style="max-width: 600px; margin: 8px auto auto" :model="formState" layout="vertical">
       <a-form-item label="标题" v-bind="validateInfos.title">
         <a-input
-          style="width: 328px;"
+          style="width: 328px"
           v-model:value="formState.title"
           placeholder="给目标起个名字"
           allow-clear
         />
       </a-form-item>
       <a-form-item label="起止日期" v-bind="validateInfos.date">
-        <a-range-picker show-time style="width: 328px;" v-model:value="formState.date" />
+        <a-range-picker show-time style="width: 328px" v-model:value="formState.date" />
       </a-form-item>
       <a-form-item label="目标描述" v-bind="validateInfos.goal">
         <a-textarea
@@ -43,7 +39,7 @@
           </span>
         </template>
         <a-input
-          style="width: 328px;"
+          style="width: 328px"
           v-model:value="formState.client"
           placeholder="请描述你服务的客户，内部客户直接 @姓名／工号"
           allow-clear
@@ -57,7 +53,7 @@
           </span>
         </template>
         <a-input
-          style="width: 328px;"
+          style="width: 328px"
           v-model:value="formState.invites"
           placeholder="请直接 @姓名／工号，最多可邀请 5 人"
           allow-clear
@@ -75,48 +71,46 @@
           placeholder="请输入"
           :min="0"
           :max="100"
-          :formatter="value => `${value}%`"
-          :parser="value => value.replace('%', '')"
+          :formatter="(value) => `${value}%`"
+          :parser="(value) => value.replace('%', '')"
         />
       </a-form-item>
       <a-form-item label="目标公开">
-        <template #extra>
-          客户、邀评人默认被分享
-        </template>
+        <template #extra> 客户、邀评人默认被分享 </template>
         <a-radio-group
           :options="[
             {
               value: '1',
-              label: '公开',
+              label: '公开'
             },
             {
               value: '2',
-              label: '部分公开',
+              label: '部分公开'
             },
             {
               value: '3',
-              label: '不公开',
-            },
+              label: '不公开'
+            }
           ]"
           v-model:value="formState.publicType"
         />
       </a-form-item>
       <a-form-item v-if="formState.publicType === '2'">
         <a-select
-          style="width: 328px;"
+          style="width: 328px"
           :options="[
             {
               value: '1',
-              label: '同事甲',
+              label: '同事甲'
             },
             {
               value: '2',
-              label: '同事乙',
+              label: '同事乙'
             },
             {
               value: '3',
-              label: '同事丙',
-            },
+              label: '同事丙'
+            }
           ]"
           placeholder="请选择"
           v-model:value="formState.publicUsers"
@@ -143,14 +137,14 @@ import { hanndleField } from '/@/utils/util'
 const useForm = Form.useForm
 
 interface basicFormModel {
-  title: string;
-  date: Dayjs[],
-  goal: string;
-  standard: string;
-  client: string;
-  weight: number;
-  publicType: string;
-  publicUsers: string | undefined;
+  title: string
+  date: Dayjs[]
+  goal: string
+  standard: string
+  client: string
+  weight: number
+  publicType: string
+  publicUsers: string | undefined
 }
 
 export default defineComponent({
@@ -211,7 +205,10 @@ export default defineComponent({
           }
         }
         state.formState.date = response.data.startTime
-          ? [ dayjs('2020-09-26 00:00:00', 'YYYY-MM-DD HH:mm:ss'), dayjs(response.data.endTime, 'YYYY-MM-DD HH:mm:ss') ]
+          ? [
+              dayjs('2020-09-26 00:00:00', 'YYYY-MM-DD HH:mm:ss'),
+              dayjs(response.data.endTime, 'YYYY-MM-DD HH:mm:ss')
+            ]
           : []
       }
     })
@@ -221,7 +218,7 @@ export default defineComponent({
         .then(() => {
           console.log(toRaw(state.formState))
         })
-        .catch(err => {
+        .catch((err) => {
           console.log('error', err)
         })
     }

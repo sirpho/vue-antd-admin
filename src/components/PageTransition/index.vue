@@ -26,7 +26,7 @@ export default defineComponent({
       default: 'bounce'
     },
     direction: {
-      type: String,
+      type: String
     },
     reverse: {
       type: Boolean,
@@ -51,13 +51,10 @@ export default defineComponent({
       } else {
         direction = animate.directions.find((item) => item == props.direction)
       }
-      direction =
-        direction == undefined || direction === 'default' ? '' : direction
+      direction = direction == undefined || direction === 'default' ? '' : direction
       if (direction != '') {
         direction =
-          isLeave && props.reverse
-            ? reversePosition(direction, animate.directions)
-            : direction
+          isLeave && props.reverse ? reversePosition(direction, animate.directions) : direction
         direction = direction[0].toUpperCase() + direction.substring(1)
       }
       let t = isLeave ? 'Out' : 'In'
@@ -80,7 +77,7 @@ export default defineComponent({
 </script>
 
 <style lang="less">
-.page-toggle-enter-active{
+.page-toggle-enter-active {
   position: absolute !important;
   top: 0;
   right: 0;
@@ -90,19 +87,13 @@ export default defineComponent({
   animation-duration: 0.3s !important;
 }
 
-.page-toggle-leave-active{
+.page-toggle-leave-active {
   position: absolute !important;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   background: transparent;
-  animation-duration: .3s !important;
-}
-
-.page-toggle-enter{
-}
-
-.page-toggle-leave-to{
+  animation-duration: 0.3s !important;
 }
 </style>

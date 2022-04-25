@@ -22,7 +22,7 @@ export const themeConfig = [
   {
     color: '#1890FF',
     colorName: '拂晓蓝（默认）',
-    fileName: 'daybreak'
+    fileName: 'daybreak',
   },
   {
     color: '#F5222D',

@@ -2,16 +2,20 @@ import { computed, unref, reactive, watchEffect, Ref, Slots, ComputedRef } from 
 import { PaginationProps } from 'ant-design-vue/lib/pagination'
 import { isBoolean, isFunction } from '/@/utils/validate'
 import { ProTableProps } from '../Table'
-import { getPropsSlotfn } from '@gx-admin/utils'
+import { getSlot } from '@gx-admin/utils'
 
-export type GProTablePaginationProps = (PaginationProps & {
-  position?: string;
-})
+export type GProTablePaginationProps = PaginationProps & {
+  position?: string
+}
 
-export function usePagination({ slots, props, pagination }: {
+export function usePagination({
+  slots,
+  props,
+  pagination
+}: {
   slots: Slots
-  props: ComputedRef<ProTableProps>;
-  pagination: Ref<ProTableProps['pagination']>;
+  props: ComputedRef<ProTableProps>
+  pagination: Ref<ProTableProps['pagination']>
 }) {
   const configRef = reactive<PaginationProps>({})
 
@@ -28,13 +32,13 @@ export function usePagination({ slots, props, pagination }: {
       return false
     }
 
-    const pageItemRender = getPropsSlotfn(slots, unref(props), 'pageItemRender')
+    const pageItemRender = getSlot(slots, unref(props), 'pageItemRender')
     const itemRenderProps = isFunction(pageItemRender)
       ? {
-        itemRender: ({ page, type, originalElement }) => {
-          return pageItemRender({ page, type, originalElement })
+          itemRender: ({ page, type, originalElement }) => {
+            return pageItemRender({ page, type, originalElement })
+          }
         }
-      }
       : {}
 
     const pageInfo = {
@@ -43,16 +47,15 @@ export function usePagination({ slots, props, pagination }: {
       size: 'normal',
       showQuickJumper: true,
       showSizeChanger: true,
-      pageSizeOptions: [ '10', '20', '50', '100' ],
+      pageSizeOptions: ['10', '20', '50', '100'],
       ...(pagination.value || {}),
       ...unref(configRef),
       ...itemRenderProps
     } as GProTablePaginationProps
 
     if (!pagination.value?.showTotal) {
-      pageInfo.showTotal = (total) => `共${total < pageInfo.pageSize
-        ? 1
-        : Math.ceil(total / pageInfo.pageSize)}页 ${total}条记录`
+      pageInfo.showTotal = (total) =>
+        `共${total < pageInfo.pageSize ? 1 : Math.ceil(total / pageInfo.pageSize)}页 ${total}条记录`
     }
     return pageInfo
   })
@@ -60,7 +63,7 @@ export function usePagination({ slots, props, pagination }: {
   function setPagination(info: Partial<PaginationProps>) {
     const paginationInfo = unref(getPaginationInfo)
     Object.assign(configRef, {
-      ...(paginationInfo as GProTablePaginationProps || {}),
+      ...((paginationInfo as GProTablePaginationProps) || {}),
       ...info
     })
   }

@@ -11,9 +11,7 @@ import { configPwaConfig } from './pwa'
 import { configMockPlugin } from './mock'
 import { createAutoImport } from './autoImport'
 import { configCompressPlugin } from './compress'
-import { configStyleImportPlugin } from './styleImport'
 import { configVisualizerConfig } from './visualizer'
-// import { configThemePlugin } from './theme'
 import { configSvgIconsPlugin } from './svgSprite'
 import { configHmrPlugin } from './hmr'
 
@@ -29,7 +27,7 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
     // have to
     vue(),
     // have to
-    vueJsx()
+    vueJsx(),
   ]
 
   !isBuild && vitePlugins.push(configHmrPlugin())
@@ -49,17 +47,11 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   // vite-plugin-purge-icons
   vitePlugins.push(purgeIcons())
 
-  // vite-plugin-style-import
-  vitePlugins.push(configStyleImportPlugin(isBuild))
-
   // rollup-plugin-visualizer
   vitePlugins.push(configVisualizerConfig())
 
   // unplugin-auto-import/vite
   vitePlugins.push(createAutoImport())
-
-  //vite-plugin-theme
-  // vitePlugins.push(configThemePlugin())
 
   // The following plugins only work in the production environment
   if (isBuild) {

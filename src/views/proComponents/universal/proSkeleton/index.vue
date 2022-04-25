@@ -72,7 +72,7 @@ export default defineComponent({
     .ant-divider-horizontal.ant-divider-with-text-left::before {
       width: 0;
     }
-    
+
     .ant-divider-inner-text {
       padding-left: 0;
     }

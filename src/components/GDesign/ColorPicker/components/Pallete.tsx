@@ -13,7 +13,7 @@ export default defineComponent({
       required: true
     },
     rgba: {
-      type: (Array as unknown) as PropType<HSVA | null>,
+      type: Array as unknown as PropType<HSVA | null>,
       default: null
     },
     // 0 - 360
@@ -22,7 +22,7 @@ export default defineComponent({
       required: true
     },
     displayedSv: {
-      type: (Array as unknown) as PropType<[ number, number ]>,
+      type: Array as unknown as PropType<[number, number]>,
       required: true
     },
     onUpdateSV: {
@@ -85,8 +85,7 @@ export default defineComponent({
         <div
           class={`${clsPrefix}-picker-pallete-layer ${clsPrefix}-picker-pallete-layer-shadowed`}
           style={{
-            backgroundImage:
-              'linear-gradient(180deg, rgba(0, 0, 0, 0%), rgba(0, 0, 0, 100%))'
+            backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, 0%), rgba(0, 0, 0, 100%))'
           }}
         />
         {this.rgba && (

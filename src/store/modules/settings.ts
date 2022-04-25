@@ -17,6 +17,7 @@ export interface SettingsState {
   fixSiderbar: themeConfig['fixSiderbar'];
   fixedHeader: themeConfig['fixedHeader'];
   fixedMultiTab: themeConfig['fixedMultiTab'];
+  splitMenus: themeConfig['splitMenus'];
   showTabsBar: themeConfig['showTabsBar'];
   autoHideHeader: themeConfig['autoHideHeader'];
   showProgressBar: themeConfig['showProgressBar'];
@@ -33,6 +34,7 @@ const {
   theme,
   primaryColor,
   animate,
+  splitMenus,
   fixedMultiTab,
   fixedHeader,
   fixSiderbar,
@@ -53,10 +55,11 @@ export const useStoreSettings = defineStore('settings', () => {
       name: 'fade',
       direction: 'default'
     },
+    splitMenus: layout === 'mix' ? splitMenus : false,
     autoHideHeader,
-    showTabsBar,
-    fixedMultiTab,
-    fixedHeader: layout === 'mix' ? true : fixedHeader,
+    showTabsBar: layout === 'simple' ? false : showTabsBar,
+    fixedMultiTab: layout === 'simple' ? false : fixedMultiTab,
+    fixedHeader: layout === 'mix' ? true : layout === 'simple' ? false : fixedHeader,
     fixSiderbar: layout === 'mix' ? true : fixSiderbar,
     keepAlive: false,
     showProgressBar

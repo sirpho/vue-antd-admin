@@ -4,7 +4,7 @@
 import type { themeConfig } from '/types/config'
 
 const themeSetting: themeConfig = {
-  //布局种类 side/mix
+  //布局种类 side/mix/simple
   layout: 'mix',
   // 主题 light/dark
   theme: 'light',
@@ -20,6 +20,8 @@ const themeSetting: themeConfig = {
   fixedHeader: false,
   // 侧边栏菜单是否固定
   fixSiderbar: false,
+  // 菜单是否自动分割
+  splitMenus: true,
   //是否显示顶部进度条
   showProgressBar: true,
   //是否显示多标签页

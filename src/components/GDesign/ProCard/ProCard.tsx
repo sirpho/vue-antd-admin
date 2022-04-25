@@ -19,4 +19,3 @@ ProCard.TabPane = TabPane
 ProCard.Group = Group
 
 export default ProCard
-

@@ -10,7 +10,7 @@
     <a-form v-bind="formItemLayout">
       <a-form-item label="x" v-bind="validateInfos.x">
         <a-input
-          style="width: 100%;"
+          style="width: 100%"
           v-model:value="scrollRef.x"
           placeholder="请输入横向x"
           allow-clear
@@ -18,7 +18,7 @@
       </a-form-item>
       <a-form-item label="y" v-bind="validateInfos.y">
         <a-input
-          style="width: 100%;"
+          style="width: 100%"
           v-model:value="scrollRef.y"
           placeholder="请输入纵向y"
           allow-clear
@@ -28,14 +28,14 @@
   </g-pro-modal>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { Form } from 'ant-design-vue'
 
 const useForm = Form.useForm
 
-const emits = defineEmits([ 'handleOk' ])
+const emits = defineEmits(['handleOk'])
 
 const visible = ref(false)
 
@@ -61,19 +61,21 @@ const open = () => {
 }
 
 const handleSubmit = () => {
-  validate().then(() => {
-    const params = cloneDeep(scrollRef)
-    Object.keys(params).map(item => {
-      if (params[item]) {
-        params[item] = Number(params[item])
-      } else {
-        delete params[item]
-      }
-      return item
+  validate()
+    .then(() => {
+      const params = cloneDeep(scrollRef)
+      Object.keys(params).map((item) => {
+        if (params[item]) {
+          params[item] = Number(params[item])
+        } else {
+          delete params[item]
+        }
+        return item
+      })
+      emits('handleOk', params)
+      resetModalState()
     })
-    emits('handleOk', params)
-    resetModalState()
-  }).catch(_ => {})
+    .catch((_) => {})
 }
 
 const handleCancel = () => {
@@ -83,9 +85,6 @@ const handleCancel = () => {
 defineExpose({
   open
 })
-
 </script>
 
-<style lang='less' module>
-
-</style>
+<style lang="less" module></style>

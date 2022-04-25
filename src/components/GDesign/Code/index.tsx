@@ -14,7 +14,7 @@ export type CodeProps = ExtractPropTypes<typeof codeProps>
 export default defineComponent({
   name: 'GCode',
   props: codeProps,
-  setup (props, { slots }) {
+  setup(props, { slots }) {
     const { internalNoHighlight } = props
 
     const baseClassName = getPrefixCls({
@@ -31,11 +31,7 @@ export default defineComponent({
       }
     })
 
-    const createCodeHtml = (
-      language: string,
-      code: string,
-      trim: boolean
-    ): string | null => {
+    const createCodeHtml = (language: string, code: string, trim: boolean): string | null => {
       const { value: hljs } = hljsRef
       if (!hljs) {
         return null
@@ -53,9 +49,7 @@ export default defineComponent({
       const { value: codeEl } = codeRef
       if (!codeEl) return
       const { language } = props
-      const code = props.uri
-        ? window.decodeURIComponent(props.code)
-        : props.code
+      const code = props.uri ? window.decodeURIComponent(props.code) : props.code
       if (language) {
         const html = createCodeHtml(language, code, props.trim)
         if (html !== null) {
@@ -89,12 +83,9 @@ export default defineComponent({
     return () => {
       return (
         <code
-          class={[
-            `${baseClassName}`,
-            props.wordWrap && `${baseClassName}-word-wrap`
-          ]}
+          class={[`${baseClassName}`, props.wordWrap && `${baseClassName}-word-wrap`]}
           style={cssVars.value as CSSProperties}
-          ref={e => codeRef.value = e}
+          ref={(e) => (codeRef.value = e)}
         >
           {slots}
         </code>

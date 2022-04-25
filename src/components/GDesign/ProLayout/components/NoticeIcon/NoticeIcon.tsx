@@ -30,12 +30,12 @@ export const noticeIconProps = {
   emptyImage: PropTypes.string
 }
 
-export type NoticeIconProps = Partial<ExtractPropTypes<typeof noticeIconProps>>;
+export type NoticeIconProps = Partial<ExtractPropTypes<typeof noticeIconProps>>
 
 const NoticeIcon = defineComponent({
   props: noticeIconProps,
   Tab: NoticeList,
-  emits: [ 'onClear', 'onTabChange', 'onItemClick', 'onViewMore', 'onPopupVisibleChange' ],
+  emits: ['onClear', 'onTabChange', 'onItemClick', 'onViewMore', 'onPopupVisibleChange'],
   setup(props, { emit, slots }) {
     const prefixCls = getPrefixCls({
       suffixCls: 'notice',
@@ -46,11 +46,10 @@ const NoticeIcon = defineComponent({
 
     const activeKey = ref('notification')
 
-    const getChildrenSlots: any = computed(() => slots.default?.().length === 1 &&
-      (
-        String(slots.default?.()[0].type) === String(Symbol('Fragment')) ||
-        String(slots.default?.()[0].type) === String(Symbol())
-      )
+    const getChildrenSlots: any = computed(() =>
+      slots.default?.().length === 1 &&
+      (String(slots.default?.()[0].type) === String(Symbol('Fragment')) ||
+        String(slots.default?.()[0].type) === String(Symbol()))
         ? slots.default?.()[0].children || []
         : slots.default?.() || []
     )
@@ -83,14 +82,7 @@ const NoticeIcon = defineComponent({
     ))
 
     const notificationBoxRender = () => {
-      const {
-        loading,
-        onClear,
-        onItemClick,
-        onViewMore,
-        clearText,
-        viewMoreText
-      } = props
+      const { loading, onClear, onItemClick, onViewMore, clearText, viewMoreText } = props
 
       return (
         <a-spin spinning={loading} delay={300}>
@@ -127,25 +119,22 @@ const NoticeIcon = defineComponent({
       )
     }
 
-
     return () => {
       return (
         <>
-          {
-            getChildrenSlots.value.length > 0
-              ? (
-                <Dropdown
-                  placement="bottomRight"
-                  trigger={[ 'click' ]}
-                  overlay={notificationBoxRender()}
-                  overlayClassName={`gx-pro-dropdown-container ${prefixCls}-popover`}
-                  onVisibleChange={() => onChange}
-                >
-                  {trigger.value}
-                </Dropdown>
-              )
-              : trigger.value
-          }
+          {getChildrenSlots.value.length > 0 ? (
+            <Dropdown
+              placement="bottomRight"
+              trigger={['click']}
+              overlay={notificationBoxRender()}
+              overlayClassName={`gx-pro-dropdown-container ${prefixCls}-popover`}
+              onVisibleChange={() => onChange}
+            >
+              {trigger.value}
+            </Dropdown>
+          ) : (
+            trigger.value
+          )}
         </>
       )
     }

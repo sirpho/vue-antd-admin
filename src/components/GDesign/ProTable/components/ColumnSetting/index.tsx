@@ -19,18 +19,18 @@ import type { ColumnsState } from '../../hooks/useColumnSetting'
 import './style.less'
 
 export type ColumnSettingProps = {
-  draggable?: boolean;
-  checkable?: boolean;
-  extra?: VueNode;
-  settingExtra?: VueNode;
-  checkedReset?: boolean;
+  draggable?: boolean
+  checkable?: boolean
+  extra?: VueNode
+  settingExtra?: VueNode
+  checkedReset?: boolean
 }
 
 const ToolTipIcon: FC<{
-  title: string;
-  treeKey: string;
-  show: boolean;
-  fixed: 'left' | 'right' | undefined;
+  title: string
+  treeKey: string
+  show: boolean
+  fixed: 'left' | 'right' | undefined
 }> = ({ title, show, treeKey, fixed }, { slots }) => {
   const { cacheColumns, settingsAction } = useTableContext()
 
@@ -43,7 +43,7 @@ const ToolTipIcon: FC<{
         onClick={(e) => {
           e.stopPropagation()
           e.preventDefault()
-          const columnKey = unref(cacheColumns).find(item => item.uuid === treeKey)?.key || ''
+          const columnKey = unref(cacheColumns).find((item) => item.uuid === treeKey)?.key || ''
           const config = settingsAction?.columnsMap[columnKey] || {}
           const disableIcon =
             typeof config.disable === 'boolean' ? config.disable : config.disable?.icon
@@ -62,20 +62,14 @@ const ToolTipIcon: FC<{
 }
 
 const CheckboxListItem: FC<{
-  treeKey: string;
-  className?: string;
-  title?: VueNode;
-  autoScroll?: Ref<boolean>;
-  fixed?: boolean | 'left' | 'right';
-}> = ({
-  treeKey,
-  title,
-  className,
-  fixed,
-  autoScroll,
-}) => {
+  treeKey: string
+  className?: string
+  title?: VueNode
+  autoScroll?: Ref<boolean>
+  fixed?: boolean | 'left' | 'right'
+}> = ({ treeKey, title, className, fixed, autoScroll }) => {
   const { cacheColumns } = useTableContext()
-  const columnKey = unref(cacheColumns).find(item => item.uuid === treeKey)?.key || ''
+  const columnKey = unref(cacheColumns).find((item) => item.uuid === treeKey)?.key || ''
 
   const actionStatus = computed(() => columnKey === 'action' && autoScroll.value)
 
@@ -97,12 +91,7 @@ const CheckboxListItem: FC<{
       >
         <VerticalAlignMiddleOutlined />
       </ToolTipIcon>
-      <ToolTipIcon
-        treeKey={treeKey}
-        fixed="right"
-        title="固定在列尾"
-        show={fixed !== 'right'}
-      >
+      <ToolTipIcon treeKey={treeKey} fixed="right" title="固定在列尾" show={fixed !== 'right'}>
         <VerticalAlignBottomOutlined />
       </ToolTipIcon>
     </span>
@@ -160,7 +149,7 @@ const CheckboxList = defineComponent({
     watchEffect(() => {
       const treeList = loopData(props.list)
       treeData.value = treeList
-      checkedKeys.value = treeList.filter(item => item.checked).map(item => item.key)
+      checkedKeys.value = treeList.filter((item) => item.checked).map((item) => item.key)
       // 此举解决Ant-design-Tree 报错 Tree missing follow keys: ...
       if (settingsAction?.operationType.value === 'fixed') {
         treeKey.value = getRandomNumber().uuid(15)
@@ -169,10 +158,10 @@ const CheckboxList = defineComponent({
 
     /** 移动到指定的位置 */
     const move = useRefFunction((id: Key, targetId: Key, dropPosition: number) => {
-      const key = unref(cacheColumns).find(item => item.uuid === id)?.key || ''
-      const targetKey = unref(cacheColumns).find(item => item.uuid === targetId)?.key || ''
+      const key = unref(cacheColumns).find((item) => item.uuid === id)?.key || ''
+      const targetKey = unref(cacheColumns).find((item) => item.uuid === targetId)?.key || ''
       const newMap = { ...settingsAction?.columnsMap }
-      const newColumns = [ ...settingsAction.sortKeyColumns.value ]
+      const newColumns = [...settingsAction.sortKeyColumns.value]
       const findIndex = newColumns.findIndex((columnKey) => columnKey === key)
       const targetIndex = newColumns.findIndex((columnKey) => columnKey === targetKey)
       const isDownWord = dropPosition > findIndex
@@ -198,7 +187,7 @@ const CheckboxList = defineComponent({
     /** 选中反选功能 */
     const onCheckTree = useRefFunction((e) => {
       const treeKey = e.node.key
-      const columnKey = unref(cacheColumns).find(item => item.uuid === treeKey)?.key || ''
+      const columnKey = unref(cacheColumns).find((item) => item.uuid === treeKey)?.key || ''
       const tempConfig = settingsAction?.columnsMap[columnKey] || {}
       const newSetting = { ...tempConfig }
       newSetting.show = e.checked
@@ -211,15 +200,18 @@ const CheckboxList = defineComponent({
     })
 
     const treeTitleSlots = (record) => {
-      const columnsItem: any = unref(cacheColumns).find(item => item.uuid === record.key)
-      return record.title || renderSlot(
-        slots,
-        'headerCell',
-        {
-          title: columnsItem.title,
-          column: columnsItem
-        },
-        () => [ columnsItem.title as any ]
+      const columnsItem: any = unref(cacheColumns).find((item) => item.uuid === record.key)
+      return (
+        record.title ||
+        renderSlot(
+          slots,
+          'headerCell',
+          {
+            title: columnsItem.title,
+            column: columnsItem
+          },
+          () => [columnsItem.title as any]
+        )
       )
     }
 
@@ -243,10 +235,13 @@ const CheckboxList = defineComponent({
         treeData={treeData.value}
         v-slots={{
           title: (_node) => {
-            const node = { ..._node, children: undefined, title: treeTitleSlots(_node), autoScroll: settingsAction?.autoScroll }
-            return (
-              <CheckboxListItem className={props.className} {...node} treeKey={node.key} />
-            )
+            const node = {
+              ..._node,
+              children: undefined,
+              title: treeTitleSlots(_node),
+              autoScroll: settingsAction?.autoScroll
+            }
+            return <CheckboxListItem className={props.className} {...node} treeKey={node.key} />
           }
         }}
       />
@@ -266,10 +261,10 @@ const CheckboxList = defineComponent({
 })
 
 const GroupCheckboxList: FC<{
-  localColumns: ProColumn[];
-  className?: string;
-  draggable: boolean;
-  checkable: boolean;
+  localColumns: ProColumn[]
+  className?: string
+  draggable: boolean
+  checkable: boolean
 }> = ({ localColumns, className, draggable, checkable }) => {
   const rightList: ProColumn[] = []
   const leftList: ProColumn[] = []
@@ -351,7 +346,7 @@ const ColumnSetting: FC<ColumnSettingProps> = (props) => {
    *
    * @param show
    */
-  const setAllSelectAction = useRefFunction((show: boolean = true) => {
+  const setAllSelectAction = useRefFunction((show = true) => {
     const columnKeyMap = {}
     const loopColumns = (columns: any) => {
       columns.forEach(({ key, fixed, index, children }: any) => {
@@ -386,10 +381,13 @@ const ColumnSetting: FC<ColumnSettingProps> = (props) => {
   })
 
   const unCheckedKeys = computed(() =>
-    Object.values(settingsAction?.columnsMap).filter((value) => !value || value.show === false))
+    Object.values(settingsAction?.columnsMap).filter((value) => !value || value.show === false)
+  )
 
-  const indeterminate = computed(() =>
-    unref(unCheckedKeys).length > 0 && unref(unCheckedKeys).length !== localColumns.value.length)
+  const indeterminate = computed(
+    () =>
+      unref(unCheckedKeys).length > 0 && unref(unCheckedKeys).length !== localColumns.value.length
+  )
 
   return (
     <Popover
@@ -398,7 +396,10 @@ const ColumnSetting: FC<ColumnSettingProps> = (props) => {
         <div class={`${className}-title`}>
           <Checkbox
             indeterminate={indeterminate.value}
-            checked={unref(unCheckedKeys).length === 0 && unref(unCheckedKeys).length !== localColumns.value.length}
+            checked={
+              unref(unCheckedKeys).length === 0 &&
+              unref(unCheckedKeys).length !== localColumns.value.length
+            }
             onChange={(e) => checkedAll(e)}
           >
             列展示

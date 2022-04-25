@@ -8,10 +8,10 @@ export type ProCardActionsProps = {
    *
    * @ignore
    */
-  prefixCls?: string;
+  prefixCls?: string
   /** 操作按钮 */
-  actions?: VueNode[];
-};
+  actions?: VueNode[]
+}
 
 const ProCardActions: FunctionalComponent<ProCardActionsProps> = (props) => {
   const { actions, prefixCls } = props

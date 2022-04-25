@@ -2,7 +2,7 @@ import type { PropType } from 'vue'
 import { defineComponent, ref, watchEffect } from 'vue'
 
 // 0 - 255
-function normalizeRgbUnit (value: string): number | false {
+function normalizeRgbUnit(value: string): number | false {
   if (/^\d{1,3}\.?\d*$/.test(value.trim())) {
     return Math.max(0, Math.min(parseInt(value), 255))
   }
@@ -10,7 +10,7 @@ function normalizeRgbUnit (value: string): number | false {
 }
 
 // 0 - 360
-function normalizeHueUnit (value: string): number | false {
+function normalizeHueUnit(value: string): number | false {
   if (/^\d{1,3}\.?\d*$/.test(value.trim())) {
     return Math.max(0, Math.min(parseInt(value), 360))
   }
@@ -18,14 +18,14 @@ function normalizeHueUnit (value: string): number | false {
 }
 
 // 0 - 100
-function normalizeSlvUnit (value: string): number | false {
+function normalizeSlvUnit(value: string): number | false {
   if (/^\d{1,3}\.?\d*$/.test(value.trim())) {
     return Math.max(0, Math.min(parseInt(value), 100))
   }
   return false
 }
 
-function normalizeHexaUnit (value: string): boolean {
+function normalizeHexaUnit(value: string): boolean {
   const trimmedValue = value.trim()
   if (/^#[0-9a-fA-F]+$/.test(trimmedValue)) {
     return [4, 5, 7, 9].includes(trimmedValue.length)
@@ -34,7 +34,7 @@ function normalizeHexaUnit (value: string): boolean {
 }
 
 // 0 - 100%
-function normalizeAlphaUnit (value: string): number | false {
+function normalizeAlphaUnit(value: string): number | false {
   if (/^\d{1,3}\.?\d*%$/.test(value.trim())) {
     return Math.max(0, Math.min(parseInt(value), 100))
   }
@@ -58,12 +58,12 @@ export default defineComponent({
       required: true
     }
   },
-  setup (props) {
+  setup(props) {
     const inputValueRef = ref<string>('')
     watchEffect(() => {
       inputValueRef.value = getInputString()
     })
-    function getInputString (): string {
+    function getInputString(): string {
       const { value } = props
       if (value === null) return ''
       const { label } = props
@@ -75,7 +75,7 @@ export default defineComponent({
       }
       return String(Math.floor(value as number))
     }
-    function handleInputChange (value: string): void {
+    function handleInputChange(value: string): void {
       let unit: number | false
       let valid: boolean
       switch (props.label) {
@@ -126,10 +126,10 @@ export default defineComponent({
     }
     return {
       inputValue: inputValueRef,
-      handleInputChange,
+      handleInputChange
     }
   },
-  render () {
+  render() {
     return (
       <a-input
         size="small"

@@ -2,7 +2,7 @@
   <g-pro-page-wrapper :contentStyle="{ position: 'relative' }">
     <g-doc :anchorLinks="links">
       <a-typography id="proCard">
-        <a-typography-title :level="2" :style="{color: '#454d64'}">
+        <a-typography-title :level="2" :style="{ color: '#454d64' }">
           ProCard 高级卡片
           <a style="font-size: 14px" href="https://procomponents.ant.design/components/card">
             （参照react-pro-components：ProCard）

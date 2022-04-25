@@ -1,66 +1,69 @@
 .@{gx-prefix-pro}-table {
   background-color: #ffffff;
-  
-  .ant-table-content, .ant-table-body {
+
+  .ant-table-content,
+  .ant-table-body {
     &::-webkit-scrollbar {
       width: 6px;
       height: 6px;
     }
-    
+
     &::-webkit-scrollbar-thumb {
-      background-color: rgba(50, 50, 50, .3);
+      background-color: rgba(50, 50, 50, 0.3);
       border-radius: 1em;
     }
-    
+
     &::-webkit-scrollbar-track {
-      background-color: rgba(50, 50, 50, .1);
+      background-color: rgba(50, 50, 50, 0.1);
       border-radius: 1em;
     }
   }
-  
+
   .ant-table-empty .ant-table-content {
     &::-webkit-scrollbar {
       width: 6px;
       height: 6px;
     }
-    
+
     &::-webkit-scrollbar-thumb {
-      background-color: rgba(50, 50, 50, .3);
+      background-color: rgba(50, 50, 50, 0.3);
       border-radius: 1em;
     }
-    
+
     &::-webkit-scrollbar-track {
-      background-color: rgba(50, 50, 50, .1);
+      background-color: rgba(50, 50, 50, 0.1);
       border-radius: 1em;
     }
   }
-  
+
   &-no-scroll {
-    .ant-table-bordered .ant-table-fixed-left .ant-table-thead > tr > th, .ant-table-bordered .ant-table-fixed-left .ant-table-tbody > tr > td {
+    .ant-table-bordered .ant-table-fixed-left .ant-table-thead > tr > th,
+    .ant-table-bordered .ant-table-fixed-left .ant-table-tbody > tr > td {
       &:last-child {
         border-right: 0;
       }
     }
-    
+
     .ant-table table {
       width: 100% !important;
       min-width: unset;
       table-layout: unset;
     }
-    
+
     .ant-table-ping-right:not(.ant-table-has-fix-right) .ant-table-container::after {
       box-shadow: none;
     }
   }
-  
+
   &-table-tree {
-    .ant-table-row-cell-ellipsis, .ant-table-row-cell-ellipsis .ant-table-column-title {
+    .ant-table-row-cell-ellipsis,
+    .ant-table-row-cell-ellipsis .ant-table-column-title {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
   }
-  
+
   &-full-screen {
     .@{gx-prefix-pro}-table-content {
       height: 100% !important;
@@ -68,114 +71,113 @@
       box-shadow: 0 4px 8px #0003, 0 6px 20px #00000030 !important;
     }
   }
-  
+
   .@{gx-prefix-pro}-table {
-    
     &-copyable {
       display: flex;
       align-items: center;
-      
+
       .@{gx-prefix-pro}-table-copyable-icon {
         margin-left: 8px;
-        color: @primary-color;
+        color: var(--ant-primary-color);
         cursor: pointer;
       }
     }
-    
+
     &-ellipsis {
       overflow: hidden;
       text-overflow: ellipsis;
       word-break: break-word;
       white-space: nowrap;
     }
-    
+
     &-action-size {
       display: inline-block;
     }
-    
+
     &-action-columns {
       display: inline-block;
-      
+
       .ant-popover-inner-content {
         padding: 8px 0 8px 16px;
       }
-      
+
       .ant-tree .ant-tree-switcher-noop {
         display: none;
       }
-      
+
       .ant-tree .ant-tree-treenode {
         align-items: center;
         width: 100%;
-        
+
         &:hover {
           background-color: #e6f7ff;
-          
+
           .@{gx-prefix-pro}-table-action-columns-list-item-actions {
             display: block;
           }
         }
       }
-      
+
       .ant-tree > .ant-tree-treenode:first-child {
         padding-top: 0;
       }
-      
+
       .ant-tree > .ant-tree-treenode:last-child {
         padding-bottom: 4px;
       }
-      
+
       .ant-tree .ant-tree-node-content-wrapper {
         flex: 1;
       }
-      
+
       .ant-tree .ant-tree-node-content-wrapper:hover {
         background-color: transparent;
       }
-      
+
       &-popover-title {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        
+
         &-check {
           margin-right: 8px;
         }
-        
+
         .ant-btn-sm {
           padding: 0;
         }
       }
-      
+
       &-list-group {
         margin-top: 6px;
         margin-bottom: 6px;
         font-size: 12px;
-        color: rgba(0, 0, 0, .45);
+        color: rgba(0, 0, 0, 0.45);
       }
-      
+
       &-list-item {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        
+
         &-actions {
           display: block;
           float: right;
           cursor: pointer;
-          
+
           > span + span {
             margin-left: 8px;
           }
-          
+
           &-disabled {
             .anticon {
-              color: rgba(0, 0, 0, .25);
+              color: rgba(0, 0, 0, 0.25);
             }
           }
-          
+
           .anticon {
-            color: @primary-color;
+            color: var(--ant-primary-color);
           }
         }
       }

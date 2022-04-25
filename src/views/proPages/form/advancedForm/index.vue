@@ -1,6 +1,6 @@
 <template>
   <g-pro-page-wrapper>
-    <div style="padding: 24px;background: #f0f2f5;">
+    <div style="padding: 24px; background: #f0f2f5">
       <a-form
         :class="$style['advance-form-block']"
         :model="formState"
@@ -11,17 +11,13 @@
           <a-row :gutter="16">
             <a-col :lg="6" :md="12" :sm="24">
               <a-form-item :label="fieldLabels.name" v-bind="validateInfos.name">
-                <a-input
-                  v-model:value="formState.name"
-                  placeholder="请输入仓库名称"
-                  allow-clear
-                />
+                <a-input v-model:value="formState.name" placeholder="请输入仓库名称" allow-clear />
               </a-form-item>
             </a-col>
             <a-col :xl="{ span: 6, offset: 2 }" :lg="{ span: 8 }" :md="{ span: 12 }" :sm="24">
               <a-form-item :label="fieldLabels.url" v-bind="validateInfos.url">
                 <a-input
-                  style="width: 100%;"
+                  style="width: 100%"
                   v-model:value="formState.url"
                   addon-before="Http://"
                   addon-after=".com"
@@ -36,11 +32,11 @@
                   :options="[
                     {
                       label: '付晓晓',
-                      value: 'xiao',
+                      value: 'xiao'
                     },
                     {
                       label: '周毛毛',
-                      value: 'mao',
+                      value: 'mao'
                     }
                   ]"
                   placeholder="请选择管理员"
@@ -57,11 +53,11 @@
                   :options="[
                     {
                       label: '付晓晓',
-                      value: 'xiao',
+                      value: 'xiao'
                     },
                     {
                       label: '周毛毛',
-                      value: 'mao',
+                      value: 'mao'
                     }
                   ]"
                   placeholder="请选择审批员"
@@ -81,11 +77,11 @@
                   :options="[
                     {
                       label: '私密',
-                      value: 'private',
+                      value: 'private'
                     },
                     {
                       label: '公开',
-                      value: 'public',
+                      value: 'public'
                     }
                   ]"
                   placeholder="请选择仓库类型"
@@ -100,20 +96,12 @@
           <a-row :gutter="16">
             <a-col :lg="6" :md="12" :sm="24">
               <a-form-item :label="fieldLabels.name2" v-bind="validateInfos.name2">
-                <a-input
-                  v-model:value="formState.name2"
-                  placeholder="请输入任务名"
-                  allow-clear
-                />
+                <a-input v-model:value="formState.name2" placeholder="请输入任务名" allow-clear />
               </a-form-item>
             </a-col>
             <a-col :xl="{ span: 6, offset: 2 }" :lg="{ span: 8 }" :md="{ span: 12 }" :sm="24">
               <a-form-item :label="fieldLabels.url2" v-bind="validateInfos.url2">
-                <a-input
-                  v-model:value="formState.url2"
-                  placeholder="请输入任务描述"
-                  allow-clear
-                />
+                <a-input v-model:value="formState.url2" placeholder="请输入任务描述" allow-clear />
               </a-form-item>
             </a-col>
             <a-col :xl="{ span: 8, offset: 2 }" :lg="{ span: 10 }" :md="{ span: 24 }" :sm="24">
@@ -122,11 +110,11 @@
                   :options="[
                     {
                       label: '付晓晓',
-                      value: 'xiao',
+                      value: 'xiao'
                     },
                     {
                       label: '周毛毛',
-                      value: 'mao',
+                      value: 'mao'
                     }
                   ]"
                   placeholder="请选择执行人"
@@ -143,11 +131,11 @@
                   :options="[
                     {
                       label: '付晓晓',
-                      value: 'xiao',
+                      value: 'xiao'
                     },
                     {
                       label: '周毛毛',
-                      value: 'mao',
+                      value: 'mao'
                     }
                   ]"
                   placeholder="请选择责任人"
@@ -158,9 +146,11 @@
             </a-col>
             <a-col :xl="{ span: 6, offset: 2 }" :lg="{ span: 8 }" :md="{ span: 12 }" :sm="24">
               <a-form-item :label="fieldLabels.dateRange2" v-bind="validateInfos.dateRange2">
-                <a-time-picker style="width: 100%"
+                <a-time-picker
+                  style="width: 100%"
                   v-model:value="formState.dateRange2"
-                  placeholder="提醒时间" />
+                  placeholder="提醒时间"
+                />
               </a-form-item>
             </a-col>
             <a-col :xl="{ span: 8, offset: 2 }" :lg="{ span: 10 }" :md="{ span: 24 }" :sm="24">
@@ -169,11 +159,11 @@
                   :options="[
                     {
                       label: '私密',
-                      value: 'private',
+                      value: 'private'
                     },
                     {
                       label: '公开',
-                      value: 'public',
+                      value: 'public'
                     }
                   ]"
                   placeholder="请选择仓库类型"
@@ -194,7 +184,13 @@
             @refresh="getTableData"
           >
             <template #bodyCell="{ column, record, text }">
-              <template v-if="column.dataIndex === 'name' || column.dataIndex === 'workId' || column.dataIndex === 'department'">
+              <template
+                v-if="
+                  column.dataIndex === 'name' ||
+                  column.dataIndex === 'workId' ||
+                  column.dataIndex === 'department'
+                "
+              >
                 <div>
                   <a-input
                     v-if="editableData[record.key]"
@@ -232,23 +228,28 @@
         </a-card>
       </a-form>
     </div>
-    <div :class="$style['footer-bar']" style="width: calc(100% - 208px);">
+    <div :class="$style['footer-bar']" style="width: calc(100% - 208px)">
       <div :class="$style['footer-bar-left']"></div>
       <div :class="$style['footer-bar-right']">
         <span
-          v-if="errorFields.length > 0 && errorFields.filter((item) => item.errors.length > 0).length > 0"
+          v-if="
+            errorFields.length > 0 &&
+            errorFields.filter((item) => item.errors.length > 0).length > 0
+          "
           :class="$style.errorIcon"
         >
           <Popover
             title="表单校验信息"
             :overlayClassName="$style.errorPopover"
             trigger="click"
-            :getPopupContainer="(trigger) => {
-              if (trigger && trigger.parentNode) {
-                return trigger.parentNode
+            :getPopupContainer="
+              (trigger) => {
+                if (trigger && trigger.parentNode) {
+                  return trigger.parentNode
+                }
+                return trigger
               }
-              return trigger
-            }"
+            "
           >
             <template #content>
               <li
@@ -291,21 +292,21 @@ import { fieldLabels, rules } from './utils/config'
 const { viewScrollRoot } = config.defaultSettings
 
 interface advanceState {
-  columns: any;
-  errorFields: ErrorField[];
-  tableData: TableFormDateType[];
-  addTableData: TableFormDateType[];
-  editableData: TableFormDateType;
-  tableLoading: boolean;
-  errorVisible: boolean;
-  pageConfig: any;
-  fieldLabels: any;
-  formState: any;
+  columns: any
+  errorFields: ErrorField[]
+  tableData: TableFormDateType[]
+  addTableData: TableFormDateType[]
+  editableData: TableFormDateType
+  tableLoading: boolean
+  errorVisible: boolean
+  pageConfig: any
+  fieldLabels: any
+  formState: any
 }
 
 interface ErrorField {
-  name: string;
-  errors: string[];
+  name: string
+  errors: string[]
 }
 
 const useForm = Form.useForm
@@ -400,7 +401,9 @@ export default defineComponent({
     }
     const { resetFields, validate, validateInfos } = useForm(state.formState, rulesRef)
     const handelEdit = (key) => {
-      state.editableData[key] = cloneDeep(state.tableData.filter((item: any) => key === item.key)[0])
+      state.editableData[key] = cloneDeep(
+        state.tableData.filter((item: any) => key === item.key)[0]
+      )
     }
     const handelTableAdd = () => {
       const key = String(state.tableData.length + 1)
@@ -412,7 +415,9 @@ export default defineComponent({
       }
       state.tableData.push(tableItem)
       state.addTableData.push(tableItem)
-      state.editableData[key] = cloneDeep(state.tableData.filter((item: any) => key === item.key)[0])
+      state.editableData[key] = cloneDeep(
+        state.tableData.filter((item: any) => key === item.key)[0]
+      )
     }
     const handleSave = (key: string) => {
       Object.assign(
@@ -427,29 +432,33 @@ export default defineComponent({
     const handleDelete = (key: string) => {
       delete state.editableData[key]
       state.tableData = state.tableData.filter((item: any) => key !== item.key)
-      if (state.addTableData.some(item => item.key === key)) {
+      if (state.addTableData.some((item) => item.key === key)) {
         state.addTableData = state.addTableData.filter((item: any) => key !== item.key)
       }
     }
     const scrollToField = (fieldKey: string) => {
-      const labelNode = document.documentElement.querySelector(`label[title="${state.fieldLabels[fieldKey]}"]`) as HTMLInputElement
+      const labelNode = document.documentElement.querySelector(
+        `label[title="${state.fieldLabels[fieldKey]}"]`
+      ) as HTMLInputElement
       if (labelNode) {
         scrollTo(handleOffsetTop(labelNode).top - 48 - 62, {
-          getContainer: () => (document.querySelector(viewScrollRoot) as HTMLInputElement),
+          getContainer: () => document.querySelector(viewScrollRoot) as HTMLInputElement,
           duration: 450
         })
       }
     }
     const submitForm = () => {
-      validate().then(() => {
-        const parames = {
-          ...state.formState,
-          member: cloneDeep(state.tableData)
-        }
-        console.log(parames)
-      }).catch(({ errorFields }) => {
-        state.errorFields = errorFields
-      })
+      validate()
+        .then(() => {
+          const parames = {
+            ...state.formState,
+            member: cloneDeep(state.tableData)
+          }
+          console.log(parames)
+        })
+        .catch(({ errorFields }) => {
+          state.errorFields = errorFields
+        })
     }
     const resetForm = () => {
       resetFields()
@@ -473,5 +482,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" module>
-@import "./style";
+@import './style';
 </style>

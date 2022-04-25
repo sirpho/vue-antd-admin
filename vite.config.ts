@@ -85,9 +85,9 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       proxy: useProxy ? createProxy(VITE_BASE_URL)[VITE_APP_ENV] : {}
     },
     build: {
-      target: 'es2015',
       outDir: outputDir,
       assetsDir,
+      minify: 'terser',
       terserOptions: {
         compress: {
           keep_infinity: true,
@@ -111,12 +111,10 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       __APP_INFO__: JSON.stringify(__APP_INFO__)
     },
     css: {
+      modules: {
+        generateScopedName: 'gx-pro-[local]-[hash:base64:5]',
+      },
       preprocessorOptions: {
-        css: {
-          modules: {
-            localIdentName: 'gx-pro-[path][local]'
-          }
-        },
         less: {
           modifyVars: generateModifyVars(),
           javascriptEnabled: true

@@ -20,13 +20,7 @@ const defaultAnchorProps = {
 export type DefaultAnchorProps = Partial<ExtractPropTypes<typeof defaultAnchorProps>>
 
 export const DefaultAnchor: FunctionalComponent<DefaultAnchorProps> = (props) => {
-  const {
-    dataSource = [],
-    prefixCls = '',
-    onGoAnchor,
-    isMobile,
-    isfixedMultiTab
-  } = props
+  const { dataSource = [], prefixCls = '', onGoAnchor, isMobile, isfixedMultiTab } = props
 
   const baseClassName = computed(() => {
     return {
@@ -37,31 +31,29 @@ export const DefaultAnchor: FunctionalComponent<DefaultAnchorProps> = (props) =>
 
   const linksRender = () => (
     <div class={`${prefixCls}-wrapper`}>
-      {
-        dataSource.map((item: any, index) => (
-          <div
-            key={index}
-            style={handelInkStyle(item.level, isMobile)}
-            class={{
-              [`${prefixCls}-ink`]: true,
-              [`${prefixCls}-ink-active`]: item.active
-            }}
-            onClick={() => onGoAnchor && onGoAnchor(item.link)}
-          >
-            <Tooltip title={item.name}>{item.name}</Tooltip>
-          </div>
-        ))
-      }
+      {dataSource.map((item: any, index) => (
+        <div
+          key={index}
+          style={handelInkStyle(item.level, isMobile)}
+          class={{
+            [`${prefixCls}-ink`]: true,
+            [`${prefixCls}-ink-active`]: item.active
+          }}
+          onClick={() => onGoAnchor && onGoAnchor(item.link)}
+        >
+          <Tooltip title={item.name}>{item.name}</Tooltip>
+        </div>
+      ))}
     </div>
   )
 
   return (
     <div class={baseClassName.value}>
-      {
-        isMobile
-          ? linksRender()
-          : <g-affix offset={isfixedMultiTab ? 68 + 42 : 68}>{linksRender()}</g-affix>
-      }
+      {isMobile ? (
+        linksRender()
+      ) : (
+        <g-affix offset={isfixedMultiTab ? 68 + 42 : 68}>{linksRender()}</g-affix>
+      )}
     </div>
   )
 }

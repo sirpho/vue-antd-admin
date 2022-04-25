@@ -1,6 +1,7 @@
 import ProLayout, { ProPageWrapper } from '@gx-design/ProLayout'
 import ProTable from '@gx-design/ProTable'
 import ProModal from '@gx-design/ProModal'
+import ProEditor from '@gx-design/ProEditor'
 import ProWatermark from '@gx-design/ProWatermark'
 import ProSkeleton from '@gx-design/ProSkeleton'
 import ProCard, {
@@ -27,5 +28,7 @@ const gxProDesign = (app) => {
   app.component('g-pro-skeleton', ProSkeleton)
   // pro-watermark
   app.component('g-pro-watermark', ProWatermark)
+  // pro-editor
+  app.component('g-pro-editor', ProEditor)
 }
 export default gxProDesign

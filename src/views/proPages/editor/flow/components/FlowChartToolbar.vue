@@ -10,7 +10,11 @@
         >
           <g-icon
             :icon="item.icon"
-            :class="item.disabled ? `disabeld ${$style[`${prefixCls}_icon`]}` : `${$style[`${prefixCls}_icon`]}`"
+            :class="
+              item.disabled
+                ? `disabeld ${$style[`${prefixCls}_icon`]}`
+                : `${$style[`${prefixCls}_icon`]}`
+            "
           />
         </span>
       </a-tooltip>
@@ -30,7 +34,7 @@ export default defineComponent({
   props: {
     prefixCls: String
   },
-  emits: [ 'view-data' ],
+  emits: ['view-data'],
   setup(_, { emit }) {
     const toolbarItemList = ref<ToolbarConfig[]>([
       {
@@ -133,5 +137,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" module>
-@import "../style";
+@import '../style';
 </style>

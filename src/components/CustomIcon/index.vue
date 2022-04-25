@@ -11,15 +11,13 @@ export default defineComponent({
     }
   },
   render() {
-    return (
-      <i class={`ri-${this.icon}`} aria-hidden="true" />
-    )
+    return <i class={`ri-${this.icon}`} aria-hidden="true" />
   }
 })
 </script>
 
 <style lang="less" scoped>
-[class*="ri"] {
+[class*='ri'] {
   font-size: 16px;
   vertical-align: -1px;
 }

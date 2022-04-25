@@ -2,9 +2,7 @@
   <g-pro-page-wrapper>
     <div :class="$style['header-deading']">
       <div :class="$style['header-deading-left']">
-        <div :class="$style['header-deading-title']">
-          单号：234231029431
-        </div>
+        <div :class="$style['header-deading-title']"> 单号：234231029431 </div>
       </div>
       <div :class="$style['header-deading-extra']">
         <template v-if="isMobile">
@@ -89,16 +87,14 @@
               <template #content>
                 <div style="width: 160px">
                   吴加号
-                  <span style="float: right;">
+                  <span style="float: right">
                     <Badge status="default">
                       <template #text>
                         <span style="color: rgba(0, 0, 0, 0.45)">未响应</span>
                       </template>
                     </Badge>
                   </span>
-                  <div style="margin-top: 4px">
-                    耗时：2小时25分钟
-                  </div>
+                  <div style="margin-top: 4px"> 耗时：2小时25分钟 </div>
                 </div>
               </template>
               <span :class="`${prefixCls}-icon-dot`"></span>
@@ -121,7 +117,7 @@
               <div :class="$style.stepDescription">
                 <div>
                   周毛毛
-                  <DingdingOutlined :style="{ color: '#00A0E9',marginLeft: '8px' }" />
+                  <DingdingOutlined :style="{ color: '#00A0E9', marginLeft: '8px' }" />
                 </div>
                 <div><a>催一下</a></div>
               </div>
@@ -154,7 +150,7 @@
               <span>
                 某某数据
                 <a-tooltip title="数据说明">
-                  <InfoCircleOutlined style="margin-left: 4px;color: rgba(0, 0, 0, 0.43);" />
+                  <InfoCircleOutlined style="margin-left: 4px; color: rgba(0, 0, 0, 0.43)" />
                 </a-tooltip>
               </span>
             </template>
@@ -195,7 +191,7 @@
         <Empty />
       </a-card>
       <a-card
-        :class="[ $style['main-card'], $style.tabsCard ]"
+        :class="[$style['main-card'], $style.tabsCard]"
         :tabList="operationTabList"
         :bordered="false"
         @tabChange="onOperationTabChange"
@@ -228,13 +224,7 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onActivated,
-  reactive,
-  toRefs
-} from 'vue'
+import { computed, defineComponent, onActivated, reactive, toRefs } from 'vue'
 import { Empty, Tabs, Popover, Steps, Badge, Statistic, Descriptions } from 'ant-design-vue'
 import {
   DownOutlined,
@@ -248,9 +238,9 @@ import { columns } from './utils/columns'
 import { tabList, operationTabList } from './utils/config'
 
 type AdvancedState = {
-  operationKey: string;
-  tabActiveKey: string;
-};
+  operationKey: string
+  tabActiveKey: string
+}
 
 const Step = Steps.Step
 const TabPane = Tabs.TabPane
@@ -285,9 +275,7 @@ export default defineComponent({
       operationTabList: operationTabList,
       columns
     })
-    const isMobile = computed(
-      () => (colSize.value === 'sm' || colSize.value === 'xs')
-    )
+    const isMobile = computed(() => colSize.value === 'sm' || colSize.value === 'xs')
     onActivated(() => {
       getListData()
       setTimeout(() => {
@@ -344,5 +332,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" module>
-@import "./style";
+@import './style';
 </style>

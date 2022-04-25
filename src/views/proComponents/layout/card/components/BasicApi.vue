@@ -1,8 +1,6 @@
 <template>
   <a-typography style="margin-top: 16px" id="basicApi">
-    <a-typography-title :level="2" :style="{color: '#454d64'}">
-      API
-    </a-typography-title>
+    <a-typography-title :level="2" :style="{ color: '#454d64' }"> API </a-typography-title>
   </a-typography>
   <g-pro-table
     style="margin-top: 15px"

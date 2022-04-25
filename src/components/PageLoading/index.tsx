@@ -15,7 +15,7 @@ export default defineComponent({
       default: 'large'
     }
   },
-  setup(props ) {
+  setup(props) {
     const style: any = reactive({
       textAlign: 'center',
       position: 'fixed',
@@ -33,14 +33,11 @@ export default defineComponent({
     })
     return () => (
       <>
-        {
-          props.loading ?
-            <div style={style}>
-              <a-spin size={props.size} style={spinStyle} tip={props.tip} />
-            </div>
-            :
-            null
-        }
+        {props.loading ? (
+          <div style={style}>
+            <a-spin size={props.size} style={spinStyle} tip={props.tip} />
+          </div>
+        ) : null}
       </>
     )
   }

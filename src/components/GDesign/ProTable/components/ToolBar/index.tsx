@@ -4,7 +4,7 @@ import { Tooltip } from 'ant-design-vue'
 import { SettingOutlined, ReloadOutlined } from '@ant-design/icons-vue'
 import ColumnSetting from '../ColumnSetting'
 import FullScreenIcon from './FullscreenIcon'
-import DensityIcon from './DensityIcon';
+import DensityIcon from './DensityIcon'
 import ListToolBar from '../ListToolBar'
 import type { OptionConfig } from '../../types/table'
 import { useTableContext } from '../../context/TableContext'
@@ -13,16 +13,16 @@ import { getPrefixCls } from '@gx-admin/utils'
 import './style.less'
 
 export type ToolBarProps = {
-  headerTitle?: VueNode | string;
-  titleTip?: VueNode | boolean;
-  toolBarBtn?: WithFalse<() => CustomRender>;
-  titleTipText?: string;
-  optionsExtra?: VueNode;
-  settingExtra?: VueNode;
-  options?: OptionConfig | boolean;
+  headerTitle?: VueNode | string
+  titleTip?: VueNode | boolean
+  toolBarBtn?: WithFalse<() => CustomRender>
+  titleTipText?: string
+  optionsExtra?: VueNode
+  settingExtra?: VueNode
+  options?: OptionConfig | boolean
 }
 
-export type OptionsFunctionType = () => void;
+export type OptionsFunctionType = () => void
 
 function getButtonText() {
   return {
@@ -51,23 +51,19 @@ function getButtonText() {
  * @lastTime    2022/1/24
  * @description 渲染默认的 工具栏
  */
-function renderDefaultOption(
-  options: OptionConfig,
-  defaultOptions: OptionConfig
-) {
+function renderDefaultOption(options: OptionConfig, defaultOptions: OptionConfig) {
   return Object.keys(options)
-    .filter(item => item)
-    .map(key => {
+    .filter((item) => item)
+    .map((key) => {
       const value = options[key]
       if (!value) {
         return null
       }
 
-      let onClick: OptionsFunctionType =
-        value === true ? defaultOptions[key] : () => value?.()
+      let onClick: OptionsFunctionType = value === true ? defaultOptions[key] : () => value?.()
 
       if (typeof onClick !== 'function') {
-        onClick = () => {};
+        onClick = () => {}
       }
 
       if (key === 'setting') {
@@ -145,9 +141,7 @@ function ToolBar({
 }
 
 const ToolbarRender: FC<ToolBarProps> = (props) => {
-  return (
-    <ToolBar {...props} />
-  )
+  return <ToolBar {...props} />
 }
 
 export default ToolbarRender

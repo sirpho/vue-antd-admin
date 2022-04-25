@@ -7,6 +7,7 @@ import { getAccessToken, removeAccessToken, setAccessToken } from '/@/utils/acce
 import { timeFix } from '/@/utils/util'
 import { useStoreRoutes } from './routes'
 import { useStorePermission } from './permission'
+import { useStoreTabsRouter } from './tabsRouter'
 
 const { tokenName } = config.defaultSettings
 
@@ -39,6 +40,7 @@ export interface UserState {
 export const useStoreUser = defineStore('user', () => {
   const routes = useStoreRoutes()
   const auth = useStorePermission()
+  const tabsRouter = useStoreTabsRouter()
 
   const state = reactive({
     accessToken: getAccessToken(),
@@ -69,7 +71,7 @@ export const useStoreUser = defineStore('user', () => {
    */
   const userLogin = async (params) => {
     const response: any = await login(params)
-    const accessToken = response?.data[tokenName]
+    const accessToken = response?.data?.[tokenName]
     if (accessToken) {
       const expires_in = response?.data?.expires_in
       state.accessToken = accessToken
@@ -125,6 +127,7 @@ export const useStoreUser = defineStore('user', () => {
     auth.changeValue('role', [])
     auth.changeValue('ability', [])
     routes.resetRoute()
+    tabsRouter.blankingTabs()
     removeAccessToken()
   }
 

@@ -24,7 +24,7 @@ export const useStoreRoutes = defineStore('routes', () => {
     routes: [],
     routerLoadList: [],
     meunLoading: false,
-    routerLoading: false,
+    routerLoading: false
   } as RoutesState)
 
   /**
@@ -51,7 +51,7 @@ export const useStoreRoutes = defineStore('routes', () => {
     let routes: RoutesState['routes'] = []
     state.meunLoading = true
     const response = await getRouterList()
-    if (response) {
+    if (response && (response?.data as any[])?.length) {
       const notFoundRouter = {
         path: '/:path(.*)*',
         redirect: '/exception/404',
@@ -59,7 +59,7 @@ export const useStoreRoutes = defineStore('routes', () => {
       }
       const rootMenu = getRootMenu(response?.data || [])
       const asyncRoutes = generator(rootMenu)
-      asyncRoutes[0].children = [ ...asyncRoutes[0].children, ...basicRoutes ]
+      asyncRoutes[0].children = [ ...(asyncRoutes[0]?.children || []), ...basicRoutes ]
       const haveHomePage = getLevelData(asyncRoutes[0].children)
         .find(item => item.meta ? item.meta.homePage === 1 : false)
       asyncRoutes[0].redirect = haveHomePage ? haveHomePage.path : getFirstLastChild(asyncRoutes[0].children)

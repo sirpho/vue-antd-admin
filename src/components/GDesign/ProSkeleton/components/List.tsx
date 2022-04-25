@@ -2,13 +2,13 @@ import { Skeleton } from 'ant-design-vue'
 import { useMediaQuery } from '@gx-admin/hooks/event'
 
 export type ListPageSkeletonProps = {
-  active?: boolean;
-  pageHeader?: false;
-  statistic?: number | false;
-  actionButton?: false;
-  toolbar?: false;
-  list?: number | false;
-};
+  active?: boolean
+  pageHeader?: false
+  statistic?: number | false
+  actionButton?: false
+  toolbar?: false
+  list?: number | false
+}
 
 /**
  * @Author      gx12358
@@ -31,10 +31,7 @@ export const MediaQueryKeyEnum = {
   xxl: 6
 }
 
-const StatisticSkeleton = ({ size, active }: {
-  size?: number;
-  active?: boolean;
-}) => {
+const StatisticSkeleton = ({ size, active }: { size?: number; active?: boolean }) => {
   const colSize = useMediaQuery()
   const arraySize = size === undefined ? MediaQueryKeyEnum[colSize.value] || 6 : size
   const firstWidth = (index: number) => {
@@ -65,11 +62,7 @@ const StatisticSkeleton = ({ size, active }: {
               marginRight: index === 0 ? '16px' : 0
             }}
           >
-            <Skeleton
-              title={{ width: 100 }}
-              active={active}
-              paragraph={{ rows: 0 }}
-            />
+            <Skeleton title={{ width: 100 }} active={active} paragraph={{ rows: 0 }} />
             <g-skeleton active={active} propsStyle={{ height: '48px' }} />
           </div>
         ))}
@@ -86,11 +79,7 @@ const StatisticSkeleton = ({ size, active }: {
  */
 export const ListSkeletonItem = ({ active }: { active: boolean }) => (
   <>
-    <a-card
-      bordered={false}
-      style={{ borderRadius: 0 }}
-      bodyStyle={{ padding: '24px' }}
-    >
+    <a-card bordered={false} style={{ borderRadius: 0 }} bodyStyle={{ padding: '24px' }}>
       <div
         style={{
           width: '100%',
@@ -99,14 +88,8 @@ export const ListSkeletonItem = ({ active }: { active: boolean }) => (
           justifyContent: 'space-between'
         }}
       >
-        <div
-          style={{ maxWidth: '100%', flex: 1 }}
-        >
-          <Skeleton
-            title={{ width: 100 }}
-            active={active}
-            paragraph={{ rows: 1 }}
-          />
+        <div style={{ maxWidth: '100%', flex: 1 }}>
+          <Skeleton title={{ width: 100 }} active={active} paragraph={{ rows: 1 }} />
         </div>
         <g-skeleton
           active={active}
@@ -125,10 +108,14 @@ export const ListSkeletonItem = ({ active }: { active: boolean }) => (
  * @lastTime    2021/8/13
  * @description 列表骨架屏
  */
-export const ListSkeleton = ({ size, active = true, actionButton }: {
-  size: number;
-  active?: boolean;
-  actionButton?: boolean;
+export const ListSkeleton = ({
+  size,
+  active = true,
+  actionButton
+}: {
+  size: number
+  active?: boolean
+  actionButton?: boolean
 }) => (
   <a-card bordered={false} bodyStyle={{ padding: 0 }}>
     {new Array(size).fill(null).map((_, index) => (
@@ -162,11 +149,7 @@ export const ListSkeleton = ({ size, active = true, actionButton }: {
  */
 export const PageHeaderSkeleton = ({ active }: { active: boolean }) => (
   <div style={{ marginBottom: '16px' }}>
-    <Skeleton
-      title={{ width: 185 }}
-      active={active}
-      paragraph={{ rows: 0 }}
-    />
+    <Skeleton title={{ width: 185 }} active={active} paragraph={{ rows: 0 }} />
     <g-skeleton active={active} size="small" />
   </div>
 )
@@ -197,28 +180,17 @@ export const ListToolbarSkeleton = ({ active }: { active: boolean }) => (
 )
 
 const ListPageSkeleton = (props: ListPageSkeletonProps) => {
-  const {
-    active = true,
-    statistic,
-    actionButton,
-    toolbar,
-    pageHeader,
-    list = 5
-  } = props
+  const { active = true, statistic, actionButton, toolbar, pageHeader, list = 5 } = props
   return (
     <div style={{ width: '100%' }}>
       {pageHeader !== false && <PageHeaderSkeleton active={active} />}
-      {
-        statistic !== false &&
+      {statistic !== false && (
         <g-bars style={{ width: '100%' }}>
           <StatisticSkeleton size={statistic as number} active={active} />
         </g-bars>
-      }
+      )}
       {(toolbar !== false || list !== false) && (
-        <a-card
-          bordered={false}
-          bodyStyle={{ padding: 0 }}
-        >
+        <a-card bordered={false} bodyStyle={{ padding: 0 }}>
           {toolbar !== false && <ListToolbarSkeleton active={active} />}
           {list !== false && (
             <ListSkeleton size={list as number} active={active} actionButton={actionButton} />

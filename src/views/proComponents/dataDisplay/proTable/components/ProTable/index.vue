@@ -3,23 +3,33 @@
     <a-form-item>
       <template #label>
         Customize
-        <a-tooltip title="是否自定义展示"><InfoCircleOutlined style="margin-left: 5px" /></a-tooltip>
+        <a-tooltip title="是否自定义展示"
+          ><InfoCircleOutlined style="margin-left: 5px"
+        /></a-tooltip>
       </template>
       <a-switch v-model:checked="state.showCustomize" />
     </a-form-item>
     <a-form-item>
       <template #label>
         Scroll
-        <a-tooltip title="根据屏幕大小或者scrollBreakpoint或者scroll?.x是否存在判断action列是否固定">
+        <a-tooltip
+          title="根据屏幕大小或者scrollBreakpoint或者scroll?.x是否存在判断action列是否固定"
+        >
           <InfoCircleOutlined style="margin-left: 5px" />
         </a-tooltip>
       </template>
-      <a-switch v-model:checked="state.showScroll" :disabled="tableConfig.neverScroll" @change="changeScroll" />
+      <a-switch
+        v-model:checked="state.showScroll"
+        :disabled="tableConfig.neverScroll"
+        @change="changeScroll"
+      />
     </a-form-item>
     <a-form-item>
       <template #label>
         AutoScroll
-        <a-tooltip title="根据屏幕大小或者scrollBreakpoint或者scroll?.x是否存在判断action列是否固定">
+        <a-tooltip
+          title="根据屏幕大小或者scrollBreakpoint或者scroll?.x是否存在判断action列是否固定"
+        >
           <InfoCircleOutlined style="margin-left: 5px" />
         </a-tooltip>
       </template>
@@ -44,7 +54,9 @@
     <a-form-item>
       <template #label>
         OptionsExtra
-        <a-tooltip title="是否展示右侧额外的元素"><InfoCircleOutlined style="margin-left: 5px" /></a-tooltip>
+        <a-tooltip title="是否展示右侧额外的元素"
+          ><InfoCircleOutlined style="margin-left: 5px"
+        /></a-tooltip>
       </template>
       <a-switch v-model:checked="state.showOptionsExtra" />
     </a-form-item>
@@ -57,7 +69,9 @@
     <a-form-item>
       <template #label>
         ShowIndex
-        <a-tooltip title="是否展示表格序号"><InfoCircleOutlined style="margin-left: 5px" /></a-tooltip>
+        <a-tooltip title="是否展示表格序号"
+          ><InfoCircleOutlined style="margin-left: 5px"
+        /></a-tooltip>
       </template>
       <a-switch v-model:checked="tableConfig.showIndex" />
     </a-form-item>
@@ -96,11 +110,9 @@
           <a-list-item>
             <a-card hoverable>
               <template #cover>
-                <g-image height="200" :src="item.img" style="height: 200px" fit="cover">
+                <g-image :height="200" :src="item.img" style="height: 200px" fit="cover">
                   <template #placeholder>
-                    <div class="image-slot">
-                      加载中...
-                    </div>
+                    <div class="image-slot"> 加载中... </div>
                   </template>
                 </g-image>
               </template>
@@ -126,18 +138,16 @@
       <div>高级列表</div>
     </template>
     <template #toolBarBtn>
-      <a-button key="button" type="primary" @click="operation?.open()">
-        新建
-      </a-button>
+      <a-button key="button" type="primary" @click="operation?.open()"> 新建 </a-button>
       <a-button key="button" type="primary" @click="handlePolling">
         <LoadingIcon v-if="tableConfig.polling" />
-        <ReloadOutlined v-else  />
+        <ReloadOutlined v-else />
         {{ tableConfig.polling ? '停止轮询' : '开始轮询' }}
       </a-button>
       <a-button v-if="state.selectedRowKeys.length > 0" danger key="button" type="primary">
         删除
       </a-button>
-      <a-dropdown :trigger="[ 'click' ]">
+      <a-dropdown :trigger="['click']">
         <template #overlay>
           <a-menu @click="(e) => batchOperation(e)">
             <a-menu-item key="0">1st menu item</a-menu-item>
@@ -146,9 +156,7 @@
             <a-menu-item key="3">3rd menu item</a-menu-item>
           </a-menu>
         </template>
-        <a-button key="button">
-          批量操作
-        </a-button>
+        <a-button key="button"> 批量操作 </a-button>
       </a-dropdown>
     </template>
     <template #search>
@@ -169,9 +177,7 @@
       <a-button>这是一个右侧额外的元素</a-button>
     </template>
     <template #headerCell="{ column }">
-      <template v-if="column.dataIndex === 'name'">
-        FullName
-      </template>
+      <template v-if="column.dataIndex === 'name'"> FullName </template>
     </template>
     <template #bodyCell="{ column, record }">
       <template v-if="column.dataIndex === 'name'">
@@ -187,7 +193,7 @@
   <ScrollBreakpointModal ref="scrollBreakpointModal" @handleOk="handleScrollBreakpoint" />
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 import { ref, onMounted, reactive, watch, h } from 'vue'
 import { message } from 'ant-design-vue'
 import { LoadingOutlined, ReloadOutlined, InfoCircleOutlined } from '@ant-design/icons-vue'
@@ -201,7 +207,7 @@ import columns from '../../utils/columns'
 
 const LoadingIcon = h(LoadingOutlined)
 
-const { getDictData } = useDict([ 'sys_common_status' ])
+const { getDictData } = useDict(['sys_common_status'])
 
 const operation = ref(null)
 const scrollModal = ref(null)
@@ -234,14 +240,14 @@ const tableConfig = reactive({
   autoScroll: true,
   neverScroll: false,
   scrollBreakpoint: 'xl',
-  actionRef: info => state.tableRef = info,
+  actionRef: (info) => (state.tableRef = info),
   draggabled: true,
   waitRequest: true,
   params: {
     adress: '',
     age: ''
   },
-  search: { showSearch: true},
+  search: { showSearch: true },
   searchMap: [
     {
       name: 'status',
@@ -268,7 +274,7 @@ watch(
   () => getDictData.value,
   (data) => {
     tableConfig.searchMap[0].loading = data.sys_common_status?.loading
-    tableConfig.searchMap[0].valueEnum = (data.sys_common_status?.data || []).map(item => {
+    tableConfig.searchMap[0].valueEnum = (data.sys_common_status?.data || []).map((item) => {
       return {
         text: item.dictLabel,
         value: item.dictValue
@@ -281,44 +287,56 @@ watch(
   }
 )
 
-watch(() => state.showScroll, () => {
-  state.showScroll = !!tableConfig.scroll
-}, {
-  deep: true,
-  immediate: true
-})
-
-watch(() => tableConfig.autoScroll, (value) => {
-  if (value) {
-    state.showScrollBreakpoint = true
-    tableConfig.scrollBreakpoint = 'xl'
-  } else {
-    state.showScrollBreakpoint = false
-    tableConfig.scrollBreakpoint = undefined
+watch(
+  () => state.showScroll,
+  () => {
+    state.showScroll = !!tableConfig.scroll
+  },
+  {
+    deep: true,
+    immediate: true
   }
-}, {
-  deep: true,
-  immediate: true
-})
+)
 
-watch(() => tableConfig.neverScroll, (value) => {
-  if (value) {
-    state.showScroll = false
-    state.showScrollBreakpoint = false
-    tableConfig.scroll = undefined
-    tableConfig.autoScroll = false
-    tableConfig.scrollBreakpoint = undefined
-  } else {
-    state.showScroll = true
-    state.showScrollBreakpoint = true
-    tableConfig.scroll = { x: 1850 }
-    tableConfig.autoScroll = true
-    tableConfig.scrollBreakpoint = 'xl'
+watch(
+  () => tableConfig.autoScroll,
+  (value) => {
+    if (value) {
+      state.showScrollBreakpoint = true
+      tableConfig.scrollBreakpoint = 'xl'
+    } else {
+      state.showScrollBreakpoint = false
+      tableConfig.scrollBreakpoint = undefined
+    }
+  },
+  {
+    deep: true,
+    immediate: true
   }
-}, {
-  deep: true,
-  immediate: true
-})
+)
+
+watch(
+  () => tableConfig.neverScroll,
+  (value) => {
+    if (value) {
+      state.showScroll = false
+      state.showScrollBreakpoint = false
+      tableConfig.scroll = undefined
+      tableConfig.autoScroll = false
+      tableConfig.scrollBreakpoint = undefined
+    } else {
+      state.showScroll = true
+      state.showScrollBreakpoint = true
+      tableConfig.scroll = { x: 1850 }
+      tableConfig.autoScroll = true
+      tableConfig.scrollBreakpoint = 'xl'
+    }
+  },
+  {
+    deep: true,
+    immediate: true
+  }
+)
 
 onMounted(() => {
   setTimeout(() => {
@@ -400,10 +418,9 @@ const handleReload = () => {
   state.selectedRowItems = []
   state.tableRef?.reloadAndRest()
 }
-
 </script>
 
-<style lang='less' module>
+<style lang="less" module>
 .pro-table {
   :global {
     .ant-form-item {

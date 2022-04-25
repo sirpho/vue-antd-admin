@@ -1,7 +1,7 @@
 import { defineComponent, h } from 'vue'
 import { Spin, SpinProps } from 'ant-design-vue'
 
-export type PageLoadingProps = SpinProps;
+export type PageLoadingProps = SpinProps
 
 const PageLoading = defineComponent({
   name: 'PageLoading',

@@ -4,13 +4,15 @@
       <div :class="$style.leftMenu">
         <a-menu
           :mode="initConfig.mode"
-          :selectedKeys="[ initConfig.selectKey ]"
-          @click="({ key }) => {
-            setInitConfig({
-              ...initConfig,
-              selectKey: key
-            });
-          }"
+          :selectedKeys="[initConfig.selectKey]"
+          @click="
+            ({ key }) => {
+              setInitConfig({
+                ...initConfig,
+                selectKey: key
+              })
+            }
+          "
         >
           <a-menu-item :key="item" v-for="item in Object.keys(menuMap)">
             {{ menuMap[item] }}
@@ -35,11 +37,11 @@ import Security from './components/Security.vue'
 import Binding from './components/Binding.vue'
 import Notification from './components/Notification.vue'
 
-type SettingsStateKeys = 'base' | 'security' | 'binding' | 'notification';
+type SettingsStateKeys = 'base' | 'security' | 'binding' | 'notification'
 type SettingsState = {
-  mode: 'inline' | 'horizontal';
-  selectKey: SettingsStateKeys;
-};
+  mode: 'inline' | 'horizontal'
+  selectKey: SettingsStateKeys
+}
 
 export default defineComponent({
   components: {
@@ -108,5 +110,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" module>
-@import "./style";
+@import './style';
 </style>

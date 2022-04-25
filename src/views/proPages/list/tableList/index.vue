@@ -5,7 +5,7 @@
       row-key="key"
       align="center"
       :showIndex="false"
-      :actionRef="info => tableRef = info"
+      :actionRef="(info) => (tableRef = info)"
       :columns="columns"
       :request="(params, sort, filter) => getTableList(params, sort, filter)"
       :row-selection="{
@@ -41,9 +41,11 @@
           <Badge v-if="record.status === '3'" status="error" text="异常" />
         </template>
         <template v-if="column.dataIndex === 'action'">
-          <a key="config" style="margin-right: 15px;" @click="updateTableRule(record)">配置</a>
-          <a key="config" style="margin-right: 15px;" @click="removeTableConfirm(record)">删除</a>
-          <a key="subscribeAlert" href="https://procomponents.ant.design/" target="_blank">订阅警报</a>
+          <a key="config" style="margin-right: 15px" @click="updateTableRule(record)">配置</a>
+          <a key="config" style="margin-right: 15px" @click="removeTableConfirm(record)">删除</a>
+          <a key="subscribeAlert" href="https://procomponents.ant.design/" target="_blank"
+            >订阅警报</a
+          >
         </template>
       </template>
     </g-pro-table>
@@ -150,6 +152,4 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

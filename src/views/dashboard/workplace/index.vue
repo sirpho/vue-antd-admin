@@ -1,11 +1,11 @@
 <template>
-  <g-pro-page-wrapper :contentStyle="{ background: 'transparent', padding: 0 }">
+  <g-pro-page-wrapper :useCard="false">
     <div :class="$style.workplace">
       <PageHeader title="工作台" :backIcon="false">
         <template #extra>
-        <span :class="$style.refresh" @click="reloadCurrentPage">
-          <RedoOutlined />&nbsp;刷新
-        </span>
+          <span :class="$style.refresh" @click="reloadCurrentPage">
+            <RedoOutlined />&nbsp;刷新
+          </span>
         </template>
         <div class="gx-pro-page-container-row">
           <div class="gx-pro-page-container-content">
@@ -22,13 +22,16 @@
             </div>
             <div :class="$style.content">
               <div :class="$style['content-title']">
-                {{ timeFix }}，{{ userInfo.nickName }}<span :class="$style['welcome-text']">，{{ welcome }}</span>
+                {{ timeFix }}，{{ userInfo.nickName
+                }}<span :class="$style['welcome-text']">，{{ welcome }}</span>
               </div>
               <div>前端工程师 | （REACT，VUE，UNIAPP）平台</div>
             </div>
           </div>
-          <div :style="isMobile ? { width: '100%', marginTop: '24px' } : undefined"
-            class="gx-pro-page-container-extraContent">
+          <div
+            :style="isMobile ? { width: '100%', marginTop: '24px' } : undefined"
+            class="gx-pro-page-container-extraContent"
+          >
             <div :class="$style['extra-content']">
               <div :class="$style['stat-item']">
                 <Statistic title="项目数" :value="3" />
@@ -40,13 +43,13 @@
           </div>
         </div>
       </PageHeader>
-      <div style="margin: 24px">
+      <div style="margin: 24px 0">
         <a-row :gutter="24">
           <a-col :xl="16" :lg="24" :md="24" :sm="24" :xs="24">
             <a-card
               :class="$style['project-list']"
               :loading="loading"
-              style="margin-bottom: 24px;"
+              style="margin-bottom: 24px"
               :bordered="false"
               title="进行中的项目"
             >
@@ -54,9 +57,11 @@
                 <a href="#/">全部项目</a>
               </template>
               <div>
-                <a-card-grid :class="$style['project-card-grid']"
+                <a-card-grid
+                  :class="$style['project-card-grid']"
                   :key="i"
-                  v-for="(item, i) in notice">
+                  v-for="(item, i) in notice"
+                >
                   <a-card :bordered="false" :body-style="{ padding: 0 }">
                     <a-card-meta>
                       <template #title>
@@ -87,20 +92,21 @@
                       <a-avatar :src="item.user.avatar" />
                     </template>
                     <template #title>
-                      <a class="userName">{{ item.user.name }}</a>&nbsp;
+                      <a class="userName">{{ item.user.name }}</a
+                      >&nbsp;
                       <span class="event">
-                      <template
-                        :key="index"
-                        v-for="(key, index) in item.template.split(/@\{([^{}]*)\}/gi)"
-                      >
-                        <template v-if="item[key]">
-                          <a v-if="item[key]" :href="item[key].link">
-                            {{ item[key].name }}
-                          </a>
+                        <template
+                          :key="index"
+                          v-for="(key, index) in item.template.split(/@\{([^{}]*)\}/gi)"
+                        >
+                          <template v-if="item[key]">
+                            <a v-if="item[key]" :href="item[key].link">
+                              {{ item[key].name }}
+                            </a>
+                          </template>
+                          <template v-else>{{ key }}</template>
                         </template>
-                        <template v-else>{{ key }}</template>
-                      </template>
-                    </span>
+                      </span>
                     </template>
                     <template #description>
                       <span :class="$style.datetime">{{ momentFromNow(item.updatedAt) }}</span>
@@ -110,19 +116,8 @@
               </a-list>
             </a-card>
           </a-col>
-          <a-col
-            style="padding: 0 12px"
-            :xl="8"
-            :lg="24"
-            :md="24"
-            :sm="24"
-            :xs="24"
-          >
-            <a-card
-              title="快速开始 / 便捷导航"
-              style="margin-bottom: 24px"
-              :bordered="false"
-            >
+          <a-col style="padding: 0 12px" :xl="8" :lg="24" :md="24" :sm="24" :xs="24">
+            <a-card title="快速开始 / 便捷导航" style="margin-bottom: 24px" :bordered="false">
               <div :class="$style['item-group']">
                 <a>操作一</a>
                 <a>操作二</a>
@@ -166,15 +161,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  computed,
-  reactive,
-  toRefs,
-  onMounted,
-  inject
-} from 'vue'
+import { defineComponent, ref, computed, reactive, toRefs, onMounted, inject } from 'vue'
 import { useStore } from '@gx-vuex'
 import { Statistic, PageHeader } from 'ant-design-vue'
 import { PlusOutlined, RedoOutlined, LoadingOutlined } from '@ant-design/icons-vue'
@@ -184,15 +171,15 @@ import { timeFix, momentFromNow } from '/@/utils/util'
 import Radar from './components/Radar.vue'
 
 interface stateTypes {
-  timeFix: string,
-  notice: any[];
-  activities: any[];
-  axisData: any[];
-  radarData: any[];
-  loading: boolean;
-  radarMaxCount: number;
-  dynamicLoading: boolean;
-  radarLoading: boolean;
+  timeFix: string
+  notice: any[]
+  activities: any[]
+  axisData: any[]
+  radarData: any[]
+  loading: boolean
+  radarMaxCount: number
+  dynamicLoading: boolean
+  radarLoading: boolean
 }
 
 export default defineComponent({
@@ -200,9 +187,7 @@ export default defineComponent({
   setup() {
     const store = useStore()
     const colSize = useMediaQuery()
-    const isMobile = computed(
-      () => (colSize.value === 'sm' || colSize.value === 'xs')
-    )
+    const isMobile = computed(() => colSize.value === 'sm' || colSize.value === 'xs')
     const reloadCurrentPage: any = inject('reloadPage')
     const welcome = ref('祝你开心每一天！')
     const state: stateTypes = reactive({
@@ -245,21 +230,21 @@ export default defineComponent({
       state.radarMaxCount = handelMaxRandar(radarData)
       let datasource: any = []
       let indicatorList: {
-        name: string;
-        max: number;
+        name: string
+        max: number
       }[] = []
-      radarData.map(item => {
-        if (indicatorList.every(el => el.name !== item.label)) {
+      radarData.map((item) => {
+        if (indicatorList.every((el) => el.name !== item.label)) {
           indicatorList.push({
             name: item.label,
             max: state.radarMaxCount
           })
         }
-        if (datasource.every(el => el.name !== item.name)) {
+        if (datasource.every((el) => el.name !== item.name)) {
           const radarItems: {
-            name: string;
-            label: string[];
-            value: number[];
+            name: string
+            label: string[]
+            value: number[]
           } = {
             name: item.name,
             label: [],
@@ -269,11 +254,7 @@ export default defineComponent({
           radarItems.value.push(item.value)
           datasource.push(radarItems)
         } else {
-          datasource = datasource.map((el: {
-            name: string;
-            value: number[];
-            label: number[];
-          }) => {
+          datasource = datasource.map((el: { name: string; value: number[]; label: number[] }) => {
             if (el.name === item.name) {
               el.label.push(item.label)
               el.value.push(item.value)
@@ -287,17 +268,19 @@ export default defineComponent({
       state.radarLoading = false
     }
     const handelMaxRandar = (datasource) => {
-      return datasource.sort((obj1, obj2) => {
-        const val1 = obj1.value
-        const val2 = obj2.value
-        let result = 0
-        if (val1 < val2) {
-          result = 1
-        } else if (val1 > val2) {
-          result = -1
-        }
-        return result
-      })[0]?.value || 0
+      return (
+        datasource.sort((obj1, obj2) => {
+          const val1 = obj1.value
+          const val2 = obj2.value
+          let result = 0
+          if (val1 < val2) {
+            result = 1
+          } else if (val1 > val2) {
+            result = -1
+          }
+          return result
+        })[0]?.value || 0
+      )
     }
     return {
       ...toRefs(state),
@@ -312,5 +295,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" module>
-@import "./style";
+@import './style';
 </style>

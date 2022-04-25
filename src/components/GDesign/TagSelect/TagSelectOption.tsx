@@ -1,7 +1,10 @@
 import { defineComponent, ExtractPropTypes } from 'vue'
+import { Tag } from 'ant-design-vue'
 import { tagSelectOptionProps } from './props'
 
-export type TagSelectOptionProps = Partial<ExtractPropTypes<typeof tagSelectOptionProps>>;
+const { CheckableTag } = Tag
+
+export type TagSelectOptionProps = Partial<ExtractPropTypes<typeof tagSelectOptionProps>>
 
 const GTagSelectOption = defineComponent({
   name: 'GTagSelectOption',
@@ -9,13 +12,13 @@ const GTagSelectOption = defineComponent({
   inheritAttrs: false,
   setup(props, { slots }) {
     return () => (
-      <a-checkable-tag
+      <CheckableTag
         checked={!!props.checked}
         key={props.value}
         onChange={(state) => props.onChange && props.onChange(props.value || '', state)}
       >
         {slots.default?.()}
-      </a-checkable-tag>
+      </CheckableTag>
     )
   }
 })

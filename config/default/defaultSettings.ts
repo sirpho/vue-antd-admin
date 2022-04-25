@@ -33,7 +33,7 @@ const defaultSettings: settingConfig = {
   // 接口前缀
   requestPrefix: '/mock-server',
   //开发环境端口号
-  devPort: 9999,
+  devPort: 8080,
   //pro版本copyright可随意修改
   copyright: 'gx12358 2539306317@qq.com',
   //缓存路由的最大数量

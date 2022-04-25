@@ -16,11 +16,11 @@
   position: relative;
   display: inline-flex;
   overflow: hidden;
-  
+
   &-inner {
     .size();
     vertical-align: top;
-    
+
     &.gx-image-inner-center {
       position: relative;
       top: 50%;
@@ -29,12 +29,12 @@
       transform: translate(-50%, -50%);
     }
   }
-  
+
   &-placeholder {
     .size();
     background: #f5f7fa;
   }
-  
+
   &-error {
     display: flex;
     align-items: center;
@@ -45,18 +45,17 @@
     vertical-align: middle;
     background: #f5f7fa;
   }
-  
+
   &-preview {
     cursor: pointer;
   }
 }
 
 .@{gx-prefix}-image-viewer {
-  
   &-group-item {
     cursor: pointer;
   }
-  
+
   &-wrapper {
     position: fixed;
     top: 0;
@@ -64,7 +63,7 @@
     bottom: 0;
     left: 0;
   }
-  
+
   &-mask {
     position: absolute;
     top: 0;
@@ -74,7 +73,7 @@
     background: #000;
     opacity: 0.5;
   }
-  
+
   &-btn {
     position: absolute;
     z-index: 1;
@@ -87,16 +86,16 @@
     border-radius: 50%;
     opacity: 0.8;
   }
-  
+
   &-close {
     top: 40px;
     right: 40px;
     width: 40px;
     height: 40px;
     font-size: 40px;
-    .op-icon()
+    .op-icon();
   }
-  
+
   &-canvas {
     display: flex;
     align-items: center;
@@ -104,7 +103,7 @@
     width: 100%;
     height: 100%;
   }
-  
+
   &-actions {
     bottom: 30px;
     left: 50%;
@@ -115,7 +114,7 @@
     border-color: #fff;
     border-radius: 22px;
     transform: translateX(-50%);
-    
+
     &-inner {
       display: flex;
       align-items: center;
@@ -128,29 +127,29 @@
       cursor: default;
     }
   }
-  
+
   &-prev {
     top: 50%;
     left: 40px;
     transform: translateY(-50%);
-    .op-icon()
+    .op-icon();
   }
-  
+
   &-next {
     top: 50%;
     right: 40px;
     text-indent: 2px;
     transform: translateY(-50%);
-    .op-icon()
+    .op-icon();
   }
 }
 
 .viewer-fade-enter-active {
-  animation: viewer-fade-in .3s;
+  animation: viewer-fade-in 0.3s;
 }
 
 .viewer-fade-leave-active {
-  animation: viewer-fade-out .3s;
+  animation: viewer-fade-out 0.3s;
 }
 
 @keyframes viewer-fade-in {
