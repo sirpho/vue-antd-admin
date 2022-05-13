@@ -1,4 +1,4 @@
-<div align="center"> <a href="https://gitee.com/gx12358/vite-admin-pro"> <img alt="VbenAdmin Logo" width="200" height="200" src="http://42.192.13.221/assets/logo.4d47b06b.png"> </a> <br> <br>
+<div align="center"> <a href="https://gitee.com/gx12358/vue-antd-admin"> <img alt="VbenAdmin Logo" width="200" height="200" src="http://42.192.13.221/assets/logo.4d47b06b.png"> </a> <br> <br>
 
 <h1>GX Pro Admin（Ant Design Vue）</h1>
 </div>
