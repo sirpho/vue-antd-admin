@@ -1,6 +1,6 @@
 import { RadioGroupChildOption } from 'ant-design-vue/lib/radio/Group'
 import { tuple } from '@gx-design/utils'
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 
 const RadioGroupSizeTypes = tuple('large', 'default', 'small')
 

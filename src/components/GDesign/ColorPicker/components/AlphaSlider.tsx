@@ -1,5 +1,5 @@
 import { computed, defineComponent, ref } from 'vue'
-import { off, on } from '/@/utils'
+import { off, on } from '@/utils'
 import { RGBA, toRgbaString } from '../seemly'
 import { normalizeAlpha } from '../utils'
 

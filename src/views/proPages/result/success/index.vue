@@ -1,5 +1,5 @@
 <template>
-  <g-pro-page-wrapper>
+  <g-pro-page-container>
     <a-card :bordered="false">
       <Result
         status="success"
@@ -62,7 +62,7 @@
         </Steps>
       </Result>
     </a-card>
-  </g-pro-page-wrapper>
+  </g-pro-page-container>
 </template>
 
 <script lang="ts" setup>

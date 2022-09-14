@@ -1,4 +1,4 @@
-import request from '/@/utils/request'
+import request from '@/utils/request'
 
 export type Member = {
   avatar: string;
@@ -37,7 +37,7 @@ type ParamsType = {
 
 export function getCardList(
   params: ParamsType
-): Promise<{ data: CardListItemDataType[]; }> {
+): Promise<ResponseResult<CardListItemDataType[]>> {
   return request({
     url: '/card_fake_list',
     method: 'post',

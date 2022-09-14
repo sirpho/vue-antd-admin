@@ -1,148 +1,32 @@
 import type { CSSProperties, PropType } from 'vue'
-import type { SizeType } from '@gx-design/utils'
-import type {
-  TableProps,
-  RcTableProps,
-  TablePaginationConfig,
-  SpinProps,
-  TableLocale,
-  FilterValue,
-  SorterResult,
-  TableCurrentDataSource,
-  ColumnType,
-  TableRowSelection,
-  GetPopupContainer,
-  ContextSlots,
-  SortOrder,
-  TooltipProps,
-  AlignType
-} from './typings'
+import type { SizeType } from '@gx-admin/utils'
+import { tableProps } from '@gx-design/Table/props'
+import type { AlignType } from '@gx-design/Table/typings'
 import type {
   OptionConfig,
   requsetConfig,
   ProCoreActionType,
-  ProFieldEmptyText
+  ProFieldEmptyText,
+  ProTablePagination,
+  ProTableRowSelection
 } from './types/table'
 import type { ProColumns, ProSearchMap } from './types/column'
 import type { ColumnsState, ColumnsStateType } from './hooks/useColumnSetting'
 import { SearchConfig } from './types/table'
 
-export const tableProps = {
-  prefixCls: { type: String as PropType<string>, default: undefined },
+export const defaultPorps = {
+  ...tableProps(),
+  rowSelection: {
+    type: Object as PropType<ProTableRowSelection>,
+    default: undefined
+  },
   columns: { type: Array as PropType<ProColumns>, default: undefined },
-  rowKey: { type: [ String ] as PropType<string>, default: undefined },
-  tableLayout: { type: String as PropType<TableProps['tableLayout']>, default: undefined },
-  rowClassName: {
-    type: [ String, Function ] as PropType<TableProps['rowClassName']>,
-    default: undefined
-  },
-  title: { type: Function as PropType<TableProps['title']>, default: undefined },
-  footer: { type: Function as PropType<TableProps['footer']>, default: undefined },
-  id: { type: String as PropType<TableProps['id']>, default: undefined },
-  showHeader: { type: Boolean as PropType<TableProps['showHeader']>, default: undefined },
-  components: { type: Object as PropType<TableProps['components']>, default: undefined },
-  customRow: { type: Function as PropType<TableProps['customRow']>, default: undefined },
-  customHeaderRow: {
-    type: Function as PropType<TableProps['customHeaderRow']>,
-    default: undefined
-  },
-  direction: { type: String as PropType<TableProps['direction']>, default: undefined },
-  expandFixed: { type: Boolean as PropType<TableProps['expandFixed']>, default: undefined },
-  expandColumnWidth: {
-    type: Number as PropType<TableProps['expandColumnWidth']>,
-    default: undefined
-  },
-  expandedRowKeys: {
-    type: Array as PropType<TableProps['expandedRowKeys']>,
-    default: undefined as TableProps['expandedRowKeys']
-  },
-  defaultExpandedRowKeys: {
-    type: Array as PropType<TableProps['defaultExpandedRowKeys']>,
-    default: undefined as TableProps['defaultExpandedRowKeys']
-  },
-  expandedRowRender: {
-    type: Function as PropType<TableProps['expandedRowRender']>,
-    default: undefined
-  },
-  expandRowByClick: {
-    type: Boolean as PropType<TableProps['expandRowByClick']>,
-    default: undefined
-  },
-  expandIcon: { type: Function as PropType<TableProps['expandIcon']>, default: undefined },
-  onExpand: { type: Function as PropType<TableProps['onExpand']>, default: undefined },
-  onExpandedRowsChange: {
-    type: Function as PropType<TableProps['onExpandedRowsChange']>,
-    default: undefined
-  },
-  defaultExpandAllRows: {
-    type: Boolean as PropType<TableProps['defaultExpandAllRows']>,
-    default: undefined
-  },
-  indentSize: { type: Number as PropType<TableProps['indentSize']>, default: undefined },
-  expandIconColumnIndex: {
-    type: Number as PropType<TableProps['expandIconColumnIndex']>,
-    default: undefined
-  },
-  expandedRowClassName: {
-    type: Function as PropType<TableProps['expandedRowClassName']>,
-    default: undefined
-  },
-  childrenColumnName: {
-    type: String as PropType<TableProps['childrenColumnName']>,
-    default: undefined
-  },
-  rowExpandable: { type: Function as PropType<TableProps['rowExpandable']>, default: undefined },
-  sticky: { type: [ Boolean, Object ] as PropType<TableProps['sticky']>, default: undefined },
-
-  dropdownPrefixCls: String,
-  dataSource: { type: Array as PropType<RcTableProps['data']>, default: undefined },
-  pagination: {
-    type: [ Boolean, Object ] as PropType<false | TablePaginationConfig>,
-    default: undefined
-  },
-  loading: { type: [ Boolean, Object ] as PropType<false | SpinProps>, default: undefined },
-  size: { type: String as PropType<SizeType>, default: undefined },
-  bordered: Boolean,
-  locale: { type: Object as PropType<TableLocale>, default: undefined },
-
-  onChange: {
-    type: Function as PropType<(
-      pagination: TablePaginationConfig,
-      filters: Record<string, FilterValue | null>,
-      sorter: SorterResult | SorterResult[],
-      extra: TableCurrentDataSource
-    ) => void>,
-    default: undefined
-  },
-  onResizeColumn: {
-    type: Function as PropType<(w: number, col: ColumnType) => void>,
-    default: undefined
-  },
-  rowSelection: { type: Object as PropType<TableRowSelection>, default: undefined },
-  getPopupContainer: { type: Function as PropType<GetPopupContainer>, default: undefined },
-  scroll: {
-    type: Object as PropType<RcTableProps['scroll'] & {
-      scrollToFirstRowOnChange?: boolean;
-    }>,
-    default: () => {
-      return {}
-    }
-  },
-  sortDirections: { type: Array as PropType<SortOrder[]>, default: undefined },
-  showSorterTooltip: {
-    type: [ Boolean, Object ] as PropType<boolean | TooltipProps>,
-    default: true
-  },
-  contextSlots: {
-    type: Object as PropType<ContextSlots>
-  },
-  transformCellText: {
-    type: Function as PropType<TableProps['transformCellText']>
-  }
+  pagination: { type: [ Object, Boolean ] as PropType<ProTablePagination>, default: () => undefined },
 }
 
 export const proTableProps = {
-  ...tableProps,
+  ...defaultPorps,
+  rowKey: { type: String as PropType<string>, default: undefined },
   /**
    * @Author      gx12358
    * @DateTime    2022/2/8
@@ -153,6 +37,8 @@ export const proTableProps = {
     type: Function as PropType<requsetConfig>,
     default: null
   },
+  // 是否启用虚拟滚动
+  virtualScroll: Boolean as PropType<boolean>,
   // 用于 request 查询的额外参数，一旦变化会触发重新加载
   params: Object as PropType<RecordType>,
   // 对通过 request 获取的数据进行处理
@@ -297,7 +183,11 @@ export const proTableProps = {
    * @description 翻页item设置
    */
   pageItemRender: {
-    type: [ Function, Object ] as PropType<VueNode>,
+    type: [ Function, Object ] as PropType<WithFalse<(opt: {
+      page: number;
+      type: 'page' | 'prev' | 'next' | 'jump-prev' | 'jump-next';
+      originalElement: any;
+    }) => CustomRender>>,
     default: () => undefined
   },
   /**
@@ -385,6 +275,7 @@ export const proTableProps = {
    * @description Pro-Table 的方法
    */
   reset: Function as PropType<(params?: Partial<Record<string, any>>) => any>,
+  onReload: Function as PropType<(params?: Partial<Record<string, any>>) => any>,
   submit: Function as PropType<(params: Partial<Record<string, any>>) => any>,
   sizeChange: Function as PropType<(size: string) => any>,
   loadingChange: Function as PropType<(loading: boolean) => any>,

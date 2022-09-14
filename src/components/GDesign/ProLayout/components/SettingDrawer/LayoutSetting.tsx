@@ -1,6 +1,6 @@
 import { computed, defineComponent } from 'vue'
 import { Switch, List, Tooltip } from 'ant-design-vue'
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 
 const LayoutSettingProps = {
   splitMenus: PropTypes.looseBool,

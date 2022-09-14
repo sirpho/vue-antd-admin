@@ -8,9 +8,6 @@ import type {
 } from 'vue'
 
 declare global {
-
-  const GBars: typeof import('../src/components/GDesign/Scrollbars/index.vue')
-
   const __APP_INFO__: {
     pkg: {
       name: string;

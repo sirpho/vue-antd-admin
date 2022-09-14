@@ -1,7 +1,7 @@
 import type { ProSearchMap } from '../types/column'
 import { ProColumns } from '../types/column'
-import { AlignType } from '@gx-design/ProTable/typings'
-import { getRandomNumber } from '/@/utils/util'
+import { AlignType } from '@gx-design/Table/typings'
+import { getRandomNumber } from '@/utils/util'
 import { cloneDeep } from 'lodash-es'
 
 export const proTableSlots: string[] = [

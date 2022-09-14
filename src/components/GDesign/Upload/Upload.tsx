@@ -1,13 +1,22 @@
 import type { ExtractPropTypes, CSSProperties } from 'vue'
-import { computed, defineComponent, onDeactivated, onUnmounted, ref, unref, reactive } from 'vue'
+import {
+  computed,
+  defineComponent,
+  onDeactivated,
+  onUnmounted,
+  ref,
+  unref,
+  reactive,
+  toRef
+} from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { message, Upload } from 'ant-design-vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
-import { download } from '/@/services/common'
-import global from '/@/common/global'
+import { download } from '@/services/common'
+import global from '@/common/global'
 import { useEffect } from '@gx-admin/hooks/core'
 import { getPrefixCls, getSlotVNode } from '@gx-admin/utils'
-import { fileName } from '/@/utils/uploadFile'
+import { fileName } from '@/utils/uploadFile'
 import {
   checkFileType,
   getFileSuffix,
@@ -17,7 +26,7 @@ import {
   getBase64,
   dataURLtoBlob,
   getBlobUrl
-} from '/@/utils/util'
+} from '@/utils/util'
 import { proUploadProps } from './props'
 import { provideUploadContext } from './UploadContext'
 import { useUploadData } from './hooks/useUploadData'
@@ -59,7 +68,7 @@ const GUpload = defineComponent({
       changeFileDataValue,
       deleteDataValue,
       deleteFileDataValue
-    } = useUploadData(getProps)
+    } = useUploadData(toRef(props, 'dataList'), getProps)
     onUnmounted(() => {
       setDataValue([])
     })
@@ -79,12 +88,16 @@ const GUpload = defineComponent({
       let isFileSize = true
       let isFileDuration = true
       if (props.fileType.length > 0) {
-        isFileType = props.fileType.includes(fileSuffix.toLowerCase())
-        if (!isFileType) {
-          const fileName = props.fileType.join('，')
-          message.error(
-            `请选择${props.fileType.length === 1 ? fileName : `（${fileName}）`}格式上传!`
-          )
+        if (props.fileType.length === 1 && props.fileType[0] == '*') {
+          isFileType = true
+        } else {
+          isFileType = props.fileType.includes(fileSuffix.toLowerCase())
+          if (!isFileType) {
+            const fileName = props.fileType.join('，')
+            message.error(
+              `请选择${props.fileType.length === 1 ? fileName : `（${fileName}）`}格式上传!`
+            )
+          }
         }
       }
       isFileSize = props.fileSize ? file.size / 1024 / 1024 < props.fileSize : true
@@ -93,14 +106,24 @@ const GUpload = defineComponent({
       }
       if ((fileType === '2' || fileType === '3') && isFileType && isFileSize) {
         let fileDuration = 0
-        addDataValue({
-          name: file.name,
-          size: file.size,
-          readySuccess: false,
-          uploadLoading: true,
-          spinning: true,
-          loadingText: '正在准备中...'
-        })
+        if (props.listType === 'card' || !getDataValueRef.value.length) {
+          addDataValue({
+            name: file.name,
+            size: file.size,
+            uploadLoading: true,
+            spinning: true,
+            loadingText: '正在准备中...'
+          })
+        } else {
+          const idName = getDataValueRef.value[0].id
+          changeDataValue(idName, {
+            name: file.name,
+            size: file.size,
+            uploadLoading: true,
+            spinning: true,
+            loadingText: '正在准备中...'
+          })
+        }
         const { play, duration } = await getMediaInfos({
           url: file,
           fileType
@@ -121,7 +144,7 @@ const GUpload = defineComponent({
       })
     }
     const uploadHttp = async ({ file }) => {
-      const idName = fileName(file)
+      let idName = fileName(file)
       const type = checkFileType(file.name)
       const fileSuffix = getFileSuffix(file.name)
       let play = true
@@ -192,23 +215,45 @@ const GUpload = defineComponent({
           duration: fileDuration
         })
       } else {
-        addDataValue({
-          id: idName,
-          url: '',
-          type,
-          loadingText: props.beforeEditable ? '正在快编中...' : '',
-          progress: 0,
-          uploadLoading: true,
-          spinning: false,
-          sizeSolt,
-          allowFormat,
-          allowPlay: play,
-          uploadStatus: 'active',
-          name: file.name,
-          size: file.size,
-          width: fileWidth,
-          height: fileHeight
-        })
+        if (props.listType === 'card' || !getDataValueRef.value.length)
+          addDataValue({
+            id: idName,
+            url: '',
+            type,
+            file,
+            loadingText: props.beforeEditable ? '正在快编中...' : '',
+            progress: 0,
+            uploadLoading: true,
+            spinning: false,
+            sizeSolt,
+            allowFormat,
+            allowPlay: play,
+            uploadStatus: 'active',
+            name: file.name,
+            size: file.size,
+            width: fileWidth,
+            height: fileHeight
+          })
+        else {
+          idName = getDataValueRef.value[0].id
+          changeDataValue(idName, {
+            url: '',
+            type,
+            file,
+            loadingText: props.beforeEditable ? '正在快编中...' : '',
+            progress: 0,
+            uploadLoading: true,
+            spinning: false,
+            sizeSolt,
+            allowFormat,
+            allowPlay: play,
+            uploadStatus: 'active',
+            name: file.name,
+            size: file.size,
+            width: fileWidth,
+            height: fileHeight
+          })
+        }
       }
       if (props.beforeEditable && type === '1') {
         const base64: string | ArrayBuffer | null = await getBase64(file)
@@ -222,7 +267,7 @@ const GUpload = defineComponent({
     }
     const requestUpload = async (file, type, idName) => {
       if (props.request) {
-        const response = await props.request(file)
+        const response = await props.request(file, idName)
         if (response && response.code === 0) {
           if (type === 'quickEdit') {
             handleQuickEditChange(response, idName)
@@ -231,11 +276,19 @@ const GUpload = defineComponent({
           }
         } else {
           emit('errorRequest', response)
-          changeDataValue(idName, {
-            uploadStatus: 'exception',
-            uploadLoading: true
-          })
+          if (props.errorClean) {
+            deleteFile(idName)
+          } else {
+            changeDataValue(idName, {
+              loadingText: '',
+              uploadStatus: 'exception',
+              uploadLoading: false
+            })
+          }
         }
+      } else {
+        const base64: string | ArrayBuffer | null = await getBase64(file)
+        handleChange({ url: getBlobUrl(dataURLtoBlob(base64)) }, idName)
       }
     }
     const uploadCoverImgHttp = (file) => {
@@ -411,9 +464,36 @@ const GUpload = defineComponent({
         cloneDeep(unref(getDataValueRef)).filter((item) => item.url)
       )
     }
+
+    const renderUploadButton = () => {
+      const uploadButtonRender = slots.default?.()
+      return (
+        uploadButtonRender || (
+          <div
+            class={{
+              [`${baseClassName}-button`]: true,
+              [`${baseClassName}-button-circle`]: props.shape === 'circle'
+            }}
+            style={props.imageStyle}
+          >
+            <PlusOutlined />
+          </div>
+        )
+      )
+    }
+
     return () => {
       const wordExtraRender = getSlotVNode(slots, props, 'wordExtra')
-      const uploadButtonRender = getSlotVNode(slots, props, 'uploadButton')
+      const errorExtraRender = getSlotVNode<WithFalse<() => CustomRender>>(
+        slots,
+        props,
+        'errorExtra'
+      )
+      const placeholderExtra = getSlotVNode<WithFalse<() => CustomRender>>(
+        slots,
+        props,
+        'placeholderExtra'
+      )
       return (
         <div
           style={{ ...props.uplaodStyle, ...(attrs.style as CSSProperties) }}
@@ -426,16 +506,20 @@ const GUpload = defineComponent({
               [`${props.cardClassName}`]: props.cardClassName
             }}
           >
-            <UploadCard
-              {...getProps.value}
-              baseClassName={baseClassName}
-              root={uploadCard.value}
-              onView={(type, url) => view(type, url)}
-              onDelete={(idName) => deleteFile(idName)}
-              onDownload={(url) => downLoad(url)}
-              onWaterMark={(idName, type) => watermark(idName, type)}
-              onMediaCropper={(name, type, info) => mediaCropper(name, type, info)}
-            />
+            {props.listType === 'card' && (
+              <UploadCard
+                {...getProps.value}
+                placeholderExtra={placeholderExtra}
+                errorExtra={errorExtraRender}
+                baseClassName={baseClassName}
+                root={uploadCard.value}
+                onView={(type, url) => view(type, url)}
+                onDelete={(idName) => deleteFile(idName)}
+                onDownload={(url) => downLoad(url)}
+                onWaterMark={(idName, type) => watermark(idName, type)}
+                onMediaCropper={(name, type, info) => mediaCropper(name, type, info)}
+              />
+            )}
             {!props.viewUp && (
               <Upload
                 class={`${baseClassName}-upload`}
@@ -446,18 +530,9 @@ const GUpload = defineComponent({
                 showUploadList={false}
                 name="file"
               >
-                {unref(getDataValueRef).length < props.limit &&
-                  (uploadButtonRender || (
-                    <div
-                      class={{
-                        [`${baseClassName}-button`]: true,
-                        [`${baseClassName}-button-circle`]: props.shape === 'circle'
-                      }}
-                      style={props.imageStyle}
-                    >
-                      <PlusOutlined />
-                    </div>
-                  ))}
+                {props.listType === 'card'
+                  ? unref(getDataValueRef).length < props.limit && renderUploadButton()
+                  : renderUploadButton()}
               </Upload>
             )}
             <g-material-view

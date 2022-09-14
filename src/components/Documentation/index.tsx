@@ -1,7 +1,7 @@
 import { computed, defineComponent, ExtractPropTypes, ref } from 'vue'
 import { useMediaQuery } from '@gx-admin/hooks/event'
 import { getPrefixCls } from '@gx-admin/utils'
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 
 import './style.less'
 

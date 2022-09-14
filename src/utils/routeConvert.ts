@@ -1,4 +1,4 @@
-import { deepCopy } from '/@/utils/util'
+import { deepCopy } from '@/utils/util'
 
 export function convertRoutes(nodes: any) {
   if (!nodes) return null

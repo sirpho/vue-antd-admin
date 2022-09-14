@@ -1,5 +1,5 @@
-import type { FunctionalComponent as FC } from 'vue'
-import { Ref, computed, unref } from 'vue'
+import type { Ref, FunctionalComponent as FC } from 'vue'
+import { computed, unref } from 'vue'
 import { Progress } from 'ant-design-vue'
 import {
   CloudDownloadOutlined,
@@ -7,13 +7,12 @@ import {
   EyeOutlined,
   LoadingOutlined
 } from '@ant-design/icons-vue'
-import { getSlotVNode } from '@gx-admin/utils'
-import { isDev } from '/@/utils'
+import { isDev } from '@/utils'
 import type { WUploadProps } from '../Upload'
 import { useUploadContext } from '../UploadContext'
 
 interface UploadCardProps extends WUploadProps {
-  root: Ref<any>
+  root: Ref
   baseClassName: string
   onView: (type, url) => void
   onDelete: (idName) => void
@@ -22,7 +21,7 @@ interface UploadCardProps extends WUploadProps {
   onMediaCropper: (name, type, info?: { file: File; url: string }) => void
 }
 
-const UploadCard: FC<UploadCardProps> = (props: UploadCardProps, { slots }) => {
+const UploadCard: FC<UploadCardProps> = (props: UploadCardProps) => {
   const { root, onView, baseClassName, onDelete, onDownload, onWaterMark, onMediaCropper } = props
 
   const context = useUploadContext()
@@ -34,8 +33,7 @@ const UploadCard: FC<UploadCardProps> = (props: UploadCardProps, { slots }) => {
   }
 
   const renderMaterial = (record) => {
-    const errorExtraRender = getSlotVNode(slots, props, 'errorExtra')
-    const placeholderExtra = getSlotVNode(slots, props, 'placeholderExtra')
+    const { errorExtra, placeholderExtra } = props
 
     let show
     switch (record.type) {
@@ -46,7 +44,7 @@ const UploadCard: FC<UploadCardProps> = (props: UploadCardProps, { slots }) => {
             style={props.imageStyle}
             src={record.url}
             fallback={
-              errorExtraRender || (
+              errorExtra || (
                 <div class="image-slot">
                   <i class="material_font gx-tupian" />
                 </div>
@@ -63,7 +61,7 @@ const UploadCard: FC<UploadCardProps> = (props: UploadCardProps, { slots }) => {
               <i class="material_font gx-yinleyinpin" />
             </div>
           ) : (
-            errorExtraRender || <div class="image-slot">{record.loadStatusMsg || '加载失败'}</div>
+            errorExtra || <div class="image-slot">{record.loadStatusMsg || '加载失败'}</div>
           )
         break
       case '3':
@@ -74,7 +72,7 @@ const UploadCard: FC<UploadCardProps> = (props: UploadCardProps, { slots }) => {
               style={props.imageStyle}
               src={record.coverImg}
               fallback={
-                errorExtraRender || (
+                errorExtra || (
                   <div class="image-slot">
                     <i class="material_font gx-shipin" />
                   </div>
@@ -83,7 +81,7 @@ const UploadCard: FC<UploadCardProps> = (props: UploadCardProps, { slots }) => {
               placeholder={placeholderExtra || <div class="image-slot">加载中...</div>}
             />
           ) : (
-            errorExtraRender || <div class="image-slot">{record.loadStatusMsg || '加载失败'}</div>
+            errorExtra || <div class="image-slot">{record.loadStatusMsg || '加载失败'}</div>
           )
         break
       case '4':
@@ -100,7 +98,7 @@ const UploadCard: FC<UploadCardProps> = (props: UploadCardProps, { slots }) => {
             style={props.imageStyle}
             src={record.url}
             fallback={
-              errorExtraRender || (
+              errorExtra || (
                 <div class="image-slot">
                   <i class="material_font gx-tupian" />
                 </div>

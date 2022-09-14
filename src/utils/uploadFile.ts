@@ -1,20 +1,19 @@
 import dayjs from 'dayjs'
+import { getRandomNumber } from './util'
 
-const guid = () => {
-  const S4 = () => {
-    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
-  }
-  return (S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + S4() + S4() + S4())
-}
-export const fileName = (file: File, bucketName?: string) => {
-  const arr = file.name.split('.')
+/**
+ * @Author      gx12358
+ * @DateTime    2022/4/22
+ * @lastTime    2022/4/22
+ * @description 修改文件名
+ */
+export const fileName = (file: File, name = 'video', fullName?: boolean) => {
+  const names = file.name.split('.')
   const time1 = dayjs().format('YYYYMMDD')
-  const uuid = bucketName ?
-    bucketName + '/' + time1 + '/' + guid()
-    :
-    'gx' + '/' + time1 + '/' + guid()
-  if (arr.length > 1) {
-    return uuid + '.' + arr[arr.length - 1]
+  const uuid = name + '/' + time1 + '/' + getRandomNumber().uuid(10)
+  if (fullName) return name
+  if (names.length > 1) {
+    return uuid + '.' + names[names.length - 1]
   } else {
     return uuid
   }

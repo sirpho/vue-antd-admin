@@ -1,19 +1,26 @@
 module.exports = {
   root: true,
-  plugins: ['stylelint-order'],
-  extends: ['stylelint-config-standard', 'stylelint-config-prettier'],
+  plugins: [ 'stylelint-order' ],
+  extends: [ 'stylelint-config-standard', 'stylelint-config-prettier' ],
+  customSyntax: 'postcss-html',
   rules: {
+    'number-leading-zero': false,
+    'alpha-value-notation': false,
+    'color-function-notation': false,
+    'no-eol-whitespace': false,
+    'function-no-unknown': null,
+    'selector-class-pattern': null,
     'selector-pseudo-class-no-unknown': [
       true,
       {
-        ignorePseudoClasses: ['global'],
-      },
+        ignorePseudoClasses: [ 'global' ]
+      }
     ],
     'selector-pseudo-element-no-unknown': [
       true,
       {
-        ignorePseudoElements: ['v-deep'],
-      },
+        ignorePseudoElements: [ 'v-deep' ]
+      }
     ],
     'at-rule-no-unknown': [
       true,
@@ -28,11 +35,13 @@ module.exports = {
           'if',
           'each',
           'include',
-          'mixin',
-        ],
-      },
+          'mixin'
+        ]
+      }
     ],
     'no-empty-source': null,
+    'string-quotes': null,
+    'string-quotes': null,
     'named-grid-areas-no-invalid': null,
     'unicode-bom': 'never',
     'no-descending-specificity': null,
@@ -43,10 +52,10 @@ module.exports = {
     'rule-empty-line-before': [
       'always',
       {
-        ignore: ['after-comment', 'first-nested'],
-      },
+        ignore: [ 'after-comment', 'first-nested' ]
+      }
     ],
-    'unit-no-unknown': [true, { ignoreUnits: ['rpx'] }],
+    'unit-no-unknown': [ true, { ignoreUnits: [ 'rpx' ] } ],
     'order/order': [
       [
         'dollar-variables',
@@ -55,16 +64,42 @@ module.exports = {
         'declarations',
         {
           type: 'at-rule',
-          name: 'supports',
+          name: 'supports'
         },
         {
           type: 'at-rule',
-          name: 'media',
+          name: 'media'
         },
-        'rules',
+        'rules'
       ],
-      { severity: 'warning' },
-    ],
+      { severity: 'warning' }
+    ]
   },
-  ignoreFiles: ['**/*.js', '**/*.jsx', '**/*.tsx', '**/*.ts'],
-};
+  ignoreFiles: [ '**/*.js', '**/*.jsx', '**/*.tsx', '**/*.ts' ],
+  overrides: [
+    {
+      files: [ '*.vue', '**/*.vue', '**/*.ts', '**/*.tsx', '*.html', '**/*.html' ],
+      extends: [ 'stylelint-config-recommended', 'stylelint-config-html' ],
+      rules: {
+        'keyframes-name-pattern': null,
+        'selector-pseudo-class-no-unknown': [
+          true,
+          {
+            ignorePseudoClasses: [ 'deep', 'global' ]
+          }
+        ],
+        'selector-pseudo-element-no-unknown': [
+          true,
+          {
+            ignorePseudoElements: [ 'v-deep', 'v-global', 'v-slotted' ]
+          }
+        ]
+      }
+    },
+    {
+      files: [ '*.less', '**/*.less' ],
+      customSyntax: 'postcss-less',
+      extends: [ 'stylelint-config-standard', 'stylelint-config-recommended-vue' ]
+    }
+  ]
+}

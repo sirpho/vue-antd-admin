@@ -1,4 +1,4 @@
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 import type { Gutter, ColSpanType, ProCardTabsProps } from './typings'
 
 export const tabPaneProps = {

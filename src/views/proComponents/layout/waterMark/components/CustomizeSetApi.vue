@@ -85,7 +85,11 @@
                 <a-input v-model:value="formState.content" placeholder="Basic usage" />
               </a-form-item>
               <a-form-item label="字体颜色">
-                <g-color v-model:value="formState.fontColor" :swatches="predefineColors" />
+                <g-color
+                  v-model:value="formState.fontColor"
+                  :show-alpha="false"
+                  :swatches="predefineColors"
+                />
               </a-form-item>
               <a-form-item label="字体大小">
                 <a-slider v-model:value="formState.fontSize" :min="1" :max="100" />
@@ -110,7 +114,7 @@
 
 <script>
 import { computed, defineComponent, reactive, toRefs } from 'vue'
-import useMediaQuery from '/@/hooks/event/useMediaQuery'
+import useMediaQuery from '@/hooks/event/useMediaQuery'
 import config from '../utils/config'
 
 export default defineComponent({

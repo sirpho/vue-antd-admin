@@ -1,5 +1,5 @@
 <template>
-  <g-pro-page-wrapper>
+  <g-pro-page-container>
     <a-form style="max-width: 600px; margin: 8px auto auto" :model="formState" layout="vertical">
       <a-form-item label="标题" v-bind="validateInfos.title">
         <a-input
@@ -122,17 +122,18 @@
         <a-button style="margin-left: 10px" @click="resetFields">重置</a-button>
       </a-form-item>
     </a-form>
-  </g-pro-page-wrapper>
+  </g-pro-page-container>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, toRaw, onActivated } from 'vue'
+import { defineComponent, reactive, toRefs, toRaw } from 'vue'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 import { Form } from 'ant-design-vue'
 import { QuestionCircleOutlined } from '@ant-design/icons-vue'
-import { getBasicForm } from '/@/services/form/basic'
-import { hanndleField } from '/@/utils/util'
+import { onMountedOrActivated } from '@gx-admin/hooks/core'
+import { getBasicForm } from '@/services/form/basic'
+import { hanndleField } from '@/utils/util'
 
 const useForm = Form.useForm
 
@@ -188,7 +189,7 @@ export default defineComponent({
         }
       ]
     })
-    onActivated(async () => {
+    onMountedOrActivated(async () => {
       const response: any = await getBasicForm()
       if (response) {
         for (let i in response.data) {
@@ -206,7 +207,7 @@ export default defineComponent({
         }
         state.formState.date = response.data.startTime
           ? [
-              dayjs('2020-09-26 00:00:00', 'YYYY-MM-DD HH:mm:ss'),
+              dayjs(response.data.startTime, 'YYYY-MM-DD HH:mm:ss'),
               dayjs(response.data.endTime, 'YYYY-MM-DD HH:mm:ss')
             ]
           : []

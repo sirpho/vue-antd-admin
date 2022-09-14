@@ -1,5 +1,5 @@
 <template>
-  <g-pro-page-wrapper>
+  <g-pro-page-container>
     <div :class="$style.cardList">
       <a-list
         rowKey="id"
@@ -44,14 +44,14 @@
         </template>
       </a-list>
     </div>
-  </g-pro-page-wrapper>
+  </g-pro-page-container>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, onActivated, reactive, ref, toRefs } from 'vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
-import type { CardListItemDataType } from '/@/services/list/card'
-import { getCardList } from '/@/services/list/card'
+import type { CardListItemDataType } from '@/services/list/card'
+import { getCardList } from '@/services/list/card'
 
 export default defineComponent({
   components: {

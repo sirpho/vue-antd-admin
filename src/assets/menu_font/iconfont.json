@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "653959",
+      "name": "个人中心2",
+      "font_class": "gerenzhongxin2",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "10548153",
+      "name": "个人设置",
+      "font_class": "gerenshezhi",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "26694800",
+      "name": "菜单管理",
+      "font_class": "a-zu5",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
       "icon_id": "1891439",
       "name": "外部数据",
       "font_class": "waibushuju",
@@ -95,13 +116,6 @@
       "font_class": "gerenziliao",
       "unicode": "e603",
       "unicode_decimal": 58883
-    },
-    {
-      "icon_id": "20240556",
-      "name": "菜单管理",
-      "font_class": "caidanguanli",
-      "unicode": "e638",
-      "unicode_decimal": 58936
     },
     {
       "icon_id": "20853360",

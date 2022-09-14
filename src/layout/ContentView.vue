@@ -16,8 +16,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import PageTransition from '/@/components/PageTransition/index.vue'
-import Iframe from '/@/views/Iframe/index.vue'
+import PageTransition from '@/components/PageTransition/index.vue'
+import Iframe from '../views/Iframe/index.vue'
 
 const props = defineProps({
   isRouterAlive: {

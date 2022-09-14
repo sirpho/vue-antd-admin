@@ -1,9 +1,9 @@
 import { defineComponent, onMounted, reactive, watch, onBeforeUnmount, computed } from 'vue'
 import { useStore } from '@gx-vuex'
 import { useRouter } from 'vue-router'
-import Result403 from '/@/assets/error_images/403.png'
-import Result404 from '/@/assets/error_images/404.png'
-import ResultCloud from '/@/assets/error_images/cloud.png'
+import Result403 from '@/assets/error_images/403.png'
+import Result404 from '@/assets/error_images/404.png'
+import ResultCloud from '@/assets/error_images/cloud.png'
 import './style.less'
 
 export interface subInfo {

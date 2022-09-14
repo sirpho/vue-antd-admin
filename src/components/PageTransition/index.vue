@@ -78,7 +78,6 @@ export default defineComponent({
 
 <style lang="less">
 .page-toggle-enter-active {
-  position: absolute !important;
   top: 0;
   right: 0;
   bottom: 0;
@@ -88,7 +87,6 @@ export default defineComponent({
 }
 
 .page-toggle-leave-active {
-  position: absolute !important;
   top: 0;
   right: 0;
   bottom: 0;

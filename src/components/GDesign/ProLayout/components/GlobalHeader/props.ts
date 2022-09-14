@@ -1,9 +1,8 @@
 import type { Theme } from '/types/config'
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 import logoContentProps from '../LogoContent/props'
 import { siderMenuProps } from '../SiderMenu/props'
 import type { RightContentRender } from '../../RenderTypings'
-import type { MenuDataItem } from '../../typings'
 import { defaultSettingProps } from '../../defaultSettings'
 import { ExtraRightDropdownRender } from '../../RenderTypings'
 
@@ -22,7 +21,7 @@ export const globalHeaderProps = {
     default: 'dark'
   },
   menuData: {
-    type: Array as PropType<MenuDataItem[]>,
+    type: Array as PropType<AppRouteModule[]>,
     default: () => []
   },
   menuRender: {

@@ -8,17 +8,19 @@ import {
   onMounted,
   computed,
   onUnmounted,
-  watchEffect
+  watchEffect,
+  isVNode
 } from 'vue'
 import { cloneDeep, omit } from 'lodash-es'
 import { useFullscreen } from '@vueuse/core'
-import { PaginationProps } from 'ant-design-vue/lib/pagination'
-import { Grid, Table, Spin, Pagination, Tooltip, Typography } from 'ant-design-vue'
-import Nodata from '/@/assets/public_images/nodata.png'
+import { Table, Grid, Spin, Pagination, Tooltip, Typography, TableProps } from 'ant-design-vue'
+import Nodata from '@/assets/public_images/nodata.png'
+import type { PaginationProps } from '@gx-design/Pagination/typings'
 import { getPrefixCls, getSlotVNode } from '@gx-admin/utils'
-import { isArray, isObject } from '/@/utils/validate'
-import { getRandomNumber, hanndleField } from '/@/utils/util'
-import type { OptionConfig } from './types/table'
+import { warning } from '@gx-design/utils'
+import { isObject } from '@/utils/validate'
+import { getRandomNumber, hanndleField } from '@/utils/util'
+import type { ProTablePaginationConfig, OptionConfig } from './types/table'
 import type { ProColumns } from './types/column'
 import { useLoading } from './hooks/useLoading'
 import { useTableSize } from './hooks/useTableSize'
@@ -41,10 +43,10 @@ export type ProTableProps = Partial<ExtractPropTypes<typeof proTableProps>>
 
 const { useBreakpoint } = Grid
 
-const defaultEmpty = () => (
-  <div style="text-align: center">
-    <img style={{ width: '125px' }} src={Nodata} alt="" />
-    <p style={{ color: '#666666', fontSize: '15px' }}>暂时没有数据哦~</p>
+const defaultEmpty = (prefixCls: string) => (
+  <div class={prefixCls}>
+    <img style={{ width: '150px' }} src={Nodata} alt="" />
+    <p class="text-hex-666666 text-base-15px">暂时没有数据哦~</p>
   </div>
 )
 const defaultOptions: OptionConfig = {
@@ -58,6 +60,7 @@ const GProTable = defineComponent({
   props: proTableProps,
   emits: [
     'reset',
+    'reload',
     'submit',
     'sizeChange',
     'expandedRowsChange',
@@ -83,6 +86,13 @@ const GProTable = defineComponent({
 
     const getProps = computed<ProTableProps>(() => {
       return { ...props }
+    })
+
+    const needVirtualScroll = computed(() => {
+      if (props.virtualScroll) {
+        warning(!props.scroll?.y, '参数scroll的Y值不能为空！')
+      }
+      return props.scroll?.y && props.virtualScroll
     })
 
     const cacheColumns = computed(() => {
@@ -192,6 +202,9 @@ const GProTable = defineComponent({
       columns: cacheColumns
     })
 
+    const { selectedKey, changeRowKey, selectRowKey, selectAllRowKey, removeRowKeys } =
+      useRowSelection(toRef(props, 'rowKey'), toRef(props, 'rowSelection'))
+
     /**
      * @Author      gx12358
      * @DateTime    2022/1/21
@@ -212,6 +225,7 @@ const GProTable = defineComponent({
         getLoading,
         getPaginationInfo,
         setPagination,
+        removeRowKeys,
         setLoading,
         setColumns,
         columns: getProColumns,
@@ -219,11 +233,6 @@ const GProTable = defineComponent({
         beforeSearchSubmit: props.beforeSearchSubmit
       },
       emit
-    )
-
-    const { selectedKey, changeRowKey, selectRowKey, selectAllRowKey } = useRowSelection(
-      toRef(props, 'rowKey'),
-      toRef(props, 'rowSelection')
     )
 
     const getOptionsRef = computed(() => {
@@ -250,6 +259,7 @@ const GProTable = defineComponent({
         reload: (info) => reload(info),
         reloadAndRest: () => reload({ current: 1, pageSize: 10 }),
         reSetDataList,
+        changePageInfo: (pagination, filters, sorter) => changePage(pagination, filters, sorter),
         changeDataValue: ({ key, value }) => changeDataValue({ key, value }),
         loadingOperation: (loading) => setLoading(loading)
       })
@@ -285,16 +295,19 @@ const GProTable = defineComponent({
      */
     const getBindValues = computed(() => {
       const dataSource = unref(getDataSourceRef)
-      let propsData: RecordType = {
+      let propsData: TableProps & {
+        virtualScroll?: boolean
+      } = {
         ...attrs,
         ...props,
+        virtualScroll: needVirtualScroll.value,
         size: unref(sizeRef),
         scroll: unref(getScrollRef),
         loading: !!unref(getLoading),
         columns: toRaw(
           unref(getProColumns).filter((column) => column.show || column.show === undefined)
         ),
-        pagination: toRaw(unref(getPaginationInfo)),
+        pagination: toRaw(unref(getPaginationInfo)) as TableProps['pagination'],
         dataSource
       }
 
@@ -347,7 +360,7 @@ const GProTable = defineComponent({
 
     const handlePagePosition = computed(() => {
       const defaultPosition = unref(getProps).direction === 'rtl' ? 'left' : 'right'
-      let { position } = unref(getPaginationInfo) as PaginationProps & { position?: string }
+      let position = (unref(getPaginationInfo) as ProTablePaginationConfig)?.position
       if (position !== null && Array.isArray(position)) {
         const topPos = position.find((p) => p.indexOf('top') !== -1)
         const bottomPos = position.find((p) => p.indexOf('bottom') !== -1)
@@ -395,7 +408,7 @@ const GProTable = defineComponent({
      * @lastTime    2021/7/14
      * @description ant-table原始方法
      */
-    const changePage = async (pagination, filters, sorter) => {
+    const changePage = async (pagination: Partial<PaginationProps>, filters, sorter) => {
       setPagination({
         current: pagination.current,
         pageSize: pagination.pageSize
@@ -425,9 +438,7 @@ const GProTable = defineComponent({
     const expand = (expanded, record) => {
       emit('expand', expanded, record)
     }
-    const handleResizeColumn = (w, col) => {
-      resizeColumnWidth(w, col)
-    }
+    const handleResizeColumn = (w, col) => resizeColumnWidth(w, col)
     /**
      * @Author      gx12358
      * @DateTime    2021/7/14
@@ -503,7 +514,8 @@ const GProTable = defineComponent({
                 }}
               />
             )}
-            {toolbarDom(headerTitleRender, toolBarBtnRender, titleTipRender)}
+            {!needVirtualScroll.value &&
+              toolbarDom(headerTitleRender, toolBarBtnRender, titleTipRender)}
             {customizeRender ? (
               <Spin spinning={!!unref(getLoading)}>
                 {props.customize
@@ -514,7 +526,7 @@ const GProTable = defineComponent({
                     ['ant-table-pagination']: true,
                     [`ant-table-pagination-${handlePagePosition.value}`]: handlePagePosition.value
                   }}
-                  {...(toRaw(unref(getPaginationInfo)) as PaginationProps)}
+                  {...toRaw(unref(getPaginationInfo))}
                   onChange={handleChangePage}
                 />
               </Spin>
@@ -523,8 +535,9 @@ const GProTable = defineComponent({
                 {...getBindValues.value}
                 rowKey={(record) => record[props.rowKey || 'sortIndex']}
                 transformCellText={({ text, column }) => {
+                  if (isVNode(text)) return text
                   const { value, success } = hanndleField(
-                    isArray(text) && text?.length === 1 && !isObject(text[0]) ? text[0] : text,
+                    text,
                     (column as any)?.columnEmptyText || props?.columnEmptyText
                   )
                   return (column as any)?.ellipsis
@@ -553,7 +566,7 @@ const GProTable = defineComponent({
                 onExpand={expand}
                 onResizeColumn={handleResizeColumn}
                 v-slots={{
-                  emptyText: defaultEmpty,
+                  emptyText: () => defaultEmpty(`${baseClassName}-empty`),
                   ...handleSlots(slots)
                 }}
               />

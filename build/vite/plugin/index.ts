@@ -1,10 +1,12 @@
-import type { Plugin } from 'vite'
+import type { Plugin, PluginOption } from 'vite'
 
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import legacy from '@vitejs/plugin-legacy'
 
-import purgeIcons from 'vite-plugin-purge-icons'
+import vueSetupExtend from 'vite-plugin-vue-setup-extend'
+
+import windiCSS from 'vite-plugin-windicss'
 
 import { configHtmlPlugin } from './html'
 import { configPwaConfig } from './pwa'
@@ -12,7 +14,6 @@ import { configMockPlugin } from './mock'
 import { createAutoImport } from './autoImport'
 import { configCompressPlugin } from './compress'
 import { configVisualizerConfig } from './visualizer'
-import { configSvgIconsPlugin } from './svgSprite'
 import { configHmrPlugin } from './hmr'
 
 export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
@@ -23,12 +24,18 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
     VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE
   } = viteEnv
 
-  const vitePlugins: (Plugin | Plugin[])[] = [
+  const vitePlugins: (Plugin | PluginOption[])[] = [
     // have to
     vue(),
     // have to
-    vueJsx(),
+    vueJsx()
   ]
+
+  // vite-plugin-windicss
+  vitePlugins.push(windiCSS())
+
+  // vite-plugin-vue-setup-extend
+  vitePlugins.push(vueSetupExtend())
 
   !isBuild && vitePlugins.push(configHmrPlugin())
 
@@ -38,14 +45,8 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   // vite-plugin-html
   vitePlugins.push(configHtmlPlugin(viteEnv, isBuild))
 
-  // vite-plugin-svg-icons
-  vitePlugins.push(configSvgIconsPlugin(isBuild))
-
   // vite-plugin-mock
   VITE_USE_MOCK && vitePlugins.push(configMockPlugin(isBuild))
-
-  // vite-plugin-purge-icons
-  vitePlugins.push(purgeIcons())
 
   // rollup-plugin-visualizer
   vitePlugins.push(configVisualizerConfig())

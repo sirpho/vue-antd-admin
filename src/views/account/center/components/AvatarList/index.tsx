@@ -1,28 +1,27 @@
 import type { CSSProperties, FunctionalComponent as FC } from 'vue'
 import { cloneVNode } from 'vue'
+import type { SizeType } from '@gx-admin/utils'
 import { getSlotChildren } from '@gx-admin/utils'
 
 import styles from './index.module.less'
 
-export declare type SizeType = number | 'small' | 'default' | 'large'
-
 export type AvatarItemProps = {
   tips: VueNode
   src: string
-  size?: SizeType
+  size?: SizeType | number | 'mini'
   style?: CSSProperties
   onClick?: () => void
 }
 
 export type AvatarListProps = {
   Item?: VueNode
-  size?: SizeType
+  size?: SizeType | 'mini' | number
   maxLength?: number
   excessItemsStyle?: CSSProperties
   style?: CSSProperties
 }
 
-const avatarSizeToClassName = (size?: SizeType | 'mini') => {
+const avatarSizeToClassName = (size?: SizeType | 'mini' | number) => {
   return {
     [`${styles.avatarItem}`]: true,
     [`${styles.avatarItemLarge}`]: size === 'large',

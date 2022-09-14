@@ -1,4 +1,4 @@
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 
 export interface actionsTextItem {
   expandText?: string | VueNode;

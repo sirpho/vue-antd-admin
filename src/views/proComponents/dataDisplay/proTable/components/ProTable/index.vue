@@ -88,7 +88,7 @@
   </a-form>
   <g-pro-table
     v-bind="tableConfig"
-    :request="(params, sort, filter) => getTableData(params, sort, filter)"
+    :request="(params) => getTableData(params)"
     @reset="onReset"
     @searchReset="onSearchReset"
   >
@@ -144,7 +144,13 @@
         <ReloadOutlined v-else />
         {{ tableConfig.polling ? '停止轮询' : '开始轮询' }}
       </a-button>
-      <a-button v-if="state.selectedRowKeys.length > 0" danger key="button" type="primary">
+      <a-button
+        v-if="state.selectedRowKeys.length > 0"
+        danger
+        key="button"
+        type="primary"
+        @click="removeTable"
+      >
         删除
       </a-button>
       <a-dropdown :trigger="['click']">
@@ -156,7 +162,7 @@
             <a-menu-item key="3">3rd menu item</a-menu-item>
           </a-menu>
         </template>
-        <a-button key="button"> 批量操作 </a-button>
+        <a-button key="button" v-auth="'pro-table-btn'"> 批量操作 </a-button>
       </a-dropdown>
     </template>
     <template #search>
@@ -189,7 +195,7 @@
     </template>
   </g-pro-table>
   <ScrollModal ref="scrollModal" @handleOk="handleScroll" />
-  <OperationModal ref="operation" />
+  <OperationModal ref="operation" @handleOk="handleReload" />
   <ScrollBreakpointModal ref="scrollBreakpointModal" @handleOk="handleScrollBreakpoint" />
 </template>
 
@@ -197,9 +203,10 @@
 import { ref, onMounted, reactive, watch, h } from 'vue'
 import { message } from 'ant-design-vue'
 import { LoadingOutlined, ReloadOutlined, InfoCircleOutlined } from '@ant-design/icons-vue'
-import { getList } from '/@/services/table'
+import { ProCoreActionTypeConfig } from '@gx-design/ProTable'
+import { getList, doDelete } from '@/services/table'
 import { useDict } from '@gx-admin/hooks/web'
-import { deepCopy } from '/@/utils/util'
+import { deepCopy } from '@/utils/util'
 import ScrollModal from './components/ScrollModal.vue'
 import OperationModal from './components/OperationModal.vue'
 import ScrollBreakpointModal from './components/ScrollBreakpointModal.vue'
@@ -213,13 +220,14 @@ const operation = ref(null)
 const scrollModal = ref(null)
 const scrollBreakpointModal = ref(null)
 
+const tableRef = ref<ProCoreActionTypeConfig>()
+
 const state = reactive({
   inputSearchRef: '',
   showCustomize: false,
   showOptionsExtra: false,
   showScroll: true,
   showScrollBreakpoint: false,
-  tableRef: null,
   tableData: [],
   selectedRowKeys: [],
   selectedRowItems: []
@@ -240,7 +248,7 @@ const tableConfig = reactive({
   autoScroll: true,
   neverScroll: false,
   scrollBreakpoint: 'xl',
-  actionRef: (info) => (state.tableRef = info),
+  actionRef: (info) => (tableRef.value = info),
   draggabled: true,
   waitRequest: true,
   params: {
@@ -349,7 +357,7 @@ onMounted(() => {
 })
 
 const getTableData = async (params) => {
-  const response: any = await getList({
+  const response = await getList({
     ...params
   })
   state.tableData = deepCopy(response?.data || [])
@@ -408,16 +416,22 @@ const onSearchReset = () => {
 }
 
 const batchOperation = (key) => {
-  state.selectedRowKeys = []
-  state.selectedRowItems = []
   message.success(`你点击了${key.domEvent.target.innerText}`)
 }
 
-const handleReload = () => {
-  state.selectedRowKeys = []
-  state.selectedRowItems = []
-  state.tableRef?.reloadAndRest()
+const removeTable = async () => {
+  tableRef.value?.loadingOperation(true)
+  const response = await doDelete({
+    ids: state.selectedRowKeys.join()
+  })
+  if (response) {
+    message.success('操作成功！')
+    tableRef.value?.reload({ immediate: true, removeKeys: state.selectedRowKeys })
+  }
+  tableRef.value?.loadingOperation(false)
 }
+
+const handleReload = () => tableRef.value?.reload()
 </script>
 
 <style lang="less" module>

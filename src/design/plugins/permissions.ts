@@ -6,9 +6,9 @@ import { message } from 'ant-design-vue'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import config from '/config/config'
-import router from '/@/router'
+import router from '@/router'
 import { useStoreUser, useStoreRoutes, useStoreSettings, useStorePermission } from '@gx-vuex'
-import getPageTitle from '/@/utils/pageTitle'
+import getPageTitle from '@/utils/pageTitle'
 
 const {
   authentication,
@@ -33,9 +33,9 @@ router.beforeEach(async (to, _, next) => {
     routes.addRouterLoadList(to.path)
     routes.changeValue('routerLoading', true)
   }
-  let hasToken: any = user.accessToken
+  let hasToken = !!user.accessToken
   let hasUserInfo = true
-  let accessRoutes: any[] = []
+  let accessRoutes: AppRouteModule[] = []
   if (!loginInterception) hasToken = true
   if (hasToken) {
     if (to.path === '/user/login') {
@@ -63,7 +63,7 @@ router.beforeEach(async (to, _, next) => {
           }
           if (hasUserInfo) {
             if (accessRoutes.length) {
-              (accessRoutes as any[]).forEach((item) => {
+              accessRoutes.forEach((item: any) => {
                 router.addRoute(item)
               })
               next({ ...to, replace: true })
@@ -72,7 +72,7 @@ router.beforeEach(async (to, _, next) => {
             }
             routes.changeValue('meunLoading', false)
           } else {
-            await user.resetPermissions()
+            user.resetPermissions()
             if (recordRoute)
               next({
                 path: '/user/login',
@@ -83,7 +83,7 @@ router.beforeEach(async (to, _, next) => {
           }
           NProgress.done()
         } catch (e) {
-          await user.resetPermissions()
+          user.resetPermissions()
           if (recordRoute)
             next({
               path: '/user/login',
@@ -99,7 +99,7 @@ router.beforeEach(async (to, _, next) => {
     if (routesWhiteList.indexOf(to.path) !== -1) {
       next()
     } else {
-      await user.resetPermissions()
+      user.resetPermissions()
       if (recordRoute) {
         next({ path: '/user/login', query: { redirect: to.path }, replace: true })
       } else next({ path: '/user/login', replace: true })

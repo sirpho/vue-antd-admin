@@ -1,5 +1,5 @@
 <template>
-  <g-pro-page-wrapper>
+  <g-pro-page-container>
     <g-pro-editor
       ref="editors"
       v-model="content"
@@ -12,13 +12,13 @@
       :plugins="plugins"
       :toolbar="toolbar"
     />
-  </g-pro-page-wrapper>
+  </g-pro-page-container>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { Editor as TinyMCEEditor } from 'tinymce'
-import Localization from '/@/assets/public_images/localization.png'
+import Localization from '@/assets/public_images/localization.png'
 
 const editors = ref()
 const vueEditor = ref(null)

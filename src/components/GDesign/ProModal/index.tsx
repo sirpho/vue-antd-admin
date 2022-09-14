@@ -3,13 +3,13 @@ import { computed, defineComponent, onUnmounted, ref, watchEffect } from 'vue'
 import { omit } from 'lodash-es'
 import { Modal, Empty, Skeleton, Spin, Button, Space } from 'ant-design-vue'
 import { CloseOutlined, FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons-vue'
-import Nodata from '/@/assets/public_images/nodata.png'
+import Nodata from '@/assets/public_images/nodata.png'
 import { getSlotVNode, getPrefixCls } from '@gx-admin/utils'
 import { modalProps, proModalProps } from './props'
 import { useModalDragMove } from './hooks/useModalDrag'
 
 import './style.less'
-import { isNumber } from '/@/utils/validate'
+import { isNumber } from '@/utils/validate'
 
 export type ModalProps = Partial<ExtractPropTypes<typeof modalProps>>
 
@@ -26,6 +26,7 @@ function defaultFooter(className: string, onCancel: () => void) {
 }
 
 export default defineComponent({
+  name: 'GProModal',
   props: proModalProps,
   emits: ['cancel', 'ok', 'changeView'],
   setup(props, { emit, slots, attrs }) {
@@ -41,8 +42,7 @@ export default defineComponent({
       const newProps: Recordable = {
         ...props,
         centered: props.type === 'fixed',
-        closable: false,
-        destroyOnClose: true
+        closable: false
       }
       if (props.isFail) newProps.centered = false
       if (props.spinning) newProps.maskClosable = false

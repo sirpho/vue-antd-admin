@@ -1,5 +1,5 @@
 <template>
-  <g-pro-page-wrapper>
+  <g-pro-page-container>
     <g-pro-table
       row-key="menuId"
       draggabled
@@ -18,12 +18,12 @@
         </template>
       </template>
     </g-pro-table>
-  </g-pro-page-wrapper>
+  </g-pro-page-container>
 </template>
 <script lang="ts">
 import { defineComponent, reactive, toRefs, onMounted } from 'vue'
-import { getRouterList } from '/@/services/controller/router'
-import { treeData } from '/@/utils/util'
+import { getRouterList } from '@/services/controller/router'
+import { treeData } from '@/utils/util'
 import columns from './utils/columns'
 
 export default defineComponent({

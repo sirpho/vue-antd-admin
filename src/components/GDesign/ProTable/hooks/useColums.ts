@@ -1,9 +1,9 @@
 import { unref, computed, ref, Ref, ComputedRef, watch } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { compareToMax } from '/@/utils/util'
-import { isBoolean, isNumber } from '/@/utils/validate'
+import type { TableProps } from '@gx-design/Table/typings'
+import { compareToMax } from '@/utils/util'
+import { isBoolean, isNumber } from '@/utils/validate'
 import type { ColumnsState } from './useColumnSetting'
-import type { TableProps } from '../typings'
 import type { ProTableProps } from '../'
 import type { ProColumn, ProColumns } from '../types/column'
 
@@ -115,7 +115,7 @@ export function useColumns({
       return
     }
 
-    proColumnsRef.value = cloneDeep(columnList)
+    proColumnsRef.value = handleColumns(cloneDeep(columnList))
   }
 
   function changeColumns(columnState: Record<string, ColumnsState>) {

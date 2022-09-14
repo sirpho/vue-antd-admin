@@ -1,9 +1,9 @@
 import type { ComputedRef, Ref } from 'vue'
 import { unref, computed } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { isBoolean, isNumber, isString } from '/@/utils/validate'
+import type { TableProps } from '@gx-design/Table/typings'
+import { isBoolean, isNumber, isString } from '@/utils/validate'
 import type { ProTableProps } from '../'
-import type { TableProps } from '../typings'
 import type { ProColumns } from '../types/column'
 
 type ConfigScroll = {

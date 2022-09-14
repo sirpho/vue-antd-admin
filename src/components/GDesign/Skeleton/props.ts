@@ -1,4 +1,4 @@
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 import { tuple } from '@gx-design/utils'
 
 export default {

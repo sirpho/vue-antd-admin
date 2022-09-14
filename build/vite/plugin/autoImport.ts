@@ -17,7 +17,9 @@ export function createAutoImport() {
       dts: 'types/auto-imports.d.ts'
     }),
     // Components({
-    //   dirs: ['src/components/GDesign'],
+    //   resolvers: [
+    //     AntDesignVueResolver()
+    //   ],
     //   dts: 'types/components.d.ts'
     // })
   ]

@@ -1,7 +1,7 @@
-import request from '/@/utils/request'
+import request from '@/utils/request'
 import type { CurrentUser, GeographicItemType } from './typings'
 
-export function queryCurrent(): Promise<{ data: CurrentUser }> {
+export function queryCurrent(): Promise<ResponseResult<CurrentUser>> {
   return request({
     url: '/accountSettingCurrentUser',
     method: 'post',
@@ -9,7 +9,7 @@ export function queryCurrent(): Promise<{ data: CurrentUser }> {
   })
 }
 
-export function queryProvince(): Promise<{ data: GeographicItemType[] }> {
+export function queryProvince(): Promise<ResponseResult<GeographicItemType[]>> {
   return request({
     url: '/geographic/province',
     method: 'post',
@@ -17,7 +17,7 @@ export function queryProvince(): Promise<{ data: GeographicItemType[] }> {
   })
 }
 
-export function queryCity(province: string): Promise<{ data: GeographicItemType[] }> {
+export function queryCity(province: string): Promise<ResponseResult<GeographicItemType[]>> {
   return request({
     url: `/geographic/city/${province}`,
     method: 'post',

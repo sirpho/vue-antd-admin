@@ -25,7 +25,7 @@ export default {
       '<rootDir>/tests/__mocks__/fileMock.ts',
     '\\.(sass|s?css|less)$': '<rootDir>/tests/__mocks__/styleMock.ts',
     '\\?worker$': '<rootDir>/tests/__mocks__/workerMock.ts',
-    '^/@/(.*)$': '<rootDir>/src/$1',
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
   testEnvironment: 'jsdom',
   verbose: true,

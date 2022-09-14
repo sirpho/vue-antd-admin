@@ -31,7 +31,9 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
     collapsed,
     siderWidth,
     collapsedWidth = 48,
+    menuExtraRender = false,
     menuContentRender = false,
+    menuFooterRender = false,
     collapsedButtonRender = defaultRenderCollapsedButton,
     links,
     onCollapse,
@@ -74,6 +76,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
 
   const defaultMenuDom = (
     <BaseMenu
+      class={`${baseClassName}-menu`}
       theme={sTheme.value}
       mode="inline"
       menuData={hasSplitMenu.value ? context.flatMenuData : context.menuData}
@@ -95,6 +98,8 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
 
   const headerDom =
     layoutSide.value || isMobile ? <LogoContent drawer={isMobile} {...props} /> : null
+
+  const extraDom = menuExtraRender && menuExtraRender(props)
 
   const linksChild = computed(() => {
     if (typeof links === 'function') return links?.()
@@ -140,7 +145,17 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
           </div>
         )}
         {headerDom || null}
-        <div class={`${baseClassName}-menu`} style="flex: 1 1 0%; overflow: hidden auto">
+        {extraDom && !props.collapsed && (
+          <div
+            class={{
+              [`${baseClassName}-extra`]: true,
+              [`${baseClassName}-extra-no-logo`]: !headerDom
+            }}
+          >
+            {extraDom}
+          </div>
+        )}
+        <div style="flex: 1 1 0%; overflow: hidden auto">
           {(menuContentRender && menuContentRender(props, defaultMenuDom)) || defaultMenuDom}
         </div>
         <div class={`${baseClassName}-links`}>
@@ -173,6 +188,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
             )}
           </Menu>
         </div>
+        {menuFooterRender && <div class={`${baseClassName}-footer`}>{menuFooterRender(props)}</div>}
       </Sider>
     </>
   )

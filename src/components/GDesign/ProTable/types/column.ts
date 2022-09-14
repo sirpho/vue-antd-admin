@@ -1,22 +1,20 @@
-import { VNodeChild } from 'vue'
-import {
+import type { VNodeChild } from 'vue'
+import type {
   ColumnFilterItem,
   ColumnTitle,
   CompareFn,
   FilterDropdownProps,
   FilterValue,
   Key,
-  SortOrder
-} from 'ant-design-vue/lib/table/interface'
-import { TooltipProps } from 'ant-design-vue/lib/tooltip/Tooltip'
-import {
+  SortOrder,
   AlignType,
   CellEllipsisType,
   DataIndex,
   FixedType,
   GetComponentProps,
   RenderedCell
-} from 'ant-design-vue/lib/vc-table/interface'
+} from '@gx-design/Table/typings'
+import type { TooltipProps } from 'ant-design-vue/lib/tooltip/Tooltip'
 
 /**
  * @param text 文本框

@@ -2,7 +2,7 @@ import type { FunctionalComponent } from 'vue'
 import { computed, defineComponent } from 'vue'
 import { Tooltip, ConfigProvider } from 'ant-design-vue'
 import { CheckOutlined } from '@ant-design/icons-vue'
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 
 const ThemeColorProps = {
   title: PropTypes.string,

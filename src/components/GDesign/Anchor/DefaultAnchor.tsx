@@ -1,7 +1,7 @@
 import type { ExtractPropTypes, FunctionalComponent } from 'vue'
 import { computed } from 'vue'
 import { Tooltip } from 'ant-design-vue'
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 import { handelInkStyle } from './index'
 
 const defaultAnchorProps = {

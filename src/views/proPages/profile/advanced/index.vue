@@ -1,5 +1,5 @@
 <template>
-  <g-pro-page-wrapper>
+  <g-pro-page-container>
     <div :class="$style['header-deading']">
       <div :class="$style['header-deading-left']">
         <div :class="$style['header-deading-title']"> 单号：234231029431 </div>
@@ -220,7 +220,7 @@
         </template>
       </a-card>
     </div>
-  </g-pro-page-wrapper>
+  </g-pro-page-container>
 </template>
 
 <script lang="ts">
@@ -232,8 +232,8 @@ import {
   DingdingOutlined,
   InfoCircleOutlined
 } from '@ant-design/icons-vue'
-import { queryAdvancedProfile } from '/@/services/profile/advanced'
-import useMediaQuery from '/@/hooks/event/useMediaQuery'
+import { queryAdvancedProfile } from '@/services/profile/advanced'
+import useMediaQuery from '@/hooks/event/useMediaQuery'
 import { columns } from './utils/columns'
 import { tabList, operationTabList } from './utils/config'
 

@@ -12,23 +12,6 @@ export function resultSuccess<T = Recordable>(result: T, { msg = 'success' } = {
   }
 }
 
-export function resultPageSuccess<T = any>(
-  page: number,
-  pageSize: number,
-  list: T[],
-  { msg = 'ok' } = {}
-) {
-  const pageData = pagination(page, pageSize, list)
-
-  return {
-    ...resultSuccess({
-      items: pageData,
-      total: list.length
-    }),
-    msg
-  }
-}
-
 export function resultError(msg = 'Request failed', { code = -1, result = null } = {}) {
   return {
     code,
@@ -61,9 +44,9 @@ export function getRequestToken({ headers }: requestParams): string | undefined 
   return headers?.[tokenName.toLowerCase()]
 }
 
-export const builder = (token, config?: Partial<Result>) => {
+export const builder = (token, config?: Partial<ResponseResult>) => {
   const code = config?.code || 200
-  const result: Result = {
+  const result: ResponseResult = {
     ...config,
     code: token ? code : 401,
     msg: token ? config?.msg || code ? 'success' : 'Request failed' : 'Request failed'

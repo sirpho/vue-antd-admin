@@ -1,7 +1,7 @@
 import type { FunctionalComponent as FC } from 'vue'
 import { Dropdown, Menu, Tooltip } from 'ant-design-vue'
 import { ColumnHeightOutlined } from '@ant-design/icons-vue'
-import type { SizeType } from '@gx-design/utils'
+import type { SizeType } from '@gx-admin/utils'
 import { useTableContext } from '../../context/TableContext'
 
 const DensityIcon: FC = () => {

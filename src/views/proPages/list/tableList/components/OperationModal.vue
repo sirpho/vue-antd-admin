@@ -1,7 +1,7 @@
 <template>
   <g-pro-modal
+    type="normal"
     :title="modalTitle"
-    :adaptive="false"
     :visible="visible"
     :isFail="isFail"
     :spinning="spinning"
@@ -213,9 +213,9 @@
 import { defineComponent, reactive, toRaw, toRefs } from 'vue'
 import dayjs from 'dayjs'
 import { Form, message, Steps } from 'ant-design-vue'
-import { getRuleInfo, addRule, updateRule } from '/@/services/list/table'
+import { getRuleInfo, addRule, updateRule } from '@/services/list/table'
 import { rules, dispatchRules, formItemLayout } from '../utils/config'
-import { hanndleField } from '/@/utils/util'
+import { hanndleField } from '@/utils/util'
 
 const Step = Steps.Step
 const useForm = Form.useForm

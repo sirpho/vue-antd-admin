@@ -1,51 +1,36 @@
 <template>
   <div :class="$style['login-container']">
     <div :class="$style.content">
-      <LoginContainer style="margin-top: 40px" :rules="userRules" :logo="Logo" title="GX Pro Admin">
+      <g-pro-form-login
+        style="margin-top: 40px"
+        :model="userForm"
+        :formRef="(e) => (formRef = e)"
+        :rules="userRules"
+        :logo="Logo"
+        title="GX Pro Admin"
+        @finish="(values) => handleSubmit(values)"
+      >
         <template #subTitle>
           <p>GX Pro Admin 是一套基于</p>
           vue（{{ state.dependencies['vue'] }}） + ant-design-vue（{{
             state.dependencies['ant-design-vue']
           }}） 开发的一套后台系统
         </template>
-        <a-form>
-          <a-form-item v-bind="validateInfos.userName">
-            <a-input
-              name="userName"
-              size="large"
-              v-model:value="userForm.userName"
-              placeholder="用户名: admin"
-            >
-              <template #prefix>
-                <UserOutlined />
-              </template>
-            </a-input>
-          </a-form-item>
-          <a-form-item v-bind="validateInfos.password">
-            <a-input-password
-              name="password"
-              size="large"
-              v-model:value="userForm.password"
-              placeholder="密码: gx.design"
-            >
-              <template #prefix>
-                <LockOutlined />
-              </template>
-            </a-input-password>
-          </a-form-item>
-          <a-form-item style="margin-bottom: 24px">
-            <a-checkbox noStyle name="autoLogin" v-model:checked="userForm.autoLogin">
-              自动登录
-            </a-checkbox>
-            <a style="float: right">忘记密码</a>
-          </a-form-item>
-          <a-form-item>
-            <a-button htmlType="submit" type="primary" block size="large" @click="handleSubmit"
-              >登录</a-button
-            >
-          </a-form-item>
-        </a-form>
-      </LoginContainer>
+        <g-pro-form-text
+          name="userName"
+          :fieldProps="{ size: 'large', prefix: userOutlined }"
+          placeholder="用户名: admin"
+        />
+        <g-pro-form-password
+          name="password"
+          :fieldProps="{ size: 'large', prefix: lockOutlined }"
+          placeholder="密码: gx.design"
+        />
+        <div class="mb-24px">
+          <g-pro-form-checkbox noStyle name="autoLogin">自动登录</g-pro-form-checkbox>
+          <a style="float: right">忘记密码</a>
+        </div>
+      </g-pro-form-login>
     </div>
     <GlobalFooter />
   </div>
@@ -54,18 +39,14 @@
 <script setup lang="ts">
 import { useStore } from '@gx-vuex'
 import { useRoute, useRouter } from 'vue-router'
-import { Form } from 'ant-design-vue'
-import { Props, validateOptions } from 'ant-design-vue/lib/form/useForm'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import { GlobalFooter } from '@gx-design/ProLayout'
-import Logo from '/@/assets/logo.png'
-import LoginContainer from './LoginContainer'
+import Logo from '@/assets/logo.png'
 import { reactive } from 'vue'
 
 interface UserState {
-  userName?: string
-  password?: string
-  autoLogin?: boolean
+  userName: string
+  password: string
 }
 
 interface loginState {
@@ -84,11 +65,14 @@ const iconStyles = {
   cursor: 'pointer'
 }
 
-const useForm = Form.useForm
+const userOutlined = h(UserOutlined)
+const lockOutlined = h(LockOutlined)
 
 const store = useStore()
 const route = useRoute()
 const router = useRouter()
+
+const formRef = ref()
 
 const userForm = reactive({
   userName: '',
@@ -110,15 +94,6 @@ const state: loginState = reactive({
 const logo = computed(() => store.settings.logo)
 const title = computed(() => store.settings.title)
 
-const {
-  validate,
-  validateInfos
-}: {
-  resetFields: (newValues?: Props) => void
-  validate: <T = any>(names?: string | string[], option?: validateOptions) => Promise<T>
-  validateInfos: UserState
-} = useForm(userForm, userRules)
-
 watch(
   () => route.fullPath,
   () => {
@@ -135,15 +110,11 @@ const handleRoute = () => {
     : state.redirect
 }
 
-const handleSubmit = () => {
-  validate()
-    .then(async (value) => {
-      const response: any = await store.user.userLogin({ ...value })
-      if (response) {
-        await router.push(handleRoute())
-      }
-    })
-    .catch((_) => {})
+const handleSubmit = async (value) => {
+  const response: any = await store.user.userLogin({ ...value })
+  if (response) {
+    await router.push(handleRoute())
+  }
 }
 </script>
 

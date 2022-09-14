@@ -1,5 +1,5 @@
 import { CascaderOptionType, FieldNamesType, ShowSearchType } from 'ant-design-vue/lib/cascader'
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 import { tuple } from '@gx-design/utils'
 
 export const cascaderProps = {

@@ -7,8 +7,8 @@ import type {
   OnTabScroll
 } from 'ant-design-vue/lib/tabs/src/interface'
 import type { TabsType } from 'ant-design-vue/lib/tabs/src/Tabs'
-import { PropTypes } from '/@/utils'
-import type { SizeType } from '@gx-design/utils'
+import { PropTypes } from '@/utils'
+import type { SizeType } from '@gx-admin/utils'
 import { cardProps, proCardTabPaneProps } from './props'
 
 export const tabsProps = () => {

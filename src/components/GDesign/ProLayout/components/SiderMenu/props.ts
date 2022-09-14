@@ -1,11 +1,12 @@
 import type { MenuTheme } from '/types/config'
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 import type { CustomMenuRender } from './BaseMenu'
 import type { SiderProps, MenuMode } from './typings'
 import logoContentProps from '../LogoContent/props'
-import type { MenuDataItem, LayoutType } from '../../typings'
-import type { MenuHeaderRender, LinksRender } from '../../RenderTypings'
+import type { LayoutType } from '../../typings'
+import type { LinksRender, MenuExtraRender, MenuFooterRender } from '../../RenderTypings'
 import { defaultSettingProps } from '../../defaultSettings'
+import { HeaderLogoRender, MenuContentRender } from '../../RenderTypings'
 
 export const baseMenuProps = {
   ...defaultSettingProps,
@@ -15,7 +16,7 @@ export const baseMenuProps = {
     default: 'inline'
   },
   menuData: {
-    type: Array as PropType<MenuDataItem[]>,
+    type: Array as PropType<AppRouteModule[]>,
     default: () => []
   },
   theme: {
@@ -68,22 +69,23 @@ export const siderMenuProps = {
     default: () => undefined
   },
   menuHeaderRender: {
-    type: [ Function, Object ] as PropType<MenuHeaderRender>,
+    type: [ Function, Object ] as PropType<HeaderLogoRender>,
+    default: () => undefined
+  },
+  menuFooterRender: {
+    type: [ Function, Object ] as PropType<MenuFooterRender>,
     default: () => undefined
   },
   menuContentRender: {
-    type: [ Function, Object ] as PropType<WithFalse<(
-      props: any,
-      defaultDom: CustomRender
-    ) => CustomRender>>,
+    type: [ Function, Object ] as PropType<MenuContentRender>,
+    default: () => undefined
+  },
+  menuExtraRender: {
+    type: [ Function, Object ] as PropType<MenuExtraRender>,
     default: () => undefined
   },
   collapsedButtonRender: {
-    type: [
-      Function,
-      Object,
-      Boolean
-    ] as PropType<WithFalse<(collapsed?: boolean) => CustomRender>>,
+    type: [ Function, Object, Boolean ] as PropType<WithFalse<(collapsed?: boolean) => CustomRender>>,
     default: () => undefined
   },
   breakpoint: {

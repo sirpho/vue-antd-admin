@@ -1,3 +1,6 @@
+import devWarning from 'ant-design-vue/lib/vc-util/devWarning'
+import supportsPassive from 'ant-design-vue/lib/_util/supportsPassive'
+
 import LabelIconTip from './components/LabelIconTip'
 import FieldLabel from './components/FieldLabel'
 import FilterDropdown from './components/FilterDropdown'
@@ -16,6 +19,7 @@ import getScroll from './scroll/getScroll'
 import throttleByAnimationFrame from './scroll/throttleByAnimationFrame'
 
 /** Hooks */
+import useIsIos from './hooks/useIsIos'
 import useFetchData from './hooks/useFetchData'
 import usePrevious from './hooks/usePrevious'
 import type { FetchResult, ProRequestData } from './hooks/useFetchData'
@@ -23,6 +27,27 @@ import dateArrayFormatter from './dateArrayFormatter'
 import parseValueToMoment from './parseValueToMoment'
 import conversionMomentValue, { dateFormatterMap } from './conversionMomentValue'
 import transformKeySubmitValue from './transformKeySubmitValue'
+
+export function addEventListenerWrap(target, eventType, cb, option) {
+  if (target && target.addEventListener) {
+    let opt = option;
+    if (
+      opt === undefined &&
+      supportsPassive &&
+      (eventType === 'touchstart' || eventType === 'touchmove' || eventType === 'wheel')
+    ) {
+      opt = { passive: false };
+    }
+    target.addEventListener(eventType, cb, opt);
+  }
+  return {
+    remove: () => {
+      if (target && target.removeEventListener) {
+        target.removeEventListener(eventType, cb);
+      }
+    },
+  };
+}
 
 export function get(entity: any, path: (string | number)[]) {
   let current = entity
@@ -97,13 +122,15 @@ export type {
   ProRequestData
 }
 
-export { noteOnce } from 'ant-design-vue/es/vc-util/warning'
+export { noteOnce, warning } from 'ant-design-vue/es/vc-util/warning'
 
 export {
   merge,
   isNil,
   call,
+  useIsIos,
   isScroll,
+  devWarning,
   isInContainer,
   getScrollContainer,
   scrollTo,

@@ -1,4 +1,4 @@
-import request from '/@/utils/request'
+import request from '@/utils/request'
 import { stringify } from 'qs'
 
 export type Member = {
@@ -39,7 +39,7 @@ export interface ListItemDataType {
   members: Member[];
 }
 
-export function queryFakeList(params: Params): Promise<{ data: ListItemDataType[] }> {
+export function queryFakeList(params: Params): Promise<ResponseResult<ListItemDataType[]>> {
   return request({
     url: `/fake_list?${stringify(params.query)}`,
     method: 'post',

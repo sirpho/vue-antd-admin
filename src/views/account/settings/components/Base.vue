@@ -155,9 +155,9 @@
       <div :class="$style.right">
         <div :class="$style.avatar_title">头像</div>
         <div :class="$style.avatar">
-          <img :src="getAvatarURL" alt="avatar" />
+          <g-image :src="formState.avatar" fit="cover" />
         </div>
-        <g-upload :showUploadList="false">
+        <g-upload listType="text" :limit="1" @change="handleChange">
           <div :class="$style.button_view">
             <a-button>
               <UploadOutlined />
@@ -174,10 +174,10 @@
 import { computed, defineComponent, onMounted, reactive, toRefs, toRaw } from 'vue'
 import { Form, message, Skeleton } from 'ant-design-vue'
 import { UploadOutlined } from '@ant-design/icons-vue'
-import type { CurrentUser } from '/@/services/account/typings'
-import { queryCurrent, queryProvince, queryCity } from '/@/services/account/settings'
-import useMediaQuery from '/@/hooks/event/useMediaQuery'
-import { hanndleField } from '/@/utils/util'
+import type { CurrentUser } from '@/services/account/typings'
+import { queryCurrent, queryProvince, queryCity } from '@/services/account/settings'
+import useMediaQuery from '@/hooks/event/useMediaQuery'
+import { hanndleField } from '@/utils/util'
 import { rules } from '../utils/config'
 
 const useForm = Form.useForm
@@ -204,7 +204,8 @@ export default defineComponent({
         address: '',
         phone: '',
         phoneCode: '',
-        phoneNumber: ''
+        phoneNumber: '',
+        avatar: ''
       }
     })
 
@@ -249,17 +250,6 @@ export default defineComponent({
         }
       }
       state.loading = false
-    })
-
-    const getAvatarURL = computed(() => {
-      if (state.currentUser) {
-        if (state.currentUser.avatar) {
-          return state.currentUser.avatar
-        }
-        const url = 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'
-        return url
-      }
-      return ''
     })
 
     const { resetFields, validate, validateInfos } = useForm(state.formState, rulesRef)
@@ -328,6 +318,10 @@ export default defineComponent({
       resetFields(newValues)
     }
 
+    const handleChange = (urls: string[]) => {
+      state.formState.avatar = urls.join()
+    }
+
     const onSubmit = () => {
       validate()
         .then(() => {
@@ -343,7 +337,7 @@ export default defineComponent({
     return {
       ...toRefs(state),
       isMobile,
-      getAvatarURL,
+      handleChange,
       resetFields,
       validateInfos,
       onSubmit,
@@ -393,6 +387,14 @@ export default defineComponent({
       height: 144px;
       margin-bottom: 12px;
       overflow: hidden;
+      border-radius: 50%;
+
+      :global {
+        .gx-image {
+          width: 144px;
+          height: 144px;
+        }
+      }
 
       img {
         width: 100%;

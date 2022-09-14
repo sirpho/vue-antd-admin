@@ -13,6 +13,7 @@
     position: relative;
     z-index: 10;
     min-height: 100%;
+    box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
   }
 
   .@{ant-prefix}-layout-sider-children {
@@ -32,6 +33,7 @@
     }
 
     /* 滚动条滑块 */
+
     ::-webkit-scrollbar-thumb {
       background: rgba(255, 255, 255, 0.2);
       border-radius: 3px;
@@ -43,6 +45,7 @@
     .@{ant-prefix}-menu-inline-collapsed {
       width: 48px;
     }
+
     .@{pro-layout-sider-menu-prefix-cls} {
       &-logo {
         padding: 16px 8px;
@@ -59,6 +62,7 @@
     overflow: auto;
     overflow-x: hidden;
     box-shadow: 2px 0 8px 0 rgba(29, 35, 41, 0.05);
+
     > .@{ant-prefix}-menu-root {
       :not(.@{pro-layout-sider-menu-prefix-cls}-link-menu) {
         height: ~'calc(100vh - @{nav-header-height})';
@@ -79,6 +83,7 @@
       }
 
       /* 滚动条滑块 */
+
       ::-webkit-scrollbar-thumb {
         background: rgba(0, 0, 0, 0.12);
         border-radius: 3px;
@@ -108,6 +113,8 @@
 
   &-links {
     width: 100%;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+
     ul.@{ant-prefix}-menu-root {
       height: auto;
     }
@@ -174,6 +181,15 @@
       color: #fff;
       vertical-align: middle;
       animation: pro-layout-title-hide 0.3s;
+    }
+  }
+
+  &-extra {
+    padding: 0 16px;
+    margin-bottom: 16px;
+
+    &-no-logo {
+      margin-top: 16px;
     }
   }
 

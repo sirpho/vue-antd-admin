@@ -14,6 +14,10 @@ import { useMediaQuery } from '@gx-admin/hooks/event'
 import { getSlot, getPrefixCls } from '@gx-admin/utils'
 import { basicLayoutProps } from './props'
 import type {
+  BreadcrumbRender,
+  MenuContentRender,
+  MenuFooterRender,
+  MenuExtraRender,
   CopyrightRender,
   HeaderContentRender,
   HeaderRender,
@@ -26,7 +30,8 @@ import type {
   CollapsedButtonRender,
   ExtraRightDropdownRender
 } from './RenderTypings'
-import { provideRouteContext, defaultRouteContext, RouteContextProps } from './RouteContext'
+import type { RouteContextProps, BreadcrumbProps } from './RouteContext'
+import { provideRouteContext, defaultRouteContext } from './RouteContext'
 import { WrapContent } from './WrapContent'
 import GlobalHeader from './components/GlobalHeader'
 import GlobalFooter from './components/GlobalFooter'
@@ -37,7 +42,7 @@ import './style.less'
 export type BasicLayoutProps = Partial<ExtractPropTypes<typeof basicLayoutProps>>
 
 export default defineComponent({
-  name: 'ProLayout',
+  name: 'GProLayout',
   inheritAttrs: false,
   components: {
     GlobalHeader,
@@ -112,6 +117,11 @@ export default defineComponent({
       return <GlobalHeader {...p} matchMenuKeys={matchMenuKeys || []} />
     }
 
+    const breadcrumb = computed<BreadcrumbProps>(() => ({
+      ...props.breadcrumb,
+      itemRender: getSlot<BreadcrumbRender>(slots, props, 'breadcrumbRender') as BreadcrumbRender
+    }))
+
     const flatMenuData = computed(
       () =>
         (hasFlatMenu.value &&
@@ -160,6 +170,7 @@ export default defineComponent({
       ]) as any),
       isMobile,
       siderWidth,
+      breadcrumb,
       flatMenuData,
       hasSide,
       flatMenu: hasFlatMenu
@@ -185,11 +196,15 @@ export default defineComponent({
         props,
         'extraRightDropdownRender'
       )
-      const menuHeaderRender = getSlot<HeaderLogoRender>(slots, props, 'menuHeaderRender')
 
-      // menu render
+      // menu
+      const menuHeaderRender = getSlot<HeaderLogoRender>(slots, props, 'menuHeaderRender')
+      const menuExtraRender = getSlot<MenuExtraRender>(slots, props, 'menuExtraRender')
+      const menuContentRender = getSlot<MenuContentRender>(slots, props, 'menuContentRender')
+      const menuFooterRender = getSlot<MenuFooterRender>(slots, props, 'menuFooterRender')
       const menuItemRender = getSlot<MenuItemRender>(slots, props, 'menuItemRender')
       const subMenuItemRender = getSlot<SubMenuItemRender>(slots, props, 'subMenuItemRender')
+
       const menuRenders = {
         menuItemRender,
         subMenuItemRender
@@ -227,12 +242,12 @@ export default defineComponent({
               <Layout>
                 <SiderMenuWrapper
                   {...restProps}
+                  links={linksRender}
                   isMobile={isMobile.value}
                   menuHeaderRender={menuHeaderRender}
-                  // menuContentRender={menuContentRender}
-                  // menuExtraRender={menuExtraRender}
-                  // menuFooterRender={menuFooterRender}
-                  links={linksRender}
+                  menuContentRender={menuContentRender}
+                  menuExtraRender={menuExtraRender}
+                  menuFooterRender={menuFooterRender}
                   collapsedButtonRender={collapsedButtonRender}
                   onCollapse={onCollapse}
                   onSelect={onSelect}

@@ -1,4 +1,4 @@
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 import type { OnUpdateValue, MaybeArray } from '@gx-design/utils'
 import type { ColorPickerMode, ActionType } from './typings'
 

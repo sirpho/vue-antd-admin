@@ -1,7 +1,8 @@
-import { PropTypes } from '/@/utils'
-import type { MenuDataItem } from './typings'
-import type { Links } from './components/GlobalFooter'
+import type { CSSProperties } from 'vue'
+import { PropTypes } from '@/utils'
+import type { BreadcrumbProps } from './RouteContext'
 import type { FooterRender, CopyrightRender } from './RenderTypings'
+import type { Links } from './components/GlobalFooter'
 import { defaultSettingProps } from './defaultSettings'
 import { globalHeaderProps, headerViewProps } from './components/GlobalHeader/props'
 import { siderMenuProps } from './components/SiderMenu/props'
@@ -23,7 +24,16 @@ export const basicLayoutProps = {
     type: Boolean,
     required: false,
   },
-  contentStyle: PropTypes.style,
+  contentStyle: {
+    type: [String, Object] as PropType<CSSProperties>,
+    default: () => {
+      return null
+    },
+  },
+  breadcrumb: {
+    type: [Object, Function] as PropType<BreadcrumbProps>,
+    default: () => null,
+  },
   disableContentMargin: PropTypes.looseBool,
   isChildrenLayout: PropTypes.looseBool,
   loading: PropTypes.looseBool,
@@ -40,7 +50,7 @@ export const basicLayoutProps = {
     default: () => undefined,
   },
   menuData: {
-    type: Array as PropType<MenuDataItem[]>,
+    type: Array as PropType<AppRouteModule[]>,
     default: () => []
   },
   collapsed: PropTypes.looseBool

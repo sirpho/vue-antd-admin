@@ -1,5 +1,5 @@
 <template>
-  <g-pro-page-wrapper :contentStyle="{ position: 'relative' }">
+  <g-pro-page-container :contentStyle="{ position: 'relative' }">
     <g-doc :anchorLinks="links">
       <a-typography id="proCard">
         <a-typography-title :level="2" :style="{ color: '#454d64' }">
@@ -38,7 +38,7 @@
       <ProCardTabGroup />
     </g-doc>
     <g-back-top />
-  </g-pro-page-wrapper>
+  </g-pro-page-container>
 </template>
 
 <script lang="ts" setup>

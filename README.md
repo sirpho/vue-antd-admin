@@ -34,34 +34,20 @@ Ant Design 定义了基础的设计规范，对应也提供了大量的基础组
 - [🚀 pro 版演示地址](http://42.192.13.221/)
 
 ## 更新文档
-    GProLayout（重大更新）
-      - 🎉 重构样式、整体布局
-      - 🎉 menuData 初始分割、分发下去，以便在其他组件可以获取
+    文件 alias 指引去除开头'/'(重大更新)
+    GProPlyer - 视频
+    GProLayout
       - 修复相关bug
     GProTable
-      - 🎉 重构ColumnSetting组件
-      - 🎉 重构Form组件
-      - 🎉 rowSelection属性既可在内部逻辑判断也可以外部传递
-      - 🎉 表格刷新 reload 方法
-          去除 removeTotal 属性
-          新增 removeKeys (用于删除rowSelection的选项值)
-          新增 immediate (可直接调取接口，无需走防抖方法)
       - 修复相关bug
-    GProTModal
-      - 🎉 footer 默认生成确定、取消按钮；并新增onOk方法
-      - 🎉 新增 view 属性值（观看模式）：为true时，确定按钮改为编辑
-      - 🎉 去除 fixHeight 属性 改为 type 属性： type为fixed时，宽高固定；type为normal时，宽高自定义
-      - 🎉 去除slot content 改为 default
-    GProEditor
-      - 🎉 新增组件
-    页面相关
-      - 🎉 替换相关Logo、ico等图片；重新布局登录页
+    GProModal
+      - 修复相关bug
+    hooks
+      - 🎉 新增oss-hooks上传方法
     插件
       - 🎉 vue、ant-design-vue 相关插件向上更新
-      - 🎉 命令改为pnpm
-      - 🎉 新增unplugin-vue-components、unplugin-auto-import插件，由于生成全局vue相关api、组件
     环境变量
-      - 🎉 新增.pro 文件 用于打包生产包
+      - 🎉 新增oss 相关变量
 
 ## 特性
 

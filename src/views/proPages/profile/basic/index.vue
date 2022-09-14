@@ -1,5 +1,5 @@
 <template>
-  <g-pro-page-wrapper>
+  <g-pro-page-container>
     <a-card :bordered="false">
       <Descriptions title="退款申请" style="margin-bottom: 32px">
         <DescriptionsItem label="取货单号"> 1000000000 </DescriptionsItem>
@@ -52,13 +52,13 @@
         </template>
       </g-pro-table>
     </a-card>
-  </g-pro-page-wrapper>
+  </g-pro-page-container>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, h, onActivated, reactive, toRefs } from 'vue'
 import { Badge, Descriptions } from 'ant-design-vue'
-import { queryBasicProfile } from '/@/services/profile/basic'
+import { queryBasicProfile } from '@/services/profile/basic'
 import { progressColumns } from './utils/columns'
 
 const DescriptionsItem = Descriptions.Item

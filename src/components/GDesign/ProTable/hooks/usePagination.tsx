@@ -1,12 +1,10 @@
 import { computed, unref, reactive, watchEffect, Ref, Slots, ComputedRef } from 'vue'
-import { PaginationProps } from 'ant-design-vue/lib/pagination'
-import { isBoolean, isFunction } from '/@/utils/validate'
-import { ProTableProps } from '../Table'
 import { getSlot } from '@gx-admin/utils'
-
-export type GProTablePaginationProps = PaginationProps & {
-  position?: string
-}
+import type { PageItemRender } from '@gx-design/Table/typings'
+import type { PaginationProps } from '@gx-design/Pagination/typings'
+import { isBoolean, isFunction } from '@/utils/validate'
+import type { ProTableProps } from '../Table'
+import type { ProTablePagination, ProTablePaginationConfig } from '../types/table'
 
 export function usePagination({
   slots,
@@ -27,21 +25,27 @@ export function usePagination({
     }
   })
 
-  const getPaginationInfo = computed((): GProTablePaginationProps | boolean => {
+  const getPaginationInfo = computed((): ProTablePagination => {
     if (isBoolean(pagination.value) && !pagination.value) {
       return false
     }
 
-    const pageItemRender = getSlot(slots, unref(props), 'pageItemRender')
+    const pageItemRender = getSlot<PageItemRender>(slots, unref(props), 'pageItemRender')
     const itemRenderProps = isFunction(pageItemRender)
       ? {
-          itemRender: ({ page, type, originalElement }) => {
-            return pageItemRender({ page, type, originalElement })
-          }
+          itemRender: ({
+            page,
+            type,
+            originalElement
+          }: {
+            page: number
+            type: 'page' | 'prev' | 'next' | 'jump-prev' | 'jump-next'
+            originalElement: any
+          }) => (pageItemRender ? pageItemRender({ page, type, originalElement }) : null)
         }
-      : {}
+      : null
 
-    const pageInfo = {
+    const pageInfo: ProTablePaginationConfig = {
       current: 1,
       pageSize: 10,
       size: 'normal',
@@ -50,8 +54,8 @@ export function usePagination({
       pageSizeOptions: ['10', '20', '50', '100'],
       ...(pagination.value || {}),
       ...unref(configRef),
-      ...itemRenderProps
-    } as GProTablePaginationProps
+      ...(itemRenderProps || {})
+    }
 
     if (!pagination.value?.showTotal) {
       pageInfo.showTotal = (total) =>
@@ -63,7 +67,7 @@ export function usePagination({
   function setPagination(info: Partial<PaginationProps>) {
     const paginationInfo = unref(getPaginationInfo)
     Object.assign(configRef, {
-      ...((paginationInfo as GProTablePaginationProps) || {}),
+      ...((paginationInfo as ProTablePagination) || {}),
       ...info
     })
   }

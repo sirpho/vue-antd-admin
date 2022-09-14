@@ -1,5 +1,5 @@
 import config from '/config/config'
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 
 const { defaultSettings } = config
 

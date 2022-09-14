@@ -12,16 +12,15 @@ import { useRouter } from 'vue-router'
 import { Menu } from 'ant-design-vue'
 import { createFromIconfontCN } from '@ant-design/icons-vue'
 import { baseMenuProps } from './props'
-import type { MenuDataItem } from '../../typings'
 import { defaultSettings } from '../../defaultSettings'
 import { isImg, isUrl } from '../../utils'
 
 export interface CustomMenuRender {
   menuItemRender?: WithFalse<
-    (args: { item: MenuDataItem; title?: JSX.Element; icon?: JSX.Element }) => CustomRender
+    (args: { item: AppRouteModule; title?: JSX.Element; icon?: JSX.Element }) => CustomRender
   >
   subMenuItemRender?: WithFalse<
-    (args: { item: MenuDataItem; children?: CustomRender[] }) => CustomRender
+    (args: { item: AppRouteModule; children?: CustomRender[] }) => CustomRender
   >
 }
 
@@ -69,7 +68,7 @@ export default defineComponent({
   name: 'BaseMenu',
   props: baseMenuProps,
   emits: ['update:openKeys', 'update:selectedKeys', 'click'],
-  setup(props, { emit }) {
+  setup(props, { attrs, emit }) {
     const router = useRouter()
     const handleOpenChange = (openKeys: string[]): void => {
       emit('update:openKeys', openKeys)
@@ -100,10 +99,10 @@ export default defineComponent({
       }
     }
     const RouterLink = resolveComponent('router-link') as ConcreteComponent
-    const getNavMenuItems = (menusData: MenuDataItem[] = []) => {
+    const getNavMenuItems = (menusData: AppRouteModule[] = []) => {
       return menusData.map((item) => getSubMenuOrItem(item)).filter((item) => item)
     }
-    const getSubMenuOrItem = (item: MenuDataItem): VNode => {
+    const getSubMenuOrItem = (item: AppRouteModule): VNode => {
       if (
         Array.isArray(item.children) &&
         item.children.length > 0 &&
@@ -163,7 +162,7 @@ export default defineComponent({
         )
       )
     }
-    const getMenuItem = (item: MenuDataItem) => {
+    const getMenuItem = (item: AppRouteModule) => {
       const meta = { ...item.meta }
       const CustomTag: any = meta.targetStatus === 1 && meta.target ? 'a' : RouterLink
       const parames = { to: item.linkPath || item.path || '' }
@@ -211,6 +210,8 @@ export default defineComponent({
         theme={props.theme as 'dark' | 'light'}
         openKeys={props.openKeys === false ? [] : props.openKeys}
         selectedKeys={props.selectedKeys || []}
+        style={attrs.style}
+        class={attrs.class}
         onOpenChange={handleOpenChange}
         onSelect={handleSelect}
         onClick={handleClick}

@@ -2,8 +2,8 @@
   <g-pro-modal
     title="Scroll"
     width="450px"
+    type="normal"
     :visible="visible"
-    :adaptive="false"
     @ok="handleSubmit"
     @cancel="handleCancel"
   >

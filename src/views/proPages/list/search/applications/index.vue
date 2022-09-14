@@ -151,8 +151,8 @@ import {
   EllipsisOutlined
 } from '@ant-design/icons-vue'
 import { onMountedOrActivated } from '@gx-admin/hooks/core'
-import type { ListItemDataType } from '/@/services/list/search'
-import { queryFakeList } from '/@/services/list/search'
+import type { ListItemDataType } from '@/services/list/search'
+import { queryFakeList } from '@/services/list/search'
 import { formItemLayout } from '../utils/config'
 
 interface articleStateType {

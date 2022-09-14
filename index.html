@@ -4,44 +4,20 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta
-      name="keywords"
-      content="antd,ant design,vue,Scaffolding, layout, Ant Design, project, Pro, admin, console, homepage, out-of-the-box, middle and back office, solution, component library"
-    />
-    <meta
-      name="description"
-      content="
-    An out-of-box UI solution for enterprise applications as a React boilerplate."
-    />
-    <meta
-      name="description"
-      content="
-      Out-of-the-box mid-stage front-end/design solution."
-    />
-    <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     />
 
     <title><%= VUE_APP_TITLE %></title>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/resource/img/favicon.ico" type="image/x-icon" />
     <% for (var i in injectLink) { %>
     <link rel="stylesheet" type="text/css" href="<%= injectLink[i] %>" />
     <% } %>
-    <script type="module" src="/src/main.ts"></script>
     <link rel="stylesheet" href="/resource/css/index.css">
   </head>
   <body>
     <div id="app">
-      <div
-        style="
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          height: 100%;
-          min-height: 420px;
-        "
-      >
+      <div class="gx-app-loading">
         <img src="/resource/img/pro_icon.svg" alt="logo" width="256" />
         <div class="page-loading-warp">
           <div class="ant-spin ant-spin-lg ant-spin-spinning">
@@ -61,6 +37,7 @@
         </div>
       </div>
     </div>
+    <script type="module" src="/src/main.ts"></script>
     <% for (var i in injectScript) { %>
     <script type="text/javascript" src="<%= injectScript[i] %>"></script>
     <% } %>

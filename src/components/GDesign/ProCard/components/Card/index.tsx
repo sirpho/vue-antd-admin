@@ -1,7 +1,8 @@
-import { defineComponent, ref, Ref, CSSProperties, computed, cloneVNode, watch } from 'vue'
+import type { Ref, CSSProperties, VNode } from 'vue'
+import { defineComponent, ref, computed, cloneVNode, watch } from 'vue'
 import { Grid, Tabs } from 'ant-design-vue'
 import { RightOutlined } from '@ant-design/icons-vue'
-import { isArray } from '/@/utils/validate'
+import { isArray } from '@/utils/validate'
 import { getPrefixCls, getSlotVNode } from '@gx-admin/utils'
 import { LabelIconTip } from '@gx-design/utils'
 import type { Gutter, CardProps } from '../../typings'
@@ -166,7 +167,7 @@ const ProCard = defineComponent({
     }
 
     const actionsArray = computed(() => {
-      return (getSlotVNode(slots, props, 'actions') || []).map((element: any) => {
+      return (getSlotVNode<VNode[]>(slots, props, 'actions') || []).map((element) => {
         return <>{cloneVNode(element)}</>
       })
     })

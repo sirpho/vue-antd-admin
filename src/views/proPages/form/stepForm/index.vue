@@ -1,5 +1,5 @@
 <template>
-  <g-pro-page-wrapper>
+  <g-pro-page-container>
     <div :class="$style['steps-form']">
       <div :class="$style['steps-form-steps-container']" style="max-width: 960px">
         <Steps :current="current">
@@ -162,8 +162,9 @@
                 current -= 1
               }
             "
-            >上一步</a-button
           >
+            上一步
+          </a-button>
           <a-button v-if="current < 2" type="primary" @click="nextStep">下一步</a-button>
         </a-space>
       </div>
@@ -180,7 +181,7 @@
         如果需要，这里可以放一些关于产品的常见问题说明。如果需要，这里可以放一些关于产品的常见问题说明。如果需要，这里可以放一些关于产品的常见问题说明。
       </p>
     </div>
-  </g-pro-page-wrapper>
+  </g-pro-page-container>
 </template>
 
 <script lang="ts">
@@ -188,8 +189,8 @@ import { defineComponent, reactive, toRefs, onActivated, computed } from 'vue'
 import { useStore } from '@gx-vuex'
 import { cloneDeep } from 'lodash-es'
 import { Form, Result, Steps, Statistic, Descriptions, Alert } from 'ant-design-vue'
-import { getStepForm } from '/@/services/form/step'
-import { hanndleField } from '/@/utils/util'
+import { getStepForm } from '@/services/form/step'
+import { hanndleField } from '@/utils/util'
 
 const useForm = Form.useForm
 

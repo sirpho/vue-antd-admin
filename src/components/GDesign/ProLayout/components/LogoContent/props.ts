@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'vue'
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 import { defaultSettingProps } from '../../defaultSettings'
 import type { HeaderLogoRender } from '../../RenderTypings'
 

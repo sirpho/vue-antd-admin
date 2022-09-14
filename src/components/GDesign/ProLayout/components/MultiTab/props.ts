@@ -1,4 +1,4 @@
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 import { defaultSettingProps } from '../../defaultSettings'
 import { baseMenuProps, siderMenuProps } from '../SiderMenu/props'
 

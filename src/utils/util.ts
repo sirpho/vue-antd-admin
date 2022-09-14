@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import type { MaterialInfo } from '@gx-design/Upload'
-import global from '/@/common/global'
+import global from '@/common/global'
 
 export function timeFix() {
   const time = new Date()
@@ -288,7 +288,8 @@ export function formatDuraton(time: number) {
     }
     newTime += sec
   }
-  return newTime
+
+  return newTime.split(':')[0] === '00' ? `${newTime.split(':')[1]}:${newTime.split(':')[2]}` : newTime
 }
 
 /**
@@ -432,10 +433,22 @@ export function mGetDate() {
   return d.getDate()
 }
 
+/**
+ * @Author      gx12358
+ * @DateTime    2022/8/4
+ * @lastTime    2022/8/4
+ * @description 处理时间展示（dayjs）
+ */
 export function momentFromNow(time) {
   return dayjs(time).fromNow()
 }
 
+/**
+ * @Author      gx12358
+ * @DateTime    2022/8/4
+ * @lastTime    2022/8/4
+ * @description 处理时间展示
+ */
 export function handleTimeShow(date: string) {
   const date3 = new Date().getTime() - new Date(date.replace(/\-/g, '/')).getTime() // 时间差的毫秒数
   const days = Math.floor(date3 / (24 * 3600 * 1000))
@@ -624,6 +637,7 @@ export function checkFileType(url: any) {
     type === '.avi' ||
     type === '.flv' ||
     type === '.mpg' ||
+    type === '.wmv' ||
     type === '.rm' ||
     type === '.mov' ||
     type === '.asf' ||
@@ -763,6 +777,12 @@ export async function getVideoCoverPicture(videoInfo: {
   }
 }
 
+/**
+ * @Author      gx12358
+ * @DateTime    2022/8/4
+ * @lastTime    2022/8/4
+ * @description 直接获取视频地址
+ */
 export async function generateVidoePicture(
   videoUrl: string,
   currentTime?: number
@@ -799,7 +819,6 @@ export async function generateVidoePicture(
           resolve(w === 0 || h === 0 ? '' : canvas.toDataURL('image/png', 1.0))
         }, delay)
       }, false)
-
     }
   })
 }
@@ -825,6 +844,32 @@ export function getImageFileFromUrl(url = '', imageName: string) {
   })
 }
 
+/**
+ * @Author      gx12358
+ * @DateTime    2021/1/11
+ * @lastTime    2021/1/11
+ * @description 本地资源获取blob地址
+ */
+export function getLocalBlob(url = '') {
+  return new Promise((resolve) => {
+    let blob: any = null
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', url, true)
+    xhr.responseType = 'blob'
+    xhr.onload = () => {
+      blob = xhr.response
+      resolve(getBlobUrl(blob))
+    }
+    xhr.send()
+  })
+}
+
+/**
+ * @Author      gx12358
+ * @DateTime    2022/8/4
+ * @lastTime    2022/8/4
+ * @description 判断是否是base64码
+ */
 export function isBase64(str = '') {
   const fileDataBase = [
     'data:image/',
@@ -837,6 +882,12 @@ export function isBase64(str = '') {
   return false
 }
 
+/**
+ * @Author      gx12358
+ * @DateTime    2022/8/4
+ * @lastTime    2022/8/4
+ * @description 数字转中文
+ */
 export function toChinesNum(num: number) {
   num = num || 0
   const changeNum = [ '零', '一', '二', '三', '四', '五', '六', '七', '八', '九' ]

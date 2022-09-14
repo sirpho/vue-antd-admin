@@ -1,16 +1,18 @@
 export type MaterialInfo = {
-  play: boolean;
+  play?: boolean;
   width?: number;
   height?: number;
   duration?: number;
 }
 
 export type MaterialListItem = {
-  id: string;
-  url: string;
-  type: string;
-  uploadLoading: boolean;
-  uploadStatus: 'normal' | 'active' | 'success' | 'exception';
+  id?: string;
+  url?: string;
+  type?: string;
+  uploadLoading?: boolean;
+  uploadStatus?: 'normal' | 'active' | 'success' | 'exception';
+  file?: File;
+  loadStatusMsg?: string;
   name?: string;
   coverImg?: string;
   size?: number;

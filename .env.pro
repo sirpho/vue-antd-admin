@@ -25,3 +25,7 @@ VITE_LEGACY = false
 
 # Basic interface address SPA
 VITE_BASE_URL=/mock-server
+
+# oss信息
+VITE_OSS_BUCKET = *
+VITE_OSS_ORIGIN = *

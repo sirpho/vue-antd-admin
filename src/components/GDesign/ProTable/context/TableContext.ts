@@ -1,6 +1,6 @@
 import type { Ref, ComputedRef } from 'vue'
 import { inject, InjectionKey, provide, Slots } from 'vue'
-import type { SizeType } from '@gx-design/utils'
+import type { SizeType } from '@gx-admin/utils'
 import type { ProColumns } from '../types/column'
 import type { ColumnsState, SettingsAction } from '../hooks/useColumnSetting'
 

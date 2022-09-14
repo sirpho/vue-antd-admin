@@ -2,9 +2,9 @@ import { reactive, toRefs } from 'vue'
 import { defineStore } from 'pinia'
 import { message, notification } from 'ant-design-vue'
 import config from '/config/config'
-import { getUserInfo, login, logout } from '/@/services/controller/user'
-import { getAccessToken, removeAccessToken, setAccessToken } from '/@/utils/accessToken'
-import { timeFix } from '/@/utils/util'
+import { getUserInfo, login, logout } from '@/services/controller/user'
+import { getAccessToken, removeAccessToken, setAccessToken } from '@/utils/accessToken'
+import { timeFix } from '@/utils/util'
 import { useStoreRoutes } from './routes'
 import { useStorePermission } from './permission'
 import { useStoreTabsRouter } from './tabsRouter'
@@ -88,18 +88,18 @@ export const useStoreUser = defineStore('user', () => {
    * @description 获取用户信息
    */
   const queryUserInfo = async () => {
-    const response: any = await getUserInfo(state.accessToken)
+    const response: any = await getUserInfo()
     const { roles, user, permissions } = response
     if (!user || Object.keys(user).length === 0) {
       message.error(`验证失败，请重新登录...`)
       return false
     }
-    const { userName, avatar } = user as UserInfo
+    const { userName, avatar, nickName } = user as UserInfo
     if (userName && roles && Array.isArray(roles)) {
       auth.changeValue('role', roles)
       auth.changeValue('ability', permissions)
       state.userName = userName
-      state.loginName = userName
+      state.loginName = nickName
       state.avatar = avatar
       state.userInfo = user
       notification.success({
@@ -113,6 +113,16 @@ export const useStoreUser = defineStore('user', () => {
     return true
   }
 
+  const updateUserInfo = (params: UserInfo) => {
+    Object.assign(state.userInfo, { ...params })
+  }
+
+  /**
+   * @Author      gx12358
+   * @DateTime    2022/5/15
+   * @lastTime    2022/5/15
+   * @description 用户退出登录
+   */
   const userLogut = async () => {
     await logout({
       userName: state.userName
@@ -133,10 +143,11 @@ export const useStoreUser = defineStore('user', () => {
 
   return {
     ...toRefs(state),
-    setVirtualRoles,
     userLogin,
-    queryUserInfo,
     userLogut,
+    queryUserInfo,
+    updateUserInfo,
+    setVirtualRoles,
     resetPermissions
   }
 })

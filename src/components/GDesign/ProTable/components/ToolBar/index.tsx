@@ -96,7 +96,8 @@ function ToolBar({
   titleTip,
   titleTipText,
   options: propsOptions,
-  optionsExtra
+  optionsExtra,
+  settingExtra
 }: ToolBarProps) {
   const listToolBar = ref()
   const prefixCls = getPrefixCls({
@@ -118,6 +119,13 @@ function ToolBar({
     const options = {
       ...defaultOptions,
       ...(propsOptions as object)
+    } as OptionConfig
+
+    if (options.setting !== false) {
+      if (settingExtra) {
+        options.setting = {}
+        options.setting.extra = settingExtra
+      }
     }
 
     return renderDefaultOption(options, { ...defaultOptions })

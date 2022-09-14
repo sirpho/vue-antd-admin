@@ -2,7 +2,7 @@ import { computed, defineComponent, onMounted, reactive } from 'vue'
 import dayjs from 'dayjs'
 import { groupBy } from 'lodash-es'
 import { message } from 'ant-design-vue'
-import { getNotices } from '/@/services/notices'
+import { getNotices } from '@/services/notices'
 import type { NoticeIconItem } from './NoticeList'
 import NoticeIcon from './NoticeIcon'
 

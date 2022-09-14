@@ -1,4 +1,4 @@
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 
 import type { MaterialListItem } from './typings'
 
@@ -6,6 +6,8 @@ export const proUploadProps = {
   cardClassName: PropTypes.string,
   uplaodStyle: PropTypes.style,
   imageStyle: PropTypes.style.def({ width: '104px', height: '104px' }),
+  // 展示形态
+  listType: PropTypes.string.def('card'),
   // 素材上传禁止状态
   disabled: PropTypes.bool,
   // 素材展示墙
@@ -44,10 +46,17 @@ export const proUploadProps = {
     type: Array as PropType<any[]>,
     default: () => []
   },
+  // 错误后是否删除该条记录
+  errorClean: PropTypes.bool,
   wordExtra: PropTypes.VueNode,
-  errorExtra: PropTypes.VueNode,
-  placeholderExtra: PropTypes.VueNode,
-  uploadButton: PropTypes.VueNode,
+  errorExtra: {
+    type:[ Function, Object, String ] as PropType<WithFalse<() => CustomRender>>,
+    default: () => undefined
+  },
+  placeholderExtra: {
+    type:[ Function, Object, String ] as PropType<WithFalse<() => CustomRender>>,
+    default: () => undefined
+  },
   request: PropTypes.func,
   waterChange: PropTypes.func,
   downLoad: PropTypes.func,

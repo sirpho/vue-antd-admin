@@ -1,15 +1,14 @@
-import type { RouteRecordRaw } from 'vue-router'
 export { clearMenuItem, flatMap, getMenuFirstChildren } from './index'
 
 export type MenuData = {
-  menuData: RouteRecordRaw[];
+  menuData: AppRouteModule[];
   breadcrumb: RecordType;
 };
 
 const formatRelativePath = (
-  routes: RouteRecordRaw[],
+  routes: AppRouteModule[],
   breadcrumb: RecordType
-): RouteRecordRaw[] => {
+): AppRouteModule[] => {
   // 计算路由绝对路径
   return routes.map(route => {
     route.path = route.path.replace('//', '/')
@@ -22,11 +21,11 @@ const formatRelativePath = (
   })
 }
 
-export const getMenuData = (routes: RouteRecordRaw[]): MenuData => {
+export const getMenuData = (routes: AppRouteModule[]): MenuData => {
   const childrenRoute = routes.find(route => route.path === '/')
   const breadcrumb: RecordType = {}
   return {
-    menuData: formatRelativePath(childrenRoute?.children || ([] as RouteRecordRaw[]), breadcrumb),
+    menuData: formatRelativePath(childrenRoute?.children || ([] as AppRouteModule[]), breadcrumb),
     breadcrumb
   }
 }

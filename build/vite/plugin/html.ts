@@ -2,9 +2,9 @@
  * Plugin to minimize and use ejs template syntax in index.html.
  * https://github.com/anncwb/vite-plugin-html
  */
-import type { Plugin } from 'vite'
+import { PluginOption } from 'vite'
 
-import html from 'vite-plugin-html'
+import { createHtmlPlugin } from 'vite-plugin-html'
 
 import pkg from '../../../package.json'
 import { GLOB_CONFIG_FILE_NAME } from '../../constant'
@@ -21,11 +21,11 @@ export function configHtmlPlugin(_: ViteEnv, isBuild: boolean) {
     return `${path || '/'}${GLOB_CONFIG_FILE_NAME}?v=${pkg.version}-${new Date().getTime()}`
   }
 
-  const htmlPlugin: Plugin[] = html({
+  const htmlPlugin: PluginOption[] = createHtmlPlugin({
     minify: isBuild,
     inject: {
       // Inject data into ejs template
-      injectData: {
+      data: {
         VUE_APP_TITLE: title || 'GX Pro Admin',
         injectScript: useCdn ? cdnConf.js : [],
         injectLink: useCdn ? cdnConf.css : [],

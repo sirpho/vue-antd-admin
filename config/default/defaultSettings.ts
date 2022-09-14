@@ -29,9 +29,9 @@ const defaultSettings: settingConfig = {
   //开启proxy
   useProxy: true,
   // proxy target
-  proxyTarget: 'localhost',
+  proxyTarget: 'http://127.0.0.1:3000',
   // 接口前缀
-  requestPrefix: '/mock-server',
+  requestPrefix: '/api',
   //开发环境端口号
   devPort: 8080,
   //pro版本copyright可随意修改
@@ -47,7 +47,7 @@ const defaultSettings: settingConfig = {
   //加载时显示文字
   loadingText: '正在加载中...',
   //token名称
-  tokenName: 'GxAccessToken',
+  tokenName: 'Authorization',
   //token在localStorage、sessionStorage、cookie存储的key的名称
   tokenTableName: 'GxAccessToken',
   //token存储位置localStorage sessionStorage cookie

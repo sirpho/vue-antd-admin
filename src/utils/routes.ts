@@ -1,18 +1,14 @@
 import { cloneDeep } from 'lodash-es'
-import config from '/config/config'
-import { usePermissions } from '@gx-admin/hooks/web'
-import { getMaxFloor } from '/@/utils/util'
-
-const { rolesControl } = config.defaultSettings
+import { getMaxFloor } from '@/utils/util'
 
 let dynamicViewsModules: Record<string, () => Promise<Recordable>>
 
 // 前端路由表
 const constantRouterComponents = {
   // 基础页面 layout 必须引入
-  BasicLayout: () => import('/@/layout/BasicLayout.vue'), // 基础页面布局，包含了头部导航，侧边栏和通知栏
-  PageView: () => import('/@/layout/PageView.vue'),
-  IframeView: () => import('/@/layout/IframeView.vue')
+  BasicLayout: () => import('@/layout/BasicLayout.vue'), // 基础页面布局，包含了头部导航，侧边栏和通知栏
+  PageView: () => import('@/layout/PageView.vue'),
+  IframeView: () => import('@/layout/IframeView.vue')
   // 你需要动态引入的页面组件
 }
 /**
@@ -21,13 +17,40 @@ const constantRouterComponents = {
  * @lastTime    2021/5/14
  * @description 本地菜单路由
  */
-const rootRouter: any = {
-  path: '/',
-  name: 'index',
-  meta: { title: 'Home' },
-  component: 'BasicLayout',
-  redirect: '',
-  children: []
+const rootRouter: MenuDataItem[] = buildMenu([
+  {
+    path: '/',
+    name: 'index',
+    meta: { title: '首页' },
+    component: 'BasicLayout',
+    redirect: '',
+    children: []
+  }
+])
+
+/**
+ * @Author      gx12358
+ * @DateTime    2021/5/14
+ * @lastTime    2021/5/14
+ * @description 将后台树形数据菜单和本地菜单结合
+ */
+export function getRootMenu(rows: MenuDataItem[]): MenuDataItem[] {
+  let menus: MenuDataItem[] = []
+  if (getMaxFloor(cloneDeep(rows)) > 1) {
+    menus = buildMenu(rows)
+  } else {
+    buildtree(rows, menus, 0)
+  }
+  rootRouter[0].children = menus
+  rootRouter[0].children.push({
+    key: 'externalLink',
+    path: '/externalLink',
+    meta: {
+      title: '外链地址'
+    },
+    hidden: true
+  } as MenuDataItem)
+  return cloneDeep(rootRouter)
 }
 
 /**
@@ -68,9 +91,9 @@ function dynamicImport(
  * @lastTime    2021/5/14
  * @description 格式化 后端 结构信息并递归生成层级路由表
  */
-export const generator = (routerMap: any[], parent?) => {
+export const generator = (routerMap: MenuDataItem[], parent?) => {
   return routerMap.map((item: any) => {
-    const currentRouter: any = {
+    const currentRouter: AppRouteModule = {
       // 路由地址 动态拼接生成如 /dashboard/workplace
       path: parent && parent.path
         ? `${parent.path === '/'
@@ -115,42 +138,10 @@ export const generator = (routerMap: any[], parent?) => {
  * @Author      gx12358
  * @DateTime    2021/5/14
  * @lastTime    2021/5/14
- * @description 将后台树形数据菜单和本地菜单结合
- */
-export function getRootMenu(rows: any[]) {
-  // 根菜单
-  const rootMenu: any = []
-  let arr: any[] = []
-  const menus: any[] = []
-  if (getMaxFloor(cloneDeep(rows)) > 1) {
-    arr = buildMenu(rows)
-  } else {
-    buildtree(rows, arr, 0)
-  }
-  arr.forEach((row: any) => {
-    menus.push(row)
-  })
-  rootRouter.children = menus
-  rootRouter.children.push({
-    key: 'externalLink',
-    path: '/externalLink',
-    meta: {
-      hidden: true,
-      title: '外链地址'
-    }
-  })
-  rootMenu.push(rootRouter)
-  return rootMenu
-}
-
-/**
- * @Author      gx12358
- * @DateTime    2021/5/14
- * @lastTime    2021/5/14
  * @description 将后台树形结构菜单数据添加后修改属性（具体修改看后台返回值）
  */
-export function buildMenu(list: any[]) {
-  return list.map((item: any) => {
+export function buildMenu(list: MenuDataItem[]) {
+  return list.map((item: MenuDataItem) => {
     const {
       title = '',
       icon = '',
@@ -195,8 +186,8 @@ export function buildMenu(list: any[]) {
  * @lastTime    2021/5/14
  * @description 将后台菜单数据变成树形结构（具体修改看后台返回值）
  */
-export function buildtree(list: any[], arr: any[], parentId: string | number) {
-  list.forEach((item: any) => {
+export function buildtree(list: MenuDataItem[], arr: MenuDataItem[], parentId: string | number) {
+  list.forEach((item: MenuDataItem) => {
     const {
       title = '',
       icon = '',
@@ -237,25 +228,4 @@ export function buildtree(list: any[], arr: any[], parentId: string | number) {
       arr.push(child)
     }
   })
-}
-
-/**
- * @Author      gx12358
- * @DateTime    2021/5/14
- * @lastTime    2021/5/14
- * @description 根据roles数组拦截路由
- */
-export function filterRoutes(routes: any[]) {
-  return routes
-    .filter((route: any) => {
-      if (route.meta && route.meta.roles)
-        return !rolesControl || usePermissions(route.meta.roles)
-      else return true
-    })
-    .map((route: any) => {
-      route.fullPath = route.path
-      if (route.children)
-        route.children = filterRoutes(route.children)
-      return route
-    })
 }

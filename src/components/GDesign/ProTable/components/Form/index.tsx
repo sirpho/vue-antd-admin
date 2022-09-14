@@ -3,8 +3,8 @@ import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash-es'
 import { Button, DatePicker, Form, Grid, Input, Select, Space, TreeSelect } from 'ant-design-vue'
 import { DownOutlined, SearchOutlined, UpOutlined } from '@ant-design/icons-vue'
-import { PropTypes } from '/@/utils'
-import { isArray } from '/@/utils/validate'
+import { PropTypes } from '@/utils'
+import { isArray } from '@/utils/validate'
 import { useForm } from './useForm'
 import type { ColConfig } from '../../types/table'
 import type { ProSearchMap } from '../../types/column'
@@ -96,14 +96,18 @@ export default defineComponent({
           changeFormState(record.name, value || record.initialValue || '')
           break
         case 'select':
-          changeFormState(record.name, value || record.initialValue || undefined)
+          changeFormState(
+            record.name,
+            value || value === 0 ? value : record.initialValue || undefined
+          )
           break
         case 'treeSelect':
           changeFormState(
             record.name,
-            value ||
-              record.initialValue ||
-              (record.fidle?.treeCheckable || record.field?.multiple ? [] : null)
+            value || value === 0
+              ? value
+              : record.initialValue ||
+                  (record.fidle?.treeCheckable || record.field?.multiple ? [] : null)
           )
           break
         case 'date':

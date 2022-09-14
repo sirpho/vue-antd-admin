@@ -16,19 +16,18 @@
     "noUnusedParameters": true,
     "experimentalDecorators": true,
     "lib": ["dom", "esnext"],
-    "types": ["vite/client", "jest"],
+    "types": ["vite/client"],
     "typeRoots": ["./node_modules/@types/", "./types"],
     "noImplicitAny": false,
     "skipLibCheck": true,
     "paths": {
-      "/@/*": ["src/*"],
+      "@/*": ["src/*"],
       "/types/*": ["types/*"],
-      "/build/*": ["build/*"],
       "/config/*": ["config/*"],
       "@gx-vuex": ["src/store/index.ts"],
-      "@gx-design/*": ["src/components/GDesign/*"],
       "@gx-admin/hooks/*": ["src/hooks/*"],
-      "@gx-admin/utils": ["src/components/_util/index.ts"]
+      "@gx-admin/utils": ["src/components/_util/index.ts"],
+      "@gx-design/*": ["src/components/GDesign/*"],
     }
   },
   "include": [

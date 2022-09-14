@@ -8,23 +8,25 @@ import {
   watch
 } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import type { PaginationProps } from 'ant-design-vue/lib/pagination'
-import { getSortIndex, handleCurrentPage, runFunction } from '/@/utils/util'
-import { isFunction, isBoolean } from '/@/utils/validate'
+import { getSortIndex, handleCurrentPage, runFunction } from '@/utils/util'
+import { isFunction, isBoolean } from '@/utils/validate'
 import type { ProTableProps } from '../'
+import type { ProTablePagination, ProTabelFeachParams } from '../types/table'
 import type { ProColumns } from '../types/column'
 import useDebounceFn from '../hooks/useDebounceFn'
 
 interface ActionType {
   getLoading: ComputedRef<boolean>;
-  getPaginationInfo: ComputedRef<boolean | PaginationProps>;
-  setPagination: (info: Partial<PaginationProps>) => void;
+  getPaginationInfo: ComputedRef<boolean | ProTablePagination>;
+  setPagination: (info: Partial<ProTablePagination>) => void;
   setLoading: (loading: boolean) => void;
   setColumns: (columnList: Partial<ProColumns>) => void;
+  removeRowKeys: (keyList: (string | number)[]) => void;
   columns: ComputedRef<ProColumns>;
   formParamsRef: RecordType;
   beforeSearchSubmit: ProTableProps['beforeSearchSubmit'];
 }
+
 export type ConfigFetchData = {
   polling: ComputedRef<ProTableProps['polling']>;
   request: ComputedRef<ProTableProps['request']>;
@@ -66,6 +68,7 @@ export function useFetchData(
     getLoading,
     setLoading,
     setColumns,
+    removeRowKeys,
     formParamsRef,
     setPagination,
     getPaginationInfo,
@@ -169,8 +172,8 @@ export function useFetchData(
     setPagination(pageInfo)
   }
 
-  const fetchList = async (info: any = {}) => {
-    const { pagination, filters, sorter, removeTotal = 0, isPolling = false } = info
+  const fetchList = async (info: ProTabelFeachParams = {}) => {
+    const { pagination, filters, sorter, removeKeys = [], isPolling = false } = info
 
     if (!unref(request) || !isFunction(unref(request)) || (unref(waitRequest) && getLoading.value) || requesting.value)
       return dataSource.value || []
@@ -185,7 +188,7 @@ export function useFetchData(
       requesting.value = false
       return
     }
-    const { current = 1, pageSize = 10, total } = unref(getPaginationInfo) as PaginationProps || {}
+    const { current = 1, pageSize = 10, total } = unref(getPaginationInfo) as ProTablePagination || {}
     try {
       let pageParams: RecordType = {}
       if ((isBoolean(pagination) && !pagination) || isBoolean(getPaginationInfo)) {
@@ -195,7 +198,10 @@ export function useFetchData(
           current,
           pageSize,
           total
-        }, removeTotal)
+        } as any, removeKeys.length)
+
+        if (removeKeys.length) removeRowKeys(removeKeys)
+
         pageParams.pageSize = pageSize
       }
 
@@ -273,7 +279,10 @@ export function useFetchData(
     changeDataValue,
     handleTableChange,
     reload: async (info?: any) => {
-      await fetchListDebounce.run({ ...info, isPolling: false })
+      if (unref(request))
+        await fetchListDebounce.run({ ...info, isPolling: false })
+      else
+        emit('reload')
     }
   }
 }

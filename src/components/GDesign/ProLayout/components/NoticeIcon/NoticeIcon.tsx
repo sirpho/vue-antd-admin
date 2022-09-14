@@ -1,9 +1,9 @@
 import type { CSSProperties, ExtractPropTypes } from 'vue'
 import { computed, defineComponent, ref } from 'vue'
-import { Tabs, Badge, Dropdown } from 'ant-design-vue'
+import { Tabs, Badge, Dropdown, Spin } from 'ant-design-vue'
 import { BellOutlined } from '@ant-design/icons-vue'
 import { getPrefixCls } from '@gx-admin/utils'
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 import NoticeList, { NoticeIconItem, NoticeIconTabProps } from './NoticeList'
 
 import './index.less'
@@ -85,7 +85,7 @@ const NoticeIcon = defineComponent({
       const { loading, onClear, onItemClick, onViewMore, clearText, viewMoreText } = props
 
       return (
-        <a-spin spinning={loading} delay={300}>
+        <Spin spinning={loading} delay={300}>
           <Tabs class={`${prefixCls}-tabs`} activeKey={activeKey.value} onChange={onTabChange}>
             {getChildrenSlots.value.map((item: any) => {
               if (!item) {
@@ -115,7 +115,7 @@ const NoticeIcon = defineComponent({
               )
             })}
           </Tabs>
-        </a-spin>
+        </Spin>
       )
     }
 

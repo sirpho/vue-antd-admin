@@ -345,20 +345,8 @@ export default defineComponent({
       () => mergedShowRef.value,
       (value) => {
         value &&
-          onClickOutside(wrap, (event: any) => {
-            if (
-              event.path &&
-              event.path
-                .map((item) => item.className)
-                .filter((item) => item)
-                .every(
-                  (item) =>
-                    !item.includes(`${baseClassName}-picker-popover`) &&
-                    !item.includes(`${baseClassName}-picker`)
-                )
-            ) {
-              doUpdateShow(false)
-            }
+          onClickOutside(wrap, () => {
+            doUpdateShow(false)
           })
       }
     )

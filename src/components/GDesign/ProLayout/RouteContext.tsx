@@ -1,8 +1,8 @@
-import { InjectionKey, provide, reactive, Ref } from 'vue'
+import type { InjectionKey, Ref, ComputedRef } from 'vue'
+import { provide, reactive } from 'vue'
 import { themeConfig } from '/types/config'
 import type { prefixCls } from '@gx-admin/utils'
 import { getPrefixCls } from '@gx-admin/utils'
-import type { MenuDataItem } from './typings'
 import { createContext, useContext } from './hooks/context'
 
 export interface Route {
@@ -37,10 +37,11 @@ export interface MenuState {
 }
 
 export interface RouteContextProps extends Partial<themeConfig>, MenuState {
-  menuData: MenuDataItem[]
-  flatMenuData?: MenuDataItem[]
+  menuData: AppRouteModule[]
+  flatMenuData?: AppRouteModule[]
 
   getPrefixCls?: (prefixCls: prefixCls) => string
+  breadcrumb?: BreadcrumbListReturn | ComputedRef<BreadcrumbListReturn>
   isMobile?: boolean
   prefixCls?: string
   collapsed?: boolean

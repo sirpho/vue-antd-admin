@@ -1,5 +1,5 @@
 import { Ref, ref, watchEffect } from 'vue'
-import type { SizeType } from '@gx-design/utils'
+import type { SizeType } from '@gx-admin/utils'
 
 export function useTableSize({ size, emit }: {
   size: Ref<SizeType>,

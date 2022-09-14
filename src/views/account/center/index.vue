@@ -1,5 +1,5 @@
 <template>
-  <g-pro-page-wrapper>
+  <g-pro-page-container>
     <a-row :gutter="24">
       <a-col :lg="7" :md="24">
         <a-card
@@ -73,13 +73,13 @@
         </a-card>
       </a-col>
     </a-row>
-  </g-pro-page-wrapper>
+  </g-pro-page-container>
 </template>
 <script lang="ts">
 import { defineComponent, reactive, onActivated, toRefs } from 'vue'
 import { ContactsOutlined, HomeOutlined, ClusterOutlined } from '@ant-design/icons-vue'
-import type { tabKeyType } from '/@/services/account/typings'
-import { queryCurrent, queryFakeList } from '/@/services/account/center'
+import type { tabKeyType } from '@/services/account/typings'
+import { queryCurrent, queryFakeList } from '@/services/account/center'
 import TagList from './components/TagList.vue'
 import Projects from './components/Projects.vue'
 import Articles from './components/Articles.vue'

@@ -1,5 +1,5 @@
 import { LegacyButtonType } from 'ant-design-vue/lib/button/buttonTypes'
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 import { buttonTypes } from '@gx-design/Button'
 
 function noop() {}
@@ -45,7 +45,6 @@ export const modalProps = {
   forceRender: PropTypes.looseBool,
   okButtonProps: PropTypes.shape(buttonTypes).loose,
   cancelButtonProps: PropTypes.shape(buttonTypes).loose,
-  destroyOnClose: PropTypes.looseBool,
   wrapClassName: PropTypes.string,
   maskTransitionName: PropTypes.string,
   transitionName: PropTypes.string,
@@ -78,5 +77,6 @@ export const proModalProps = {
   showDefaultFooter: PropTypes.bool.def(false),
   fullscreen: PropTypes.bool.def(true),
   extra: PropTypes.VueNode,
+  destroyOnClose: PropTypes.bool.def(true),
   onChangeView: [ Function ] as PropType<() => void>
 }

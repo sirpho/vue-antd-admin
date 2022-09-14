@@ -1,12 +1,15 @@
-import type { CSSProperties } from 'vue'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
 import { VueElement } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type { NamePath } from 'ant-design-vue/lib/form/interface'
+import type { Breakpoint } from 'ant-design-vue/lib/_util/responsiveObserve'
 import type { FormInstance } from '@gx-design/ProForm/typings'
 
-export type SizeType = 'small' | 'middle' | 'large' | undefined;
-
 export const tuple = <T extends string[]>(...args: T) => args
+
+export type {
+  Breakpoint
+}
 
 type triggerTypes = 'hover' | 'focus' | 'click' | 'contextmenu'
 
@@ -341,3 +344,10 @@ export interface ProFieldProps {
 export type OnUpdateValue = (value: string & null) => void
 
 export type OnUpdateValueImpl = (value: string | null) => void
+
+export type ExtractPublicPropTypes<T> = Omit<
+  Partial<ExtractPropTypes<T>>,
+  | Extract<keyof T, `internal${string}`>
+  >
+
+export type ExtractInternalPropTypes<T> = Partial<ExtractPropTypes<T>>

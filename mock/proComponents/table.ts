@@ -58,7 +58,7 @@ export default [
     }
   },
   {
-    url: '/table/doEdit',
+    url: '/mock-server/table/doEdit',
     type: 'post',
     response() {
       return {
@@ -68,7 +68,7 @@ export default [
     }
   },
   {
-    url: '/table/doDelete',
+    url: '/mock-server/table/doDelete',
     type: 'post',
     response() {
       return {

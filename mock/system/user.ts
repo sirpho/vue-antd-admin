@@ -28,7 +28,7 @@ const account = {
 
 export default [
   {
-    url: '/mock-server/login',
+    url: '/mock-server/auth/login',
     method: 'post',
     response: ({ body }) => {
       const { userName, password } = body
@@ -80,15 +80,19 @@ export default [
   {
     url: '/mock-server/userInfo',
     method: 'post',
-    response: ({ body }) => {
-      const { GxAccessToken } = body
+    response: (request) => {
+      let GxAccessToken = getRequestToken(request)
+      GxAccessToken = 'admin-accessToken'
       let userId: number | null = null
       let roles: string[] = []
       let rolesInfo: RolesInfo[] = []
       let roleIds: number[] = []
       let permissions: string[] = []
-      let userName = ''
       let nickName = ''
+      let userName = ''
+      for (const i in accessTokens) {
+        if (accessTokens[i] === GxAccessToken) userName = i
+      }
       switch (GxAccessToken) {
         case 'gx-accessToken':
           userId = 0
@@ -103,8 +107,7 @@ export default [
           roles = rolesInfo.map(item => item.roleKey)
           roleIds = rolesInfo.map(item => item.roleId)
           permissions = ['*:*:*']
-          userName = '高翔'
-          nickName = 'gx12358'
+          nickName = '高翔'
           break
         case 'admin-accessToken':
           userId = 1
@@ -124,8 +127,7 @@ export default [
             'proTable:button:2',
             'proTable:button:3'
           ]
-          userName = 'admin'
-          nickName = 'admin'
+          nickName = '系统管理员'
           break
         case 'editor-accessToken':
           userId = 2
@@ -140,7 +142,7 @@ export default [
           roles = rolesInfo.map(item => item.roleKey)
           roleIds = rolesInfo.map(item => item.roleId)
           permissions = []
-          userName = '高翔-editor'
+          userName = 'editor'
           nickName = 'gx12358-editor'
           break
         case 'test-accessToken':
@@ -162,12 +164,11 @@ export default [
           roles = rolesInfo.map(item => item.roleKey)
           roleIds = rolesInfo.map(item => item.roleId)
           permissions = [
-            'proTable:button:add',
             'proTable:button:1',
             'proTable:button:2',
             'proTable:button:3'
           ]
-          userName = '高翔-test'
+          userName = 'test'
           nickName = 'gx12358-test'
           break
         default:

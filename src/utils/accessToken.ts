@@ -6,7 +6,7 @@ import {
   getCookie,
   setCookie,
   delCookie
-} from '/@/utils/storage'
+} from '@/utils/storage'
 
 const { storage, tokenTableName } = config.defaultSettings
 

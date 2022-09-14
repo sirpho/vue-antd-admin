@@ -1,38 +1,29 @@
-.@{gx-prefix-pro}-table {
+@pro-table: ~'@{gx-prefix-pro}-table';
+@pro-table-vl: ~'@{gx-prefix-pro}-table-vl';
+
+@import './table.less';
+
+.@{pro-table} {
   background-color: #ffffff;
 
-  .ant-table-content,
-  .ant-table-body {
-    &::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
+  &-empty {
+    @apply flex items-center justify-center flex-col gap-10px;
+  }
 
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(50, 50, 50, 0.3);
-      border-radius: 1em;
-    }
-
-    &::-webkit-scrollbar-track {
-      background-color: rgba(50, 50, 50, 0.1);
-      border-radius: 1em;
+  &-table-tree {
+    .ant-table-row-cell-ellipsis,
+    .ant-table-row-cell-ellipsis .ant-table-column-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 
-  .ant-table-empty .ant-table-content {
-    &::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(50, 50, 50, 0.3);
-      border-radius: 1em;
-    }
-
-    &::-webkit-scrollbar-track {
-      background-color: rgba(50, 50, 50, 0.1);
-      border-radius: 1em;
+  &-full-screen {
+    .@{pro-table}-content {
+      height: 100% !important;
+      padding: 24px;
+      box-shadow: 0 4px 8px #0003, 0 6px 20px #00000030 !important;
     }
   }
 
@@ -55,29 +46,12 @@
     }
   }
 
-  &-table-tree {
-    .ant-table-row-cell-ellipsis,
-    .ant-table-row-cell-ellipsis .ant-table-column-title {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
-
-  &-full-screen {
-    .@{gx-prefix-pro}-table-content {
-      height: 100% !important;
-      padding: 24px;
-      box-shadow: 0 4px 8px #0003, 0 6px 20px #00000030 !important;
-    }
-  }
-
-  .@{gx-prefix-pro}-table {
+  .@{pro-table} {
     &-copyable {
       display: flex;
       align-items: center;
 
-      .@{gx-prefix-pro}-table-copyable-icon {
+      .@{pro-table}-copyable-icon {
         margin-left: 8px;
         color: var(--ant-primary-color);
         cursor: pointer;
@@ -113,7 +87,7 @@
         &:hover {
           background-color: #e6f7ff;
 
-          .@{gx-prefix-pro}-table-action-columns-list-item-actions {
+          .@{pro-table}-action-columns-list-item-actions {
             display: block;
           }
         }

@@ -4,30 +4,36 @@
     v-model:selectedKeys="baseState.selectedKeys"
     v-model:openKeys="baseState.openKeys"
     v-bind="state"
+    :breadcrumb="{ routes: baseState.breadcrumb }"
     @reloadPage="handleReloadPage"
     @handleCollapse="toggleCollapse"
     @menuHeaderClick="menuHeaderClick"
   >
-    <w-pro-content :animate="state.animate" :isRouterAlive="isRouterAlive" />
+    <ProContent :animate="state.animate" :isRouterAlive="isRouterAlive" />
     <setting-drawer :settings="state" @change="handleSettingChange" />
   </g-pro-layout>
 </template>
 <script setup lang="ts">
+import { computed, reactive } from 'vue'
+import { cloneDeep } from 'lodash-es'
 import { useStore } from '@gx-vuex'
 import { RouteContextProps, getMenuData, clearMenuItem, SettingDrawer } from '@gx-design/ProLayout'
 import config from '/config/config'
-import WProContent from './ContentView.vue'
+import ProContent from './ContentView.vue'
 
 const { animate } = config
-
 const { preset } = animate
 
 const store = useStore()
 const router = useRouter()
+
 const isRouterAlive = ref(true)
-const { menuData } = getMenuData(clearMenuItem(router.getRoutes()))
+const routeData: AppRouteModule[] = router.getRoutes() as any
+
+const { menuData } = getMenuData(clearMenuItem(routeData))
 
 const baseState = reactive<Omit<RouteContextProps, 'menuData'>>({
+  breadcrumb: [],
   selectedKeys: [],
   openKeys: [],
   collapsed: false
@@ -50,14 +56,36 @@ const state = reactive({
   animate: computed(() => store.settings.animate)
 })
 
+watch(
+  () => router.currentRoute,
+  () => {
+    const matched = router.currentRoute.value.matched.concat()
+    const breadcrumb = matched.map((item) => {
+      return {
+        path: item.path,
+        breadcrumbName: item.meta.title || ''
+      }
+    })
+    baseState.breadcrumb = cloneDeep(breadcrumb)
+  },
+  {
+    deep: true,
+    immediate: true
+  }
+)
+
 watchEffect(() => {
   if (router.currentRoute) {
     const matched = router.currentRoute.value.matched.concat()
-    baseState.selectedKeys = matched.filter((r) => r.name !== 'index').map((r) => r.path)
+    baseState.selectedKeys = matched.filter((r) => r.path !== '/').map((r) => r.path)
     baseState.openKeys = matched
       .filter((r) => r.path !== router.currentRoute.value.path)
       .map((r) => r.path)
   }
+})
+
+onMounted(() => {
+  store.oss.queryOssToken()
 })
 
 const handleSettingChange = ({ type, value }) => {
@@ -72,6 +100,7 @@ const handleSettingChange = ({ type, value }) => {
       store.settings.changeValue('layout', value)
       if (value === 'mix') {
         store.settings.changeValue('splitMenus', true)
+        store.settings.changeValue('showTabsBar', true)
         store.settings.changeValue('fixedHeader', true)
         store.settings.changeValue('fixSiderbar', true)
         store.settings.changeValue('fixedMultiTab', true)

@@ -1,8 +1,8 @@
 import { computed, reactive } from 'vue'
 import { useStore } from '@gx-vuex'
-import { getDicts } from '/@/services/system/dictData'
+import { getDicts } from '@/services/system/dictData'
 import { onMountedOrActivated } from '@gx-admin/hooks/core'
-import { isArray } from '/@/utils/validate'
+import { isArray } from '@/utils/validate'
 
 export function useDict(val: string | string[]) {
   const dictData: any = reactive({})

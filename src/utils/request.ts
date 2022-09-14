@@ -3,23 +3,25 @@ import axios, { Axios, AxiosPromise } from 'axios'
 import qs from 'qs'
 import { message } from 'ant-design-vue'
 import config from '/config/config'
-import router from '/@/router'
+import router from '@/router'
 import { useStoreUser } from '@gx-vuex'
-import { isDev } from '/@/utils'
-import { tansParams } from '/@/utils/util'
-import { isArray, checkURL } from '/@/utils/validate'
+import { isDev } from '@/utils'
+import { tansParams } from '@/utils/util'
+import { checkURL, isBoolean } from '@/utils/validate'
 import { AxiosCanceler } from './axios/axiosCancel'
 
 export interface CreateAxiosOptions extends AxiosRequestConfig {
   headers?: any;
   isMock?: boolean;
   customize?: boolean;
+  carryToken?: boolean;
   ignoreCancelToken?: boolean;
 }
 
 export interface GAxiosInstance extends Axios {
-  (config: CreateAxiosOptions): AxiosPromise;
-  (url: string, config?: CreateAxiosOptions): AxiosPromise;
+  (config: CreateAxiosOptions): AxiosPromise<ResponseResult>;
+
+  (url: string, config?: CreateAxiosOptions): AxiosPromise<ResponseResult>;
 }
 
 let loadingInstance
@@ -63,7 +65,7 @@ const instance: GAxiosInstance = axios.create({
   headers: {
     'Content-Type': contentType
   }
-} as CreateAxiosOptions)
+})
 /**
  * @author gx12358 2539306317@qq.com
  * @description axios请求拦截器
@@ -75,6 +77,8 @@ instance.interceptors.request.use(
     const {
       headers: { ignoreCancelToken }
     } = config
+
+    const carryToken = isBoolean(config.carryToken) ? config.carryToken : true
 
     const ignoreCancel =
       ignoreCancelToken !== undefined
@@ -98,7 +102,7 @@ instance.interceptors.request.use(
       }
     }
 
-    if (user.accessToken)
+    if (user.accessToken && carryToken)
       (config).headers[tokenName] = user.accessToken
 
     if (
@@ -121,35 +125,30 @@ instance.interceptors.request.use(
  * @description axios响应拦截器
  */
 instance.interceptors.response.use(
-  (response: AxiosResponse<any>) => {
+  (response: AxiosResponse<any>): Promise<ResponseResult | boolean> => {
     response && axiosCanceler.removePending(response.config as CreateAxiosOptions)
     if (loadingInstance) loadingInstance.close()
-    const { data, config }: {
-      data: any,
-      config: CreateAxiosOptions
-    } = response
-    const { code, msg = '', message = '' } = data as Result
+    const { data, config } = response
+    const { code, msg = '', message = '' } = data as ResponseResult
     // 操作正常Code数组
-    const codeVerificationArray: any = isArray(successCode)
-      ? successCode
-      : [ successCode ]
+    const codeVerificationArray = successCode
     // 是否操作正常
-    if (config.customize) {
+    if ((config as CreateAxiosOptions).customize)
       return data
-    } else if (codeVerificationArray.includes(code)) {
+    else if (codeVerificationArray.includes(code))
       return data
-    } else {
+    else {
       handleCode(code, msg || message)
       return Promise.resolve(false)
     }
   },
-  (error) => {
+  (error: AxiosError): Promise<ResponseResult | boolean> => {
     if (loadingInstance) loadingInstance.close()
     const { response } = error
     let errorMessage = error.message || ''
     if (error.response && error.response.data) {
-      const { status, data } = response
-      handleCode(status, data.msg || errorMessage)
+      const { status } = response
+      handleCode(status, errorMessage)
       return Promise.resolve(false)
     } else {
       if (errorMessage === 'Network Error') {
@@ -160,11 +159,14 @@ instance.interceptors.response.use(
       }
       if (errorMessage.includes('Request failed with status code')) {
         const code = errorMessage.substr(errorMessage.length - 3)
-        errorMessage = '后端接口' + code + '异常'
+        errorMessage = '后端接口' + code || '' + '异常'
       }
       message.error(errorMessage || `后端接口未知异常`)
       return Promise.resolve(false)
     }
   }
 )
-export default instance
+
+const request: (opt?: CreateAxiosOptions) => Promise<ResponseResult> = async (opt) => await instance.request(opt)
+
+export default request

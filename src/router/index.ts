@@ -1,11 +1,9 @@
 import { createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw } from 'vue-router'
 import config from '/config/config'
-import BasicLayout from '/@/layout/BasicLayout.vue'
-import BlankLayout from '/@/layout/BlankLayout.vue'
-import PageView from '/@/layout/PageView.vue'
-import UserLayout from '/@/layout/UserLayout.vue'
-
-import type { AppRouteModule } from './typings'
+import BasicLayout from '@/layout/BasicLayout.vue'
+import BlankLayout from '@/layout/BlankLayout.vue'
+import PageView from '@/layout/PageView.vue'
+import UserLayout from '@/layout/UserLayout.vue'
 
 const { routerMode } = config.defaultSettings
 
@@ -36,7 +34,7 @@ export const constantRoutes: AppRouteModule[] = [
           hideInMenu: true,
           title: '登录'
         },
-        component: () => import('/@/views/user/login/index.vue')
+        component: () => import('@/views/user/login/index.vue')
       }
     ]
   },
@@ -54,7 +52,7 @@ export const constantRoutes: AppRouteModule[] = [
       {
         path: '/exception/403',
         name: 'Error403',
-        component: () => import('/@/views/exception/403/index.vue'),
+        component: () => import('@/views/exception/403/index.vue'),
         meta: {
           hideInMenu: true,
           title: '403',
@@ -64,7 +62,7 @@ export const constantRoutes: AppRouteModule[] = [
       {
         path: '/exception/404',
         name: 'Error404',
-        component: () => import('/@/views/exception/404/index.vue'),
+        component: () => import('@/views/exception/404/index.vue'),
         meta: {
           hideInMenu: true,
           title: '404',
@@ -78,7 +76,7 @@ export const basicRoutes: AppRouteModule[] = [
   {
     path: '/workplace',
     name: 'Workplace',
-    component: () => import('/@/views/dashboard/workplace/index.vue'),
+    component: () => import('@/views/dashboard/workplace/index.vue'),
     meta: {
       tagHidden: true,
       hideInMenu: true,
@@ -90,6 +88,7 @@ export const basicRoutes: AppRouteModule[] = [
 export const asyncRoutes: AppRouteModule[] = [
   {
     path: '/',
+    name: '首页',
     component: BasicLayout,
     redirect: '/index/workplace',
     children: [
@@ -100,15 +99,15 @@ export const asyncRoutes: AppRouteModule[] = [
         redirect: '/index/workplace',
         meta: {
           title: '首页',
-          affix: true
+          tagFixed: true
         },
         children: [
           {
             path: '/index/workplace',
-            component: () => import('/@/views/dashboard/workplace/index.vue'),
+            component: () => import('@/views/dashboard/workplace/index.vue'),
             meta: {
               title: '工作台',
-              affix: true
+              tagFixed: true
             }
           }
         ]

@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import { ref, unref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { getPrefixCls } from '@gx-admin/utils'
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 
 const props = defineProps({
   frameSrc: PropTypes.string.def('')

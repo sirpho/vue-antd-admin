@@ -2,7 +2,7 @@ import { computed, isVNode, cloneVNode, defineComponent, PropType } from 'vue'
 import { Grid, Space, Tooltip } from 'ant-design-vue'
 import { InfoCircleOutlined } from '@ant-design/icons-vue'
 import { useMemo } from '@gx-admin/hooks/core'
-import { isBoolean } from '/@/utils/validate'
+import { isBoolean } from '@/utils/validate'
 import { proTableProps } from '../../props'
 
 import './style.less'
@@ -104,7 +104,7 @@ const ListToolBar = defineComponent({
       if (hasTitle.value) {
         return (
           <Space class={`${props.prefixCls}-left`}>
-            <Space class={`${props.prefixCls}-title`}>
+            <div class={`${props.prefixCls}-title flex items-center gap-8px`}>
               {props.headerTitle}
               {props.titleTip && (
                 <Tooltip title={props.titleTipText}>
@@ -115,7 +115,7 @@ const ListToolBar = defineComponent({
                   )}
                 </Tooltip>
               )}
-            </Space>
+            </div>
             {actionDom.value && <div class={`${props.prefixCls}-actions`}>{actionDom.value}</div>}
           </Space>
         )
@@ -175,5 +175,7 @@ const ListToolBar = defineComponent({
     }
   }
 })
+
+ListToolBar.inheritAttrs = false
 
 export default ListToolBar

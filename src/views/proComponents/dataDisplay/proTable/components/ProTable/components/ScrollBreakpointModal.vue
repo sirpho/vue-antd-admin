@@ -3,7 +3,7 @@
     title="ScrollBreakpoint"
     width="450px"
     :visible="visible"
-    :adaptive="false"
+    type="normal"
     @ok="handleSubmit"
     @cancel="handleCancel"
   >
@@ -39,7 +39,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { Form } from 'ant-design-vue'
-import { isString } from '/@/utils/validate'
+import { isString } from '@/utils/validate'
 
 const useForm = Form.useForm
 

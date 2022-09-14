@@ -28,19 +28,18 @@
 <script lang="ts">
 import type { CSSProperties } from 'vue'
 import { defineComponent, getCurrentInstance } from 'vue'
-import { PropTypes } from '/@/utils'
-
-export declare type SizeType = number | 'small' | 'default' | 'large'
+import type { SizeType } from '@gx-admin/utils'
+import { PropTypes } from '@/utils'
 
 type AvatarItemProps = {
   name: VueNode
   avatar: string
-  size?: SizeType
+  size?: SizeType | 'mini' | number
 }
 
 export const avatarListProps = {
   data: Array as PropType<AvatarItemProps[]>,
-  size: String as PropType<SizeType | 'mini'>,
+  size: String as PropType<SizeType | 'mini' | number>,
   maxLength: PropTypes.number,
   style: CSSStyleSheet as PropType<CSSProperties>,
   excessItemsStyle: CSSStyleSheet as PropType<CSSProperties>,
@@ -53,7 +52,7 @@ export default defineComponent({
     const instance: any = getCurrentInstance()
     const $style: any = instance.type?.__cssModules?.$style
     const getKey = (id: string, index: number) => `${id}-${index}`
-    const avatarSizeToClassName = (size?: SizeType | 'mini') => {
+    const avatarSizeToClassName = (size?: SizeType | 'mini' | number) => {
       return {
         [`${$style.avatarItem}`]: true,
         [`${$style.avatarItemLarge}`]: size === 'large',

@@ -1,5 +1,5 @@
 <template>
-  <g-pro-page-wrapper>
+  <g-pro-page-container>
     <div :class="$style.standardList">
       <a-card :bordered="false">
         <a-row>
@@ -115,7 +115,7 @@
       添加
     </a-button>
     <OperationModal ref="operation" @handleOk="getListData" />
-  </g-pro-page-wrapper>
+  </g-pro-page-container>
 </template>
 
 <script lang="ts">
@@ -127,8 +127,8 @@ import {
   ExclamationCircleOutlined,
   RedoOutlined
 } from '@ant-design/icons-vue'
-import type { BasicListItemDataType } from '/@/services/list/basic'
-import { getBasicList, removeBasicList } from '/@/services/list/basic'
+import type { BasicListItemDataType } from '@/services/list/basic'
+import { getBasicList, removeBasicList } from '@/services/list/basic'
 import OperationModal from './components/OperationModal.vue'
 
 export default defineComponent({

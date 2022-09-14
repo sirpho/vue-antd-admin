@@ -6,6 +6,7 @@ import externalGlobals from 'rollup-plugin-external-globals'
 import { generateModifyVars } from './build/generate/generateModifyVars'
 import { wrapperEnv } from './build/utils'
 import { createVitePlugins } from './build/vite/plugin'
+import { configManualChunk } from './build/vite/optimizer'
 import config, { createProxy } from './config/config'
 
 import pkg from './package.json'
@@ -44,7 +45,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     resolve: {
       alias: [
         {
-          find: /\/@\//,
+          find: '@',
           replacement: pathResolve('src') + '/'
         },
         {
@@ -54,10 +55,6 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         {
           find: /\/config\//,
           replacement: pathResolve('config') + '/'
-        },
-        {
-          find: /\/build\//,
-          replacement: pathResolve('build') + '/'
         },
         {
           find: '@gx-vuex',
@@ -94,17 +91,23 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           drop_console: VITE_DROP_CONSOLE
         }
       },
-      brotliSize: false,
       chunkSizeWarningLimit: 2500,
       rollupOptions: useCdn
         ? {
+          output: {
+            manualChunks: configManualChunk
+          },
           external: [ 'echarts' ],
           plugins: [
             externalGlobals({
               echarts: 'echarts'
             })
           ]
-        } : {}
+        } : {
+          output: {
+            manualChunks: configManualChunk
+          }
+        }
     },
     define: {
       __INTLIFY_PROD_DEVTOOLS__: false,
@@ -112,7 +115,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
     css: {
       modules: {
-        generateScopedName: 'gx-pro-[local]-[hash:base64:5]',
+        generateScopedName: 'gx-pro-[local]-[hash:base64:5]'
       },
       preprocessorOptions: {
         less: {
@@ -127,9 +130,9 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     optimizeDeps: {
       include: [
         'ant-design-vue/es/locale/zh_CN',
-        'ant-design-vue/es/locale/en_US',
+        'ant-design-vue/es/locale/en_US'
       ],
       exclude: [ 'vue-demi' ]
     }
   }
-};
+}

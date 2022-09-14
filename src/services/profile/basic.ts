@@ -1,4 +1,4 @@
-import request from '/@/utils/request'
+import request from '@/utils/request'
 
 export type BasicGood = {
   id: string;
@@ -18,12 +18,10 @@ export type BasicProgress = {
   cost: string;
 };
 
-export function queryBasicProfile(): Promise<{
-  data: {
-    basicProgress: BasicProgress[];
-    basicGoods: BasicGood[];
-  };
-}> {
+export function queryBasicProfile(): Promise<ResponseResult<{
+  basicProgress: BasicProgress[];
+  basicGoods: BasicGood[];
+}>> {
   return request({
     url: '/profile/basic',
     method: 'post',

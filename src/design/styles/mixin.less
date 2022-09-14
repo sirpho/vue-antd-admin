@@ -1,4 +1,21 @@
 /*一些less函数*/
+.scrollbar() {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(50, 50, 50, 0.3);
+    border-radius: 1em;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: rgba(50, 50, 50, 0.1);
+    border-radius: 1em;
+  }
+}
+
 .textOverflow() {
   overflow: hidden;
   text-overflow: ellipsis;

@@ -1,28 +1,23 @@
-import { computed, ComputedRef, ref, unref, watch } from 'vue'
+import { Ref, ComputedRef } from 'vue'
+import { computed, ref, unref, watch } from 'vue'
 import { cloneDeep, omit } from 'lodash-es'
-import common from '/@/common/global'
-import {
-  checkFileType,
-  dataURLtoBlob,
-  getBlobUrl,
-  getFileSuffix,
-  getMediaInfos,
-  getVideoCoverPicture
-} from '/@/utils/util'
-import type { MaterialInfo, MaterialListItem } from '../typings'
+import { checkFileType } from '@/utils/util'
+import type { MaterialListItem } from '../typings'
 import type { WUploadProps } from '../Upload'
 
 export function useUploadData(
+  listRef: Ref<WUploadProps['dataList']>,
   propsRef: ComputedRef<WUploadProps>
 ) {
   const dataValue = ref<MaterialListItem[]>([])
   const getDataValueRef = computed(() => unref(dataValue))
   const getUrlValueRef = computed(() => unref(dataValue).filter(item => item.url)
     .map(item => item.url))
+
   watch(
-    () => unref(propsRef).dataList,
-    (list) => {
-      getDataList(list)
+    () => listRef.value,
+    (data) => {
+      getDataList(data)
     },
     {
       deep: true,
@@ -31,137 +26,23 @@ export function useUploadData(
   )
 
   function getDataList(list) {
-    const { coverDataList = [] } = unref(propsRef)
+    const { coverDataList = [], limit } = unref(propsRef)
     const newUploadList = list.filter(item => dataValue.value.every(el => el.url !== item))
       .filter(item => item)
     for (let i = 0; i < newUploadList.length; i += 1) {
+      if (dataValue.value.length > limit - 1) return
       const type = checkFileType(newUploadList[i])
-      let coverImg = ''
-      let allowFormat = true
-      if (coverDataList[i] || type === '1' || type === '4') {
-        coverImg = coverDataList[i] || ''
-        dataValue.value.push({
-          id: newUploadList[i],
-          url: newUploadList[i],
-          type,
-          progress: 100,
-          uploadLoading: false,
-          allowPlay: true,
-          coverImg: coverImg,
-          uploadStatus: 'success'
-        })
-      } else {
-        dataValue.value.push({
-          id: newUploadList[i],
-          url: newUploadList[i],
-          type,
-          progress: 0,
-          uploadStatus: 'active',
-          uploadLoading: true,
-          spinning: true,
-          loadingText: '正在获取中...'
-        })
-        const fileSuffix = getFileSuffix(newUploadList[i])
-        if (type === '2') {
-          allowFormat = fileSuffix ?
-            common.audioAllowType.includes(fileSuffix.toLowerCase()) : false
-        }
-        if (type === '3') {
-          allowFormat = fileSuffix ?
-            common.videoAllowType.includes(fileSuffix.toLowerCase()) : false
-        }
-        getMediaInfos({
-          url: newUploadList[i],
-          fileType: type
-        }).then((info: MaterialInfo) => {
-          if (type === '3' && info.play) {
-            getVideoCoverPicture({
-              url: newUploadList[i],
-              vidoeAllowPlay: true
-            }).then((url: string) => {
-              dataValue.value = dataValue.value.map(item => {
-                if (item.id === newUploadList[i]) {
-                  return {
-                    ...item,
-                    progress: 100,
-                    uploadLoading: false,
-                    spinning: false,
-                    uploadStatus: 'success',
-                    allowPlay: info.play,
-                    loadStatusMsg: allowFormat ? info.play && url ? '' : '加载失败' : '无法在线预览',
-                    coverImg: getBlobUrl(dataURLtoBlob(url))
-                  }
-                }
-                return item
-              })
-            }).catch(_ => {
-              dataValue.value = dataValue.value.map(item => {
-                if (item.id === newUploadList[i]) {
-                  return {
-                    ...item,
-                    progress: 100,
-                    uploadLoading: false,
-                    spinning: false,
-                    uploadStatus: 'success',
-                    allowPlay: false,
-                    loadStatusMsg: allowFormat ? '加载失败' : '无法在线预览',
-                    coverImg: ''
-                  }
-                }
-                return item
-              })
-            })
-          } else if (type === '2' && info.play) {
-            dataValue.value = dataValue.value.map(item => {
-              if (item.id === newUploadList[i]) {
-                return {
-                  ...item,
-                  progress: 100,
-                  uploadLoading: false,
-                  spinning: false,
-                  uploadStatus: 'success',
-                  allowPlay: info.play,
-                  loadStatusMsg: allowFormat ? info.play ? '' : '加载失败' : '无法在线预览',
-                  coverImg: ''
-                }
-              }
-              return item
-            })
-          } else {
-            dataValue.value = dataValue.value.map(item => {
-              if (item.id === newUploadList[i]) {
-                return {
-                  ...item,
-                  progress: 100,
-                  uploadLoading: false,
-                  spinning: false,
-                  uploadStatus: 'success',
-                  allowPlay: false,
-                  loadStatusMsg: allowFormat ? '加载失败' : '无法在线预览',
-                  coverImg: ''
-                }
-              }
-              return item
-            })
-          }
-        }).catch(_ => {
-          dataValue.value = dataValue.value.map(item => {
-            if (item.id === newUploadList[i]) {
-              return {
-                ...item,
-                progress: 100,
-                uploadLoading: false,
-                spinning: false,
-                uploadStatus: 'success',
-                allowPlay: false,
-                loadStatusMsg: allowFormat ? '加载失败' : '无法在线预览',
-                coverImg: ''
-              }
-            }
-            return item
-          })
-        })
-      }
+      const coverImg = coverDataList[i] || ''
+      dataValue.value.push({
+        id: newUploadList[i],
+        url: newUploadList[i],
+        type,
+        progress: 100,
+        uploadLoading: false,
+        allowPlay: true,
+        coverImg: coverImg,
+        uploadStatus: 'success'
+      })
     }
   }
 
@@ -169,11 +50,11 @@ export function useUploadData(
     dataValue.value = cloneDeep(list)
   }
 
-  function addDataValue(params) {
+  function addDataValue(params: MaterialListItem) {
     dataValue.value.push({ ...params })
   }
 
-  function changeDataValue(idName, params) {
+  function changeDataValue(idName, params: MaterialListItem) {
     dataValue.value = dataValue.value.map(item => {
       if (item.id === idName) {
         return {

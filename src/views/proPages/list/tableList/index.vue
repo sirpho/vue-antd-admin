@@ -1,5 +1,5 @@
 <template>
-  <g-pro-page-wrapper>
+  <g-pro-page-container>
     <g-pro-table
       headerTitle="查询表格"
       row-key="key"
@@ -50,7 +50,7 @@
       </template>
     </g-pro-table>
     <OperationModal ref="operation" @handleOk="tableRef.reload()" />
-  </g-pro-page-wrapper>
+  </g-pro-page-container>
 </template>
 
 <script lang="ts">
@@ -58,8 +58,8 @@ import { defineComponent, reactive, ref, toRefs, createVNode } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { Modal, message, Badge } from 'ant-design-vue'
 import { InfoCircleOutlined, PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue'
-import { rule, removeRule } from '/@/services/list/table'
-import { handleSelectPage } from '/@/utils/util'
+import { rule, removeRule } from '@/services/list/table'
+import { handleSelectPage } from '@/utils/util'
 import OperationModal from './components/OperationModal.vue'
 import columns from './utils/columns'
 

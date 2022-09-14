@@ -62,14 +62,14 @@ export default defineComponent({
         <HeaderSearch
           class={[`${baseClassName}-action`, `${baseClassName}-search`]}
           placeholder="站内搜索"
-          defaultValue="umi ui"
+          defaultValue="Ant Design"
           options={[
             {
               label: <a href="https://umijs.org/zh/guide/umi-ui.html">umi ui</a>,
               value: 'umi ui'
             },
             {
-              label: <a href="next.ant.design">Ant Design</a>,
+              label: <a href="https://www.antdv.com/components/overview-cn">Ant Design</a>,
               value: 'Ant Design'
             },
             {
@@ -80,9 +80,7 @@ export default defineComponent({
               label: <a href="https://prolayout.ant.design/">Pro Layout</a>,
               value: 'Pro Layout'
             }
-          ]} // onSearch={value => {
-          //   console.log('input', value);
-          // }}
+          ]}
         />
         <NoticeIcon />
         <AvatarDropdown

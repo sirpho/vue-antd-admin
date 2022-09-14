@@ -1,5 +1,5 @@
 <template>
-  <g-pro-page-wrapper>
+  <g-pro-page-container>
     <div style="padding: 24px; background: #f0f2f5">
       <a-form
         :class="$style['advance-form-block']"
@@ -272,7 +272,7 @@
       </div>
     </div>
     <g-back-top />
-  </g-pro-page-wrapper>
+  </g-pro-page-container>
 </template>
 
 <script lang="ts">
@@ -282,9 +282,9 @@ import { cloneDeep } from 'lodash-es'
 import { Form, Popover } from 'ant-design-vue'
 import { PlusOutlined, CloseCircleOutlined } from '@ant-design/icons-vue'
 import config from '/config/config'
-import { getAdvancedForm, getAdvancedFormTable } from '/@/services/form/advanced'
+import { getAdvancedForm, getAdvancedFormTable } from '@/services/form/advanced'
 import { scrollTo } from '@gx-design/utils'
-import { handleOffsetTop, hanndleField } from '/@/utils/util'
+import { handleOffsetTop, hanndleField } from '@/utils/util'
 import type { TableFormDateType } from './typings'
 import columns from './utils/columns'
 import { fieldLabels, rules } from './utils/config'

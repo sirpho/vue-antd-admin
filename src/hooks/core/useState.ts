@@ -1,19 +1,17 @@
-import type { Ref } from 'vue'
-import { ref, watchEffect } from 'vue'
-import { isFunction } from '/@/utils/validate'
+import type { Ref } from 'vue';
+import { ref } from 'vue';
 
-function useState<T>(initialState: T | (() => T)): [ T, (value: T) => void ] {
-  const state: Ref<T> = ref()
+export default function useState<T, R = Ref<T>>(
+  defaultStateValue?: T | (() => T),
+): [R, (val: T) => void] {
+  const initValue: T =
+    typeof defaultStateValue === 'function' ? (defaultStateValue as any)() : defaultStateValue;
 
-  watchEffect(() => {
-    state.value = isFunction(initialState) ? (initialState as Function)() : initialState
-  })
+  const innerValue = ref(initValue) as Ref<T>;
 
-  function setState(value: T) {
-    state.value = value
+  function triggerChange(newValue: T) {
+    innerValue.value = newValue;
   }
 
-  return [ state.value, setState ]
+  return [innerValue as unknown as R, triggerChange];
 }
-
-export default useState

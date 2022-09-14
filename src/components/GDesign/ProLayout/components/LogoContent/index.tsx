@@ -1,6 +1,6 @@
 import type { CSSProperties, ExtractPropTypes } from 'vue'
 import { computed, defineComponent } from 'vue'
-import Logo from '/@/assets/logo.png'
+import Logo from '@/assets/logo.png'
 import { useMemo } from '@gx-admin/hooks/core'
 import logoContentProps from './props'
 import { useRouteContext } from '../../RouteContext'

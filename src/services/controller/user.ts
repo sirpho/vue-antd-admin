@@ -1,35 +1,19 @@
-import request from '/@/utils/request'
-import config from '/config/config'
-
-const { tokenName } = config.defaultSettings
+import request from '@/utils/request'
 
 export async function login(data) {
   return request({
-    url: '/login',
+    url: '/auth/login',
     method: 'post',
-    isMock: true,
-    data
+    data,
+    isMock: true
   })
 }
 
-export async function socialLogin(data) {
-  return request({
-    url: '/socialLogin',
-    method: 'post',
-    isMock: true,
-    data
-  })
-}
-
-export function getUserInfo(accessToken) {
-  //此处为了兼容mock.js使用data传递accessToken，如果使用mock可以走headers
+export function getUserInfo() {
   return request({
     url: '/userInfo',
     method: 'post',
-    isMock: true,
-    data: {
-      [tokenName]: accessToken
-    }
+    isMock: true
   })
 }
 

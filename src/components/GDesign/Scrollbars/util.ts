@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'vue'
-import { isNumber, isString } from '/@/utils/validate'
+import { isNumber, isString } from '@/utils/validate'
 
 export const BAR_MAP = {
   vertical: {

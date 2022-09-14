@@ -1,5 +1,5 @@
 import { defineComponent, ref } from 'vue'
-import { off, on } from '/@/utils'
+import { off, on } from '@/utils'
 import { normalizeHue } from '../utils'
 
 const HANDLE_SIZE = '12px'

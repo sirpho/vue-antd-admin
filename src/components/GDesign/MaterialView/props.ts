@@ -1,4 +1,4 @@
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 
 export const gMaterialViewProps = {
   type: PropTypes.string,

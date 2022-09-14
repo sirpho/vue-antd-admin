@@ -22,10 +22,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, Ref, ref, toRefs } from 'vue'
+import { defineComponent, reactive, ref, toRefs } from 'vue'
 import { Tag } from 'ant-design-vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
-import type { CurrentUser, TagType } from '/@/services/account/typings'
+import type { CurrentUser, TagType } from '@/services/account/typings'
 
 export default defineComponent({
   props: {
@@ -33,7 +33,7 @@ export default defineComponent({
   },
   components: { PlusOutlined, Tag },
   setup() {
-    const inputRef: Ref<any> = ref(null)
+    const inputRef = ref(null)
     const state = reactive({
       inputValue: '',
       inputVisible: false,

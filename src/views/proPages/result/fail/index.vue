@@ -1,5 +1,5 @@
 <template>
-  <g-pro-page-wrapper>
+  <g-pro-page-container>
     <a-card :bordered="false">
       <Result
         status="error"
@@ -33,7 +33,7 @@
         </div>
       </Result>
     </a-card>
-  </g-pro-page-wrapper>
+  </g-pro-page-container>
 </template>
 
 <script lang="ts" setup>

@@ -6,7 +6,7 @@ import { useEventListener, useResizeObserver } from '@vueuse/core'
 import { getPrefixCls } from '@gx-admin/utils'
 import { getScrollContainer } from '@gx-design/utils'
 import { onMountedOrActivated } from '@gx-admin/hooks/core'
-import { PropTypes } from '/@/utils'
+import { PropTypes } from '@/utils'
 
 import './style.less'
 

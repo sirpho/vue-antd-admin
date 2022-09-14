@@ -1,4 +1,4 @@
-import ProLayout, { ProPageWrapper } from '@gx-design/ProLayout'
+import ProLayout, { PageContainer } from '@gx-design/ProLayout'
 import ProTable from '@gx-design/ProTable'
 import ProModal from '@gx-design/ProModal'
 import ProEditor from '@gx-design/ProEditor'
@@ -14,7 +14,7 @@ const gxProDesign = (app) => {
   // pro-layout
   app.component('g-pro-layout', ProLayout)
   // pro-wrapper
-  app.component('g-pro-page-wrapper', ProPageWrapper)
+  app.component('g-pro-page-container', PageContainer)
   // pro-card
   app.component('g-pro-card', ProCard)
   app.component('g-pro-card-group', GProCardGroup)

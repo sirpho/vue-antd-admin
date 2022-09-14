@@ -1,10 +1,10 @@
 <template>
-  <g-pro-page-wrapper :contentStyle="{ position: 'relative' }">
+  <g-pro-page-container :contentStyle="{ position: 'relative' }">
     <g-doc ref="doc" :anchorLinks="config.anchorLinks">
       <a-typography id="g-pro-table">
-        <a-typography-title :level="2" :style="{ color: '#454d64' }"
-          >ProTable - 高级表格</a-typography-title
-        >
+        <a-typography-title :level="2" :style="{ color: '#454d64' }">
+          ProTable - 高级表格
+        </a-typography-title>
       </a-typography>
       <ProTable />
       <ProTableApi @targetTo="targetTo" />
@@ -12,7 +12,7 @@
       <ProTableColums />
     </g-doc>
     <g-back-top />
-  </g-pro-page-wrapper>
+  </g-pro-page-container>
 </template>
 
 <script setup lang="ts">

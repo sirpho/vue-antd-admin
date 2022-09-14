@@ -1,4 +1,4 @@
-import request from '/@/utils/request'
+import request from '@/utils/request'
 
 export type Member = {
   avatar: string;
@@ -37,7 +37,7 @@ type ParamsType = {
 
 export function getBasicList(
   params: ParamsType
-): Promise<Partial<Result>> {
+): Promise<ResponseResult> {
   return request({
     url: '/get_basic_list',
     method: 'post',
@@ -48,7 +48,7 @@ export function getBasicList(
 
 export function getBasicListInfo(
   params: Partial<BasicListItemDataType>
-): Promise<Partial<Result>> {
+): Promise<ResponseResult> {
   return request({
     url: '/basic_list_info',
     method: 'post',

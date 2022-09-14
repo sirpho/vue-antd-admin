@@ -46,7 +46,7 @@ export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slot
   })
 
   return (
-    <Content style={attrs.style} class={classNames.value}>
+    <>
       {context.flatMenuData.length > 0 && isShowTabsBar && (
         <MultiTab
           isMobile={isMobile}
@@ -57,8 +57,10 @@ export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slot
           onReloadPage={onReloadPage}
         />
       )}
-      {loading ? <PageLoading /> : slots.default?.()}
-    </Content>
+      <Content style={attrs.style} class={classNames.value}>
+        {loading ? <PageLoading /> : slots.default?.()}
+      </Content>
+    </>
   )
 }
 

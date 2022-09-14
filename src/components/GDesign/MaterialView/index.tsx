@@ -4,12 +4,12 @@ import { Empty } from 'ant-design-vue'
 import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer'
 import Player from 'xgplayer'
 import Music from 'xgplayer-music'
-import Nodata from '/@/assets/public_images/nodata.png'
-import MusicPng from '/@/assets/public_images/music.png'
-import global from '/@/common/global'
+import Nodata from '@/assets/public_images/nodata.png'
+import MusicPng from '@/assets/public_images/music.png'
+import global from '@/common/global'
 import { getPrefixCls } from '@gx-admin/utils'
-import { getFileSuffix, getRandomNumber } from '/@/utils/util'
-import { isString, isArray } from '/@/utils/validate'
+import { getFileSuffix, getRandomNumber } from '@/utils/util'
+import { isString, isArray } from '@/utils/validate'
 import { gMaterialViewProps } from './props'
 
 import './style.less'
@@ -227,7 +227,7 @@ export default defineComponent({
                 visible={showViewer.value && type !== '1'}
                 width={850}
                 showDefaultFooter
-                adaptive={type === '3'}
+                type={type === '2' ? 'normal' : 'fixed'}
                 skeletonLoading={skeletonLoading.value}
                 spinning={spinning.value}
                 spinningTip={spinningTip.value}

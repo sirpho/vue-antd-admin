@@ -28,9 +28,7 @@
   }
 
   &-title {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    gap: 8px;
     font-size: @font-size-lg;
     font-weight: 500;
     color: @heading-color;
@@ -42,14 +40,10 @@
     color: @icon-color-hover;
     cursor: pointer;
 
-    > span {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
     &:hover {
-      color: var(--ant-primary-color)-hover;
+      .anticon {
+        color: var(--ant-primary-color);
+      }
     }
   }
 

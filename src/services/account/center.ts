@@ -1,7 +1,7 @@
-import request from '/@/utils/request'
+import request from '@/utils/request'
 import type { CurrentUser, ListItemDataType } from './typings'
 
-export function queryCurrent(): Promise<{ data: CurrentUser }> {
+export function queryCurrent(): Promise<ResponseResult<CurrentUser>> {
   return request({
     url: '/currentUserDetail',
     method: 'post',
@@ -11,7 +11,7 @@ export function queryCurrent(): Promise<{ data: CurrentUser }> {
 
 export function queryFakeList(params: {
   count: number;
-}): Promise<{ data: ListItemDataType[] }> {
+}): Promise<ResponseResult<ListItemDataType>> {
   return request({
     url: '/fake_list_Detail',
     method: 'post',

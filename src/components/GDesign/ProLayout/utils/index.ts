@@ -1,12 +1,9 @@
-import type { RouteRecord, RouteRecordRaw } from 'vue-router'
-import type { MenuDataItem } from '../typings'
-
 export { default as isUrl } from './isUrl'
 export { default as isImg } from './isImg'
 
-export function clearMenuItem(menusData: RouteRecord[] | RouteRecordRaw[]): RouteRecordRaw[] {
+export function clearMenuItem(menusData: AppRouteModule[]): AppRouteModule[] {
   return menusData
-    .map((item: RouteRecord | RouteRecordRaw) => {
+    .map((item: AppRouteModule) => {
       const finalItem = { ...item }
       if (!finalItem.name || finalItem.meta?.hideInMenu) {
         return null
@@ -15,7 +12,7 @@ export function clearMenuItem(menusData: RouteRecord[] | RouteRecordRaw[]): Rout
       if (finalItem && finalItem?.children) {
         if (
           finalItem.children.some(
-            (child: RouteRecord | RouteRecordRaw) => child && child.name && !child.meta?.hideInMenu
+            (child: AppRouteModule) => child && child.name && !child.meta?.hideInMenu
           )
         ) {
           return {
@@ -27,13 +24,13 @@ export function clearMenuItem(menusData: RouteRecord[] | RouteRecordRaw[]): Rout
       }
       return finalItem
     })
-    .filter(item => item) as RouteRecordRaw[]
+    .filter(item => item) as AppRouteModule[]
 }
 
-export function flatMap(menusData: RouteRecord[] | RouteRecordRaw[]): RouteRecordRaw[] {
+export function flatMap(menusData: AppRouteModule[]): AppRouteModule[] {
   return menusData
     .map(item => {
-      const finalItem = { ...item } as MenuDataItem
+      const finalItem = { ...item } as AppRouteModule
       if (!finalItem.name || finalItem.meta?.hideInMenu) {
         return null
       }
@@ -47,7 +44,7 @@ export function flatMap(menusData: RouteRecord[] | RouteRecordRaw[]): RouteRecor
     .filter(item => item) as any[]
 }
 
-export function getMenuFirstChildren(menus: MenuDataItem[], key?: string) {
+export function getMenuFirstChildren(menus: AppRouteModule[], key?: string) {
   const menuKey = (key || '').split('/').length === 2
     ? (key || '')
     : `/${(key || '').split('/')[1]}`
@@ -56,7 +53,7 @@ export function getMenuFirstChildren(menus: MenuDataItem[], key?: string) {
     : (menus[menus.findIndex(menu => menu.path === menuKey)] || {}).children || []
 }
 
-export function getMenuFirstLastChildPath(data: MenuDataItem[]): string {
+export function getMenuFirstLastChildPath(data: AppRouteModule[]): string {
   let newPath = ''
   const getRoutePath = function (newdata) {
     let firstPath = ''

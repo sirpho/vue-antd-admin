@@ -72,7 +72,7 @@
 import { computed, defineComponent, Ref, ref } from 'vue'
 import { Steps } from 'ant-design-vue'
 import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer'
-import useMediaQuery from '/@/hooks/event/useMediaQuery'
+import useMediaQuery from '@/hooks/event/useMediaQuery'
 
 const Step = Steps.Step
 

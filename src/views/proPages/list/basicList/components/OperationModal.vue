@@ -2,11 +2,11 @@
   <g-pro-modal
     :title="infoParams.done ? null : `任务${infoParams.current ? '编辑' : '添加'}`"
     :view="lookUp"
-    :adaptive="false"
     :visible="visible"
     :isFail="isFail"
     :spinning="spinning"
     :skeletonLoading="skeletonLoading"
+    type="normal"
     @ok="handleOk"
     @cancel="handleCancel"
     @changeView="
@@ -46,9 +46,9 @@ import { defineComponent, reactive, toRaw, toRefs } from 'vue'
 import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash-es'
 import { Form, message } from 'ant-design-vue'
-import type { BasicListItemDataType } from '/@/services/list/basic'
-import { getBasicListInfo, updateBasicList, addBasicList } from '/@/services/list/basic'
-import { hanndleField } from '/@/utils/util'
+import type { BasicListItemDataType } from '@/services/list/basic'
+import { getBasicListInfo, updateBasicList, addBasicList } from '@/services/list/basic'
+import { hanndleField } from '@/utils/util'
 import { rules, formItemLayout, user } from '../utils/config'
 
 interface infoParamsItem {

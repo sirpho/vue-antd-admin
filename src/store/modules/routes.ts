@@ -1,10 +1,10 @@
 import { reactive, toRefs } from 'vue'
 import { defineStore } from 'pinia'
-import { asyncRoutes, constantRoutes, basicRoutes } from '/@/router'
-import { getRouterList } from '/@/services/controller/router'
-import { filterRoutes, generator, getRootMenu } from '/@/utils/routes'
-import { getFirstLastChild } from '/@/utils/routeConvert'
-import { getLevelData } from '/@/utils/util'
+import { asyncRoutes, constantRoutes, basicRoutes } from '@/router'
+import { getRouterList } from '@/services/controller/router'
+import { generator, getRootMenu } from '@/utils/routes'
+import { getFirstLastChild } from '@/utils/routeConvert'
+import { getLevelData } from '@/utils/util'
 
 /**
  * @Author      gx12358
@@ -13,7 +13,7 @@ import { getLevelData } from '/@/utils/util'
  * @description store-routes 路由
  */
 export interface RoutesState {
-  routes: RecordType[];
+  routes: AppRouteModule[];
   routerLoadList: string[];
   meunLoading: boolean;
   routerLoading: boolean;
@@ -35,7 +35,7 @@ export const useStoreRoutes = defineStore('routes', () => {
    */
   const setRoutes = () => {
     state.meunLoading = true
-    const finallyRoutes = filterRoutes([ ...constantRoutes, ...asyncRoutes ])
+    const finallyRoutes = [ ...constantRoutes, ...asyncRoutes ]
     state.routes = finallyRoutes
     state.meunLoading = false
     return [ ...finallyRoutes ]
@@ -48,11 +48,11 @@ export const useStoreRoutes = defineStore('routes', () => {
    * @description all（后端动态路由）模式设置路由
    */
   const setAllRoutes = async () => {
-    let routes: RoutesState['routes'] = []
+    let routes: AppRouteModule[] = []
     state.meunLoading = true
-    const response = await getRouterList()
-    if (response && (response?.data as any[])?.length) {
-      const notFoundRouter = {
+    const response: ResponseResult<MenuDataItem[]> = await getRouterList()
+    if (response && (response?.data)?.length) {
+      const notFoundRouter: AppRouteModule = {
         path: '/:path(.*)*',
         redirect: '/exception/404',
         hidden: true

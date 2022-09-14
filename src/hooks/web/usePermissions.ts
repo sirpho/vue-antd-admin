@@ -1,13 +1,18 @@
-import { watchEffect, ref } from 'vue'
+import type { Ref } from 'vue'
+import { ref } from 'vue'
 import { useStore } from '@gx-vuex'
-import { isString, isArray, isObject } from '/@/utils/validate'
+import { isString, isArray, isObject } from '@/utils/validate'
 
-export function usePermissions(value) {
+export function usePermissions(): {
+  permission: Ref<boolean | object>;
+  hasPermission: (value: object | string | string[]) => void
+} {
   const store = useStore()
   const all_permission = ref('*:*:*')
   const permissions = store.permission.ability
   const permission = ref<object | boolean>({})
-  watchEffect(() => {
+
+  function hasPermission(value: object | string | string[]) {
     if (value && isObject(value) && Object.keys(value).length > 0) {
       Object.keys(value).map(item => {
         let isExist = true
@@ -23,9 +28,12 @@ export function usePermissions(value) {
       })
     } else if (isString(value) || isArray(value)) {
       permission.value = permissions.some(el => {
-        return all_permission.value === el || value.includes(el)
+        return all_permission.value === el || (value as string[]).includes(el)
       })
     }
-  })
-  return permission
+  }
+  return {
+    permission,
+    hasPermission
+  }
 }
