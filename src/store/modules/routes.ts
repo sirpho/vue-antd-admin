@@ -1,6 +1,6 @@
 import { reactive, toRefs } from 'vue'
 import { defineStore } from 'pinia'
-import { asyncRoutes, constantRoutes, basicRoutes } from '@/router'
+import { asyncRoutes, basicRoutes } from '@/router'
 import { getRouterList } from '@/services/controller/router'
 import { generator, getRootMenu } from '@/utils/routes'
 import { getFirstLastChild } from '@/utils/routeConvert'
@@ -15,7 +15,7 @@ import { getLevelData } from '@/utils/util'
 export interface RoutesState {
   routes: AppRouteModule[];
   routerLoadList: string[];
-  meunLoading: boolean;
+  menuLoading: boolean;
   routerLoading: boolean;
 }
 
@@ -23,21 +23,21 @@ export const useStoreRoutes = defineStore('routes', () => {
   const state = reactive({
     routes: [],
     routerLoadList: [],
-    meunLoading: false,
+    menuLoading: false,
     routerLoading: false
   } as RoutesState)
 
   /**
    * @Author      gx12358
    * @DateTime    2022/1/11
-   * @lastTime    2022/1/11
+   * @lastTime    2022/9/16
    * @description intelligence（前端静态路由）模式设置路由
    */
   const setRoutes = () => {
-    state.meunLoading = true
-    const finallyRoutes = [ ...constantRoutes, ...asyncRoutes ]
+    state.menuLoading = true
+    const finallyRoutes = [ ...asyncRoutes ]
     state.routes = finallyRoutes
-    state.meunLoading = false
+    state.menuLoading = false
     return [ ...finallyRoutes ]
   }
 
@@ -49,7 +49,7 @@ export const useStoreRoutes = defineStore('routes', () => {
    */
   const setAllRoutes = async () => {
     let routes: AppRouteModule[] = []
-    state.meunLoading = true
+    state.menuLoading = true
     const response: ResponseResult<MenuDataItem[]> = await getRouterList()
     if (response && (response?.data)?.length) {
       const notFoundRouter: AppRouteModule = {
@@ -67,7 +67,7 @@ export const useStoreRoutes = defineStore('routes', () => {
       routes = [ ...asyncRoutes ]
     }
     state.routes = routes
-    state.meunLoading = false
+    state.menuLoading = false
     return routes
   }
 

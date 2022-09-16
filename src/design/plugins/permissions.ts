@@ -70,7 +70,7 @@ router.beforeEach(async (to, _, next) => {
             } else {
               next({ path: '/exception/403' })
             }
-            routes.changeValue('meunLoading', false)
+            routes.changeValue('menuLoading', false)
           } else {
             user.resetPermissions()
             if (recordRoute)

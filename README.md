@@ -84,7 +84,7 @@ git clone https://gitee.com/gx12358/vue-antd-admin.git
 ```bash
 npm install -g pnpm
 
-cd gx-admin-pro
+cd vue-antd-admin
 
 pnpm i
 
