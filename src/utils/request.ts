@@ -95,11 +95,14 @@ instance.interceptors.request.use(
     }
 
     if (!checkURL(config.url)) {
-      if (config.isMock) {
-        config.url = `/mock-server${config.url}`
+      let baseURL;
+      const useMock =  import.meta.env.VITE_USE_MOCK === 'true' || import.meta.env.VITE_USE_MOCK === true
+      if (config.isMock && useMock) {
+        baseURL = `${import.meta.env.VITE_MOCK_PREFIX}`
       } else {
-        config.url = `${import.meta.env.VITE_BASE_URL}${isDev ? requestPrefix || '' : ''}${config.url}`
+        baseURL = `${import.meta.env.VITE_BASE_URL}${isDev ? requestPrefix || '' : ''}`
       }
+      config.baseURL = baseURL;
     }
 
     if (user.accessToken && carryToken)

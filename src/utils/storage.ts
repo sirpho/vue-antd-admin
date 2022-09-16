@@ -23,7 +23,7 @@ function handleStorageValue(value: string) {
  */
 export function getStorageKey(key: string) {
   const { pkg } = __APP_INFO__
-  return `${shortName}_${pkg.version}_${isPro ? 'pro' : 'dev'}_${key}`
+  return `${shortName}_${pkg.version}_${isPro() ? 'pro' : 'dev'}_${key}`
 }
 
 /**

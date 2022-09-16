@@ -13,7 +13,7 @@ const defaultSettings: settingConfig = {
   //标题 （包括初次加载雪花屏的标题 页面的标题 浏览器的标题）
   title: 'GX Pro Admin',
   //短标题
-  shortName: 'gx_pro_admin',
+  shortName: 'project_name',
   //标题分隔符
   titleSeparator: ' - ',
   //标题是否反转 如果为false:"page - title"，如果为ture:"title - page"
@@ -21,21 +21,21 @@ const defaultSettings: settingConfig = {
   //是否开启水印
   waterMark: true,
   //水印字符
-  waterMarkTitle: 'GX Pro Admin',
+  waterMarkTitle: 'sirpho',
   //滚动区域选择器
   viewScrollRoot: '#gx-pro-admin>.gx-scrollbar>.gx-scrollbar-wrap',
   //开启cdn
   useCdn: true,
   //开启proxy
-  useProxy: true,
+  useProxy: false,
   // proxy target
   proxyTarget: 'http://127.0.0.1:3000',
   // 接口前缀
-  requestPrefix: '/api',
+  requestPrefix: '',
   //开发环境端口号
   devPort: 8080,
   //pro版本copyright可随意修改
-  copyright: 'gx12358 2539306317@qq.com',
+  copyright: 'sirpho',
   //缓存路由的最大数量
   keepAliveMaxNum: 99,
   //初次页面加载时间

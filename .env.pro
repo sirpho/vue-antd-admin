@@ -24,7 +24,7 @@ VITE_USE_PWA = false
 VITE_LEGACY = false
 
 # Basic interface address SPA
-VITE_BASE_URL=/mock-server
+VITE_BASE_URL=/
 
 # oss信息
 VITE_OSS_BUCKET = *

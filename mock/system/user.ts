@@ -28,7 +28,7 @@ const account = {
 
 export default [
   {
-    url: '/mock-server/auth/login',
+    url: '/mock-server/sys/login',
     method: 'post',
     response: ({ body }) => {
       const { userName, password } = body

@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export async function login(data) {
   return request({
-    url: '/auth/login',
+    url: '/sys/login',
     method: 'post',
     data,
     isMock: true

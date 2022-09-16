@@ -76,6 +76,7 @@ declare global {
     VITE_NODE_ENV: string;
     VITE_USE_PWA: boolean;
     VITE_BASE_URL: string;
+    VITE_MOCK_PREFIX: string;
     VITE_APP_ENV: string;
     VUE_APP_VERSION: string;
     VUE_APP_AUTHOR: any;

@@ -36,6 +36,7 @@ export function getAccessToken() {
  * @author gx12358 2539306317@qq.com
  * @description 存储accessToken
  * @param accessToken
+ * @param expired
  * @returns {void|*}
  */
 export function setAccessToken(accessToken: string, expired?: number) {
