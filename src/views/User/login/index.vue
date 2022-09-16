@@ -1,123 +1,119 @@
 <template>
-  <div :class="$style['login-container']">
-    <div :class="$style.content">
-      <g-pro-form-login
-        style="margin-top: 40px"
-        :model="userForm"
-        :formRef="(e) => (formRef = e)"
-        :rules="userRules"
-        :logo="Logo"
-        title="GX Pro Admin"
-        @finish="(values) => handleSubmit(values)"
-      >
-        <template #subTitle>
-          <p>GX Pro Admin 是一套基于</p>
-          vue（{{ state.dependencies['vue'] }}） + ant-design-vue（{{
-            state.dependencies['ant-design-vue']
-          }}） 开发的一套后台系统
-        </template>
-        <g-pro-form-text
-          name="userName"
-          :fieldProps="{ size: 'large', prefix: userOutlined }"
-          placeholder="用户名: admin"
-        />
-        <g-pro-form-password
-          name="password"
-          :fieldProps="{ size: 'large', prefix: lockOutlined }"
-          placeholder="密码: gx.design"
-        />
-        <div class="mb-24px">
-          <g-pro-form-checkbox noStyle name="autoLogin">自动登录</g-pro-form-checkbox>
-          <a style="float: right">忘记密码</a>
+  <div class="login-container">
+    <a-row>
+      <a-col :xs="0" :md="0" :sm="12" :lg="14" :xl="16" />
+      <a-col :xs="24" :sm="24" :md="12" :lg="10" :xl="6">
+        <div class="login-container-form">
+          <div class="login-container-hello">hello!</div>
+          <div class="login-container-title">欢迎来到 {{ title }}</div>
+          <a-form :model="form" @submit="handleSubmit" @submit.prevent>
+            <a-form-item>
+              <a-input v-model:value="form.userName" placeholder="userName">
+                <template v-slot:prefix>
+                  <UserOutlined style="color: rgba(0, 0, 0, 0.25)" />
+                </template>
+              </a-input>
+            </a-form-item>
+            <a-form-item>
+              <a-input v-model:value="form.password" type="password" placeholder="Password">
+                <template v-slot:prefix>
+                  <LockOutlined style="color: rgba(0, 0, 0, 0.25)" />
+                </template>
+              </a-input>
+            </a-form-item>
+            <a-form-item>
+              <a-button
+                type="primary"
+                html-type="submit"
+                :disabled="form.userName === '' || form.password === ''"
+              >
+                登录
+              </a-button>
+            </a-form-item>
+          </a-form>
         </div>
-      </g-pro-form-login>
+      </a-col>
+    </a-row>
+    <div class="login-container-tips">
+      基于vue{{ dependencies['vue'] }}
+      + ant-design-vue
+      {{ dependencies['ant-design-vue'] }}开发
     </div>
-    <GlobalFooter />
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
+import { defineComponent, onMounted, reactive, toRefs, watch } from 'vue'
 import { useStore } from '@gx-vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
-import { GlobalFooter } from '@gx-design/ProLayout'
-import Logo from '@/assets/logo.png'
-import { reactive } from 'vue'
 
-interface UserState {
+interface formState {
   userName: string
   password: string
 }
 
 interface loginState {
-  redirect: string
-  dependencies: RecordType
-  devDependencies: RecordType
+  redirect: any
+  form: formState
+  dependencies: object
+  devDependencies: object
 }
 
-const { pkg } = __APP_INFO__
-
-const iconStyles = {
-  marginLeft: '16px',
-  color: 'rgba(0, 0, 0, 0.2)',
-  fontSize: '24px',
-  verticalAlign: 'middle',
-  cursor: 'pointer'
-}
-
-const userOutlined = h(UserOutlined)
-const lockOutlined = h(LockOutlined)
-
-const store = useStore()
-const route = useRoute()
-const router = useRouter()
-
-const formRef = ref()
-
-const userForm = reactive({
-  userName: '',
-  password: '',
-  autoLogin: true
-} as UserState)
-
-const userRules = reactive({
-  userName: [{ required: true, message: '用户名是必填项！' }],
-  password: [{ required: true, message: '密码是必填项！' }]
-})
-
-const state: loginState = reactive({
-  redirect: undefined,
-  dependencies: pkg.dependencies,
-  devDependencies: pkg.devDependencies
-})
-
-const logo = computed(() => store.settings.logo)
-const title = computed(() => store.settings.title)
-
-watch(
-  () => route.fullPath,
-  () => {
-    state.redirect = (route.query?.redirect as string) || '/'
+export default defineComponent({
+  components: {
+    UserOutlined,
+    LockOutlined
   },
-  {
-    deep: true,
-    immediate: true
+  setup() {
+    const store = useStore()
+    const route = useRoute()
+    const router = useRouter()
+    const { pkg } = __APP_INFO__
+    const state: loginState = reactive({
+      redirect: undefined,
+      form: {
+        userName: '',
+        password: ''
+      },
+      dependencies: pkg.dependencies,
+      devDependencies: pkg.devDependencies
+    })
+    onMounted(() => {
+      state.form.userName = 'admin'
+      state.form.password = 'gx.design'
+    })
+    watch(
+      () => route.fullPath,
+      () => {
+        state.redirect = (route.query && route.query.redirect) || '/'
+      },
+      {
+        deep: true,
+        immediate: true
+      }
+    )
+    const handleRoute = () => {
+      return state.redirect === '/exception/404' || state.redirect === '/exception/403'
+        ? '/'
+        : state.redirect
+    }
+    const handleSubmit = async () => {
+      const response: any = await store.user.userLogin(state.form)
+      if (response) {
+        await router.push(handleRoute())
+      }
+    }
+    return {
+      logo: store.settings.logo,
+      title: store.settings.title,
+      ...toRefs(state),
+      handleSubmit
+    }
   }
-)
-const handleRoute = () => {
-  return state.redirect === '/exception/404' || state.redirect === '/exception/403'
-    ? '/'
-    : state.redirect
-}
-
-const handleSubmit = async (value) => {
-  const response: any = await store.user.userLogin({ ...value })
-  if (response) {
-    await router.push(handleRoute())
-  }
-}
+})
 </script>
 
-<style lang="less" module>
+<style lang="less">
 @import './style';
 </style>
