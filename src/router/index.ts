@@ -171,39 +171,6 @@ export const asyncRoutes: AppRouteModule[] = [
             ]
           },
           {
-            path: '/proComponents/dataEntry',
-            component: () => import('@/layout/PageView.vue'),
-            name: '数据录入',
-            meta: {
-              title: '数据录入',
-              tagFixed: false,
-              tagHidden: false,
-              icon: 'gx-17',
-              homePage: 0,
-              iconType: 1,
-              hideInMenu: false,
-              target: '',
-              targetStatus: 0
-            },
-            children: [
-              {
-                path: '/proComponents/dataEntry/proUpload',
-                component: () => import('@/views/proComponents/dataEntry/proUpload/index.vue'),
-                name: '高级上传',
-                meta: {
-                  title: '高级上传',
-                  tagFixed: false,
-                  tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
-                  hideInMenu: false,
-                  target: '',
-                  targetStatus: 0
-                }
-              },
-            ]
-          },
-          {
             path: '/proComponents/dataDisplay',
             component: () => import('@/layout/PageView.vue'),
             name: '数据展示',

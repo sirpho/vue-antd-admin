@@ -11,7 +11,7 @@ const defaultSettings: settingConfig = {
   //放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录。
   assetsDir: 'assets',
   //标题 （包括初次加载雪花屏的标题 页面的标题 浏览器的标题）
-  title: 'GX Pro Admin',
+  title: '资金链系统',
   //短标题
   shortName: 'ecm',
   //标题分隔符
@@ -41,9 +41,7 @@ const defaultSettings: settingConfig = {
   //路由模式，可选值为 browser 或 hash
   routerMode: 'hash',
   //不经过token校验的路由
-  routesWhiteList: [ '/user/login', '/user/register', '/exception/404', '/exception/403' ],
-  //加载时显示文字
-  loadingText: '正在加载中...',
+  routesWhiteList: [ '/user/login', '/exception/404', '/exception/403' ],
   //token名称
   tokenName: 'Authorization',
   //token在localStorage、sessionStorage、cookie存储的key的名称

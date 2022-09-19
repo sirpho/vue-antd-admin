@@ -2,7 +2,6 @@ import Code from '@gx-design/Code'
 import Affix from '@gx-design/Affix'
 import Result from '@gx-design/Result'
 import Anchor from '@gx-design/Anchor'
-import Upload from '@gx-design/Upload'
 import BackTop from '@gx-design/BackTop'
 import Skeleton from '@gx-design/Skeleton'
 import ColorPicker from '@gx-design/ColorPicker'
@@ -21,8 +20,6 @@ const gxDesign = (app) => {
   app.component('g-image-viewer-group', ImageViewerGroup)
   // affix
   app.component('g-affix', Affix)
-  // upload
-  app.component('g-upload', Upload)
   // result
   app.component('g-result', Result)
   // anchor

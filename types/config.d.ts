@@ -28,7 +28,6 @@ export interface settingConfig {
   routerMode: string;
   routerLoadTime: number;
   routesWhiteList: Array<string>;
-  loadingText: string;
   tokenName: string;
   tokenTableName: string;
   storage: string;
