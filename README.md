@@ -25,7 +25,6 @@ Ant Design 定义了基础的设计规范，对应也提供了大量的基础组
 - ProField - 原子组件
 - GUpload - 上传组件（自定义request、上传进度条回显等功能）
 - GImage - 图片组件（lazy懒加载等功能）
-- GProEditor - 富文本编辑器
 - ProForm 高级表单（待开发中）
 - [更多组件待开发-参考React版本](https://procomponents.ant.design/components)
 

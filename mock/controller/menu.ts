@@ -427,22 +427,6 @@ const data: MenuDataItem[] = [
   },
   {
     children: [],
-    component: 'proComponents/dataEntry/proEditor/index',
-    createTime: '2020-06-30 22:48:57',
-    menuId: 48,
-    path: 'proEditor',
-    title: '高级富文本',
-    name: '高级富文本',
-    menuType: 'C',
-    orderNum: '3',
-    isFrame: '1',
-    parentId: 39,
-    target: '',
-    hidden: false,
-    outLinkType: 0
-  },
-  {
-    children: [],
     component: 'proPages/form/basicForm/index',
     createTime: '2020-06-30 22:48:57',
     menuId: 17,

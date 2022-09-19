@@ -201,21 +201,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   targetStatus: 0
                 }
               },
-              {
-                path: '/proComponents/dataEntry/proEditor',
-                component: () => import('@/views/proComponents/dataEntry/proEditor/index.vue'),
-                name: '高级富文本',
-                meta: {
-                  title: '高级富文本',
-                  tagFixed: false,
-                  tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
-                  hideInMenu: false,
-                  target: '',
-                  targetStatus: 0
-                }
-              }
             ]
           },
           {
