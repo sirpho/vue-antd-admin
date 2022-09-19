@@ -21,7 +21,6 @@ import {
   checkFileType,
   getFileSuffix,
   getMediaInfos,
-  getVideoCoverPicture,
   dataURLtoFile,
   getBase64,
   dataURLtoBlob,
@@ -62,10 +61,8 @@ const GUpload = defineComponent({
       getUrlValueRef,
       getDataValueRef,
       setDataValue,
-      addDataValue,
       changeDataValue,
       batchChangeDataValue,
-      changeFileDataValue,
       deleteDataValue,
       deleteFileDataValue
     } = useUploadData(toRef(props, 'dataList'), getProps)
@@ -83,10 +80,8 @@ const GUpload = defineComponent({
     }, [() => getProps.value.progressInfo])
     const beforeUpload = async (file) => {
       const fileSuffix = getFileSuffix(file.name)
-      const fileType = checkFileType(file.name)
       let isFileType = true
       let isFileSize = true
-      let isFileDuration = true
       if (props.fileType.length > 0) {
         if (props.fileType.length === 1 && props.fileType[0] == '*') {
           isFileType = true
@@ -104,38 +99,8 @@ const GUpload = defineComponent({
       if (!isFileSize) {
         message.error(`请上传${props.fileSize}MB以内的文件!`)
       }
-      if ((fileType === '2' || fileType === '3') && isFileType && isFileSize) {
-        let fileDuration = 0
-        if (props.listType === 'card' || !getDataValueRef.value.length) {
-          addDataValue({
-            name: file.name,
-            size: file.size,
-            uploadLoading: true,
-            spinning: true,
-            loadingText: '正在准备中...'
-          })
-        } else {
-          const idName = getDataValueRef.value[0].id
-          changeDataValue(idName, {
-            name: file.name,
-            size: file.size,
-            uploadLoading: true,
-            spinning: true,
-            loadingText: '正在准备中...'
-          })
-        }
-        const { play, duration } = await getMediaInfos({
-          url: file,
-          fileType
-        })
-        if (play) fileDuration = duration || 0
-        isFileDuration = props.fileDuration ? fileDuration < props.fileDuration : true
-        if ((fileType === '2' || fileType === '3') && !isFileDuration) {
-          message.error(`请上传${props.fileDuration}s以内的文件!`)
-        }
-      }
       return new Promise<File | boolean>((resolve, reject) => {
-        if (isFileType && isFileSize && isFileDuration) {
+        if (isFileType && isFileSize) {
           resolve(file)
         } else {
           reject(false)
@@ -144,117 +109,8 @@ const GUpload = defineComponent({
       })
     }
     const uploadHttp = async ({ file }) => {
-      let idName = fileName(file)
+      const idName = fileName(file)
       const type = checkFileType(file.name)
-      const fileSuffix = getFileSuffix(file.name)
-      let play = true
-      let allowFormat = true
-      let fileWidth = 0
-      let fileHeight = 0
-      let fileCoverImg = ''
-      let fileDuration = 0
-      const sizeSolt = (file.size / 1024 / 1024).toFixed(2)
-      const videoNoExplan = global.videoAllowType.includes(fileSuffix.toLowerCase())
-      const audioNoExplan = global.audioAllowType.includes(fileSuffix.toLowerCase())
-      if (type === '1') {
-        const mediaAttributes = await getMediaInfos({
-          url: file,
-          fileType: type
-        })
-        play = mediaAttributes.play
-        if (play) {
-          fileWidth = mediaAttributes.width || 0
-          fileHeight = mediaAttributes.height || 0
-        }
-      }
-      if (type === '2' || type === '3') {
-        changeFileDataValue(file, {
-          uploadLoading: true,
-          spinning: true,
-          readySuccess: false,
-          loadingText: '正在准备中...'
-        })
-        if (type === '2') {
-          allowFormat = fileSuffix
-            ? global.audioAllowType.includes(fileSuffix.toLowerCase())
-            : false
-        }
-        if (type === '3') {
-          allowFormat = fileSuffix
-            ? global.videoAllowType.includes(fileSuffix.toLowerCase())
-            : false
-        }
-        const checkDuration = (type === '2' && audioNoExplan) || (type === '3' && videoNoExplan)
-        if (checkDuration) {
-          const mediaAttributes = await getMediaInfos({
-            url: file,
-            fileType: type
-          })
-          play = mediaAttributes.play
-          if (play && type === '3') {
-            fileCoverImg = await getVideoCoverPicture({
-              url: file,
-              vidoeAllowPlay: true
-            })
-          }
-          fileDuration = play ? mediaAttributes.duration || 0 : 0
-        }
-        changeFileDataValue(file, {
-          id: idName,
-          url: '',
-          type,
-          progress: 0,
-          sizeSolt,
-          allowFormat,
-          allowPlay: play,
-          uploadStatus: 'active',
-          spinning: false,
-          width: fileWidth,
-          height: fileHeight,
-          coverImg: fileCoverImg,
-          duration: fileDuration
-        })
-      } else {
-        if (props.listType === 'card' || !getDataValueRef.value.length)
-          addDataValue({
-            id: idName,
-            url: '',
-            type,
-            file,
-            loadingText: props.beforeEditable ? '正在快编中...' : '',
-            progress: 0,
-            uploadLoading: true,
-            spinning: false,
-            sizeSolt,
-            allowFormat,
-            allowPlay: play,
-            uploadStatus: 'active',
-            name: file.name,
-            size: file.size,
-            width: fileWidth,
-            height: fileHeight
-          })
-        else {
-          idName = getDataValueRef.value[0].id
-          changeDataValue(idName, {
-            url: '',
-            type,
-            file,
-            loadingText: props.beforeEditable ? '正在快编中...' : '',
-            progress: 0,
-            uploadLoading: true,
-            spinning: false,
-            sizeSolt,
-            allowFormat,
-            allowPlay: play,
-            uploadStatus: 'active',
-            name: file.name,
-            size: file.size,
-            width: fileWidth,
-            height: fileHeight
-          })
-        }
-      }
       if (props.beforeEditable && type === '1') {
         const base64: string | ArrayBuffer | null = await getBase64(file)
         mediaCropper(idName, 'upload', {
@@ -496,7 +352,7 @@ const GUpload = defineComponent({
       )
       return (
         <div
-          style={{ ...props.uplaodStyle, ...(attrs.style as CSSProperties) }}
+          style={{ ...props.uploadStyle, ...(attrs.style as CSSProperties) }}
           class={getClassName.value}
         >
           <div

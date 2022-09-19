@@ -27,6 +27,3 @@ VITE_LEGACY = false
 VITE_BASE_URL=https://sales.kellyone.com/api
 VITE_MOCK_PREFIX=/mock-server
 
-# oss信息
-VITE_OSS_BUCKET = *
-VITE_OSS_ORIGIN = *

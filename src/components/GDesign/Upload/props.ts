@@ -4,7 +4,7 @@ import type { MaterialListItem } from './typings'
 
 export const proUploadProps = {
   cardClassName: PropTypes.string,
-  uplaodStyle: PropTypes.style,
+  uploadStyle: PropTypes.style,
   imageStyle: PropTypes.style.def({ width: '104px', height: '104px' }),
   // 展示形态
   listType: PropTypes.string.def('card'),

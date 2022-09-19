@@ -5,10 +5,8 @@ import { useStoreRoutes } from './modules/routes'
 import { useStoreSettings } from './modules/settings'
 import { useStorePermission } from './modules/permission'
 import { useStoreTabsRouter } from './modules/tabsRouter'
-import { useStoreOss } from './modules/oss'
 
 export {
-  useStoreOss,
   useStoreDict,
   useStoreUser,
   useStoreRoutes,
@@ -19,7 +17,6 @@ export {
 
 export function useStore() {
   return {
-    oss: useStoreOss(),
     user: useStoreUser(),
     dict: useStoreDict(),
     routes: useStoreRoutes(),

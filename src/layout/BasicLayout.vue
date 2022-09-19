@@ -84,10 +84,6 @@ watchEffect(() => {
   }
 })
 
-onMounted(() => {
-  store.oss.queryOssToken()
-})
-
 const handleSettingChange = ({ type, value }) => {
   switch (type) {
     case 'theme':

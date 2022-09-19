@@ -41,12 +41,8 @@ Ant Design 定义了基础的设计规范，对应也提供了大量的基础组
       - 修复相关bug
     GProModal
       - 修复相关bug
-    hooks
-      - 🎉 新增oss-hooks上传方法
     插件
       - 🎉 vue、ant-design-vue 相关插件向上更新
-    环境变量
-      - 🎉 新增oss 相关变量
 
 ## 特性
 

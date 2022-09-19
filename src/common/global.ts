@@ -1,10 +1,4 @@
 export default {
-  videoAllowType: [
-    'mp4',
-    'webm',
-    'ogg'
-  ],
-  audioAllowType: [ 'mp3' ],
   filerobotImageZnch: {
     name: '图片编辑器',
     save: '保存',

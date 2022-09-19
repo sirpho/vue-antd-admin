@@ -31,7 +31,6 @@
   "dependencies": {
     "@vueuse/core": "^6.8.0",
     "@vueuse/shared": "^6.8.0",
-    "ali-oss": "^6.17.1",
     "animate.css": "^4.1.1",
     "ant-design-vue": "3.2.11",
     "autoprefixer": "^10.4.5",

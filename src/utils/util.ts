@@ -1,6 +1,5 @@
 import dayjs from 'dayjs'
 import type { MaterialInfo } from '@gx-design/Upload'
-import global from '@/common/global'
 
 export function timeFix() {
   const time = new Date()
@@ -434,9 +433,6 @@ export function mGetDate() {
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2022/8/4
- * @lastTime    2022/8/4
  * @description 处理时间展示（dayjs）
  */
 export function momentFromNow(time) {
@@ -444,10 +440,7 @@ export function momentFromNow(time) {
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2022/8/4
- * @lastTime    2022/8/4
- * @description 处理时间展示
+ * @description 处理时间展示，若干分钟前
  */
 export function handleTimeShow(date: string) {
   const date3 = new Date().getTime() - new Date(date.replace(/\-/g, '/')).getTime() // 时间差的毫秒数
@@ -551,20 +544,6 @@ export function dataURLtoFile(dataurl: string, filename: string) {
 
 /**
  * @Author      gaoxiang
- * @DateTime    2020/10/26
- * @lastTime    2020/10/26
- * @description blob转file对象
- */
-export function blobToDataURL(blob: Blob, fileName: string, fileType: string) {
-  return new window.File(
-    [ blob ],
-    fileName,
-    { type: fileType }
-  )
-}
-
-/**
- * @Author      gaoxiang
  * @DateTime    2020/11/13
  * @lastTime    2020/11/13
  * @description 截取视频时间戳
@@ -590,10 +569,9 @@ export function getFileSuffix(url = '') {
 }
 
 /**
- * @Author      gaoxiang
- * @DateTime    2020/10/5
- * @lastTime    2020/10/5
- * @description 判断文件后缀名
+ * 判断文件后缀名
+ * @param url
+ * @return 1:图片 2:音频 3:视频 4:其他
  */
 export function checkFileType(url: any) {
   if (!url) return '1'
@@ -721,150 +699,6 @@ export function getMediaInfos(mediaInfo: {
 }
 
 /**
- * @Author      gaoxiang
- * @DateTime    2020/11/13
- * @lastTime    2020/11/13
- * @description 获取视频封面图(支持链接地址，file文件，base64编码)
- */
-export async function getVideoCoverPicture(videoInfo: {
-  url: any;
-  currentTime?: number;
-  videoSuffix?: string;
-  vidoeAllowPlay?: boolean;
-}): Promise<string> {
-  const { url = '', currentTime, videoSuffix = '', vidoeAllowPlay = false } = videoInfo
-  let videoUrl = ''
-  let fileSuffix: string = videoSuffix
-  let fileType = '1'
-  let videoPlayInfo
-  if (url instanceof File) {
-    videoUrl = URL.createObjectURL(url)
-    fileSuffix = getFileSuffix(url.name)
-    fileType = checkFileType(url.name)
-  } else if (url instanceof Blob) {
-    videoUrl = URL.createObjectURL(url)
-    fileType = checkFileType(url)
-  } else if (isBase64(url)) {
-    videoUrl = url
-    fileType = checkFileType(url)
-  } else if (url.includes('https') || url.includes('http')) {
-    videoUrl = url
-    fileSuffix = getFileSuffix(url)
-    fileType = checkFileType(url)
-  }
-  const videoExplan = fileSuffix ?
-    global.videoAllowType.includes(fileSuffix.toLowerCase()) : false
-  if (videoExplan) {
-    if (vidoeAllowPlay) {
-      return generateVidoePicture(videoUrl, currentTime)
-    } else {
-      videoPlayInfo = await getMediaInfos({
-        url: videoUrl,
-        fileType
-      })
-      if (videoPlayInfo.play) {
-        return generateVidoePicture(videoUrl, currentTime)
-      } else {
-        return new Promise(function (resolve) {
-          resolve('')
-        })
-      }
-    }
-  } else {
-    return new Promise(function (resolve) {
-      resolve('')
-    })
-  }
-}
-
-/**
- * @Author      gx12358
- * @DateTime    2022/8/4
- * @lastTime    2022/8/4
- * @description 直接获取视频地址
- */
-export async function generateVidoePicture(
-  videoUrl: string,
-  currentTime?: number
-): Promise<string> {
-  let video: HTMLVideoElement | null = document.createElement('video')
-  video.style.display = 'none'
-  video.controls = true
-  video.muted = true
-  if (currentTime) {
-    video.currentTime = currentTime
-  }
-  video.setAttribute('src', videoUrl)
-  video.setAttribute('muted', String(true))
-  video.setAttribute('crossorigin', 'anonymous')
-  video.setAttribute('autoplay', String(true))
-  const canvas = document.createElement('canvas')
-  const scale = 0.8
-  const delay = 100 // 截取封面的延迟（有的视频开头可能有黑屏所以可以加一个延迟）
-  const ctx: any = canvas.getContext('2d')
-  return new Promise(function (resolve) {
-    if (video) {
-      video.addEventListener('canplay', function () {
-        setTimeout(function () {
-          // 相应视频的宽和高
-          const w = video?.videoWidth || 0 * scale
-          const h = video?.videoHeight || 0 * scale
-          const space = 0 // canvas的间距，可取去掉
-          canvas.width = video?.videoWidth || 0 * scale
-          canvas.height = video?.videoHeight || 0 * scale
-          // 绘制视频到canvas上
-          ctx.drawImage(video, 0, 0, w + space, h + space)
-          video = null
-          // 生成图片
-          resolve(w === 0 || h === 0 ? '' : canvas.toDataURL('image/png', 1.0))
-        }, delay)
-      }, false)
-    }
-  })
-}
-
-/**
- * @Author      gx12358
- * @DateTime    2021/1/11
- * @lastTime    2021/1/11
- * @description 图片ur地址转file对象
- */
-export function getImageFileFromUrl(url = '', imageName: string) {
-  return new Promise((resolve) => {
-    let blob: any = null
-    const xhr = new XMLHttpRequest()
-    xhr.open('GET', url, true)
-    xhr.responseType = 'blob'
-    xhr.onload = () => {
-      blob = xhr.response
-      const imgFile = new File([ blob ], imageName, { type: 'image/png' })
-      resolve(imgFile)
-    }
-    xhr.send()
-  })
-}
-
-/**
- * @Author      gx12358
- * @DateTime    2021/1/11
- * @lastTime    2021/1/11
- * @description 本地资源获取blob地址
- */
-export function getLocalBlob(url = '') {
-  return new Promise((resolve) => {
-    let blob: any = null
-    const xhr = new XMLHttpRequest()
-    xhr.open('GET', url, true)
-    xhr.responseType = 'blob'
-    xhr.onload = () => {
-      blob = xhr.response
-      resolve(getBlobUrl(blob))
-    }
-    xhr.send()
-  })
-}
-
-/**
  * @Author      gx12358
  * @DateTime    2022/8/4
  * @lastTime    2022/8/4
@@ -882,40 +716,6 @@ export function isBase64(str = '') {
   return false
 }
 
-/**
- * @Author      gx12358
- * @DateTime    2022/8/4
- * @lastTime    2022/8/4
- * @description 数字转中文
- */
-export function toChinesNum(num: number) {
-  num = num || 0
-  const changeNum = [ '零', '一', '二', '三', '四', '五', '六', '七', '八', '九' ]
-  const unit = [ '', '十', '百', '千', '万' ]
-  num = parseInt(num)
-  const getWan = (temp) => {
-    const strArr = temp.toString().split('').reverse()
-    let newNum = ''
-    for (let i = 0; i < strArr.length; i++) {
-      newNum = (
-        i === 0 && strArr[i] === 0 ?
-          ''
-          :
-          (
-            i > 0 && strArr[i] === 0 && strArr[i - 1] === 0 ?
-              ''
-              :
-              changeNum[strArr[i]] + (strArr[i] === 0 ? unit[0] : unit[i])
-          )
-      ) + newNum
-    }
-    return newNum
-  }
-  const overWan = Math.floor(num / 10000)
-  let noWan: any = num % 10000
-  if (noWan.toString().length < 4) { noWan = '0' + noWan }
-  return overWan ? getWan(overWan) + '万' + getWan(noWan) : getWan(num)
-}
 
 export function handleOffsetTop(targetNode: HTMLInputElement) {
   let totalLeft = 0
