@@ -37,23 +37,23 @@ const LazyIcon = (props: {
   iconType?: number
   iconfontUrl?: string
 }) => {
-  const { icon, iconType, iconfontUrl } = props
+  const { icon, iconfontUrl } = props
   if (!icon) {
     return null
+  }
+  if (isVNode(icon)) {
+    return icon
   }
   if (typeof icon === 'string' && icon !== '') {
     if (isUrl(icon) || isImg(icon)) {
       return <img src={icon} alt="icon" class={`gx-pro-sider-menu-icon customimg`} />
     }
-    if (iconType === 1) {
-      return iconfontUrl ? <IconFont type={icon} /> : <i class={`iconfont ${icon} customicon`}></i>
+    if (!!iconfontUrl) {
+      return <IconFont type={icon} />
     }
   }
-  if (isVNode(icon)) {
-    return icon
-  }
   const DynamicIcon = resolveComponent(icon as string) as any
-  return (typeof LazyIcon === 'function' && <DynamicIcon />) || null
+  return <DynamicIcon /> || null
 }
 
 LazyIcon.props = {

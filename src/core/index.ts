@@ -5,6 +5,7 @@ import advancedFormat from 'dayjs/plugin/advancedFormat'
 import 'dayjs/locale/zh-cn'
 
 import antDesign from './ant-design'
+import antDesignIcons from './ant-design-icons'
 import gxDesign from './gx-design'
 import gxProDesign from './gx-pro-design'
 import gxAdminDesign from './gx-admin-design'
@@ -20,6 +21,7 @@ export default {
   install(app) {
     // design
     antDesign(app)
+    antDesignIcons(app)
     gxDesign(app)
     gxProDesign(app)
     gxAdminDesign(app)
