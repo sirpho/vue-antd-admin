@@ -56,7 +56,7 @@ const GPorWaterMark = defineComponent({
         height = 64,
         rotate = -22,
         image,
-        content = waterMarkTitle || 'GX Pro Admin',
+        content = waterMarkTitle || '',
         offsetLeft,
         offsetTop,
         fontStyle = 'normal',

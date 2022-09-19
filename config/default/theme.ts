@@ -11,7 +11,7 @@ const themeSetting: themeConfig = {
   // 主题色
   primaryColor: '#1890FF',
   // logo标题
-  title: 'GX Pro Admin',
+  title: '',
   // 头部菜单高度
   headerHeight: 48,
   // 头部菜单是否固定

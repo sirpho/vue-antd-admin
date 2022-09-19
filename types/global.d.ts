@@ -74,7 +74,6 @@ declare global {
     VITE_USE_MODE: string;
     VITE_USE_MOCK: boolean;
     VITE_NODE_ENV: string;
-    VITE_USE_PWA: boolean;
     VITE_BASE_URL: string;
     VITE_MOCK_PREFIX: string;
     VITE_APP_ENV: string;

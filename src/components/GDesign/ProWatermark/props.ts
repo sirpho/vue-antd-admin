@@ -19,7 +19,7 @@ export const waterMarkProps = {
   image: PropTypes.string,
   content: {
     type: String,
-    default: waterMarkTitle || 'GX Pro Admin'
+    default: waterMarkTitle || ''
   },
   fontColor: PropTypes.string.def('rgba(0,0,0,.15)'),
   fontStyle: {
