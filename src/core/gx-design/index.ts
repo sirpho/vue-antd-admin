@@ -7,7 +7,6 @@ import BackTop from '@gx-design/BackTop'
 import Skeleton from '@gx-design/Skeleton'
 import ColorPicker from '@gx-design/ColorPicker'
 import InputSearch from '@gx-design/InputSearch'
-import MaterialView from '@gx-design/MaterialView'
 import Scrollbars from '@gx-design/Scrollbars'
 import TagSelect from '@gx-design/TagSelect'
 import TagSelectOption from '@gx-design/TagSelect/TagSelectOption'
@@ -41,7 +40,5 @@ const gxDesign = (app) => {
   app.component('g-tag-select-option', TagSelectOption)
   // input-search
   app.component('g-input-search', InputSearch)
-  // material-view
-  app.component('g-material-view', MaterialView)
 }
 export default gxDesign

@@ -535,10 +535,6 @@ const GUpload = defineComponent({
                   : renderUploadButton()}
               </Upload>
             )}
-            <g-material-view
-              {...previewConfig}
-              onChange={(visible) => (previewConfig.visible = visible)}
-            />
           </div>
           {wordExtraRender && <div class={`${baseClassName}-word-extra`}>{wordExtraRender}</div>}
         </div>
