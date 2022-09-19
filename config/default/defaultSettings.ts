@@ -34,6 +34,8 @@ const defaultSettings: settingConfig = {
   devPort: 8080,
   //pro版本copyright可随意修改
   copyright: 'sirpho',
+  // 是否启用路由缓存
+  keepAlive: false,
   //缓存路由的最大数量
   keepAliveMaxNum: 99,
   //初次页面加载时间
@@ -50,8 +52,6 @@ const defaultSettings: settingConfig = {
   storage: 'localStorage',
   //token失效回退到登录页时是否记录本次的路由
   recordRoute: false,
-  //是否显示logo，不显示时设置false，显示时请填写remixIcon图标名称，暂时只支持设置remixIcon
-  logo: 'vuejs-fill',
   //是否开启登录拦截
   loginInterception: true,
   //是否开启登录RSA加密

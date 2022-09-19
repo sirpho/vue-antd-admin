@@ -24,6 +24,7 @@ export interface settingConfig {
   requestPrefix?: string | object;
   devPort: number;
   copyright: string;
+  keepAlive: boolean;
   keepAliveMaxNum: number;
   routerMode: string;
   routerLoadTime: number;
@@ -32,7 +33,6 @@ export interface settingConfig {
   tokenTableName: string;
   storage: string;
   recordRoute: boolean;
-  logo: string;
   loginInterception: boolean;
   loginRSA: boolean;
   authentication: string;

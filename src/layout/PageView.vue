@@ -27,7 +27,7 @@ watch(
       keepAlive.value = false
     } else {
       keepAlive.value =
-        store.settings.keepAlive || store.settings.showTabsBar || (meta.keepAlive as boolean)
+        (store.settings.keepAlive && store.settings.showTabsBar) || !!(meta.keepAlive as boolean)
     }
   },
   {

@@ -7,7 +7,6 @@ import { MenuTheme, themeConfig } from '/types/config'
  * @description store-settings 系统配置
  */
 export interface SettingsState {
-  logo: string | boolean;
   title: themeConfig['title'];
   animate: themeConfig['animate'];
   layout: themeConfig['layout'];
@@ -24,7 +23,7 @@ export interface SettingsState {
   theme: MenuTheme | undefined;
 }
 
-const { logo, title } = config.defaultSettings
+const { title, keepAlive } = config.defaultSettings
 
 const {
   layout,
@@ -42,8 +41,8 @@ const {
 
 export const useStoreSettings = defineStore('settings', () => {
   const state = reactive({
-    logo,
     title,
+    keepAlive,
     collapse: false,
     theme,
     primaryColor,
@@ -58,7 +57,6 @@ export const useStoreSettings = defineStore('settings', () => {
     fixedMultiTab: layout === 'simple' ? false : fixedMultiTab,
     fixedHeader: layout === 'mix' ? true : layout === 'simple' ? false : fixedHeader,
     fixSiderbar: layout === 'mix' ? true : fixSiderbar,
-    keepAlive: false,
     showProgressBar
   } as SettingsState)
 
