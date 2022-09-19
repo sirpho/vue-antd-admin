@@ -52,13 +52,10 @@
     "pinia": "^2.0.9",
     "resize-observer-polyfill": "^1.5.1",
     "rollup-plugin-external-globals": "^0.6.1",
-    "tailwindcss": "^3.0.24",
     "terser": "^5.14.2",
     "tinymce": "^5.10.3",
     "vue": "3.2.37",
-    "vue-router": "^4.0.12",
-    "vue-types": "^4.0.0",
-    "vueuc": "^0.4.37"
+    "vue-router": "^4.0.12"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
