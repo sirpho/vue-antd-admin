@@ -9,9 +9,8 @@ import { createHtmlPlugin } from 'vite-plugin-html'
 import pkg from '../../../package.json'
 import { GLOB_CONFIG_FILE_NAME } from '../../constant'
 import config from '../../../config/config'
-import { cdnConf } from '../cdn'
 
-const { title, publicPath, useCdn } = config.defaultSettings
+const { title, publicPath } = config.defaultSettings
 
 export function configHtmlPlugin(_: ViteEnv, isBuild: boolean) {
 
@@ -26,9 +25,9 @@ export function configHtmlPlugin(_: ViteEnv, isBuild: boolean) {
     inject: {
       // Inject data into ejs template
       data: {
-        VUE_APP_TITLE: title || 'GX Pro Admin',
-        injectScript: useCdn ? cdnConf.js : [],
-        injectLink: useCdn ? cdnConf.css : [],
+        VUE_APP_TITLE: title || '',
+        injectScript: [],
+        injectLink: [],
       },
       // Embed the generated app.config.js file
       tags: isBuild

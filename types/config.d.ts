@@ -19,7 +19,6 @@ export interface settingConfig {
   waterMark: boolean;
   waterMarkTitle: string;
   viewScrollRoot: string;
-  useCdn: boolean;
   useProxy: boolean;
   proxyTarget: string;
   requestPrefix?: string | object;

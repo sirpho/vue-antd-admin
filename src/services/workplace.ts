@@ -15,11 +15,3 @@ export function activities() {
     isMock: true
   })
 }
-
-export function radar() {
-  return request({
-    url: '/radar',
-    method: 'get',
-    isMock: true
-  })
-}

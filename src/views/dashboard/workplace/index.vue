@@ -133,14 +133,6 @@
                 </a-button>
               </div>
             </a-card>
-            <a-card
-              title="XX 指数"
-              style="margin-bottom: 24px"
-              :loading="state.radarLoading"
-              :bordered="false"
-            >
-              <Radar :data="radarData" :max="state.radarMaxCount" />
-            </a-card>
             <a-card :loading="state.loading" title="团队" :bordered="false">
               <div :class="$style.members">
                 <a-row>
@@ -165,17 +157,15 @@ import { ref, computed, reactive, onMounted, inject } from 'vue'
 import { useStore } from '@gx-vuex'
 import { Statistic, PageHeader } from 'ant-design-vue'
 import { PlusOutlined, RedoOutlined, LoadingOutlined } from '@ant-design/icons-vue'
-import { notice, activities, radar } from '@/services/workplace'
+import { notice, activities } from '@/services/workplace'
 import useMediaQuery from '@/hooks/event/useMediaQuery'
 import { timeFix, momentFromNow } from '@/utils/util'
-import Radar from './components/Radar.vue'
 
 interface stateTypes {
   timeFix: string
   notice: any[]
   activities: any[]
   axisData: any[]
-  radarData: any[]
   loading: boolean
   radarMaxCount: number
   dynamicLoading: boolean
@@ -196,7 +186,6 @@ const state: stateTypes = reactive({
   dynamicLoading: true,
   radarLoading: true,
   activities: [],
-  radarData: [],
   radarMaxCount: 10,
   chart: null,
   axisData: [
@@ -214,7 +203,6 @@ const isMobile = computed(() => colSize.value === 'sm' || colSize.value === 'xs'
 onMounted(() => {
   getProjects()
   getActivity()
-  getRadar()
 })
 
 const getProjects = async () => {
@@ -229,49 +217,6 @@ const getActivity = async () => {
   state.dynamicLoading = false
 }
 
-const getRadar = async () => {
-  const { data = {} }: any = await radar()
-  const { radarData = [] } = data
-  state.radarMaxCount = handelMaxRandar(radarData)
-  let datasource: any = []
-  let indicatorList: {
-    name: string
-    max: number
-  }[] = []
-  radarData.map((item) => {
-    if (indicatorList.every((el) => el.name !== item.label)) {
-      indicatorList.push({
-        name: item.label,
-        max: state.radarMaxCount
-      })
-    }
-    if (datasource.every((el) => el.name !== item.name)) {
-      const radarItems: {
-        name: string
-        label: string[]
-        value: number[]
-      } = {
-        name: item.name,
-        label: [],
-        value: []
-      }
-      radarItems.label.push(item.label)
-      radarItems.value.push(item.value)
-      datasource.push(radarItems)
-    } else {
-      datasource = datasource.map((el: { name: string; value: number[]; label: number[] }) => {
-        if (el.name === item.name) {
-          el.label.push(item.label)
-          el.value.push(item.value)
-        }
-        return el
-      })
-    }
-    return item
-  })
-  state.radarData = datasource
-  state.radarLoading = false
-}
 const handelMaxRandar = (datasource) => {
   return (
     datasource.sort((obj1, obj2) => {

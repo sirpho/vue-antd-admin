@@ -2,7 +2,6 @@ import type { UserConfig, ConfigEnv } from 'vite'
 import { loadEnv } from 'vite'
 import { resolve } from 'path'
 import dayjs from 'dayjs'
-import externalGlobals from 'rollup-plugin-external-globals'
 import { generateModifyVars } from './build/generate/generateModifyVars'
 import { wrapperEnv } from './build/utils'
 import { createVitePlugins } from './build/vite/plugin'
@@ -15,7 +14,7 @@ function pathResolve(dir: string) {
   return resolve(process.cwd(), '.', dir)
 }
 
-const { publicPath, outputDir, assetsDir, devPort, useCdn, useProxy } = config.defaultSettings
+const { publicPath, outputDir, assetsDir, devPort, useProxy } = config.defaultSettings
 
 const { dependencies, devDependencies, name, version } = pkg
 
@@ -92,18 +91,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         }
       },
       chunkSizeWarningLimit: 2500,
-      rollupOptions: useCdn
-        ? {
-          output: {
-            manualChunks: configManualChunk
-          },
-          external: [ 'echarts' ],
-          plugins: [
-            externalGlobals({
-              echarts: 'echarts'
-            })
-          ]
-        } : {
+      rollupOptions: {
           output: {
             manualChunks: configManualChunk
           }

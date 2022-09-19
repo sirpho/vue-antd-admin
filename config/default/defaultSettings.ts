@@ -24,8 +24,6 @@ const defaultSettings: settingConfig = {
   waterMarkTitle: 'sirpho',
   //滚动区域选择器
   viewScrollRoot: '#gx-pro-admin>.gx-scrollbar>.gx-scrollbar-wrap',
-  //开启cdn
-  useCdn: true,
   //开启proxy
   useProxy: false,
   // proxy target
