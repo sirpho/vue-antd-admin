@@ -5,9 +5,9 @@ import config from '/config/config'
 import { getUserInfo, login, logout } from '@/services/controller/user'
 import { getAccessToken, removeAccessToken, setAccessToken } from '@/utils/accessToken'
 import { timeFix } from '@/utils/util'
-import { useStoreRoutes } from './routes'
-import { useStorePermission } from './permission'
-import { useStoreTabsRouter } from './tabsRouter'
+import { useStoreRoutes } from '@/store'
+import { useStorePermission } from '@/store'
+import { useStoreTabsRouter } from '@/store'
 
 const { tokenName } = config.defaultSettings
 

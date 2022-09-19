@@ -50,7 +50,6 @@
     "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.9",
-    "resize-observer-polyfill": "^1.5.1",
     "rollup-plugin-external-globals": "^0.6.1",
     "terser": "^5.14.2",
     "vue": "3.2.37",
