@@ -16,9 +16,6 @@ function handleStorageValue(value: string) {
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2019/12/3
- * @lastTime    2019/12/3
  * @description 设置Local-key的规则
  */
 export function getStorageKey(key: string) {
@@ -27,9 +24,6 @@ export function getStorageKey(key: string) {
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2019/12/3
- * @lastTime    2019/12/3
  * @description 存储SessionStorage
  */
 export function getStorage({ key, encryption = true, type = 'local' }: { key: string, encryption?: boolean, type?: string }) {
@@ -52,9 +46,6 @@ export function getStorage({ key, encryption = true, type = 'local' }: { key: st
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2019/12/3
- * @lastTime    2019/12/3
  * @description 设置LocalStorage
  */
 export function setStorage({
@@ -81,9 +72,6 @@ export function setStorage({
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2019/12/3
- * @lastTime    2019/12/3
  * @description 删除LocalStorage
  */
 export function removeStorage(key: string, type = 'local') {
@@ -92,9 +80,6 @@ export function removeStorage(key: string, type = 'local') {
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2019-09-24
- * @lastTime    2019-09-24
  * @description 获取Cookie-name
  */
 function getCookies(cname: string) {
@@ -114,9 +99,6 @@ function getCookies(cname: string) {
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2019-09-24
- * @lastTime    2019-09-24
  * @description 获取Cookiedomin
  */
 function GetCookieDomain() {
@@ -139,9 +121,6 @@ function GetCookieDomain() {
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2019-09-24
- * @lastTime    2019-09-24
  * @description 设置Cookie
  */
 export function setCookie(cname: string, cvalue: string, exdays?: number) {
@@ -154,9 +133,6 @@ export function setCookie(cname: string, cvalue: string, exdays?: number) {
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2019-09-24
- * @lastTime    2019-09-24
  * @description 获取Cookie
  */
 export function getCookie(cname: string) {
@@ -168,9 +144,6 @@ export function getCookie(cname: string) {
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2019-09-24
- * @lastTime    2019-09-24
  * @description 删除Cookie
  */
 export function delCookie(name: string) {

@@ -11,9 +11,6 @@ import {
 const { storage, tokenTableName } = config.defaultSettings
 
 /**
- * @Author      gx12358
- * @DateTime    2021/12/27
- * @lastTime    2021/12/27
  * @description 获取accessToken
  */
 export function getAccessToken() {
@@ -33,7 +30,6 @@ export function getAccessToken() {
 }
 
 /**
- * @author gx12358 2539306317@qq.com
  * @description 存储accessToken
  * @param accessToken
  * @param expired
@@ -73,7 +69,6 @@ export function setAccessToken(accessToken: string, expired?: number) {
 }
 
 /**
- * @author gx12358 2539306317@qq.com
  * @description 移除accessToken
  * @returns {void|Promise<void>}
  */

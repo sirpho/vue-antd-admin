@@ -28,9 +28,6 @@ export const proTableProps = {
   ...defaultPorps,
   rowKey: { type: String as PropType<string>, default: undefined },
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description 获取 dataSource 的方法
    */
   request: {
@@ -56,9 +53,6 @@ export const proTableProps = {
     default: 20
   },
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description 是否显示搜索表单，传入对象时为搜索表单的配置
    */
   search: {
@@ -75,9 +69,6 @@ export const proTableProps = {
     default: () => []
   },
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description 自定义表格渲染模式：默认表格展示，也可以自定义数据列表展示
    */
   customize: {
@@ -85,32 +76,20 @@ export const proTableProps = {
     default: () => undefined
   },
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description Table action 的引用，便于自定义触发
    */
   actionRef: Function as PropType<ProCoreActionType>,
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description 添加表格class
    */
   tableClassName: String as PropType<String>,
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description 表格样式
    */
   tableStyle: {
     type: Object as PropType<CSSProperties>
   },
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description 渲染按钮工具栏，支持返回一个 dom 数组，会自动增加 margin-right
    */
   toolBarBtn: {
@@ -133,9 +112,6 @@ export const proTableProps = {
     default: '这是一个标题提示'
   },
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description table 工具栏，设为 false 时不显示
    */
   options: {
@@ -143,9 +119,6 @@ export const proTableProps = {
     default: true
   },
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description 列状态配置，可以配置是否浮动和是否展示
    */
   columnsState: {
@@ -157,9 +130,6 @@ export const proTableProps = {
     default: () => undefined
   },
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description 列设置额外的元素
    */
   settingExtra: {
@@ -167,9 +137,6 @@ export const proTableProps = {
     default: () => undefined
   },
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description 是否展示序号栏
    */
   showIndex: {
@@ -177,9 +144,6 @@ export const proTableProps = {
     default: true
   },
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description 翻页item设置
    */
   pageItemRender: {
@@ -191,9 +155,6 @@ export const proTableProps = {
     default: () => undefined
   },
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description 表格大小
    */
   size: {
@@ -201,9 +162,6 @@ export const proTableProps = {
     default: 'middle'
   },
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description 表格全局对齐方式
    */
   align: {
@@ -211,9 +169,6 @@ export const proTableProps = {
     default: 'left'
   },
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description 是否展示外边框和列边框
    */
   bordered: {
@@ -221,16 +176,10 @@ export const proTableProps = {
     default: true
   },
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description 是否列拖动
    */
   draggabled: Boolean as PropType<boolean>,
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description 根据屏幕大小或者scrollBreakpoint或者scroll?.x是否存在判断action列是否固定
    */
   autoScroll: {
@@ -238,30 +187,18 @@ export const proTableProps = {
     default: true
   },
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description 滚动断点支持数字（屏幕宽度）；也支持md、xl，xxl等
    */
   scrollBreakpoint: [ String, Number ] as PropType<string | number>,
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description modalTable时，自动固定滚动高度
    */
   modalScroll: Boolean as PropType<boolean>,
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description 从不滚动
    */
   neverScroll: Boolean as PropType<boolean>,
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description 空值时的显示，不设置时显示 -， false 可以关闭此功能
    */
   columnEmptyText: {
@@ -269,9 +206,6 @@ export const proTableProps = {
     default: false
   },
   /**
-   * @Author      gx12358
-   * @DateTime    2022/2/8
-   * @lastTime    2022/2/8
    * @description Pro-Table 的方法
    */
   reset: Function as PropType<(params?: Partial<Record<string, any>>) => any>,

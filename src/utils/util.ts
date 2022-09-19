@@ -18,9 +18,6 @@ export function triggerWindowResizeEvent() {
 }
 
 /**
- * @Author      gaoxiang
- * @DateTime    2020/7/23
- * @lastTime    2020/7/23
  * @description 去除空格
  */
 export function trim(str: string, isGlobal?: boolean) {
@@ -34,9 +31,6 @@ export function trim(str: string, isGlobal?: boolean) {
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2021/11/3
- * @lastTime    2021/11/3
  * @description 参数处理
  */
 export function tansParams(params) {
@@ -62,9 +56,6 @@ export function tansParams(params) {
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2021/11/3
- * @lastTime    2021/11/3
  * @description 如果是个方法执行一下它
  */
 export function runFunction<T extends any[]>(valueEnum: any, ...rest: T) {
@@ -79,9 +70,6 @@ export function deepCopy(data: object | any[]) {
 }
 
 /**
- * @Author      gaoxiang
- * @DateTime    2020/8/26
- * @lastTime    2020/8/26
  * @description 处理表格字段为空
  */
 export function hanndleField(str: any, customize: any) {
@@ -107,9 +95,6 @@ export function hanndleField(str: any, customize: any) {
 }
 
 /**
- * @Author      gaoxiang
- * @DateTime    2019/12/11
- * @lastTime    2019/12/11
  * @description 数组去重
  */
 export function arrayRepeat(data: any[]) {
@@ -120,9 +105,6 @@ export function arrayRepeat(data: any[]) {
 }
 
 /**
- * @Author      gaoxiang
- * @DateTime    2020/7/24
- * @lastTime    2020/7/24
  * @description 添加序号
  */
 export function getSortIndex(
@@ -156,9 +138,6 @@ export function getSortIndex(
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2021/1/28
- * @lastTime    2021/1/28
  * @description 判断删除是否到当前页最后一条
  */
 export function handleCurrentPage(pageConfig = {} as {
@@ -177,9 +156,6 @@ export function handleCurrentPage(pageConfig = {} as {
 }
 
 /**
- * @Author      gaoxiang
- * @DateTime    2020/10/30
- * @lastTime    2020/10/30
  * @description 处理table多选回显补全选中Item信息
  */
 export function completionTableItem(config: {
@@ -203,9 +179,6 @@ export function completionTableItem(config: {
 }
 
 /**
- * @Author      gaoxiang
- * @DateTime    2020/11/1
- * @lastTime    2020/11/1
  * @description 处理table多选翻页 selectItems 丢失问题
  */
 export function handleSelectPage(config: {
@@ -244,9 +217,6 @@ export function handleSelectPage(config: {
 }
 
 /**
- * @Author      gaoxiang
- * @DateTime    2019/11/29
- * @lastTime    2019/11/29
  * @description 排序（从小到大）
  */
 export function compareToMax(obj1, obj2, key) {
@@ -262,9 +232,6 @@ export function compareToMax(obj1, obj2, key) {
 }
 
 /**
- * @Author      gaoxiang
- * @DateTime    2020/8/7
- * @lastTime    2020/8/7
  * @description 时长格式转换
  */
 export function formatDuraton(time: number) {
@@ -292,9 +259,6 @@ export function formatDuraton(time: number) {
 }
 
 /**
- * @Author      gaoxiang
- * @DateTime    2019/11/29
- * @lastTime    2019/11/29
  * @description 随机uuid
  */
 export function getRandomNumber() {
@@ -381,9 +345,6 @@ export function getMaxFloor(treeData: any[] = []) {
 }
 
 /**
- * @Author      gaoxiang
- * @DateTime    2020/8/10
- * @lastTime    2020/8/10
  * @description 树形转平级
  */
 export function getLevelData(data, filed = 'children') {
@@ -482,9 +443,6 @@ export function handleTimeShow(date: string) {
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2021/11/5
- * @lastTime    2021/11/5
  * @description blob对象转blob字符串
  */
 export function getBlobUrl(blob: Blob) {
@@ -492,9 +450,6 @@ export function getBlobUrl(blob: Blob) {
 }
 
 /**
- * @Author      gaoxiang
- * @DateTime    2020/7/25
- * @lastTime    2020/7/25
  * @description 获取图片base64码
  */
 export function getBase64(file: File): Promise<string | ArrayBuffer | null> {
@@ -507,9 +462,6 @@ export function getBase64(file: File): Promise<string | ArrayBuffer | null> {
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2021/1/21
- * @lastTime    2021/1/21
  * @description base转blob对象
  */
 export function dataURLtoBlob(dataurl: any): Blob {
@@ -525,9 +477,6 @@ export function dataURLtoBlob(dataurl: any): Blob {
 }
 
 /**
- * @Author      gaoxiang
- * @DateTime    2020/10/26
- * @lastTime    2020/10/26
  * @description base64码转file文件
  */
 export function dataURLtoFile(dataurl: string, filename: string) {
@@ -543,9 +492,6 @@ export function dataURLtoFile(dataurl: string, filename: string) {
 }
 
 /**
- * @Author      gaoxiang
- * @DateTime    2020/11/13
- * @lastTime    2020/11/13
  * @description 截取视频时间戳
  */
 export function getVideoFileUrl(url = '') {
@@ -554,9 +500,6 @@ export function getVideoFileUrl(url = '') {
 }
 
 /**
- * @Author      gaoxiang
- * @DateTime    2020/11/13
- * @lastTime    2020/11/13
  * @description 获取文件后缀名
  */
 export function getFileSuffix(url = '') {
@@ -638,9 +581,6 @@ export function checkFileType(url: any) {
 }
 
 /**
- * @Author      gaoxiang
- * @DateTime    2020/11/13
- * @lastTime    2020/11/13
  * @description 获取文件信息(支持链接地址，file文件，base64编码)
  */
 
@@ -699,9 +639,6 @@ export function getMediaInfos(mediaInfo: {
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2022/8/4
- * @lastTime    2022/8/4
  * @description 判断是否是base64码
  */
 export function isBase64(str = '') {

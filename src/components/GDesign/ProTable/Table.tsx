@@ -111,9 +111,6 @@ const GProTable = defineComponent({
     })
 
     /**
-     * @Author      gx12358
-     * @DateTime    2022/1/21
-     * @lastTime    2022/1/21
      * @description Tabel-loading hooks 方法
      */
     const { getLoading, setLoading } = useLoading({
@@ -122,17 +119,11 @@ const GProTable = defineComponent({
     })
 
     /**
-     * @Author      gx12358
-     * @DateTime    2022/1/21
-     * @lastTime    2022/1/21
      * @description Tabel-size hooks 方法
      */
     const { sizeRef, setTableSize } = useTableSize({ emit, size: toRef(props, 'size') })
 
     /**
-     * @Author      gx12358
-     * @DateTime    2022/1/21
-     * @lastTime    2022/1/21
      * @description Tabel-pagetion hooks 方法
      */
     const { getPaginationInfo, setPagination } = usePagination({
@@ -142,9 +133,6 @@ const GProTable = defineComponent({
     })
 
     /**
-     * @Author      gx12358
-     * @DateTime    2022/1/21
-     * @lastTime    2022/1/21
      * @description Tabel-scroll hooks 方法
      */
     const configScroll = useConfigScroll(props)
@@ -156,9 +144,6 @@ const GProTable = defineComponent({
     })
 
     /**
-     * @Author      gx12358
-     * @DateTime    2022/1/21
-     * @lastTime    2022/1/21
      * @description Tabel-colums hooks 方法
      */
     const configColums = useConfigColumns(props)
@@ -171,9 +156,6 @@ const GProTable = defineComponent({
       })
 
     /**
-     * @Author      gx12358
-     * @DateTime    2022/1/21
-     * @lastTime    2022/1/21
      * @description Tabel-settingColums hooks 方法
      */
     const {
@@ -190,9 +172,6 @@ const GProTable = defineComponent({
     })
 
     /**
-     * @Author      gx12358
-     * @DateTime    2022/1/21
-     * @lastTime    2022/1/21
      * @description Tabel-Form(搜索) hooks 方法
      */
     const { formDataRef, formParamsRef, defaultParamsRef, setFormParams } = useTableForm({
@@ -206,9 +185,6 @@ const GProTable = defineComponent({
       useRowSelection(toRef(props, 'rowKey'), toRef(props, 'rowSelection'))
 
     /**
-     * @Author      gx12358
-     * @DateTime    2022/1/21
-     * @lastTime    2022/1/21
      * @description Tabel-datasource hooks 方法
      */
     const configFetchData = useConfigFetchData(props)
@@ -247,9 +223,6 @@ const GProTable = defineComponent({
     })
 
     /**
-     * @Author      gx12358
-     * @DateTime    2021/7/16
-     * @lastTime    2021/7/16
      * @description 获取pro-table内部方法
      */
     const getProTable = () => {
@@ -278,9 +251,6 @@ const GProTable = defineComponent({
     })
 
     /**
-     * @Author      gx12358
-     * @DateTime    2021/12/22
-     * @lastTime    2021/12/22
      * @description 监听屏幕宽度
      */
     const getWidth = () => {
@@ -288,9 +258,6 @@ const GProTable = defineComponent({
     }
 
     /**
-     * @Author      gx12358
-     * @DateTime    2021/7/14
-     * @lastTime    2021/7/14
      * @description 表格属性自适应
      */
     const getBindValues = computed(() => {
@@ -403,9 +370,6 @@ const GProTable = defineComponent({
       }
     }
     /**
-     * @Author      gx12358
-     * @DateTime    2021/7/14
-     * @lastTime    2021/7/14
      * @description ant-table原始方法
      */
     const changePage = async (pagination: Partial<PaginationProps>, filters, sorter) => {
@@ -440,9 +404,6 @@ const GProTable = defineComponent({
     }
     const handleResizeColumn = (w, col) => resizeColumnWidth(w, col)
     /**
-     * @Author      gx12358
-     * @DateTime    2021/7/14
-     * @lastTime    2021/7/14
      * @description 表格字段溢出提示
      */
     const tooltipSlot = (value, success, record) => {

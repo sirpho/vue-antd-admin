@@ -5,7 +5,6 @@ const List = []
 const count = 50
 
 /**
- * @author gx12358 2539306317@qq.com
  * @description 随机生成图片url。
  * @param width
  * @param height

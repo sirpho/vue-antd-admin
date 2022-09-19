@@ -30,9 +30,6 @@ const WInputSearch = defineComponent({
       }
     )
     /**
-     * @Author      gx12358
-     * @DateTime    2021/7/16
-     * @lastTime    2021/7/16
      * @description 获取pro-table内部方法
      */
     const getInputSearch = () => {

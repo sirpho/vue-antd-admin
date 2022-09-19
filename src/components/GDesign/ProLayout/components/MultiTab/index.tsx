@@ -48,9 +48,6 @@ export default defineComponent({
     })
     const right = computed(() => (needFixedMultiTab.value ? 0 : undefined))
     /**
-     * @Author      gx12358
-     * @DateTime    2021/8/6
-     * @lastTime    2021/8/6
      * @description 初始化添加固定标签
      */
     const initAffixTabs = (routes) => {
@@ -60,9 +57,6 @@ export default defineComponent({
       })
     }
     /**
-     * @Author      gx12358
-     * @DateTime    2021/8/6
-     * @lastTime    2021/8/6
      * @description 添加标签路由
      */
     const addTabs = async (tag) => {
@@ -101,27 +95,18 @@ export default defineComponent({
       }
     )
     /**
-     * @Author      gx12358
-     * @DateTime    2021/8/6
-     * @lastTime    2021/8/6
      * @description 是否是当前页
      */
     const isActive = (route) => {
       return route.path === $route.path
     }
     /**
-     * @Author      gx12358
-     * @DateTime    2021/8/6
-     * @lastTime    2021/8/6
      * @description 当前页是否固定
      */
     const isFixed = (tag) => {
       return tag.meta && tag.meta.tagFixed
     }
     /**
-     * @Author      gx12358
-     * @DateTime    2021/8/6
-     * @lastTime    2021/8/6
      * @description 标签点击
      */
     const handleTabClick = (tab) => {
@@ -129,9 +114,6 @@ export default defineComponent({
       if ($route.fullPath !== route.fullPath) router.push(route.fullPath)
     }
     /**
-     * @Author      gx12358
-     * @DateTime    2021/8/6
-     * @lastTime    2021/8/6
      * @description 标签删除
      */
     const handleTabRemove = async (e, fullPath) => {
@@ -143,9 +125,6 @@ export default defineComponent({
       if (isActive(view)) toLastTag()
     }
     /**
-     * @Author      gx12358
-     * @DateTime    2021/8/6
-     * @lastTime    2021/8/6
      * @description 标签副操作点击
      */
     const handleClick = ({ key }, stateType) => {
@@ -190,9 +169,6 @@ export default defineComponent({
       return status
     }
     /**
-     * @Author      gx12358
-     * @DateTime    2021/8/6
-     * @lastTime    2021/8/6
      * @description 刷新当前路由
      */
     const reloadPage = () => {
@@ -203,9 +179,6 @@ export default defineComponent({
       }, 500)
     }
     /**
-     * @Author      gx12358
-     * @DateTime    2021/8/6
-     * @lastTime    2021/8/6
      * @description 关闭其他页
      */
     const closeOthersTabs = async (stateType) => {
@@ -213,9 +186,6 @@ export default defineComponent({
       toContextTag(stateType)
     }
     /**
-     * @Author      gx12358
-     * @DateTime    2021/8/6
-     * @lastTime    2021/8/6
      * @description 关闭左侧所有路由
      */
     const closeLeftTabs = async (stateType) => {
@@ -223,9 +193,6 @@ export default defineComponent({
       toContextTag(stateType)
     }
     /**
-     * @Author      gx12358
-     * @DateTime    2021/8/6
-     * @lastTime    2021/8/6
      * @description 关闭右侧所有路由
      */
     const closeRightTabs = async (stateType) => {
@@ -233,9 +200,6 @@ export default defineComponent({
       toContextTag(stateType)
     }
     /**
-     * @Author      gx12358
-     * @DateTime    2021/8/6
-     * @lastTime    2021/8/6
      * @description 跳转上下路由
      */
     const toContextTag = (stateType) => {
@@ -245,9 +209,6 @@ export default defineComponent({
       }
     }
     /**
-     * @Author      gx12358
-     * @DateTime    2021/8/6
-     * @lastTime    2021/8/6
      * @description 跳转路由：/
      */
     const toLastTag = () => {
@@ -256,9 +217,6 @@ export default defineComponent({
       else router.push('/')
     }
     /**
-     * @Author      gx12358
-     * @DateTime    2021/8/6
-     * @lastTime    2021/8/6
      * @description 跳转点击页
      */
     const toThisTag = (stateType) => {

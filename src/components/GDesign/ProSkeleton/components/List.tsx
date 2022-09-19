@@ -11,9 +11,6 @@ export type ListPageSkeletonProps = {
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2021/8/13
- * @lastTime    2021/8/13
  * @description 一条分割线
  */
 export const Line = ({ padding }: { padding?: string | number }) => (
@@ -72,9 +69,6 @@ const StatisticSkeleton = ({ size, active }: { size?: number; active?: boolean }
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2021/8/13
- * @lastTime    2021/8/13
  * @description 列表子项目骨架屏
  */
 export const ListSkeletonItem = ({ active }: { active: boolean }) => (
@@ -103,9 +97,6 @@ export const ListSkeletonItem = ({ active }: { active: boolean }) => (
 )
 
 /**
- * @Author      gx12358
- * @DateTime    2021/8/13
- * @lastTime    2021/8/13
  * @description 列表骨架屏
  */
 export const ListSkeleton = ({
@@ -142,9 +133,6 @@ export const ListSkeleton = ({
 )
 
 /**
- * @Author      gx12358
- * @DateTime    2021/8/13
- * @lastTime    2021/8/13
  * @description 面包屑的 骨架屏
  */
 export const PageHeaderSkeleton = ({ active }: { active: boolean }) => (
@@ -155,9 +143,6 @@ export const PageHeaderSkeleton = ({ active }: { active: boolean }) => (
 )
 
 /**
- * @Author      gx12358
- * @DateTime    2021/8/13
- * @lastTime    2021/8/13
  * @description 列表操作栏的骨架屏
  */
 export const ListToolbarSkeleton = ({ active }: { active: boolean }) => (

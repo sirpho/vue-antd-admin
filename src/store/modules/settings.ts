@@ -4,9 +4,6 @@ import config from '/config/config'
 import { MenuTheme, themeConfig } from '/types/config'
 
 /**
- * @Author      gx12358
- * @DateTime    2022/1/11
- * @lastTime    2022/1/11
  * @description store-settings 系统配置
  */
 export interface SettingsState {

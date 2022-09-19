@@ -12,9 +12,6 @@ const constantRouterComponents = {
   // 你需要动态引入的页面组件
 }
 /**
- * @Author      gx12358
- * @DateTime    2021/5/14
- * @lastTime    2021/5/14
  * @description 本地菜单路由
  */
 const rootRouter: MenuDataItem[] = buildMenu([
@@ -29,9 +26,6 @@ const rootRouter: MenuDataItem[] = buildMenu([
 ])
 
 /**
- * @Author      gx12358
- * @DateTime    2021/5/14
- * @lastTime    2021/5/14
  * @description 将后台树形数据菜单和本地菜单结合
  */
 export function getRootMenu(rows: MenuDataItem[]): MenuDataItem[] {
@@ -54,9 +48,6 @@ export function getRootMenu(rows: MenuDataItem[]): MenuDataItem[] {
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2021/5/14
- * @lastTime    2021/5/14
  * @description 获取当前path的component
  */
 export const loadView = (view: string) => {
@@ -86,9 +77,6 @@ function dynamicImport(
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2021/5/14
- * @lastTime    2021/5/14
  * @description 格式化 后端 结构信息并递归生成层级路由表
  */
 export const generator = (routerMap: MenuDataItem[], parent?) => {
@@ -135,9 +123,6 @@ export const generator = (routerMap: MenuDataItem[], parent?) => {
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2021/5/14
- * @lastTime    2021/5/14
  * @description 将后台树形结构菜单数据添加后修改属性（具体修改看后台返回值）
  */
 export function buildMenu(list: MenuDataItem[]) {
@@ -181,9 +166,6 @@ export function buildMenu(list: MenuDataItem[]) {
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2021/5/14
- * @lastTime    2021/5/14
  * @description 将后台菜单数据变成树形结构（具体修改看后台返回值）
  */
 export function buildtree(list: MenuDataItem[], arr: MenuDataItem[], parentId: string | number) {

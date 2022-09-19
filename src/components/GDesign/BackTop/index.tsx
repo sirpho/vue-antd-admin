@@ -94,9 +94,6 @@ const GBackTop = defineComponent({
       return style
     })
     /**
-     * @Author      gx12358
-     * @DateTime    2021/7/14
-     * @lastTime    2021/7/14
      * @description 监听屏幕宽度
      */
     const getWidth = () => {

@@ -1,5 +1,4 @@
 /**
- * @author gx12358 2539306317@qq.com
  * @description 路由守卫，目前两种模式：all模式与intelligence模式
  */
 import { message } from 'ant-design-vue'

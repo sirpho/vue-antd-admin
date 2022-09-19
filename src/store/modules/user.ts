@@ -51,9 +51,6 @@ export const useStoreUser = defineStore('user', () => {
   } as UserState)
 
   /**
-   * @Author      gx12358
-   * @DateTime    2022/1/11
-   * @lastTime    2022/1/11
    * @description 登录拦截放行时，设置虚拟角色
    */
   const setVirtualRoles = () => {
@@ -64,9 +61,6 @@ export const useStoreUser = defineStore('user', () => {
   }
 
   /**
-   * @Author      gx12358
-   * @DateTime    2022/1/11
-   * @lastTime    2022/1/11
    * @description 登录
    */
   const userLogin = async (params) => {
@@ -82,9 +76,6 @@ export const useStoreUser = defineStore('user', () => {
   }
 
   /**
-   * @Author      gx12358
-   * @DateTime    2022/1/11
-   * @lastTime    2022/1/11
    * @description 获取用户信息
    */
   const queryUserInfo = async () => {
@@ -118,9 +109,6 @@ export const useStoreUser = defineStore('user', () => {
   }
 
   /**
-   * @Author      gx12358
-   * @DateTime    2022/5/15
-   * @lastTime    2022/5/15
    * @description 用户退出登录
    */
   const userLogut = async () => {

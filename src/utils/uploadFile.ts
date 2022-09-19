@@ -2,9 +2,6 @@ import dayjs from 'dayjs'
 import { getRandomNumber } from './util'
 
 /**
- * @Author      gx12358
- * @DateTime    2022/4/22
- * @lastTime    2022/4/22
  * @description 修改文件名
  */
 export const fileName = (file: File, name = 'video', fullName?: boolean) => {

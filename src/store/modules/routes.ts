@@ -7,9 +7,6 @@ import { getFirstLastChild } from '@/utils/routeConvert'
 import { getLevelData } from '@/utils/util'
 
 /**
- * @Author      gx12358
- * @DateTime    2022/1/11
- * @lastTime    2022/1/11
  * @description store-routes 路由
  */
 export interface RoutesState {
@@ -28,9 +25,6 @@ export const useStoreRoutes = defineStore('routes', () => {
   } as RoutesState)
 
   /**
-   * @Author      gx12358
-   * @DateTime    2022/1/11
-   * @lastTime    2022/9/16
    * @description intelligence（前端静态路由）模式设置路由
    */
   const setRoutes = () => {
@@ -42,9 +36,6 @@ export const useStoreRoutes = defineStore('routes', () => {
   }
 
   /**
-   * @Author      gx12358
-   * @DateTime    2022/1/11
-   * @lastTime    2022/1/11
    * @description all（后端动态路由）模式设置路由
    */
   const setAllRoutes = async () => {
@@ -72,9 +63,6 @@ export const useStoreRoutes = defineStore('routes', () => {
   }
 
   /**
-   * @Author      gx12358
-   * @DateTime    2022/1/11
-   * @lastTime    2022/1/11
    * @description 重置路由
    */
   const resetRoute = () => {
@@ -83,9 +71,6 @@ export const useStoreRoutes = defineStore('routes', () => {
   }
 
   /**
-   * @Author      gx12358
-   * @DateTime    2022/1/11
-   * @lastTime    2022/1/11
    * @description 添加路由记录
    */
   const addRouterLoadList = (path) => {
@@ -93,9 +78,6 @@ export const useStoreRoutes = defineStore('routes', () => {
   }
 
   /**
-   * @Author      gx12358
-   * @DateTime    2022/1/11
-   * @lastTime    2022/1/11
    * @description 修改state状态
    */
   const changeValue = (type, value) => {

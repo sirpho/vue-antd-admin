@@ -46,9 +46,6 @@ function getButtonText() {
 }
 
 /**
- * @Author      gx12358
- * @DateTime    2022/1/24
- * @lastTime    2022/1/24
  * @description 渲染默认的 工具栏
  */
 function renderDefaultOption(options: OptionConfig, defaultOptions: OptionConfig) {

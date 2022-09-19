@@ -3,7 +3,6 @@ import config from '/config/config'
 const { title, titleReverse, titleSeparator } = config.defaultSettings
 
 /**
- * @author gx12358 2539306317@qq.com
  * @description 设置标题
  * @param pageTitle
  * @returns {string}

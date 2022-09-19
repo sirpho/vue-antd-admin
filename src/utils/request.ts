@@ -33,7 +33,6 @@ const { contentType, requestTimeout, successCode } = config.network
 const axiosCanceler = new AxiosCanceler()
 
 /**
- * @author gx12358 2539306317@qq.com
  * @description 处理code异常
  * @param {*} code
  * @param {*} msg
@@ -57,7 +56,6 @@ const handleCode = (code: number, msg: string) => {
   })
 }
 /**
- * @author gx12358 2539306317@qq.com
  * @description axios初始化
  */
 const instance: GAxiosInstance = axios.create({
@@ -67,7 +65,6 @@ const instance: GAxiosInstance = axios.create({
   }
 })
 /**
- * @author gx12358 2539306317@qq.com
  * @description axios请求拦截器
  */
 instance.interceptors.request.use(
@@ -124,7 +121,6 @@ instance.interceptors.request.use(
   }
 )
 /**
- * @author gx12358 2539306317@qq.com
  * @description axios响应拦截器
  */
 instance.interceptors.response.use(
