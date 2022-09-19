@@ -216,22 +216,6 @@ const getActivity = async () => {
   state.activities = response.data || []
   state.dynamicLoading = false
 }
-
-const handelMaxRandar = (datasource) => {
-  return (
-    datasource.sort((obj1, obj2) => {
-      const val1 = obj1.value
-      const val2 = obj2.value
-      let result = 0
-      if (val1 < val2) {
-        result = 1
-      } else if (val1 > val2) {
-        result = -1
-      }
-      return result
-    })[0]?.value || 0
-  )
-}
 </script>
 
 <style lang="less" module>

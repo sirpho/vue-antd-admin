@@ -4,7 +4,7 @@ VITE_NODE_ENV= production
 VITE_USE_MODE = production
 
 # Whether to open mock
-VITE_USE_MOCK = true
+VITE_USE_MOCK = false
 
 # Delete console
 VITE_DROP_CONSOLE = true
@@ -24,7 +24,8 @@ VITE_USE_PWA = false
 VITE_LEGACY = false
 
 # Basic interface address SPA
-VITE_BASE_URL=/
+VITE_BASE_URL=https://sales.kellyone.com/api
+VITE_MOCK_PREFIX=/mock-server
 
 # oss信息
 VITE_OSS_BUCKET = *
