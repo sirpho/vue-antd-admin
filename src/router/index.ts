@@ -235,21 +235,6 @@ export const asyncRoutes: AppRouteModule[] = [
                 }
               },
               {
-                path: '/proComponents/universal/player/video',
-                component: () => import('@/views/proComponents/universal/Player/Video/index.vue'),
-                name: '视频',
-                meta: {
-                  title: '视频',
-                  tagFixed: false,
-                  tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
-                  hideInMenu: false,
-                  target: '',
-                  targetStatus: 0
-                }
-              },
-              {
                 path: '/proComponents/universal/image',
                 component: () => import('@/views/proComponents/universal/Image/index.vue'),
                 name: '图片',

@@ -313,22 +313,6 @@ const data: MenuDataItem[] = [
   },
   {
     children: [],
-    component: 'proComponents/universal/Player/Video/index',
-    createTime: '2020-06-30 22:48:57',
-    menuId: 49,
-    path: 'player/video',
-    title: '视频',
-    name: '视频',
-    menuType: 'C',
-    orderNum: '2',
-    isFrame: '1',
-    parentId: 4,
-    target: '',
-    hidden: false,
-    outLinkType: 0
-  },
-  {
-    children: [],
     component: 'proComponents/universal/Image/index',
     createTime: '2020-06-30 22:48:57',
     menuId: 44,
