@@ -2,12 +2,10 @@ import type { CSSProperties } from 'vue'
 import { PropTypes } from '@/utils'
 import type { BreadcrumbProps } from './RouteContext'
 import type { FooterRender, CopyrightRender } from './RenderTypings'
-import type { Links } from './components/GlobalFooter'
 import { defaultSettingProps } from './defaultSettings'
 import { globalHeaderProps, headerViewProps } from './components/GlobalHeader/props'
 import { siderMenuProps } from './components/SiderMenu/props'
 import multiTabProps from './components/MultiTab/props'
-import { defaultLinks } from './components/GlobalFooter'
 
 export const basicLayoutProps = {
   ...defaultSettingProps,
@@ -37,10 +35,6 @@ export const basicLayoutProps = {
   disableContentMargin: PropTypes.looseBool,
   isChildrenLayout: PropTypes.looseBool,
   loading: PropTypes.looseBool,
-  footerLinks: {
-    type: [Array, Boolean] as PropType<Links>,
-    default: defaultLinks
-  },
   copyrightRender: {
     type: [Object, Function, Boolean, String] as PropType<CopyrightRender>,
     default: () => undefined,

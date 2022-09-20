@@ -43,12 +43,12 @@ export type BasicLayoutProps = Partial<ExtractPropTypes<typeof basicLayoutProps>
 
 export default defineComponent({
   name: 'GProLayout',
-  inheritAttrs: false,
   components: {
     GlobalHeader,
     GlobalFooter,
     SiderMenuWrapper
   },
+  inheritAttrs: false,
   props: basicLayoutProps,
   emits: [
     'update:collapsed',
