@@ -5,9 +5,7 @@ import { LogoutOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue
 import config from '/config/config'
 import { useStore } from '@gx-vuex'
 import { globalHeaderProps } from '../GlobalHeader/props'
-import HeaderSearch from './HeaderSearch'
 import AvatarDropdown from './AvatarDropdown'
-import NoticeIcon from '../NoticeIcon'
 import { useRouteContext } from '../../RouteContext'
 
 export default defineComponent({
@@ -30,8 +28,7 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
 
-    const avatar = computed(() => store.user.avatar)
-    const userName = computed(() => store.user.loginName)
+    const userInfo = computed(() => store.user.userInfo)
 
     const logout = () => {
       Modal.confirm({
@@ -59,36 +56,7 @@ export default defineComponent({
 
     return () => (
       <Space class={[baseClassName, props.theme]}>
-        <HeaderSearch
-          class={[`${baseClassName}-action`, `${baseClassName}-search`]}
-          placeholder="站内搜索"
-          defaultValue="Ant Design"
-          options={[
-            {
-              label: <a href="https://umijs.org/zh/guide/umi-ui.html">umi ui</a>,
-              value: 'umi ui'
-            },
-            {
-              label: <a href="https://www.antdv.com/components/overview-cn">Ant Design</a>,
-              value: 'Ant Design'
-            },
-            {
-              label: <a href="https://protable.ant.design/">Pro Table</a>,
-              value: 'Pro Table'
-            },
-            {
-              label: <a href="https://prolayout.ant.design/">Pro Layout</a>,
-              value: 'Pro Layout'
-            }
-          ]}
-        />
-        <NoticeIcon />
-        <AvatarDropdown
-          avatar={avatar.value}
-          userName={userName.value}
-          onLogout={logout}
-          {...props}
-        />
+        <AvatarDropdown userName={userInfo.value.uname} onLogout={logout} {...props} />
       </Space>
     )
   }

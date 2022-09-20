@@ -1,9 +1,9 @@
 import { reactive, toRefs } from 'vue'
 import { defineStore } from 'pinia'
-import { message, notification } from 'ant-design-vue'
+import { notification } from 'ant-design-vue'
 import config from '/config/config'
-import { getUserInfo, login, logout } from '@/services/controller/user'
-import { getAccessToken, removeAccessToken, setAccessToken } from '@/utils/accessToken'
+import { login } from '@/services/controller/user'
+import { removeAccessToken, setAccessToken } from '@/utils/accessToken'
 import { timeFix } from '@/utils/util'
 import { useStoreRoutes } from '@/store'
 import { useStorePermission } from '@/store'
@@ -12,12 +12,9 @@ import { useStoreTabsRouter } from '@/store'
 const { tokenName } = config.defaultSettings
 
 export interface UserInfo {
-  admin?: boolean;
-  userId?: number;
-  userName?: string;
-  nickName?: string;
-  avatar?: string;
-  loginDate?: string;
+  id: number;
+  uname: string;
+  uid: string;
 }
 
 export interface UserState {
@@ -34,7 +31,8 @@ export const useStoreUser = defineStore('user', () => {
   const tabsRouter = useStoreTabsRouter()
 
   const state = reactive({
-    accessToken: getAccessToken(),
+    // accessToken: getAccessToken(),
+    accessToken: '',
     userInfo: {},
     userName: '',
     loginName: '',
@@ -50,51 +48,23 @@ export const useStoreUser = defineStore('user', () => {
     if (accessToken) {
       const expires = response?.expire
       state.accessToken = accessToken
+      const {permissions, user} = response
       setAccessToken(accessToken, expires ? expires * 60 * 1000 : 0)
+      auth.changeValue("permission", permissions)
+      state.userInfo = user
+      notification.success({
+        message: `欢迎登录${user.uname}`,
+        description: `${timeFix()}！`
+      })
       return true
     }
     return false
   }
 
   /**
-   * @description 获取用户信息
-   */
-  const queryUserInfo = async () => {
-    const response: any = await getUserInfo()
-    const { user, permissions } = response
-    if (!user || Object.keys(user).length === 0) {
-      message.error(`验证失败，请重新登录...`)
-      return false
-    }
-    const { userName, avatar, nickName } = user as UserInfo
-    if (userName && Array.isArray(permissions)) {
-      auth.changeValue('permission', permissions)
-      state.userName = userName
-      state.loginName = nickName
-      state.avatar = avatar
-      state.userInfo = user
-      notification.success({
-        message: `欢迎登录${userName}`,
-        description: `${timeFix()}！`
-      })
-    } else {
-      message.error('用户信息接口异常')
-      return false
-    }
-    return true
-  }
-
-  const updateUserInfo = (params: UserInfo) => {
-    Object.assign(state.userInfo, { ...params })
-  }
-
-  /**
    * @description 用户退出登录
    */
   const userLogout = async () => {
-    await logout({
-      userName: state.userName
-    })
     resetPermissions()
   }
 
@@ -111,8 +81,6 @@ export const useStoreUser = defineStore('user', () => {
     ...toRefs(state),
     userLogin,
     userLogout,
-    queryUserInfo,
-    updateUserInfo,
     resetPermissions
   }
 })

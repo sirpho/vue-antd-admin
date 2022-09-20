@@ -6,7 +6,7 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import config from '/config/config'
 import router from '@/router'
-import { useStoreUser, useStoreRoutes, useStoreSettings, useStorePermission } from '@gx-vuex'
+import { useStoreUser, useStoreRoutes, useStoreSettings } from '@gx-vuex'
 import getPageTitle from '@/utils/pageTitle'
 
 const {
@@ -21,7 +21,6 @@ router.beforeEach(async (to, _, next) => {
   const user = useStoreUser()
   const routes = useStoreRoutes()
   const settings = useStoreSettings()
-  const storePermission = useStorePermission()
   message.destroy()
   if (settings.showProgressBar) NProgress.start()
   if (
@@ -32,45 +31,34 @@ router.beforeEach(async (to, _, next) => {
     routes.changeValue('routerLoading', true)
   }
   const hasToken = !!user.accessToken
-  let hasUserInfo = true
   let accessRoutes: AppRouteModule[] = []
   if (hasToken) {
     if (to.path === '/user/login') {
       next({ path: '/', replace: true })
       NProgress.done()
     } else {
-      const hasPermission = storePermission.permission.length > 0
-      if (hasPermission) {
+      const isInitialized = routes.initialized
+      if (isInitialized) {
         next()
         NProgress.done()
       } else {
         try {
-            hasUserInfo = await user.queryUserInfo()
-          if (hasUserInfo) {
-            if (authentication === 'intelligence') {
-              accessRoutes = await routes.setRoutes()
-            } else if (authentication === 'all') {
-              accessRoutes = await routes.setAllRoutes()
-            }
-            if (accessRoutes.length) {
-              accessRoutes.forEach((item: any) => {
-                router.addRoute(item)
-              })
-              next({ ...to, replace: true })
-            } else {
-              next({ path: '/exception/403' })
-            }
-            routes.changeValue('menuLoading', false)
-          } else {
-            user.resetPermissions()
-            if (recordRoute)
-              next({
-                path: '/user/login',
-                query: { redirect: to.path },
-                replace: true
-              })
-            else next({ path: '/user/login', replace: true })
+          if (authentication === 'intelligence') {
+            accessRoutes = await routes.setRoutes()
+          } else if (authentication === 'all') {
+            accessRoutes = await routes.setAllRoutes()
           }
+          if (accessRoutes.length) {
+            accessRoutes.forEach((item: any) => {
+              router.addRoute(item)
+            })
+            routes.changeValue('initialized', true)
+            next({...to, replace: true})
+          } else {
+            next({path: '/exception/403'})
+          }
+          routes.changeValue('menuLoading', false)
+
           NProgress.done()
         } catch (e) {
           user.resetPermissions()

@@ -5,9 +5,9 @@ import type { themeConfig } from '/types/config'
 
 const themeSetting: themeConfig = {
   //布局种类 side/mix/simple
-  layout: 'mix',
+  layout: 'side',
   // 主题 light/dark
-  theme: 'light',
+  theme: 'dark',
   // 主题色
   primaryColor: '#1890FF',
   // logo标题
@@ -17,9 +17,9 @@ const themeSetting: themeConfig = {
   // 头部菜单是否固定
   fixedMultiTab: true,
   // 头部菜单是否固定
-  fixedHeader: false,
+  fixedHeader: true,
   // 侧边栏菜单是否固定
-  fixSiderbar: false,
+  fixSiderbar: true,
   // 菜单是否自动分割
   splitMenus: true,
   //是否显示顶部进度条

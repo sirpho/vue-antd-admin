@@ -9,12 +9,11 @@ import { useRouteContext } from '../../RouteContext'
 export type AvatarDropdownProps = {
   extra?: ExtraRightDropdownRender
   onLogout?: () => void
-  avatar?: string
   userName?: string
 }
 
 const AvatarDropdown: FC<AvatarDropdownProps> = (props: AvatarDropdownProps) => {
-  const { extra, onLogout, avatar, userName } = props
+  const { extra, onLogout, userName } = props
 
   const context = useRouteContext()
 
@@ -48,12 +47,7 @@ const AvatarDropdown: FC<AvatarDropdownProps> = (props: AvatarDropdownProps) => 
       }
     >
       <span class={[`${baseClassName}-action`, `${baseClassName}-account`]}>
-        <Avatar
-          src={avatar}
-          icon={<UserOutlined />}
-          size="small"
-          class={`${baseClassName}-avatar`}
-        />
+        <Avatar icon={<UserOutlined />} size="small" class={`${baseClassName}-avatar`} />
         <span class={[`${baseClassName}-name`, 'anticon']}>{userName}</span>
       </span>
     </Dropdown>

@@ -10,7 +10,7 @@
         <div class="gx-pro-page-container-row">
           <div class="gx-pro-page-container-content">
             <div :class="$style.avatar">
-              <a-avatar size="large" :src="store.user.userInfo.avatar">
+              <a-avatar size="large">
                 <template #icon>
                   <a-spin>
                     <template #indicator>

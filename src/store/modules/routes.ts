@@ -14,6 +14,7 @@ export interface RoutesState {
   routerLoadList: string[];
   menuLoading: boolean;
   routerLoading: boolean;
+  initialized: boolean;
 }
 
 export const useStoreRoutes = defineStore('routes', () => {
@@ -21,7 +22,8 @@ export const useStoreRoutes = defineStore('routes', () => {
     routes: [],
     routerLoadList: [],
     menuLoading: false,
-    routerLoading: false
+    routerLoading: false,
+    initialized: false
   } as RoutesState)
 
   /**
@@ -68,6 +70,7 @@ export const useStoreRoutes = defineStore('routes', () => {
   const resetRoute = () => {
     state.routes = []
     state.routerLoadList = []
+    state.initialized = false
   }
 
   /**
