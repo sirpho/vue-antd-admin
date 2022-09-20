@@ -43,7 +43,7 @@ export const anchorProps = {
   },
   root: {
     type: String as PropType<string>,
-    default: viewScrollRoot || '#gx-pro-admin>.gx-scrollbar>.gx-scrollbar-wrap'
+    default: viewScrollRoot || '.gx-pro-grid-content>.gx-scrollbar>.gx-scrollbar-wrap'
   }
 }
 
@@ -72,12 +72,14 @@ const GAnchor = defineComponent({
     const bindScrollEvent = () => {
       const { root } = props
       const container = document.querySelector(root) as HTMLInputElement
-      container.addEventListener('scroll', (e: Event) => {
-        handleScroll(e)
-      })
-      handleScroll({
-        target: container
-      })
+      container &&
+        container.addEventListener('scroll', (e: Event) => {
+          handleScroll(e)
+        })
+      container &&
+        handleScroll({
+          target: container
+        })
     }
 
     const scrollRemove = () => {

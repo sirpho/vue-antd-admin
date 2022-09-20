@@ -192,7 +192,7 @@ export const asyncRoutes: AppRouteModule[] = [
                 name: '高级表格',
                 meta: {
                   title: '高级表格',
-                  tagFixed: true,
+                  tagFixed: false,
                   tagHidden: false,
                   homePage: 0,
                   iconType: 1,

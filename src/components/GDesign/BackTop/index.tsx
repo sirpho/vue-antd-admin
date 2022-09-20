@@ -40,12 +40,14 @@ const GBackTop = defineComponent({
     const bindScrollEvent = () => {
       const { root } = props
       const container = document.querySelector(root) as HTMLInputElement
-      container.addEventListener('scroll', (e: Event) => {
-        handleScroll(e)
-      })
-      handleScroll({
-        target: container
-      })
+      container &&
+        container.addEventListener('scroll', (e: Event) => {
+          handleScroll(e)
+        })
+      container &&
+        handleScroll({
+          target: container
+        })
     }
     const scrollRemove = () => {
       const { root } = props

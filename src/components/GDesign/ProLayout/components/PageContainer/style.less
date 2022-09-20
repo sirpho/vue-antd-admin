@@ -1,19 +1,17 @@
 @root-entry-name: 'default';
 
 @pro-layout-page-container: ~'@{gx-prefix-pro}-page-container';
-@pro-layout-grid-content-prefix-cls: ~'@{gx-prefix-pro}-pro-grid-content';
+@pro-layout-grid-content-prefix-cls: ~'@{gx-prefix-pro}-grid-content';
 
-@pro-layout-page-container-content-margin: 24px 24px 0;
+@pro-layout-page-container-content-margin: 0 24px 0;
 @pro-layout-page-container-content-padding: inherit;
 @pro-layout-page-container-bg-color: inherit;
 @pro-layout-page-container-warp-bg-color: @component-background;
 
 .@{pro-layout-grid-content-prefix-cls} {
   width: 100%;
-  &.wide {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+  flex: 1 1 auto;
+  overflow: hidden;
 }
 
 .@{pro-layout-page-container}-children-content {
@@ -25,6 +23,7 @@
   background-color: @pro-layout-page-container-bg-color;
   &-warp {
     background-color: @pro-layout-page-container-warp-bg-color;
+    margin-bottom: 24px;
     .@{ant-prefix}-tabs-nav {
       margin: 0;
     }

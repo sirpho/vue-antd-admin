@@ -1,10 +1,8 @@
 <template>
   <div id="gx-pro-admin">
-    <g-bars>
-      <config-provider :locale="locale">
-        <router-view />
-      </config-provider>
-    </g-bars>
+    <config-provider :locale="locale">
+      <router-view />
+    </config-provider>
     <g-page-loading :loading="loading && routhPath === '/'" />
   </div>
 </template>

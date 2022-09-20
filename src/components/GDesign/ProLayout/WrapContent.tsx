@@ -47,7 +47,7 @@ export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slot
 
   return (
     <>
-      {context.flatMenuData.length > 0 && isShowTabsBar && (
+      {isShowTabsBar && (
         <MultiTab
           isMobile={isMobile}
           loading={loading}

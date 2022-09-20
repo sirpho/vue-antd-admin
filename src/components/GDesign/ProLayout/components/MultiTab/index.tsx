@@ -19,12 +19,12 @@ const TabPane = Tabs.TabPane
 export type MultiTabProps = Partial<ExtractPropTypes<typeof multiTabProps>>
 
 export default defineComponent({
-  props: multiTabProps,
   components: {
     EllipsisOutlined,
     ReloadOutlined,
     CloseOutlined
   },
+  props: multiTabProps,
   setup(props) {
     const { isMobile, loading, isFixedMultiTab, onReloadPage } = toRefs(props)
     const $route = useRoute()

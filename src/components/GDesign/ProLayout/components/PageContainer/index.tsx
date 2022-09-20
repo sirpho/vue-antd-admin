@@ -2,9 +2,8 @@ import type { ExtractPropTypes, VNodeChild } from 'vue'
 import { omit } from 'lodash-es'
 import { defineComponent } from 'vue'
 import { RouterLink } from 'vue-router'
-import { Card, PageHeader, Breadcrumb } from 'ant-design-vue'
+import { Card, PageHeader } from 'ant-design-vue'
 import config from '/config/config'
-import { breadcrumbProps } from '@gx-design/Breadcrumb'
 import ProWatermark from '@gx-design/ProWatermark'
 import { useMemo } from '@gx-admin/hooks/core'
 import { getPrefixCls, getSlotVNode } from '@gx-admin/utils'
@@ -46,33 +45,6 @@ const renderPageHeader = (
   )
 }
 
-/**
- * 配置与面包屑相同，只是增加了自动根据路由计算面包屑的功能。此功能必须要在 ProLayout 中使用。
- *
- * @param props
- * @returns
- */
-const ProBreadcrumb = defineComponent({
-  props: breadcrumbProps(),
-  setup(props) {
-    const value = useRouteContext()
-
-    return () => {
-      return (
-        <div
-          style={{
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center'
-          }}
-        >
-          <Breadcrumb {...value?.breadcrumb} {...value?.breadcrumbProps} {...props} />
-        </div>
-      )
-    }
-  }
-})
-
 const defaultPageHeaderRender = (
   props: PageContainerProps,
   value: Required<RouteContextProps> & { prefixedClassName: string }
@@ -96,7 +68,6 @@ const defaultPageHeaderRender = (
         return <RouterLink to={route.path}>{route.breadcrumbName}</RouterLink>
       })
   }
-
   // inject value
   return (
     <PageHeader {...restProps} title={pageHeaderTitle} breadcrumb={breadcrumb}>
@@ -106,8 +77,8 @@ const defaultPageHeaderRender = (
 }
 
 const PageContainer = defineComponent({
-  inheritAttrs: false,
   name: 'GProPageContainer',
+  inheritAttrs: false,
   props: {
     contentStyle: PropTypes.style,
     useCard: PropTypes.bool.def(true)
@@ -167,16 +138,16 @@ const PageContainer = defineComponent({
         <div class={prefixedClassName}>
           {headerDom.value}
           <div class={gridPrefixCls}>
-            <div class={`${gridPrefixCls}-children`} style={props.contentStyle}>
-              {renderContentDom.value}
-            </div>
+            <g-bars>
+              <div class={`${gridPrefixCls}-children`} style={props.contentStyle}>
+                {renderContentDom.value}
+              </div>
+            </g-bars>
           </div>
         </div>
       )
     }
   }
 })
-
-export { ProBreadcrumb }
 
 export default PageContainer

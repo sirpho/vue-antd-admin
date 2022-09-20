@@ -2,7 +2,7 @@ import { default as PageLoading } from './PageLoading'
 import { default as BaseMenu } from './components/SiderMenu/BaseMenu'
 import { default as SiderMenuWrapper } from './components/SiderMenu'
 import type { PageContainerProps } from './components/PageContainer';
-import PageContainer, { ProBreadcrumb } from './components/PageContainer';
+import PageContainer from './components/PageContainer';
 
 export * from './RouteContext'
 export * from './typings'
@@ -35,7 +35,6 @@ export {
   PageLoading,
   SiderMenuWrapper,
   PageContainer,
-  ProBreadcrumb,
 }
 
 export type {

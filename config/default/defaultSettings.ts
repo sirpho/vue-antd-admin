@@ -23,7 +23,7 @@ const defaultSettings: settingConfig = {
   //水印字符
   waterMarkTitle: '',
   //滚动区域选择器
-  viewScrollRoot: '#gx-pro-admin>.gx-scrollbar>.gx-scrollbar-wrap',
+  viewScrollRoot: '.gx-pro-grid-content>.gx-scrollbar>.gx-scrollbar-wrap',
   //开启proxy
   useProxy: false,
   // proxy target
