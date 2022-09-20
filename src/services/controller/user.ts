@@ -5,7 +5,6 @@ export async function login(data) {
     url: '/sys/login',
     method: 'post',
     data,
-    isMock: true
   })
 }
 
@@ -23,13 +22,5 @@ export function logout(params) {
     method: 'get',
     isMock: true,
     params
-  })
-}
-
-export function register() {
-  return request({
-    url: '/register',
-    method: 'post',
-    isMock: true
   })
 }

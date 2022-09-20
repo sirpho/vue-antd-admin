@@ -43,7 +43,7 @@ export default defineComponent({
         onOk() {
           return new Promise((resolve) => {
             setTimeout(resolve, 200)
-            store.user.userLogut().then(() => {
+            store.user.userLogout().then(() => {
               if (recordRoute) {
                 const fullPath = route.fullPath
                 router.push(`/user/login?redirect=${fullPath}`)

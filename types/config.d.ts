@@ -1,6 +1,6 @@
 import { MenuTheme } from '@gx-pro/pro-layout'
 
-export interface configSeting {
+export interface configSetting {
   theme: themeConfig;
   proxy: any;
   network: networkConfig;
@@ -33,7 +33,6 @@ export interface settingConfig {
   tokenTableName: string;
   storage: string;
   recordRoute: boolean;
-  loginInterception: boolean;
   loginRSA: boolean;
   authentication: string;
   rolesControl: boolean;
@@ -73,11 +72,6 @@ export interface themeConfig {
     name: string;
     direction: string;
   };
-}
-
-export interface customizeConfig {
-  donation: boolean;
-  templateFolder: string;
 }
 
 export interface animateConfig {

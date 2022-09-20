@@ -11,7 +11,6 @@ import getPageTitle from '@/utils/pageTitle'
 
 const {
   authentication,
-  loginInterception,
   recordRoute,
   routerLoadTime,
   routesWhiteList
@@ -32,10 +31,9 @@ router.beforeEach(async (to, _, next) => {
     routes.addRouterLoadList(to.path)
     routes.changeValue('routerLoading', true)
   }
-  let hasToken = !!user.accessToken
+  const hasToken = !!user.accessToken
   let hasUserInfo = true
   let accessRoutes: AppRouteModule[] = []
-  if (!loginInterception) hasToken = true
   if (hasToken) {
     if (to.path === '/user/login') {
       next({ path: '/', replace: true })
@@ -47,12 +45,7 @@ router.beforeEach(async (to, _, next) => {
         NProgress.done()
       } else {
         try {
-          if (loginInterception) {
             hasUserInfo = await user.queryUserInfo()
-          } else {
-            //loginInterception为false（关闭登录拦截时）时，创建虚拟角色
-            hasUserInfo = await user.setVirtualRoles()
-          }
           if (hasUserInfo) {
             if (authentication === 'intelligence') {
               accessRoutes = await routes.setRoutes()

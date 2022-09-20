@@ -21,7 +21,7 @@ export const defaultSettings: themeConfig = {
   // 主题色
   primaryColor: '#1890FF',
   // logo标题
-  title: title || '互动直播',
+  title: title || '',
   // 头部菜单高度
   headerHeight: 48,
   // 头部菜单是否固定

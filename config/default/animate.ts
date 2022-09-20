@@ -6,7 +6,7 @@ const direct_1_b = [ 'downBig', 'upBig', 'leftBig', 'rightBig' ]
 const direct_2 = [ 'topLeft', 'bottomRight', 'topRight', 'bottomLeft' ]
 const direct_3 = [ 'downLeft', 'upRight', 'downRight', 'upLeft' ]
 // animate.css 配置
-const animateSeting: animateConfig = {
+const animateSetting: animateConfig = {
   preset: [
     //预设动画配置
     { name: 'back', alias: '渐近', directions: direct_1 },
@@ -27,4 +27,4 @@ const animateSeting: animateConfig = {
     { name: 'slide', alias: '滑动', directions: direct_1 }
   ]
 }
-export default animateSeting
+export default animateSetting

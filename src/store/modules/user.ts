@@ -51,25 +51,15 @@ export const useStoreUser = defineStore('user', () => {
   } as UserState)
 
   /**
-   * @description 登录拦截放行时，设置虚拟角色
-   */
-  const setVirtualRoles = () => {
-    auth.changeValue('admin', true)
-    state.avatar = 'https://i.gtimg.cn/club/item/face/img/2/15922_100.gif'
-    state.userName = 'admin(未开启登录拦截)'
-    return true
-  }
-
-  /**
    * @description 登录
    */
   const userLogin = async (params) => {
     const response: any = await login(params)
     const accessToken = response?.data?.[tokenName]
     if (accessToken) {
-      const expires_in = response?.data?.expires_in
+      const expires = response?.data?.expires
       state.accessToken = accessToken
-      setAccessToken(accessToken, expires_in ? expires_in * 60 * 1000 : 0)
+      setAccessToken(accessToken, expires ? expires * 60 * 1000 : 0)
       return true
     }
     return false
@@ -111,7 +101,7 @@ export const useStoreUser = defineStore('user', () => {
   /**
    * @description 用户退出登录
    */
-  const userLogut = async () => {
+  const userLogout = async () => {
     await logout({
       userName: state.userName
     })
@@ -132,10 +122,9 @@ export const useStoreUser = defineStore('user', () => {
   return {
     ...toRefs(state),
     userLogin,
-    userLogut,
+    userLogout,
     queryUserInfo,
     updateUserInfo,
-    setVirtualRoles,
     resetPermissions
   }
 })

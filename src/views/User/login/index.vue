@@ -4,12 +4,7 @@
       <LoginContainer style="margin-top: 40px" :rules="userRules" :logo="LOGO" :title="title">
         <a-form>
           <a-form-item v-bind="validateInfos.userName">
-            <a-input
-              name="userName"
-              size="large"
-              v-model:value="userForm.userName"
-              placeholder="用户名: admin"
-            >
+            <a-input name="uid" size="large" v-model:value="userForm.uid" placeholder="用户名">
               <template #prefix>
                 <UserOutlined />
               </template>
@@ -20,7 +15,7 @@
               name="password"
               size="large"
               v-model:value="userForm.password"
-              placeholder="密码: gx.design"
+              placeholder="密码"
             >
               <template #prefix>
                 <LockOutlined />
@@ -62,7 +57,6 @@ import { reactive } from 'vue'
 interface UserState {
   userName?: string
   password?: string
-  autoLogin?: boolean
 }
 
 interface loginState {
@@ -80,13 +74,12 @@ const route = useRoute()
 const router = useRouter()
 
 const userForm = reactive({
-  userName: '',
-  password: '',
-  autoLogin: true
+  uid: '',
+  password: ''
 } as UserState)
 
 const userRules = reactive({
-  userName: [{ required: true, message: '用户名是必填项！' }],
+  uid: [{ required: true, message: '用户名是必填项！' }],
   password: [{ required: true, message: '密码是必填项！' }]
 })
 

@@ -45,15 +45,13 @@ const defaultSettings: settingConfig = {
   //不经过token校验的路由
   routesWhiteList: [ '/user/login', '/exception/404', '/exception/403' ],
   //token名称
-  tokenName: 'Authorization',
+  tokenName: 'token',
   //token在localStorage、sessionStorage、cookie存储的key的名称
-  tokenTableName: 'GxAccessToken',
+  tokenTableName: 'accessToken',
   //token存储位置localStorage sessionStorage cookie
   storage: 'localStorage',
   //token失效回退到登录页时是否记录本次的路由
   recordRoute: false,
-  //是否开启登录拦截
-  loginInterception: true,
   //是否开启登录RSA加密
   loginRSA: false,
   //intelligence（前端导出路由）和all（后端导出路由）两种方式
