@@ -1,6 +1,23 @@
 .workplace {
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding-top: 24px;
+  &-content {
+    height: 100%;
+    width: 100%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    --tw-text-opacity: 1;
+    h1 {
+      font-size: 30px;
+      color: rgb(107 114 128 / var(--tw-text-opacity));
+      margin-bottom: 15px;
+    }
+    p {
+      padding-bottom: 100px;
+      color: rgb(107 114 128 / var(--tw-text-opacity));
+    }
+  }
 }

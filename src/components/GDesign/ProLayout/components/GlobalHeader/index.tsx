@@ -1,5 +1,4 @@
 import { defineComponent, computed, toRefs } from 'vue'
-import type { RouteRecordRaw } from 'vue-router'
 import { Layout } from 'ant-design-vue'
 import { headerViewProps } from './props'
 import { DefaultHeader } from './DefaultHeader'
@@ -28,9 +27,7 @@ export default defineComponent({
 
     // cache menu
     const clearMenuData = computed(() =>
-      splitMenus.value
-        ? (context.menuData && flatMap(context.menuData as RouteRecordRaw[])) || []
-        : []
+      splitMenus.value ? (context.menuData && flatMap(context.menuData as any[])) || [] : []
     )
     const width = computed(() => {
       return layoutSide.value && needSettingWidth.value

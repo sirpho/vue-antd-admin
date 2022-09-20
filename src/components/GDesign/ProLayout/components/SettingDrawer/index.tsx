@@ -107,7 +107,7 @@ const SettingDrawer = defineComponent({
     }
 
     return () => {
-      const { root, settings, hideLoading } = props
+      const { settings, hideLoading } = props
 
       const {
         theme,
@@ -129,7 +129,7 @@ const SettingDrawer = defineComponent({
           bodyStyle={{ padding: 0 }}
           onClose={() => setShow(false)}
           placement="right"
-          getContainer={document.querySelector(root) as HTMLInputElement}
+          getContainer={document.querySelector('body') as HTMLElement}
           style={{
             zIndex: 1001
           }}
