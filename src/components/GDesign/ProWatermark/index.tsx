@@ -1,13 +1,11 @@
-import { computed, ref, defineComponent, ExtractPropTypes, watchEffect } from 'vue'
+import { computed, ref, defineComponent, watchEffect } from 'vue'
 import config from '/config/config'
 import { getPrefixCls } from '@gx-admin/utils'
 import { waterMarkProps } from './props'
-
+import { useStoreUser } from '@/store'
 import './style.less'
 
 const { waterMarkTitle } = config.defaultSettings
-
-export type WaterMarkProps = Partial<ExtractPropTypes<typeof waterMarkProps>>
 
 /**
  * 返回当前显示设备的物理像素分辨率与CSS像素分辨率之比
@@ -37,11 +35,13 @@ const GPorWaterMark = defineComponent({
       suffixCls: 'watermark',
       isPor: true
     })
+    const storeUser = useStoreUser()
+    const userInfo = computed(() => storeUser.userInfo)
 
     const base64Url = ref('')
 
     const wrapperCls = computed(() => `${prefixCls}-wrapper`)
-    const waterMakrCls = computed(() => {
+    const waterMarkCls = computed(() => {
       return {
         [`${prefixCls}`]: prefixCls,
         [`${props.markClassName}`]: props.markClassName
@@ -56,7 +56,7 @@ const GPorWaterMark = defineComponent({
         height = 64,
         rotate = -22,
         image,
-        content = waterMarkTitle || '',
+        content = userInfo.value?.uname || waterMarkTitle || '',
         offsetLeft,
         offsetTop,
         fontStyle = 'normal',
@@ -114,7 +114,7 @@ const GPorWaterMark = defineComponent({
       >
         {slots.default?.()}
         <div
-          class={waterMakrCls.value}
+          class={waterMarkCls.value}
           style={{
             zIndex: Number(props.zIndex),
             position: 'absolute',

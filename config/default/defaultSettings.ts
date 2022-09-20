@@ -21,7 +21,7 @@ const defaultSettings: settingConfig = {
   //是否开启水印
   waterMark: true,
   //水印字符
-  waterMarkTitle: 'sirpho',
+  waterMarkTitle: '',
   //滚动区域选择器
   viewScrollRoot: '#gx-pro-admin>.gx-scrollbar>.gx-scrollbar-wrap',
   //开启proxy
@@ -51,7 +51,7 @@ const defaultSettings: settingConfig = {
   //token失效回退到登录页时是否记录本次的路由
   recordRoute: false,
   //intelligence（前端导出路由）和all（后端导出路由）两种方式
-  authentication: 'all',
+  authentication: 'intelligence',
 }
 
 export default defaultSettings

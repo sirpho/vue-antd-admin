@@ -1,7 +1,4 @@
-import config from '/config/config'
 import { PropTypes } from '@/utils'
-
-const { waterMarkTitle } = config.defaultSettings
 
 export const waterMarkProps = {
   className: PropTypes.string,
@@ -18,8 +15,7 @@ export const waterMarkProps = {
   rotate: PropTypes.number.def(-22),
   image: PropTypes.string,
   content: {
-    type: String,
-    default: waterMarkTitle || ''
+    type: String
   },
   fontColor: PropTypes.string.def('rgba(0,0,0,.15)'),
   fontStyle: {

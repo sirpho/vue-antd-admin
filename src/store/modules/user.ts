@@ -20,9 +20,6 @@ export interface UserInfo {
 export interface UserState {
   accessToken: string;
   userInfo: UserInfo;
-  userName: string;
-  loginName: string;
-  avatar: string;
 }
 
 export const useStoreUser = defineStore('user', () => {
@@ -34,9 +31,6 @@ export const useStoreUser = defineStore('user', () => {
     // accessToken: getAccessToken(),
     accessToken: '',
     userInfo: {},
-    userName: '',
-    loginName: '',
-    avatar: ''
   } as UserState)
 
   /**
