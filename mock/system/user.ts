@@ -5,12 +5,6 @@ import { resultError, resultSuccess, getRequestToken, requestParams } from '../_
 
 const { tokenName } = config.defaultSettings
 
-interface RolesInfo {
-  roleId: number;
-  roleKey: string;
-  roleName: string;
-  status: string;
-}
 
 const accessTokens = {
   gx12358: 'gx-accessToken',
@@ -84,9 +78,6 @@ export default [
       let GxAccessToken = getRequestToken(request)
       GxAccessToken = 'admin-accessToken'
       let userId: number | null = null
-      let roles: string[] = []
-      let rolesInfo: RolesInfo[] = []
-      let roleIds: number[] = []
       let permissions: string[] = []
       let nickName = ''
       let userName = ''
@@ -96,31 +87,11 @@ export default [
       switch (GxAccessToken) {
         case 'gx-accessToken':
           userId = 0
-          rolesInfo = [
-            {
-              roleId: 1,
-              roleKey: 'gx-admin',
-              roleName: 'gx12358-超级管理员',
-              status: '0'
-            }
-          ]
-          roles = rolesInfo.map(item => item.roleKey)
-          roleIds = rolesInfo.map(item => item.roleId)
           permissions = ['*:*:*']
           nickName = '高翔'
           break
         case 'admin-accessToken':
           userId = 1
-          rolesInfo = [
-            {
-              roleId: 1,
-              roleKey: 'admin',
-              roleName: '超级管理员',
-              status: '0'
-            }
-          ]
-          roles = rolesInfo.map(item => item.roleKey)
-          roleIds = rolesInfo.map(item => item.roleId)
           permissions = [
             'proTable:button:add',
             'proTable:button:1',
@@ -131,38 +102,12 @@ export default [
           break
         case 'editor-accessToken':
           userId = 2
-          rolesInfo = [
-            {
-              roleId: 2,
-              roleKey: 'editor',
-              roleName: '编辑人员',
-              status: '0'
-            }
-          ]
-          roles = rolesInfo.map(item => item.roleKey)
-          roleIds = rolesInfo.map(item => item.roleId)
           permissions = []
           userName = 'editor'
           nickName = 'gx12358-editor'
           break
         case 'test-accessToken':
           userId = 3
-          rolesInfo = [
-            {
-              roleId: 1,
-              roleKey: 'admin',
-              roleName: '超级管理员',
-              status: '0'
-            },
-            {
-              roleId: 2,
-              roleKey: 'editor',
-              roleName: '编辑人员',
-              status: '0'
-            }
-          ]
-          roles = rolesInfo.map(item => item.roleKey)
-          roleIds = rolesInfo.map(item => item.roleId)
           permissions = [
             'proTable:button:1',
             'proTable:button:2',
@@ -181,13 +126,10 @@ export default [
       return {
         code: 200,
         msg: 'success',
-        roles,
         permissions,
         user: {
           admin: userId === 0 || userId === 1,
           userId,
-          roles: rolesInfo,
-          roleIds,
           userName,
           nickName,
           'avatar|1': [

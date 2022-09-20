@@ -11,18 +11,9 @@ import { useStoreTabsRouter } from '@/store'
 
 const { tokenName } = config.defaultSettings
 
-interface RolesInfo {
-  roleId: number;
-  roleKey: string;
-  roleName: string;
-  status: string;
-}
-
 export interface UserInfo {
   admin?: boolean;
   userId?: number;
-  roles?: RolesInfo[];
-  roleIds?: number[];
   userName?: string;
   nickName?: string;
   avatar?: string;
@@ -55,9 +46,9 @@ export const useStoreUser = defineStore('user', () => {
    */
   const userLogin = async (params) => {
     const response: any = await login(params)
-    const accessToken = response?.data?.[tokenName]
+    const accessToken = response?.[tokenName]
     if (accessToken) {
-      const expires = response?.data?.expires
+      const expires = response?.expire
       state.accessToken = accessToken
       setAccessToken(accessToken, expires ? expires * 60 * 1000 : 0)
       return true
@@ -70,15 +61,14 @@ export const useStoreUser = defineStore('user', () => {
    */
   const queryUserInfo = async () => {
     const response: any = await getUserInfo()
-    const { roles, user, permissions } = response
+    const { user, permissions } = response
     if (!user || Object.keys(user).length === 0) {
       message.error(`验证失败，请重新登录...`)
       return false
     }
     const { userName, avatar, nickName } = user as UserInfo
-    if (userName && roles && Array.isArray(roles)) {
-      auth.changeValue('role', roles)
-      auth.changeValue('ability', permissions)
+    if (userName && Array.isArray(permissions)) {
+      auth.changeValue('permission', permissions)
       state.userName = userName
       state.loginName = nickName
       state.avatar = avatar
@@ -111,9 +101,7 @@ export const useStoreUser = defineStore('user', () => {
   const resetPermissions = () => {
     state.accessToken = ''
     setAccessToken('')
-    auth.changeValue('admin', false)
-    auth.changeValue('role', [])
-    auth.changeValue('ability', [])
+    auth.changeValue('permission', [])
     routes.resetRoute()
     tabsRouter.blankingTabs()
     removeAccessToken()

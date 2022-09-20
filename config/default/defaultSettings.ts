@@ -32,8 +32,6 @@ const defaultSettings: settingConfig = {
   requestPrefix: '',
   //开发环境端口号
   devPort: 8080,
-  //pro版本copyright可随意修改
-  copyright: 'sirpho',
   // 是否启用路由缓存
   keepAlive: false,
   //缓存路由的最大数量
@@ -52,18 +50,8 @@ const defaultSettings: settingConfig = {
   storage: 'localStorage',
   //token失效回退到登录页时是否记录本次的路由
   recordRoute: false,
-  //是否开启登录RSA加密
-  loginRSA: false,
   //intelligence（前端导出路由）和all（后端导出路由）两种方式
   authentication: 'all',
-  //是否开启roles字段进行角色权限控制（如果是all模式后端完全处理角色并进行json组装，可设置false不处理路由中的roles字段）
-  rolesControl: true,
-  //vertical gallery comprehensive common布局时是否只保持一个子菜单的展开
-  uniqueOpened: false,
-  //vertical布局时默认展开的菜单path，使用逗号隔开建议只展开一个
-  defaultOpeneds: [ '' ],
-  //需要加loading层的请求，防止重复提交
-  debounce: [ 'doEdit' ]
 }
 
 export default defaultSettings

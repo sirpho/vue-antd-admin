@@ -26,7 +26,7 @@ export interface GAxiosInstance extends Axios {
 
 let loadingInstance
 
-const { debounce, tokenName, requestPrefix } = config.defaultSettings
+const { tokenName, requestPrefix } = config.defaultSettings
 
 const { contentType, requestTimeout, successCode } = config.network
 
@@ -111,9 +111,6 @@ instance.interceptors.request.use(
       'application/x-www-form-urlencoded;charset=UTF-8'
     )
       config.data = qs.stringify(config.data)
-    if (debounce.some((item) => config.url?.includes(item))) {
-      //这里写加载动画
-    }
     return config
   },
   (error: Error | AxiosError) => {

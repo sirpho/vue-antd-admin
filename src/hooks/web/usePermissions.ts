@@ -9,7 +9,7 @@ export function usePermissions(): {
 } {
   const store = useStore()
   const all_permission = ref('*:*:*')
-  const permissions = store.permission.ability
+  const permissions = store.permission.permission
   const permission = ref<object | boolean>({})
 
   function hasPermission(value: object | string | string[]) {

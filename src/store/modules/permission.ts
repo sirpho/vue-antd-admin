@@ -3,9 +3,7 @@ import { defineStore } from 'pinia'
 
 export const useStorePermission = defineStore('permission', () => {
   const state = reactive({
-    admin: false,
-    role: [],
-    ability: []
+    permission: []
   })
 
   const changeValue = (type: string, value: any) => {

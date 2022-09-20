@@ -21,7 +21,7 @@ router.beforeEach(async (to, _, next) => {
   const user = useStoreUser()
   const routes = useStoreRoutes()
   const settings = useStoreSettings()
-  const permission = useStorePermission()
+  const storePermission = useStorePermission()
   message.destroy()
   if (settings.showProgressBar) NProgress.start()
   if (
@@ -39,8 +39,8 @@ router.beforeEach(async (to, _, next) => {
       next({ path: '/', replace: true })
       NProgress.done()
     } else {
-      const hasRoles = permission.role.length > 0
-      if (hasRoles) {
+      const hasPermission = storePermission.permission.length > 0
+      if (hasPermission) {
         next()
         NProgress.done()
       } else {
@@ -52,8 +52,6 @@ router.beforeEach(async (to, _, next) => {
             } else if (authentication === 'all') {
               accessRoutes = await routes.setAllRoutes()
             }
-          }
-          if (hasUserInfo) {
             if (accessRoutes.length) {
               accessRoutes.forEach((item: any) => {
                 router.addRoute(item)

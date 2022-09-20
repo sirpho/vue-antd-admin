@@ -23,7 +23,6 @@ export interface settingConfig {
   proxyTarget: string;
   requestPrefix?: string | object;
   devPort: number;
-  copyright: string;
   keepAlive: boolean;
   keepAliveMaxNum: number;
   routerMode: string;
@@ -33,12 +32,7 @@ export interface settingConfig {
   tokenTableName: string;
   storage: string;
   recordRoute: boolean;
-  loginRSA: boolean;
   authentication: string;
-  rolesControl: boolean;
-  uniqueOpened: boolean;
-  defaultOpeneds: Array<string>;
-  debounce: Array<string>;
 }
 
 export interface networkConfig {
