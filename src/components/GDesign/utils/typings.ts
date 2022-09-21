@@ -3,7 +3,6 @@ import { VueElement } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type { NamePath } from 'ant-design-vue/lib/form/interface'
 import type { Breakpoint } from 'ant-design-vue/lib/_util/responsiveObserve'
-import type { FormInstance } from '@gx-design/ProForm/typings'
 
 export const tuple = <T extends string[]>(...args: T) => args
 
@@ -306,7 +305,7 @@ export type ProSchema<Entity = RecordType,
         newItem: ProSchema<Entity, ExtraProps, ComponentsType, ValueType>
       ) => JSX.Element | null;
     },
-    form: FormInstance
+    form: any
   ) => VueNode;
 
   /** 可编辑表格是否可编辑 */
