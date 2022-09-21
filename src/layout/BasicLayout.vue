@@ -47,7 +47,6 @@ const state = reactive({
   theme: computed(() => store.settings.theme),
   splitMenus: computed(() => store.settings.splitMenus),
   primaryColor: computed(() => store.settings.primaryColor),
-  fixedMultiTab: computed(() => store.settings.fixedMultiTab),
   fixedHeader: computed(() => store.settings.fixedHeader),
   fixSiderbar: computed(() => store.settings.fixSiderbar),
   showTabsBar: computed(() => store.settings.showTabsBar),
@@ -99,17 +98,14 @@ const handleSettingChange = ({ type, value }) => {
         store.settings.changeValue('showTabsBar', true)
         store.settings.changeValue('fixedHeader', true)
         store.settings.changeValue('fixSiderbar', true)
-        store.settings.changeValue('fixedMultiTab', true)
       } else if (value === 'simple') {
         store.settings.changeValue('splitMenus', false)
         store.settings.changeValue('showTabsBar', false)
         store.settings.changeValue('fixedHeader', false)
-        store.settings.changeValue('fixedMultiTab', false)
       }
       break
     case 'fixedHeader':
       store.settings.changeValue('fixedHeader', value)
-      if (state.layout === 'side' && !value) store.settings.changeValue('fixedMultiTab', value)
       break
     case 'fixSiderbar':
       store.settings.changeValue('fixSiderbar', value)
@@ -119,10 +115,6 @@ const handleSettingChange = ({ type, value }) => {
       break
     case 'showTabsBar':
       store.settings.changeValue('showTabsBar', value)
-      break
-    case 'fixedMultiTab':
-      store.settings.changeValue('fixedMultiTab', value)
-      if (state.layout === 'side' && value) store.settings.changeValue('fixedHeader', value)
       break
     case 'showProgressBar':
       store.settings.changeValue('showProgressBar', value)

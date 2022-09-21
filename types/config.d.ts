@@ -51,7 +51,6 @@ export interface themeConfig {
   primaryColor: stringshowProgressBar
   layout: 'side' | 'mix' | 'simple';
   splitMenus: boolean;
-  fixedMultiTab: boolean;
   fixedHeader: boolean;
   fixSiderbar: boolean;
   showProgressBar: boolean;

@@ -26,7 +26,7 @@ export default defineComponent({
   },
   props: multiTabProps,
   setup(props) {
-    const { isMobile, loading, isFixedMultiTab, onReloadPage } = toRefs(props)
+    const { loading, onReloadPage } = toRefs(props)
     const $route = useRoute()
     const router = useRouter()
     const store = useStore()
@@ -39,14 +39,6 @@ export default defineComponent({
     })
     const routes = computed(() => store.routes.routes)
     const visitedRoutes = computed(() => store.tabsRouter.visitedRoutes)
-    const needFixedMultiTab = computed(() => isFixedMultiTab.value)
-    const needSettingWidth = computed(() => needFixedMultiTab.value && !isMobile.value)
-    const width = computed(() => {
-      return needSettingWidth.value
-        ? `calc(100% - ${props.collapsed ? props.collapsedWidth : props.siderWidth}px)`
-        : '100%'
-    })
-    const right = computed(() => (needFixedMultiTab.value ? 0 : undefined))
     /**
      * @description 初始化添加固定标签
      */
@@ -300,25 +292,14 @@ export default defineComponent({
 
     return () => (
       <>
-        {props.isFixedMultiTab && (
-          <div
-            class={{
-              ['gx-pro-multi-tab-fixed']: true,
-              ['gx-pro-multi-tab-fixed-loading']: loading.value
-            }}
-          />
-        )}
         <div
           style={{
             margin: 0,
-            width: width.value,
-            right: right.value,
+            width: '100%',
             zIndex: 99
           }}
           class={{
             ['gx-pro-multi-tab']: true,
-            ['gx-pro-multi-tab-wrap']: props.isFixedMultiTab,
-            ['gx-pro-multi-tab-wrap-fixed']: props.isFixedMultiTab,
             ['gx-pro-multi-tab-wrap-loading']: loading.value
           }}
         >

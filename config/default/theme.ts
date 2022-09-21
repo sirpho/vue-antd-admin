@@ -15,8 +15,6 @@ const themeSetting: themeConfig = {
   // 头部菜单高度
   headerHeight: 48,
   // 头部菜单是否固定
-  fixedMultiTab: true,
-  // 头部菜单是否固定
   fixedHeader: true,
   // 侧边栏菜单是否固定
   fixSiderbar: true,

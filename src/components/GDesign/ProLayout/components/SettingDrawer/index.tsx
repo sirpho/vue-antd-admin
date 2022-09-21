@@ -117,7 +117,6 @@ const SettingDrawer = defineComponent({
         fixedHeader,
         fixSiderbar,
         showTabsBar,
-        fixedMultiTab,
         showProgressBar,
         animate
       } = settings as ProSettingsProps
@@ -204,17 +203,6 @@ const SettingDrawer = defineComponent({
                             disabled={layout === 'simple'}
                             checked={!!showTabsBar}
                             onChange={(checked) => changeSetting('showTabsBar', checked)}
-                          />
-                        )
-                      },
-                      {
-                        title: '固定多标签',
-                        action: (
-                          <Switch
-                            size="small"
-                            disabled={layout === 'simple'}
-                            checked={!!fixedMultiTab}
-                            onChange={(checked) => changeSetting('fixedMultiTab', checked)}
                           />
                         )
                       },
@@ -322,7 +310,6 @@ const SettingDrawer = defineComponent({
                         fixedHeader,
                         fixSiderbar,
                         showTabsBar,
-                        fixedMultiTab,
                         showProgressBar,
                         animate
                       }),

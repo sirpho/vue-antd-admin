@@ -28,8 +28,6 @@ export const defaultSettings: themeConfig = {
   fixedHeader: false,
   // 侧边栏菜单是否固定
   fixSiderbar: false,
-  // 标签页栏是否固定
-  fixedMultiTab: false,
   //是否显示顶部进度条
   showProgressBar: true,
   //菜单是否自动分割
@@ -65,10 +63,6 @@ export const defaultSettingProps = {
   splitMenus: {
     type: Boolean as PropType<themeConfig['splitMenus']>,
     default: defaultSettings.splitMenus
-  },
-  fixedMultiTab: {
-    type: Boolean as PropType<themeConfig['fixedMultiTab']>,
-    default: defaultSettings.fixedMultiTab
   },
   showProgressBar: {
     type: Boolean as PropType<themeConfig['showProgressBar']>,

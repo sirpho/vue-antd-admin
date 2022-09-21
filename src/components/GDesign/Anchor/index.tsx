@@ -13,7 +13,6 @@ import { cloneDeep } from 'lodash-es'
 import { Drawer } from 'ant-design-vue'
 import { MenuOutlined, CloseOutlined } from '@ant-design/icons-vue'
 import config from '/config/config'
-import { useStore } from '@gx-vuex'
 import { getPrefixCls } from '@gx-admin/utils'
 import { getScroll, scrollTo, throttleByAnimationFrame } from '@gx-design/utils'
 import { useMediaQuery } from '@gx-admin/hooks/event'
@@ -50,17 +49,13 @@ export const anchorProps = {
 const GAnchor = defineComponent({
   props: anchorProps,
   setup(props) {
-    const store = useStore()
-
     const prefixCls = getPrefixCls({
       suffixCls: 'anchor'
     })
 
     const colSize = useMediaQuery()
 
-    const fixedMultiTab = computed(() => store.settings.fixedMultiTab)
-
-    const defaultOffsetTop = computed(() => (fixedMultiTab.value ? 48 + 62 : 48))
+    const defaultOffsetTop = 48
 
     const isMobile = computed(() => colSize.value === 'sm' || colSize.value === 'xs')
 
@@ -131,9 +126,8 @@ const GAnchor = defineComponent({
     const handelAnchorActive = (scrollTop, anchor, afterAnchor) => {
       if (!anchor) return false
       return (
-        scrollTop >= handleOffsetTop(anchor).top - defaultOffsetTop.value &&
-        scrollTop <
-          (afterAnchor ? handleOffsetTop(afterAnchor).top - defaultOffsetTop.value : 10000)
+        scrollTop >= handleOffsetTop(anchor).top - defaultOffsetTop &&
+        scrollTop < (afterAnchor ? handleOffsetTop(afterAnchor).top - defaultOffsetTop : 10000)
       )
     }
 
@@ -155,7 +149,7 @@ const GAnchor = defineComponent({
     const goAnchor = (selector) => {
       const targetNode = document.querySelector(selector) || { offsetTop: 0 }
       const { root } = props
-      scrollTo(handleOffsetTop(targetNode).top - defaultOffsetTop.value, {
+      scrollTo(handleOffsetTop(targetNode).top - defaultOffsetTop, {
         getContainer: () => document.querySelector(root) as HTMLInputElement,
         duration: 450
       })
@@ -193,7 +187,6 @@ const GAnchor = defineComponent({
           >
             <DefaultAnchor
               prefixCls={prefixCls}
-              isfixedMultiTab={fixedMultiTab.value}
               isMobile={isMobile.value}
               dataSource={state.dataSource}
               onGoAnchor={(path) => goAnchor(path)}
@@ -202,7 +195,6 @@ const GAnchor = defineComponent({
         ) : (
           <DefaultAnchor
             prefixCls={prefixCls}
-            isfixedMultiTab={fixedMultiTab.value}
             dataSource={state.dataSource}
             onGoAnchor={(path) => goAnchor(path)}
           />

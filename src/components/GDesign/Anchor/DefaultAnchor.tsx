@@ -6,7 +6,6 @@ import { handelInkStyle } from './index'
 
 const defaultAnchorProps = {
   isMobile: PropTypes.looseBool,
-  isfixedMultiTab: PropTypes.looseBool,
   dataSource: {
     type: Array as PropType<any[]>,
     default: () => []
@@ -20,7 +19,7 @@ const defaultAnchorProps = {
 export type DefaultAnchorProps = Partial<ExtractPropTypes<typeof defaultAnchorProps>>
 
 export const DefaultAnchor: FunctionalComponent<DefaultAnchorProps> = (props) => {
-  const { dataSource = [], prefixCls = '', onGoAnchor, isMobile, isfixedMultiTab } = props
+  const { dataSource = [], prefixCls = '', onGoAnchor, isMobile } = props
 
   const baseClassName = computed(() => {
     return {
@@ -49,11 +48,7 @@ export const DefaultAnchor: FunctionalComponent<DefaultAnchorProps> = (props) =>
 
   return (
     <div class={baseClassName.value}>
-      {isMobile ? (
-        linksRender()
-      ) : (
-        <g-affix offset={isfixedMultiTab ? 68 + 42 : 68}>{linksRender()}</g-affix>
-      )}
+      {isMobile ? linksRender() : <g-affix offset={68}>{linksRender()}</g-affix>}
     </div>
   )
 }
