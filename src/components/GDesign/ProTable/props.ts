@@ -14,7 +14,14 @@ import type { ProColumns, ProSearchMap } from './types/column'
 import type { ColumnsState, ColumnsStateType } from './hooks/useColumnSetting'
 import { SearchConfig } from './types/table'
 
-export const defaultPorps = {
+export const defaultSearchProp = {
+  resetText: '重置',
+  searchText: '查询',
+  showSearch: true,
+  showReset: true
+}
+
+export const defaultProps = {
   ...tableProps(),
   rowSelection: {
     type: Object as PropType<ProTableRowSelection>,
@@ -25,7 +32,7 @@ export const defaultPorps = {
 }
 
 export const proTableProps = {
-  ...defaultPorps,
+  ...defaultProps,
   rowKey: { type: String as PropType<string>, default: undefined },
   /**
    * @description 获取 dataSource 的方法
@@ -58,10 +65,7 @@ export const proTableProps = {
   search: {
     type: Object as PropType<SearchConfig>,
     default: () => {
-      return {
-        resetText: '重置',
-        searchText: '查询'
-      } as SearchConfig
+      return defaultSearchProp as SearchConfig
     }
   },
   searchMap: {

@@ -3,6 +3,7 @@ export default {
     {
       dataIndex: 'name',
       searchConfig: {
+        label: '规则',
         name: 'name',
         valueType: 'text',
         placeholder: '请输入规则名称'
@@ -11,6 +12,7 @@ export default {
     {
       title: '描述',
       searchConfig: {
+        label: '描述',
         name: 'desc',
         valueType: 'text',
         placeholder: '请输入描述'
@@ -20,6 +22,7 @@ export default {
     {
       title: '服务调用次数',
       searchConfig: {
+        label: '服务调用次数',
         name: 'callNo',
         valueType: 'text',
         placeholder: '请输入服务调用次数'
@@ -30,6 +33,7 @@ export default {
     {
       title: '状态',
       searchConfig: {
+        label: '状态',
         name: 'status',
         valueType: 'select',
         valueEnum: [
@@ -57,6 +61,7 @@ export default {
     {
       title: '上次调度时间',
       searchConfig: {
+        label: '上次调度时间',
         name: 'updatedAt',
         valueType: 'date',
         showTime: true,

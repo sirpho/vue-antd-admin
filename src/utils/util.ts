@@ -1,5 +1,4 @@
 import dayjs from 'dayjs'
-import type { MaterialInfo } from '@gx-design/Upload'
 
 export function timeFix() {
   const time = new Date()
@@ -512,145 +511,11 @@ export function getFileSuffix(url = '') {
 }
 
 /**
- * 判断文件后缀名
- * @param url
- * @return 1:图片 2:音频 3:视频 4:其他
- */
-export function checkFileType(url: any) {
-  if (!url) return '1'
-  if (url === 'data:') return '4'
-  let type
-  if (isBase64(url)) {
-    if (url.includes('data:image/')) {
-      type = '.png'
-    } else if (url.includes('data:video/')) {
-      type = '.mp4'
-    } else if (url.includes('data:audio/')) {
-      type = '.mp3'
-    }
-  } else if (url instanceof Blob) {
-    url = String(url)
-    if (url.includes('image')) {
-      type = '.png'
-    } else if (url.includes('video')) {
-      type = '.mp4'
-    } else if (url.includes('audio')) {
-      type = '.mp3'
-    }
-  } else {
-    url = getVideoFileUrl(url)
-    const index = url.lastIndexOf('.')
-    type = `${url.substring(index).split('?')[0]}`.toLowerCase()
-  }
-  if (
-    type === '.bmp' ||
-    type === '.png' ||
-    type === '.gif' ||
-    type === '.jpg' ||
-    type === '.jpeg'
-  ) {
-    return '1'
-  }
-  if (
-    type === '.mp4' ||
-    type === '.swf' ||
-    type === '.rmvb' ||
-    type === '.avi' ||
-    type === '.flv' ||
-    type === '.mpg' ||
-    type === '.wmv' ||
-    type === '.rm' ||
-    type === '.mov' ||
-    type === '.asf' ||
-    type === '.3gp' ||
-    type === '.mkv' ||
-    type === '.ts'
-  ) {
-    return '3'
-  }
-  if (
-    type === '.mp3' ||
-    type === '.mpeg' ||
-    type === '.aac' ||
-    type === '.wav' ||
-    type === '.wma'
-  ) {
-    return '2'
-  }
-  return '4'
-}
-
-/**
- * @description 获取文件信息(支持链接地址，file文件，base64编码)
- */
-
-export function getMediaInfos(mediaInfo: {
-  url: any;
-  fileType?: string;
-}): Promise<MaterialInfo> {
-  const { url = '', fileType = '1' } = mediaInfo
-  let mediaUrl = ''
-  if (url instanceof File) {
-    mediaUrl = URL.createObjectURL(url)
-  } else if (isBase64(url)) {
-    mediaUrl = url
-  } else if (url instanceof Blob) {
-    mediaUrl = URL.createObjectURL(url)
-  } else if (url.includes('https') || url.includes('http')) {
-    mediaUrl = fileType === '1' ? url : url
-  }
-  return new Promise(function (resolve) {
-    let elememt: any
-    if (fileType === '1') {
-      elememt = document.createElement('img')
-      elememt.src = mediaUrl
-    } else if (fileType === '2') {
-      elememt = document.createElement('audio')
-      elememt.src = mediaUrl
-    } else if (fileType === '3') {
-      elememt = document.createElement('video')
-      elememt.src = mediaUrl
-    }
-    if (fileType === '1') {
-      elememt.onload = function () {
-        resolve({
-          play: true,
-          width: elememt.width || 0,
-          height: elememt.height
-        })
-        elememt = null
-      }
-    } else {
-      elememt.oncanplay = function () {
-        resolve({
-          play: true,
-          duration: elememt.duration
-        })
-        elememt = null
-      }
-    }
-    elememt.onerror = function () {
-      resolve({
-        play: false
-      })
-      elememt = null
-    }
-  })
-}
-
-/**
  * @description 判断是否是base64码
  */
 export function isBase64(str = '') {
-  const fileDataBase = [
-    'data:image/',
-    'data:video/',
-    'data:audio/'
-  ]
-  if (str && fileDataBase.find(item => str.includes(item))) {
-    return true
-  }
-  return false
+  const fileDataBase = ['data:image/', 'data:video/', 'data:audio/']
+  return str && fileDataBase.find((item) => str.includes(item))
 }
 
 

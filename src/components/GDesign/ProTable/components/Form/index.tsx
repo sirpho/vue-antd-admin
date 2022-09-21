@@ -8,7 +8,7 @@ import { isArray } from '@/utils/validate'
 import { useForm } from './useForm'
 import type { ColConfig } from '../../types/table'
 import type { ProSearchMap } from '../../types/column'
-import { proTableProps } from '../../props'
+import { defaultSearchProp, proTableProps } from '../../props'
 
 import './style.less'
 
@@ -25,7 +25,7 @@ export default defineComponent({
     prefixCls: PropTypes.string,
     defaultParams: Object as PropType<RecordType>
   },
-  emits: ['search'],
+  emits: ['search', 'collapse'],
   setup(props, { emit, slots }) {
     const screens = useBreakpoint()
 
@@ -34,11 +34,12 @@ export default defineComponent({
       props.searchMap
     )
 
+    const searchProp = computed(() => Object.assign({ ...defaultSearchProp }, props.search))
     const advanced = ref(false)
 
-    const hasSearch = computed(() => !!props.search.showSearch)
+    const hasSearch = computed(() => !!searchProp.value.showSearch)
     const hasReset = computed(() =>
-      props.search.showReset === undefined ? hasSearch.value : props.search.showReset
+      searchProp.value.showReset === undefined ? hasSearch.value : searchProp.value.showReset
     )
 
     const responsiveArray: { value: Breakpoint; span: number }[] = [
@@ -50,10 +51,10 @@ export default defineComponent({
       { value: 'xs', span: 1 }
     ]
 
-    const rowLength = computed(() => getColSpanStyle(props.search.span))
+    const rowLength = computed(() => getColSpanStyle(searchProp.value.span))
 
     watch(
-      () => props.search.defaultCollapsed,
+      () => searchProp.value.defaultCollapsed,
       (value) => {
         advanced.value = advanced.value || value
       }
@@ -76,6 +77,7 @@ export default defineComponent({
 
     const changeAdvanced = (status: boolean) => {
       advanced.value = status
+      emit('collapse', status)
     }
 
     const getStyleWidth = (index, rowLength, rowWidth) => {
@@ -140,7 +142,7 @@ export default defineComponent({
           )
           break
       }
-      if (props.search.showSearch || record.valueType === 'text') {
+      if (searchProp.value.showSearch || record.valueType === 'text') {
         return
       } else if (record.valueType === 'treeSelect' || record.valueType === 'dateRange') {
         handleSubmit()
@@ -195,11 +197,11 @@ export default defineComponent({
       (hasSearch.value || hasReset.value) && (
         <Space>
           {hasReset.value && (
-            <Button onClick={() => resetForm()}>{props.search.resetText || '重置'}</Button>
+            <Button onClick={() => resetForm()}>{searchProp.value.resetText || '重置'}</Button>
           )}
           {hasSearch.value && (
             <Button loading={props.loading} type="primary" onClick={() => handleSubmit(true)}>
-              {props.search.searchText || '查询'}
+              {searchProp.value.searchText || '查询'}
             </Button>
           )}
         </Space>
@@ -212,8 +214,8 @@ export default defineComponent({
           {showAdvanced && (
             <a onClick={() => changeAdvanced(!advanced)}>
               {advanced ? '收起' : '展开'}
-              {props.search.collapseRender ? (
-                props.search.collapseRender()
+              {searchProp.value.collapseRender ? (
+                searchProp.value.collapseRender()
               ) : advanced ? (
                 <UpOutlined />
               ) : (
@@ -410,7 +412,7 @@ export default defineComponent({
     }
 
     const FormItemWrapper = ({ formItemStyle, item }) => (
-      <Form.Item style={formItemStyle}>
+      <Form.Item label={item.label} style={formItemStyle}>
         {item.__v_isVNode ? item : FormItemContainer(item)}
       </Form.Item>
     )
@@ -465,7 +467,6 @@ export default defineComponent({
             </>
           )
         }
-        return null
       })
     }
 
@@ -473,7 +474,7 @@ export default defineComponent({
       <div
         class={{
           [`${unref(props.prefixCls)}-search`]: true,
-          [`${props.search.className}`]: props.search.className
+          [`${searchProp.value.className}`]: searchProp.value.className
         }}
       >
         <Form class={`${unref(props.prefixCls)}-form`} layout="horizontal">

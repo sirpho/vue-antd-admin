@@ -3,7 +3,11 @@
     <g-pro-table
       headerTitle="查询表格"
       row-key="key"
+      :scroll="{ x: 'max-content', y: tableHeight }"
       align="center"
+      :search="{
+        onCollapse: updateTableHeight
+      }"
       :showIndex="false"
       :actionRef="(info) => (tableRef = info)"
       :columns="columns"
@@ -62,6 +66,7 @@ import { rule, removeRule } from '@/services/list/table'
 import { handleSelectPage } from '@/utils/util'
 import OperationModal from './components/OperationModal.vue'
 import columns from './utils/columns'
+import { useTableHeight } from '@/hooks/web/useTableHeight'
 
 export default defineComponent({
   components: {
@@ -73,6 +78,7 @@ export default defineComponent({
   setup() {
     const tableRef = ref()
     const operation = ref()
+    const [tableHeight, updateTableHeight] = useTableHeight()
     const state = reactive({
       columns: cloneDeep(columns.index),
       tableData: [],
@@ -143,6 +149,8 @@ export default defineComponent({
       tableRef,
       operation,
       getTableList,
+      tableHeight,
+      updateTableHeight,
       onSelectChange,
       handleTableAdd,
       updateTableRule,

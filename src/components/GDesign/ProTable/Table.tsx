@@ -144,12 +144,12 @@ const GProTable = defineComponent({
     })
 
     /**
-     * @description Tabel-colums hooks 方法
+     * @description Tabel-columns hooks 方法
      */
-    const configColums = useConfigColumns(props)
+    const configColumns = useConfigColumns(props)
     const { getProColumns, cacheProColumns, setColumns, changeColumns, resizeColumnWidth } =
       useColumns({
-        ...configColums,
+        ...configColumns,
         breakpoint,
         scroll: getScrollRef,
         columns: cacheColumns
@@ -469,6 +469,9 @@ const GProTable = defineComponent({
                 prefixCls={baseClassName}
                 loading={!!unref(getLoading)}
                 onSearch={handleTableSubmit}
+                onCollapse={() => {
+                  props.search?.onCollapse?.()
+                }}
                 defaultParams={defaultParamsRef}
                 v-slots={{
                   default: () => slots.search?.()

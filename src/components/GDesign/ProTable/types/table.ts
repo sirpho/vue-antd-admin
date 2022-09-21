@@ -54,6 +54,7 @@ export type SearchConfig = {
   showReset?: boolean;
   collapseRender?: WithFalse<(collapsed?: boolean) => CustomRender>;
   span?: ColConfig;
+  onCollapse?: ()=> any;
 }
 
 export interface OptionConfig {
