@@ -47,7 +47,7 @@ const ThemeColor = defineComponent({
             {colors.map((item: any) => {
               const check = value === item.color
               return (
-                <Tooltip key={item.color} title={item.fileName}>
+                <Tooltip key={item.color} title={item.colorName}>
                   <Tag
                     className={className}
                     class={`${baseClassName.value}-block`}

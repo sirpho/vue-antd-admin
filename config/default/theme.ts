@@ -2,6 +2,7 @@
  * @description 导出默认主题配置
  */
 import type { themeConfig } from '/types/config'
+import {genFirstColor} from "/config/default/themeColor";
 
 const themeSetting: themeConfig = {
   //布局种类 side/mix/simple
@@ -9,7 +10,7 @@ const themeSetting: themeConfig = {
   // 主题 light/dark
   theme: 'dark',
   // 主题色
-  primaryColor: '#1890FF',
+  primaryColor: genFirstColor(),
   // logo标题
   title: '',
   // 头部菜单高度
