@@ -11,21 +11,21 @@ import ProCard, {
 
 const gxProDesign = (app) => {
   // pro-layout
-  app.component('g-pro-layout', ProLayout)
+  app.component('GProLayout', ProLayout)
   // pro-wrapper
-  app.component('g-pro-page-container', PageContainer)
+  app.component('GProPageContainer', PageContainer)
   // pro-card
-  app.component('g-pro-card', ProCard)
-  app.component('g-pro-card-group', GProCardGroup)
-  app.component('g-pro-card-divider', GProCardDivider)
-  app.component('g-pro-card-tab-pane', GProCardTabPane)
+  app.component('GProCard', ProCard)
+  app.component('GProCardGroup', GProCardGroup)
+  app.component('GProCardDivider', GProCardDivider)
+  app.component('GProCardTabPane', GProCardTabPane)
   // pro-table
-  app.component('g-pro-table', ProTable)
+  app.component('GProTable', ProTable)
   // pro-modal
-  app.component('g-pro-modal', ProModal)
+  app.component('GProModal', ProModal)
   // pro-skeleton
-  app.component('g-pro-skeleton', ProSkeleton)
+  app.component('GProSkeleton', ProSkeleton)
   // pro-watermark
-  app.component('g-pro-watermark', ProWatermark)
+  app.component('GProWatermark', ProWatermark)
 }
 export default gxProDesign

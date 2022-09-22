@@ -12,27 +12,27 @@ import Image, { ImageViewer, ImageViewerGroup } from '@gx-design/Image'
 
 const gxDesign = (app) => {
   // image
-  app.component('g-image', Image)
-  app.component('g-image-viewer', ImageViewer)
-  app.component('g-image-viewer-group', ImageViewerGroup)
+  app.component('GImage', Image)
+  app.component('GImageViewer', ImageViewer)
+  app.component('GImageViewerGroup', ImageViewerGroup)
   // affix
-  app.component('g-affix', Affix)
+  app.component('GAffix', Affix)
   // result
-  app.component('g-result', Result)
+  app.component('GResult', Result)
   // anchor
-  app.component('g-anchor', Anchor)
+  app.component('GAnchor', Anchor)
   // backtop
-  app.component('g-back-top', BackTop)
+  app.component('GBackTop', BackTop)
   // scrollbars
-  app.component('g-bars', Scrollbars)
+  app.component('GBars', Scrollbars)
   // skeleton
-  app.component('g-skeleton', Skeleton)
+  app.component('GSkeleton', Skeleton)
   // color-picker
-  app.component('g-color', ColorPicker)
+  app.component('GColor', ColorPicker)
   // tag-select
-  app.component('g-tag-select', TagSelect)
-  app.component('g-tag-select-option', TagSelectOption)
+  app.component('GTagSelect', TagSelect)
+  app.component('GTagSelectOption', TagSelectOption)
   // input-search
-  app.component('g-input-search', InputSearch)
+  app.component('GInputSearch', InputSearch)
 }
 export default gxDesign

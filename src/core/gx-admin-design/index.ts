@@ -2,8 +2,8 @@ import { Documentation, PageLoading } from '@/components'
 
 const gxAdminDesign = (app) => {
   // doc
-  app.component('g-doc', Documentation)
+  app.component('GDoc', Documentation)
   // pro-loading
-  app.component('g-page-loading', PageLoading)
+  app.component('GPageLoading', PageLoading)
 }
 export default gxAdminDesign

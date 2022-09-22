@@ -25,9 +25,9 @@ const ObjectFit = {
 }
 
 const GImage = defineComponent({
-  props: gImagePorps,
   name: 'GImage',
   inheritAttrs: false,
+  props: gImagePorps,
   emits: ['error', 'click'],
   setup(props, { slots, emit, attrs }) {
     const baseClassName = getPrefixCls({

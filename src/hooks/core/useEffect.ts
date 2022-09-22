@@ -6,7 +6,7 @@ export function useEffect<T>(
   condition: (WatchSource<unknown> | object)[],
   shouldUpdate?: (prev: any[], next: any[]) => boolean
 ) {
-  const isMomunt = ref(false)
+  const isMounted = ref(false)
   watch(condition, (next, pre) => {
     if (shouldUpdate) {
       if (shouldUpdate(next, pre)) {
@@ -18,7 +18,7 @@ export function useEffect<T>(
   })
 
   onMounted(() => {
-    isMomunt.value = true
+    isMounted.value = true
     getValue()
   })
 }
