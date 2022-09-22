@@ -40,7 +40,6 @@ specifiers:
   eslint-plugin-vue: ^8.6.0
   esno: ^0.7.3
   fs-extra: ^10.1.0
-  highlight.js: ^11.4.0
   husky: ^7.0.4
   less: ^4.1.2
   lint-staged: 12.3.7
@@ -90,7 +89,6 @@ dependencies:
   clipboard: 2.0.11
   crypto-js: 4.1.1
   dayjs: 1.11.4
-  highlight.js: 11.6.0
   husky: 7.0.4
   lodash-es: 4.17.21
   mockjs: 1.1.0
@@ -3522,11 +3520,6 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
     dev: true
-
-  /highlight.js/11.6.0:
-    resolution: {integrity: sha512-ig1eqDzJaB0pqEvlPVIpSSyMaO92bH1N2rJpLMN/nX396wTpDA4Eq0uK+7I/2XG17pFaaKE0kjV/XPeGt7Evjw==}
-    engines: {node: '>=12.0.0'}
-    dev: false
 
   /homedir-polyfill/1.0.3:
     resolution: {integrity: sha512-eSmmWE5bZTK2Nou4g0AI3zZ9rswp7GRKoKXS1BLUkvPviOqs4YTN1djQIqrXy9k5gEtdLPy86JjRwsNM9tnDcA==}
