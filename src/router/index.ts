@@ -91,7 +91,6 @@ export const asyncRoutes: AppRouteModule[] = [
     redirect: '/workplace',
     meta: {
       hideInMenu: false,
-      homePage: 0,
       title: '首页'
     },
     children: [
@@ -113,13 +112,10 @@ export const asyncRoutes: AppRouteModule[] = [
           tagFixed: false,
           tagHidden: false,
           icon: 'PicRightOutlined',
-          homePage: 0,
-          iconType: 1,
           hideInMenu: false,
           target: '',
           targetStatus: 0
         },
-        redirect: '/proComponents/layout/waterMark',
         children: [
           {
             path: '/proComponents/layout',
@@ -130,24 +126,20 @@ export const asyncRoutes: AppRouteModule[] = [
               tagFixed: false,
               tagHidden: false,
               icon: 'pic-center-outlined',
-              homePage: 0,
-              iconType: 1,
               hideInMenu: false,
               target: '',
               targetStatus: 0
             },
-            redirect: '/proComponents/layout/waterMark',
             children: [
               {
                 path: '/proComponents/layout/waterMark',
                 component: () => import('@/views/proComponents/layout/waterMark/index.vue'),
                 name: '水印组件',
+                authority: '权限字段',
                 meta: {
                   title: '水印组件',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: '',
                   targetStatus: 0
@@ -161,8 +153,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: '高级卡片',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: '',
                   targetStatus: 0
@@ -179,8 +169,6 @@ export const asyncRoutes: AppRouteModule[] = [
               tagFixed: false,
               tagHidden: false,
               icon: 'pic-center-outlined',
-              homePage: 0,
-              iconType: 1,
               hideInMenu: false,
               target: '',
               targetStatus: 0
@@ -194,8 +182,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: '高级表格',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: '',
                   targetStatus: 0
@@ -212,8 +198,6 @@ export const asyncRoutes: AppRouteModule[] = [
               tagFixed: false,
               tagHidden: false,
               icon: 'pic-center-outlined',
-              homePage: 0,
-              iconType: 1,
               hideInMenu: false,
               target: '',
               targetStatus: 0
@@ -227,8 +211,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: '骨架屏',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: '',
                   targetStatus: 0
@@ -242,8 +224,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: '图片',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: '',
                   targetStatus: 0
@@ -262,8 +242,6 @@ export const asyncRoutes: AppRouteModule[] = [
           tagFixed: false,
           tagHidden: false,
           icon: 'pic-center-outlined',
-          homePage: 0,
-          iconType: 1,
           hideInMenu: false,
           target: '',
           targetStatus: 0
@@ -278,8 +256,6 @@ export const asyncRoutes: AppRouteModule[] = [
               tagFixed: false,
               tagHidden: false,
               icon: 'pic-center-outlined',
-              homePage: 0,
-              iconType: 1,
               hideInMenu: false,
               target: '',
               targetStatus: 0
@@ -293,8 +269,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: '基础表单',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: '',
                   targetStatus: 0
@@ -308,8 +282,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: '分布表单',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: '',
                   targetStatus: 0
@@ -323,8 +295,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: '组合表单',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: '',
                   targetStatus: 0
@@ -341,8 +311,6 @@ export const asyncRoutes: AppRouteModule[] = [
               tagFixed: false,
               tagHidden: false,
               icon: 'pic-center-outlined',
-              homePage: 0,
-              iconType: 1,
               hideInMenu: false,
               target: '',
               targetStatus: 0
@@ -356,8 +324,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: '搜索列表',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: '',
                   targetStatus: 0
@@ -371,8 +337,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: '查询表格',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: '',
                   targetStatus: 0
@@ -386,8 +350,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: '标准列表',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: '',
                   targetStatus: 0
@@ -401,8 +363,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: '卡片列表',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: '',
                   targetStatus: 0
@@ -419,8 +379,6 @@ export const asyncRoutes: AppRouteModule[] = [
               tagFixed: false,
               tagHidden: false,
               icon: 'pic-center-outlined',
-              homePage: 0,
-              iconType: 1,
               hideInMenu: false,
               target: '',
               targetStatus: 0
@@ -434,8 +392,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: '基础详情页',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: '',
                   targetStatus: 0
@@ -449,8 +405,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: '高级详情页',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: '',
                   targetStatus: 0
@@ -467,8 +421,6 @@ export const asyncRoutes: AppRouteModule[] = [
               tagFixed: false,
               tagHidden: false,
               icon: 'pic-center-outlined',
-              homePage: 0,
-              iconType: 1,
               hideInMenu: false,
               target: '',
               targetStatus: 0
@@ -482,8 +434,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: '成功页',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: '',
                   targetStatus: 0
@@ -497,8 +447,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: '失败页',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: '',
                   targetStatus: 0
@@ -515,8 +463,6 @@ export const asyncRoutes: AppRouteModule[] = [
               tagFixed: false,
               tagHidden: false,
               icon: 'pic-center-outlined',
-              homePage: 0,
-              iconType: 1,
               hideInMenu: false,
               target: '',
               targetStatus: 0
@@ -530,8 +476,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: '403',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: '',
                   targetStatus: 0
@@ -545,8 +489,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: '404',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: '',
                   targetStatus: 0
@@ -560,8 +502,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: '500',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: '',
                   targetStatus: 0
@@ -578,8 +518,6 @@ export const asyncRoutes: AppRouteModule[] = [
               tagFixed: false,
               tagHidden: false,
               icon: 'pic-center-outlined',
-              homePage: 0,
-              iconType: 1,
               hideInMenu: false,
               target: '',
               targetStatus: 0
@@ -593,8 +531,6 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: 'antVue文档(内嵌)',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: 'https://next.antdv.com/components/overview-cn/',
                   targetStatus: 0
@@ -608,64 +544,12 @@ export const asyncRoutes: AppRouteModule[] = [
                   title: 'procomponents(外链)',
                   tagFixed: false,
                   tagHidden: false,
-                  homePage: 0,
-                  iconType: 1,
                   hideInMenu: false,
                   target: 'https://procomponents.ant.design/',
                   targetStatus: 1
                 }
               }
             ]
-          }
-        ]
-      },
-      {
-        path: '/account',
-        component: () => import('@/layout/PageView.vue'),
-        name: '个人页',
-        meta: {
-          title: '个人页',
-          tagFixed: false,
-          tagHidden: false,
-          icon: 'pic-center-outlined',
-          homePage: 0,
-          iconType: 1,
-          hideInMenu: false,
-          target: '',
-          targetStatus: 0
-        },
-        children: [
-          {
-            path: '/account/center',
-            component: () => import('@/views/account/center/index.vue'),
-            name: '个人中心',
-            meta: {
-              title: '个人中心',
-              tagFixed: false,
-              tagHidden: false,
-              icon: 'pic-center-outlined',
-              homePage: 0,
-              iconType: 1,
-              hideInMenu: false,
-              target: '',
-              targetStatus: 0
-            }
-          },
-          {
-            path: '/account/settings',
-            component: () => import('@/views/account/settings/index.vue'),
-            name: '个人设置',
-            meta: {
-              title: '个人设置',
-              tagFixed: false,
-              tagHidden: false,
-              icon: 'pic-center-outlined',
-              homePage: 0,
-              iconType: 1,
-              hideInMenu: false,
-              target: '',
-              targetStatus: 0
-            }
           }
         ]
       },
@@ -678,8 +562,6 @@ export const asyncRoutes: AppRouteModule[] = [
           tagFixed: false,
           tagHidden: false,
           icon: 'pic-center-outlined',
-          homePage: 0,
-          iconType: 1,
           hideInMenu: false,
           target: '',
           targetStatus: 0
@@ -694,8 +576,6 @@ export const asyncRoutes: AppRouteModule[] = [
               tagFixed: false,
               tagHidden: false,
               icon: 'pic-center-outlined',
-              homePage: 0,
-              iconType: 1,
               hideInMenu: false,
               target: '',
               targetStatus: 0

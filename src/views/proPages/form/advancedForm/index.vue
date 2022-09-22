@@ -284,7 +284,7 @@ import { PlusOutlined, CloseCircleOutlined } from '@ant-design/icons-vue'
 import config from '/config/config'
 import { getAdvancedForm, getAdvancedFormTable } from '@/services/form/advanced'
 import { scrollTo } from '@gx-design/utils'
-import { handleOffsetTop, hanndleField } from '@/utils/util'
+import { handleOffsetTop, handleField } from '@/utils/util'
 import type { TableFormDateType } from './typings'
 import columns from './utils/columns'
 import { fieldLabels, rules } from './utils/config'
@@ -379,7 +379,7 @@ export default defineComponent({
               state.formState[i] = formState[i] || undefined
               break
             default:
-              state.formState[i] = hanndleField(formState[i], '').value
+              state.formState[i] = handleField(formState[i], '').value
               break
           }
         }

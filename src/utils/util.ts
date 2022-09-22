@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import { cloneDeep } from 'lodash-es'
 
 export function timeFix() {
   const time = new Date()
@@ -64,14 +65,10 @@ export function runFunction<T extends any[]>(valueEnum: any, ...rest: T) {
   return valueEnum
 }
 
-export function deepCopy(data: object | any[]) {
-  return JSON.parse(JSON.stringify(data))
-}
-
 /**
  * @description 处理表格字段为空
  */
-export function hanndleField(str: any, customize: any) {
+export function handleField(str: any, customize: any) {
   const stringNull = [ 'null', 'undefined' ]
   let success = true
   if (str === 0) {
@@ -97,10 +94,8 @@ export function hanndleField(str: any, customize: any) {
  * @description 数组去重
  */
 export function arrayRepeat(data: any[]) {
-  let array = deepCopy(data)
-  const set = new Set(array)
-  array = Array.from(set)
-  return array
+  const set = new Set(data)
+  return Array.from(set)
 }
 
 /**
@@ -123,7 +118,7 @@ export function getSortIndex(
     })
   }
 
-  return deepCopy(data).map((item: any, index: number) => {
+  return cloneDeep(data).map((item: any, index: number) => {
     let sortIndex = index
     if (pageConfig) {
       const current = pageConfig?.['current'] || 1
@@ -174,7 +169,7 @@ export function completionTableItem(config: {
     }
     return item
   })
-  return deepCopy(selectItems)
+  return cloneDeep(selectItems)
 }
 
 /**
@@ -195,7 +190,7 @@ export function handleSelectPage(config: {
   const currentSelectItems = oldSelectItems.filter((item: any) => tableData.some(el =>
     el[rowKey] === item[rowKey])
   )
-  let newSelectItems = deepCopy(oldSelectItems)
+  let newSelectItems = cloneDeep(oldSelectItems)
   if (currentSelectItems.length < selectItems.length) {
     const pushItems = selectItems.filter((item: any) => !currentSelectItems.find(el =>
       el[rowKey] === item[rowKey])
@@ -376,7 +371,7 @@ export function treeData(
   parentId = parentId || 'parentId'
   children = children || 'children'
   rootId = rootId || 0
-  const cloneData = JSON.parse(JSON.stringify(source))// 对源数据深度克隆
+  const cloneData = cloneDeep(source) // 对源数据深度克隆
   return cloneData.filter((father: any) => {
     const branchArr = cloneData.filter((child: any) => father[id] === child[parentId || 'parentId'])// 返回每一项的子级数组
     branchArr.length > 0 ? father[children || 'children'] = branchArr : delete father[children || 'children']// 如果存在子级，则给父级添加一个children属性，并赋值

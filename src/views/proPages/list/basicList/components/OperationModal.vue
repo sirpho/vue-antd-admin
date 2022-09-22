@@ -48,7 +48,7 @@ import { cloneDeep } from 'lodash-es'
 import { Form, message } from 'ant-design-vue'
 import type { BasicListItemDataType } from '@/services/list/basic'
 import { getBasicListInfo, updateBasicList, addBasicList } from '@/services/list/basic'
-import { hanndleField } from '@/utils/util'
+import { handleField } from '@/utils/util'
 import { rules, formItemLayout, user } from '../utils/config'
 
 interface infoParamsItem {
@@ -113,7 +113,7 @@ export default defineComponent({
               formState[i] = response.data[i] || null
               break
             default:
-              formState[i] = hanndleField(response.data[i], '').value
+              formState[i] = handleField(response.data[i], '').value
               break
           }
         }

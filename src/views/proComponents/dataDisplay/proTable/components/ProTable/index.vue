@@ -206,7 +206,6 @@ import { LoadingOutlined, ReloadOutlined, InfoCircleOutlined } from '@ant-design
 import { ProCoreActionTypeConfig } from '@gx-design/ProTable'
 import { getList, doDelete } from '@/services/table'
 import { useDict } from '@gx-admin/hooks/web'
-import { deepCopy } from '@/utils/util'
 import ScrollModal from './components/ScrollModal.vue'
 import OperationModal from './components/OperationModal.vue'
 import ScrollBreakpointModal from './components/ScrollBreakpointModal.vue'
@@ -360,9 +359,9 @@ const getTableData = async (params) => {
   const response = await getList({
     ...params
   })
-  state.tableData = deepCopy(response?.data || [])
+  state.tableData = response?.data || []
   return {
-    data: deepCopy(response?.data || []),
+    data: response?.data || [],
     success: response && response.code === 200,
     total: response.total,
     msg: (response && response.msg) || '系统出错，请稍后再试！'

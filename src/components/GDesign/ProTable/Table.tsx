@@ -19,7 +19,7 @@ import type { PaginationProps } from '@gx-design/Pagination/typings'
 import { getPrefixCls, getSlotVNode } from '@gx-admin/utils'
 import { warning } from '@gx-design/utils'
 import { isObject } from '@/utils/validate'
-import { getRandomNumber, hanndleField } from '@/utils/util'
+import { getRandomNumber, handleField } from '@/utils/util'
 import type { ProTablePaginationConfig, OptionConfig } from './types/table'
 import type { ProColumns } from './types/column'
 import { useLoading } from './hooks/useLoading'
@@ -500,7 +500,7 @@ const GProTable = defineComponent({
                 rowKey={(record) => record[props.rowKey || 'sortIndex']}
                 transformCellText={({ text, column }) => {
                   if (isVNode(text)) return text
-                  const { value, success } = hanndleField(
+                  const { value, success } = handleField(
                     text,
                     (column as any)?.columnEmptyText || props?.columnEmptyText
                   )

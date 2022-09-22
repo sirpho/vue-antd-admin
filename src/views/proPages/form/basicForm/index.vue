@@ -133,7 +133,7 @@ import { Form } from 'ant-design-vue'
 import { QuestionCircleOutlined } from '@ant-design/icons-vue'
 import { onMountedOrActivated } from '@gx-admin/hooks/core'
 import { getBasicForm } from '@/services/form/basic'
-import { hanndleField } from '@/utils/util'
+import { handleField } from '@/utils/util'
 
 const useForm = Form.useForm
 
@@ -201,7 +201,7 @@ export default defineComponent({
               state.formState[i] = response.data[i] || undefined
               break
             default:
-              state.formState[i] = hanndleField(response.data[i], '').value
+              state.formState[i] = handleField(response.data[i], '').value
               break
           }
         }

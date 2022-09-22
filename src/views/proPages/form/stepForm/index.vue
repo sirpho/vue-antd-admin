@@ -190,7 +190,7 @@ import { useStore } from '@gx-vuex'
 import { cloneDeep } from 'lodash-es'
 import { Form, Result, Steps, Statistic, Descriptions, Alert } from 'ant-design-vue'
 import { getStepForm } from '@/services/form/step'
-import { hanndleField } from '@/utils/util'
+import { handleField } from '@/utils/util'
 
 const useForm = Form.useForm
 
@@ -244,7 +244,7 @@ export default defineComponent({
               state.stepData[i] = parames[i] || undefined
               break
             default:
-              state.stepData[i] = hanndleField(parames[i], '').value
+              state.stepData[i] = handleField(parames[i], '').value
               break
           }
         }

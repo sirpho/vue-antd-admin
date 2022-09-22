@@ -13,6 +13,7 @@ declare global {
     children?: AppRouteModule[];
     hidden?: boolean;
     component?: Component;
+    authority?: string | string[];
   } & Omit<RouteRecordRaw, 'meta' | 'children'>
 
   interface MenuDataItem extends MenuMeta {
@@ -79,5 +80,7 @@ declare global {
     type?: string;
     disabled?: boolean;
     danger?: boolean;
+    // 权限字段
+    authority?: string | string[]
   }
 }

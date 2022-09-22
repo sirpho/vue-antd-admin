@@ -215,7 +215,7 @@ import dayjs from 'dayjs'
 import { Form, message, Steps } from 'ant-design-vue'
 import { getRuleInfo, addRule, updateRule } from '@/services/list/table'
 import { rules, dispatchRules, formItemLayout } from '../utils/config'
-import { hanndleField } from '@/utils/util'
+import { handleField } from '@/utils/util'
 
 const Step = Steps.Step
 const useForm = Form.useForm
@@ -278,7 +278,7 @@ export default defineComponent({
         for (let i in response.data) {
           switch (i) {
             default:
-              formState[i] = hanndleField(response.data[i], '').value
+              formState[i] = handleField(response.data[i], '').value
               break
           }
         }

@@ -38,15 +38,9 @@
 
 <script setup lang="ts">
 import { reactive, ref, unref, watchEffect } from 'vue'
-import { Form } from 'ant-design-vue'
 import { getList } from '@/services/table'
 import { useDict } from '@gx-admin/hooks/web'
-import { deepCopy } from '@/utils/util'
 import columns from '../../../utils/columns'
-
-const useForm = Form.useForm
-
-const emits = defineEmits(['handleOk'])
 
 const { getDictData } = useDict(['sys_common_status'])
 
@@ -91,9 +85,9 @@ watchEffect(() => {
 
 const getTableData = async (params) => {
   const response: any = await getList(params)
-  tableData.value = deepCopy(response?.data || [])
+  tableData.value = response?.data || []
   return {
-    data: deepCopy(response?.data || []),
+    data: response?.data || [],
     success: response && response.code === 200,
     total: response.total,
     msg: (response && response.msg) || '系统出错，请稍后再试！'
