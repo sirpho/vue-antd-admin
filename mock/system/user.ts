@@ -1,5 +1,4 @@
 import { MockMethod } from 'vite-plugin-mock'
-import dayjs from 'dayjs'
 import config from '/config/config'
 import { resultError, resultSuccess, getRequestToken, requestParams } from '../_util'
 
@@ -7,17 +6,11 @@ const { tokenName } = config.defaultSettings
 
 
 const accessTokens = {
-  gx12358: 'gx-accessToken',
   admin: 'admin-accessToken',
-  editor: 'editor-accessToken',
-  test: 'test-accessToken'
 }
 
 const account = {
-  admin: 'gx.design',
-  gx12358: 'aa123456',
-  editor: 'gx.design',
-  test: 'gx.design',
+  admin: 'admin',
 }
 
 export default [
@@ -39,105 +32,6 @@ export default [
         data: {
           [tokenName]: accessToken,
           expires_in: 720
-        }
-      }
-    }
-  },
-  {
-    url: '/mock-server/socialLogin',
-    method: 'post',
-    response: ({ body }) => {
-      const { code } = body
-      if (!code) {
-        return {
-          code: 500,
-          msg: '未成功获取Token。'
-        }
-      }
-      return {
-        code: 200,
-        msg: 'success',
-        data: { accessToken: accessTokens['admin'] }
-      }
-    }
-  },
-  {
-    url: '/mock-server/register',
-    method: 'post',
-    response: () => {
-      return {
-        code: 200,
-        msg: '模拟注册成功'
-      }
-    }
-  },
-  {
-    url: '/mock-server/userInfo',
-    method: 'post',
-    response: (request) => {
-      let GxAccessToken = getRequestToken(request)
-      GxAccessToken = 'admin-accessToken'
-      let userId: number | null = null
-      let permissions: string[] = []
-      let nickName = ''
-      let userName = ''
-      for (const i in accessTokens) {
-        if (accessTokens[i] === GxAccessToken) userName = i
-      }
-      switch (GxAccessToken) {
-        case 'gx-accessToken':
-          userId = 0
-          permissions = ['*:*:*']
-          nickName = '高翔'
-          break
-        case 'admin-accessToken':
-          userId = 1
-          permissions = [
-            'proTable:button:add',
-            'proTable:button:1',
-            'proTable:button:2',
-            'proTable:button:3'
-          ]
-          nickName = '系统管理员'
-          break
-        case 'editor-accessToken':
-          userId = 2
-          permissions = []
-          userName = 'editor'
-          nickName = 'gx12358-editor'
-          break
-        case 'test-accessToken':
-          userId = 3
-          permissions = [
-            'proTable:button:1',
-            'proTable:button:2',
-            'proTable:button:3'
-          ]
-          userName = 'test'
-          nickName = 'gx12358-test'
-          break
-        default:
-          return {
-            code: 500,
-            msg: 'token 失效，请重新登录！'
-          }
-          break
-      }
-      return {
-        code: 200,
-        msg: 'success',
-        permissions,
-        user: {
-          admin: userId === 0 || userId === 1,
-          userId,
-          userName,
-          nickName,
-          'avatar|1': [
-            'https://ahtv-obs.obs.cn-north-4.myhuaweicloud.com/15918_100.gif',
-            'https://ahtv-obs.obs.cn-north-4.myhuaweicloud.com/15922_100.gif',
-            'https://ahtv-obs.obs.cn-north-4.myhuaweicloud.com/20211111162748.jpg'
-          ],
-          loginDate: dayjs().format('YYYY-MM-DD HH:mm:ss')
         }
       }
     }

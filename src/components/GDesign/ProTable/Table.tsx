@@ -172,7 +172,7 @@ const GProTable = defineComponent({
     })
 
     /**
-     * @description Tabel-Form(搜索) hooks 方法
+     * @description Table-Form(搜索) hooks 方法
      */
     const { formDataRef, formParamsRef, defaultParamsRef, setFormParams } = useTableForm({
       search: toRef(props, 'search'),
@@ -227,7 +227,7 @@ const GProTable = defineComponent({
      */
     const getProTable = () => {
       props.actionRef({
-        formParams: formParamsRef.value,
+        formParams: unref(formParamsRef),
         pageParams: getPaginationInfo.value,
         reload: (info) => reload(info),
         reloadAndRest: () => reload({ current: 1, pageSize: 10 }),

@@ -260,23 +260,6 @@ const data: MenuDataItem[] = [
     hidden: false,
     outLinkType: 0
   },
-  {
-    children: [],
-    component: 'system/menu/index',
-    createTime: '2020-06-30 22:48:57',
-    icon: 'pic-center-outlined',
-    menuId: 11,
-    path: 'menu',
-    title: '菜单管理',
-    name: '菜单管理',
-    menuType: 'C',
-    orderNum: '7',
-    isFrame: '1',
-    parentId: 10,
-    target: '',
-    hidden: false,
-    outLinkType: 0
-  },
   // 三级菜单
   {
     children: [],

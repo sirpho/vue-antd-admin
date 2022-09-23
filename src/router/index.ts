@@ -568,11 +568,11 @@ export const asyncRoutes: AppRouteModule[] = [
         },
         children: [
           {
-            path: '/system/menu',
-            component: () => import('@/views/system/menu/index.vue'),
-            name: '菜单管理',
+            path: '/system/user',
+            component: () => import('@/views/system/user/index.vue'),
+            name: '用户管理',
             meta: {
-              title: '菜单管理',
+              title: '用户管理',
               tagFixed: false,
               tagHidden: false,
               icon: 'pic-center-outlined',

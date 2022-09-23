@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { notification } from 'ant-design-vue'
 import config from '/config/config'
 import { login } from '@/services/controller/user'
-import { removeAccessToken, setAccessToken } from '@/utils/accessToken'
+import { getAccessToken, removeAccessToken, setAccessToken } from '@/utils/accessToken'
 import { timeFix } from '@/utils/util'
 import { useStoreRoutes } from '@/store'
 import { useStorePermission } from '@/store'
@@ -28,8 +28,8 @@ export const useStoreUser = defineStore('user', () => {
   const tabsRouter = useStoreTabsRouter()
 
   const state = reactive({
-    // accessToken: getAccessToken(),
-    accessToken: '',
+    accessToken: getAccessToken(),
+    // accessToken: '',
     userInfo: {},
   } as UserState)
 
@@ -38,11 +38,11 @@ export const useStoreUser = defineStore('user', () => {
    */
   const userLogin = async (params) => {
     const response: any = await login(params)
-    const accessToken = response?.[tokenName]
+    const accessToken = response.data?.[tokenName]
     if (accessToken) {
-      const expires = response?.expire
+      const expires = response.data?.expire
       state.accessToken = accessToken
-      const {permissions, user} = response
+      const {permissions, user} = response.data
       setAccessToken(accessToken, expires ? expires * 60 * 1000 : 0)
       auth.changeValue("permission", permissions)
       state.userInfo = user
