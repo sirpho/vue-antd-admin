@@ -30,9 +30,10 @@ export function getUserList(param: userQueryParam) {
 }
 
 // 导出用户列表
-export function exportUserList() {
+export function exportUserList(param: userQueryParam) {
   return download({
     url: '/base/user/export',
+    params: param
   })
 }
 

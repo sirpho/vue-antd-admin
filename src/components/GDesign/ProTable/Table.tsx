@@ -348,11 +348,11 @@ const GProTable = defineComponent({
     })
 
     const handleTableSearch = (params: RecordType) => {
-      if (props.search.showSearch) {
+      if (props.search.showSearch === false) {
+        setFormParams(params)
+      } else {
         setFormParams({ ...params, ...((props.params || {}) as RecordType) })
         reload()
-      } else {
-        setFormParams(params)
       }
     }
 

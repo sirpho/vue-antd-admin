@@ -134,8 +134,8 @@ export default defineComponent({
      * 导出
      */
     const handleExport = () => {
-      console.log(tableRef.value)
-      // exportUserList()
+      const { formParams } = tableRef.value
+      exportUserList(formParams)
     }
     return {
       ...toRefs(state),
