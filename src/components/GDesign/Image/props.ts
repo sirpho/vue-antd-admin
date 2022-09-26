@@ -1,6 +1,6 @@
 import { PropTypes } from '@/utils'
 
-export const gImagePorps = {
+export const gImageProps = {
   appendToBody: {
     type: Boolean as PropType<boolean>,
     default: false
@@ -53,7 +53,7 @@ export const gImageViewProps = {
     type: Array as PropType<string[]>,
     default: () => []
   },
-  zIndex: gImagePorps.zIndex,
+  zIndex: gImageProps.zIndex,
   initialIndex: {
     type: Number as PropType<number>,
     default: 0
@@ -62,5 +62,5 @@ export const gImageViewProps = {
     type: Boolean as PropType<boolean>,
     default: true
   },
-  onHideOnClickModal: gImagePorps.hideOnClickModal
+  onHideOnClickModal: gImageProps.hideOnClickModal
 }

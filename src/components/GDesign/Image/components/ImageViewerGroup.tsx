@@ -1,13 +1,13 @@
 import { cloneVNode, computed, defineComponent, ref, Teleport } from 'vue'
 import { getPrefixCls } from '@gx-admin/utils'
 import ImageViewer from './ImageViewer'
-import { gImagePorps } from '../props'
+import { gImageProps } from '../props'
 
 let prevOverflow = ''
 
 const gImageViewerGroup = defineComponent({
   props: {
-    hideOnClickModal: gImagePorps.hideOnClickModal
+    hideOnClickModal: gImageProps.hideOnClickModal
   },
   setup(props, { slots }) {
     const baseClassName = getPrefixCls({

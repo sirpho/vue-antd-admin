@@ -34,8 +34,8 @@ const resultSubInfo: resultSubInfo = {
     exceptionImage: Result404
   },
   '403': {
-    headline: '您没有操作角色...',
-    info: '当前帐号没有操作角色,请联系管理员。',
+    headline: '您没有操作权限...',
+    info: '当前帐号没有操作权限,请联系管理员。',
     exceptionImage: Result403
   }
 }
@@ -59,8 +59,8 @@ export default defineComponent({
     const state = reactive<resultState>({
       jumpTime: 5,
       oops: '抱歉!',
-      headline: '您没有操作角色...',
-      info: '当前帐号没有操作角色,请联系管理员。',
+      headline: '您没有操作权限...',
+      info: '当前帐号没有操作权限,请联系管理员。',
       btn: `${routers.value?.length ? '返回首页' : '返回登录页'}`,
       timer: 0,
       exceptionImage: Result404

@@ -24,6 +24,7 @@ import {
   DatePicker,
   Select,
   Switch,
+  Upload,
   Checkbox
 } from 'ant-design-vue'
 
@@ -42,6 +43,7 @@ const antDesign = (app) => {
   app.use(DatePicker)
   app.use(Select)
   app.use(Switch)
+  app.use(Upload)
   app.use(Input)
   app.use(Button)
   app.use(Radio)

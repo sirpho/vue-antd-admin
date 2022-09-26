@@ -2,7 +2,7 @@ export default {
   index: [
     {
       dataIndex: 'id',
-      title: 'id',
+      title: 'id'
     },
     {
       dataIndex: 'uid',
@@ -12,7 +12,7 @@ export default {
         name: 'uid',
         valueType: 'text',
         placeholder: '请输入账号'
-      },
+      }
     },
     {
       dataIndex: 'uname',
@@ -22,28 +22,28 @@ export default {
         name: 'uname',
         valueType: 'text',
         placeholder: '请输入用户名'
-      },
+      }
     },
     {
       title: '角色',
-      dataIndex: 'roleName',
+      dataIndex: 'roleName'
     },
     {
       title: '登录时间',
-      dataIndex: 'loginTime',
+      dataIndex: 'loginTime'
     },
     {
       title: '登录IP',
-      dataIndex: 'loginIp',
+      dataIndex: 'loginIp'
     },
     {
       title: '状态',
-      dataIndex: 'status',
+      dataIndex: 'status'
     },
     {
       title: '操作',
       width: 180,
-      dataIndex: 'action',
+      dataIndex: 'action'
     }
   ]
 }

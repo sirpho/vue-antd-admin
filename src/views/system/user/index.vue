@@ -137,6 +137,7 @@ export default defineComponent({
       const { formParams } = tableRef.value
       exportUserList(formParams)
     }
+
     return {
       ...toRefs(state),
       tableRef,

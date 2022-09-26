@@ -6,7 +6,7 @@ import { onMountedOrActivated } from '@gx-admin/hooks/core'
 import { getScrollContainer, isInContainer } from '@gx-design/utils'
 import { isString } from '@/utils/validate'
 import ImageViewer from './components/ImageViewer'
-import { gImagePorps } from './props'
+import { gImageProps } from './props'
 
 import './style.less'
 
@@ -27,7 +27,7 @@ const ObjectFit = {
 const GImage = defineComponent({
   name: 'GImage',
   inheritAttrs: false,
-  props: gImagePorps,
+  props: gImageProps,
   emits: ['error', 'click'],
   setup(props, { slots, emit, attrs }) {
     const baseClassName = getPrefixCls({
