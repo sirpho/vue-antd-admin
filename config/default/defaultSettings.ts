@@ -31,7 +31,7 @@ const defaultSettings: settingConfig = {
   // 接口前缀
   requestPrefix: '',
   //开发环境端口号
-  devPort: 8080,
+  devPort: 10086,
   // 是否启用路由缓存
   keepAlive: false,
   //缓存路由的最大数量

@@ -41,11 +41,11 @@ export function handleShowIndex(
 ) {
   const columnsList = cloneDeep(columns)
   if (showIndex && columns.length && columns.every(column => column.dataIndex !== 'sortIndex')) {
-    const firstColumsItem = columns[0]
+    const firstColumnsItem = columns[0]
     columnsList.unshift({
       title: '序号',
       align,
-      fixed: firstColumsItem.fixed,
+      fixed: firstColumnsItem.fixed,
       width: 60,
       uuid: getRandomNumber().uuid(15),
       dataIndex: 'sortIndex',
@@ -70,11 +70,11 @@ export function handleFormDefaultValue(data: ProSearchMap[]) {
     } else if (!initialValue) {
       initialValue = ''
     }
-    if (item.name === 'dateRange') {
+    if (item.valueType === 'dateRange') {
       defaultParams[item.rangeStartName || 'start'] = initialValue ? initialValue[0] : null
       defaultParams[item.rangeEndName || 'end'] = initialValue ? initialValue[1] : null
     } else {
-      defaultParams[item.name] = initialValue
+      defaultParams[item.dataIndex as string] = initialValue
     }
     return item
   })

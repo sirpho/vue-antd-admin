@@ -26,7 +26,7 @@ export function useTableForm({ search, searchMap, params, columns }: {
       const searchData = cloneDeep(searchMap.value || [])
 
       columns.value.map(item => {
-        if (item.searchConfig) searchData.push(item.searchConfig)
+        if (item.search) searchData.push(item)
         return item
       })
 

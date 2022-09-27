@@ -67,7 +67,7 @@ export type ProSearchMap<
   ValueType = 'text',
   ValueFormat = 'date',
   > = {
-  name?: string;
+  dataIndex?: DataIndex;
   /** 选择如何渲染相应的模式 */
   valueType?: ProSchemaValueType<ValueType>;
   ValueFormat?: ProSchemaValueFormat<ValueFormat>;
@@ -187,12 +187,12 @@ export type ProColumn = {
   order?: number;
   /** 不在配置工具中显示 */
   hideInSetting?: boolean;
-  /** 表单搜索配置 */
-  searchConfig?: ProSearchMap;
+  /** 是否在搜索表单中展示 */
+  search?: boolean;
   /** 是否拷贝 */
   copyable?: boolean;
   /** 值为空时，默认取值 */
   columnEmptyText?: string;
-}
+} & ProSearchMap
 
 export type ProColumns = ProColumn[]

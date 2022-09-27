@@ -4,7 +4,6 @@ import { cloneDeep } from 'lodash-es'
 import { Button, DatePicker, Form, Grid, Input, Select, Space, TreeSelect } from 'ant-design-vue'
 import { DownOutlined, SearchOutlined, UpOutlined } from '@ant-design/icons-vue'
 import { PropTypes } from '@/utils'
-import { isArray } from '@/utils/validate'
 import { useForm } from './useForm'
 import type { ColConfig } from '../../types/table'
 import type { ProSearchMap } from '../../types/column'
@@ -94,18 +93,15 @@ export default defineComponent({
 
     const handleChange = (value, record) => {
       switch (record.valueType) {
-        case 'text':
-          changeFormState(record.name, value || record.initialValue || '')
-          break
         case 'select':
           changeFormState(
-            record.name,
+            record.dataIndex,
             value || value === 0 ? value : record.initialValue || undefined
           )
           break
         case 'treeSelect':
           changeFormState(
-            record.name,
+            record.dataIndex,
             value || value === 0
               ? value
               : record.initialValue ||
@@ -114,19 +110,19 @@ export default defineComponent({
           break
         case 'date':
           changeFormState(
-            record.name,
+            record.dataIndex,
             value ? dayjs(value).format(record.format || 'YYYY-MM-DD') : record.initialValue || null
           )
           break
         case 'dateMonth':
           changeFormState(
-            record.name,
+            record.dataIndex,
             value ? dayjs(value).format('YYYY-MM') : record.initialValue || null
           )
           break
         case 'dateRange':
           changeFormState(
-            record.name,
+            record.dataIndex,
             value && value.length > 0
               ? [
                   dayjs(value[0]).format(record.format || 'YYYY-MM-DD'),
@@ -137,9 +133,13 @@ export default defineComponent({
           break
         case 'time':
           changeFormState(
-            record.name,
+            record.dataIndex,
             value ? dayjs(value).format(record.format || 'HH:mm:ss') : record.initialValue || null
           )
+          break
+        case 'text':
+        default:
+          changeFormState(record.dataIndex, value || record.initialValue || '')
           break
       }
       if (searchProp.value.showSearch || record.valueType === 'text') {
@@ -154,36 +154,6 @@ export default defineComponent({
     const handleSubmit = (isManual?: boolean) => {
       nextTick(() => {
         const params: RecordType = cloneDeep(formState)
-        const textRecord = props.searchMap.find((item) => item.valueType === 'text')
-        const dateRangeRecord = props.searchMap.find((item) => item.valueType === 'dateRange')
-        const treeSelectRecord = props.searchMap.find((item) => item.valueType === 'treeSelect')
-        if (textRecord)
-          params[textRecord.name] = formState[textRecord.name] || textRecord.initialValue || ''
-        if (dateRangeRecord) {
-          params[dateRangeRecord.rangeStartName || 'start'] = params[dateRangeRecord.name]
-            ? params[dateRangeRecord.name][0]
-            : ''
-          params[dateRangeRecord.rangeEndName || 'end'] = params[dateRangeRecord.name]
-            ? params[dateRangeRecord.name][1]
-            : ''
-          delete params[dateRangeRecord.name]
-        }
-        if (treeSelectRecord) {
-          if (isArray(formState[treeSelectRecord.name])) {
-            params[treeSelectRecord.name] = formState[treeSelectRecord.name].length
-              ? formState[treeSelectRecord.name]
-                  .map((item) => item[treeSelectRecord.valueKey === 'text' ? 'label' : 'value'])
-                  .join()
-              : ''
-          }
-          if (treeSelectRecord && isArray(params[treeSelectRecord.name])) {
-            params[treeSelectRecord.name] = params[treeSelectRecord.name].length
-              ? params[treeSelectRecord.name].map(
-                  (item) => item[treeSelectRecord.valueKey === 'text' ? 'label' : 'value']
-                )
-              : ''
-          }
-        }
         if (!hasSearch.value || isManual) emit('search', params)
       })
     }
@@ -230,30 +200,11 @@ export default defineComponent({
     const FormItemContainer = (record) => {
       let show
       switch (record.valueType) {
-        case 'text':
-          show = (
-            <Input.Search
-              style={{ width: '100%' }}
-              value={formState[record.name]}
-              placeholder={record.placeholder || '请输入'}
-              allowClear={
-                record.allowClear || record.allowClear === false ? record.allowClear : true
-              }
-              enterButton={
-                <a-button>
-                  <SearchOutlined />
-                </a-button>
-              }
-              onChange={(e) => handleChange(e.target.value, record)}
-              onSearch={(_) => handleSubmit()}
-            />
-          )
-          break
         case 'select':
           show = (
             <Select
               style={{ width: '100%' }}
-              value={record.loading ? undefined : formState[record.name]}
+              value={record.loading ? undefined : formState[record.dataIndex]}
               optionFilterProp="label"
               placeholder={record.placeholder || '请选择'}
               showSearch={record.showSearch}
@@ -285,7 +236,7 @@ export default defineComponent({
           show = (
             <TreeSelect
               style={{ width: '100%' }}
-              value={formState[record.name]}
+              value={formState[record.dataIndex]}
               placeholder={record.placeholder || '请选择'}
               allowClear={
                 record.allowClear || record.allowClear === false ? record.allowClear : true
@@ -312,8 +263,8 @@ export default defineComponent({
             <DatePicker
               style={{ width: '100%' }}
               value={
-                formState[record.name]
-                  ? dayjs(formState[record.name], record.format || 'YYYY-MM-DD')
+                formState[record.dataIndex]
+                  ? dayjs(formState[record.dataIndex], record.format || 'YYYY-MM-DD')
                   : null
               }
               getPopupContainer={(trigger) => {
@@ -339,8 +290,8 @@ export default defineComponent({
             <MonthPicker
               style={{ width: '100%' }}
               value={
-                formState[record.name]
-                  ? dayjs(formState[record.name], record.format || 'YYYY-MM')
+                formState[record.dataIndex]
+                  ? dayjs(formState[record.dataIndex], record.format || 'YYYY-MM')
                   : null
               }
               getPopupContainer={(trigger) => {
@@ -360,10 +311,10 @@ export default defineComponent({
             <RangePicker
               style={{ width: '100%' }}
               value={
-                formState[record.name]?.length
+                formState[record.dataIndex]?.length
                   ? [
-                      dayjs(formState[record.name][0], record.format || 'YYYY-MM-DD HH:mm:ss'),
-                      dayjs(formState[record.name][1], record.format || 'YYYY-MM-DD HH:mm:ss')
+                      dayjs(formState[record.dataIndex][0], record.format || 'YYYY-MM-DD HH:mm:ss'),
+                      dayjs(formState[record.dataIndex][1], record.format || 'YYYY-MM-DD HH:mm:ss')
                     ]
                   : null
               }
@@ -386,8 +337,8 @@ export default defineComponent({
             <TimePicker
               style={{ width: '100%' }}
               value={
-                formState[record.name]
-                  ? dayjs(formState[record.name], record.format || 'HH:mm:ss')
+                formState[record.dataIndex]
+                  ? dayjs(formState[record.dataIndex], record.format || 'HH:mm:ss')
                   : null
               }
               getPopupContainer={(trigger) => {
@@ -407,12 +358,32 @@ export default defineComponent({
             />
           )
           break
+        case 'text':
+        default:
+          show = (
+            <Input.Search
+              style={{ width: '100%' }}
+              value={formState[record.dataIndex]}
+              placeholder={record.placeholder || '请输入'}
+              allowClear={
+                record.allowClear || record.allowClear === false ? record.allowClear : true
+              }
+              enterButton={
+                <a-button>
+                  <SearchOutlined />
+                </a-button>
+              }
+              onChange={(e) => handleChange(e.target.value, record)}
+              onSearch={(_) => handleSubmit()}
+            />
+          )
+          break
       }
       return show
     }
 
     const FormItemWrapper = ({ formItemStyle, item }) => (
-      <Form.Item label={item.label} style={formItemStyle}>
+      <Form.Item label={item.title} style={formItemStyle}>
         {item.__v_isVNode ? item : FormItemContainer(item)}
       </Form.Item>
     )

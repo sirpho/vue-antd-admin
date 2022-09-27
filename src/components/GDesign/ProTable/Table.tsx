@@ -414,7 +414,7 @@ const GProTable = defineComponent({
           : record.align === 'left' || !record.align
           ? 'topLeft'
           : 'topRight'
-      if (success && record.copyable) {
+      if (success && record.copyable && value && value.length > 0) {
         show = (
           <Typography.Paragraph
             class={`${baseClassName}-copyable`}

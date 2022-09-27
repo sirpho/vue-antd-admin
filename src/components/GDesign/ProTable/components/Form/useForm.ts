@@ -15,7 +15,7 @@ export function useForm(defaultParams: RecordType, searchMap: ProSearchMap[]) {
     const dateRangeRecord = searchMap.find((item) => item.valueType === 'dateRange')
     if (dateRangeRecord) {
       changeFormState(
-        dateRangeRecord.name,
+        dateRangeRecord.dataIndex,
         defaultParams[dateRangeRecord.rangeStartName || 'start']
           ? [
             defaultParams[dateRangeRecord.rangeStartName || 'start'],

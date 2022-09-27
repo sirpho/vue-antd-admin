@@ -64,6 +64,7 @@ function renderDefaultOption(options: OptionConfig, defaultOptions: OptionConfig
       }
 
       if (key === 'setting') {
+        // @ts-ignore
         return <ColumnSetting {...options[key]} key={key} />
       }
       if (key === 'fullScreen') {

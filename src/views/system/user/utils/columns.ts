@@ -7,22 +7,14 @@ export default {
     {
       dataIndex: 'uid',
       title: '账号',
-      searchConfig: {
-        label: '账号',
-        name: 'uid',
-        valueType: 'text',
-        placeholder: '请输入账号'
-      }
+      search: true,
+      placeholder: '请输入账号'
     },
     {
       dataIndex: 'uname',
       title: '用户名',
-      searchConfig: {
-        label: '用户名',
-        name: 'uname',
-        valueType: 'text',
-        placeholder: '请输入用户名'
-      }
+      search: true,
+      placeholder: '请输入用户名'
     },
     {
       title: '角色',
