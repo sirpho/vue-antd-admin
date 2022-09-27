@@ -227,7 +227,7 @@ export default defineComponent({
               {record.valueEnum.map((item) => {
                 return isObject(item) ? (
                   <a-select-option key={item.value} value={item.value}>
-                    {item.text}
+                    {item.label}
                   </a-select-option>
                 ) : (
                   <a-select-option key={item} value={item}>
