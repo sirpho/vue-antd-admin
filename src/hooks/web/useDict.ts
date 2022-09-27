@@ -1,6 +1,6 @@
 import { computed, reactive } from 'vue'
 import { useStore } from '@gx-vuex'
-import { getDicts } from '@/services/system/dictData'
+import { getDictOptions } from '@/services/system/dictData'
 import { onMountedOrActivated } from '@gx-admin/hooks/core'
 import { isArray } from '@/utils/validate'
 
@@ -10,24 +10,18 @@ export function useDict(val: string | string[]) {
 
   const dict = store.dict.data
 
-  const getDictData = computed(() => {
-    return dictData
-  })
-
   async function getDict() {
-    let response
+    let dictOptions
     if (typeof val === 'string') {
       dictData[val] = {}
       if (dict[val] && dict[val].length) {
         dictData[val].data = dict[val]
       } else {
         dictData[val].loading = true
-        response = await getDicts(val)
-        if (response) {
-          const data = (response.data || [])
-          store.dict.setDictData(val, data)
-          dictData[val].data = data
-        }
+        dictData[val].data = []
+        dictOptions = await getDictOptions(val)
+        store.dict.setDictData(val, dictOptions)
+        dictData[val].data = dictOptions
         dictData[val].loading = false
       }
       return
@@ -41,12 +35,9 @@ export function useDict(val: string | string[]) {
           dictData[dictType].data = dict[dictType]
         } else {
           dictData[dictType].loading = true
-          response = await getDicts(dictType)
-          if (response) {
-            const data = (response.data || [])
-            store.dict.setDictData(dictType, data)
-            dictData[dictType].data = data
-          }
+          dictOptions = await getDictOptions(dictType)
+          store.dict.setDictData(dictType, dictOptions)
+          dictData[dictType].data = dictOptions
           dictData[dictType].loading = false
         }
       }
@@ -58,7 +49,8 @@ export function useDict(val: string | string[]) {
     getDict()
   })
 
-  return {
-    getDictData
-  }
+  const keys = [].concat(val)
+  return keys.map(key => computed(() => {
+    return dictData[key]
+  }))
 }
