@@ -8,7 +8,7 @@ import { useForm } from './useForm'
 import type { ColConfig } from '../../types/table'
 import type { ProSearchMap } from '../../types/column'
 import { defaultSearchProp, proTableProps } from '../../props'
-
+import { isObject } from '@/utils/validate'
 import './style.less'
 
 const { useBreakpoint } = Grid
@@ -224,11 +224,17 @@ export default defineComponent({
               }
               onChange={(e) => handleChange(e, record)}
             >
-              {record.valueEnum.map((item) => (
-                <a-select-option key={item.value} value={item.value}>
-                  {item.text}
-                </a-select-option>
-              ))}
+              {record.valueEnum.map((item) => {
+                return isObject(item) ? (
+                  <a-select-option key={item.value} value={item.value}>
+                    {item.text}
+                  </a-select-option>
+                ) : (
+                  <a-select-option key={item} value={item}>
+                    {item}
+                  </a-select-option>
+                )
+              })}
             </Select>
           )
           break
