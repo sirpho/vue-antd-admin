@@ -462,7 +462,7 @@ export default defineComponent({
                     justifyContent: 'flex-end'
                   },
                   advanced: false,
-                  showAdvanced: formNode.length >= rowLength.value
+                  showAdvanced: formNode.length > rowLength.value
                 })}
             </>
           )
