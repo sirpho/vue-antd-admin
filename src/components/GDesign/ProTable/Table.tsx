@@ -208,7 +208,8 @@ const GProTable = defineComponent({
         formParamsRef,
         beforeSearchSubmit: props.beforeSearchSubmit
       },
-      emit
+      emit,
+      props.afterRequest
     )
 
     const getOptionsRef = computed(() => {

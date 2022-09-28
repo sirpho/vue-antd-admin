@@ -1,6 +1,7 @@
 import { ref, onUnmounted, nextTick } from 'vue'
 import { onMountedOrActivated } from '@gx-admin/hooks/core'
 import config from '/config/config'
+
 const { viewScrollRoot } = config.defaultSettings
 
 const getStyle = (dom: Element, attr: string) => {
@@ -8,7 +9,7 @@ const getStyle = (dom: Element, attr: string) => {
 }
 
 export function useTableHeight(gapH = 0) {
-  const tableHeight = ref(500)
+  const tableHeight = ref(undefined)
 
   onMountedOrActivated(() => {
     window.addEventListener('resize', updateTableHeight)
@@ -47,7 +48,7 @@ export function useTableHeight(gapH = 0) {
         viewDomH - searchDomH - toolbarDomH - tableHeaderDomH - paginationDomH - cssHeight - gapH
       )
     }
-    return 500
+    return undefined
   }
   return [tableHeight, updateTableHeight]
 }

@@ -28,7 +28,7 @@ export const defaultProps = {
     default: undefined
   },
   columns: { type: Array as PropType<ProColumns>, default: undefined },
-  pagination: { type: [ Object, Boolean ] as PropType<ProTablePagination>, default: () => undefined },
+  pagination: { type: [Object, Boolean] as PropType<ProTablePagination>, default: () => undefined }
 }
 
 export const proTableProps = {
@@ -76,7 +76,7 @@ export const proTableProps = {
    * @description 自定义表格渲染模式：默认表格展示，也可以自定义数据列表展示
    */
   customize: {
-    type: [ Object, Function ] as PropType<WithFalse<(data?: RecordType[]) => CustomRender>>,
+    type: [Object, Function] as PropType<WithFalse<(data?: RecordType[]) => CustomRender>>,
     default: () => undefined
   },
   /**
@@ -97,17 +97,17 @@ export const proTableProps = {
    * @description 渲染按钮工具栏，支持返回一个 dom 数组，会自动增加 margin-right
    */
   toolBarBtn: {
-    type: [ Object, Array, Function ] as PropType<GProVueNode>,
+    type: [Object, Array, Function] as PropType<GProVueNode>,
     default: () => undefined
   },
   // 表格标题
   headerTitle: {
-    type: [ String, Object, Array, Function ] as PropType<string | GProVueNode>,
+    type: [String, Object, Array, Function] as PropType<string | GProVueNode>,
     default: () => undefined
   },
   // 标题提示
   titleTip: {
-    type: [ Boolean, String, Object, Array, Function ] as PropType<string | boolean | GProVueNode>,
+    type: [Boolean, String, Object, Array, Function] as PropType<string | boolean | GProVueNode>,
     default: () => undefined
   },
   // 标题提示字
@@ -119,7 +119,7 @@ export const proTableProps = {
    * @description table 工具栏，设为 false 时不显示
    */
   options: {
-    type: [ Object, Boolean ] as PropType<OptionConfig | boolean>,
+    type: [Object, Boolean] as PropType<OptionConfig | boolean>,
     default: true
   },
   /**
@@ -130,14 +130,14 @@ export const proTableProps = {
   },
   // table 工具栏 额外的元素
   optionsExtra: {
-    type: [ Function, Object ] as PropType<VueNode>,
+    type: [Function, Object] as PropType<VueNode>,
     default: () => undefined
   },
   /**
    * @description 列设置额外的元素
    */
   settingExtra: {
-    type: [ String, Function ] as PropType<string | VueNode>,
+    type: [String, Function] as PropType<string | VueNode>,
     default: () => undefined
   },
   /**
@@ -151,11 +151,15 @@ export const proTableProps = {
    * @description 翻页item设置
    */
   pageItemRender: {
-    type: [ Function, Object ] as PropType<WithFalse<(opt: {
-      page: number;
-      type: 'page' | 'prev' | 'next' | 'jump-prev' | 'jump-next';
-      originalElement: any;
-    }) => CustomRender>>,
+    type: [Function, Object] as PropType<
+      WithFalse<
+        (opt: {
+          page: number
+          type: 'page' | 'prev' | 'next' | 'jump-prev' | 'jump-next'
+          originalElement: any
+        }) => CustomRender
+      >
+    >,
     default: () => undefined
   },
   /**
@@ -193,7 +197,7 @@ export const proTableProps = {
   /**
    * @description 滚动断点支持数字（屏幕宽度）；也支持md、xl，xxl等
    */
-  scrollBreakpoint: [ String, Number ] as PropType<string | number>,
+  scrollBreakpoint: [String, Number] as PropType<string | number>,
   /**
    * @description modalTable时，自动固定滚动高度
    */
@@ -206,7 +210,7 @@ export const proTableProps = {
    * @description 空值时的显示，不设置时显示 -， false 可以关闭此功能
    */
   columnEmptyText: {
-    type: [ String, Boolean ] as PropType<ProFieldEmptyText>,
+    type: [String, Boolean] as PropType<ProFieldEmptyText>,
     default: false
   },
   /**
@@ -219,5 +223,6 @@ export const proTableProps = {
   loadingChange: Function as PropType<(loading: boolean) => any>,
   requestError: Function as PropType<(e: Error) => void>,
   beforeSearchSubmit: Function as PropType<requsetConfig>,
+  afterRequest: Function as PropType<() => any>,
   columnsStateChange: Function as PropType<(data: ColumnsState[]) => void>
 }
