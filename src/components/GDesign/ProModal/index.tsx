@@ -28,7 +28,7 @@ function defaultFooter(className: string, onCancel: () => void) {
 export default defineComponent({
   name: 'GProModal',
   props: proModalProps,
-  emits: ['cancel', 'ok', 'changeView'],
+  emits: ['cancel'],
   setup(props, { emit, slots, attrs }) {
     const baseClassName = getPrefixCls({
       suffixCls: 'modal',
@@ -99,8 +99,6 @@ export default defineComponent({
 
     onUnmounted(() => emit('cancel'))
 
-    const onOK = () => emit(props.view ? 'changeView' : 'ok')
-
     const onCancel = () => emit('cancel')
 
     const handleFullScreen = (e) => {
@@ -149,28 +147,10 @@ export default defineComponent({
       )
     }
 
-    const renderProFooter = () => (
-      <div class={`${baseClassName}-footer`}>
-        <Button loading={props.confirmLoading} key="confirm" type="primary" onClick={() => onOK()}>
-          {props.view ? '编辑' : '确认'}
-        </Button>
-        <Button key="calcel" onClick={() => onCancel()}>
-          取消
-        </Button>
-      </div>
-    )
-
     const renderFooter = () => {
       const footerRender = getSlotVNode(slots, props, 'footer')
       const loading = props.skeletonLoading || props.isFail
-      if (!props.visible) return defaultFooter(`${baseClassName}-footer`, onCancel)
-      return footerRender
-        ? props.isFail || loading
-          ? defaultFooter(`${baseClassName}-footer`, onCancel)
-          : footerRender
-        : props.showDefaultFooter
-        ? defaultFooter(`${baseClassName}-footer`, onCancel)
-        : renderProFooter()
+      return loading ? defaultFooter(`${baseClassName}-footer`, onCancel) : footerRender
     }
 
     const renderDefault = () => (
@@ -204,6 +184,7 @@ export default defineComponent({
     return () => {
       return (
         <Modal
+          {...getProps.value}
           class={handleModalClass.value}
           wrapClassName={getModalWrapClassName.value}
           width={getModalWidth.value}
@@ -211,7 +192,7 @@ export default defineComponent({
             fullScreen.value ? { height: `${window.innerHeight - 110}px !important` } : undefined
           }
           onCancel={() => onCancel()}
-          {...getProps.value}
+          footer={props.hiddenFooter ? false : undefined}
           v-slots={{
             ...slots,
             default: () => renderDefault(),

@@ -8,8 +8,6 @@ export const modalProps = {
   prefixCls: PropTypes.string,
   /** 对话框是否可见*/
   visible: PropTypes.looseBool,
-  /** 确定按钮 loading*/
-  confirmLoading: PropTypes.looseBool,
   /** 标题*/
   title: PropTypes.any,
   /** 是否显示右上角的关闭按钮*/
@@ -74,9 +72,8 @@ export const proModalProps = {
   contentStyle: PropTypes.style,
   draggable: PropTypes.bool.def(true),
   showClose: PropTypes.bool.def(true),
-  showDefaultFooter: PropTypes.bool.def(false),
   fullscreen: PropTypes.bool.def(true),
   extra: PropTypes.VueNode,
   destroyOnClose: PropTypes.bool.def(true),
-  onChangeView: [ Function ] as PropType<() => void>
+  hiddenFooter: PropTypes.bool.def(false),
 }
