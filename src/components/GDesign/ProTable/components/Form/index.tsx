@@ -13,7 +13,7 @@ import './style.less'
 
 const { useBreakpoint } = Grid
 
-const { MonthPicker, RangePicker, TimePicker } = DatePicker
+const { MonthPicker, RangePicker, TimePicker, YearPicker } = DatePicker
 
 export default defineComponent({
   props: {
@@ -118,6 +118,12 @@ export default defineComponent({
           changeFormState(
             record.dataIndex,
             value ? dayjs(value).format('YYYY-MM') : record.initialValue || null
+          )
+          break
+        case 'dateYear':
+          changeFormState(
+            record.dataIndex,
+            value ? dayjs(value).format('YYYY') : record.initialValue || null
           )
           break
         case 'dateRange':
@@ -298,6 +304,27 @@ export default defineComponent({
               value={
                 formState[record.dataIndex]
                   ? dayjs(formState[record.dataIndex], record.format || 'YYYY-MM')
+                  : null
+              }
+              getPopupContainer={(trigger) => {
+                if (trigger && trigger.parentNode) {
+                  return trigger.parentNode as HTMLElement
+                }
+                return trigger
+              }}
+              placeholder={record.placeholder || '请选择'}
+              renderExtraFooter={record.renderExtraFooter || null}
+              onChange={(e) => handleChange(e, record)}
+            />
+          )
+          break
+        case 'dateYear':
+          show = (
+            <YearPicker
+              style={{ width: '100%' }}
+              value={
+                formState[record.dataIndex]
+                  ? dayjs(formState[record.dataIndex], record.format || 'YYYY')
                   : null
               }
               getPopupContainer={(trigger) => {

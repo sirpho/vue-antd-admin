@@ -30,6 +30,7 @@ export type ProFieldValueType =
   | 'select'
   | 'treeSelect'
   | 'dateMonth'
+  | 'dateYear'
   | 'dateRange'
   | 'time'
 
@@ -45,7 +46,6 @@ export type ProFieldValueFormat =
   | 'data'
   | 'dateMonth'
   | 'dateRange'
-  | 'dateMonth'
   | 'time'
 
 export type ProSchemaValueEnumType = {
