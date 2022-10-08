@@ -2,13 +2,14 @@ import { computed, defineComponent, nextTick, ref, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash-es'
 import { Button, DatePicker, Form, Grid, Input, Select, Space, TreeSelect } from 'ant-design-vue'
-import { DownOutlined, SearchOutlined, UpOutlined } from '@ant-design/icons-vue'
+import { DownOutlined, UpOutlined } from '@ant-design/icons-vue'
 import { PropTypes } from '@/utils'
 import { useForm } from './useForm'
 import type { ColConfig } from '../../types/table'
 import type { ProSearchMap } from '../../types/column'
 import { defaultSearchProp, proTableProps } from '../../props'
 import { isObject } from '@/utils/validate'
+
 import './style.less'
 
 const { useBreakpoint } = Grid
@@ -214,9 +215,7 @@ export default defineComponent({
               optionFilterProp="label"
               placeholder={record.placeholder || '请选择'}
               showSearch={record.showSearch}
-              allowClear={
-                record.allowClear || record.allowClear === false ? record.allowClear : true
-              }
+              allowClear={record.allowClear !== false}
               getPopupContainer={(trigger) => {
                 if (trigger && trigger.parentNode) {
                   return trigger.parentNode
@@ -250,9 +249,7 @@ export default defineComponent({
               style={{ width: '100%' }}
               value={formState[record.dataIndex]}
               placeholder={record.placeholder || '请选择'}
-              allowClear={
-                record.allowClear || record.allowClear === false ? record.allowClear : true
-              }
+              allowClear={record.allowClear !== false}
               treeData={record.valueEnum}
               getPopupContainer={(trigger) => {
                 if (trigger && trigger.parentNode) {
@@ -286,9 +283,7 @@ export default defineComponent({
                 return trigger
               }}
               placeholder={record.placeholder || '请选择'}
-              allowClear={
-                record.allowClear || record.allowClear === false ? record.allowClear : true
-              }
+              allowClear={record.allowClear !== false}
               format={record.format || 'YYYY-MM-DD'}
               showTime={record.showTime}
               showToday={record.showToday || true}
@@ -381,9 +376,7 @@ export default defineComponent({
                 return trigger
               }}
               placeholder={record.placeholder || '请选择'}
-              allowClear={
-                record.allowClear || record.allowClear === false ? record.allowClear : true
-              }
+              allowClear={record.allowClear !== false}
               use12Hours={record.use12Hours}
               format={record.format || 'HH:mm:ss'}
               renderExtraFooter={record.renderExtraFooter || null}
@@ -398,14 +391,7 @@ export default defineComponent({
               style={{ width: '100%' }}
               value={formState[record.dataIndex]}
               placeholder={record.placeholder || '请输入'}
-              allowClear={
-                record.allowClear || record.allowClear === false ? record.allowClear : true
-              }
-              enterButton={
-                <a-button>
-                  <SearchOutlined />
-                </a-button>
-              }
+              allowClear={record.allowClear !== false}
               onChange={(e) => handleChange(e.target.value, record)}
               onSearch={(_) => handleSubmit()}
             />
