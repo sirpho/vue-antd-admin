@@ -346,8 +346,8 @@ export default defineComponent({
               value={
                 formState[record.dataIndex]?.length
                   ? [
-                      dayjs(formState[record.dataIndex][0], record.format || 'YYYY-MM-DD HH:mm:ss'),
-                      dayjs(formState[record.dataIndex][1], record.format || 'YYYY-MM-DD HH:mm:ss')
+                      dayjs(formState[record.dataIndex][0], record.format || 'YYYY-MM-DD'),
+                      dayjs(formState[record.dataIndex][1], record.format || 'YYYY-MM-DD')
                     ]
                   : null
               }
@@ -358,7 +358,7 @@ export default defineComponent({
                 return trigger
               }}
               placeholder={record.placeholder || ['开始日期', '结束日期']}
-              format={record.format || 'YYYY-MM-DD HH:mm:ss'}
+              format={record.format || 'YYYY-MM-DD'}
               renderExtraFooter={record.renderExtraFooter || null}
               showTime={record.showTime}
               onChange={(e) => handleChange(e, record)}
