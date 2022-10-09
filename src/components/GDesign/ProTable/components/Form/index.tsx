@@ -158,16 +158,16 @@ export default defineComponent({
       }
     }
 
-    const handleSubmit = (isManual?: boolean) => {
+    const handleSubmit = (isManual?: boolean, isReset?: boolean) => {
       nextTick(() => {
         const params: RecordType = cloneDeep(formState)
-        if (!hasSearch.value || isManual) emit('search', params)
+        if (!hasSearch.value || isManual) emit('search', params, isReset)
       })
     }
 
     const resetForm = () => {
       resetFormState()
-      handleSubmit(true)
+      handleSubmit(true, true)
     }
 
     const optionRender = () =>
@@ -177,7 +177,11 @@ export default defineComponent({
             <Button onClick={() => resetForm()}>{searchProp.value.resetText || '重置'}</Button>
           )}
           {hasSearch.value && (
-            <Button loading={props.loading} type="primary" onClick={() => handleSubmit(true)}>
+            <Button
+              loading={props.loading}
+              type="primary"
+              onClick={() => handleSubmit(true, false)}
+            >
               {searchProp.value.searchText || '查询'}
             </Button>
           )}

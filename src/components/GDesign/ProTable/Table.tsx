@@ -29,7 +29,7 @@ import { useRowSelection } from './hooks/useRowSelection'
 import { useFetchData, useConfigFetchData } from './hooks/useFetchData'
 import { useTableForm } from './hooks/useTableForm'
 import { useColumnSetting } from './hooks/useColumnSetting'
-import { useColumns, useConfigColumns } from './hooks/useColums'
+import { useColumns, useConfigColumns } from './hooks/useColumns'
 import { useTableScroll, useConfigScroll } from './hooks/useTableScroll'
 import { provideTableContext } from './context/TableContext'
 import Form from './components/Form'
@@ -96,7 +96,7 @@ const GProTable = defineComponent({
     })
 
     const cacheColumns = computed(() => {
-      const columsList: ProColumns = (props.columns || []).map((item) => {
+      const columnsList: ProColumns = (props.columns || []).map((item) => {
         return {
           ...item,
           key: item.key || (item.dataIndex as string),
@@ -104,14 +104,14 @@ const GProTable = defineComponent({
           uuid: getRandomNumber().uuid(15)
         }
       })
-      return handleShowIndex(columsList, {
+      return handleShowIndex(columnsList, {
         align: props.align,
         showIndex: props.showIndex
       })
     })
 
     /**
-     * @description Tabel-loading hooks 方法
+     * @description Table-loading hooks 方法
      */
     const { getLoading, setLoading } = useLoading({
       emit,
@@ -119,12 +119,12 @@ const GProTable = defineComponent({
     })
 
     /**
-     * @description Tabel-size hooks 方法
+     * @description Table-size hooks 方法
      */
     const { sizeRef, setTableSize } = useTableSize({ emit, size: toRef(props, 'size') })
 
     /**
-     * @description Tabel-pagetion hooks 方法
+     * @description Table-pagination hooks 方法
      */
     const { getPaginationInfo, setPagination } = usePagination({
       slots,
@@ -133,7 +133,7 @@ const GProTable = defineComponent({
     })
 
     /**
-     * @description Tabel-scroll hooks 方法
+     * @description Table-scroll hooks 方法
      */
     const configScroll = useConfigScroll(props)
     const { getScrollRef, breakpoint } = useTableScroll({
@@ -144,7 +144,7 @@ const GProTable = defineComponent({
     })
 
     /**
-     * @description Tabel-columns hooks 方法
+     * @description Table-columns hooks 方法
      */
     const configColumns = useConfigColumns(props)
     const { getProColumns, cacheProColumns, setColumns, changeColumns, resizeColumnWidth } =
@@ -156,7 +156,7 @@ const GProTable = defineComponent({
       })
 
     /**
-     * @description Tabel-settingColums hooks 方法
+     * @description Table-settingColumns hooks 方法
      */
     const {
       columnsMap,
@@ -185,7 +185,7 @@ const GProTable = defineComponent({
       useRowSelection(toRef(props, 'rowKey'), toRef(props, 'rowSelection'))
 
     /**
-     * @description Tabel-datasource hooks 方法
+     * @description Table-datasource hooks 方法
      */
     const configFetchData = useConfigFetchData(props)
     const {
@@ -353,22 +353,16 @@ const GProTable = defineComponent({
         setFormParams(params)
       } else {
         setFormParams({ ...params, ...((props.params || {}) as RecordType) })
+        setPagination({
+          current: 1
+        })
         reload()
       }
     }
 
     const handleTableSubmit = (params: RecordType, reset?: boolean) => {
-      if (reset) {
-        emit('reset', params)
-        if (props.request) {
-          handleTableSearch(params)
-        }
-      } else if (props.request) {
-        emit('submit', params)
-        handleTableSearch(params)
-      } else {
-        emit('submit', params)
-      }
+      reset ? emit('reset', params) : emit('submit', params)
+      props.request && handleTableSearch(params)
     }
     /**
      * @description ant-table原始方法

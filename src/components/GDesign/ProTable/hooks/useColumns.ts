@@ -76,13 +76,12 @@ export function useColumns({
 
   function handleColumns(columnsList: ProColumn[]) {
     return cloneDeep(columnsList).map((item, index) => {
-      if (item.dataIndex === 'action' || index === (columnsList.length - 1)) {
+      if (item.dataIndex === 'action' || index === columnsList.length - 1) {
         item.resizable = false
       } else {
         item.resizable = isBoolean(item.resizable)
           ? item.resizable
-          : (isNumber(item.width) && unref(draggabled)
-            ? true : false)
+          : !!(isNumber(item.width) && unref(draggabled))
       }
       if (!item.width || unref(neverScroll)) return item
       if (item.dataIndex === 'action' && unref(autoScroll)) {

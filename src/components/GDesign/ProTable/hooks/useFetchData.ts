@@ -75,7 +75,7 @@ export function useFetchData(
       clearTimeout(pollingSetTimeRef.value)
     }
     const msg = await fetchList(info)
-    // 把判断要不要轮询的逻辑放到后面来这样可以保证数据是根据当前来
+    // 将判断要不要轮询的逻辑放到后面来，这样可以保证数据是根据当前来
     // 放到请求前面会导致数据是上一次的
     const needPolling = runFunction(polling.value, msg)
 
