@@ -11,6 +11,7 @@ import {
   Avatar,
   Spin,
   Tooltip,
+  Table,
   Divider,
   message,
   Form,
@@ -25,7 +26,11 @@ import {
   Select,
   Switch,
   Upload,
-  Checkbox
+  Checkbox,
+  AutoComplete,
+  Modal,
+  Descriptions,
+  DescriptionsItem
 } from 'ant-design-vue'
 
 const antDesign = (app) => {
@@ -54,7 +59,12 @@ const antDesign = (app) => {
   app.use(Avatar)
   app.use(Spin)
   app.use(Tooltip)
+  app.use(Table)
   app.use(Divider)
+  app.use(Modal)
+  app.use(AutoComplete)
+  app.use(Descriptions)
+  app.use(DescriptionsItem)
   message.config({
     duration: 2,
     maxCount: 1

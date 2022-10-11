@@ -10,7 +10,7 @@
     @menuHeaderClick="menuHeaderClick"
   >
     <ProContent :animate="state.animate" :isRouterAlive="isRouterAlive" />
-    <setting-drawer :settings="state" @change="handleSettingChange" />
+    <setting-drawer v-if="isDevEnvironment" :settings="state" @change="handleSettingChange" />
   </g-pro-layout>
 </template>
 <script setup lang="ts">
@@ -20,7 +20,7 @@ import { useStore } from '@gx-vuex'
 import { RouteContextProps, getMenuData, clearMenuItem, SettingDrawer } from '@gx-design/ProLayout'
 import config from '/config/config'
 import ProContent from './ContentView.vue'
-
+import { isDev } from '@/utils'
 const { animate } = config
 const { preset } = animate
 
@@ -54,6 +54,8 @@ const state = reactive({
   showProgressBar: computed(() => store.settings.showProgressBar),
   animate: computed(() => store.settings.animate)
 })
+
+const isDevEnvironment = isDev()
 
 watch(
   () => router.currentRoute,

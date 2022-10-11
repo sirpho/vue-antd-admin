@@ -195,7 +195,7 @@
     </template>
   </g-pro-table>
   <ScrollModal ref="scrollModal" @handleOk="handleScroll" />
-  <OperationModal ref="operation" @handleOk="handleReload" />
+  <!--  <OperationModal ref="operation" @handleOk="handleReload" />-->
   <ScrollBreakpointModal ref="scrollBreakpointModal" @handleOk="handleScrollBreakpoint" />
 </template>
 
@@ -213,7 +213,7 @@ import columns from '../../utils/columns'
 
 const LoadingIcon = h(LoadingOutlined)
 
-const { getDictData } = useDict(['sys_common_status'])
+const [sysCommonStatus] = useDict(['sys_common_status'])
 
 const operation = ref(null)
 const scrollModal = ref(null)
@@ -277,22 +277,15 @@ const tableConfig = reactive({
   scroll: { x: 1850 }
 })
 
-watch(
-  () => getDictData.value,
-  (data) => {
-    tableConfig.searchMap[0].loading = data.sys_common_status?.loading
-    tableConfig.searchMap[0].valueEnum = (data.sys_common_status?.data || []).map((item) => {
-      return {
-        text: item.dictLabel,
-        value: item.dictValue
-      }
-    })
-  },
-  {
-    deep: true,
-    immediate: true
-  }
-)
+watchEffect(() => {
+  tableConfig.searchMap[0].loading = sysCommonStatus.value?.loading
+  tableConfig.searchMap[0].valueEnum = (sysCommonStatus.value?.data?.data || []).map((item) => {
+    return {
+      text: item.dictLabel,
+      value: item.dictValue
+    }
+  })
+})
 
 watch(
   () => state.showScroll,

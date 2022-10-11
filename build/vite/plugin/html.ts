@@ -6,19 +6,21 @@ import { PluginOption } from 'vite'
 
 import { createHtmlPlugin } from 'vite-plugin-html'
 
-import pkg from '../../../package.json'
-import { GLOB_CONFIG_FILE_NAME } from '../../constant'
+// import pkg from '../../../package.json'
+// import { GLOB_CONFIG_FILE_NAME } from '../../constant'
 import config from '../../../config/config'
 
-const { title, publicPath } = config.defaultSettings
+const { title,
+  // publicPath
+} = config.defaultSettings
 
 export function configHtmlPlugin(_: ViteEnv, isBuild: boolean) {
 
-  const path = publicPath.endsWith('/') ? publicPath : `${publicPath}/`
+  // const path = publicPath.endsWith('/') ? publicPath : `${publicPath}/`
 
-  const getAppConfigSrc = () => {
-    return `${path || '/'}${GLOB_CONFIG_FILE_NAME}?v=${pkg.version}-${new Date().getTime()}`
-  }
+  // const getAppConfigSrc = () => {
+  //   return `${path || '/'}${GLOB_CONFIG_FILE_NAME}?v=${pkg.version}-${new Date().getTime()}`
+  // }
 
   const htmlPlugin: PluginOption[] = createHtmlPlugin({
     minify: isBuild,
@@ -30,16 +32,16 @@ export function configHtmlPlugin(_: ViteEnv, isBuild: boolean) {
         injectLink: [],
       },
       // Embed the generated app.config.js file
-      tags: isBuild
-        ? [
-          {
-            tag: 'script',
-            attrs: {
-              src: getAppConfigSrc()
-            }
-          }
-        ]
-        : []
+      // tags: isBuild
+      //   ? [
+      //     {
+      //       tag: 'script',
+      //       attrs: {
+      //         src: getAppConfigSrc()
+      //       }
+      //     }
+      //   ]
+      //   : []
     }
   })
   return htmlPlugin

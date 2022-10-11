@@ -128,15 +128,18 @@ export default defineComponent({
           )
           break
         case 'dateRange':
-          changeFormState(
-            record.dataIndex,
+          const values =
             value && value.length > 0
               ? [
                   dayjs(value[0]).format(record.format || 'YYYY-MM-DD'),
                   dayjs(value[1]).format(record.format || 'YYYY-MM-DD')
                 ]
               : record.initialValue || null
-          )
+          changeFormState(record.dataIndex, values)
+          record.rangeStartName &&
+            changeFormState(record.rangeStartName, values.length > 0 ? values[0] : null)
+          record.rangeEndName &&
+            changeFormState(record.rangeEndName, values.length > 1 ? values[1] : null)
           break
         case 'time':
           changeFormState(
@@ -161,6 +164,12 @@ export default defineComponent({
     const handleSubmit = (isManual?: boolean, isReset?: boolean) => {
       nextTick(() => {
         const params: RecordType = cloneDeep(formState)
+        const formNode = [...props.searchMap].filter(
+          (item) => item.valueType === 'dateRange' && (item.rangeEndName || item.rangeStartName)
+        )
+        formNode.forEach((item) => {
+          delete params[item.dataIndex as string]
+        })
         if (!hasSearch.value || isManual) emit('search', params, isReset)
       })
     }
