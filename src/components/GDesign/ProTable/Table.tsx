@@ -181,7 +181,7 @@ const GProTable = defineComponent({
       columns: cacheColumns
     })
 
-    const { selectedKey, changeRowKey, selectRowKey, selectAllRowKey, removeRowKeys } =
+    const { selectedKey, changeRowKey, selectRowKey, selectAllRowKey, removeRowKeys, clearRowKey } =
       useRowSelection(toRef(props, 'rowKey'), toRef(props, 'rowSelection'))
 
     /**
@@ -349,6 +349,7 @@ const GProTable = defineComponent({
     })
 
     const handleTableSearch = (params: RecordType) => {
+      clearRowKey()
       if (props.search.showSearch === false) {
         setFormParams(params)
       } else {
@@ -372,6 +373,7 @@ const GProTable = defineComponent({
         current: pagination.current,
         pageSize: pagination.pageSize
       })
+      clearRowKey()
       handleTableChange(pagination, filters, sorter)
     }
 

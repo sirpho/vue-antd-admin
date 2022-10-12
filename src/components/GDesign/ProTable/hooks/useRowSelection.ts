@@ -11,24 +11,32 @@ export function useRowSelection(
   const selectedKey: Ref<(string | number)[]> = ref([])
   const selectedItem: Ref<RecordType[]> = ref([])
 
-  watch(() => rowSelection.value?.defaultSelectKeys, (keys) => {
-    selectedKey.value = arrayRepeat([...selectedKey.value, ...(keys || [])])
-  }, {
-    deep: true,
-    immediate: true
-  })
-
-  watch(() => rowSelection.value?.defaultSelectRows, (rows) => {
-    if (rows) {
-      rows.forEach(item => {
-        if (selectedItem.value.every(el => el[rowKey.value] !== item?.[rowKey.value]))
-          selectedItem.value.push(cloneDeep(item))
-      })
+  watch(
+    () => rowSelection.value?.defaultSelectKeys,
+    (keys) => {
+      selectedKey.value = arrayRepeat([...selectedKey.value, ...(keys || [])])
+    },
+    {
+      deep: true,
+      immediate: true
     }
-  }, {
-    deep: true,
-    immediate: true
-  })
+  )
+
+  watch(
+    () => rowSelection.value?.defaultSelectRows,
+    (rows) => {
+      if (rows) {
+        rows.forEach((item) => {
+          if (selectedItem.value.every((el) => el[rowKey.value] !== item?.[rowKey.value]))
+            selectedItem.value.push(cloneDeep(item))
+        })
+      }
+    },
+    {
+      deep: true,
+      immediate: true
+    }
+  )
 
   const selectRowKey = (record, selected) => {
     if (selected) {
@@ -37,8 +45,10 @@ export function useRowSelection(
         selectedItem.value.push(record)
       }
     } else {
-      selectedKey.value = selectedKey.value.filter(item => item !== record[rowKey.value])
-      selectedItem.value = selectedItem.value.filter(item => item[rowKey.value] !== record[rowKey.value])
+      selectedKey.value = selectedKey.value.filter((item) => item !== record[rowKey.value])
+      selectedItem.value = selectedItem.value.filter(
+        (item) => item[rowKey.value] !== record[rowKey.value]
+      )
     }
   }
 
@@ -48,8 +58,8 @@ export function useRowSelection(
 
   const selectAllRowKey = (selected, selectedRows, changeRows) => {
     if (selected) {
-      selectedRows.map(item => {
-        if (selectedKey.value.every(el => el !== item?.[rowKey.value])) {
+      selectedRows.map((item) => {
+        if (selectedKey.value.every((el) => el !== item?.[rowKey.value])) {
           if (item?.[rowKey.value]) {
             selectedKey.value.push(item[rowKey.value])
             selectedItem.value.push(item)
@@ -58,19 +68,27 @@ export function useRowSelection(
         return item
       })
     } else {
-      changeRows.map(item => {
-        if (selectedKey.value.some(el => el === item?.[rowKey.value])) {
-          selectedKey.value = selectedKey.value.filter(el => el !== item[rowKey.value])
-          selectedItem.value = selectedItem.value.filter(el => el[rowKey.value] !== item[rowKey.value])
+      changeRows.map((item) => {
+        if (selectedKey.value.some((el) => el === item?.[rowKey.value])) {
+          selectedKey.value = selectedKey.value.filter((el) => el !== item[rowKey.value])
+          selectedItem.value = selectedItem.value.filter(
+            (el) => el[rowKey.value] !== item[rowKey.value]
+          )
         }
         return item
       })
     }
   }
 
+  const clearRowKey = () => {
+    selectedKey.value = []
+    selectedItem.value = []
+    changeRowKey()
+  }
+
   const removeRowKeys = (keyList: (string | number)[]) => {
-    selectedKey.value = selectedKey.value.filter(el => !keyList.includes(el))
-    selectedItem.value = selectedItem.value.filter(el => !keyList.includes(el?.[rowKey.value]))
+    selectedKey.value = selectedKey.value.filter((el) => !keyList.includes(el))
+    selectedItem.value = selectedItem.value.filter((el) => !keyList.includes(el?.[rowKey.value]))
     changeRowKey()
   }
 
@@ -79,6 +97,7 @@ export function useRowSelection(
     selectRowKey,
     selectAllRowKey,
     removeRowKeys,
-    changeRowKey
+    changeRowKey,
+    clearRowKey
   }
 }
