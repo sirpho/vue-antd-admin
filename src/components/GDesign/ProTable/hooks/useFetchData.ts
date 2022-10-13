@@ -241,8 +241,9 @@ export function useFetchData(
 
       let resultItems: RecordType[] = []
 
-      const response = await unref(request)(actionParams, sorter, filters)
-      requesting.value = false
+      const response = await unref(request)(actionParams, sorter, filters).finally(() => {
+        requesting.value = false
+      })
 
       if (response && response.success) {
         resultItems = response.data

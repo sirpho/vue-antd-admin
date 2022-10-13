@@ -95,37 +95,29 @@ export default defineComponent({
     const handleChange = (value, record) => {
       switch (record.valueType) {
         case 'select':
-          changeFormState(
-            record.dataIndex,
-            value || value === 0 ? value : record.initialValue || undefined
-          )
+          changeFormState(record.dataIndex, value || value === 0 ? value : undefined)
           break
         case 'treeSelect':
           changeFormState(
             record.dataIndex,
             value || value === 0
               ? value
-              : record.initialValue ||
-                  (record.fidle?.treeCheckable || record.field?.multiple ? [] : null)
+              : record.fidle?.treeCheckable || record.field?.multiple
+              ? []
+              : null
           )
           break
         case 'date':
           changeFormState(
             record.dataIndex,
-            value ? dayjs(value).format(record.format || 'YYYY-MM-DD') : record.initialValue || null
+            value ? dayjs(value).format(record.format || 'YYYY-MM-DD') : null
           )
           break
         case 'dateMonth':
-          changeFormState(
-            record.dataIndex,
-            value ? dayjs(value).format('YYYY-MM') : record.initialValue || null
-          )
+          changeFormState(record.dataIndex, value ? dayjs(value).format('YYYY-MM') : null)
           break
         case 'dateYear':
-          changeFormState(
-            record.dataIndex,
-            value ? dayjs(value).format('YYYY') : record.initialValue || null
-          )
+          changeFormState(record.dataIndex, value ? dayjs(value).format('YYYY') : null)
           break
         case 'dateRange':
           const values =
@@ -134,22 +126,22 @@ export default defineComponent({
                   dayjs(value[0]).format(record.format || 'YYYY-MM-DD'),
                   dayjs(value[1]).format(record.format || 'YYYY-MM-DD')
                 ]
-              : record.initialValue || null
+              : null
           changeFormState(record.dataIndex, values)
           record.rangeStartName &&
-            changeFormState(record.rangeStartName, values.length > 0 ? values[0] : null)
+            changeFormState(record.rangeStartName, values && values.length > 0 ? values[0] : null)
           record.rangeEndName &&
-            changeFormState(record.rangeEndName, values.length > 1 ? values[1] : null)
+            changeFormState(record.rangeEndName, values && values.length > 1 ? values[1] : null)
           break
         case 'time':
           changeFormState(
             record.dataIndex,
-            value ? dayjs(value).format(record.format || 'HH:mm:ss') : record.initialValue || null
+            value ? dayjs(value).format(record.format || 'HH:mm:ss') : null
           )
           break
         case 'text':
         default:
-          changeFormState(record.dataIndex, value || record.initialValue || '')
+          changeFormState(record.dataIndex, value || '')
           break
       }
       if (searchProp.value.showSearch || record.valueType === 'text') {
@@ -400,13 +392,12 @@ export default defineComponent({
         case 'text':
         default:
           show = (
-            <Input.Search
+            <Input
               style={{ width: '100%' }}
               value={formState[record.dataIndex]}
               placeholder={record.placeholder || '请输入'}
               allowClear={record.allowClear !== false}
               onChange={(e) => handleChange(e.target.value, record)}
-              onSearch={(_) => handleSubmit()}
             />
           )
           break
