@@ -3,23 +3,31 @@ import { defineStore } from 'pinia'
 import { notification } from 'ant-design-vue'
 import config from '/config/config'
 import { login } from '@/services/controller/user'
-import { getAccessToken, removeAccessToken, setAccessToken } from '@/utils/accessToken'
+import {
+  getAccessToken,
+  removeAccessToken,
+  setAccessToken,
+  setPermission,
+  removePermission,
+  getUserInfo,
+  setUserInfo,
+  removeUserInfo
+} from '@/utils/accessToken'
 import { timeFix } from '@/utils/util'
 import { useStoreRoutes } from '@/store'
 import { useStorePermission } from '@/store'
 import { useStoreTabsRouter } from '@/store'
 
-const { tokenName } = config.defaultSettings
-
+const { tokenName, cacheDataOnRefresh } = config.defaultSettings
 export interface UserInfo {
-  id: number;
-  uname: string;
-  uid: string;
+  id: number
+  uname: string
+  uid: string
 }
 
 export interface UserState {
-  accessToken: string;
-  userInfo: UserInfo;
+  accessToken: string
+  userInfo: UserInfo
 }
 
 export const useStoreUser = defineStore('user', () => {
@@ -28,9 +36,8 @@ export const useStoreUser = defineStore('user', () => {
   const tabsRouter = useStoreTabsRouter()
 
   const state = reactive({
-    accessToken: getAccessToken(),
-    // accessToken: '',
-    userInfo: {},
+    accessToken: cacheDataOnRefresh ? getAccessToken() : '',
+    userInfo: cacheDataOnRefresh ? getUserInfo() : {}
   } as UserState)
 
   /**
@@ -42,10 +49,12 @@ export const useStoreUser = defineStore('user', () => {
     if (accessToken) {
       const expires = response.data?.expire
       state.accessToken = accessToken
-      const {permissions, user} = response.data
-      setAccessToken(accessToken, expires ? expires * 60 * 1000 : 0)
-      auth.changeValue("permission", permissions)
+      const { permissions, user } = response.data
+      auth.changeValue('permission', permissions)
       state.userInfo = user
+      setAccessToken(accessToken, expires ? expires * 60 * 1000 : 0)
+      setPermission(permissions, expires ? expires * 60 * 1000 : 0)
+      setUserInfo(user, expires ? expires * 60 * 1000 : 0)
       notification.success({
         message: `欢迎登录${user.uname}`,
         description: `${timeFix()}！`
@@ -69,6 +78,8 @@ export const useStoreUser = defineStore('user', () => {
     routes.resetRoute()
     tabsRouter.blankingTabs()
     removeAccessToken()
+    removePermission()
+    removeUserInfo()
   }
 
   return {

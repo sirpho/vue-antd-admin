@@ -33,6 +33,7 @@ export interface settingConfig {
   storage: string;
   recordRoute: boolean;
   authentication: string;
+  cacheDataOnRefresh: boolean;
 }
 
 export interface networkConfig {

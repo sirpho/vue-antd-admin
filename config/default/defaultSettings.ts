@@ -52,6 +52,8 @@ const defaultSettings: settingConfig = {
   recordRoute: false,
   //intelligence（前端导出路由）和all（后端导出路由）两种方式
   authentication: 'intelligence',
+  // 刷新页面是否缓存用户、权限信息
+  cacheDataOnRefresh: true,
 }
 
 export default defaultSettings

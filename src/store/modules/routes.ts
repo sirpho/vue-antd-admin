@@ -6,6 +6,7 @@ import { generator, getRootMenu } from '@/utils/routes'
 import { getFirstLastChild } from '@/utils/routeConvert'
 import { getLevelData } from '@/utils/util'
 import { useStorePermission } from '@/store'
+import { cloneDeep } from 'lodash-es'
 
 /**
  * @description store-routes 路由
@@ -33,7 +34,7 @@ export const useStoreRoutes = defineStore('routes', () => {
    */
   const setRoutes = () => {
     state.menuLoading = true
-    let finallyRoutes = [...asyncRoutes]
+    let finallyRoutes = cloneDeep(asyncRoutes)
     const { permission } = storePermission
     // 获取已授权的菜单
     const getAuthorized = (routes: AppRouteModule[]) => {
@@ -41,8 +42,8 @@ export const useStoreRoutes = defineStore('routes', () => {
       for (const item of routes) {
         let hasPermission = true
         const { authority } = item
-        if(authority) {
-            hasPermission = permission.some((p) => authority.includes(p))
+        if (authority) {
+          hasPermission = permission.some((p) => authority.includes(p))
         }
         if (hasPermission) {
           if (item.children && item.children.length > 0) {

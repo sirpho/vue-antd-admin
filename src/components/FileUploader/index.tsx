@@ -3,7 +3,9 @@ import { v4 } from 'uuid'
 import { defineComponent, reactive } from 'vue'
 import { useStoreUser } from '@/store'
 import { FileUploaderProps } from '@/components/FileUploader/props'
-import { UploadFile } from 'ant-design-vue/lib/upload/interface'
+import type { UploadChangeParam, UploadProps } from 'ant-design-vue'
+import { UploadFileStatus } from 'ant-design-vue/lib/upload/interface'
+import { message } from 'ant-design-vue'
 
 export default defineComponent({
   name: 'FileUploader',
@@ -16,56 +18,78 @@ export default defineComponent({
 
     watchEffect(() => {
       if (props.fileList) {
-        const list = [...props.fileList]
-        // 检查list里面有没有没有uid的文件
-        const hasOne = list.some((item) => !item.uid)
-        if (hasOne) {
-          list.forEach((item) => {
-            if (!item.uid) {
-              item.uid = v4()
-            }
-          })
-          if (props.onChange && typeof props.onChange === 'function') {
-            props.onChange([...list] as UploadFile[])
-          }
-        }
-        state.list = list
+        const files = props.fileList.map((item) => ({
+          uid: v4(),
+          status: 'done' as UploadFileStatus,
+          ...item
+        }))
+        // @ts-ignore
+        state.list = ref<UploadProps['fileList']>(files)
       }
     })
 
-    const removeFile = (file) => {
-      state.list = state.list.filter((item) => item.uid !== file.uid)
-    }
-    const changeFileList = ({ file, fileList }) => {
-      state.list = fileList
-      if (props.onChange && typeof props.onChange === 'function') {
+    const handleChange = (info: UploadChangeParam) => {
+      let resFileList = [...info.fileList]
+
+      // 2. read from response and show file link
+      resFileList = resFileList.map((file) => {
         if (file.response && file.response.code === 0) {
-          props.onChange(fileList)
+          // Component will show file.url as link
+          if (file.response.data && file.response.data.length > 0) {
+            file.url = file.response.data[0].url
+          }
         }
+        return file
+      })
+
+      state.list = resFileList
+
+      if (info.file.status === 'done') {
+        if (info.file.response && info.file.response.code !== 0) {
+          message.error(info.file.response.msg || '文件上传异常！')
+        }
+        emit()
       }
     }
+
+    const removeFile = (file) => {
+      state.list = state.list.filter((item) => item.uid !== file.uid)
+      emit()
+    }
+
+    const emit = () => {
+      if (props.onChange && typeof props.onChange === 'function') {
+        props.onChange(state.list.filter((item) => !!item.url))
+      }
+    }
+
     return {
       ...toRefs(state),
       props,
       accessToken: user.accessToken,
       removeFile,
-      changeFileList
+      handleChange
     }
   },
   render() {
-    const { list, accessToken, props, removeFile, changeFileList } = this
+    const { list, accessToken, props, removeFile, handleChange } = this
     return (
       <a-upload
+        disabled={props.disabled}
         headers={{ token: accessToken }}
         name={'files'}
         action={`${import.meta.env.VITE_BASE_URL}${props.action}`}
         fileList={list}
         onRemove={removeFile}
-        onChange={changeFileList}
+        onChange={handleChange}
+        beforeUpload={props.beforeUpload}
       >
-        <a-button disabled={props.disabled} size="small" icon={<UploadOutlined />}>
-          上传文件
-        </a-button>
+        {!props.disabled && (
+          <a-button size="small" icon={<UploadOutlined />}>
+            上传文件
+          </a-button>
+        )}
+        {props.disabled && list.length <= 0 && <span style="color: rgba(0,0,0,.25)">暂无附件</span>}
       </a-upload>
     )
   }
