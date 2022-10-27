@@ -4,6 +4,7 @@ import { headerViewProps } from './props'
 import { DefaultHeader } from './DefaultHeader'
 import { flatMap } from '../../utils'
 import { useRouteContext } from '../../RouteContext'
+import { omit } from 'lodash-es'
 
 const { Header } = Layout
 
@@ -37,9 +38,10 @@ export default defineComponent({
     const right = computed(() => (needFixedHeader.value ? 0 : undefined))
 
     const renderContent = () => {
+      const resetProps = omit(props, ['headerContentRender'])
       const defaultDom = (
         <DefaultHeader
-          {...props}
+          {...resetProps}
           theme={hTheme.value as 'light' | 'dark'}
           mode="horizontal"
           onCollapse={onCollapse.value}

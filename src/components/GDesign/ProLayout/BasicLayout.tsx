@@ -9,7 +9,7 @@ import {
   onMounted,
   unref
 } from 'vue'
-import { Layout } from 'ant-design-vue'
+import { Layout, PageHeader } from 'ant-design-vue'
 import { useMediaQuery } from '@gx-admin/hooks/event'
 import { getSlot, getPrefixCls } from '@gx-admin/utils'
 import { basicLayoutProps } from './props'
@@ -114,7 +114,17 @@ export default defineComponent({
       if (p.headerRender === false || p.pure) {
         return null
       }
-      return <GlobalHeader {...p} matchMenuKeys={matchMenuKeys || []} />
+      // 面包屑
+      const headerContentRender = () => {
+        return <PageHeader breadcrumb={breadcrumb.value} />
+      }
+      return (
+        <GlobalHeader
+          {...p}
+          headerContentRender={headerContentRender}
+          matchMenuKeys={matchMenuKeys || []}
+        />
+      )
     }
 
     const breadcrumb = computed<BreadcrumbProps>(() => ({
