@@ -41,8 +41,13 @@ export function useRowSelection(
   const selectRowKey = (record, selected) => {
     if (selected) {
       if (record?.[rowKey.value]) {
-        selectedKey.value.push(record[rowKey.value])
-        selectedItem.value.push(record)
+        if (rowSelection.value?.type === 'radio') {
+          selectedKey.value = [record[rowKey.value]]
+          selectedItem.value = [record]
+        } else {
+          selectedKey.value.push(record[rowKey.value])
+          selectedItem.value.push(record)
+        }
       }
     } else {
       selectedKey.value = selectedKey.value.filter((item) => item !== record[rowKey.value])
