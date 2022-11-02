@@ -8,7 +8,7 @@ import { useForm } from './useForm'
 import type { ColConfig } from '../../types/table'
 import type { ProSearchMap } from '../../types/column'
 import { defaultSearchProp, proTableProps } from '../../props'
-import { isObject } from '@/utils/validate'
+import { isObject, isFunction } from '@/utils/validate'
 
 import './style.less'
 
@@ -145,6 +145,7 @@ export default defineComponent({
           break
       }
       if (searchProp.value.showSearch || record.valueType === 'text') {
+        record.onChange?.(formState[record.dataIndex])
         return
       } else if (record.valueType === 'treeSelect' || record.valueType === 'dateRange') {
         handleSubmit()
@@ -210,7 +211,13 @@ export default defineComponent({
     )
 
     const FormItemContainer = (record) => {
-      let show
+      let show, valueEnum
+
+      if (isFunction(record.valueEnum)) {
+        valueEnum = record.valueEnum()
+      } else {
+        valueEnum = record.valueEnum || []
+      }
       switch (record.valueType) {
         case 'select':
           show = (
@@ -219,6 +226,7 @@ export default defineComponent({
               value={record.loading ? undefined : formState[record.dataIndex]}
               optionFilterProp="label"
               placeholder={record.placeholder || '请选择'}
+              mode={record.mode || undefined}
               showSearch={record.showSearch}
               allowClear={record.allowClear !== false}
               getPopupContainer={(trigger) => {
@@ -234,7 +242,7 @@ export default defineComponent({
               }
               onChange={(e) => handleChange(e, record)}
             >
-              {record.valueEnum.map((item) => {
+              {valueEnum.map((item) => {
                 return isObject(item) ? (
                   <a-select-option key={item.value} value={item.value} label={item.label}>
                     {item.label}
@@ -255,7 +263,7 @@ export default defineComponent({
               value={formState[record.dataIndex]}
               placeholder={record.placeholder || '请选择'}
               allowClear={record.allowClear !== false}
-              treeData={record.valueEnum}
+              treeData={valueEnum}
               getPopupContainer={(trigger) => {
                 if (trigger && trigger.parentNode) {
                   return trigger.parentNode
@@ -464,11 +472,20 @@ export default defineComponent({
       })
     }
 
-    return () => (
+    return {
+      changeFormState,
+      FormItemRender,
+      props,
+      searchProp
+    }
+  },
+  render() {
+    const { props, searchProp, FormItemRender } = this
+    return (
       <div
         class={{
           [`${unref(props.prefixCls)}-search`]: true,
-          [`${searchProp.value.className}`]: searchProp.value.className
+          [`${searchProp.className}`]: searchProp.className
         }}
       >
         <Form class={`${unref(props.prefixCls)}-form`} layout="horizontal">

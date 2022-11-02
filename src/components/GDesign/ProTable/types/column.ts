@@ -42,157 +42,154 @@ export type ProFieldValueType =
  * @param time: 时间 HH:mm:ss
  * @param select 下拉选择器
  */
-export type ProFieldValueFormat =
-  | 'data'
-  | 'dateMonth'
-  | 'dateRange'
-  | 'time'
+export type ProFieldValueFormat = 'data' | 'dateMonth' | 'dateRange' | 'time'
 
 export type ProSchemaValueEnumType = {
   /** @name 演示的文案 */
-  text: VNodeChild | JSX.Element;
+  text: VNodeChild | JSX.Element
 
   /** @name 演示的value值 */
-  value: any;
+  value: any
 
   /** @name 是否禁用 */
-  disabled?: boolean;
-};
+  disabled?: boolean
+}
 
-type ProSchemaValueType<ValueType> = (ValueType | ProFieldValueType);
+type ProSchemaValueType<ValueType> = ValueType | ProFieldValueType
 
-type ProSchemaValueFormat<ValueType> = (ValueType | ProFieldValueFormat);
+type ProSchemaValueFormat<ValueType> = ValueType | ProFieldValueFormat
 
-export type ProSearchMap<
-  ValueType = 'text',
-  ValueFormat = 'date',
-  > = {
-  dataIndex?: DataIndex;
+export type ProSearchMap<ValueType = 'text', ValueFormat = 'date'> = {
+  dataIndex?: DataIndex
   /** 选择如何渲染相应的模式 */
-  valueType?: ProSchemaValueType<ValueType>;
-  ValueFormat?: ProSchemaValueFormat<ValueFormat>;
-  placeholder?: string | string[];
+  valueType?: ProSchemaValueType<ValueType>
+  ValueFormat?: ProSchemaValueFormat<ValueFormat>
+  placeholder?: string | string[]
   /** valueType为select生效 */
-  allowClear?: boolean;
+  allowClear?: boolean
   /** valueType为select生效 */
-  showSearch?: boolean;
+  showSearch?: boolean
   /** valueType为date|dateMonth|dateRange|time生效 */
-  format?: string;
+  format?: string
   /** valueType为date生效 */
-  showToday?: boolean;
+  showToday?: boolean
   /** valueType为dateRange生效 */
-  rangeStartName?: string;
+  rangeStartName?: string
   /** valueType为dateRange生效 */
-  rangeEndName?: string;
+  rangeEndName?: string
   /** valueType为time生效 */
-  use12Hours?: boolean;
+  use12Hours?: boolean
   /** valueType为select生效 */
-  loading?: boolean;
-  showTime?: RecordType | boolean;
+  loading?: boolean
+  showTime?: RecordType | boolean
   /** 搜索表单的默认值 */
-  initialValue?: any;
+  initialValue?: any
   /** 针对select、treeselect取值的key */
-  valueKey?: string;
+  valueKey?: string
   /** 表单的属性值（ant-design）*/
-  field?: RecordType;
+  field?: RecordType
   /**
    * 支持 object 和Map，Map 是支持其他基础类型作为 key
    *
    * @name 映射值的类型
    */
-  valueEnum?: ProSchemaValueEnumType[]
-};
+  valueEnum?: ProSchemaValueEnumType[] | (() => ProSchemaValueEnumType[])
+}
 
 export type ProColumn = {
-  title?: ColumnTitle<any>;
+  title?: ColumnTitle<any>
   // Sorter
   sorter?:
     | boolean
     | CompareFn<RecordType>
     | {
-    compare?: CompareFn<RecordType>;
-    /** Config multiple sorter order priority */
-    multiple?: number;
-  };
-  sortOrder?: SortOrder;
-  defaultSortOrder?: SortOrder;
-  sortDirections?: SortOrder[];
-  showSorterTooltip?: boolean | TooltipProps;
+        compare?: CompareFn<RecordType>
+        /** Config multiple sorter order priority */
+        multiple?: number
+      }
+  sortOrder?: SortOrder
+  defaultSortOrder?: SortOrder
+  sortDirections?: SortOrder[]
+  showSorterTooltip?: boolean | TooltipProps
 
   // Filter
-  filtered?: boolean;
-  filters?: ColumnFilterItem[];
-  filterDropdown?: VueNode | ((props: FilterDropdownProps<RecordType>) => VueNode);
-  filterMultiple?: boolean;
-  filteredValue?: FilterValue | null;
-  defaultFilteredValue?: FilterValue | null;
-  filterIcon?: VueNode | ((opt: { filtered: boolean; column: ProColumns }) => VueNode);
-  onFilter?: (value: string | number | boolean, record: RecordType) => boolean;
-  filterDropdownVisible?: boolean;
-  onFilterDropdownVisibleChange?: (visible: boolean) => void;
+  filtered?: boolean
+  filters?: ColumnFilterItem[]
+  filterDropdown?: VueNode | ((props: FilterDropdownProps<RecordType>) => VueNode)
+  filterMultiple?: boolean
+  filteredValue?: FilterValue | null
+  defaultFilteredValue?: FilterValue | null
+  filterIcon?: VueNode | ((opt: { filtered: boolean; column: ProColumns }) => VueNode)
+  onFilter?: (value: string | number | boolean, record: RecordType) => boolean
+  filterDropdownVisible?: boolean
+  onFilterDropdownVisibleChange?: (visible: boolean) => void
 
   // Responsive
-  responsive?: Breakpoint[];
+  responsive?: Breakpoint[]
 
   // Children
-  children?: ProColumns[];
+  children?: ProColumns[]
 
-  colSpan?: number;
-  dataIndex?: DataIndex;
+  colSpan?: number
+  dataIndex?: DataIndex
   customRender?: (opt: {
-    value: any;
-    text: any; // 兼容 V2
-    record: RecordType;
-    index: number;
-    column: ProColumns;
-  }) => any | RenderedCell<RecordType>;
-  rowSpan?: number;
-  width?: number | string;
-  minWidth?: number;
-  maxWidth?: number;
-  resizable?: boolean;
-  customCell?: GetComponentProps<RecordType>;
+    value: any
+    text: any // 兼容 V2
+    record: RecordType
+    index: number
+    column: ProColumns
+  }) => any | RenderedCell<RecordType>
+  rowSpan?: number
+  width?: number | string
+  minWidth?: number
+  maxWidth?: number
+  resizable?: boolean
+  customCell?: GetComponentProps<RecordType>
   /** @deprecated Please use `onCell` instead */
-  onCellClick?: (record: RecordType, e: MouseEvent) => void;
+  onCellClick?: (record: RecordType, e: MouseEvent) => void
 
-  key?: Key;
-  class?: string;
-  className?: string;
-  fixed?: FixedType;
-  customHeaderCell?: GetComponentProps<ProColumns[]>;
-  ellipsis?: CellEllipsisType;
-  align?: AlignType;
+  key?: Key
+  class?: string
+  className?: string
+  fixed?: FixedType
+  customHeaderCell?: GetComponentProps<ProColumns[]>
+  ellipsis?: CellEllipsisType
+  align?: AlignType
 
-  customFilterDropdown?: boolean;
+  customFilterDropdown?: boolean
 
   /** @deprecated Please use `v-slot:filterIcon` `v-slot:bodyCell` `v-slot:headerCell` instead */
   slots?: {
-    filterIcon?: string;
-    filterDropdown?: string;
-    customRender?: string;
-    title?: string;
-  };
+    filterIcon?: string
+    filterDropdown?: string
+    customRender?: string
+    title?: string
+  }
 
   /**
    * @private Internal usage.
    *
    * !!! DO NOT USE IN PRODUCTION ENVIRONMENT !!!
    */
-  __originColumn__?: any;
+  __originColumn__?: any
 
-  uuid?: string;
+  uuid?: string
   /** 不在列表中显示 */
-  show?: boolean;
+  show?: boolean
   /** 列表顺序值 */
-  order?: number;
+  order?: number
   /** 不在配置工具中显示 */
-  hideInSetting?: boolean;
+  hideInSetting?: boolean
   /** 是否在搜索表单中展示 */
-  search?: boolean;
+  search?: boolean
   /** 是否拷贝 */
-  copyable?: boolean;
+  copyable?: boolean
   /** 值为空时，默认取值 */
-  columnEmptyText?: string;
+  columnEmptyText?: string
+  // 设置 Select 的模式为多选或标签
+  mode?: 'multiple' | 'tags' | 'combobox'
+  /** change事件*/
+  onChange?: (any) => void
 } & ProSearchMap
 
 export type ProColumns = ProColumn[]
