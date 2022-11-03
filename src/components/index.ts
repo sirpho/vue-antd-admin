@@ -2,8 +2,6 @@
 import PageLoading from './PageLoading'
 import Documentation from './Documentation'
 import FileUploader from './FileUploader'
-export {
-  PageLoading,
-  Documentation,
-  FileUploader
-}
+import UploadButton from './UploadButton'
+
+export { PageLoading, Documentation, FileUploader, UploadButton }

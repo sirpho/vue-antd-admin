@@ -1,4 +1,4 @@
-import { Documentation, PageLoading, FileUploader } from '@/components'
+import { Documentation, PageLoading, FileUploader, UploadButton } from '@/components'
 
 const gxAdminDesign = (app) => {
   // doc
@@ -7,5 +7,7 @@ const gxAdminDesign = (app) => {
   app.component('GPageLoading', PageLoading)
   // file-uploader
   app.component('FileUploader', FileUploader)
+  // upload-button
+  app.component('UploadButton', UploadButton)
 }
 export default gxAdminDesign
