@@ -320,6 +320,7 @@ export default defineComponent({
                 }
                 return trigger
               }}
+              allowClear={record.allowClear !== false}
               placeholder={record.placeholder || '请选择'}
               renderExtraFooter={record.renderExtraFooter || null}
               onChange={(e) => handleChange(e, record)}
@@ -341,6 +342,7 @@ export default defineComponent({
                 }
                 return trigger
               }}
+              allowClear={record.allowClear !== false}
               placeholder={record.placeholder || '请选择'}
               renderExtraFooter={record.renderExtraFooter || null}
               onChange={(e) => handleChange(e, record)}
@@ -365,6 +367,7 @@ export default defineComponent({
                 }
                 return trigger
               }}
+              allowClear={record.allowClear !== false}
               placeholder={record.placeholder || ['开始日期', '结束日期']}
               format={record.format || 'YYYY-MM-DD'}
               renderExtraFooter={record.renderExtraFooter || null}
