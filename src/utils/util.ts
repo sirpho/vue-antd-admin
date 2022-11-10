@@ -1,10 +1,19 @@
 import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash-es'
+import { isArray } from './validate'
 
 export function timeFix() {
   const time = new Date()
   const hour = time.getHours()
-  return hour < 9 ? '早上好' : hour <= 11 ? '上午好' : hour <= 13 ? '中午好' : hour < 20 ? '下午好' : '晚上好'
+  return hour < 9
+    ? '早上好'
+    : hour <= 11
+    ? '上午好'
+    : hour <= 13
+    ? '中午好'
+    : hour < 20
+    ? '下午好'
+    : '晚上好'
 }
 
 /**
@@ -38,10 +47,10 @@ export function tansParams(params) {
   for (const propName of Object.keys(params)) {
     const value = params[propName]
     const part = encodeURIComponent(propName) + '='
-    if (value !== null && typeof (value) !== 'undefined' && value !== '') {
+    if (value !== null && typeof value !== 'undefined' && value !== '') {
       if (typeof value === 'object') {
         for (const key of Object.keys(value)) {
-          if (value[key] !== null && typeof (value[key]) !== 'undefined') {
+          if (value[key] !== null && typeof value[key] !== 'undefined') {
             const params = propName + '[' + key + ']'
             const subPart = encodeURIComponent(params) + '='
             result += subPart + encodeURIComponent(value[key]) + '&'
@@ -69,7 +78,7 @@ export function runFunction<T extends any[]>(valueEnum: any, ...rest: T) {
  * @description 处理表格字段为空
  */
 export function handleField(str: any, customize: any) {
-  const stringNull = [ 'null', 'undefined' ]
+  const stringNull = ['null', 'undefined']
   let success = true
   if (str === 0) {
     success = true
@@ -89,6 +98,27 @@ export function handleField(str: any, customize: any) {
     success
   }
 }
+/**
+ * @description 处理table字段为空
+ */
+export function handleTableField(str: any, customize: any) {
+  const stringNull = ['null', 'undefined']
+  let field = str
+  if (isArray(str)) {
+    field = str[0]
+  }
+  const type = typeof field
+  if (stringNull.includes(type) || field === '' || field === null) {
+    return {
+      value: customize === '' ? customize : customize || '--',
+      success: false
+    }
+  }
+  return {
+    value: str,
+    success: true
+  }
+}
 
 /**
  * @description 数组去重
@@ -103,10 +133,12 @@ export function arrayRepeat(data: any[]) {
  */
 export function getSortIndex(
   data: any[] = [],
-  pageConfig = {} as {
-    current?: number;
-    pageSize?: number | boolean;
-  } | boolean,
+  pageConfig = {} as
+    | {
+        current?: number
+        pageSize?: number | boolean
+      }
+    | boolean,
   childrenKey = 'children'
 ) {
   function getChildSortIndex(parentSort, data) {
@@ -134,16 +166,17 @@ export function getSortIndex(
 /**
  * @description 判断删除是否到当前页最后一条
  */
-export function handleCurrentPage(pageConfig = {} as {
-  current: number;
-  pageSize: number | undefined;
-  total: number | undefined;
-}, number) {
+export function handleCurrentPage(
+  pageConfig = {} as {
+    current: number
+    pageSize: number | undefined
+    total: number | undefined
+  },
+  number
+) {
   const { pageSize = 10, total = 0 } = pageConfig
   let { current = 1 } = pageConfig
-  if (
-    total - number <= pageSize * (current - 1)
-  ) {
+  if (total - number <= pageSize * (current - 1)) {
     current = current - 1
   }
   return current === 0 ? 1 : current
@@ -152,15 +185,11 @@ export function handleCurrentPage(pageConfig = {} as {
 /**
  * @description 处理table多选回显补全选中Item信息
  */
-export function completionTableItem(config: {
-  key: string;
-  data: any[];
-  selectItems: any[];
-}) {
+export function completionTableItem(config: { key: string; data: any[]; selectItems: any[] }) {
   let { selectItems } = config
   const { data, key } = config
   selectItems = selectItems.map((item: any) => {
-    const findItem = data.find(el => Number(el[key]) === Number(item[key]))
+    const findItem = data.find((el) => Number(el[key]) === Number(item[key]))
     if (findItem) {
       return {
         ...item,
@@ -176,35 +205,30 @@ export function completionTableItem(config: {
  * @description 处理table多选翻页 selectItems 丢失问题
  */
 export function handleSelectPage(config: {
-  rowKey?: string;
-  tableData: any[];
-  selectItems: any[];
-  oldSelectItems: any[];
+  rowKey?: string
+  tableData: any[]
+  selectItems: any[]
+  oldSelectItems: any[]
 }) {
-  const {
-    tableData,
-    oldSelectItems,
-    selectItems,
-    rowKey = 'id'
-  } = config
-  const currentSelectItems = oldSelectItems.filter((item: any) => tableData.some(el =>
-    el[rowKey] === item[rowKey])
+  const { tableData, oldSelectItems, selectItems, rowKey = 'id' } = config
+  const currentSelectItems = oldSelectItems.filter((item: any) =>
+    tableData.some((el) => el[rowKey] === item[rowKey])
   )
   let newSelectItems = cloneDeep(oldSelectItems)
   if (currentSelectItems.length < selectItems.length) {
-    const pushItems = selectItems.filter((item: any) => !currentSelectItems.find(el =>
-      el[rowKey] === item[rowKey])
+    const pushItems = selectItems.filter(
+      (item: any) => !currentSelectItems.find((el) => el[rowKey] === item[rowKey])
     )
     pushItems.map((item: any) => {
       newSelectItems.push(item)
       return item
     })
   } else {
-    const filterItems = currentSelectItems.filter((item: any) =>
-      !selectItems.find((el: any) => el[rowKey] === item[rowKey])
+    const filterItems = currentSelectItems.filter(
+      (item: any) => !selectItems.find((el: any) => el[rowKey] === item[rowKey])
     )
-    newSelectItems = newSelectItems.filter((item: any) =>
-      !filterItems.find((el: any) => el[rowKey] === item[rowKey])
+    newSelectItems = newSelectItems.filter(
+      (item: any) => !filterItems.find((el: any) => el[rowKey] === item[rowKey])
     )
   }
   return newSelectItems
@@ -233,7 +257,7 @@ export function formatDuraton(time: number) {
   if (time > -1) {
     const hour = Math.floor(time / 3600)
     const min = Math.floor(time / 60) % 60
-    const sec = parseInt((time % 60))
+    const sec = parseInt(time % 60)
     if (hour < 10) {
       newTime = '0' + hour + ':'
     } else {
@@ -249,7 +273,9 @@ export function formatDuraton(time: number) {
     newTime += sec
   }
 
-  return newTime.split(':')[0] === '00' ? `${newTime.split(':')[1]}:${newTime.split(':')[2]}` : newTime
+  return newTime.split(':')[0] === '00'
+    ? `${newTime.split(':')[1]}:${newTime.split(':')[2]}`
+    : newTime
 }
 
 /**
@@ -310,7 +336,7 @@ export function getRandomNumber() {
       return str
     },
     uuidCompact() {
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
         const r = Math.random() * 16 || 0
         const v = c === 'x' ? r : (r && 0x3) || 0x8
         return v.toString(16)
@@ -373,8 +399,10 @@ export function treeData(
   rootId = rootId || 0
   const cloneData = cloneDeep(source) // 对源数据深度克隆
   return cloneData.filter((father: any) => {
-    const branchArr = cloneData.filter((child: any) => father[id] === child[parentId || 'parentId'])// 返回每一项的子级数组
-    branchArr.length > 0 ? father[children || 'children'] = branchArr : delete father[children || 'children']// 如果存在子级，则给父级添加一个children属性，并赋值
+    const branchArr = cloneData.filter((child: any) => father[id] === child[parentId || 'parentId']) // 返回每一项的子级数组
+    branchArr.length > 0
+      ? (father[children || 'children'] = branchArr)
+      : delete father[children || 'children'] // 如果存在子级，则给父级添加一个children属性，并赋值
     return father[parentId || 'parentId'] === rootId // 返回第一层
   })
 }
@@ -409,27 +437,13 @@ export function handleTimeShow(date: string) {
   // 计算相差秒数
   const leave3 = leave2 % (60 * 1000) // 计算分钟数后剩余的毫秒数
   const seconds = Math.round(leave3 / 1000)
-  if (
-    days === 0 &&
-    hours === 0 &&
-    minutes === 0 &&
-    seconds < 60
-  ) {
+  if (days === 0 && hours === 0 && minutes === 0 && seconds < 60) {
     return '刚刚'
-  } else if (
-    days === 0 &&
-    hours === 0 &&
-    minutes < 60
-  ) {
+  } else if (days === 0 && hours === 0 && minutes < 60) {
     return `${minutes}分钟前`
-  } else if (
-    days === 0 &&
-    hours < 24
-  ) {
+  } else if (days === 0 && hours < 24) {
     return `${hours}小时前`
-  } else if (
-    days < mGetDate()
-  ) {
+  } else if (days < mGetDate()) {
     return dayjs(date.replace(/\-/g, '/')).format('MM-dd hh:mm')
   } else {
     return dayjs(date.replace(/\-/g, '/')).format('yyyy-MM-dd')
@@ -451,7 +465,7 @@ export function getBase64(file: File): Promise<string | ArrayBuffer | null> {
     const reader = new FileReader()
     reader.readAsDataURL(file)
     reader.onload = () => resolve(reader.result)
-    reader.onerror = error => reject(error)
+    reader.onerror = (error) => reject(error)
   })
 }
 
@@ -467,7 +481,7 @@ export function dataURLtoBlob(dataurl: any): Blob {
   while (n--) {
     u8arr[n] = bstr.charCodeAt(n)
   }
-  return new Blob([ u8arr ], { type: mime })
+  return new Blob([u8arr], { type: mime })
 }
 
 /**
@@ -482,7 +496,7 @@ export function dataURLtoFile(dataurl: string, filename: string) {
   while (n--) {
     u8arr[n] = bstr.charCodeAt(n)
   }
-  return new File([ u8arr ], filename, { type: mime })
+  return new File([u8arr], filename, { type: mime })
 }
 
 /**
@@ -499,10 +513,7 @@ export function getVideoFileUrl(url = '') {
 export function getFileSuffix(url = '') {
   url = getVideoFileUrl(url)
   const index = url.lastIndexOf('.')
-  return index > 0 ?
-    `${url.substring(index).split('?')[0]}`.split('.')[1]
-    :
-    ''
+  return index > 0 ? `${url.substring(index).split('?')[0]}`.split('.')[1] : ''
 }
 
 /**
@@ -512,7 +523,6 @@ export function isBase64(str = '') {
   const fileDataBase = ['data:image/', 'data:video/', 'data:audio/']
   return str && fileDataBase.find((item) => str.includes(item))
 }
-
 
 export function handleOffsetTop(targetNode: HTMLInputElement) {
   let totalLeft = 0
