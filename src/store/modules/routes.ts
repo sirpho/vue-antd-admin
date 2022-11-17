@@ -43,7 +43,11 @@ export const useStoreRoutes = defineStore('routes', () => {
         let hasPermission = true
         const { authority } = item
         if (authority) {
-          hasPermission = permission.some((p) => authority.includes(p))
+          if (Array.isArray(authority)) {
+            hasPermission = permission.some((p) => authority.includes(p))
+          } else {
+            hasPermission = permission.includes(authority)
+          }
         }
         if (hasPermission) {
           if (item.children && item.children.length > 0) {
