@@ -38,6 +38,15 @@ export function useRowSelection(
     }
   )
 
+  // proTable组件的rowSelection.selectedRowKeys修改时,同步修改到a-table组件中
+  watch(()=> rowSelection.value?.selectedRowKeys, (keys) => {
+    if(keys) {
+      selectedKey.value = keys || []
+    }
+  }, {
+    deep: true,
+  })
+
   const selectRowKey = (record, selected) => {
     if (selected) {
       if (record?.[rowKey.value]) {
