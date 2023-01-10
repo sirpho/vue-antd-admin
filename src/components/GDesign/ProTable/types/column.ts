@@ -190,6 +190,10 @@ export type ProColumn = {
   mode?: 'multiple' | 'tags' | 'combobox'
   /** change事件*/
   onChange?: (any) => void
+  /** 按回车查询（input时生效）默认生效 */
+  enterSearch?: boolean
+  /** 修改后查询（treeSelect | date | dateMonth | dateYear | dateRange | time | select时生效）默认生效 */
+  changeSearch?: boolean
 } & ProSearchMap
 
 export type ProColumns = ProColumn[]

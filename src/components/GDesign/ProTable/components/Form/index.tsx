@@ -92,6 +92,19 @@ export default defineComponent({
           }
     }
 
+    /**
+     * 选择后查询的表单项
+     */
+    const changeSearchType = [
+      'treeSelect',
+      'date',
+      'dateMonth',
+      'dateYear',
+      'dateRange',
+      'time',
+      'select'
+    ]
+
     const handleChange = (value, record) => {
       switch (record.valueType) {
         case 'select':
@@ -144,13 +157,15 @@ export default defineComponent({
           changeFormState(record.dataIndex, value || '')
           break
       }
-      if (searchProp.value.showSearch || record.valueType === 'text') {
-        record.onChange?.(formState[record.dataIndex])
+      record.onChange?.(formState[record.dataIndex])
+      // 如果不显示搜索按钮，修改查询表单后自动查询
+      if (!searchProp.value.showSearch) {
+        handleSubmit(true, false)
         return
-      } else if (record.valueType === 'treeSelect' || record.valueType === 'dateRange') {
-        handleSubmit()
-      } else {
-        handleSubmit()
+      }
+      // 选择完毕后自动查询
+      if (changeSearchType.includes(record.valueType) && record.changeSearch !== false) {
+        handleSubmit(true, false)
       }
     }
 
@@ -218,6 +233,16 @@ export default defineComponent({
       } else {
         valueEnum = record.valueEnum || []
       }
+
+      // 按下回车的事件
+      const keyupEnter = (e: KeyboardEvent) => {
+        const code = e.charCode || e.keyCode
+        if (code === 13) {
+          e.stopPropagation() //阻止冒泡或捕获促使enter键下拉框展开
+          handleSubmit(true, false)
+        }
+      }
+
       switch (record.valueType) {
         case 'select':
           show = (
@@ -241,6 +266,7 @@ export default defineComponent({
                 ) : undefined
               }
               onChange={(e) => handleChange(e, record)}
+              {...(record.field || {})}
             >
               {valueEnum.map((item) => {
                 return isObject(item) ? (
@@ -284,6 +310,7 @@ export default defineComponent({
           show = (
             <DatePicker
               style={{ width: '100%' }}
+              inputReadOnly
               value={
                 formState[record.dataIndex]
                   ? dayjs(formState[record.dataIndex], record.format || 'YYYY-MM-DD')
@@ -302,6 +329,7 @@ export default defineComponent({
               showToday={record.showToday || true}
               renderExtraFooter={record.renderExtraFooter || null}
               onChange={(e) => handleChange(e, record)}
+              {...(record.field || {})}
             />
           )
           break
@@ -309,6 +337,7 @@ export default defineComponent({
           show = (
             <MonthPicker
               style={{ width: '100%' }}
+              inputReadOnly
               value={
                 formState[record.dataIndex]
                   ? dayjs(formState[record.dataIndex], record.format || 'YYYY-MM')
@@ -320,10 +349,11 @@ export default defineComponent({
                 }
                 return trigger
               }}
-              allowClear={record.allowClear !== false}
               placeholder={record.placeholder || '请选择'}
+              allowClear={record.allowClear !== false}
               renderExtraFooter={record.renderExtraFooter || null}
               onChange={(e) => handleChange(e, record)}
+              {...(record.field || {})}
             />
           )
           break
@@ -331,6 +361,7 @@ export default defineComponent({
           show = (
             <YearPicker
               style={{ width: '100%' }}
+              inputReadOnly
               value={
                 formState[record.dataIndex]
                   ? dayjs(formState[record.dataIndex], record.format || 'YYYY')
@@ -346,6 +377,7 @@ export default defineComponent({
               placeholder={record.placeholder || '请选择'}
               renderExtraFooter={record.renderExtraFooter || null}
               onChange={(e) => handleChange(e, record)}
+              {...(record.field || {})}
             />
           )
           break
@@ -353,6 +385,7 @@ export default defineComponent({
           show = (
             <RangePicker
               style={{ width: '100%' }}
+              inputReadOnly
               value={
                 formState[record.dataIndex]?.length
                   ? [
@@ -367,18 +400,20 @@ export default defineComponent({
                 }
                 return trigger
               }}
-              allowClear={record.allowClear !== false}
               placeholder={record.placeholder || ['开始日期', '结束日期']}
               format={record.format || 'YYYY-MM-DD'}
+              allowClear={record.allowClear !== false}
               renderExtraFooter={record.renderExtraFooter || null}
               showTime={record.showTime}
               onChange={(e) => handleChange(e, record)}
+              {...(record.field || {})}
             />
           )
           break
         case 'time':
           show = (
             <TimePicker
+              inputReadOnly
               style={{ width: '100%' }}
               value={
                 formState[record.dataIndex]
@@ -397,6 +432,7 @@ export default defineComponent({
               format={record.format || 'HH:mm:ss'}
               renderExtraFooter={record.renderExtraFooter || null}
               onChange={(e) => handleChange(e, record)}
+              {...(record.field || {})}
             />
           )
           break
@@ -408,7 +444,15 @@ export default defineComponent({
               value={formState[record.dataIndex]}
               placeholder={record.placeholder || '请输入'}
               allowClear={record.allowClear !== false}
+              onKeyup={
+                record.enterSearch !== false
+                  ? (e) => {
+                      keyupEnter(e)
+                    }
+                  : undefined
+              }
               onChange={(e) => handleChange(e.target.value, record)}
+              {...(record.field || {})}
             />
           )
           break
