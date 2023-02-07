@@ -1,8 +1,8 @@
 <template>
   <div class="workplace">
     <div class="workplace-content">
-      <h1>欢迎使用资金链系统</h1>
-      <p>welcome to use ecm management system</p>
+      <h1>欢迎使用模板系统</h1>
+      <p>welcome to use template management system</p>
     </div>
   </div>
 </template>
