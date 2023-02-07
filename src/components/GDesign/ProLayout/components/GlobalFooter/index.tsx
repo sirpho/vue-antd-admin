@@ -13,7 +13,7 @@ export default defineComponent({
   props: {
     copyright: {
       type: [Object, Function, Boolean, String] as PropType<CopyrightRender>,
-      default: 'Copyright © 2022 杭州恒熠信息科技有限公司所有'
+      default: 'Copyright © 2022 XX信息科技有限公司所有'
     }
   },
   setup(props) {
@@ -21,11 +21,13 @@ export default defineComponent({
       suffixCls: 'global-footer',
       isPor: true
     })
+    const { pkg } = __APP_INFO__
 
     return () => (
       <LayoutFooter style={{ padding: 0 }}>
         <div class={baseClassName}>
           {props.copyright && <div class={`${baseClassName}-copyright`}>{props.copyright}</div>}
+          <span class={`${baseClassName}-version`}>version {pkg.version}</span>
         </div>
       </LayoutFooter>
     )

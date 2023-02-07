@@ -55,7 +55,10 @@ export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slot
         />
       )}
       <Content style={attrs.style} class={classNames.value}>
-        {loading ? <PageLoading /> : slots.default?.()}
+        {loading && <PageLoading />}
+        <div style={{ display: loading ? 'none' : 'block', height: '100%' }}>
+          {slots.default?.()}
+        </div>
       </Content>
     </>
   )

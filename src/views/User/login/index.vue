@@ -65,7 +65,9 @@ interface loginState {
   devDependencies: RecordType
 }
 
-const { pkg } = __APP_INFO__
+const { pkg, lastBuildTime } = __APP_INFO__
+console.log('版本: ', pkg.version)
+console.log('项目构建时间: ', lastBuildTime)
 
 const useForm = Form.useForm
 

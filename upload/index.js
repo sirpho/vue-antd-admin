@@ -2,7 +2,10 @@ const config = require('./config.js');
 const configProd = require('./config-prod.js');
 const path = require('path');
 let Client = require('ssh2-sftp-client');
-const shell = require('shelljs')
+const shell = require('shelljs');
+const fs = require('fs');
+const dayjs = require("dayjs");
+
 // 打包 npm run build
 const compileDist = async flag => {
   if (shell.exec(`npm run ${flag}`).code === 0) {
@@ -11,7 +14,7 @@ const compileDist = async flag => {
   }
   return Promise.reject()
 }
-async function connectSSh() {
+async function connectSSh(config) {
   let sftp = new Client();
   sftp
     .connect({
@@ -38,16 +41,29 @@ async function connectSSh() {
       sftp.end();
     });
 }
+
+function writeLog(config, mode) {
+  const content = `时间: ${dayjs().format('YYYY-MM-DD HH:mm:ss')}, 环境: ${mode}, IP: ${config.ip}，路径: ${config.path}\r\n`
+  fs.appendFile('./upload/log.txt', content, 'utf-8', (err, data) => {
+    if(err) {
+      console.log('日志记录异常', data)
+    }
+  })
+}
+
 async function runTask() {
   const commandArgs = process.argv.splice(2)
   const mode = commandArgs[0]
-  console.log(mode)
   if (mode === 'dev') {
+    console.log('开发环境打包上传')
     await compileDist('build:dev') //打包完成
     await connectSSh(config) //提交上传
+    writeLog(config, mode)
   } else if (mode === 'prod') {
+    console.log('生产环境打包上传')
     await compileDist('build:prod') //打包完成
     await connectSSh(configProd) //提交上传
+    writeLog(configProd, mode)
   }
 }
 runTask();

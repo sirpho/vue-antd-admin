@@ -5,6 +5,7 @@ dist
 
 tests/server/static
 tests/server/static/upload
+upload/log.txt
 
 .local
 # local env files
