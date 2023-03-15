@@ -9,6 +9,7 @@ import { configManualChunk } from './build/vite/optimizer'
 import config, { createProxy } from './config/config'
 
 import pkg from './package.json'
+import { buildPlugin } from "./build/vite/plugin/electronBuildPlugin";
 
 function pathResolve(dir: string) {
   return resolve(process.cwd(), '.', dir)
@@ -94,7 +95,8 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       rollupOptions: {
           output: {
             manualChunks: configManualChunk
-          }
+          },
+          plugins: [buildPlugin()]
         }
     },
     define: {
