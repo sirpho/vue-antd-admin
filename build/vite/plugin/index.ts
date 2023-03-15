@@ -4,12 +4,14 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import legacy from '@vitejs/plugin-legacy'
 
+import optimizer from "vite-plugin-optimizer";
 import { configHtmlPlugin } from './html'
 import { configMockPlugin } from './mock'
 import { createAutoImport } from './autoImport'
 import { configCompressPlugin } from './compress'
 import { configVisualizerConfig } from './visualizer'
 import { configHmrPlugin } from './hmr'
+import { electronPlugin, getReplacer } from './electronPlugin'
 
 export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   const {
@@ -20,6 +22,8 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   } = viteEnv
 
   const vitePlugins: (Plugin | PluginOption[])[] = [
+    optimizer(getReplacer()),
+    electronPlugin(),
     // have to
     vue(),
     // have to
