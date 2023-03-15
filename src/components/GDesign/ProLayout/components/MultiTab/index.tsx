@@ -30,6 +30,7 @@ export default defineComponent({
     const $route = useRoute()
     const router = useRouter()
     const store = useStore()
+    const allRouter = router.getRoutes()
     const { routesWhiteList } = config.defaultSettings
     const state = reactive({
       affixTabs: [],
@@ -52,6 +53,14 @@ export default defineComponent({
      * @description 添加标签路由
      */
     const addTabs = async (tag) => {
+      if (!!tag.meta.subTab) {
+        const splits = tag.path.split('/')
+        const parentPath = splits.splice(0, splits.length - 1).join('/')
+        const parentRoute = allRouter.find((item) => item.path === parentPath)
+        if (parentRoute) {
+          tag = parentRoute
+        }
+      }
       if (
         tag.name &&
         tag.meta &&
@@ -90,7 +99,20 @@ export default defineComponent({
      * @description 是否是当前页
      */
     const isActive = (route) => {
-      return route.path === $route.path
+      if (route.path === $route.path) {
+        return true
+      }
+      if (!!$route.meta?.subTab) {
+        const splits = $route.path.split('/')
+        const parentPath = splits.splice(0, splits.length - 1).join('/')
+        const parentRoute = allRouter.find((item) => item.path === parentPath)
+        if (parentRoute) {
+          const childrenPath = (parentRoute.children || []).map((item) => item.path)
+          childrenPath.push(parentPath)
+          return childrenPath.includes(route.path)
+        }
+      }
+      return false
     }
     /**
      * @description 当前页是否固定
