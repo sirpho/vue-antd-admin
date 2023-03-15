@@ -94,7 +94,8 @@ const PageContainer = defineComponent({
   },
   setup(props, { slots }) {
     // const value = useRouteContext()
-
+    const route = useRoute()
+    const isSubTab = ref(false)
     const prefixedClassName = getPrefixCls({
       suffixCls: 'page-container',
       isPor: true
@@ -142,12 +143,23 @@ const PageContainer = defineComponent({
       <>{waterMark ? <ProWatermark>{content.value}</ProWatermark> : content.value}</>
     ))
 
+    watch(
+      () => route,
+      () => {
+        isSubTab.value = !!route.meta?.subTab
+      },
+      {
+        deep: true,
+        immediate: true
+      }
+    )
+
     return () => {
       return (
         <div class={prefixedClassName}>
           {/*面包屑移到了header中*/}
           {/*{headerDom.value}*/}
-          <div class={gridPrefixCls}>
+          <div class={`${gridPrefixCls} ${isSubTab.value ? 'sub-tab-content' : ''}`}>
             <g-bars>
               <div class={`${gridPrefixCls}-children`} style={props.contentStyle}>
                 {renderContentDom.value}

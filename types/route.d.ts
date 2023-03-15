@@ -82,5 +82,7 @@ declare global {
     danger?: boolean;
     // 权限字段
     authority?: string | string[]
+    // 是否是子菜单（显示在菜单头部的tab）
+    subTab?: boolean
   }
 }
