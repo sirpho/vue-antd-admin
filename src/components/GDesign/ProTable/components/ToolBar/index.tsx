@@ -108,7 +108,7 @@ function ToolBar({
   const optionDom = computed(() => {
     const defaultOptions = {
       reload: () => action?.reload(),
-      density: true,
+      density: false,
       setting: true,
       fullScreen: () => action?.toggle()
     }

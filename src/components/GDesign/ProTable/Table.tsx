@@ -51,7 +51,7 @@ const defaultEmpty = (prefixCls: string) => (
 )
 const defaultOptions: OptionConfig = {
   reload: true,
-  density: true,
+  density: false,
   setting: true,
   fullScreen: true
 }

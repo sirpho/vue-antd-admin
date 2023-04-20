@@ -1,17 +1,14 @@
-import { ref, onUnmounted, nextTick } from 'vue'
-import { onMountedOrActivated } from '@gx-admin/hooks/core'
-import config from '/config/config'
-
-const { viewScrollRoot } = config.defaultSettings
+import { ref, onMounted, onUnmounted, nextTick, ComputedRef } from 'vue'
+// import { onMountedOrActivated } from '@gx-admin/hooks/core'
 
 const getStyle = (dom: Element, attr: string) => {
   return getComputedStyle(dom)[attr]
 }
 
-export function useTableHeight(gapH = 0) {
+export function useTableHeight(gapH = 0, tableComputed?: ComputedRef) {
   const tableHeight = ref(undefined)
 
-  onMountedOrActivated(() => {
+  onMounted(() => {
     window.addEventListener('resize', updateTableHeight)
     updateTableHeight()
   })
@@ -26,29 +23,49 @@ export function useTableHeight(gapH = 0) {
   }
 
   function calculateHeight() {
-    const viewDom = document.querySelector(viewScrollRoot)
+    const viewDom = document.querySelector('main')
     if (viewDom) {
+      const tableDom = tableComputed ? unref(tableComputed.value)?.$el : null
+      const subTabGroupDom = viewDom.querySelector('.sub-tab-group')
+      const gxProGridContentDom = viewDom.querySelector('.gx-pro-grid-content')
       const searchDom = viewDom.querySelector('.gx-pro-table-search')
       const toolbarDom = viewDom.querySelector('.gx-pro-table-list-toolbar')
-      const tableHeaderDom = viewDom.querySelector('.ant-table-header')
+      const tableTitleDom = viewDom.querySelector('.ant-table-title')
+      const tableHeaderDom = (tableDom || viewDom).querySelector('.ant-table-header')
       const paginationDom = viewDom.querySelector('.ant-table-pagination')
       const cardBodyDom = viewDom.querySelector('.ant-card-body')
-      const viewDomH = viewDom.getBoundingClientRect().height
+
+      const viewDomH = viewDom.getBoundingClientRect().height || 0
+      const subTabGroupDomH = subTabGroupDom?.getBoundingClientRect().height || 0
       const searchDomH = searchDom?.getBoundingClientRect().height || 0
       const toolbarDomH = toolbarDom?.getBoundingClientRect().height || 0
+      const tableTitleDomH = tableTitleDom?.getBoundingClientRect().height || 0
       const tableHeaderDomH = tableHeaderDom?.getBoundingClientRect().height || 0
       const paginationDomH = paginationDom?.getBoundingClientRect().height || 0
+
       let cssHeight = 0
+      cssHeight += (subTabGroupDom && parseInt(getStyle(subTabGroupDom, 'margin-top'))) || 0
+      cssHeight +=
+        (gxProGridContentDom && parseInt(getStyle(gxProGridContentDom, 'padding-top'))) || 0
       cssHeight += (paginationDom && parseInt(getStyle(paginationDom, 'margin-top'))) || 0
       cssHeight += (paginationDom && parseInt(getStyle(paginationDom, 'margin-bottom'))) || 0
       cssHeight += (cardBodyDom && parseInt(getStyle(cardBodyDom, 'padding-top'))) || 0
       cssHeight += (cardBodyDom && parseInt(getStyle(cardBodyDom, 'padding-bottom'))) || 0
 
       return (
-        viewDomH - searchDomH - toolbarDomH - tableHeaderDomH - paginationDomH - cssHeight - gapH
+        viewDomH -
+        subTabGroupDomH -
+        searchDomH -
+        toolbarDomH -
+        tableTitleDomH -
+        tableHeaderDomH -
+        paginationDomH -
+        cssHeight -
+        gapH
       )
     }
     return undefined
   }
+
   return [tableHeight, updateTableHeight]
 }
