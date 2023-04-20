@@ -35,7 +35,7 @@ export default defineComponent({
     )
 
     const searchProp = computed(() => Object.assign({ ...defaultSearchProp }, props.search))
-    const advanced = ref(false)
+    const advanced = ref(true)
 
     const hasSearch = computed(() => !!searchProp.value.showSearch)
     const hasReset = computed(() =>
@@ -486,7 +486,7 @@ export default defineComponent({
                     justifyContent: 'flex-end'
                   },
                   advanced: advanced.value,
-                  showAdvanced: advanced.value
+                  showAdvanced: formNode.length > rowLength.value
                 })}
             </>
           )
@@ -520,6 +520,7 @@ export default defineComponent({
     }
 
     return {
+      handleSubmit,
       changeFormState,
       FormItemRender,
       props,
