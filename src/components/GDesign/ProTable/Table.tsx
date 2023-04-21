@@ -482,14 +482,16 @@ const GProTable = defineComponent({
                 {props.customize
                   ? props.customize(unref(getDataSourceRef))
                   : slots.customize(unref(getDataSourceRef))}
-                <Pagination
-                  class={{
-                    ['ant-table-pagination']: true,
-                    [`ant-table-pagination-${handlePagePosition.value}`]: handlePagePosition.value
-                  }}
-                  {...toRaw(unref(getPaginationInfo))}
-                  onChange={handleChangePage}
-                />
+                {unref(getDataSourceRef).length > 0 && (
+                  <Pagination
+                    class={{
+                      ['ant-table-pagination']: true,
+                      [`ant-table-pagination-${handlePagePosition.value}`]: handlePagePosition.value
+                    }}
+                    {...toRaw(unref(getPaginationInfo))}
+                    onChange={handleChangePage}
+                  />
+                )}
               </Spin>
             ) : (
               <Table
