@@ -96,7 +96,7 @@ const GProTable = defineComponent({
     })
 
     const cacheColumns = computed(() => {
-      const columnsList: ProColumns = (props.columns || []).map((item) => {
+      const columnsList: ProColumns = (props.columns || []).map((item: any) => {
         return {
           ...item,
           key: item.key || (item.dataIndex as string),

@@ -4,16 +4,15 @@ import { tableProps } from '@gx-design/Table/props'
 import type { AlignType } from '@gx-design/Table/typings'
 import type {
   OptionConfig,
-  requsetConfig,
+  requestConfig,
   ProCoreActionType,
   ProFieldEmptyText,
   ProTablePagination,
   ProTableRowSelection
 } from './types/table'
-import type { ProColumns, ProSearchMap } from './types/column'
+import type { ProSearchMap } from './types/column'
 import type { ColumnsState, ColumnsStateType } from './hooks/useColumnSetting'
 import { SearchConfig } from './types/table'
-
 export const defaultSearchProp = {
   resetText: '重置',
   searchText: '查询',
@@ -27,7 +26,7 @@ export const defaultProps = {
     type: Object as PropType<ProTableRowSelection>,
     default: undefined
   },
-  columns: { type: Array as PropType<ProColumns>, default: undefined },
+  columns: { type: Array, default: undefined },
   pagination: { type: [Object, Boolean] as PropType<ProTablePagination>, default: () => undefined }
 }
 
@@ -38,7 +37,7 @@ export const proTableProps = {
    * @description 获取 dataSource 的方法
    */
   request: {
-    type: Function as PropType<requsetConfig>,
+    type: Function as PropType<requestConfig>,
     default: null
   },
   // 是否启用虚拟滚动
@@ -222,7 +221,7 @@ export const proTableProps = {
   sizeChange: Function as PropType<(size: string) => any>,
   loadingChange: Function as PropType<(loading: boolean) => any>,
   requestError: Function as PropType<(e: Error) => void>,
-  beforeSearchSubmit: Function as PropType<requsetConfig>,
+  beforeSearchSubmit: Function as PropType<requestConfig>,
   afterRequest: Function as PropType<() => any>,
   columnsStateChange: Function as PropType<(data: ColumnsState[]) => void>
 }

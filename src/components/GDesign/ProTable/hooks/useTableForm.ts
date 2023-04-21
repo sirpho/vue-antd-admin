@@ -4,12 +4,13 @@ import type { ProTableProps } from '../Table'
 import type { SearchConfig } from '../types/table'
 import type { ProSearchMap } from '../types/column'
 import { handleFormDefaultValue } from '../utils'
+import {ProColumns} from "../types/column";
 
 export function useTableForm({ search, searchMap, params, columns }: {
   search: Ref<SearchConfig>;
   searchMap: Ref<ProSearchMap[]>;
   params: Ref<ProTableProps['params']>;
-  columns: ComputedRef<ProTableProps['columns']>;
+  columns: ComputedRef<ProColumns>;
 }) {
   const formParamsRef = reactive<RecordType>({})
   const defaultParamsRef = reactive<RecordType>({})

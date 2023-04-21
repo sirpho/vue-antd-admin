@@ -33,7 +33,7 @@ export type RequestData = {
   total?: number
 } & RecordType
 
-export type requsetConfig = (
+export type requestConfig = (
   params: {
     pageSize?: number
     current?: number
