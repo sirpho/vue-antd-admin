@@ -14,6 +14,7 @@ import { createFromIconfontCN } from '@ant-design/icons-vue'
 import { baseMenuProps } from './props'
 import { defaultSettings } from '../../defaultSettings'
 import { isImg, isUrl } from '../../utils'
+import { IconType } from '/types/route'
 
 export interface CustomMenuRender {
   menuItemRender?: WithFalse<
@@ -26,41 +27,37 @@ export interface CustomMenuRender {
 
 export type BaseMenuProps = ExtractPropTypes<typeof baseMenuProps>
 
-const IconFont: any = (iconfontUrl) => {
-  return createFromIconfontCN({
-    scriptUrl: iconfontUrl || defaultSettings.iconfontUrl
-  })
-}
+const IconFont = createFromIconfontCN({
+  scriptUrl: defaultSettings.iconfontUrl
+})
 
-const LazyIcon = (props: {
-  icon: VNodeChild | string
-  iconType?: number
-  iconfontUrl?: string
-}) => {
-  const { icon, iconfontUrl } = props
-  if (!icon) {
-    return null
-  }
+const LazyIcon = (props: { icon: VNodeChild | string; iconType?: IconType }) => {
+  const { icon, iconType } = props
   if (isVNode(icon)) {
     return icon
   }
   if (typeof icon === 'string' && icon !== '') {
-    if (isUrl(icon) || isImg(icon)) {
+    // 默认图标
+    if (!iconType || iconType === 'default') {
+      const DynamicIcon = resolveComponent(icon as string) as any
+      return <DynamicIcon /> || null
+    }
+    // 图片图标
+    if (isUrl(icon) || isImg(icon) || iconType === 'image') {
       return <img src={icon} alt="icon" class={`gx-pro-sider-menu-icon customimg`} />
     }
-    if (!!iconfontUrl) {
-      return <IconFont type={icon} />
+    if (iconType === 'iconfont') {
+      return <IconFont class={'gx-pro-sider-menu-icon icon-font'} type={icon} />
     }
   }
-  const DynamicIcon = resolveComponent(icon as string) as any
-  return <DynamicIcon /> || null
+  return null
 }
 
 LazyIcon.props = {
   icon: {
     type: [String, Function, Object] as PropType<string | Function | VNode | JSX.Element>
   },
-  iconType: Number,
+  iconType: String as PropType<IconType>,
   iconfontUrl: String
 }
 

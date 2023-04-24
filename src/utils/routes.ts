@@ -101,7 +101,7 @@ export const generator = (routerMap: MenuDataItem[], parent?) => {
         tagHidden: item.tagHidden,
         icon: item.icon || undefined,
         homePage: item.homePage || 0,
-        iconType: item.iconType || undefined,
+        iconType: item.iconType || 'default',
         hideInMenu: item.hidden || false,
         target: item.target,
         targetStatus: item.targetStatus
@@ -130,7 +130,7 @@ export function buildMenu(list: MenuDataItem[]) {
     const {
       title = '',
       icon = '',
-      iconType = 1, //菜单图标类型 0:本地 1:自定义 2:图片
+      iconType = 'default', //菜单图标类型 'default' | 'iconfont' | 'image' | 'customer'
       tagFixed = '1', //标签栏固定状态（标签栏路由地址是否固定（只有标签栏为显示转态才生效））0:是 1:否
       tagHidden = '0', //标签栏显示状态（隐藏的路由是否显示在标签栏中（只有标签栏为显示转态才生效））0:显示 1:隐藏
       homePageFlag = 0, //是否为主页（选择后为登录后跳转改地址，不选择默认跳转 /）0:否 1:是
@@ -143,7 +143,7 @@ export function buildMenu(list: MenuDataItem[]) {
       name: item.name || title,
       key: item.name || title,
       icon,
-      iconType: iconType || 1,
+      iconType: iconType || 'default',
       hidden: item.hidden,
       homePage: homePageFlag,
       path: item.path && item.path.length > 0
@@ -173,7 +173,7 @@ export function buildtree(list: MenuDataItem[], arr: MenuDataItem[], parentId: s
     const {
       title = '',
       icon = '',
-      iconType = 1, //菜单图标类型 0:本地 1:自定义 2:图片
+      iconType = 'default', //菜单图标类型 'default' | 'iconfont' | 'image' | 'customer'
       tagFixed = '1', //标签栏固定状态（标签栏路由地址是否固定（只有标签栏为显示转态才生效））0:是 1:否
       tagHidden = '0', //标签栏显示状态（隐藏的路由是否显示在标签栏中（只有标签栏为显示转态才生效））0:显示 1:隐藏
       homePageFlag = 0, //是否为主页（选择后为登录后跳转改地址，不选择默认跳转 /）0:否 1:是
