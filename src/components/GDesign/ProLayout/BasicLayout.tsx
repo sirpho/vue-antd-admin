@@ -9,12 +9,11 @@ import {
   onMounted,
   unref
 } from 'vue'
-import { Layout, PageHeader } from 'ant-design-vue'
+import { Layout, Breadcrumb } from 'ant-design-vue'
 import { useMediaQuery } from '@gx-admin/hooks/event'
 import { getSlot, getPrefixCls } from '@gx-admin/utils'
 import { basicLayoutProps } from './props'
 import type {
-  BreadcrumbRender,
   MenuContentRender,
   MenuFooterRender,
   MenuExtraRender,
@@ -114,9 +113,26 @@ export default defineComponent({
       if (p.headerRender === false || p.pure) {
         return null
       }
-      // 面包屑
       const headerContentRender = () => {
-        return <PageHeader breadcrumb={breadcrumb.value} />
+        const styleCSS = {
+          padding: 0,
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center'
+        } as CSSProperties
+        return (
+          <div style={styleCSS} class="breadcrumb-wrapper">
+            <Breadcrumb
+              routes={breadcrumb.value.routes}
+              v-slots={{
+                itemRender: ({ route }) => {
+                  return <router-link to={route.path}>{route.breadcrumbName}</router-link>
+                }
+              }}
+            />
+          </div>
+        )
       }
       return (
         <GlobalHeader
@@ -128,8 +144,7 @@ export default defineComponent({
     }
 
     const breadcrumb = computed<BreadcrumbProps>(() => ({
-      ...props.breadcrumb,
-      itemRender: getSlot<BreadcrumbRender>(slots, props, 'breadcrumbRender') as BreadcrumbRender
+      ...props.breadcrumb
     }))
 
     const flatMenuData = computed(
