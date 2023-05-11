@@ -1,7 +1,12 @@
 import type { ComputedRef } from 'vue'
 import { ref, unref, computed, onUnmounted, onDeactivated, watch } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { getSortIndex, handleCurrentPage, runFunction } from '@/utils/util'
+import {
+  getSortIndex,
+  handleCurrentPage,
+  runFunction,
+  triggerWindowResizeEvent
+} from '@/utils/util'
 import { isFunction, isBoolean } from '@/utils/validate'
 import type { ProTableProps } from '../'
 import type { ProTablePagination, ProTabelFeachParams } from '../types/table'
@@ -70,6 +75,10 @@ export function useFetchData(
   const dataSourceRef = ref<RecordType[]>([])
   const pollingSetTimeRef = ref<any>()
 
+  const resizeDebounce = useDebounceFn(async () => {
+    triggerWindowResizeEvent()
+  }, 50)
+
   const fetchListDebounce = useDebounceFn(async (info: any) => {
     if (pollingSetTimeRef.value) {
       clearTimeout(pollingSetTimeRef.value)
@@ -88,6 +97,7 @@ export function useFetchData(
       }, Math.max(needPolling, 2000))
     }
     afterRequest?.()
+    await resizeDebounce.run()
   }, debounceTime.value || 20)
 
   onUnmounted(() => {
