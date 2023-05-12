@@ -190,7 +190,7 @@ import { useStore } from '@gx-vuex'
 import { cloneDeep } from 'lodash-es'
 import { Form, Result, Steps, Statistic, Descriptions, Alert } from 'ant-design-vue'
 import { getStepForm } from '@/services/form/step'
-import { handleField } from '@/utils/util'
+import { handleField } from '@sirpho/utils'
 
 const useForm = Form.useForm
 

@@ -5,6 +5,7 @@ specifiers:
   '@commitlint/config-conventional': ^12.1.4
   '@purge-icons/generated': ^0.7.0
   '@rollup/plugin-commonjs': ^21.0.3
+  '@sirpho/utils': ^1.0.3
   '@types/fs-extra': ^9.0.13
   '@types/jest': ^26.0.24
   '@types/lodash-es': ^4.17.4
@@ -80,6 +81,7 @@ specifiers:
   vue-tsc: 0.39.4
 
 dependencies:
+  '@sirpho/utils': 1.0.3
   '@vueuse/core': 6.9.2_vue@3.2.37
   '@vueuse/shared': 6.9.2_vue@3.2.37
   animate.css: 4.1.1
@@ -908,6 +910,14 @@ packages:
     dependencies:
       core-js: 3.24.1
       nanopop: 2.1.0
+    dev: false
+
+  /@sirpho/utils/1.0.3:
+    resolution: {integrity: sha512-x9Lm6h+j1Mot9rQRSxiWs9eMYZI1v9ovur78ukjqPo7L68dRdPOt6j4BLzbQi4U2JAwWokShi415MVjfkl+z1Q==}
+    dependencies:
+      crypto-js: 4.1.1
+      dayjs: 1.11.7
+      decimal.js: 10.4.3
     dev: false
 
   /@tsconfig/node10/1.0.9:
@@ -2301,6 +2311,10 @@ packages:
     resolution: {integrity: sha512-Zj/lPM5hOvQ1Bf7uAvewDaUcsJoI6JmNqmHhHl3nyumwe0XHwt8sWdOVAPACJzCebL8gQCi+K49w7iKWnGwX9g==}
     dev: false
 
+  /dayjs/1.11.7:
+    resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
+    dev: false
+
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
     peerDependencies:
@@ -2360,6 +2374,10 @@ packages:
     resolution: {integrity: sha512-z2S+W9X73hAUUki+N+9Za2lBlun89zigOyGrsax+KUQ6wKW4ZoWpEYBkGhQjwAjjDCkWxhY0VKEhk8wzY7F5cA==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /decimal.js/10.4.3:
+    resolution: {integrity: sha512-VBBaLc1MgL5XpzgIP7ny5Z6Nx3UrRkIViUkPUdtl9aya5amy3De1gsUUSB1g3+3sExYNjCAsAznmukyxCb1GRA==}
+    dev: false
 
   /dedent/0.7.0:
     resolution: {integrity: sha512-Q6fKUPqnAHAyhiUgFU7BUzLiv0kd8saH9al7tnu5Q/okj6dnupxyTgFIBjVzJATdfIAm9NAsvXNzjaKa+bxVyA==}

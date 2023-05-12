@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'vue'
-import { isNumber } from '@/utils/validate'
+import { isNumber } from '@sirpho/utils/validate'
 
 const wrapperKey = Symbol()
 

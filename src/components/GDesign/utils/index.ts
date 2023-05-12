@@ -12,7 +12,7 @@ import omitUndefined from './omitUndefined'
 import isDropdownValueType from './isDropdownValueType'
 import pickProFormItemProps from './pickProFormItemProps'
 import { isScroll, getScrollContainer, isInContainer } from './scroll'
-import scrollTo from './scroll/scrollTo'
+import { scrollTo, handleOffsetTop } from './scroll/scrollTo'
 import getScroll from './scroll/getScroll'
 import throttleByAnimationFrame from './scroll/throttleByAnimationFrame'
 
@@ -111,6 +111,7 @@ export {
   isInContainer,
   getScrollContainer,
   scrollTo,
+  handleOffsetTop,
   getScroll,
   pickProProps,
   omitUndefined,

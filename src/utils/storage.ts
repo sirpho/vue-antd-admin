@@ -1,8 +1,8 @@
 import dayjs from 'dayjs'
 import config from '/config/config'
 import { isPro } from '@/utils'
-import { Decrypt, Encrypt } from '@/utils/crypto'
-import { isJSONStr, isObject } from '@/utils/validate'
+import { Decrypt, Encrypt } from '@sirpho/utils/crypto'
+import { isJSONStr, isObject } from '@sirpho/utils/validate'
 
 const { shortName } = config.defaultSettings
 

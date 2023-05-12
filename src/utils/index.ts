@@ -264,25 +264,3 @@ export function uuid(length = 32) {
 export function random(m, n) {
   return Math.floor(Math.random() * (m - n) + n)
 }
-
-export const on = function (
-  element: HTMLElement | Document | Window | null,
-  event: string,
-  handler: EventListenerOrEventListenerObject,
-  useCapture = false
-): void {
-  if (element && event && handler) {
-    element.addEventListener(event, handler, useCapture)
-  }
-}
-
-export const off = function (
-  element: HTMLElement | Document | Window | null,
-  event: string,
-  handler: EventListenerOrEventListenerObject,
-  useCapture = false
-): void {
-  if (element && event && handler) {
-    element.removeEventListener(event, handler, useCapture)
-  }
-}

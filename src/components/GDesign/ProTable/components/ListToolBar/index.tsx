@@ -2,7 +2,7 @@ import { computed, isVNode, cloneVNode, defineComponent, PropType } from 'vue'
 import { Grid, Space, Tooltip } from 'ant-design-vue'
 import { InfoCircleOutlined } from '@ant-design/icons-vue'
 import { useMemo } from '@gx-admin/hooks/core'
-import { isBoolean } from '@/utils/validate'
+import { isBoolean } from '@sirpho/utils/validate'
 import { proTableProps } from '../../props'
 
 import './style.less'

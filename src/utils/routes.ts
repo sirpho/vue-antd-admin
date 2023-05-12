@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash-es'
-import { getMaxFloor } from '@/utils/util'
+import { getMaxFloor } from '@sirpho/utils'
 
 let dynamicViewsModules: Record<string, () => Promise<Recordable>>
 

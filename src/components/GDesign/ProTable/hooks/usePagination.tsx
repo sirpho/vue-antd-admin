@@ -2,7 +2,7 @@ import { computed, unref, reactive, watchEffect, Ref, Slots, ComputedRef } from 
 import { getSlot } from '@gx-admin/utils'
 import type { PageItemRender } from '@gx-design/Table/typings'
 import type { PaginationProps } from '@gx-design/Pagination/typings'
-import { isBoolean, isFunction } from '@/utils/validate'
+import { isBoolean, isFunction } from '@sirpho/utils/validate'
 import type { ProTableProps } from '../Table'
 import type { ProTablePagination, ProTablePaginationConfig } from '../types/table'
 

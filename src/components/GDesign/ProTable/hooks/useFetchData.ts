@@ -1,37 +1,41 @@
 import type { ComputedRef } from 'vue'
-import { ref, unref, computed, onUnmounted, onDeactivated, watch } from 'vue'
-import { cloneDeep } from 'lodash-es'
 import {
-  getSortIndex,
-  handleCurrentPage,
-  runFunction,
-  triggerWindowResizeEvent
-} from '@/utils/util'
-import { isFunction, isBoolean } from '@/utils/validate'
+  ref,
+  unref,
+  computed,
+  onUnmounted,
+  onDeactivated,
+  watch
+} from 'vue'
+import { cloneDeep } from 'lodash-es'
+import { runFunction } from '@sirpho/utils'
+import { triggerWindowResizeEvent } from '@sirpho/utils/event'
+import { getSortIndex, handleCurrentPage } from '../utils'
+import { isFunction, isBoolean } from '@sirpho/utils/validate'
 import type { ProTableProps } from '../'
 import type { ProTablePagination, ProTabelFeachParams } from '../types/table'
 import type { ProColumns } from '../types/column'
 import useDebounceFn from '../hooks/useDebounceFn'
 
 interface ActionType {
-  getLoading: ComputedRef<boolean>
-  getPaginationInfo: ComputedRef<boolean | ProTablePagination>
-  setPagination: (info: Partial<ProTablePagination>) => void
-  setLoading: (loading: boolean) => void
-  setColumns: (columnList: Partial<ProColumns>) => void
-  removeRowKeys: (keyList: (string | number)[]) => void
-  columns: ComputedRef<ProColumns>
-  formParamsRef: RecordType
-  beforeSearchSubmit: ProTableProps['beforeSearchSubmit']
+  getLoading: ComputedRef<boolean>;
+  getPaginationInfo: ComputedRef<boolean | ProTablePagination>;
+  setPagination: (info: Partial<ProTablePagination>) => void;
+  setLoading: (loading: boolean) => void;
+  setColumns: (columnList: Partial<ProColumns>) => void;
+  removeRowKeys: (keyList: (string | number)[]) => void;
+  columns: ComputedRef<ProColumns>;
+  formParamsRef: RecordType;
+  beforeSearchSubmit: ProTableProps['beforeSearchSubmit'];
 }
 
 export type ConfigFetchData = {
-  polling: ComputedRef<ProTableProps['polling']>
-  request: ComputedRef<ProTableProps['request']>
-  postData: ComputedRef<ProTableProps['postData']>
-  waitRequest: ComputedRef<ProTableProps['waitRequest']>
-  debounceTime: ComputedRef<ProTableProps['debounceTime']>
-  dataSource: ComputedRef<ProTableProps['dataSource']>
+  polling: ComputedRef<ProTableProps['polling']>;
+  request: ComputedRef<ProTableProps['request']>;
+  postData: ComputedRef<ProTableProps['postData']>;
+  waitRequest: ComputedRef<ProTableProps['waitRequest']>;
+  debounceTime: ComputedRef<ProTableProps['debounceTime']>;
+  dataSource: ComputedRef<ProTableProps['dataSource']>;
 }
 
 export function useConfigFetchData(props: ProTableProps): ConfigFetchData {
@@ -53,7 +57,14 @@ export function useConfigFetchData(props: ProTableProps): ConfigFetchData {
 }
 
 export function useFetchData(
-  { polling, request, postData, dataSource, waitRequest, debounceTime }: ConfigFetchData,
+  {
+    polling,
+    request,
+    postData,
+    dataSource,
+    waitRequest,
+    debounceTime,
+  }: ConfigFetchData,
   {
     columns,
     getLoading,
@@ -68,6 +79,7 @@ export function useFetchData(
   emit: EmitType,
   afterRequest?: () => any
 ) {
+
   const umountRef = ref<boolean>()
   const initial = ref<boolean>(true)
   const requesting = ref<boolean>(false)
@@ -79,26 +91,29 @@ export function useFetchData(
     triggerWindowResizeEvent()
   }, 50)
 
-  const fetchListDebounce = useDebounceFn(async (info: any) => {
-    if (pollingSetTimeRef.value) {
-      clearTimeout(pollingSetTimeRef.value)
-    }
-    const msg = await fetchList(info)
-    // 将判断要不要轮询的逻辑放到后面来，这样可以保证数据是根据当前来
-    // 放到请求前面会导致数据是上一次的
-    const needPolling = runFunction(polling.value, msg)
+  const fetchListDebounce = useDebounceFn(
+    async (info: any) => {
+      if (pollingSetTimeRef.value) {
+        clearTimeout(pollingSetTimeRef.value)
+      }
+      const msg = await fetchList(info)
+      // 将判断要不要轮询的逻辑放到后面来，这样可以保证数据是根据当前来
+      // 放到请求前面会导致数据是上一次的
+      const needPolling = runFunction(polling.value, msg)
 
-    // 如果需要轮询，搞个一段时间后执行
-    // 如果解除了挂载，删除一下
-    if (needPolling && !umountRef.value) {
-      pollingSetTimeRef.value = setTimeout(() => {
-        fetchListDebounce.run({ ...info, isPolling: needPolling })
-        // 这里判断最小要2000ms，不然一直loading
-      }, Math.max(needPolling, 2000))
-    }
-    afterRequest?.()
-    await resizeDebounce.run()
-  }, debounceTime.value || 20)
+      // 如果需要轮询，搞个一段时间后执行
+      // 如果解除了挂载，删除一下
+      if (needPolling && !umountRef.value) {
+        pollingSetTimeRef.value = setTimeout(() => {
+          fetchListDebounce.run({ ...info, isPolling: needPolling })
+          // 这里判断最小要2000ms，不然一直loading
+        }, Math.max(needPolling, 2000))
+      }
+      afterRequest?.()
+      await resizeDebounce.run()
+    },
+    debounceTime.value || 20
+  )
 
   onUnmounted(() => {
     umountRef.value = true
@@ -110,30 +125,25 @@ export function useFetchData(
     clearTimeout(pollingSetTimeRef.value)
   })
 
-  watch(
-    () => polling.value,
-    () => {
-      if (!polling.value) {
-        clearTimeout(pollingSetTimeRef.value)
-      } else {
-        fetchListDebounce.run({ isPolling: true })
-      }
-    },
-    { immediate: true }
-  )
+  watch(() => polling.value, () => {
+    if (!polling.value) {
+      clearTimeout(pollingSetTimeRef.value)
+    } else {
+      fetchListDebounce.run({ isPolling: true })
+    }
+  }, { immediate: true })
 
   watch(
-    () => [waitRequest.value, dataSource.value, formParamsRef],
+    () => [ waitRequest.value, dataSource.value, formParamsRef ],
     () => {
       if (request.value) {
-        if (!initial.value || !polling.value) {
+        if ((!initial.value || !polling.value)) {
           fetchListDebounce.run({ isPolling: false })
         }
       } else {
         reSetDataList(dataSource.value || [])
       }
-    },
-    {
+    }, {
       deep: true,
       immediate: true
     }
@@ -153,9 +163,8 @@ export function useFetchData(
     return unref(dataSourceRef)
   })
 
-  const isTreeDataRef = computed(() =>
-    unref(dataSourceRef).some((item) => item.children && item.children.length > 0)
-  )
+  const isTreeDataRef = computed(() => unref(dataSourceRef)
+    .some(item => item.children && item.children.length > 0))
 
   function setPollingLoading(loading: boolean) {
     pollingLoading.value = loading
@@ -174,12 +183,7 @@ export function useFetchData(
   const fetchList = async (info: ProTabelFeachParams = {}) => {
     const { pagination, filters, sorter, removeKeys = [], isPolling = false } = info
 
-    if (
-      !unref(request) ||
-      !isFunction(unref(request)) ||
-      (unref(waitRequest) && getLoading.value) ||
-      requesting.value
-    )
+    if (!unref(request) || !isFunction(unref(request)) || (unref(waitRequest) && getLoading.value) || requesting.value)
       return dataSource.value || []
     requesting.value = true
     if (!isPolling || unref(waitRequest) || initial.value) {
@@ -192,25 +196,17 @@ export function useFetchData(
       requesting.value = false
       return
     }
-    const {
-      current = 1,
-      pageSize = 10,
-      total
-    } = (unref(getPaginationInfo) as ProTablePagination) || {}
+    const { current = 1, pageSize = 10, total } = unref(getPaginationInfo) as ProTablePagination || {}
     try {
       let pageParams: RecordType = {}
       if ((isBoolean(pagination) && !pagination) || isBoolean(getPaginationInfo)) {
         pageParams = {}
       } else {
-        pageParams.pageNum = handleCurrentPage(
-          pagination ||
-            ({
-              current,
-              pageSize,
-              total
-            } as any),
-          removeKeys.length
-        )
+        pageParams.pageNum = handleCurrentPage(pagination || {
+          current,
+          pageSize,
+          total
+        } as any, removeKeys.length)
 
         if (removeKeys.length) removeRowKeys(removeKeys)
 
@@ -220,23 +216,19 @@ export function useFetchData(
       const columnKey = sorter?.columnKey || sorter?.field
 
       if (sorter && sorter.order) {
-        setColumns(
-          unref(columns).map((item) => {
-            if (item.dataIndex === columnKey) {
-              item.sortOrder = sorter.order
-            } else {
-              item.sortOrder = null
-            }
-            return item
-          })
-        )
+        setColumns(unref(columns).map(item => {
+          if (item.dataIndex === columnKey) {
+            item.sortOrder = sorter.order
+          } else {
+            item.sortOrder = null
+          }
+          return item
+        }))
       } else if (sorter) {
-        setColumns(
-          unref(columns).map((item) => {
-            if (item.dataIndex === columnKey) item.sortOrder = null
-            return item
-          })
-        )
+        setColumns(unref(columns).map(item => {
+          if (item.dataIndex === columnKey) item.sortOrder = null
+          return item
+        }))
       }
 
       let actionParams = {
@@ -282,8 +274,8 @@ export function useFetchData(
     dataSourceRef.value = getSortIndex(cloneDeep(list), unref(getPaginationInfo.value))
   }
 
-  function changeDataValue({ key, value }: { key?: string; value: RecordType }) {
-    dataSourceRef.value = dataSourceRef.value.map((item) => {
+  function changeDataValue({ key, value }: { key?: string, value: RecordType }) {
+    dataSourceRef.value = dataSourceRef.value.map(item => {
       if (value[key] === item[key]) return { ...item, ...value }
       return item
     })
@@ -296,8 +288,10 @@ export function useFetchData(
     changeDataValue,
     handleTableChange,
     reload: async (info?: any) => {
-      if (unref(request)) await fetchListDebounce.run({ ...info, isPolling: false })
-      else emit('reload')
+      if (unref(request))
+        await fetchListDebounce.run({ ...info, isPolling: false })
+      else
+        emit('reload')
     }
   }
 }

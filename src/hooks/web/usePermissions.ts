@@ -1,7 +1,7 @@
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import { useStore } from '@gx-vuex'
-import { isString, isArray, isObject } from '@/utils/validate'
+import { isString, isArray, isObject } from '@sirpho/utils/validate'
 
 export function usePermissions(): {
   permission: Ref<boolean | object>

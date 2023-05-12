@@ -48,7 +48,7 @@ import { cloneDeep } from 'lodash-es'
 import { Form, message } from 'ant-design-vue'
 import type { BasicListItemDataType } from '@/services/list/basic'
 import { getBasicListInfo, updateBasicList, addBasicList } from '@/services/list/basic'
-import { handleField } from '@/utils/util'
+import { handleField } from '@sirpho/utils'
 import { rules, formItemLayout, user } from '../utils/config'
 
 interface infoParamsItem {

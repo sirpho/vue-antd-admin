@@ -4,7 +4,7 @@ import { asyncRoutes, basicRoutes } from '@/router'
 import { getRouterList } from '@/services/controller/router'
 import { generator, getRootMenu } from '@/utils/routes'
 import { getFirstLastChild } from '@/utils/routeConvert'
-import { getLevelData } from '@/utils/util'
+import { getLevelData } from '@sirpho/utils'
 import { useStorePermission } from '@/store'
 import { cloneDeep } from 'lodash-es'
 

@@ -8,7 +8,7 @@ import { useForm } from './useForm'
 import type { ColConfig } from '../../types/table'
 import type { ProSearchMap } from '../../types/column'
 import { defaultSearchProp, proTableProps } from '../../props'
-import { isObject, isFunction } from '@/utils/validate'
+import { isObject, isFunction } from '@sirpho/utils/validate'
 
 import './style.less'
 

@@ -2,7 +2,7 @@ import type { Method } from 'axios'
 import { message } from 'ant-design-vue'
 import config from '/config/config'
 import { useStoreUser } from '@gx-vuex'
-import { tansParams } from '@/utils/util'
+import { tansParams } from '@sirpho/utils'
 
 const { tokenName } = config.defaultSettings
 

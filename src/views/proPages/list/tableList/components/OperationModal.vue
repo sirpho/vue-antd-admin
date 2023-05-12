@@ -215,7 +215,7 @@ import dayjs from 'dayjs'
 import { Form, message, Steps } from 'ant-design-vue'
 import { getRuleInfo, addRule, updateRule } from '@/services/list/table'
 import { rules, dispatchRules, formItemLayout } from '../utils/config'
-import { handleField } from '@/utils/util'
+import { handleField } from '@sirpho/utils'
 
 const Step = Steps.Step
 const useForm = Form.useForm

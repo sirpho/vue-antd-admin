@@ -13,7 +13,6 @@ import {
   setUserInfo,
   removeUserInfo
 } from '@/utils/accessToken'
-import { timeFix } from '@/utils/util'
 import { useStoreRoutes } from '@/store'
 import { useStorePermission } from '@/store'
 import { useStoreTabsRouter } from '@/store'
@@ -57,7 +56,6 @@ export const useStoreUser = defineStore('user', () => {
       setUserInfo(user, expires ? expires * 60 * 1000 : 0)
       notification.success({
         message: `欢迎登录${user.uname}`,
-        description: `${timeFix()}！`
       })
       return true
     }

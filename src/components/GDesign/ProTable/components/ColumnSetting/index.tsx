@@ -10,7 +10,7 @@ import {
 } from '@ant-design/icons-vue'
 import { getPrefixCls } from '@gx-admin/utils'
 import { useRefFunction } from '@gx-design/utils/hooks/useRefFunction'
-import { getRandomNumber } from '@/utils/util'
+import { getRandomNumber } from '@sirpho/utils'
 import { genColumnKey } from '../../utils'
 import type { ProColumn } from '../../types/column'
 import { useTableContext } from '../../context/TableContext'

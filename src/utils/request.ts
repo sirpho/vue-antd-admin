@@ -6,8 +6,8 @@ import config from '/config/config'
 import router from '@/router'
 import { useStoreUser } from '@gx-vuex'
 import { isDev } from '@/utils'
-import { tansParams } from '@/utils/util'
-import { checkURL, isBoolean } from '@/utils/validate'
+import { tansParams } from '@sirpho/utils'
+import { checkURL, isBoolean } from '@sirpho/utils/validate'
 import { AxiosCanceler } from './axios/axiosCancel'
 
 export interface CreateAxiosOptions extends AxiosRequestConfig {

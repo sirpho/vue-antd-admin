@@ -1,7 +1,7 @@
 import type { ProSearchMap } from '../types/column'
 import { ProColumns } from '../types/column'
 import { AlignType } from '@gx-design/Table/typings'
-import { getRandomNumber } from '@/utils/util'
+import { getRandomNumber } from '@sirpho/utils'
 import { cloneDeep } from 'lodash-es'
 
 export const proTableSlots: string[] = [
@@ -79,4 +79,59 @@ export function handleFormDefaultValue(data: ProSearchMap[]) {
     return item
   })
   return defaultParams
+}
+
+
+/**
+ * @description 添加序号
+ */
+export function getSortIndex(
+  data: any[] = [],
+  pageConfig = {} as
+    | {
+    current?: number
+    pageSize?: number | boolean
+  }
+    | boolean,
+  childrenKey = 'children'
+) {
+  function getChildSortIndex(parentSort, data) {
+    return data.map((item, index) => {
+      const sortIndex = `${parentSort}-${index + 1}`
+      if (item[childrenKey]) item[childrenKey] = getChildSortIndex(sortIndex, item[childrenKey])
+      item.sortIndex = sortIndex
+      return item
+    })
+  }
+
+  return cloneDeep(data).map((item: any, index: number) => {
+    let sortIndex = index
+    if (pageConfig) {
+      const current = pageConfig?.['current'] || 1
+      const pageSize = pageConfig?.['pageSize'] || 10
+      sortIndex = current ? (current - 1) * pageSize + (index + 1) : index + 1
+    }
+    if (item[childrenKey]) item[childrenKey] = getChildSortIndex(sortIndex, item[childrenKey])
+    item.sortIndex = sortIndex
+    return item
+  })
+}
+
+/**
+ * @description 判断删除是否到当前页最后一条
+ */
+export function handleCurrentPage(
+  pageConfig = {} as {
+    current: number
+    pageSize: number | undefined
+    total: number | undefined
+  },
+  number
+) {
+  const { pageSize = 10, total = 0 } = pageConfig
+  let { current = 1 } = pageConfig
+  if (total - number <= pageSize * (current - 1)) {
+    current = current - 1
+  }
+  return current === 0 ? 1 : current
 }

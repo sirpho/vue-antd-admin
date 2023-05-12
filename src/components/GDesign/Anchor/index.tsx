@@ -16,7 +16,7 @@ import config from '/config/config'
 import { getPrefixCls } from '@gx-admin/utils'
 import { getScroll, scrollTo, throttleByAnimationFrame } from '@gx-design/utils'
 import { useMediaQuery } from '@gx-admin/hooks/event'
-import { handleOffsetTop } from '@/utils/util'
+import { handleOffsetTop } from '../utils'
 import { DefaultAnchor } from './DefaultAnchor'
 
 import './style.less'

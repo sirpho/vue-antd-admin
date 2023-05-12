@@ -1,5 +1,5 @@
 import { computed, defineComponent, PropType, ref } from 'vue'
-import { on, off } from '@/utils'
+import { off, on } from '@sirpho/utils/event'
 import { HSVA } from '../seemly'
 
 const HANDLE_SIZE = '12px'

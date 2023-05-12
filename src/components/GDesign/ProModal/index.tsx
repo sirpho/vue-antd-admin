@@ -9,7 +9,7 @@ import { modalProps, proModalProps } from './props'
 import { useModalDragMove } from './hooks/useModalDrag'
 
 import './style.less'
-import { isNumber } from '@/utils/validate'
+import { isNumber } from '@sirpho/utils/validate'
 
 export type ModalProps = Partial<ExtractPropTypes<typeof modalProps>>
 

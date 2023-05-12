@@ -1,7 +1,7 @@
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { arrayRepeat } from '@/utils/util'
+import { arrayRepeat } from '@sirpho/utils'
 import type { ProTableProps } from '../Table'
 
 export function useRowSelection(

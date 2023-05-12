@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from "@/utils/request"
 import { download } from '../common/index'
 
 export interface userQueryParam {

@@ -4,7 +4,7 @@ import { useEventListener, useThrottleFn } from '@vueuse/core'
 import { isServer, getPrefixCls, getSlotVNode } from '@gx-admin/utils'
 import { onMountedOrActivated } from '@gx-admin/hooks/core'
 import { getScrollContainer, isInContainer } from '@gx-design/utils'
-import { isString } from '@/utils/validate'
+import { isString } from '@sirpho/utils/validate'
 import ImageViewer from './components/ImageViewer'
 import { gImageProps } from './props'
 

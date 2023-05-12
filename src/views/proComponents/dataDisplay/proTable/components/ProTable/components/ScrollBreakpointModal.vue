@@ -39,7 +39,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { Form } from 'ant-design-vue'
-import { isString } from '@/utils/validate'
+import { isString } from '@sirpho/utils/validate'
 
 const useForm = Form.useForm
 

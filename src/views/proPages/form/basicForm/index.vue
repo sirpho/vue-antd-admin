@@ -133,7 +133,7 @@ import { Form } from 'ant-design-vue'
 import { QuestionCircleOutlined } from '@ant-design/icons-vue'
 import { onMountedOrActivated } from '@gx-admin/hooks/core'
 import { getBasicForm } from '@/services/form/basic'
-import { handleField } from '@/utils/util'
+import { handleField } from '@sirpho/utils'
 
 const useForm = Form.useForm
 

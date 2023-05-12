@@ -14,7 +14,7 @@ import {
 } from '@ant-design/icons-vue'
 import { onMountedOrActivated } from '@gx-admin/hooks/core'
 import { getPrefixCls, isServer } from '@gx-admin/utils'
-import { on, off } from '@/utils'
+import { off, on } from '@sirpho/utils/event'
 import { gImageViewProps } from '../props'
 import { EVENT_CODE } from '../utils/aria'
 
