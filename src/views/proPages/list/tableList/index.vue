@@ -63,7 +63,6 @@ import { cloneDeep } from 'lodash-es'
 import { Modal, message, Badge } from 'ant-design-vue'
 import { InfoCircleOutlined, PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue'
 import { rule, removeRule } from '@/services/list/table'
-import { handleSelectPage } from '@sirpho/utils'
 import OperationModal from './components/OperationModal.vue'
 import columns from './utils/columns'
 import { useTableHeight } from '@/hooks/web/useTableHeight'
@@ -108,12 +107,7 @@ export default defineComponent({
     }
     const onSelectChange = (keys, items) => {
       state.selectedRowKeys = keys
-      state.selectedRowItems = handleSelectPage({
-        rowKey: 'key',
-        oldSelectItems: cloneDeep(state.selectedRowItems),
-        selectItems: items,
-        tableData: state.tableData
-      })
+      state.selectedRowItems = items
     }
     const handleTableAdd = () => {
       operation.value?.open()
