@@ -3,6 +3,7 @@ import config from '/config/config'
 import type { themeConfig } from '/types/config'
 
 const { title } = config.defaultSettings
+const { iconfontUrl } = config.theme
 
 export interface RenderSetting {
   headerRender?: false;
@@ -39,7 +40,7 @@ export const defaultSettings: themeConfig = {
   //是否自动隐藏头部
   autoHideHeader: false,
   //菜单字体链接Url
-  iconfontUrl: '',
+  iconfontUrl: iconfontUrl || '',
   //页面动画配置
   animate: {
     name: 'fade',
