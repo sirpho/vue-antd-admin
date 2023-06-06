@@ -1,4 +1,4 @@
-import { ref, onMounted, onUnmounted, nextTick, ComputedRef } from 'vue'
+import {ref, onMounted, onUnmounted, nextTick, ComputedRef} from 'vue'
 // import { onMountedOrActivated } from '@gx-admin/hooks/core'
 
 const getStyle = (dom: Element, attr: string) => {
@@ -32,6 +32,7 @@ export function useTableHeight(gapH = 0, tableComputed?: ComputedRef) {
       const toolbarDom = viewDom.querySelector('.gx-pro-table-list-toolbar')
       const tableTitleDom = viewDom.querySelector('.ant-table-title')
       const tableHeaderDom = (tableDom || viewDom).querySelector('.ant-table-header')
+      const tableSummaryDom = (tableDom || viewDom).querySelector('.ant-table-summary')
       const paginationDom = viewDom.querySelector('.ant-table-pagination')
       const cardBodyDom = viewDom.querySelector('.ant-card-body')
 
@@ -41,6 +42,7 @@ export function useTableHeight(gapH = 0, tableComputed?: ComputedRef) {
       const toolbarDomH = toolbarDom?.getBoundingClientRect().height || 0
       const tableTitleDomH = tableTitleDom?.getBoundingClientRect().height || 0
       const tableHeaderDomH = tableHeaderDom?.getBoundingClientRect().height || 0
+      const tableSummaryDomH = tableSummaryDom?.getBoundingClientRect().height || 0
       const paginationDomH = paginationDom?.getBoundingClientRect().height || 0
 
       let cssHeight = 0
@@ -59,6 +61,7 @@ export function useTableHeight(gapH = 0, tableComputed?: ComputedRef) {
         toolbarDomH -
         tableTitleDomH -
         tableHeaderDomH -
+        tableSummaryDomH -
         paginationDomH -
         cssHeight -
         gapH
