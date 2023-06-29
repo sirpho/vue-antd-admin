@@ -52,7 +52,7 @@ export default defineComponent({
     /**
      * @description 添加标签路由
      */
-    const addTabs = async (tag) => {
+    const addTabs = (tag) => {
       if (!!tag.meta.subTab) {
         const splits = tag.path.split('/')
         const parentPath = splits.splice(0, splits.length - 1).join('/')
@@ -69,17 +69,17 @@ export default defineComponent({
       ) {
         let matched = [tag.name]
         if (tag.matched) matched = tag.matched.map((item) => item.name)
-        await store.tabsRouter.addVisitedRoute({
+        store.tabsRouter.addVisitedRoute({
           tagFixed: tag.meta && tag.meta.tagFixed,
           path: tag.path,
-          fullPath: tag.fullPath || tag.path,
+          fullPath: tag.fullPath,
           query: tag.query,
           params: tag.params,
           name: tag.name,
           matched: matched,
           meta: { ...tag.meta }
         })
-        if (isActive(tag)) state.tabActive = tag.fullPath || tag.path
+        if (isActive(tag)) state.tabActive = tag.path
       }
     }
     onMounted(() => {
@@ -88,7 +88,9 @@ export default defineComponent({
     watch(
       () => $route,
       (route) => {
-        addTabs(route)
+        setTimeout(() => {
+          addTabs(route)
+        }, 0)
       },
       {
         deep: true,
@@ -125,18 +127,24 @@ export default defineComponent({
      */
     const handleTabClick = (tab) => {
       const route = visitedRoutes.value.filter((item) => item.path === tab)[0]
-      if ($route.fullPath !== route.fullPath) router.push(route.fullPath)
+      const query = route.query
+      if ($route.path !== route.path) {
+        router.push({
+          path: route.path,
+          query: query
+        })
+      }
     }
     /**
      * @description 标签删除
      */
-    const handleTabRemove = async (e, fullPath) => {
+    const handleTabRemove = async (e, path) => {
       e.stopPropagation()
       const view = visitedRoutes.value.find((item) => {
-        return fullPath === item.fullPath
+        return path === item.path
       })
       await store.tabsRouter.delVisitedRoute(view)
-      if (isActive(view)) toLastTag()
+      if (isActive(view)) await toLastTag()
     }
     /**
      * @description 标签副操作点击
@@ -160,7 +168,7 @@ export default defineComponent({
       state.tabContextActive = path
     }
     const tabBarExtraState = (type, path: any) => {
-      const currentIndex = visitedRoutes.value.findIndex((item) => item.fullPath === path)
+      const currentIndex = visitedRoutes.value.findIndex((item) => item.path === path)
       let status = false
       switch (type) {
         case 1:
@@ -217,47 +225,43 @@ export default defineComponent({
      * @description 跳转上下路由
      */
     const toContextTag = (stateType) => {
-      const currentPath = stateType === 'tabActive' ? $route.fullPath : state[stateType]
-      if (stateType !== $route.fullPath) {
+      const currentPath = stateType === 'tabActive' ? $route.path : state[stateType]
+      if (stateType !== $route.path) {
         router.push(currentPath)
       }
     }
     /**
      * @description 跳转路由：/
      */
-    const toLastTag = () => {
+    const toLastTag = async () => {
       const latestView = visitedRoutes.value.slice(-1)[0]
-      if (latestView) router.push(latestView)
-      else router.push('/')
+      if (latestView) await router.push(latestView)
+      else await router.push('/')
     }
     /**
      * @description 跳转点击页
      */
     const toThisTag = (stateType) => {
-      const currentPath = stateType === 'tabActive' ? $route.fullPath : state[stateType]
-      const view = visitedRoutes.value.find((item) => item.fullPath === currentPath)
+      let path = $route.path
+      if ($route.meta.subTab) {
+        const splits = $route.path.split('/')
+        path = splits.splice(0, splits.length - 1).join('/')
+      }
+      const currentPath = stateType === 'tabActive' ? path : state[stateType]
+      const view = visitedRoutes.value.find((item) => item.path === currentPath)
       if (currentPath !== view?.path || '') router.push(view)
       return view
     }
 
     const defaultRenderTabMenu = (record) => (
       <Menu onClick={(e) => handleClick(e, 'tabContextActive')}>
-        <Menu.Item
-          disabled={tabBarExtraState(1, record.fullPath || record.path)}
-          key="closeOthersTabs"
-        >
+        <Menu.Item disabled={tabBarExtraState(1, record.path)} key="closeOthersTabs">
           关闭其他
         </Menu.Item>
-        <Menu.Item
-          disabled={tabBarExtraState(2, record.fullPath || record.path)}
-          key="closeLeftTabs"
-        >
+        <Menu.Item disabled={tabBarExtraState(2, record.path)} key="closeLeftTabs">
           关闭左侧
         </Menu.Item>
-        <Menu.Item
-          disabled={tabBarExtraState(3, record.fullPath || record.path)}
-          key="closeRightTabs"
-        >
+        <Menu.Item disabled={tabBarExtraState(3, record.path)} key="closeRightTabs">
           关闭右侧
         </Menu.Item>
       </Menu>
@@ -267,11 +271,11 @@ export default defineComponent({
       <Dropdown
         trigger="contextmenu"
         overlay={defaultRenderTabMenu(record)}
-        onVisibleChange={(_) => dropdownVisible(record.fullPath)}
+        onVisibleChange={(_) => dropdownVisible(record.path)}
       >
         <div class="gx-pro-multi-tab-content">
           {record.meta.title}
-          {state.tabActive === (record.fullPath || record.path) && (
+          {state.tabActive === record.path && (
             <ReloadOutlined
               class="gx-pro-multi-tab-reload-btn"
               style={{ marginRight: 0 }}
@@ -285,7 +289,7 @@ export default defineComponent({
             <CloseOutlined
               class="gx-pro-multi-tab-close-btn"
               style={{ marginRight: 0 }}
-              onClick={(e) => handleTabRemove(e, record.fullPath)}
+              onClick={(e) => handleTabRemove(e, record.path)}
             />
           )}
         </div>
@@ -335,7 +339,7 @@ export default defineComponent({
             }}
           >
             {visitedRoutes.value.map((item) => (
-              <TabPane key={item.fullPath} closable={false} tab={defaultRenderTab(item)} />
+              <TabPane key={item.path} closable={false} tab={defaultRenderTab(item)} />
             ))}
           </Tabs>
         </div>
