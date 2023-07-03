@@ -13,7 +13,7 @@ import {
   setUserInfo,
   removeUserInfo
 } from '@/utils/accessToken'
-import { useStoreRoutes } from '@/store'
+import {useStoreDict, useStoreRoutes} from '@/store'
 import { useStorePermission } from '@/store'
 import { useStoreTabsRouter } from '@/store'
 
@@ -33,6 +33,7 @@ export const useStoreUser = defineStore('user', () => {
   const routes = useStoreRoutes()
   const auth = useStorePermission()
   const tabsRouter = useStoreTabsRouter()
+  const { clearDictData } = useStoreDict()
 
   const state = reactive({
     accessToken: cacheDataOnRefresh ? getAccessToken() : '',
@@ -78,6 +79,7 @@ export const useStoreUser = defineStore('user', () => {
     removeAccessToken()
     removePermission()
     removeUserInfo()
+    clearDictData()
   }
 
   return {

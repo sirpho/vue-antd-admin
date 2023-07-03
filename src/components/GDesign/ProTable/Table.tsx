@@ -19,7 +19,7 @@ import type { PaginationProps } from '@gx-design/Pagination/typings'
 import { getPrefixCls, getSlotVNode } from '@gx-admin/utils'
 import { warning } from '@gx-design/utils'
 import { isObject } from '@sirpho/utils/validate'
-import { getRandomNumber, handleField } from '@sirpho/utils'
+import { getRandomNumber, handleTableField } from '@sirpho/utils'
 import type { ProTablePaginationConfig, OptionConfig } from './types/table'
 import type { ProColumns } from './types/column'
 import { useLoading } from './hooks/useLoading'
@@ -81,6 +81,7 @@ const GProTable = defineComponent({
 
     const innerWidth = ref<number>(window.innerWidth)
     const tableRef = ref<any>()
+    const formRef = ref<any>()
 
     const { toggle, isFullscreen } = useFullscreen(tableRef)
 
@@ -96,6 +97,7 @@ const GProTable = defineComponent({
     })
 
     const cacheColumns = computed(() => {
+      // @ts-ignore
       const columnsList: ProColumns = (props.columns || []).map((item: any) => {
         return {
           ...item,
@@ -228,6 +230,7 @@ const GProTable = defineComponent({
      */
     const getProTable = () => {
       props.actionRef({
+        formRef,
         formParams: unref(formParamsRef),
         pageParams: getPaginationInfo.value,
         reload: (info) => reload(info),
@@ -460,6 +463,7 @@ const GProTable = defineComponent({
           <div class="gx-pro-table-content">
             {(!!formDataRef.value.length || !!slots.search?.()) && (
               <Form
+                ref={(e) => (formRef.value = e)}
                 search={props.search}
                 modal={props.modalScroll}
                 searchMap={formDataRef.value}
@@ -482,7 +486,7 @@ const GProTable = defineComponent({
                 {props.customize
                   ? props.customize(unref(getDataSourceRef))
                   : slots.customize(unref(getDataSourceRef))}
-                {unref(getDataSourceRef).length > 0 && (
+                {unref(getDataSourceRef).length > 0 && props.pagination !== false && (
                   <Pagination
                     class={{
                       ['ant-table-pagination']: true,
@@ -499,7 +503,7 @@ const GProTable = defineComponent({
                 rowKey={(record) => record[props.rowKey || 'sortIndex']}
                 transformCellText={({ text, column }) => {
                   if (isVNode(text)) return text
-                  const { value, success } = handleField(
+                  const { value, success } = handleTableField(
                     text,
                     (column as any)?.columnEmptyText || props?.columnEmptyText
                   )

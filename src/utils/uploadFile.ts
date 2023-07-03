@@ -9,6 +9,7 @@ export type UploadRequestConfig<D = any> = {
   data?: D
   params?: any
   showTip?: boolean // 展示下载中字样
+  isMock?: boolean // mock
 }
 
 export default async function uploadFile(options: UploadRequestConfig): Promise<ResponseResult> {
@@ -28,6 +29,7 @@ export default async function uploadFile(options: UploadRequestConfig): Promise<
     method: options.method,
     data: options.data,
     params: options.params,
+    isMock: options.isMock,
     headers: headers
   })
   if (options.showTip) {

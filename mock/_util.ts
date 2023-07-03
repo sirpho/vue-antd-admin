@@ -6,7 +6,7 @@ const { tokenName } = config.defaultSettings
 
 export function resultSuccess<T = Recordable>(result: T, { msg = 'success' } = {}) {
   return {
-    code: 200,
+    code: 0,
     result,
     msg
   }
@@ -45,11 +45,11 @@ export function getRequestToken({ headers }: requestParams): string | undefined 
 }
 
 export const builder = (token, config?: Partial<ResponseResult>) => {
-  const code = config?.code || 200
+  const code = config?.code || 0
   const result: ResponseResult = {
     ...config,
     code: token ? code : 401,
-    msg: token ? config?.msg || code ? 'success' : 'Request failed' : 'Request failed'
+    msg: token ? config?.msg || code === 0 ? 'success' : 'Request failed' : 'Request failed'
   }
   return result
 }

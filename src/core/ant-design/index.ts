@@ -30,6 +30,7 @@ import {
   AutoComplete,
   Modal,
   Descriptions,
+  Tabs,
   DescriptionsItem
 } from 'ant-design-vue'
 
@@ -64,6 +65,7 @@ const antDesign = (app) => {
   app.use(Modal)
   app.use(AutoComplete)
   app.use(Descriptions)
+  app.use(Tabs)
   app.use(DescriptionsItem)
   message.config({
     duration: 2,

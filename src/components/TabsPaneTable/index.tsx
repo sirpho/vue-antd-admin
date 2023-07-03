@@ -9,7 +9,7 @@ import { getRandomNumber } from '@sirpho/utils'
 import { handleShowIndex, proTableSlots } from '@gx-design/ProTable/utils'
 import { useColumns, useConfigColumns } from '@gx-design/ProTable/hooks/useColumns'
 import Nodata from '@/assets/public_images/nodata.png'
-
+import './index.less'
 const { useBreakpoint } = Grid
 
 const defaultEmpty = (prefixCls: string) => (
@@ -42,7 +42,8 @@ const TabsPaneTable = defineComponent({
     })
 
     const cacheColumns = computed(() => {
-      const columnsList: ProColumns = (props.columns || []).map((item) => {
+      // @ts-ignore
+      const columnsList: ProColumns = (props.columns || []).map((item: ProColumn) => {
         return {
           ...item,
           key: item.key || (item.dataIndex as string),

@@ -12,8 +12,13 @@ export const useStorePermission = defineStore('permission', () => {
     state[type] = value
   }
 
+  const hasPermission = (value: string) => {
+    return state.permission.includes(value)
+  }
+
   return {
     ...toRefs(state),
-    changeValue
+    changeValue,
+    hasPermission
   }
 })

@@ -37,6 +37,7 @@ export default async function fetchFile(options: DownLoadRequestConfig): Promise
   if (!options.direct) options.url = `${import.meta.env.VITE_BASE_URL}${options.url}`
   if (user.accessToken && !options.direct)
     opations.headers[tokenName] = `${user.accessToken}`
+
   if (options.params) {
     let url = options.url + '?' + tansParams(options.params)
     url = url.slice(0, -1)

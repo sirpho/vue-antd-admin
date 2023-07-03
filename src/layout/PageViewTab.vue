@@ -12,9 +12,9 @@
         </a-radio-button>
       </a-radio-group>
       <keep-alive v-if="keepAlive">
-        <component :is="Component" />
+        <component :key="key" :is="Component" />
       </keep-alive>
-      <component v-else :is="Component" />
+      <component v-else :key="key" :is="Component" />
     </template>
   </router-view>
 </template>
@@ -29,7 +29,7 @@ const allRouter = router.getRoutes()
 const store = useStore()
 
 const keepAlive = ref(false)
-
+const key = ref('')
 const { meta } = route
 
 const showSubTab = ref(false)
@@ -73,6 +73,7 @@ watch(
       keepAlive.value =
         (store.settings.keepAlive && store.settings.showTabsBar) || !!(meta.keepAlive as boolean)
     }
+    key.value = route.path
     getTagList()
   },
   {

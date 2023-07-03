@@ -1,11 +1,10 @@
-import { computed, reactive } from 'vue'
+import { computed } from 'vue'
 import { useStore } from '@gx-vuex'
 import { getDictOptions } from '@/services/system/dictData'
 import { onMountedOrActivated } from '@gx-admin/hooks/core'
 import { isArray } from '@sirpho/utils/validate'
 
 export function useDict(val: string | string[]) {
-  const dictData: any = reactive({})
   const store = useStore()
 
   const dict = store.dict.data
@@ -13,16 +12,9 @@ export function useDict(val: string | string[]) {
   async function getDict() {
     let dictOptions
     if (typeof val === 'string') {
-      dictData[val] = {}
-      if (dict[val] && dict[val].length) {
-        dictData[val].data = dict[val]
-      } else {
-        dictData[val].loading = true
-        dictData[val].data = []
+      if (!dict[val] || dict[val].length <= 0) {
         dictOptions = await getDictOptions(val)
         store.dict.setDictData(val, dictOptions)
-        dictData[val].data = dictOptions
-        dictData[val].loading = false
       }
       return
     }
@@ -30,15 +22,9 @@ export function useDict(val: string | string[]) {
     if (isArray(val)) {
       for (let i = 0; i < val.length; i += 1) {
         const dictType = val[i]
-        dictData[dictType] = {}
-        if (dict[dictType] && dict[dictType].length) {
-          dictData[dictType].data = dict[dictType]
-        } else {
-          dictData[dictType].loading = true
+        if (!dict[dictType] || dict[dictType].length <= 0) {
           dictOptions = await getDictOptions(dictType)
           store.dict.setDictData(dictType, dictOptions)
-          dictData[dictType].data = dictOptions
-          dictData[dictType].loading = false
         }
       }
       return
@@ -51,6 +37,6 @@ export function useDict(val: string | string[]) {
 
   const keys = [].concat(val)
   return keys.map(key => computed(() => {
-    return dictData[key]
+    return store.dict.data[key]
   }))
 }

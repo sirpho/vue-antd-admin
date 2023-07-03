@@ -16,9 +16,13 @@ export const useStoreDict = defineStore('dict', () => {
   const setDictData = (type, value) => {
     state.data[type] = value
   }
+  const clearDictData = () => {
+    state.data = {}
+  }
 
   return {
     ...toRefs(state),
-    setDictData
+    setDictData,
+    clearDictData
   }
 })

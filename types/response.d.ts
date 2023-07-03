@@ -3,6 +3,7 @@ declare interface ResponseResult<T = any> extends TableResult<T> {
   msg?: string;
   message?: string;
   data?: T;
+  page?: T;
   user?: any;
   permissions?: any;
 }

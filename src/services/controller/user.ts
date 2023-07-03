@@ -4,23 +4,23 @@ export async function login(data) {
   return request({
     url: '/sys/login',
     method: 'post',
+    isMock: true,
     data,
   })
 }
 
 export function getUserInfo() {
   return request({
-    url: '/userInfo',
+    url: '/sys/userInfo',
     method: 'post',
     isMock: true
   })
 }
 
-export function logout(params) {
+export function logout() {
   return request({
-    url: '/logout',
+    url: '/getUserInfo/logout',
     method: 'get',
-    isMock: true,
-    params
+    isMock: true
   })
 }
