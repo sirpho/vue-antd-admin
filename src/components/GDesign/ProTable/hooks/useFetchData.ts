@@ -13,7 +13,7 @@ import { triggerWindowResizeEvent } from '@sirpho/utils/event'
 import { getSortIndex, handleCurrentPage } from '../utils'
 import { isFunction, isBoolean } from '@sirpho/utils/validate'
 import type { ProTableProps } from '../'
-import type { ProTablePagination, ProTabelFeachParams } from '../types/table'
+import type { ProTablePagination, ProTableFetchParams } from '../types/table'
 import type { ProColumns } from '../types/column'
 import useDebounceFn from '../hooks/useDebounceFn'
 
@@ -180,7 +180,7 @@ export function useFetchData(
     setPagination(pageInfo)
   }
 
-  const fetchList = async (info: ProTabelFeachParams = {}) => {
+  const fetchList = async (info: ProTableFetchParams = {}) => {
     const { pagination, filters, sorter, removeKeys = [], isPolling = false } = info
 
     if (!unref(request) || !isFunction(unref(request)) || (unref(waitRequest) && getLoading.value) || requesting.value)

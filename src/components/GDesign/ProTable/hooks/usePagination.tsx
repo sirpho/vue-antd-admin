@@ -1,10 +1,17 @@
 import { computed, unref, reactive, watchEffect, Ref, Slots, ComputedRef } from 'vue'
 import { getSlot } from '@gx-admin/utils'
-import type { PageItemRender } from '@gx-design/Table/typings'
-import type { PaginationProps } from '@gx-design/Pagination/typings'
+import type { PaginationProps } from 'ant-design-vue/lib/pagination'
 import { isBoolean, isFunction } from '@sirpho/utils/validate'
 import type { ProTableProps } from '../Table'
 import type { ProTablePagination, ProTablePaginationConfig } from '../types/table'
+
+export type PageItemRender = WithFalse<
+  (opt: {
+    page: number
+    type: 'page' | 'prev' | 'next' | 'jump-prev' | 'jump-next'
+    originalElement: any
+  }) => CustomRender
+>
 
 export function usePagination({
   slots,

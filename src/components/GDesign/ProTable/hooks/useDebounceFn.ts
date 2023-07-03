@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { tryOnUnmounted } from '@/hooks/core/useTimeout'
-import type { ProTabelFeachParams } from '../types/table'
+import type { ProTableFetchParams } from '../types/table'
 
 export type ReturnValue<T extends any[]> = {
   run: (...args: T) => void;
@@ -23,7 +23,7 @@ function useDebounceFn<T extends any[]>(
     }
   }
 
-  async function run(...args: ProTabelFeachParams[]) {
+  async function run(...args: ProTableFetchParams[]) {
     cancel()
     timer.value = args[0]?.immediate ? await fnRef.value(...args) : setTimeout(async () => {
       await fnRef.value(...args)

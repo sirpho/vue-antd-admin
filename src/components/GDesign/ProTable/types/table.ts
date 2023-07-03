@@ -1,8 +1,8 @@
 import type { VNodeChild } from 'vue'
-import type { TableRowSelection, TablePaginationConfig } from '@gx-design/Table/typings'
-import type { PaginationProps } from '@gx-design/Pagination/typings'
+import type { TablePaginationConfig, TableRowSelection } from 'ant-design-vue/lib/table/interface'
+import type { PaginationProps } from 'ant-design-vue/lib/pagination'
 
-export type ProTabelFeachParams = {
+export type ProTableFetchParams = {
   params?: any
   filters?: any
   sorter?: any
@@ -75,7 +75,7 @@ export type ProCoreActionTypeConfig = {
   formParams?: RecordType
   pageParams?: RecordType | boolean
   /** @name 刷新 */
-  reload?: (info?: ProTabelFeachParams) => void
+  reload?: (info?: ProTableFetchParams) => void
   /** @name 刷新并清空表单，重置为第一页 */
   reloadAndRest?: () => void
   /** @name 设置翻页、排序、筛选*/

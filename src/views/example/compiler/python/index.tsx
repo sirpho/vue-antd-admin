@@ -33,6 +33,8 @@ export default defineComponent({
     const [tableHeight, updateTableHeight] = useTableHeight(56, component)
 
     const state = reactive({
+      test: [],
+      tags: ['tag1', 'tag2'],
       columns: [
         {
           title: '年月',

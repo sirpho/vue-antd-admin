@@ -1,7 +1,5 @@
-import { LegacyButtonType } from 'ant-design-vue/lib/button/buttonTypes'
+import { LegacyButtonType, buttonProps } from 'ant-design-vue/lib/button/buttonTypes'
 import { PropTypes } from '@/utils'
-import { buttonTypes } from '@gx-design/Button'
-
 function noop() {}
 
 export const modalProps = {
@@ -41,8 +39,8 @@ export const modalProps = {
   maskClosable: PropTypes.looseBool,
   /** 强制渲染 Modal*/
   forceRender: PropTypes.looseBool,
-  okButtonProps: PropTypes.shape(buttonTypes).loose,
-  cancelButtonProps: PropTypes.shape(buttonTypes).loose,
+  okButtonProps: PropTypes.shape(buttonProps).loose,
+  cancelButtonProps: PropTypes.shape(buttonProps).loose,
   wrapClassName: PropTypes.string,
   maskTransitionName: PropTypes.string,
   transitionName: PropTypes.string,

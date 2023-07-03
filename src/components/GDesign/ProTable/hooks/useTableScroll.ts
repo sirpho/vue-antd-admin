@@ -1,7 +1,7 @@
 import type { ComputedRef, Ref } from 'vue'
 import { unref, computed } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import type { TableProps } from '@gx-design/Table/typings'
+import type { TableProps } from 'ant-design-vue'
 import { isBoolean, isNumber, isString } from '@sirpho/utils/validate'
 import type { ProTableProps } from '../'
 import type { ProColumns } from '../types/column'

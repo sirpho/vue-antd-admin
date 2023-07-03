@@ -1,19 +1,21 @@
 import type { VNodeChild } from 'vue'
 import type {
-  ColumnFilterItem,
-  ColumnTitle,
-  CompareFn,
-  FilterDropdownProps,
-  FilterValue,
-  Key,
-  SortOrder,
   AlignType,
   CellEllipsisType,
   DataIndex,
   FixedType,
   GetComponentProps,
   RenderedCell
-} from '@gx-design/Table/typings'
+} from 'ant-design-vue/lib/vc-table/interface'
+import {
+  ColumnFilterItem,
+  ColumnTitle,
+  CompareFn,
+  FilterDropdownProps,
+  FilterValue,
+  Key,
+  SortOrder
+} from 'ant-design-vue/lib/table/interface'
 import type { TooltipProps } from 'ant-design-vue/lib/tooltip/Tooltip'
 
 /**

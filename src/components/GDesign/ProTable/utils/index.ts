@@ -1,6 +1,6 @@
 import type { ProSearchMap } from '../types/column'
 import { ProColumns } from '../types/column'
-import { AlignType } from '@gx-design/Table/typings'
+import { AlignType } from 'ant-design-vue/lib/vc-table/interface'
 import { getRandomNumber } from '@sirpho/utils'
 import { cloneDeep } from 'lodash-es'
 

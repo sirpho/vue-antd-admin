@@ -1,6 +1,6 @@
 import { unref, computed, ref, Ref, ComputedRef, watch } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import type { TableProps } from '@gx-design/Table/typings'
+import type { TableProps } from 'ant-design-vue'
 import { compareToMax } from '@sirpho/utils'
 import { isBoolean, isNumber } from '@sirpho/utils/validate'
 import type { ColumnsState } from './useColumnSetting'

@@ -1,7 +1,7 @@
 import type { CSSProperties, PropType } from 'vue'
 import type { SizeType } from '@gx-admin/utils'
-import { tableProps } from '@gx-design/Table/props'
-import type { AlignType } from '@gx-design/Table/typings'
+import { tableProps } from 'ant-design-vue/lib/table'
+import type { AlignType } from 'ant-design-vue/lib/vc-table/interface'
 import type {
   OptionConfig,
   requestConfig,
