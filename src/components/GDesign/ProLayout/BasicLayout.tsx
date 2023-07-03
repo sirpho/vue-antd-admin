@@ -71,7 +71,9 @@ export default defineComponent({
     const hasSide = computed(() => props.layout === 'mix' || props.layout === 'side' || false)
     const hasFlatMenu = computed(() => hasSide.value)
 
-    const siderWidth = computed(() => (props.collapsed ? props.collapsedWidth : props.siderWidth))
+    const sidebarWidth = computed(() =>
+      props.collapsed ? props.collapsedWidth : props.sidebarWidth
+    )
 
     onMounted(() => {
       window.addEventListener('resize', handleLayouts)
@@ -194,7 +196,7 @@ export default defineComponent({
         // 'setHasFooterToolbar',
       ]) as any),
       isMobile,
-      siderWidth,
+      sidebarWidth,
       breadcrumb,
       flatMenuData,
       hasSide,
@@ -286,7 +288,7 @@ export default defineComponent({
                     isChildrenLayout={props.isChildrenLayout}
                     loading={props.loading}
                     isShowTabsBar={props.showTabsBar}
-                    siderWidth={props.siderWidth}
+                    sidebarWidth={props.sidebarWidth}
                     collapsed={props.collapsed}
                     style={props.disableContentMargin ? undefined : props.contentStyle}
                     onReloadPage={onReloadPage}

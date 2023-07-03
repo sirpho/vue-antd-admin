@@ -4,13 +4,13 @@ import type { BreadcrumbProps } from './RouteContext'
 import type { FooterRender, CopyrightRender } from './RenderTypings'
 import { defaultSettingProps } from './defaultSettings'
 import { globalHeaderProps, headerViewProps } from './components/GlobalHeader/props'
-import { siderMenuProps } from './components/SiderMenu/props'
+import { sidebarMenuProps } from './components/SiderMenu/props'
 import multiTabProps from './components/MultiTab/props'
 
 export const basicLayoutProps = {
   ...defaultSettingProps,
   ...globalHeaderProps,
-  ...siderMenuProps,
+  ...sidebarMenuProps,
   ...headerViewProps,
   ...multiTabProps,
 

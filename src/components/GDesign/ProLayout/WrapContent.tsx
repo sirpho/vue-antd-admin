@@ -17,13 +17,13 @@ export interface WrapContentProps {
   isShowTabsBar?: boolean
   isChildrenLayout?: boolean
   location?: string | string[] | any
-  siderWidth?: number
+  sidebarWidth?: number
   contentHeight?: number
   onReloadPage?: MultiTabProps['onReloadPage']
 }
 
 export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slots, attrs }) => {
-  const { isMobile, loading, collapsed, siderWidth, isShowTabsBar, onReloadPage } = props
+  const { isMobile, loading, collapsed, sidebarWidth, isShowTabsBar, onReloadPage } = props
 
   if (props.isChildrenLayout) {
     return slots.default?.()
@@ -49,7 +49,7 @@ export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slot
         <MultiTab
           isMobile={isMobile}
           loading={loading}
-          siderWidth={siderWidth}
+          sidebarWidth={sidebarWidth}
           collapsed={collapsed}
           onReloadPage={onReloadPage}
         />

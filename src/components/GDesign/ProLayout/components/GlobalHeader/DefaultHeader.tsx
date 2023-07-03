@@ -4,21 +4,21 @@ import { useRouter } from 'vue-router'
 import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer'
 import Logo from '@/assets/logo.png'
 import { globalHeaderProps } from './props'
-import type { SiderMenuProps } from '../SiderMenu/SiderMenu'
+import type { SidebarMenuProps } from '../SiderMenu/SiderMenu'
 import { defaultRenderCollapsedButton } from '../SiderMenu/SiderMenu'
-import { siderMenuProps } from '../SiderMenu/props'
+import { sidebarMenuProps } from '../SiderMenu/props'
 import BaseMenu from '../SiderMenu/BaseMenu'
 import DeFaultRightContent from '../RightContent'
 import LogoContent, { defaultRenderLogo } from '../LogoContent'
 import { useRouteContext } from '../../RouteContext'
 
-export const defaultHeaderProps = { ...siderMenuProps, ...globalHeaderProps }
+export const defaultHeaderProps = { ...sidebarMenuProps, ...globalHeaderProps }
 
 export type DefaultHeaderProps = Partial<ExtractPropTypes<typeof defaultHeaderProps>> &
-  Partial<SiderMenuProps>
+  Partial<SidebarMenuProps>
 
 const renderLogo = (
-  menuHeaderRender: SiderMenuProps['menuHeaderRender'],
+  menuHeaderRender: SidebarMenuProps['menuHeaderRender'],
   logoDom: CustomRender
 ) => {
   if (menuHeaderRender === false) {

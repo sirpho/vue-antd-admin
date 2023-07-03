@@ -1,12 +1,12 @@
 import { PropTypes } from '@/utils'
-import { baseMenuProps, siderMenuProps } from '../SiderMenu/props'
+import { baseMenuProps, sidebarMenuProps } from '../SiderMenu/props'
 
 export default {
   loading: PropTypes.looseBool,
-  isMobile: siderMenuProps.isMobile,
+  isMobile: sidebarMenuProps.isMobile,
   collapsed: baseMenuProps.collapsed,
-  siderWidth: siderMenuProps.siderWidth,
-  collapsedWidth: siderMenuProps.collapsedWidth,
+  sidebarWidth: sidebarMenuProps.sidebarWidth,
+  collapsedWidth: sidebarMenuProps.collapsedWidth,
   onReloadPage: {
     type: Function as PropType<() => void>
   }

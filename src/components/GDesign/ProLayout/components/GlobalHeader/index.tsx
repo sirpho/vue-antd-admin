@@ -32,7 +32,7 @@ export default defineComponent({
     )
     const width = computed(() => {
       return layoutSide.value && needSettingWidth.value
-        ? `calc(100% - ${props.collapsed ? props.collapsedWidth : props.siderWidth}px)`
+        ? `calc(100% - ${props.collapsed ? props.collapsedWidth : props.sidebarWidth}px)`
         : '100%'
     })
     const right = computed(() => (needFixedHeader.value ? 0 : undefined))

@@ -1,11 +1,11 @@
 import type { FunctionalComponent as FC } from 'vue'
 import { Drawer } from 'ant-design-vue'
-import { siderMenuProps } from './props'
-import SiderMenu, { SiderMenuProps, PrivateSiderMenuProps } from './SiderMenu'
+import { sidebarMenuProps } from './props'
+import SidebarMenu, { SidebarMenuProps, PrivateSidebarMenuProps } from './SiderMenu'
 
-export type SiderMenuWrapperProps = Partial<SiderMenuProps> & Partial<PrivateSiderMenuProps>
+export type SidebarMenuWrapperProps = Partial<SidebarMenuProps> & Partial<PrivateSidebarMenuProps>
 
-const SiderMenuWrapper: FC<SiderMenuWrapperProps> = (props, { attrs }) => {
+const SidebarMenuWrapper: FC<SidebarMenuWrapperProps> = (props, { attrs }) => {
   return props.isMobile ? (
     <Drawer
       visible={!props.collapsed}
@@ -16,7 +16,7 @@ const SiderMenuWrapper: FC<SiderMenuWrapperProps> = (props, { attrs }) => {
         height: '100vh'
       }}
       onClose={() => props.onCollapse && props.onCollapse(true)}
-      width={props.siderWidth}
+      width={props.sidebarWidth}
       bodyStyle={{
         height: '100vh',
         padding: 0,
@@ -24,20 +24,20 @@ const SiderMenuWrapper: FC<SiderMenuWrapperProps> = (props, { attrs }) => {
         flexDirection: 'row'
       }}
     >
-      <SiderMenu {...attrs} {...props} collapsed={props.isMobile ? false : props.collapsed} />
+      <SidebarMenu {...attrs} {...props} collapsed={props.isMobile ? false : props.collapsed} />
     </Drawer>
   ) : (
-    <SiderMenu {...attrs} {...props} />
+    <SidebarMenu {...attrs} {...props} />
   )
 }
 
-SiderMenuWrapper.inheritAttrs = false
-SiderMenuWrapper.displayName = 'SiderMenuWrapper'
+SidebarMenuWrapper.inheritAttrs = false
+SidebarMenuWrapper.displayName = 'SidebarMenuWrapper'
 
 export {
-  SiderMenu,
+  SidebarMenu,
   // vue props
-  siderMenuProps
+  sidebarMenuProps
 }
 
-export default SiderMenuWrapper
+export default SidebarMenuWrapper

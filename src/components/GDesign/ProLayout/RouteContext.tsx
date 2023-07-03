@@ -47,7 +47,7 @@ export interface RouteContextProps extends Partial<themeConfig>, MenuState {
   collapsed?: boolean
   hasSideMenu?: boolean
   hasHeader?: boolean
-  siderWidth?: number
+  sidebarWidth?: number
   headerHeight?: number
   hasFooterToolbar?: boolean
   hasFooter?: boolean

@@ -3,7 +3,7 @@ import { computed, unref } from 'vue'
 import { Layout, Spin, Menu } from 'ant-design-vue'
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue'
 import BaseMenu from './BaseMenu'
-import { siderMenuProps } from './props'
+import { sidebarMenuProps } from './props'
 import LogoContent from '../LogoContent'
 import { useRouteContext } from '../../RouteContext'
 
@@ -11,16 +11,16 @@ const { Sider } = Layout
 
 const { Item } = Menu
 
-export type SiderMenuProps = Partial<ExtractPropTypes<typeof siderMenuProps>>
+export type SidebarMenuProps = Partial<ExtractPropTypes<typeof sidebarMenuProps>>
 
-export type PrivateSiderMenuProps = {
+export type PrivateSidebarMenuProps = {
   matchMenuKeys?: string[]
 }
 
 export const defaultRenderCollapsedButton = (collapsed?: boolean): CustomRender =>
   collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
 
-const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
+const SidebarMenu: FC<SidebarMenuProps> = (props: SidebarMenuProps) => {
   const {
     theme,
     layout,
@@ -29,7 +29,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
     breakpoint,
     fixSiderbar,
     collapsed,
-    siderWidth,
+    sidebarWidth,
     collapsedWidth = 48,
     menuExtraRender = false,
     menuContentRender = false,
@@ -50,7 +50,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
   const hasSplitMenu = computed(() => props.layout === 'mix' && !props.isMobile && props.splitMenus)
   const layoutSide = computed(() => layout === 'side' || layout === 'simple')
   const sTheme = computed(() => (props.layout === 'mix' && 'light') || props.theme)
-  const sSideWidth = computed(() => (props.collapsed ? props.collapsedWidth : props.siderWidth))
+  const sSideWidth = computed(() => (props.collapsed ? props.collapsedWidth : props.sidebarWidth))
   const classNames = computed(() => {
     return [
       baseClassName,
@@ -132,7 +132,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
         theme={sTheme.value}
         breakpoint={breakpoint || undefined}
         collapsed={collapsed}
-        width={siderWidth}
+        width={sidebarWidth}
         collapsedWidth={collapsedWidth}
         onCollapse={(collapse) => {
           if (props.isMobile) return
@@ -194,4 +194,4 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
   )
 }
 
-export default SiderMenu
+export default SidebarMenu

@@ -54,14 +54,14 @@ export const baseMenuProps = {
   onClick: [ Function, Object ] as PropType<(...args: any) => void>
 }
 
-export const siderMenuProps = {
+export const sidebarMenuProps = {
   ...defaultSettingProps,
   ...baseMenuProps,
   menuLoading: PropTypes.looseBool,
   logo: logoContentProps.logo,
   logoStyle: logoContentProps.logoStyle,
   logoDirection: logoContentProps.logoDirection,
-  siderWidth: PropTypes.number.def(208),
+  sidebarWidth: PropTypes.number.def(208),
   headerHeight: PropTypes.number.def(48),
   collapsedWidth: PropTypes.number.def(48),
   links: {

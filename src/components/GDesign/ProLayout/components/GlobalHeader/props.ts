@@ -1,7 +1,7 @@
 import type { Theme } from '/types/config'
 import { PropTypes } from '@/utils'
 import logoContentProps from '../LogoContent/props'
-import { siderMenuProps } from '../SiderMenu/props'
+import { sidebarMenuProps } from '../SiderMenu/props'
 import type { RightContentRender } from '../../RenderTypings'
 import { defaultSettingProps } from '../../defaultSettings'
 import { ExtraRightDropdownRender } from '../../RenderTypings'
@@ -15,7 +15,7 @@ export const globalHeaderProps = {
   autoHideHeader: PropTypes.looseBool,
   collapsed: PropTypes.looseBool,
   isMobile: PropTypes.looseBool,
-  siderWidth: siderMenuProps.siderWidth,
+  sidebarWidth: sidebarMenuProps.sidebarWidth,
   headerTheme: {
     type: String as PropType<Theme>,
     default: 'dark'
@@ -37,12 +37,12 @@ export const globalHeaderProps = {
     type: [Object, Function] as PropType<RightContentRender>,
     default: () => undefined,
   },
-  collapsedButtonRender: siderMenuProps.collapsedButtonRender,
-  matchMenuKeys: siderMenuProps.matchMenuKeys,
-  onCollapse: siderMenuProps.onCollapse,
-  onOpenKeys: siderMenuProps.onOpenKeys,
+  collapsedButtonRender: sidebarMenuProps.collapsedButtonRender,
+  matchMenuKeys: sidebarMenuProps.matchMenuKeys,
+  onCollapse: sidebarMenuProps.onCollapse,
+  onOpenKeys: sidebarMenuProps.onOpenKeys,
   onMenuHeaderClick: PropTypes.func,
-  onSelect: siderMenuProps.onSelect
+  onSelect: sidebarMenuProps.onSelect
 }
 
 export const headerViewProps = {
@@ -63,7 +63,7 @@ export const headerViewProps = {
     default: () => undefined,
   },
   hasSiderMenu: PropTypes.looseBool,
-  collapsedWidth: siderMenuProps.collapsedWidth,
-  siderWidth: siderMenuProps.siderWidth
+  collapsedWidth: sidebarMenuProps.collapsedWidth,
+  sidebarWidth: sidebarMenuProps.sidebarWidth
 }
 
