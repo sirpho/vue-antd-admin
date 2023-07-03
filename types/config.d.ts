@@ -4,7 +4,6 @@ export interface configSetting {
   theme: themeConfig;
   proxy: any;
   network: networkConfig;
-  animate: animateConfig;
   defaultSettings: settingConfig;
 }
 

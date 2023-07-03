@@ -30,11 +30,6 @@ const themeSetting: themeConfig = {
   //菜单字体链接Url
   iconfontUrl: 'resource/icon/iconPark.js',
   //是否自动隐藏头部
-  autoHideHeader: false,
-  //页面动画配置
-  animate: {
-    name: 'fade',
-    direction: 'default'
-  }
+  autoHideHeader: false
 }
 export default themeSetting

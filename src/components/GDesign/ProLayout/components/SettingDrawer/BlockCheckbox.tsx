@@ -13,7 +13,7 @@ const BlockCheckbox = defineComponent({
   props: BlockCheckboxProps,
   emits: ['change'],
   setup(props, { emit }) {
-    const baseClassName = computed(() => `${props.className}-block-checbox`)
+    const baseClassName = computed(() => `${props.className}-block-checkbox`)
 
     const items = computed(
       () =>
