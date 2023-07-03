@@ -6,13 +6,13 @@ const { title } = config.defaultSettings
 const { iconfontUrl } = config.theme
 
 export interface RenderSetting {
-  headerRender?: false;
-  footerRender?: false;
-  menuRender?: false;
+  headerRender?: false
+  footerRender?: false
+  menuRender?: false
   menuHeaderRender?: false
 }
 
-export type ProSettings = themeConfig & RenderSetting;
+export type ProSettings = themeConfig & RenderSetting
 
 export const defaultSettings: themeConfig = {
   //布局种类 side/mix
@@ -40,12 +40,7 @@ export const defaultSettings: themeConfig = {
   //是否自动隐藏头部
   autoHideHeader: false,
   //菜单字体链接Url
-  iconfontUrl: iconfontUrl || '',
-  //页面动画配置
-  animate: {
-    name: 'fade',
-    direction: 'default'
-  }
+  iconfontUrl: iconfontUrl || ''
 }
 
 export const defaultSettingProps = {
@@ -100,11 +95,7 @@ export const defaultSettingProps = {
   iconfontUrl: {
     type: String as PropType<themeConfig['iconfontUrl']>,
     default: () => defaultSettings.iconfontUrl
-  },
-  animate: {
-    type: Object as PropType<themeConfig['animate']>,
-    default: defaultSettings.animate
   }
 }
 
-export type ProSettingsProps = ExtractPropTypes<typeof defaultSettingProps>;
+export type ProSettingsProps = ExtractPropTypes<typeof defaultSettingProps>

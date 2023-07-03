@@ -1,22 +1,13 @@
 <template>
-  <RouterView>
-    <template #default="{ Component }">
-      <page-transition
-        :disabled="animate.disabled"
-        :animate="animate.name"
-        :direction="animate.direction"
-      >
-        <component v-if="isRouterAlive" :is="Component" />
-      </page-transition>
-    </template>
-  </RouterView>
+  <router-view v-slot="{ Component }">
+    <component v-if="isRouterAlive" :is="Component" />
+  </router-view>
   <Iframe v-if="iframeSrc" :frameSrc="iframeSrc" />
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import PageTransition from '@/components/PageTransition/index.vue'
 import Iframe from '../views/Iframe/index.vue'
 
 const props = defineProps({
@@ -26,13 +17,6 @@ const props = defineProps({
     default: true
   },
   contentStyle: {
-    type: Object,
-    required: false,
-    default: () => {
-      return {}
-    }
-  },
-  animate: {
     type: Object,
     required: false,
     default: () => {

@@ -49,7 +49,7 @@ export type MenuTheme = Theme;
 
 export interface themeConfig {
   theme: MenuTheme | undefined;
-  primaryColor: stringshowProgressBar
+  primaryColor: string
   layout: 'side' | 'mix' | 'simple';
   splitMenus: boolean;
   fixedHeader: boolean;
@@ -61,25 +61,4 @@ export interface themeConfig {
   autoHideHeader: boolean;
   title: string;
   iconfontUrl?: string;
-  animate?: {
-    disabled?: boolean;
-    name: string;
-    direction: string;
-  };
-}
-
-export interface animateConfig {
-  preset: Array<animatePreset>;
-}
-
-export interface animatePreset {
-  name: string;
-  alias: string;
-  directions: Array<any>;
-}
-
-export interface themeAnimateSeting {
-  name: string;
-  direction: string;
-  disabled?: boolean;
 }

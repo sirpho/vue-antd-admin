@@ -8,7 +8,6 @@ import { MenuTheme, themeConfig } from '/types/config'
  */
 export interface SettingsState {
   title: themeConfig['title'];
-  animate: themeConfig['animate'];
   layout: themeConfig['layout'];
   fixSiderbar: themeConfig['fixSiderbar'];
   fixedHeader: themeConfig['fixedHeader'];
@@ -28,7 +27,6 @@ const {
   layout,
   theme,
   primaryColor,
-  animate,
   splitMenus,
   fixedHeader,
   fixSiderbar,
@@ -45,10 +43,6 @@ export const useStoreSettings = defineStore('settings', () => {
     theme,
     primaryColor,
     layout,
-    animate: animate || {
-      name: 'fade',
-      direction: 'default'
-    },
     splitMenus: layout === 'mix' ? splitMenus : false,
     autoHideHeader,
     showTabsBar: layout === 'simple' ? false : showTabsBar,
@@ -61,18 +55,6 @@ export const useStoreSettings = defineStore('settings', () => {
     state.collapse = !state.collapse
   }
 
-  const changeAnimateMode = (value: string) => {
-    state.animate.name = value
-  }
-
-  const changeAnimateDirections = (value: string) => {
-    state.animate.direction = value
-  }
-
-  const handleShowAnimate = (value: boolean) => {
-    state.animate.disabled = value
-  }
-
   const changeValue = (type, value) => {
     state[type] = value
   }
@@ -81,8 +63,5 @@ export const useStoreSettings = defineStore('settings', () => {
     ...toRefs(state),
     changeValue,
     toggleCollapse,
-    changeAnimateMode,
-    handleShowAnimate,
-    changeAnimateDirections
   }
 })

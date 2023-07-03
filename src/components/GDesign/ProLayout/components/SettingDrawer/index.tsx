@@ -1,6 +1,6 @@
 import type { FunctionalComponent, Ref } from 'vue'
 import { defineComponent, reactive, ref, watch } from 'vue'
-import { message, Drawer, List, Switch, Select, Button, Alert, Divider } from 'ant-design-vue'
+import { message, Drawer, List, Switch, Button, Alert, Divider } from 'ant-design-vue'
 import {
   CloseOutlined,
   SettingOutlined,
@@ -17,9 +17,7 @@ import ThemeColor from './ThemeColor'
 import LayoutSetting, { renderLayoutSettingItem } from './LayoutSetting'
 import { ProSettingsProps } from '../../defaultSettings'
 
-const { defaultSettings, animate } = config
-
-const { preset } = animate
+const { defaultSettings } = config
 
 export const settingDrawerProps = {
   hideLoading: PropTypes.bool,
@@ -117,8 +115,7 @@ const SettingDrawer = defineComponent({
         fixedHeader,
         fixSiderbar,
         showTabsBar,
-        showProgressBar,
-        animate
+        showProgressBar
       } = settings as ProSettingsProps
 
       return (
@@ -222,75 +219,6 @@ const SettingDrawer = defineComponent({
 
                 <Divider />
 
-                <Body title="页面切换动画" className={baseClassName}>
-                  <List
-                    split={false}
-                    renderItem={({ item }) => renderLayoutSettingItem(item)}
-                    dataSource={[
-                      {
-                        title: '禁用动画',
-                        action: (
-                          <Switch
-                            size="small"
-                            checked={!animate?.disabled}
-                            onChange={(checked) => changeSetting('showAnimate', checked)}
-                          />
-                        )
-                      },
-                      {
-                        title: '动画效果',
-                        disabled: animate?.disabled,
-                        action: (
-                          <Select
-                            value={animate?.name}
-                            size="small"
-                            disabled={animate?.disabled}
-                            getPopupContainer={(trigger) => {
-                              if (trigger && trigger.parentNode) {
-                                return trigger.parentNode
-                              }
-                              return trigger
-                            }}
-                            onSelect={(value) => changeSetting('changeAnimateMode', value)}
-                            style={{ width: '120px' }}
-                          >
-                            {preset.map((item: any) => (
-                              <Select.Option value={item.name}>{item.alias}</Select.Option>
-                            ))}
-                          </Select>
-                        )
-                      },
-                      {
-                        title: '动画方向',
-                        disabled: animate?.disabled,
-                        action: (
-                          <Select
-                            value={animate?.direction}
-                            size="small"
-                            disabled={animate?.disabled}
-                            getPopupContainer={(trigger) => {
-                              if (trigger && trigger.parentNode) {
-                                return trigger.parentNode
-                              }
-                              return trigger
-                            }}
-                            onSelect={(value) => changeSetting('changeAnimateDirections', value)}
-                            style={{ width: '120px' }}
-                          >
-                            {preset
-                              .find((el: any) => el.name === animate?.name)
-                              ?.directions.map((item: any) => (
-                                <Select.Option value={item}>{item}</Select.Option>
-                              ))}
-                          </Select>
-                        )
-                      }
-                    ]}
-                  />
-                </Body>
-
-                <Divider />
-
                 <Alert
                   type="warning"
                   message={'配置栏只在开发环境用于预览，生产环境不会展现，请拷贝后手动修改配置文件'}
@@ -310,8 +238,7 @@ const SettingDrawer = defineComponent({
                         fixedHeader,
                         fixSiderbar,
                         showTabsBar,
-                        showProgressBar,
-                        animate
+                        showProgressBar
                       }),
                       '拷贝成功，请到 config/default/theme.js 中替换默认配置'
                     )

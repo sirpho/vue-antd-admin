@@ -4,12 +4,12 @@
     v-model:selectedKeys="baseState.selectedKeys"
     v-model:openKeys="baseState.openKeys"
     v-bind="state"
-    :breadcrumb="{ routes: baseState.breadcrumb }"
+    :breadcrumb="{ routes: baseState.breadcrumb as any }"
     @reloadPage="handleReloadPage"
     @handleCollapse="toggleCollapse"
     @menuHeaderClick="menuHeaderClick"
   >
-    <ProContent :animate="state.animate" :isRouterAlive="isRouterAlive" />
+    <ProContent :isRouterAlive="isRouterAlive as boolean" />
     <setting-drawer v-if="isDevEnvironment" :settings="state" @change="handleSettingChange" />
   </g-pro-layout>
 </template>
@@ -18,11 +18,8 @@ import { computed, reactive } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { useStore } from '@gx-vuex'
 import { RouteContextProps, getMenuData, clearMenuItem, SettingDrawer } from '@gx-design/ProLayout'
-import config from '/config/config'
 import ProContent from './ContentView.vue'
 import { isDev } from '@/utils'
-const { animate } = config
-const { preset } = animate
 
 const store = useStore()
 const router = useRouter()
@@ -51,8 +48,7 @@ const state = reactive({
   fixSiderbar: computed(() => store.settings.fixSiderbar),
   showTabsBar: computed(() => store.settings.showTabsBar),
   autoHideHeader: computed(() => store.settings.autoHideHeader),
-  showProgressBar: computed(() => store.settings.showProgressBar),
-  animate: computed(() => store.settings.animate)
+  showProgressBar: computed(() => store.settings.showProgressBar)
 })
 
 const isDevEnvironment = isDev()
@@ -120,20 +116,6 @@ const handleSettingChange = ({ type, value }) => {
       break
     case 'showProgressBar':
       store.settings.changeValue('showProgressBar', value)
-      break
-    case 'showAnimate':
-      store.settings.handleShowAnimate(!value)
-      break
-    case 'changeAnimateMode':
-      store.settings.changeAnimateMode(value)
-      store.settings.changeAnimateDirections(
-        preset.find((el: any) => el.name === value)?.directions.includes('default')
-          ? 'default'
-          : preset.find((el: any) => el.name === value)?.directions[0]
-      )
-      break
-    case 'changeAnimateDirections':
-      store.settings.changeAnimateDirections(value)
       break
   }
 }
