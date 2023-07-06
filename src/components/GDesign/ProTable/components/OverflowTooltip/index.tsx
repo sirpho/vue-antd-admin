@@ -34,6 +34,8 @@ export default defineComponent({
         rangeWidth + horizontalPadding > cellChild.offsetWidth ||
         rangeHeight + verticalPadding > cellChild.offsetHeight ||
         cellChild.scrollWidth > cellChild.offsetWidth
+          ? undefined
+          : false
     }
 
     /**
@@ -41,7 +43,7 @@ export default defineComponent({
      * @param _event
      */
     const handleMouseLeave = (_event: MouseEvent) => {
-      visible.value = false
+      // visible.value = false
     }
 
     const cssStyle: CSSProperties = {
