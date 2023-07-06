@@ -9,6 +9,7 @@ import type { ColConfig } from '../../types/table'
 import type { ProSearchMap } from '../../types/column'
 import { defaultSearchProp, proTableProps } from '../../props'
 import { isObject, isFunction } from '@sirpho/utils/validate'
+import { filterEmpty } from 'ant-design-vue/es/_util/props-util'
 
 import './style.less'
 
@@ -43,11 +44,19 @@ export default defineComponent({
     )
 
     const responsiveArray: { value: Breakpoint; span: number }[] = [
-      { value: 'xxl', span: 4 },
-      { value: 'xl', span: 3 },
-      { value: 'lg', span: 2 },
+      // 屏幕 ≥ 2000px
+      { value: 'xxxl', span: 6 },
+      // 屏幕 ≥ 1600px
+      { value: 'xxl', span: 5 },
+      // 屏幕 ≥ 1200px
+      { value: 'xl', span: 4 },
+      // 屏幕 ≥ 992px
+      { value: 'lg', span: 3 },
+      // 屏幕 ≥ 768px
       { value: 'md', span: 2 },
+      // 屏幕 ≥ 576px
       { value: 'sm', span: 2 },
+      // 屏幕 < 576px
       { value: 'xs', span: 1 }
     ]
 
@@ -467,7 +476,8 @@ export default defineComponent({
     )
 
     const FormItemRender = () => {
-      const formNode = [...props.searchMap, ...slots.default?.()]
+      const defaultSlots = filterEmpty([...slots.default?.()]) || []
+      const formNode = [...props.searchMap, ...defaultSlots]
 
       return formNode.map((item, index) => {
         const rowWidth = {

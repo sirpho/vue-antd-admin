@@ -88,7 +88,7 @@ declare global {
     VITE_GENERATE_UI: string;
   }
 
-  declare type Breakpoint = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
+  declare type Breakpoint = 'xxxl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 
   declare function parseInt(s: string | number, radix?: number): number;
 
