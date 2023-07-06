@@ -34,6 +34,7 @@ import { useTableScroll, useConfigScroll } from './hooks/useTableScroll'
 import { provideTableContext } from './context/TableContext'
 import Form from './components/Form'
 import Toolbar from './components/ToolBar'
+import OverflowTooltip from './components/OverflowTooltip'
 import { proTableProps } from './props'
 import { proTableSlots, handleShowIndex } from './utils'
 
@@ -103,6 +104,7 @@ const GProTable = defineComponent({
           ...item,
           key: item.key || (item.dataIndex as string),
           align: item.align || props.align,
+          ellipsis: item.ellipsis || props.ellipsis,
           uuid: getRandomNumber().uuid(15)
         }
       })
@@ -403,6 +405,7 @@ const GProTable = defineComponent({
       emit('expand', expanded, record)
     }
     const handleResizeColumn = (w, col) => resizeColumnWidth(w, col)
+
     /**
      * @description 表格字段溢出提示
      */
@@ -428,9 +431,9 @@ const GProTable = defineComponent({
         )
       } else if (success && !record.copyable) {
         show = (
-          <Tooltip title={value} placement={placement}>
+          <OverflowTooltip title={value} placement={placement}>
             {isTreeDataRef.value ? value : <div class={`${baseClassName}-ellipsis`}>{value}</div>}
-          </Tooltip>
+          </OverflowTooltip>
         )
       }
       return show
@@ -502,7 +505,13 @@ const GProTable = defineComponent({
                 {...getBindValues.value}
                 rowKey={(record) => record[props.rowKey || 'sortIndex']}
                 transformCellText={({ text, column }) => {
-                  if (isVNode(text)) return text
+                  let isVNodeCell = false
+                  if (Array.isArray(text) && text.length > 0) {
+                    isVNodeCell = isVNode(text[0])
+                  } else {
+                    isVNodeCell = isVNode(text)
+                  }
+                  if (isVNodeCell) return text
                   const { value, success } = handleTableField(
                     text,
                     (column as any)?.columnEmptyText || props?.columnEmptyText

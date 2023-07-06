@@ -13,6 +13,7 @@ import type {
 import type { ProSearchMap } from './types/column'
 import type { ColumnsState, ColumnsStateType } from './hooks/useColumnSetting'
 import { SearchConfig } from './types/table'
+import { CellEllipsisType } from "ant-design-vue/lib/vc-table/interface";
 export const defaultSearchProp = {
   resetText: '重置',
   searchText: '查询',
@@ -211,6 +212,13 @@ export const proTableProps = {
   columnEmptyText: {
     type: [String, Boolean] as PropType<ProFieldEmptyText>,
     default: false
+  },
+  /**
+   * 所有字段统一设置的省略显示开关
+   */
+  ellipsis: {
+    type: [Boolean, Object] as PropType<CellEllipsisType>,
+    default: true
   },
   /**
    * @description Pro-Table 的方法
