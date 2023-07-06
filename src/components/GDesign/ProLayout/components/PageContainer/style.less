@@ -3,25 +3,20 @@
 @pro-layout-page-container: ~'@{gx-prefix-pro}-page-container';
 @pro-layout-grid-content-prefix-cls: ~'@{gx-prefix-pro}-grid-content';
 
-@pro-layout-page-container-content-margin: 0 24px 0;
-@pro-layout-page-container-content-padding: inherit;
-@pro-layout-page-container-bg-color: inherit;
-@pro-layout-page-container-warp-bg-color: @component-background;
-
 .@{pro-layout-grid-content-prefix-cls} {
   width: 100%;
   flex: 1 1 auto;
   overflow: hidden;
-  padding-top: 24px;
+  padding-top: var(--common-space);
 }
 
 .sub-tab-content {
-  padding-top: 12px;
+  padding-top: var(--common-space-half);
 }
 
 .@{pro-layout-page-container}-children-content {
-  padding: @pro-layout-page-container-content-padding;
-  margin: @pro-layout-page-container-content-margin;
+  margin: 0 var(--common-space);
+  padding-bottom: var(--common-space);
 
   > .ant-card {
     > .ant-card-body {
@@ -31,9 +26,9 @@
 }
 
 .@{pro-layout-page-container} {
-  background-color: @pro-layout-page-container-bg-color;
+  background-color: inherit;
   &-warp {
-    background-color: @pro-layout-page-container-warp-bg-color;
+    background-color: #ffffff;
     .@{ant-prefix}-tabs-nav {
       margin: 0;
     }

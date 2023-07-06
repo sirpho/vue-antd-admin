@@ -1,6 +1,8 @@
+@pagination-small-size: 26px;
 html {
   body {
-    @media only screen and (max-height: 737px) {
+    // 1366*768超小屏幕
+    @media only screen and (max-height: 768px) {
       .ant-table.ant-table-small .ant-table-footer,
       .ant-table.ant-table-small .ant-table-tbody > tr > td,
       .ant-table.ant-table-small .ant-table-thead > tr > th,
@@ -90,8 +92,42 @@ html {
         padding: 4px;
       }
 
+      // 翻页器缩小
       .ant-pagination.ant-table-pagination {
         margin: 5px 0 !important;
+        .ant-pagination-item,
+        .ant-pagination-total-text,
+        .ant-pagination-jump-next,
+        .ant-pagination-jump-prev,
+        .ant-pagination-next,
+        .ant-pagination-prev {
+          height: @pagination-small-size;
+          line-height: @pagination-small-size;
+          min-width: @pagination-small-size;
+        }
+        .ant-select-selector {
+          height: @pagination-small-size;
+          .ant-select-selection-item {
+            line-height: @pagination-small-size;
+          }
+        }
+        .ant-pagination-options-quick-jumper {
+          height: @pagination-small-size;
+          line-height: @pagination-small-size;
+
+          input {
+            height: @pagination-small-size;
+          }
+        }
+      }
+
+      // 容器间隙缩小
+      .gx-pro-grid-content {
+        padding-top: var(--common-space-half);
+      }
+      .gx-pro-page-container-children-content {
+        margin: 0 var(--common-space-half);
+        padding-bottom: var(--common-space-half);
       }
 
       .ant-card-body {
@@ -99,7 +135,8 @@ html {
       }
     }
 
-    @media (min-height: 738px) {
+    // 普通屏幕
+    @media (min-height: 767px) and (max-height: 1080px) {
       .ant-table.ant-table-small .ant-table-footer,
       .ant-table.ant-table-small .ant-table-tbody > tr > td,
       .ant-table.ant-table-small .ant-table-thead > tr > th,
@@ -128,36 +165,8 @@ html {
       }
     }
 
-    @media (min-height: 870px) {
-      .ant-table.ant-table-small .ant-table-footer,
-      .ant-table.ant-table-small .ant-table-tbody > tr > td,
-      .ant-table.ant-table-small .ant-table-thead > tr > th,
-      .ant-table.ant-table-small .ant-table-title,
-      .ant-table.ant-table-small tfoot > tr > td,
-      .ant-table.ant-table-small tfoot > tr > th {
-        padding: 3px;
-      }
-
-      .ant-table.ant-table-middle .ant-table-footer,
-      .ant-table.ant-table-middle .ant-table-tbody > tr > td,
-      .ant-table.ant-table-middle .ant-table-thead > tr > th,
-      .ant-table.ant-table-middle .ant-table-title,
-      .ant-table.ant-table-middle tfoot > tr > td,
-      .ant-table.ant-table-middle tfoot > tr > th {
-        padding: 5px;
-      }
-
-      .ant-table .ant-table-footer,
-      .ant-table .ant-table-title,
-      .ant-table tfoot > tr > td,
-      .ant-table tfoot > tr > th,
-      .ant-table-tbody > tr > td,
-      .ant-table-thead > tr > th {
-        padding: 7px;
-      }
-    }
-
-    @media (min-height: 914px) {
+    // 2k屏幕
+    @media (min-height: 1081px) {
       .ant-table.ant-table-small .ant-table-footer,
       .ant-table.ant-table-small .ant-table-tbody > tr > td,
       .ant-table.ant-table-small .ant-table-thead > tr > th,

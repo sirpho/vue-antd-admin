@@ -198,7 +198,7 @@ export default defineComponent({
         <g-pro-page-container>
           <g-pro-table
             row-key="id"
-            scroll={{ x: '100%', y: tableHeight } as any}
+            scroll={{ x: '100%', y: unref(tableHeight) } as any}
             align="center"
             search={{
               onCollapse: updateTableHeight

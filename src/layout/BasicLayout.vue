@@ -5,6 +5,7 @@
     v-model:openKeys="baseState.openKeys"
     v-bind="state"
     :breadcrumb="{ routes: baseState.breadcrumb as any }"
+    :footerRender="false"
     @reloadPage="handleReloadPage"
     @handleCollapse="toggleCollapse"
     @menuHeaderClick="menuHeaderClick"

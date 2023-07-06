@@ -85,10 +85,10 @@ watch(
 
 <style lang="less" scoped>
 .sub-tab-group {
-  margin-top: 12px;
-  height: 32px;
+  margin-top: var(--common-space-half);
+  height: var(--sub-tab-group-height);
 }
 .gx-pro-page-container {
-  height: calc(100% - 42px);
+  height: calc(100% - var(--sub-tab-group-height));
 }
 </style>

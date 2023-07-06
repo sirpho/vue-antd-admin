@@ -30,7 +30,7 @@ export default defineComponent({
       return state?.flag === 'profit' ? paneTable2 : paneTable1
     })
 
-    const [tableHeight, updateTableHeight] = useTableHeight(56, component)
+    const [tableHeight, updateTableHeight] = useTableHeight(44, component)
 
     const state = reactive({
       test: [],
@@ -395,7 +395,12 @@ export default defineComponent({
               },
               customize: (dataSource) => {
                 return (
-                  <a-tabs v-model:activeKey={state.flag} type="card" onChange={switchTab}>
+                  <a-tabs
+                    v-model:activeKey={state.flag}
+                    type="card"
+                    size="small"
+                    onChange={switchTab}
+                  >
                     <a-tab-pane key="income" tab="收入">
                       <TabsPaneTable
                         ref={paneTable1}
