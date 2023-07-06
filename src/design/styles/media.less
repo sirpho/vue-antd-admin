@@ -31,12 +31,59 @@ html {
         font-size: 12px;
       }
 
-      .gx-pro-table-form .gx-pro-table-form-container .ant-form-item {
-        margin-bottom: 6px;
-      }
+      // 查询栏缩小
+      .gx-pro-table-search {
+        .gx-pro-table-form {
+          font-size: 12px;
 
-      .gx-pro-table-form .gx-pro-table-form-container .gx-pro-table-form-collapse-button {
-        margin-bottom: 6px;
+          .gx-pro-table-form-container {
+            .ant-form-item {
+              margin-bottom: 6px;
+
+              .ant-col.ant-form-item-label {
+                > label {
+                  font-size: 12px;
+                  height: 26px;
+                }
+              }
+
+              .ant-col.ant-form-item-control {
+                .ant-form-item-control-input {
+                  min-height: 26px;
+
+                  .ant-select {
+                    .ant-select-selector {
+                      height: 26px;
+                      padding: 0 4px;
+
+                      .ant-select-selection-placeholder,
+                      .ant-select-selection-item {
+                        line-height: 26px;
+                      }
+                    }
+                  }
+
+                  .ant-picker {
+                    padding: 1px 4px;
+                  }
+
+                  .ant-input-affix-wrapper {
+                    padding: 1px 4px;
+
+                    input {
+                      line-height: 1;
+                      font-size: 12px;
+                    }
+                  }
+                }
+              }
+            }
+
+            .gx-pro-table-form-collapse-button {
+              margin-bottom: 6px;
+            }
+          }
+        }
       }
 
       .gx-pro-table-list-toolbar-container {
@@ -45,6 +92,10 @@ html {
 
       .ant-pagination.ant-table-pagination {
         margin: 5px 0 !important;
+      }
+
+      .ant-card-body {
+        padding: 12px;
       }
     }
 
@@ -84,7 +135,7 @@ html {
       .ant-table.ant-table-small .ant-table-title,
       .ant-table.ant-table-small tfoot > tr > td,
       .ant-table.ant-table-small tfoot > tr > th {
-        padding: 8px;
+        padding: 3px;
       }
 
       .ant-table.ant-table-middle .ant-table-footer,
@@ -93,7 +144,7 @@ html {
       .ant-table.ant-table-middle .ant-table-title,
       .ant-table.ant-table-middle tfoot > tr > td,
       .ant-table.ant-table-middle tfoot > tr > th {
-        padding: 10px;
+        padding: 5px;
       }
 
       .ant-table .ant-table-footer,
@@ -102,7 +153,7 @@ html {
       .ant-table tfoot > tr > th,
       .ant-table-tbody > tr > td,
       .ant-table-thead > tr > th {
-        padding: 12px;
+        padding: 7px;
       }
     }
 
@@ -113,15 +164,16 @@ html {
       .ant-table.ant-table-small .ant-table-title,
       .ant-table.ant-table-small tfoot > tr > td,
       .ant-table.ant-table-small tfoot > tr > th {
-        padding: 10px;
+        padding: 5px;
       }
+
       .ant-table.ant-table-middle .ant-table-footer,
       .ant-table.ant-table-middle .ant-table-tbody > tr > td,
       .ant-table.ant-table-middle .ant-table-thead > tr > th,
       .ant-table.ant-table-middle .ant-table-title,
       .ant-table.ant-table-middle tfoot > tr > td,
       .ant-table.ant-table-middle tfoot > tr > th {
-        padding: 12px;
+        padding: 7px;
       }
 
       .ant-table .ant-table-footer,
@@ -130,7 +182,7 @@ html {
       .ant-table tfoot > tr > th,
       .ant-table-tbody > tr > td,
       .ant-table-thead > tr > th {
-        padding: 14px;
+        padding: 9px;
       }
     }
   }

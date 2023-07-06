@@ -54,6 +54,19 @@ export function useTableHeight(gapH = 0, tableComputed?: ComputedRef) {
       cssHeight += (cardBodyDom && parseInt(getStyle(cardBodyDom, 'padding-top'))) || 0
       cssHeight += (cardBodyDom && parseInt(getStyle(cardBodyDom, 'padding-bottom'))) || 0
 
+      // console.log('=========start==========')
+      // console.log('viewDomH:', viewDomH)
+      // console.log('subTabGroupDomH:', subTabGroupDomH)
+      // console.log('searchDomH:', searchDomH)
+      // console.log('toolbarDomH:', toolbarDomH)
+      // console.log('tableTitleDomH:', tableTitleDomH)
+      // console.log('tableHeaderDomH:', tableHeaderDomH)
+      // console.log('tableSummaryDomH:', tableSummaryDomH)
+      // console.log('paginationDomH:', paginationDomH)
+      // console.log('cssHeight:', cssHeight)
+      // console.log('gapH:', gapH)
+      // console.log('=========end==========')
+
       return (
         viewDomH -
         subTabGroupDomH -

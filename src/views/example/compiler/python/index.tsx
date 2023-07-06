@@ -330,7 +330,6 @@ export default defineComponent({
           <g-pro-table
             class="python-page"
             row-key="id"
-            scroll={{ x: '100%', y: tableHeight } as any}
             align="center"
             search={{
               onCollapse: updateTableHeight
@@ -341,7 +340,6 @@ export default defineComponent({
             columns={state.columns}
             request={(params, _sort, _filter) => getTableList(params)}
             params={state.params}
-            pagination={state.flag === 'profit' ? false : undefined}
             v-slots={{
               toolBarBtn: () => {
                 return [
@@ -401,9 +399,10 @@ export default defineComponent({
                     <a-tab-pane key="income" tab="收入">
                       <TabsPaneTable
                         ref={paneTable1}
-                        scroll={{ x: '100%', y: tableHeight }}
+                        scroll={{ x: '100%', y: unref(tableHeight) }}
                         row-key="id"
-                        showIndex={false}
+                        showIndex
+                        align="center"
                         columns={state.columns1}
                         rowSelection={
                           {
@@ -431,9 +430,10 @@ export default defineComponent({
                     <a-tab-pane key="profit" tab="利润">
                       <TabsPaneTable
                         ref={paneTable2}
-                        scroll={{ x: '100%', y: tableHeight }}
+                        scroll={{ x: '100%', y: unref(tableHeight) }}
                         row-key="id"
-                        showIndex={false}
+                        showIndex
+                        align="center"
                         columns={state.columns2}
                         rowSelection={
                           {
