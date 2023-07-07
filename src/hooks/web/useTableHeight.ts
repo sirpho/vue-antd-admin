@@ -1,4 +1,4 @@
-import {ref, onMounted, onUnmounted, nextTick, ComputedRef} from 'vue'
+import {ComputedRef, nextTick, onMounted, onUnmounted, ref} from 'vue'
 // import { onMountedOrActivated } from '@gx-admin/hooks/core'
 
 const getStyle = (dom: Element, attr: string) => {
@@ -28,6 +28,7 @@ export function useTableHeight(gapH = 0, tableComputed?: ComputedRef) {
       const tableDom = tableComputed ? unref(tableComputed.value)?.$el : null
       const subTabGroupDom = viewDom.querySelector('.sub-tab-group')
       const gxProGridContentDom = viewDom.querySelector('.gx-pro-grid-content')
+      const gxProPageContentDom = viewDom.querySelector('.gx-pro-page-container-children-content')
       const searchDom = viewDom.querySelector('.gx-pro-table-search')
       const toolbarDom = viewDom.querySelector('.gx-pro-table-list-toolbar')
       const tableTitleDom = viewDom.querySelector('.ant-table-title')
@@ -53,6 +54,7 @@ export function useTableHeight(gapH = 0, tableComputed?: ComputedRef) {
       cssHeight += (paginationDom && parseInt(getStyle(paginationDom, 'margin-bottom'))) || 0
       cssHeight += (cardBodyDom && parseInt(getStyle(cardBodyDom, 'padding-top'))) || 0
       cssHeight += (cardBodyDom && parseInt(getStyle(cardBodyDom, 'padding-bottom'))) || 0
+      cssHeight += (gxProPageContentDom && parseInt(getStyle(gxProPageContentDom, 'padding-bottom'))) || 0
 
       // console.log('=========start==========')
       // console.log('viewDomH:', viewDomH)

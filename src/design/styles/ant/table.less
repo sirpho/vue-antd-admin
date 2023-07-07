@@ -66,6 +66,18 @@ html {
         padding: 0 6px;
         height: 28px;
       }
+
+      &.ant-table-cell-with-append {
+        position: relative;
+
+        .ant-table-row-indent + .ant-table-row-expand-icon {
+          margin-right: 8px;
+          top: 50%;
+          position: absolute;
+          transform: translate(0, -50%);
+          left: 8px;
+        }
+      }
     }
 
     .ant-table-empty {

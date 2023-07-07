@@ -54,11 +54,11 @@ export function usePagination({
 
     const pageInfo: ProTablePaginationConfig = {
       current: 1,
-      pageSize: 10,
+      pageSize: 15,
       size: 'normal',
       showQuickJumper: true,
       showSizeChanger: true,
-      pageSizeOptions: ['10', '20', '50', '100'],
+      pageSizeOptions: ['10', '15', '20', '30', '50', '100'],
       ...(pagination.value || {}),
       ...unref(configRef),
       ...(itemRenderProps || {})
