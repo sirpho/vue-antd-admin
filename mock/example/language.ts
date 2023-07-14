@@ -23,7 +23,7 @@ const genList = (pageNum: number, pageSize: number) => {
   for (let i = 0; i < pageSize; i += 1) {
     const index = (pageNum - 1) * 10 + i
     tableListDataSource.push({
-      id: index,
+      id: String(index),
       area: index % 10 < 5 ? '光之国' : 'M78星云',
       location: Math.floor(Math.random() * 200) > 100 ? '光之国' : 'M78星云',
       name: personList[Math.floor(Math.random() * 200) % personList.length].name,
@@ -105,7 +105,7 @@ function getList(params: TableListParams) {
 }
 
 function handleOperation(body, type) {
-  const { name, desc, id, ids } = body
+  const { id, ids } = body
   switch (type) {
     case 'delete':
       tableListDataSource = tableListDataSource.filter((item) => !ids.includes(item.id))
@@ -132,9 +132,20 @@ function handleOperation(body, type) {
     case 'update':
       tableListDataSource = tableListDataSource.map((item) => {
         if (item.id === id) {
-          return { ...item, desc, name }
+          return { ...body }
         }
         return item
+      })
+      break
+    case 'audit':
+      const item = tableListDataSource.find(item => item.id === id)
+      const index = statusList.map(item => item.name).indexOf(item.status)
+      item.status = statusList[(index + 1) % statusList.length].name
+      tableListDataSource = tableListDataSource.map((listItem) => {
+        if (listItem.id === id) {
+          return { ...item }
+        }
+        return listItem
       })
       break
     default:
@@ -204,5 +215,15 @@ export default [
       handleOperation(request.body, 'delete')
       return builder(token)
     }
-  }
+  },
+  {
+    url: '/mock-server/example/language/audit',
+    timeout: 200,
+    method: 'post',
+    response: (request: requestParams) => {
+      const token = getRequestToken(request)
+      handleOperation(request.body, 'audit')
+      return builder(token)
+    }
+  },
 ] as MockMethod[]

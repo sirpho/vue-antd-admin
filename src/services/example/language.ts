@@ -58,11 +58,12 @@ export function saveEntity(data: QueryParam) {
 export function updateEntity(data: QueryParam) {
   return request({
     url: `/example/language/update`,
-    method: 'post',
+    method: 'put',
     isMock: true,
     data
   })
 }
+
 // 更新
 export function deleteEntity(ids: string[]) {
   return request({
@@ -72,5 +73,16 @@ export function deleteEntity(ids: string[]) {
     data: {
       ids
     }
+  })
+}
+
+
+// 更新
+export function auditEntity(data: QueryParam) {
+  return request({
+    url: `/example/language/audit`,
+    method: 'post',
+    isMock: true,
+    data
   })
 }

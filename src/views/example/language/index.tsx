@@ -2,17 +2,27 @@ import { useTableHeight } from '@/hooks/web/useTableHeight'
 import { useStorePermission } from '@/store'
 import { RequestData } from '@gx-design/ProTable/types/table'
 import { resetDict, useDict } from '@/hooks/web'
-import { queryList, exportList, importEntity } from '@/services/example/language'
+import {
+  queryList,
+  exportList,
+  importEntity,
+  deleteEntity,
+  auditEntity
+} from '@/services/example/language'
 import { percentage, thousandsSeparator } from '@sirpho/utils'
 import { statusColumns } from '@/views/example/language/utils/config'
 import dayjs from 'dayjs'
+import OperationModal from './components/OperationModal'
+import ApprovalModal from './components/ApprovalModal'
 
 const { hasPermission } = useStorePermission()
 export default defineComponent({
+  components: { OperationModal, ApprovalModal },
   setup() {
     const tableRef = ref()
+    const operationRef = ref()
+    const approvalRef = ref()
     const resetRelatedDict = resetDict(['STATUS'])
-    // const operation = ref()
     const [statusList, personTypeList, personList] = useDict([
       'STATUS', // 状态列表
       'PERSON_TYPE', // 状态列表
@@ -141,6 +151,11 @@ export default defineComponent({
             return record.status || '--'
           },
           width: 120
+        },
+        {
+          title: '操作',
+          width: 220,
+          dataIndex: 'action'
         }
       ],
       tableData: [],
@@ -150,7 +165,12 @@ export default defineComponent({
       selectedPersonType: undefined,
       authMap: {
         export: hasPermission('example:language'),
-        import: hasPermission('example:language')
+        import: hasPermission('example:language'),
+        add: hasPermission('example:language'),
+        update: hasPermission('example:language'),
+        watch: hasPermission('example:language'),
+        remove: hasPermission('example:language'),
+        audit: hasPermission('example:language')
       }
     })
 
@@ -234,6 +254,54 @@ export default defineComponent({
     }
 
     /**
+     * 新增
+     */
+    const handleAdd = () => {
+      operationRef.value?.open()
+    }
+
+    /**
+     * 编辑
+     * @param record
+     */
+    const handleEdit = (record: any) => {
+      operationRef.value?.edit(record)
+    }
+
+    /**
+     * 查看
+     * @param record
+     */
+    const handleWatch = (record: any) => {
+      operationRef.value?.watch(record)
+    }
+
+    /**
+     * 审核
+     * @param record
+     */
+    const handleAudit = (record: any) => {
+      approvalRef.value?.audit(record.id)
+    }
+
+    /**
+     * 删除
+     * @param record
+     */
+    const handleRemove = async (record: any) => {
+      if (state.removeLoadMap[record.id]) {
+        return
+      }
+      state.removeLoadMap[record.id] = true
+      const res = await deleteEntity([record.id]).finally(() => {
+        state.removeLoadMap[record.id] = false
+      })
+      if (res.code === 0) {
+        handleOk([record.id])
+      }
+    }
+
+    /**
      * 刷新表格并重置相关的枚举
      */
     const handleOk = (removeKeys?: string[]) => {
@@ -260,6 +328,12 @@ export default defineComponent({
             v-slots={{
               toolBarBtn: () => {
                 return [
+                  state.authMap.add && (
+                    <a-button type="primary" key="add" size="small" onClick={() => handleAdd()}>
+                      <plus-outlined />
+                      新增
+                    </a-button>
+                  ),
                   state.authMap.export && (
                     <a-button key="export" size="small" onClick={handleExport}>
                       <cloud-download-outlined />
@@ -285,6 +359,38 @@ export default defineComponent({
                     </a-space>
                   )
                 }
+                if (column.dataIndex === 'action') {
+                  return [
+                    state.authMap.update && (
+                      <a-button type="link" onClick={() => handleEdit(record)}>
+                        编辑
+                      </a-button>
+                    ),
+                    state.authMap.watch && (
+                      <a-button type="link" onClick={() => handleWatch(record)}>
+                        查看
+                      </a-button>
+                    ),
+                    state.authMap.remove && (
+                      <a-popconfirm
+                        placement="topLeft"
+                        title="确定要删除吗？"
+                        onConfirm={() => handleRemove(record)}
+                        okText="确定"
+                        cancelText="取消"
+                      >
+                        <a-button danger loading={state.removeLoadMap[record.id]} type="link">
+                          删除
+                        </a-button>
+                      </a-popconfirm>
+                    ),
+                    state.authMap.audit && (
+                      <a-button type="link" onClick={() => handleAudit(record)}>
+                        审核
+                      </a-button>
+                    )
+                  ]
+                }
               },
               summary: () => {
                 if (state.tableData.length > 0) {
@@ -302,6 +408,9 @@ export default defineComponent({
                         <a-table-summary-cell index={11} align="center">
                           /
                         </a-table-summary-cell>
+                        <a-table-summary-cell index={12} align="center">
+                          /
+                        </a-table-summary-cell>
                       </a-table-summary-row>
                     </a-table-summary>
                   )
@@ -316,6 +425,8 @@ export default defineComponent({
             request={queryList}
             columns={statusColumns}
           />
+          <OperationModal ref={operationRef} onHandleOk={() => handleOk()} />
+          <ApprovalModal ref={approvalRef} operation={auditEntity} onHandleOk={() => handleOk()} />
         </g-pro-page-container>
       )
     }
