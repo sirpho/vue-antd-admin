@@ -2,6 +2,7 @@ import { defineComponent, reactive } from 'vue'
 import { proModalProps } from '@gx-design/ProModal/props'
 import { v4 } from 'uuid'
 import { cloneDeep } from 'lodash-es'
+import './index.less'
 export default defineComponent({
   name: 'DataPicker',
   emit: ['handleOk'],
@@ -219,11 +220,15 @@ export default defineComponent({
     return () => (
       <g-pro-modal
         type="normal"
+        class="data-picker-modal"
         title={props.title}
         visible={state.visible}
         isFail={state.isFail}
         showIndex={false}
         spinning={false}
+        keyboard={false}
+        maskClosable={false}
+        fullscreen={false}
         skeletonLoading={state.skeletonLoading}
         onCancel={handleCancel}
         footer={
@@ -247,6 +252,7 @@ export default defineComponent({
           scroll={{ x: '100%', y: 300 }}
           align="center"
           showIndex
+          modalScroll
           options={false}
           columns={props.columns}
           rowSelection={{

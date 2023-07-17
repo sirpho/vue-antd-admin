@@ -1,9 +1,9 @@
-let config = {
-  ip: '192.168.1.1',
-  username: 'root',
-  port: '22',
-  password: 'cGFzc3dvcmQ=',
-  path: '/var/www/html/fund-chain',
-  rmpath: '/var/www/html/fund-chain'
-}
+const config = {
+  ip: "10.254.9.208",
+  username: "root",
+  port: "22",
+  password: "SE9OR3NAMjAyMA==",
+  path: "/var/www/html/template",
+  rmpath: "/var/www/html/template",
+};
 module.exports = config;

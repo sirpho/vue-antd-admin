@@ -155,7 +155,7 @@ export default defineComponent({
 
     const renderDefault = () => (
       <>
-        {props.fullscreen && props.showClose && (
+        {(props.fullscreen || props.showClose) && (
           <div class={`${baseClassName}-close`}>
             <span class={`${baseClassName}-close-x`}>
               <Space size={24}>

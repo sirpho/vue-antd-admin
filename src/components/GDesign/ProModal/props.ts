@@ -70,7 +70,7 @@ export const proModalProps = {
   contentStyle: PropTypes.style,
   draggable: PropTypes.bool.def(true),
   showClose: PropTypes.bool.def(true),
-  fullscreen: PropTypes.bool.def(true),
+  fullscreen: PropTypes.bool.def(false),
   extra: PropTypes.VueNode,
   destroyOnClose: PropTypes.bool.def(true),
   hiddenFooter: PropTypes.bool.def(false),
