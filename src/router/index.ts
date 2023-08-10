@@ -32,7 +32,7 @@ export const constantRoutes: AppRouteModule[] = [
           hideInMenu: true,
           title: '登录'
         },
-        component: () => import('@/views/User/login/index.vue')
+        component: () => import('@/views/User/login/index')
       }
     ]
   },
@@ -174,6 +174,32 @@ export const asyncRoutes: AppRouteModule[] = [
                 },
               },
             ]
+          },
+          {
+            path: '/example/computer',
+            component: () => import('@/views/example/computer/list/index'),
+            name: '计算机管理',
+            authority: 'example:language',
+            meta: {
+              title: '计算机管理',
+              tagFixed: false,
+              tagHidden: false,
+              icon: 'beer',
+              iconType: 'iconfont',
+              hideInMenu: false
+            },
+          },
+          {
+            path: '/example/computer/add/:code',
+            component: () => import('@/views/example/computer/edit/index'),
+            name: '新增计算机',
+            meta: {
+              title: '新增计算机',
+              tagFixed: false,
+              tagHidden: false,
+              icon: 'file-text-outlined',
+              hideInMenu: true
+            }
           },
         ]
       },

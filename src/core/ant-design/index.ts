@@ -31,7 +31,8 @@ import {
   Modal,
   Descriptions,
   Tabs,
-  DescriptionsItem
+  DescriptionsItem,
+  Badge
 } from 'ant-design-vue'
 
 const antDesign = (app) => {
@@ -67,6 +68,7 @@ const antDesign = (app) => {
   app.use(Descriptions)
   app.use(Tabs)
   app.use(DescriptionsItem)
+  app.use(Badge)
   message.config({
     duration: 2,
     maxCount: 1
