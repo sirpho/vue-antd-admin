@@ -35,6 +35,7 @@ async function connectSSh(config) {
     .then(() => {
       console.log('上传完成', new Date());
       sftp.end();
+      removeDist();
     })
     .catch(err => {
       console.log(err, '失败', new Date());
@@ -64,6 +65,29 @@ async function runTask() {
     await compileDist('build:prod') //打包完成
     await connectSSh(configProd) //提交上传
     writeLog(configProd, mode)
+  }
+}
+// 删除dist目录
+function removeDist() {
+  deleteFolder(path.resolve(__dirname, "../dist"));
+  console.log("删除dist目录");
+}
+// 递归删除文件夹
+function deleteFolder(path) {
+  let files = [];
+  if (fs.existsSync(path)) {
+    files = fs.readdirSync(path);
+    files.forEach(function (file, _index) {
+      const curPath = path + "/" + file;
+      if (fs.statSync(curPath).isDirectory()) {
+        // recurse
+        deleteFolder(curPath);
+      } else {
+        // delete file
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
   }
 }
 runTask();
