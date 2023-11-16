@@ -1,6 +1,6 @@
 {
-  "name": "gx-pro-admin",
-  "version": "1.0.0",
+  "name": "vue-antd-admin",
+  "version": "1.0.1",
   "scripts": {
     "bootstrap": "pnpm i",
     "serve": "pnpm run dev",

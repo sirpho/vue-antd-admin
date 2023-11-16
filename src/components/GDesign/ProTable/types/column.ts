@@ -156,6 +156,8 @@ export type ProColumn = {
   fixed?: FixedType
   customHeaderCell?: GetComponentProps<ProColumns[]>
   ellipsis?: CellEllipsisType
+  tooltip?: boolean
+  overflowLine?: number
   align?: AlignType
 
   customFilterDropdown?: boolean

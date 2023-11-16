@@ -214,11 +214,19 @@ export const proTableProps = {
     default: false
   },
   /**
-   * 所有字段统一设置的省略显示开关
+   * 所有字段统一设置的tooltip显示开关
    */
-  ellipsis: {
+  tooltip: {
     type: [Boolean, Object] as PropType<CellEllipsisType>,
     default: true
+  },
+  /**
+   * 内容超出几行显示 默认一行
+   * 可在table统一配置也可以在column上单独配置
+   */
+  overflowLine : {
+    type: Number,
+    default: 1
   },
   /**
    * @description Pro-Table 的方法

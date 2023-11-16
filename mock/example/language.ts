@@ -30,12 +30,13 @@ const genList = (pageNum: number, pageSize: number) => {
       englishName: personList[Math.floor(Math.random() * 200) % personList.length].value,
       personType: personTypeList[Math.floor(Math.random() * 200) % personTypeList.length],
       desc: typeList[i % typeList.length].name,
+      memo: typeList[i % typeList.length].memo,
       callNo: Math.floor(Math.random() * 1000),
       status: statusList[Math.floor(Math.random() * 10) % statusList.length].name,
       updatedAt: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss'),
       createdAt: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss'),
       progress: Math.random(),
-      money: Math.ceil(Math.random() * 6000)
+      money: Math.ceil(Math.random() * 6000),
     })
   }
   tableListDataSource.reverse()

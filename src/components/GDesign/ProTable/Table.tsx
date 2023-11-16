@@ -13,7 +13,7 @@ import {
 } from 'vue'
 import { cloneDeep, omit } from 'lodash-es'
 import { useFullscreen } from '@vueuse/core'
-import { Table, Grid, Spin, Pagination, Tooltip, Typography, TableProps } from 'ant-design-vue'
+import { Table, Grid, Spin, Pagination, Typography, TableProps } from 'ant-design-vue'
 import Nodata from '@/assets/public_images/nodata.png'
 import type { PaginationProps } from 'ant-design-vue/lib/pagination'
 import { getPrefixCls, getSlotVNode } from '@gx-admin/utils'
@@ -104,7 +104,10 @@ const GProTable = defineComponent({
           ...item,
           key: item.key || (item.dataIndex as string),
           align: item.align || props.align,
-          ellipsis: item.ellipsis || props.ellipsis,
+          // 不使用antd自带的ellipsis功能，采用自定义的overflow-tooltip组件实现
+          ellipsis: false,
+          tooltip: item.tooltip === false ? false : item.tooltip || props.tooltip,
+          overflowLine: item.overflowLine || props.overflowLine,
           uuid: getRandomNumber().uuid(15)
         }
       })
@@ -411,31 +414,29 @@ const GProTable = defineComponent({
      */
     const tooltipSlot = (value, success, record) => {
       let show = value
-      const placement =
-        record.align === 'center'
-          ? 'top'
-          : record.align === 'left' || !record.align
-          ? 'topLeft'
-          : 'topRight'
-      if (success && record.copyable && value && value.length > 0) {
-        show = (
-          <Typography.Paragraph
-            class={`${baseClassName}-copyable`}
-            style={{ margin: '0', width: '100%', padding: '0' }}
-            copyable
-          >
-            <Tooltip title={value} placement={placement}>
-              <div class={`${baseClassName}-ellipsis`}>{value}</div>
-            </Tooltip>
-          </Typography.Paragraph>
-        )
-      } else if (success && !record.copyable) {
-        show = (
-          <OverflowTooltip title={value} placement={placement}>
-            {isTreeDataRef.value ? value : <div class={`${baseClassName}-ellipsis`}>{value}</div>}
-          </OverflowTooltip>
-        )
+      const content = record.tooltip ? (
+        <OverflowTooltip overflowLine={record.overflowLine} title={value}>
+          {value}
+        </OverflowTooltip>
+      ) : (
+        value
+      )
+      if (success) {
+        if (record.copyable && value && value.length > 0) {
+          show = (
+            <Typography.Paragraph
+              class={`${baseClassName}-copyable`}
+              style={{ margin: '0', width: '100%', padding: '0' }}
+              copyable
+            >
+              {content}
+            </Typography.Paragraph>
+          )
+        } else {
+          show = content
+        }
       }
+
       return show
     }
 
@@ -516,7 +517,7 @@ const GProTable = defineComponent({
                     text,
                     (column as any)?.columnEmptyText || props?.columnEmptyText
                   )
-                  return (column as any)?.ellipsis
+                  return (column as any)?.tooltip || (column as any)?.copyable
                     ? tooltipSlot(value, success, column as ProColumns)
                     : value
                 }}

@@ -5,6 +5,10 @@ import { getPadding } from '@gx-design/ProTable/utils'
 
 export default defineComponent({
   props: {
+    overflowLine: {
+      type: Number,
+      default: 1
+    },
     ...tooltipProps()
   },
   setup(props, { slots }) {
@@ -38,19 +42,25 @@ export default defineComponent({
           : false
     }
 
-    /**
-     * 鼠标移出
-     * @param _event
-     */
-    const handleMouseLeave = (_event: MouseEvent) => {
-      // visible.value = false
-    }
+    // /**
+    //  * 鼠标移出
+    //  * @param _event
+    //  */
+    // const handleMouseLeave = (_event: MouseEvent) => {
+    //   // visible.value = false
+    // }
 
     const cssStyle: CSSProperties = {
-      overflow: 'hidden',
+      width: '100%'
+    }
+
+    const ellipsisStyle: CSSProperties = {
+      wordBreak: 'break-all',
       textOverflow: 'ellipsis',
-      wordBreak: 'break-word',
-      whiteSpace: 'nowrap',
+      display: '-webkit-box',
+      '-webkit-box-orient': 'vertical',
+      '-webkit-line-clamp': props.overflowLine /* 这里是超出几行省略 */,
+      overflow: 'hidden',
       width: '100%'
     }
 
@@ -60,10 +70,12 @@ export default defineComponent({
           class="overflow-tooltip"
           style={cssStyle}
           onMouseenter={(e) => handleMouseEnter(e)}
-          onMouseleave={(e) => handleMouseLeave(e)}
+          // onMouseleave={(e) => handleMouseLeave(e)}
         >
           <Tooltip {...props} visible={unref(visible)}>
-            <div class="overflow-tooltip__cell">{slots.default?.()}</div>
+            <div class="overflow-tooltip__cell" style={ellipsisStyle}>
+              {slots.default?.()}
+            </div>
           </Tooltip>
         </div>
       )

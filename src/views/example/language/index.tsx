@@ -67,6 +67,7 @@ export default defineComponent({
           dataIndex: 'updatedAt',
           width: 120,
           format: 'YYYY-MM',
+          overflowLine: 2,
           initialValue: dayjs().subtract(1, 'month').format('YYYY-MM')
         },
         {
@@ -74,6 +75,12 @@ export default defineComponent({
           dataIndex: 'name',
           search: true,
           width: 120
+        },
+        {
+          title: '备注',
+          dataIndex: 'memo',
+          overflowLine: 2,
+          width: 180
         },
         {
           title: '人物类型',
