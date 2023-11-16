@@ -188,12 +188,12 @@ export default defineComponent({
       let rowSpan = 1
       for (let i = list.length - 1; i >= 0; i--) {
         const item = list[i]
-        // 籍贯与居住地相同则合并
+        // 左右列相同则合并
         if (item.area === item.location) {
           item.colSpan = 2
         }
         if (i > 0) {
-          // 籍贯相同的合并
+          // 上下行相同的合并
           const nextItem = list[i - 1]
           if (item.area === nextItem.area && item.location === nextItem.location) {
             item.rowSpan = 0
@@ -405,17 +405,17 @@ export default defineComponent({
                     <a-table-summary fixed>
                       <a-table-summary-row>
                         <a-table-summary-cell align="center">合计</a-table-summary-cell>
-                        <a-table-summary-cell index={1} col-span={8} />
-                        <a-table-summary-cell index={9} align="center">
+                        <a-table-summary-cell index={1} col-span={9} />
+                        <a-table-summary-cell index={10} align="center">
                           {percentage(1)}
                         </a-table-summary-cell>
-                        <a-table-summary-cell index={10} align="center">
-                          5000
-                        </a-table-summary-cell>
                         <a-table-summary-cell index={11} align="center">
-                          /
+                          这是自定义文字
                         </a-table-summary-cell>
                         <a-table-summary-cell index={12} align="center">
+                          /
+                        </a-table-summary-cell>
+                        <a-table-summary-cell index={13} align="center">
                           /
                         </a-table-summary-cell>
                       </a-table-summary-row>

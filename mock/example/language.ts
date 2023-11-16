@@ -24,8 +24,8 @@ const genList = (pageNum: number, pageSize: number) => {
     const index = (pageNum - 1) * 10 + i
     tableListDataSource.push({
       id: String(index),
-      area: index % 10 < 5 ? '光之国' : 'M78星云',
-      location: Math.floor(Math.random() * 200) > 100 ? '光之国' : 'M78星云',
+      area: index % 10 < 5 ? '面向对象' : '函数式编程',
+      location: Math.floor(Math.random() * 200) > 100 ? '面向对象' : '函数式编程',
       name: personList[Math.floor(Math.random() * 200) % personList.length].name,
       englishName: personList[Math.floor(Math.random() * 200) % personList.length].value,
       personType: personTypeList[Math.floor(Math.random() * 200) % personTypeList.length],
