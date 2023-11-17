@@ -6,8 +6,6 @@ import legacy from '@vitejs/plugin-legacy'
 
 import vueSetupExtend from 'vite-plugin-vue-setup-extend'
 
-import windiCSS from 'vite-plugin-windicss'
-
 import { configHtmlPlugin } from './html'
 import { configMockPlugin } from './mock'
 import { createAutoImport } from './autoImport'
@@ -29,9 +27,6 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
     // have to
     vueJsx()
   ]
-
-  // vite-plugin-windicss
-  vitePlugins.push(windiCSS())
 
   // vite-plugin-vue-setup-extend
   vitePlugins.push(vueSetupExtend())
