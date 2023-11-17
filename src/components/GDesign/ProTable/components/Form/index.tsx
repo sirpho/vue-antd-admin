@@ -36,7 +36,7 @@ export default defineComponent({
     )
 
     const searchProp = computed(() => Object.assign({ ...defaultSearchProp }, props.search))
-    const advanced = ref(true)
+    const collapse = ref(searchProp.value.collapse)
 
     const hasSearch = computed(() => !!searchProp.value.showSearch)
     const hasReset = computed(() =>
@@ -65,15 +65,14 @@ export default defineComponent({
     watch(
       () => searchProp.value.defaultCollapsed,
       (value) => {
-        advanced.value = advanced.value || value
+        collapse.value = collapse.value || value
       }
     )
 
     const getColSpanStyle = (colSpan: ColConfig) => {
       let span: number | string | undefined = 4
-
       // colSpan 响应式
-      for (let i = 0; i < responsiveArray.length; i += 1) {
+      for (let i = 0; i < responsiveArray.length; i++) {
         const breakpoint: Breakpoint = responsiveArray[i].value
         if (screens.value[breakpoint]) {
           span = colSpan?.[breakpoint] || (props.modal ? 3 : responsiveArray[i].span)
@@ -84,8 +83,8 @@ export default defineComponent({
       return span as number
     }
 
-    const changeAdvanced = (status: boolean) => {
-      advanced.value = status
+    const changeCollapse = (status: boolean) => {
+      collapse.value = status
       emit('collapse', status)
     }
 
@@ -178,6 +177,11 @@ export default defineComponent({
       }
     }
 
+    /**
+     * 提交查询
+     * @param isManual  是否是手动触发，用于判断是否重置页码
+     * @param isReset   是否是重置查询
+     */
     const handleSubmit = (isManual?: boolean, isReset?: boolean) => {
       nextTick(() => {
         const params: RecordType = cloneDeep(formState)
@@ -191,11 +195,17 @@ export default defineComponent({
       })
     }
 
+    /**
+     * 重置查询
+     */
     const resetForm = () => {
       resetFormState()
       handleSubmit(true, true)
     }
 
+    /**
+     * 查询表格重置、搜索按钮渲染
+     */
     const optionRender = () =>
       (hasSearch.value || hasReset.value) && (
         <Space>
@@ -214,19 +224,26 @@ export default defineComponent({
         </Space>
       )
 
-    const AdvancedSlot = ({ formItemStyle, advanced, showAdvanced = true }) => (
+    /**
+     * 表格查询操作按钮与伸缩操作渲染
+     * @param formItemStyle          样式
+     * @param collapse               是否已折叠
+     * @param showTelescopicButtons  是否展示伸缩操作栏
+     * @constructor
+     */
+    const OperationSlot = ({ formItemStyle, collapse, showTelescopicButtons = true }) => (
       <div style={formItemStyle} class={`${unref(props.prefixCls)}-form-collapse-button`}>
         <Space size={16}>
           {optionRender()}
-          {showAdvanced && (
-            <a onClick={() => changeAdvanced(!advanced)}>
-              {advanced ? '收起' : '展开'}
+          {showTelescopicButtons && (
+            <a onClick={() => changeCollapse(!collapse)}>
+              {collapse ? '展开' : '收起'}
               {searchProp.value.collapseRender ? (
-                searchProp.value.collapseRender()
-              ) : advanced ? (
-                <UpOutlined />
-              ) : (
+                searchProp.value.collapseRender(collapse)
+              ) : collapse ? (
                 <DownOutlined />
+              ) : (
+                <UpOutlined />
               )}
             </a>
           )}
@@ -477,51 +494,49 @@ export default defineComponent({
 
     const FormItemRender = () => {
       const defaultSlots = filterEmpty([...slots.default?.()]) || []
-      const formNode = [...props.searchMap, ...defaultSlots]
+      const formNodeList = [...props.searchMap, ...defaultSlots]
 
-      return formNode.map((item, index) => {
+      return formNodeList.map((item, index) => {
+        // 去掉每个formItem margin-right: 2%后平分
         const rowWidth = {
           width: `${(100 - (rowLength.value - 1) * 2) / rowLength.value}%`
         }
         const formItemStyle = getStyleWidth(index, rowLength.value, rowWidth)
 
-        if (formNode.length < rowLength.value || advanced.value) {
+        // 当前是收起状态
+        if (collapse.value) {
           return (
             <>
-              {FormItemWrapper({ formItemStyle, item })}
-              {index === formNode.length - 1 &&
-                AdvancedSlot({
+              {(index < rowLength.value - 1 || (rowLength.value === 1 && index === 0)) &&
+                FormItemWrapper({
+                  formItemStyle,
+                  item
+                })}
+              {index === rowLength.value - 1 &&
+                OperationSlot({
                   formItemStyle: {
                     flex: 1,
                     justifyContent: 'flex-end'
                   },
-                  advanced: advanced.value,
-                  showAdvanced: formNode.length > rowLength.value
+                  collapse: collapse.value,
+                  showTelescopicButtons: formNodeList.length > rowLength.value
                 })}
             </>
           )
         } else {
+          // 当前是展开状态
           return (
             <>
-              {index < rowLength.value - 1 &&
-                FormItemWrapper({
-                  formItemStyle,
-                  item
-                })}
-              {index === rowLength.value - 1 &&
-                rowLength.value - 1 === 0 &&
-                FormItemWrapper({
-                  formItemStyle,
-                  item
-                })}
-              {index === rowLength.value - 1 &&
-                AdvancedSlot({
+              {FormItemWrapper({ formItemStyle, item })}
+              {/* 渲染最后一个时带出操作栏 */}
+              {index === formNodeList.length - 1 &&
+                OperationSlot({
                   formItemStyle: {
                     flex: 1,
                     justifyContent: 'flex-end'
                   },
-                  advanced: false,
-                  showAdvanced: formNode.length > rowLength.value
+                  collapse: collapse.value,
+                  showTelescopicButtons: formNodeList.length > rowLength.value
                 })}
             </>
           )

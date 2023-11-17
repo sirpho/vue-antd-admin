@@ -201,7 +201,8 @@ export default defineComponent({
             scroll={{ x: '100%', y: unref(tableHeight) } as any}
             align="center"
             search={{
-              onCollapse: updateTableHeight
+              onCollapse: updateTableHeight,
+              collapse: false
             }}
             showIndex
             actionRef={(info) => (tableRef.value = info)}

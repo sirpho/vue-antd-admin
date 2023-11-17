@@ -15,10 +15,16 @@ import type { ColumnsState, ColumnsStateType } from './hooks/useColumnSetting'
 import { SearchConfig } from './types/table'
 import { CellEllipsisType } from "ant-design-vue/lib/vc-table/interface";
 export const defaultSearchProp = {
+  /* 重置按钮文案 */
   resetText: '重置',
+  /* 查询按钮文案 */
   searchText: '查询',
+  /* 是否显示查询按钮 */
   showSearch: true,
-  showReset: true
+  /* 是否显示重置按钮 */
+  showReset: true,
+  /* 表格查询栏伸缩配置，默认收起 */
+  collapse: true,
 }
 
 export const defaultProps = {
