@@ -3,12 +3,9 @@
  */
 import { GLOB_CONFIG_FILE_NAME, OUTPUT_DIR } from '../constant'
 import fs, { writeFileSync } from 'fs-extra'
-import chalk from 'chalk'
 
 import { getRootPath, getEnvConfig } from '../utils'
 import { getConfigFileName } from '../getConfigFileName'
-
-import pkg from '../../package.json'
 
 function createConfig(
   {
@@ -30,10 +27,11 @@ function createConfig(
     fs.mkdirp(getRootPath(OUTPUT_DIR))
     writeFileSync(getRootPath(`${OUTPUT_DIR}/${configFileName}`), configStr)
 
-    console.log(chalk.cyan(`✨ [${pkg.name}]`) + ` - configuration file is build successfully:`)
-    console.log(chalk.gray(OUTPUT_DIR + '/' + chalk.green(configFileName)) + '\n')
+    console.log(`configuration file is build successfully:`)
+    console.log(`${OUTPUT_DIR}/${configFileName}`)
   } catch (error) {
-    console.log(chalk.red('configuration file configuration file failed to package:\n' + error))
+    console.log("configuration file configuration file failed to package:")
+    console.log(error)
   }
 }
 

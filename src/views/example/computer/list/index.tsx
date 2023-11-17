@@ -82,7 +82,18 @@ export default defineComponent({
           valueType: 'select',
           valueEnum: () => unref(statusList) || [],
           customRender: ({ record }) => {
-            return record.status || '--'
+            let status = 'default'
+            if (record.status?.includes('驳回')) {
+              status = 'error'
+            } else if (record.status?.includes('待提交')) {
+              status = 'default'
+            } else if (record.status?.includes('审核中')) {
+              status = 'processing'
+            } else if (record.status?.includes('已生效')) {
+              status = 'success'
+            }
+
+            return <a-badge status={status} text={record.status || '--'}></a-badge>
           },
           width: 120
         },
@@ -211,20 +222,6 @@ export default defineComponent({
                 ]
               },
               bodyCell: ({ column, record }) => {
-                if (column.dataIndex === 'status') {
-                  let status = 'default'
-                  if (record.status.includes('驳回')) {
-                    status = 'error'
-                  } else if (record.status.includes('待提交')) {
-                    status = 'default'
-                  } else if (record.status.includes('审核中')) {
-                    status = 'processing'
-                  } else if (record.status.includes('已生效')) {
-                    status = 'success'
-                  }
-
-                  return <a-badge status={status} text={record.status}></a-badge>
-                }
                 if (column.dataIndex === 'action') {
                   return [
                     state.authMap.update && (

@@ -1,10 +1,6 @@
 // #!/usr/bin/env node
 
 import { runBuildConfig } from './buildConf'
-import chalk from 'chalk'
-
-import pkg from '../../package.json'
-
 export const runBuild = async () => {
   try {
     const argvList = process.argv.splice(2)
@@ -14,9 +10,10 @@ export const runBuild = async () => {
       await runBuildConfig()
     }
 
-    console.log(`✨ ${chalk.cyan(`[${pkg.name}]`)}` + ' - build successfully!')
+    console.log(`build successfully!`)
   } catch (error) {
-    console.log(chalk.red('vite build error:\n' + error))
+    console.log("vite build error:")
+    console.log(error)
     process.exit(1)
   }
 }

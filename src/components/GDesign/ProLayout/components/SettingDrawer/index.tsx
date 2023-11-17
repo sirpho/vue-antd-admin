@@ -10,13 +10,12 @@ import {
 import config from '/config/config'
 import { themeConfig } from '/config/default/themeColor'
 import { PropTypes } from '@/utils'
-import clip from '@/utils/clipboard'
 import { getPrefixCls } from '@gx-admin/utils'
 import BlockCheckbox from './BlockCheckbox'
 import ThemeColor from './ThemeColor'
 import LayoutSetting, { renderLayoutSettingItem } from './LayoutSetting'
 import { ProSettingsProps } from '../../defaultSettings'
-
+import { useClipboard } from '@vueuse/core'
 const { defaultSettings } = config
 
 export const settingDrawerProps = {
@@ -59,6 +58,7 @@ const SettingDrawer = defineComponent({
       suffixCls: 'setting-drawer',
       isPor: true
     })
+    const { copy } = useClipboard()
 
     const show: Ref<boolean> = ref(false)
 
@@ -73,7 +73,13 @@ const SettingDrawer = defineComponent({
       fontSize: 20
     })
 
-    const genCopySettingJson = (settings) => JSON.stringify(settings)
+    /**
+     * 复制
+     */
+    const handleClipboard = (settings) => {
+      copy(JSON.stringify(settings))
+      message.success('拷贝成功，请到 config/default/theme.js 中替换默认配置')
+    }
 
     const getThemeList = () => {
       const themeList = [
@@ -230,18 +236,15 @@ const SettingDrawer = defineComponent({
                 <Button
                   block
                   onClick={() =>
-                    clip(
-                      genCopySettingJson({
-                        theme,
-                        layout,
-                        splitMenus,
-                        fixedHeader,
-                        fixSiderbar,
-                        showTabsBar,
-                        showProgressBar
-                      }),
-                      '拷贝成功，请到 config/default/theme.js 中替换默认配置'
-                    )
+                    handleClipboard({
+                      theme,
+                      layout,
+                      splitMenus,
+                      fixedHeader,
+                      fixSiderbar,
+                      showTabsBar,
+                      showProgressBar
+                    })
                   }
                 >
                   <CopyOutlined />
