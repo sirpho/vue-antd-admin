@@ -1,4 +1,10 @@
 @pagination-small-size: 26px;
+@media only screen and (max-height: 768px) {
+  :root {
+    --common-space: 0px;
+    --common-space-half: 0px;
+  }
+}
 html {
   body {
     // 1366*768超小屏幕
@@ -29,7 +35,7 @@ html {
       .ant-table tfoot > tr > th,
       .ant-table-tbody > tr > td,
       .ant-table-thead > tr > th {
-        padding: 2px;
+        padding: 0;
         font-size: 12px;
       }
 
@@ -83,6 +89,10 @@ html {
 
             .gx-pro-table-form-collapse-button {
               margin-bottom: 6px;
+              .ant-btn {
+                height: 28px;
+                line-height: 18px;
+              }
             }
           }
         }
@@ -143,7 +153,7 @@ html {
       .ant-table.ant-table-small .ant-table-title,
       .ant-table.ant-table-small tfoot > tr > td,
       .ant-table.ant-table-small tfoot > tr > th {
-        padding: 2px;
+        padding: 3px;
       }
 
       .ant-table.ant-table-middle .ant-table-footer,
@@ -152,7 +162,7 @@ html {
       .ant-table.ant-table-middle .ant-table-title,
       .ant-table.ant-table-middle tfoot > tr > td,
       .ant-table.ant-table-middle tfoot > tr > th {
-        padding: 4px;
+        padding: 3px;
       }
 
       .ant-table .ant-table-footer,
@@ -161,7 +171,7 @@ html {
       .ant-table tfoot > tr > th,
       .ant-table-tbody > tr > td,
       .ant-table-thead > tr > th {
-        padding: 6px;
+        padding: 3px;
       }
     }
 
@@ -182,7 +192,7 @@ html {
       .ant-table.ant-table-middle .ant-table-title,
       .ant-table.ant-table-middle tfoot > tr > td,
       .ant-table.ant-table-middle tfoot > tr > th {
-        padding: 7px;
+        padding: 5px;
       }
 
       .ant-table .ant-table-footer,
@@ -191,7 +201,7 @@ html {
       .ant-table tfoot > tr > th,
       .ant-table-tbody > tr > td,
       .ant-table-thead > tr > th {
-        padding: 9px;
+        padding: 5px;
       }
     }
   }

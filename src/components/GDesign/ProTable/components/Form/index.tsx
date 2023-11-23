@@ -1,4 +1,4 @@
-import { computed, defineComponent, nextTick, ref, unref, watch } from 'vue'
+import { computed, defineComponent, nextTick, ref, unref } from 'vue'
 import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash-es'
 import { Button, DatePicker, Form, Grid, Input, Select, Space, TreeSelect } from 'ant-design-vue'
@@ -61,13 +61,6 @@ export default defineComponent({
     ]
 
     const rowLength = computed(() => getColSpanStyle(searchProp.value.span))
-
-    watch(
-      () => searchProp.value.defaultCollapsed,
-      (value) => {
-        collapse.value = collapse.value || value
-      }
-    )
 
     const getColSpanStyle = (colSpan: ColConfig) => {
       let span: number | string | undefined = 4
@@ -287,7 +280,9 @@ export default defineComponent({
                 return trigger
               }}
               notFoundContent={
-                record.loading === undefined ? undefined : record.loading ? (
+                isFunction(record.notFoundContent) ? (
+                  record.notFoundContent()
+                ) : record.loading === undefined ? undefined : record.loading ? (
                   <a-spin size="small" />
                 ) : undefined
               }
@@ -512,7 +507,8 @@ export default defineComponent({
                   formItemStyle,
                   item
                 })}
-              {index === rowLength.value - 1 &&
+              {(index === rowLength.value - 1 ||
+                (index === formNodeList.length - 1 && formNodeList.length < rowLength.value)) &&
                 OperationSlot({
                   formItemStyle: {
                     flex: 1,
