@@ -14,7 +14,7 @@ import type { ProSearchMap } from './types/column'
 import type { ColumnsState, ColumnsStateType } from './hooks/useColumnSetting'
 import { SearchConfig } from './types/table'
 import { CellEllipsisType } from "ant-design-vue/lib/vc-table/interface";
-export const defaultSearchProp = {
+export const defaultSearchProp: SearchConfig = {
   /* 重置按钮文案 */
   resetText: '重置',
   /* 查询按钮文案 */

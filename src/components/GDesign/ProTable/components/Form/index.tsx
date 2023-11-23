@@ -85,11 +85,11 @@ export default defineComponent({
       return (index + 1) % rowLength === 0
         ? {
             ...rowWidth,
-            marginRight: 0
+            paddingRight: 0
           }
         : {
             ...rowWidth,
-            marginRight: '2%'
+            paddingRight: '12px'
           }
     }
 
@@ -492,9 +492,8 @@ export default defineComponent({
       const formNodeList = [...props.searchMap, ...defaultSlots]
 
       return formNodeList.map((item, index) => {
-        // 去掉每个formItem margin-right: 2%后平分
         const rowWidth = {
-          width: `${(100 - (rowLength.value - 1) * 2) / rowLength.value}%`
+          width: `${100 / rowLength.value}%`
         }
         const formItemStyle = getStyleWidth(index, rowLength.value, rowWidth)
 
