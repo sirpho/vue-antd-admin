@@ -1,10 +1,7 @@
 import type {
   Slot,
-  VNode,
   VNodeChild,
-  ComponentPublicInstance,
   FunctionalComponent,
-  PropType as VuePropType
 } from 'vue'
 
 declare global {
@@ -26,7 +23,6 @@ declare global {
 
   // vue
   declare type Key = string | number;
-  declare type PropType<T> = VuePropType<T>;
   declare type VueNode = VNodeChild | JSX.Element;
 
   declare type WithFalse<T> = T | false;
@@ -37,11 +33,8 @@ declare global {
     | Slot
     | VNodeChild
     | VNode
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     | ((...props: any[]) => Slot)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     | ((...props: any[]) => VNode)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     | ((...args: any[]) => VNode)
     | VNode[]
     | JSX.Element
@@ -96,10 +89,6 @@ declare global {
 
   namespace JSX {
     type Element = VNode;
-
-    interface IntrinsicAttributes {
-      [elem: string]: any;
-    }
   }
 }
 
