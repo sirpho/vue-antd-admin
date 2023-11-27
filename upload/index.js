@@ -9,7 +9,7 @@ const dayjs = require("dayjs");
 // 打包 npm run build
 const compileDist = async flag => {
   if (shell.exec(`npm run ${flag}`).code === 0) {
-    console.log('打包成功', new Date())
+    console.log('打包成功', dayjs().format('YYYY-MM-DD HH:mm:ss'))
     return Promise.resolve()
   }
   return Promise.reject()
@@ -24,21 +24,21 @@ async function connectSSh(config) {
       password: Buffer.from(config.password, 'base64').toString('utf-8'),
     })
     .then(() => {
-      console.log('先执行删除服务器文件', new Date());
+      console.log('先执行删除服务器文件', dayjs().format('YYYY-MM-DD HH:mm:ss'));
       return sftp.rmdir(config.rmpath, true);
     })
     .then(() => {
       // 上传文件
-      console.log('开始上传', new Date());
+      console.log('开始上传', dayjs().format('YYYY-MM-DD HH:mm:ss'));
       return sftp.uploadDir(path.resolve(__dirname, '../dist'), config.path);
     })
     .then(() => {
-      console.log('上传完成', new Date());
+      console.log('上传完成', dayjs().format('YYYY-MM-DD HH:mm:ss'));
       sftp.end();
       removeDist();
     })
     .catch(err => {
-      console.log(err, '失败', new Date());
+      console.log(err, '失败', dayjs().format('YYYY-MM-DD HH:mm:ss'));
       sftp.end();
     });
 }
