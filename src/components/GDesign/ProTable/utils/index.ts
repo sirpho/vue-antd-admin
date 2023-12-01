@@ -105,11 +105,9 @@ export function getSortIndex(
 
   return cloneDeep(data).map((item: any, index: number) => {
     let sortIndex = index
-    if (pageConfig) {
-      const current = pageConfig?.['current'] || 1
-      const pageSize = pageConfig?.['pageSize'] || 10
-      sortIndex = current ? (current - 1) * pageSize + (index + 1) : index + 1
-    }
+    const current = pageConfig?.['current'] || 1
+    const pageSize = pageConfig?.['pageSize'] || 10
+    sortIndex = current ? (current - 1) * pageSize + (index + 1) : index + 1
     if (item[childrenKey]) item[childrenKey] = getChildSortIndex(sortIndex, item[childrenKey])
     item.sortIndex = sortIndex
     return item
