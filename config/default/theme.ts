@@ -1,7 +1,7 @@
 /**
  * @description 导出默认主题配置
  */
-import type { themeConfig } from '/types/config'
+import type { themeConfig } from '/@types/config'
 import {genFirstColor} from "/config/default/themeColor";
 
 const themeSetting: themeConfig = {

@@ -201,6 +201,20 @@ export const asyncRoutes: AppRouteModule[] = [
               hideInMenu: true
             }
           },
+          {
+            path: '/example/visualization',
+            component: () => import('@/views/example/visualization/index'),
+            name: '可视化管理',
+            authority: 'example:visualization',
+            meta: {
+              title: '可视化管理',
+              tagFixed: false,
+              tagHidden: false,
+              icon: 'beer',
+              iconType: 'iconfont',
+              hideInMenu: false
+            },
+          },
         ]
       },
     ]

@@ -1,11 +1,13 @@
 import { MockMethod } from 'vite-plugin-mock'
 
 const accessTokens = {
-  admin: 'example-token'
+  admin: 'example-token',
+  sirpho: 'example-token',
 }
 
 const account = {
-  admin: 'admin'
+  admin: 'admin',
+  sirpho: 'sirpho',
 }
 
 export default [
@@ -21,17 +23,21 @@ export default [
           msg: '帐户或密码不正确。'
         }
       }
+      const permissions = [
+        'example',
+        'example:language',
+        'example:compiler',
+        'example:compiler:java',
+        'example:compiler:python',
+      ]
+      if(userName === 'sirpho') {
+        permissions.push('example:visualization')
+      }
       return {
         code: 0,
         data: {
           token: accessToken,
-          permissions: [
-            'example',
-            'example:language',
-            'example:compiler',
-            'example:compiler:java',
-            'example:compiler:python'
-          ],
+          permissions,
           user: {
             id: 1,
             uid: 'admin',

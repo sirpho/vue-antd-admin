@@ -14,7 +14,7 @@ import { createFromIconfontCN } from '@ant-design/icons-vue'
 import { baseMenuProps } from './props'
 import { defaultSettings } from '../../defaultSettings'
 import { isImg, isUrl } from '../../utils'
-import { IconType } from '/types/route'
+import { IconType } from '/@types/route'
 
 export interface CustomMenuRender {
   menuItemRender?: WithFalse<
