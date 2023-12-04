@@ -1,8 +1,8 @@
 const config = {
   ip: "10.254.9.208",
-  username: "root",
+  username: "xuzefeng",
   port: "22",
-  password: "SE9OR3NAMjAyMA==",
+  password: "c3JBNVNWeDJ4ag==",
   path: "/var/www/html/template",
   rmpath: "/var/www/html/template",
 };

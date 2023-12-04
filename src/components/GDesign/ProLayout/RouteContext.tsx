@@ -1,6 +1,6 @@
 import type { InjectionKey, Ref, ComputedRef } from 'vue'
 import { provide, reactive } from 'vue'
-import { themeConfig } from '/types/config'
+import { themeConfig } from '/@types/config'
 import type { prefixCls } from '@gx-admin/utils'
 import { getPrefixCls } from '@gx-admin/utils'
 import { createContext, useContext } from './hooks/context'

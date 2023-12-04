@@ -1,6 +1,6 @@
 import type { PropType, ExtractPropTypes } from 'vue'
 import config from '/config/config'
-import type { themeConfig } from '/types/config'
+import type { themeConfig } from '/@types/config'
 
 const { title } = config.defaultSettings
 const { iconfontUrl } = config.theme

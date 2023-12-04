@@ -1,4 +1,4 @@
-import type { Theme } from '/types/config'
+import type { Theme } from '/@types/config'
 import { PropTypes } from '@/utils'
 import logoContentProps from '../LogoContent/props'
 import { sidebarMenuProps } from '../SiderMenu/props'

@@ -4,8 +4,6 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import legacy from '@vitejs/plugin-legacy'
 
-import vueSetupExtend from 'vite-plugin-vue-setup-extend'
-
 import { configHtmlPlugin } from './html'
 import { configMockPlugin } from './mock'
 import { createAutoImport } from './autoImport'
@@ -27,9 +25,6 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
     // have to
     vueJsx()
   ]
-
-  // vite-plugin-vue-setup-extend
-  vitePlugins.push(vueSetupExtend())
 
   !isBuild && vitePlugins.push(configHmrPlugin())
 

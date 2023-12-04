@@ -1,7 +1,7 @@
 /**
  * @description 导出默认网路配置
  **/
-import type { networkConfig } from '/types/config'
+import type { networkConfig } from '/@types/config'
 
 const networkSetting: networkConfig = {
   //配后端数据的接收方式application/json;charset=UTF-8 或 application/x-www-form-urlencoded;charset=UTF-8

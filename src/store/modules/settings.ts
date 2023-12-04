@@ -1,7 +1,7 @@
 import { reactive, toRefs } from 'vue'
 import { defineStore } from 'pinia'
 import config from '/config/config'
-import { MenuTheme, themeConfig } from '/types/config'
+import { MenuTheme, themeConfig } from '/@types/config'
 
 /**
  * @description store-settings 系统配置

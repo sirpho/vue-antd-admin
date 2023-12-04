@@ -1,4 +1,4 @@
-import type { MenuTheme } from '/types/config'
+import type { MenuTheme } from '/@types/config'
 import { PropTypes } from '@/utils'
 import type { CustomMenuRender } from './BaseMenu'
 import type { SiderProps, MenuMode } from './typings'

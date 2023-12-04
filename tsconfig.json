@@ -22,7 +22,7 @@
     "skipLibCheck": true,
     "paths": {
       "@/*": ["src/*"],
-      "/types/*": ["types/*"],
+      "/@types/*": ["types/*"],
       "/config/*": ["config/*"],
       "@gx-vuex": ["src/store/index.ts"],
       "@gx-admin/hooks/*": ["src/hooks/*"],

@@ -1,7 +1,7 @@
 /**
  * @description 导出默认通用配置
  */
-import type { settingConfig } from '/types/config'
+import type { settingConfig } from '/@types/config'
 
 const defaultSettings: settingConfig = {
   //开发以及部署时的URL，hash模式时在不确定二级目录名称的情况下建议使用""代表相对路径或者"/二级目录/"，history模式默认使用"/"或者"/二级目录/"
