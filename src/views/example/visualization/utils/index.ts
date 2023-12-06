@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-const units = ['H', 'K', 'M']
+const units = ['H/s', 'KH/s', 'MH/s']
 export const formatPower = (value) => {
   let unit = ''
   for(const item of units) {
