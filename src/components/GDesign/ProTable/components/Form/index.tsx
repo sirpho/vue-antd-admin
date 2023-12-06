@@ -514,7 +514,7 @@ export default defineComponent({
                     justifyContent: 'flex-end'
                   },
                   collapse: collapse.value,
-                  showTelescopicButtons: formNodeList.length > rowLength.value
+                  showTelescopicButtons: formNodeList.length >= rowLength.value
                 })}
             </>
           )
@@ -531,7 +531,7 @@ export default defineComponent({
                     justifyContent: 'flex-end'
                   },
                   collapse: collapse.value,
-                  showTelescopicButtons: formNodeList.length > rowLength.value
+                  showTelescopicButtons: formNodeList.length >= rowLength.value
                 })}
             </>
           )
