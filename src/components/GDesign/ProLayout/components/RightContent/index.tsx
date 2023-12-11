@@ -5,6 +5,7 @@ import { LogoutOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue
 import config from '/config/config'
 import { useStore } from '@gx-vuex'
 import { globalHeaderProps } from '../GlobalHeader/props'
+import NoticeIcon from '../NoticeIcon'
 import AvatarDropdown from './AvatarDropdown'
 import { useRouteContext } from '../../RouteContext'
 
@@ -56,6 +57,7 @@ export default defineComponent({
 
     return () => (
       <Space class={[baseClassName, props.theme]}>
+        <NoticeIcon />
         <AvatarDropdown userName={userInfo.value.uname} onLogout={logout} {...props} />
       </Space>
     )

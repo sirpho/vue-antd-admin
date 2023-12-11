@@ -6,6 +6,7 @@ import { useStoreSettings } from './modules/settings'
 import { useStorePermission } from './modules/permission'
 import { useStoreTabsRouter } from './modules/tabsRouter'
 import { useSeed } from "@/store/modules/seed";
+import { useStoreNotice } from "@/store/modules/notice";
 
 export {
   useStoreDict,
@@ -15,6 +16,7 @@ export {
   useStorePermission,
   useStoreTabsRouter,
   useSeed,
+  useStoreNotice
 }
 
 export function useStore() {
@@ -26,6 +28,7 @@ export function useStore() {
     permission: useStorePermission(),
     tabsRouter: useStoreTabsRouter(),
     seed: useSeed(),
+    notice: useStoreNotice()
   }
 }
 

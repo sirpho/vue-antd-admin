@@ -1,0 +1,119 @@
+.list {
+  max-height: 400px;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .item {
+    padding-right: 24px;
+    padding-left: 24px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    .meta {
+      width: 100%;
+    }
+
+    .svgWrapper {
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .iconElement {
+      font-size: 32px;
+    }
+
+    &.read {
+      opacity: 0.4;
+    }
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    &:hover {
+      background: @primary-1;
+    }
+
+    .title {
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .title-main {
+      width: calc(100% - 100px);
+      white-space: nowrap;
+    }
+
+    .description {
+      font-size: 12px;
+      line-height: @line-height-base;
+      color: #121212;
+    }
+
+    .datetime {
+      font-size: 12px;
+      color: @text-color-secondary;
+      text-align: right;
+      white-space: nowrap;
+      width: 100px;
+    }
+  }
+
+  .loadMore {
+    padding: 8px 0;
+    color: @primary-6;
+    text-align: center;
+    cursor: pointer;
+
+    &.loadedAll {
+      color: rgba(0, 0, 0, 0.25);
+      cursor: unset;
+    }
+  }
+}
+
+.notFound {
+  padding: 73px 0 88px;
+  color: @text-color-secondary;
+  text-align: center;
+
+  img {
+    display: inline-block;
+    height: 76px;
+    margin-bottom: 16px;
+  }
+}
+
+.bottomBar {
+  height: 40px;
+  line-height: 40px;
+  color: var(--ant-primary-color);
+  border-top: 1px solid @border-color-split;
+  border-radius: 0 0 @border-radius-base @border-radius-base;
+  transition: all 0.3s;
+  text-align: right;
+
+  div {
+    display: inline-block;
+    width: fit-content;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s;
+    padding: 0 12px;
+
+    //&:only-child {
+    //  width: 100%;
+    //}
+    //
+    //&:not(:only-child):last-child {
+    //  border-left: 1px solid @border-color-split;
+    //}
+  }
+}
