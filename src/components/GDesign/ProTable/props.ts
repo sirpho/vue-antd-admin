@@ -24,7 +24,7 @@ export const defaultSearchProp: SearchConfig = {
   /* 是否显示重置按钮 */
   showReset: true,
   /* 表格查询栏伸缩配置，默认收起 */
-  collapse: true,
+  collapse: true
 }
 
 export const defaultProps = {

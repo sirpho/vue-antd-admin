@@ -33,7 +33,7 @@ export const useContext = <T>(
   return inject(contextInjectKey, defaultValue || ({} as T))
 }
 
-export const provideTableContext = (value: TableContextProps | ComputedRef<TableContextProps>) => {
+export const provideTableContext = (value: TableContextProps) => {
   provide(tableContextInjectKey, value)
 }
 

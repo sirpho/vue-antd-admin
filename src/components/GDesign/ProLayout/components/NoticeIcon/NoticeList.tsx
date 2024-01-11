@@ -16,7 +16,7 @@ export type NoticeIconItem = {
   title?: string
   status?: string
   sendTime?: string
-  message?: string
+  description?: string
   type?: NoticeIconItemType
 }
 

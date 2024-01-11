@@ -24,7 +24,7 @@ export const defaultSettings: themeConfig = {
   // logo标题
   title: title || '',
   // 头部菜单高度
-  headerHeight: 48,
+  headerHeight: 32,
   // 头部菜单是否固定
   fixedHeader: false,
   // 侧边栏菜单是否固定

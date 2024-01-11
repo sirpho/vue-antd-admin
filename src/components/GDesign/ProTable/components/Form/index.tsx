@@ -89,7 +89,7 @@ export default defineComponent({
           }
         : {
             ...rowWidth,
-            paddingRight: '12px'
+            paddingRight: '10px'
           }
     }
 
