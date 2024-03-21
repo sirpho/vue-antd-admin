@@ -30,6 +30,12 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
     vueJsx()
   ]
 
+  // vite-plugin-windicss
+  vitePlugins.push(windiCSS())
+
+  // vite-plugin-vue-setup-extend
+  vitePlugins.push(vueSetupExtend())
+
   !isBuild && vitePlugins.push(configHmrPlugin())
 
   // @vitejs/plugin-legacy
