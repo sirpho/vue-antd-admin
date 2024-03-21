@@ -26,6 +26,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@antv/g2": "^5.1.10",
     "@sirpho/utils": "^1.0.9",
     "@vueuse/core": "^6.8.0",
     "animate.css": "^4.1.1",
