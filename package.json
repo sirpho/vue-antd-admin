@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@sirpho/utils": "^1.0.9",
+    "@types/qrcode": "^1.5.5",
     "@vueuse/core": "^6.8.0",
     "animate.css": "^4.1.1",
     "ant-design-vue": "3.2.11",
@@ -38,6 +39,7 @@
     "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.9",
+    "qrcode": "^1.5.3",
     "qs": "^6.11.2",
     "terser": "^5.14.2",
     "uuid": "9.0.1",
