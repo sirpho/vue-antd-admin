@@ -32,7 +32,8 @@ import {
   Descriptions,
   Tabs,
   DescriptionsItem,
-  Badge
+  Badge,
+  Progress
 } from 'ant-design-vue'
 
 const antDesign = (app) => {
@@ -69,6 +70,7 @@ const antDesign = (app) => {
   app.use(Tabs)
   app.use(DescriptionsItem)
   app.use(Badge)
+  app.use(Progress)
   message.config({
     duration: 2,
     maxCount: 1

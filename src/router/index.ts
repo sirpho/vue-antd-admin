@@ -32,7 +32,7 @@ export const constantRoutes: AppRouteModule[] = [
           hideInMenu: true,
           title: '登录'
         },
-        component: () => import('@/views/User/login/index')
+        component: () => import('@/views/dashboard/workplace/index.vue')
       }
     ]
   },
