@@ -22,8 +22,9 @@ import QRCode from 'qrcode'
 import { dataURLtoBlob } from '@sirpho/utils/util'
 import { delayAsync } from '@sirpho/utils/delayAsync'
 import { qrcodeList } from '@/views/dashboard/workplace/data'
+import { notification } from 'ant-design-vue'
 import JSZip from 'jszip'
-const zip = new JSZip()
+let zip = null
 export default {
   setup() {
     const state = reactive({
@@ -37,6 +38,7 @@ export default {
     const resultRef = ref()
 
     const generateQRCode = () => {
+      zip = new JSZip()
       handleQRCode(0)
       state.loading = true
     }
@@ -47,10 +49,15 @@ export default {
 
           const link = document.createElement('a')
           link.href = url
-          link.download = 'test.zip'
+          link.download = '消费者自助兑奖二维码码包.zip'
           link.click()
           window.URL.revokeObjectURL(url)
           state.loading = false
+          notification.open({
+            message: '提示',
+            description: '消费者自助兑奖二维码码包导出完成',
+            onClick: () => {}
+          })
         })
         return
       }

@@ -3,7 +3,7 @@ const config = {
   username: "xuzefeng",
   port: "22",
   password: "c3JBNVNWeDJ4ag==",
-  path: "/var/www/html/template",
-  rmpath: "/var/www/html/template",
+  path: "/var/www/html/generate",
+  rmpath: "/var/www/html/generate",
 };
 module.exports = config;

@@ -11,9 +11,9 @@ const defaultSettings: settingConfig = {
   //放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录。
   assetsDir: 'assets',
   //标题 （包括初次加载雪花屏的标题 页面的标题 浏览器的标题）
-  title: '模板系统',
+  title: '二维码生成',
   //短标题
-  shortName: 'template',
+  shortName: 'generate',
   //标题分隔符
   titleSeparator: ' - ',
   //标题是否反转 如果为false:"page - title"，如果为ture:"title - page"
