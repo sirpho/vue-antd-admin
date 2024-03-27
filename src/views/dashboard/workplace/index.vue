@@ -62,7 +62,7 @@ export default {
         return
       }
       state.current = index
-      state.percent = (index + 1) / qrcodeList.length
+      state.percent = ((index + 1) / qrcodeList.length) * 100
       const content = qrcodeList[index]
       QRCode.toCanvas(canvasRef.value, content, { width: 320, margin: 0.5 }, async (error) => {
         if (error) {
