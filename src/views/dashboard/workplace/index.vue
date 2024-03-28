@@ -62,7 +62,7 @@ export default {
         return
       }
       state.current = index
-      state.percent = ((index + 1) / qrcodeList.length) * 100
+      state.percent = (((index + 1) / qrcodeList.length) * 100).toFixed(2)
       const content = qrcodeList[index]
       QRCode.toCanvas(canvasRef.value, content, { width: 320, margin: 0.5 }, async (error) => {
         if (error) {
@@ -98,7 +98,7 @@ export default {
 
         zip.file(`${text}.png`, blob)
         await nextTick()
-        if (index % 137 === 0) {
+        if (index % 167 === 0) {
           await delayAsync(0.1)
         }
         handleQRCode(index + 1)
@@ -121,7 +121,7 @@ export default {
 .canvas-wrapper {
   display: flex;
   gap: 24px;
-  opacity: 0;
+  //opacity: 0;
 }
 
 .tip-bar {
