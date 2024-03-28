@@ -1,70 +1,34 @@
 <template>
   <g-pro-page-container>
-    <!--    <div class="workplace-content">-->
-    <!--      <h1>欢迎使用模板系统</h1>-->
-    <!--      <p>welcome to use template management system</p>-->
-    <!--    </div>-->
-
     <a-button @click="generateQRCode" type="primary" :loading="state.loading">生成二维码</a-button>
     <br />
-    <div class="tip-bar" v-if="state.current > 0">
-      当前进度：已生成{{ state.current + 1 }}张图片
-      <a-progress :percent="state.percent" />
-    </div>
     <div class="canvas-wrapper">
-      <canvas class="canvas-content" width="320" height="320" ref="canvasRef"></canvas>
+      <canvas class="canvas-content pre" width="320" height="320" ref="canvasRef"></canvas>
       <canvas class="canvas-content" width="320" height="390" ref="resultRef"></canvas>
     </div>
   </g-pro-page-container>
 </template>
 <script>
 import QRCode from 'qrcode'
-import { dataURLtoBlob } from '@sirpho/utils/util'
-import { delayAsync } from '@sirpho/utils/delayAsync'
-import { qrcodeList } from '@/views/dashboard/workplace/data'
-import { notification } from 'ant-design-vue'
-import JSZip from 'jszip'
-let zip = null
+import { testQrcodeList } from '@/views/dashboard/workplace/data'
 export default {
   setup() {
     const state = reactive({
-      sum: qrcodeList.length,
-      current: 0,
-      loading: false,
-      percent: 0
+      sum: testQrcodeList.length,
+      loading: false
     })
 
     const canvasRef = ref()
     const resultRef = ref()
 
     const generateQRCode = () => {
-      zip = new JSZip()
-      handleQRCode(0)
-      state.loading = true
+      const index = Math.floor(Math.random() * state.sum)
+      handleQRCode(index)
     }
     const handleQRCode = (index) => {
-      if (index >= qrcodeList.length) {
-        zip.generateAsync({ type: 'blob' }).then((blob) => {
-          const url = window.URL.createObjectURL(blob)
-
-          const link = document.createElement('a')
-          link.href = url
-          link.download = '消费者自助兑奖二维码码包.zip'
-          link.click()
-          window.URL.revokeObjectURL(url)
-          state.loading = false
-          notification.open({
-            message: '提示',
-            description: '消费者自助兑奖二维码码包导出完成',
-            onClick: () => {}
-          })
-        })
-        return
-      }
-      state.current = index
-      state.percent = (((index + 1) / qrcodeList.length) * 100).toFixed(2)
-      const content = qrcodeList[index]
-      QRCode.toCanvas(canvasRef.value, content, { width: 320, margin: 0.5 }, async (error) => {
+      const content = testQrcodeList[index]
+      const fullContent = `https://activity.kellyone.com/bindshop?sqr=${content}`
+      QRCode.toCanvas(canvasRef.value, fullContent, { width: 320, margin: 0.5 }, async (error) => {
         if (error) {
           alert(`二维码生成失败, ${error}, 序号：${index}`)
           return console.error(`二维码生成失败, ${error}, 序号：${index}`)
@@ -88,20 +52,8 @@ export default {
         // 计算文字的居中位置
         const textX = 320 / 2
         const textY = (390 - 320) / 2 + 320
-        const [_pre, text] = content.split('=')
         // 绘制填充文字
-        targetContext.fillText(`编号：${text}`, textX, textY)
-
-        // 转为blob后下载
-        const dataURL = resultRef.value.toDataURL('image/png')
-        const blob = dataURLtoBlob(dataURL)
-
-        zip.file(`${text}.png`, blob)
-        await nextTick()
-        if (index % 167 === 0) {
-          await delayAsync(0.1)
-        }
-        handleQRCode(index + 1)
+        targetContext.fillText(`编号：${content}`, textX, textY)
       })
     }
 
@@ -122,6 +74,10 @@ export default {
   display: flex;
   gap: 24px;
   //opacity: 0;
+}
+
+.pre {
+  opacity: 0;
 }
 
 .tip-bar {
